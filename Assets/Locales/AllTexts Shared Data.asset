@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: AllTexts Shared Data
+  m_EditorClassIdentifier: 
+  m_TableCollectionName: AllTexts
+  m_TableCollectionNameGuidString: b832925ca1665f2428890ae999e92527
+  m_Entries:
+  - m_Id: 93020724154368
+    m_Key: att
+    m_Metadata:
+      m_Items: []
+  - m_Id: 93023102324736
+    m_Key: attPercent
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97799173066752
+    m_Key: missileAdd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97803707109376
+    m_Key: missileSpeed
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97805686820864
+    m_Key: missileDistance
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97807561674752
+    m_Key: hp
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97809243590656
+    m_Key: hpPercent
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97810044702720
+    m_Key: tungtungAdd
+    m_Metadata:
+      m_Items: []
+  - m_Id: 97810816454656
+    m_Key: boombarAdd
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 6852120798586470692
+  references:
+    version: 2
+    RefIds:
+    - rid: 6852120798586470692
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1753612572160

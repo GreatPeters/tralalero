@@ -3,16 +3,27 @@ using UnityEngine;
 
 namespace IndianOceanAssets.ShooterSurvival
 {
-    // Åõ»çÃ¼°¡ '¹«¾ð°¡¿¡ ºÎµúÇûÀ» ¶§' ÇÇÇØ ÁÖ°í ½º½º·Î ÆÄ±«
+    // ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½ 'ï¿½ï¿½ï¿½ð°¡¿ï¿½ ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½' ï¿½ï¿½ï¿½ï¿½ ï¿½Ö°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ä±ï¿½
     public class SimpleProjectile : MonoBehaviour
     {
+        public bool isAttacked = false;
         public float damage = 5f;
         public string targetTag = "Player";
-        public string helperTag = "ExtraHelpTag"; // ¿É¼Ç
+        public string helperTag = "ExtraHelpTag"; // ï¿½É¼ï¿½
+
+        void InIt()
+        {
+            isAttacked = false;
+        }
+
+        void OnEnable()
+        {
+            InIt();
+        }
 
         void OnTriggerEnter(Collider other)
         {
-            // ÇÃ·¹ÀÌ¾î ÇÇ°Ý
+            // ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½Ç°ï¿½
             if (other.CompareTag(targetTag))
             {                
                 var ps = other.GetComponent<PlayerScript>();
@@ -20,33 +31,25 @@ namespace IndianOceanAssets.ShooterSurvival
 
                 if(transform.GetComponent<TrailRenderer>() != null)
                 {
-                    transform.GetComponent<TrailRenderer>().enabled = false; // Æ®·¹ÀÏ ·»´õ·¯ ²ô±â
+                    transform.GetComponent<TrailRenderer>().enabled = false; // Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 }
                 
                 if(transform.name != "Paddle")
                 {
                     Destroy(gameObject);
                 }
-                else
+                else if(transform.name.Contains("Paddle"))
                 {
                     var obs = GetComponentInParent<ObstacleStats>();
-                    if (obs != null)
+                    if (obs != null && !isAttacked)
+                    {
                         StartCoroutine(obs.SpinAndMovePlayer(other.transform, 2f));
+                        isAttacked = true;
+                    }                        
                 }
 
                     return;
-            }
-
-            /*
-            // º¸Á¶ ´ë»ó(¿É¼Ç)
-            if (!string.IsNullOrEmpty(helperTag) && other.CompareTag(helperTag))
-            {
-                var hs = other.GetComponent<ExtraHelpBuffScript>();
-                if (hs != null) hs.currentHealth = Mathf.Max(0f, hs.currentHealth - damage);
-                Destroy(gameObject);
-                return;
-            }
-            */
+            } 
         }
 
         private void OnCollisionEnter(Collision collision)

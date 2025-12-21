@@ -3,11 +3,11 @@ public enum ObstaclePattern
 {
     None,
     Hole,
-    Web,
+    Oil,
     Ship,
     Light,
     Oldman_Stab,
     Dolphin,
     Bucket,
-    Balloon
+    Seagull
 }

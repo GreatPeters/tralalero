@@ -13,7 +13,7 @@ public class ObstacleStats : MonoBehaviour
     //양동이 관련
     [Header("Bucket (Fish Tub)")]
     public Transform bucket;     
-    public float bucketAttachSeconds = 2.0f;
+    public float bucketAttachSeconds = 3.0f;
     public Vector3 bucketHeadOffset = new Vector3(0, 1.3f, 0.2f);
     public Vector3 bucketDetachImpulse = new Vector3(0, 2f, -4f);
     public Vector3 bucketDetachAngularImpulse = new Vector3(-20f, 0f, 0f);
@@ -187,7 +187,7 @@ public class ObstacleStats : MonoBehaviour
             dolphinAnim = GetComponentInChildren<Animator>();
             StartFixedZigZag();
         }
-        else if (obstaclePattern == ObstaclePattern.Balloon) // ← 기존 Balloon 패턴 재사용
+        else if (obstaclePattern == ObstaclePattern.Seagull) // ← 기존 Balloon 패턴 재사용
         {
             // 낙하지점 Y 고정
             if (Physics.Raycast(transform.position + Vector3.up * 5f, Vector3.down, out var hit, 40f, groundMask))
@@ -264,7 +264,7 @@ public class ObstacleStats : MonoBehaviour
 
                 break;
 
-            case ObstaclePattern.Web:
+            case ObstaclePattern.Oil:
                 // 거미줄: 이동 민감도(또는 속도) 감소
                 //playerScript.moveSensitivity = Mathf.Max(1f, playerScript.moveSensitivity - value);
                 //StartCoroutine(SpinPlayerForSeconds(playerScript.transform, value, 720f));
@@ -276,7 +276,7 @@ public class ObstacleStats : MonoBehaviour
                 playerScript.playerScore = Mathf.Max(0, playerScript.playerScore - (int)value);
                 break;
 
-            case ObstaclePattern.Balloon:
+            case ObstaclePattern.Seagull:
                 {
                     Debug.Log("열기구 즉사 범위 체크");
                     //var ps = other.GetComponent<PlayerScript>();
@@ -309,7 +309,7 @@ public class ObstacleStats : MonoBehaviour
 
     void Update()
     {
-        if (obstaclePattern == ObstaclePattern.Balloon && !_started)
+        if (obstaclePattern == ObstaclePattern.Seagull && !_started)
         {
             if (_player == null)
             {
@@ -622,7 +622,7 @@ public class ObstacleStatsEditor : Editor
             script.jumpTime = EditorGUILayout.FloatField("Jump Time", script.jumpTime);
             script.lookAlongPath = EditorGUILayout.Toggle("Look Along Path", script.lookAlongPath);
         }
-        else if (script.obstaclePattern == ObstaclePattern.Balloon)
+        else if (script.obstaclePattern == ObstaclePattern.Seagull)
         {
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Balloon Tween Drop", EditorStyles.boldLabel);

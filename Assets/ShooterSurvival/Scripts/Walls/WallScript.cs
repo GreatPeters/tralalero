@@ -9,11 +9,14 @@ using UnityEngine.Localization.Components; // LocalizeStringEvent
 namespace IndianOceanAssets.ShooterSurvival
 {
     public enum WallType { BuffWall, NerfWall }
-    public enum BuffType { HealthBoost, FireRateIncrease, ExtraHelp, att_normmal, attPer_normal, attackSpeed_normal, missileDistance_normal, hp_normal, hpPer_normal
-    , tungtung_rare, boombar_rare, att_unique, attPer_unique, missileAdd_unique, attackSpeed_unique, missileDistance_unique, hp_unique, hpPer_unique }
+    public enum BuffType
+    {
+        HealthBoost, FireRateIncrease, ExtraHelp, att_normmal, attPer_normal, attackSpeed_normal, missileDistance_normal, hp_normal, hpPer_normal
+    , tungtung_rare, boombar_rare, att_unique, attPer_unique, missileAdd_unique, attackSpeed_unique, missileDistance_unique, hp_unique, hpPer_unique
+    }
     public enum NerfType { HealthReduce, FireRateReduce }
 
-    public enum  Rarity    { Normal, Rare, Unique }
+    public enum Rarity { Normal, Rare, Unique }
 
     public class WallScript : MonoBehaviour
     {
@@ -82,27 +85,69 @@ namespace IndianOceanAssets.ShooterSurvival
         private SpriteRenderer currSprite;
         private PlayerScript playerScript;
         private WeaponManager weaponManager;
+        private bool _initialized;
 
-        private void Start()
+
+
+        // private void Start()
+        // {
+        //     transform.name += "_Z_" + transform.position.z.ToString();
+
+        //     currSprite = GetComponentInChildren<SpriteRenderer>();
+        //     playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
+        //     effectOverlayVignette = GameObject.FindGameObjectWithTag("VolumeTag").GetComponent<EffectOverlayScript>();
+        //     if (effectOverlayVignette == null) { print("not found"); }
+        //     ;
+        //     wallAudioSource = GetComponent<AudioSource>();
+
+        //     SetRandomStat();
+        //     SetStats();
+
+        //     SetWallSprite();
+        // }
+
+        private void OnEnable()
         {
+            _initialized = false;
+
+            // Player 확보
+            if (playerScript == null)
+            {
+                var p = GameObject.FindGameObjectWithTag("Player");
+                if (p != null) playerScript = p.GetComponent<PlayerScript>();
+            }
+
+            // 아직 Player 없으면 대기
+            if (playerScript == null) return;
+
+            InitWall();
+        }
+
+        private void InitWall()
+        {
+            transform.name += "_Z_" + transform.position.z.ToString();
+
             currSprite = GetComponentInChildren<SpriteRenderer>();
-            playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
-            effectOverlayVignette = GameObject.FindGameObjectWithTag("VolumeTag").GetComponent<EffectOverlayScript>();
-            if (effectOverlayVignette == null) { print("not found"); }
-            ;
-            wallAudioSource = GetComponent<AudioSource>();            
+            if (wallAudioSource == null) wallAudioSource = GetComponent<AudioSource>();
+
+            if (effectOverlayVignette == null)
+            {
+                var v = GameObject.FindGameObjectWithTag("VolumeTag");
+                if (v) effectOverlayVignette = v.GetComponent<EffectOverlayScript>();
+            }
 
             SetRandomStat();
             SetStats();
-
             SetWallSprite();
+
+            _initialized = true;
         }
 
         public void SetRandomStat()
         {
-            if(isRandom == true)
+            if (isRandom == true)
             {
-                if(rarity == Rarity.Normal)
+                if (rarity == Rarity.Normal)
                 {
                     int rand = Random.Range(0, 6);
                     if (rand == 0) buffType = BuffType.att_normmal;
@@ -113,14 +158,14 @@ namespace IndianOceanAssets.ShooterSurvival
                     else if (rand == 5) buffType = BuffType.hpPer_normal;
                     wallType = WallType.BuffWall;
                 }
-                else if(rarity == Rarity.Rare)
+                else if (rarity == Rarity.Rare)
                 {
                     int rand = Random.Range(0, 2);
                     if (rand == 0) buffType = BuffType.tungtung_rare;
                     else if (rand == 1) buffType = BuffType.boombar_rare;
                     wallType = WallType.BuffWall;
                 }
-                else if(rarity == Rarity.Unique)
+                else if (rarity == Rarity.Unique)
                 {
                     int rand = Random.Range(0, 7);
                     if (rand == 0) buffType = BuffType.att_unique;
@@ -132,7 +177,7 @@ namespace IndianOceanAssets.ShooterSurvival
                     else if (rand == 6) buffType = BuffType.hpPer_unique;
                     wallType = WallType.BuffWall;
                 }
-            }                
+            }
         }
 
         public void SetStats()
@@ -152,12 +197,12 @@ namespace IndianOceanAssets.ShooterSurvival
                 hp = Mathf.Round(playerOriginalHealth * Random.Range(0.05f, 0.15f));
                 hpPercent = Random.Range(5, 16);
             }
-            else if(rarity == Rarity.Rare)
+            else if (rarity == Rarity.Rare)
             {
                 tungtungAdd = 1;
                 boombarAdd = 1;
             }
-            else if(rarity == Rarity.Unique)
+            else if (rarity == Rarity.Unique)
             {
                 missileAdd = 1;
                 att = Mathf.Round(playerOriginalDamage * Random.Range(0.3f, 0.4f));
@@ -173,7 +218,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             // Wall movement
             if (!TimeManager.Instance.isForwardMarchScene) transform.Translate(-Vector3.forward * wallMoveSpeed * Time.deltaTime * TimeManager.timeFactor);
-        } 
+        }
 
         private void OnTriggerEnter(Collider other)
         {
@@ -186,18 +231,18 @@ namespace IndianOceanAssets.ShooterSurvival
             // player enters the wall
             else if (other.CompareTag("Player"))
             {
-                if(playerScript.lastWallTouchTime==0 || Time.time - playerScript.lastWallTouchTime > 1f)
+                if (playerScript.lastWallTouchTime == 0 || Time.time - playerScript.lastWallTouchTime > 1f)
                 {
                     playerScript.lastWallTouchTime = Time.time;           // Update the last time the wall was touched
                     ApplyWallEffect();                                      // Apply the effect based on the wall's type
                     gameObject.GetComponent<Collider>().isTrigger = false;  // Disable trigger once applied
 
                     gameObject.SetActive(false);
-                }                
-            }            
+                }
+            }
         }
 
-        private void SetWallSprite()
+        public void SetWallSprite()
         {
             // Set the correct sprite based on the wall's type
             Sprite selectedSprite = null;
@@ -226,9 +271,9 @@ namespace IndianOceanAssets.ShooterSurvival
                     break;
             }
 
-            if(wallType == WallType.BuffWall)
+            if (wallType == WallType.BuffWall)
             {
-                if(buffType == BuffType.att_normmal || buffType == BuffType.att_unique)
+                if (buffType == BuffType.att_normmal || buffType == BuffType.att_unique)
                 {
                     bonusValue = att;
                     isPercent = false;
@@ -313,7 +358,7 @@ namespace IndianOceanAssets.ShooterSurvival
                     else if (buffType == BuffType.ExtraHelp)
                     {
                         playerScript.extraHelpCount++;
-                        SpawnTungTung(HelpType.Tungtungtung);                        
+                        SpawnTungTung(HelpType.Tungtungtung);
                         //effectOverlayVignette.BuffOverlay();
                     }
                     else if ((buffType == BuffType.att_normmal) || (buffType == BuffType.att_unique))
@@ -334,17 +379,17 @@ namespace IndianOceanAssets.ShooterSurvival
                         //effectOverlayVignette.BuffOverlay();
                         //wallAudioSource.PlayOneShot(buffSFX);
                     }
-                    else if ((buffType == BuffType.attackSpeed_normal)|| (buffType == BuffType.attackSpeed_unique))
+                    else if ((buffType == BuffType.attackSpeed_normal) || (buffType == BuffType.attackSpeed_unique))
                     {
                         weaponManager = GameObject.FindGameObjectWithTag("Player").GetComponent<WeaponManager>();
                         var weaponScript = weaponManager.currentWeapon.GetComponentInChildren<WeaponScript>();
-                        weaponScript.fireRate += weaponScript.originalFireRate * attackSpeed * 0.01f; 
+                        weaponScript.fireRate += weaponScript.originalFireRate * attackSpeed * 0.01f;
 
                         //.BuffOverlay();
                         //wallAudioSource.PlayOneShot(buffSFX);
                     }
                     else if ((buffType == BuffType.missileDistance_normal) || (buffType == BuffType.missileDistance_unique))
-                    {               
+                    {
                         BulletScript.bulletRange += BulletScript.originalBulletRange * missileDistance * 0.01f; // WallScript�� missileDistance ���� �Ѿ� ��Ÿ��� ����
                         Debug.Log(BulletScript.bulletRange);
 
@@ -435,7 +480,7 @@ namespace IndianOceanAssets.ShooterSurvival
             Vector3 spawnPosition = playerScript.transform.position + spawnOffset;
 
             GameObject GO = Instantiate(GameManager.S.extraHelp_TungTungTung, spawnPosition, Quaternion.identity);
-            GO.GetComponent<ExtraHelpBuffScript>().spawnIndex = playerScript.extraHelpCount-1; // Set spawn index for identification
+            GO.GetComponent<ExtraHelpBuffScript>().spawnIndex = playerScript.extraHelpCount - 1; // Set spawn index for identification
             GO.GetComponent<ExtraHelpBuffScript>().helpType = helptype;
             playerScript.extraHelpWeaponScript.Add(GO.GetComponentInChildren<WeaponScript>());
         }
@@ -464,7 +509,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (texts.Length >= 2)
             {
                 texts[1].text = "+" + volume.ToString(); // �� ��° �ؽ�Ʈ�� ���� �� ����
-                if(percent == true)
+                if (percent == true)
                 {
                     texts[1].text += "%"; // �ۼ�Ʈ ǥ�� �߰�
                 }
@@ -515,10 +560,24 @@ namespace IndianOceanAssets.ShooterSurvival
             else statValueTmp.text = $"+{Mathf.RoundToInt(value)}";
         }
 
+        public void RerollTWallType(BuffType exceptBuffType, int iterationCount = 30)
+        {
+            if (!isRandom) return;
 
+            SetRandomStat();
+
+            int iteration = 0;
+            while (buffType == exceptBuffType && iteration < iterationCount)
+            {
+                SetRandomStat();
+                iteration++;
+            }
+
+            SetStats();
+            SetWallSprite();
+        }
 
     }
-
 
 
 }

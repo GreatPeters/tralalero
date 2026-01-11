@@ -12,14 +12,14 @@ public class ObstacleStats : MonoBehaviour
 {
     //양동이 관련
     [Header("Bucket (Fish Tub)")]
-    public Transform bucket;     
+    public Transform bucket;
     public float bucketAttachSeconds = 3.0f;
     public Vector3 bucketHeadOffset = new Vector3(0, 1.3f, 0.2f);
     public Vector3 bucketDetachImpulse = new Vector3(0, 2f, -4f);
     public Vector3 bucketDetachAngularImpulse = new Vector3(-20f, 0f, 0f);
-    public bool destroyAfterDetach = true;  
+    public bool destroyAfterDetach = true;
     bool _bucketAttached;
-    
+
 
     //열기구 관련
     [Header("Balloon Tween Drop")]
@@ -51,7 +51,7 @@ public class ObstacleStats : MonoBehaviour
     public bool flipYawOnReverse = true;  // B->A로 돌아갈 때 Yaw 180° 추가
     public float yawOffset = 0f;          // 메시 전방 보정이 필요하면 90/-90/180 등
     private Animator dolphinAnim;
-    
+
 
     Tween _jumpSeq;
 
@@ -66,20 +66,20 @@ public class ObstacleStats : MonoBehaviour
         //yaw += yawOffset;
 
         if (add180)
-        {            
-            yaw = -90f;            
+        {
+            yaw = -90f;
         }
         else
         {
             yaw = 90f;
         }
-        
-            if(transform.name.Contains("right"))
-            {
-                yaw*= -1f;
-            }
 
-            transform.rotation = Quaternion.Euler(0f, yaw, 0f);
+        if (transform.name.Contains("right"))
+        {
+            yaw *= -1f;
+        }
+
+        transform.rotation = Quaternion.Euler(0f, yaw, 0f);
         //Debug.Log(transform.rotation);
     }
     void RestartActAnim()
@@ -90,45 +90,45 @@ public class ObstacleStats : MonoBehaviour
         dolphinAnim.Play("act", 0, 0f); // layer 0, normalizedTime 0
     }
 
- public void StartFixedZigZag()
-{
-    if (pointA == null || pointB == null) { Debug.LogWarning("pointA/pointB 지정 필요"); return; }
+    public void StartFixedZigZag()
+    {
+        if (pointA == null || pointB == null) { Debug.LogWarning("pointA/pointB 지정 필요"); return; }
 
-    Vector3 aPos = pointA.position;
-    Vector3 bPos = pointB.position;
+        Vector3 aPos = pointA.position;
+        Vector3 bPos = pointB.position;
 
-    transform.position = aPos;
+        transform.position = aPos;
 
-    _jumpSeq?.Kill();
+        _jumpSeq?.Kill();
 
-    // 시작할 때도 한 번 Act 재생
-    RestartActAnim();
+        // 시작할 때도 한 번 Act 재생
+        RestartActAnim();
 
-    _jumpSeq = DOTween.Sequence()
-        // A 에서 출발할 때 방향만 맞추기
-        .AppendCallback(() =>
-        {
-            if (lookAlongPath) SetYawToward(aPos, bPos, false);
-        })
-        // A -> B 점프
-        .Append(DoParabolaLeg(aPos, bPos))
-        // ★ B 지점 도착: Act 애니 처음부터
-        .AppendCallback(() =>
-        {
-            RestartActAnim();
-            if (lookAlongPath) SetYawToward(bPos, aPos, flipYawOnReverse);
-        })
-        // B -> A 점프
-        .Append(DoParabolaLeg(bPos, aPos))
-        // ★ A 지점 도착: 또 Act 애니 처음부터
-        .AppendCallback(() =>
-        {
-            RestartActAnim();
-            // 다음 루프에서 다시 A->B로 나갈 준비 (원하면 방향 다시 맞추기)
-            if (lookAlongPath) SetYawToward(aPos, bPos, false);
-        })
-        .SetLoops(-1, LoopType.Restart);
-}
+        _jumpSeq = DOTween.Sequence()
+            // A 에서 출발할 때 방향만 맞추기
+            .AppendCallback(() =>
+            {
+                if (lookAlongPath) SetYawToward(aPos, bPos, false);
+            })
+            // A -> B 점프
+            .Append(DoParabolaLeg(aPos, bPos))
+            // ★ B 지점 도착: Act 애니 처음부터
+            .AppendCallback(() =>
+            {
+                RestartActAnim();
+                if (lookAlongPath) SetYawToward(bPos, aPos, flipYawOnReverse);
+            })
+            // B -> A 점프
+            .Append(DoParabolaLeg(bPos, aPos))
+            // ★ A 지점 도착: 또 Act 애니 처음부터
+            .AppendCallback(() =>
+            {
+                RestartActAnim();
+                // 다음 루프에서 다시 A->B로 나갈 준비 (원하면 방향 다시 맞추기)
+                if (lookAlongPath) SetYawToward(aPos, bPos, false);
+            })
+            .SetLoops(-1, LoopType.Restart);
+    }
 
 
 
@@ -155,7 +155,12 @@ public class ObstacleStats : MonoBehaviour
 
 
 
-    void OnDisable() { _jumpSeq?.Kill(); }
+    void OnDisable()
+    {
+        StopAllCoroutines();
+        DOTween.Kill(gameObject);
+        _jumpSeq?.Kill();
+    }
     void OnDestroy() { _jumpSeq?.Kill(); }
 
 
@@ -177,12 +182,12 @@ public class ObstacleStats : MonoBehaviour
 
     void Start()
     {
-        if(obstaclePattern == ObstaclePattern.Oldman_Stab)
+        if (obstaclePattern == ObstaclePattern.Oldman_Stab)
         {
             SimpleProjectile sp = transform.GetComponentInChildren<SimpleProjectile>();
-            sp.damage = value;            
+            sp.damage = value;
         }
-        else if(obstaclePattern == ObstaclePattern.Dolphin)
+        else if (obstaclePattern == ObstaclePattern.Dolphin)
         {
             dolphinAnim = GetComponentInChildren<Animator>();
             StartFixedZigZag();
@@ -191,7 +196,7 @@ public class ObstacleStats : MonoBehaviour
         {
             // 낙하지점 Y 고정
             if (Physics.Raycast(transform.position + Vector3.up * 5f, Vector3.down, out var hit, 40f, groundMask))
-            //if (Physics.SphereCast(new Ray(transform.position + Vector3.up * 50f, Vector3.down), 0.25f, out var hit, 200f, groundMask, QueryTriggerInteraction.Ignore))
+                //if (Physics.SphereCast(new Ray(transform.position + Vector3.up * 50f, Vector3.down), 0.25f, out var hit, 200f, groundMask, QueryTriggerInteraction.Ignore))
                 _impactPoint = hit.point;
             else
                 _impactPoint = transform.position;
@@ -233,8 +238,120 @@ public class ObstacleStats : MonoBehaviour
             // 👉 “고정물”이므로 이동 트윈/회전 없음
             // 위치/회전은 프리팹/씬에서 배치한 그대로 사용
         }
-
     }
+
+    void OnEnable()
+    {
+        // hasFired = false;
+        // _started = false;
+        // _bucketAttached = false;
+        // _lampFallen = false;
+        // _lampDamagedOnce = false;
+
+        // if (obstaclePattern == ObstaclePattern.Seagull)
+        // {
+        //     _started = false;
+
+        //     if (shadowSprite)
+        //     {
+        //         shadowSprite.enabled = false;
+        //         shadowSprite.transform.localScale = Vector3.one * shadowStartScale;
+        //     }
+
+        //     if (balloon) balloon.gameObject.SetActive(false);
+
+        //     var bcol = balloon ? balloon.GetComponent<Collider>() : null;
+        //     if (bcol) bcol.enabled = false;
+        // }
+        // else if (obstaclePattern == ObstaclePattern.Dolphin)
+        // {
+        //     transform.position = pointA.position;
+        //     transform.rotation = Quaternion.identity;
+        //     StartFixedZigZag();
+        // }
+
+        ResetState();
+    }
+
+    void ResetState()
+    {
+        // 1) 남아있는 것 정리 (Enable 시점에도 안전하게)
+        StopAllCoroutines();
+        DOTween.Kill(gameObject);
+        _jumpSeq?.Kill();
+
+        // 2) 플래그 리셋
+        hasFired = false;
+        _started = false;
+        _bucketAttached = false;
+        _lampFallen = false;
+        _lampDamagedOnce = false;
+
+        // 3) 패턴별 초기화
+        if (obstaclePattern == ObstaclePattern.Seagull)
+        {
+            // impactPoint도 재계산해주는게 베스트 (Start에만 있으면 위치 누적됨)
+            InitSeagull();
+        }
+        else if (obstaclePattern == ObstaclePattern.Dolphin)
+        {
+            if (!dolphinAnim) dolphinAnim = GetComponentInChildren<Animator>(); // 추가
+            if (pointA) transform.position = pointA.position;
+            transform.rotation = Quaternion.identity;
+            StartFixedZigZag();
+        }
+    }
+
+    void InitSeagull()
+    {
+        // 0) 남아있을 수 있는 트윈 정리(선택)
+        if (shadowSprite) shadowSprite.transform.DOKill();
+        if (balloon) balloon.DOKill();
+
+        // 1) 플레이어 캐시 초기화 + 시작 플래그
+        _player = null;
+        _started = false;
+
+        // 2) 낙하지점(impact) 재계산  ✅ 풀링에서 중요
+        if (Physics.Raycast(transform.position + Vector3.up * 5f, Vector3.down,
+            out var hit, 40f, groundMask))
+        {
+            _impactPoint = hit.point;
+        }
+        else
+        {
+            _impactPoint = transform.position;
+        }
+
+        // 3) 이 오브젝트 기준점을 impact로 고정(네 코드랑 동일 컨셉)
+        transform.position = _impactPoint;
+
+        // 4) 그림자 초기화
+        if (shadowSprite)
+        {
+            shadowSprite.enabled = false;
+            shadowSprite.transform.position = _impactPoint + Vector3.up * 0.02f;
+            shadowSprite.transform.localScale = Vector3.one * shadowStartScale;
+        }
+
+        // 5) 풍선 비활성 + 콜라이더 비활성
+        if (balloon) balloon.gameObject.SetActive(false);
+
+        var bcol = balloon ? balloon.GetComponent<Collider>() : null;
+        if (bcol)
+        {
+            bcol.isTrigger = true;
+            bcol.enabled = false;
+        }
+
+        // 6) 부모 rigidbody 보장(콜백/트리거 안정용)
+        var rb = GetComponent<Rigidbody>();
+        if (!rb) rb = gameObject.AddComponent<Rigidbody>();
+        rb.isKinematic = true;
+        rb.useGravity = false;
+    }
+
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -258,8 +375,8 @@ public class ObstacleStats : MonoBehaviour
 
                 // 체력 감소
                 playerScript.currentHealth = Mathf.Max(0, playerScript.currentHealth - value);
-                
-                 // 2) X축만 110°로 부드럽게 꺾기 (0.18초), 1초 유지, 원복 안 함
+
+                // 2) X축만 110°로 부드럽게 꺾기 (0.18초), 1초 유지, 원복 안 함
                 //StartCoroutine(TiltXOnly110(playerScript, tweenTime: 0.18f, holdSeconds: 1.0f, restore: false));               
 
                 break;
@@ -286,8 +403,8 @@ public class ObstacleStats : MonoBehaviour
                     if (bcol) bcol.enabled = false; // 중복 타격 방지
 
                     //갈매기 위로 튀어오르면서 날라가게하기
-                    transform.DOMove(new Vector3(transform.position.x-2f, transform.position.y+10f, transform.position.z-2f), 2f).SetEase(Ease.OutQuad); // 위로 쭉~
-                    transform.DORotate(new Vector3(360f*5f, 0, 0), 2f, RotateMode.FastBeyond360); // 회전
+                    transform.DOMove(new Vector3(transform.position.x - 2f, transform.position.y + 10f, transform.position.z - 2f), 2f).SetEase(Ease.OutQuad); // 위로 쭉~
+                    transform.DORotate(new Vector3(360f * 5f, 0, 0), 2f, RotateMode.FastBeyond360); // 회전
 
 
                     return; // ← 여기서 메서드 종료 (break 불필요)
@@ -328,10 +445,12 @@ public class ObstacleStats : MonoBehaviour
         }
 
         // Ship일 때만, 아직 발사하지 않았고, 플레이어가 발사 거리 안으로 들어오면 발사
-        if (obstaclePattern != ObstaclePattern.Ship || hasFired) return;
+        if (obstaclePattern != ObstaclePattern.Ship || hasFired)
+            return;
 
         var player = GameManager.S.playerScript.gameObject;
-        if (player == null) return;
+        if (player == null)
+            return;
 
         float dist = Vector3.Distance(transform.position, player.transform.position);
         if (dist <= fireDistance)
@@ -346,10 +465,10 @@ public class ObstacleStats : MonoBehaviour
 
     // 콜라이더 재활성(중복 히트 방지용)
     IEnumerator ReenableColliderAfter(Collider c, float delay)
-{
-    yield return new WaitForSeconds(delay);
-    if (c) c.enabled = true;
-}
+    {
+        yield return new WaitForSeconds(delay);
+        if (c) c.enabled = true;
+    }
 
 
     IEnumerator AttachBucketRoutine(PlayerScript player)
@@ -555,38 +674,26 @@ public class ObstacleStats : MonoBehaviour
 
     private void FireAheadOfPlayer(Transform playerTransform)
     {
-        if (projectilePrefab == null) return;
+        if (!projectilePrefab || !firePos) return;
 
-        // 플레이어의 앞쪽(이동 방향 기준) 목표 위치 계산
-        Vector3 playerForward = playerTransform.forward;
-        Vector3 targetPos = playerTransform.position + playerForward * aheadOffset;
-
-        // 발사 위치(장애물 위치에서 약간 위로)
-        //Vector3 firePos = transform.position + Vector3.up * 1.0f;
+        Vector3 targetPos = playerTransform.position + playerTransform.forward * aheadOffset;
         Vector3 dir = (targetPos - firePos.position).normalized;
 
-        // 투사체 생성 및 방향 설정
-        //GameObject proj = Instantiate(projectilePrefab, firePos.position, Quaternion.LookRotation(dir));
+        GameObject proj = Instantiate(projectilePrefab, firePos.position, Quaternion.LookRotation(dir));
+        proj.transform.localScale = Vector3.one;
 
-        // 초기 속도 부여
-        var rb = projectilePrefab.GetComponent<Rigidbody>();
+        var rb = proj.GetComponent<Rigidbody>();
         if (rb != null)
-        {
-            //float speed = Random.Range(25f, 35f);
-            float speed = 30f; // 필요한 초기 속도
-            rb.linearVelocity = dir * speed; // (권장) velocity 사용
-        }
+            rb.linearVelocity = dir * 30f;
 
-        // 투사체 스크립트 속성 설정
-        var sp = projectilePrefab.GetComponent<SimpleProjectile>();
+        var sp = proj.GetComponent<SimpleProjectile>();
         if (sp != null)
         {
-            sp.damage = value;        // 피해량
-            sp.targetTag = "Player";  // 타겟 태그
+            sp.damage = value;
+            sp.targetTag = "Player";
         }
 
-        // 5초 후 자동 파괴
-        Destroy(projectilePrefab, 5f);
+        Destroy(proj, 5f);
     }
 }
 
@@ -652,7 +759,7 @@ public class ObstacleStatsEditor : Editor
             script.shadowStartScale = EditorGUILayout.FloatField("Shadow Start Scale", script.shadowStartScale);
             script.shadowEndScale = EditorGUILayout.FloatField("Shadow End Scale", script.shadowEndScale);
             script.dropHeight = EditorGUILayout.FloatField("Drop Height", script.dropHeight);
-            script.dropTime = EditorGUILayout.FloatField("Drop Time", script.dropTime);           
+            script.dropTime = EditorGUILayout.FloatField("Drop Time", script.dropTime);
         }
 
         else if (script.obstaclePattern == ObstaclePattern.Bucket)

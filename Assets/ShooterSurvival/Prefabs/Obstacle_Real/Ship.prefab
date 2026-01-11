@@ -152,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b5244520c6e4b4c957ce4de4195c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IndianOceanAssets.ShooterSurvival.SimpleProjectile
+  isAttacked: 0
   damage: 5
   targetTag: Player
   helperTag: ExtraHelpTag
@@ -252,7 +253,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: b053e8b811a801347b093cb2362a3254, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

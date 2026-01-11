@@ -71,15 +71,33 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void OnEnable()
         {
+            // currentEnemySO = enemySOArray[(int)enemyType];
 
+            // // Initializing local variables
+            // _health = currentEnemySO.enemyHealth;
+            // _damage = currentEnemySO.enemyDamage;
+            // _score = currentEnemySO.scoreUponDeath;
+            // _speed = currentEnemySO.enemySpeed;
+            // _turnSpeed = currentEnemySO.turnSpeed;
             currentEnemySO = enemySOArray[(int)enemyType];
 
-            // Initializing local variables
             _health = currentEnemySO.enemyHealth;
             _damage = currentEnemySO.enemyDamage;
             _score = currentEnemySO.scoreUponDeath;
             _speed = currentEnemySO.enemySpeed;
             _turnSpeed = currentEnemySO.turnSpeed;
+
+            givePlayerScore = true;
+
+            // 비주얼 & 콜라이더 복구
+            transform.GetChild(0).gameObject.SetActive(true);
+            GetComponent<Collider>().enabled = true;
+            movement = true;
+
+            // 애니 초기화
+            enemyAnimator.enabled = true;
+            enemyAnimator.Rebind();      // ⭐ 상태머신 초기화
+            enemyAnimator.Update(0f);    // 즉시 반영
         }
 
         private void Update()
@@ -112,15 +130,15 @@ namespace IndianOceanAssets.ShooterSurvival
                         givePlayerScore = false;
                         EnemyDeath();
                     }
-                    else if(playerScript.currentHealth <= _health)
+                    else if (playerScript.currentHealth <= _health)
                     {
                         float playerHP = playerScript.currentHealth;
 
                         _health -= playerHP;
                         playerScript.currentHealth = 0f;
-                        
+
                         givePlayerScore = false;
-                    }             
+                    }
                 }
             }
 
@@ -219,7 +237,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         }
 
-     
+
 
     }
 }

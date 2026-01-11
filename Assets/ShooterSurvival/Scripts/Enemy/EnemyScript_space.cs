@@ -50,6 +50,12 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private TextMeshProUGUI healthText;
 
+        Transform _projParent;     // 어느 손의 자식이었는지
+        Vector3 _projLocalPos;     // 손 기준 위치
+        Quaternion _projLocalRot; // 손 기준 회전
+
+
+
         // 🟧 Throw (Once)
         [Header("🟧 Throw (Once)")]
         [SerializeField] private Transform heldProjectile; // 손에 들고 있는 오브젝트(자식)
@@ -71,6 +77,15 @@ namespace IndianOceanAssets.ShooterSurvival
             {
                 healthText = transform.GetComponentInChildren<TextMeshProUGUI>();
             }
+
+            if (heldProjectile)
+            {
+                _projParent = heldProjectile.parent;
+                _projLocalPos = heldProjectile.localPosition;
+                _projLocalRot = heldProjectile.localRotation;
+            }
+
+
         }
 
         private void Start()
@@ -82,6 +97,61 @@ namespace IndianOceanAssets.ShooterSurvival
             _health = currentEnemySO.enemyHealth;
             _damage = currentEnemySO.enemyDamage;
             _score = currentEnemySO.scoreUponDeath;
+        }
+
+        private void OnEnable()
+        {
+            // 상태 리셋
+            isDie = false;
+            hasThrown = false;
+            givePlayerScore = true;
+
+            recieveDamage = true;
+            giveDamage = true;
+
+            StopAllCoroutines();
+            DOTween.Kill(gameObject);
+
+            // 애니 초기화
+            if (enemyAnimator != null)
+            {
+                enemyAnimator.Rebind();
+                enemyAnimator.Update(0f);
+            }
+
+            // 콜라이더 다시 켜기(안전)
+            var myCol = GetComponent<Collider>();
+            if (myCol != null) myCol.enabled = true;
+
+            // healthText 다시 켜기(없을 수도 있으니 안전)
+            if (healthText != null)
+                healthText.enabled = true;
+
+            // 🔥 미사일 다시 손에 붙이기(널 체크 추가)
+            if (heldProjectile)
+            {
+                heldProjectile.SetParent(_projParent, false);
+                heldProjectile.localPosition = _projLocalPos;
+                heldProjectile.localRotation = _projLocalRot;
+
+                var rb = heldProjectile.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    rb.linearVelocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
+                    rb.useGravity = false;
+                    rb.isKinematic = true;
+                }
+
+                var col = heldProjectile.GetComponent<Collider>();
+                if (col != null) col.isTrigger = false;
+            }
+        }
+
+
+        private void OnDisable()
+        {
+            DOTween.Kill(gameObject);
         }
 
         private void Update()
@@ -179,20 +249,21 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void EnemyDeath()
         {
-            Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y+0.95f, transform.position.z);
-            GameObject.Instantiate(bonusWall, spawnPos, Quaternion.identity);
+            if (isDie) return;
+            isDie = true;
+
+            Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y + 0.95f, transform.position.z);
+            var wall = Instantiate(bonusWall, spawnPos, Quaternion.identity);
+            wall.AddComponent<RuntimeBonusWall>();
 
             recieveDamage = false;
             giveDamage = false;
-            
+
+            var col = GetComponent<Collider>();
+            if (col != null) col.enabled = false;
+
             enemyAnimator.SetTrigger("die");
             StartCoroutine(DeathFlow());
-
-            //GameObject deathfx = Instantiate(currentEnemySO.enemyDeathVFX, hitPos);
-            //float destruction_timer = deathfx.GetComponent<ParticleSystem>().main.duration;
-            //Destroy(deathfx, destruction_timer);
-
-            GetComponent<Collider>().enabled = false;
 
             if (givePlayerScore) playerScript.playerScore += _score;
             givePlayerScore = false;
@@ -201,11 +272,12 @@ namespace IndianOceanAssets.ShooterSurvival
         IEnumerator DeathFlow()
         {
             yield return new WaitForSeconds(0.5f);
-            healthText.gameObject.SetActive(false);
+
+            if (healthText != null)
+                healthText.enabled = false;   // ✅ 여기 핵심 (gameObject.SetActive(false) X)
 
             yield return new WaitForSeconds(1f);
-            GameObject enemyVisual = transform.GetChild(0).gameObject;
-            enemyVisual.SetActive(false);
+            gameObject.SetActive(false);
         }
 
 
@@ -223,7 +295,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (enemyType == EnemyType.Walker)
             {
                 if (healthText == null)
-                    healthText = GetComponentInChildren<TextMeshProUGUI>();
+                    healthText = GetComponentInChildren<TextMeshProUGUI>(true);
 
                 if (healthText != null)
                     healthText.text = _health.ToString("F0");
@@ -233,17 +305,17 @@ namespace IndianOceanAssets.ShooterSurvival
         // 🟧 한 번 던지기 (심플 + 안정화)
         private void ThrowOnceSimple()
         {
-            enemyAnimator.SetTrigger("act");          
+            enemyAnimator.SetTrigger("act");
 
             if (hasThrown || heldProjectile == null) return;
             hasThrown = true;
             float sec = 2f;
 
-            if(transform.name.Contains("FatMan"))
+            if (transform.name.Contains("FatMan"))
             {
                 sec = 1.6f;
             }
-            else if(transform.name.Contains("Guard"))
+            else if (transform.name.Contains("Guard"))
             {
                 sec = 0.8f;
             }
@@ -252,45 +324,45 @@ namespace IndianOceanAssets.ShooterSurvival
                 sec = 2f;
             }
 
-                DOVirtual.DelayedCall(sec, () =>
+            DOVirtual.DelayedCall(sec, () =>
+            {
+                if (isDie == true)
                 {
-                    if(isDie == true)
-                    {
-                        return;
-                    }
+                    return;
+                }
 
-                    if (throwPoint)
-                    {
-                        heldProjectile.position = throwPoint.position;
-                        heldProjectile.rotation = throwPoint.rotation;
-                    }
+                if (throwPoint)
+                {
+                    heldProjectile.position = throwPoint.position;
+                    heldProjectile.rotation = throwPoint.rotation;
+                }
 
-                    heldProjectile.SetParent(null, true);
-                    heldProjectile.rotation = Quaternion.Euler(0f, 90f, 0f);
+                heldProjectile.SetParent(null, true);
+                heldProjectile.rotation = Quaternion.Euler(0f, 90f, 0f);
 
-                    var col = heldProjectile.GetComponent<Collider>();
-                    if (col == null) col = heldProjectile.gameObject.AddComponent<SphereCollider>();
-                    col.isTrigger = true;
-                    col.GetComponent<SimpleProjectile>().damage = _damage;
+                var col = heldProjectile.GetComponent<Collider>();
+                if (col == null) col = heldProjectile.gameObject.AddComponent<SphereCollider>();
+                col.isTrigger = true;
+                col.GetComponent<SimpleProjectile>().damage = _damage;
 
-                    var rb = heldProjectile.GetComponent<Rigidbody>();
-                    if (rb == null) rb = heldProjectile.gameObject.AddComponent<Rigidbody>();
-                    rb.isKinematic = false;
-                    rb.useGravity = false; // 포물선 원하면 true
-                    rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-                    rb.interpolation = RigidbodyInterpolation.Interpolate; 
+                var rb = heldProjectile.GetComponent<Rigidbody>();
+                if (rb == null) rb = heldProjectile.gameObject.AddComponent<Rigidbody>();
+                rb.isKinematic = false;
+                rb.useGravity = false; // 포물선 원하면 true
+                rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+                rb.interpolation = RigidbodyInterpolation.Interpolate;
 
-                    // 발사자 본체와 충돌 무시
-                    foreach (var ec in GetComponentsInChildren<Collider>(true))
-                        if (ec && col) Physics.IgnoreCollision(col, ec, true);
+                // 발사자 본체와 충돌 무시
+                foreach (var ec in GetComponentsInChildren<Collider>(true))
+                    if (ec && col) Physics.IgnoreCollision(col, ec, true);
 
-                    // 발사
-                    rb.linearVelocity = Vector3.zero;
-                    rb.angularVelocity = Vector3.zero;
-                    rb.AddForce(-throwPoint.forward * throwSpeed, ForceMode.VelocityChange);
+                // 발사
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.AddForce(-throwPoint.forward * throwSpeed, ForceMode.VelocityChange);
 
-                    //Destroy(heldProjectile.gameObject, projectileLife);
-                });
-        }        
+                //Destroy(heldProjectile.gameObject, projectileLife);
+            });
+        }
     }
 }

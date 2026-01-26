@@ -68,5 +68,11 @@ namespace IndianOceanAssets.ShooterSurvival
                 bulletPooler.ReturnObjectToPool_Bullet(gameObject);
             }
         }
+
+        //초기화(Distance 초기화)
+        public static void ResetStatBonus()
+        {
+            bulletRange = originalBulletRange;
+        }
     }
 }

@@ -28,6 +28,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private bool isShooting = true;
         private ExtraHelpBuffScript extraHelpBuffScript;
 
+
         private void Awake()
         {
             damage = weaponSO.weaponDamage;                                 // Set damage from the weapon SO
@@ -44,16 +45,16 @@ namespace IndianOceanAssets.ShooterSurvival
 
         void OnEnable()
         {
-            if(bulletKind == BulletKind.Water)
+            if (bulletKind == BulletKind.Water)
             {
                 RestartShooting();
             }
-            else if(bulletKind == BulletKind.Bomb)
+            else if (bulletKind == BulletKind.Bomb)
             {
                 Invoke("RestartShooting", 1f);
             }
 
-                parentAnimator = GetComponentInParent<Animator>();
+            parentAnimator = GetComponentInParent<Animator>();
         }
 
         private void OnDisable()
@@ -95,9 +96,11 @@ namespace IndianOceanAssets.ShooterSurvival
                     isShooting = false;                                         // Stop shooting if dead
                     CancelInvoke("ShootBullet");
 
-                    weaponRB.useGravity = true;
-                    weaponRB.isKinematic = false;
+                    // weaponRB.useGravity = true;
+                    // weaponRB.isKinematic = false;
                 }
+
+                //Debug.Log(isDead);
             }
         }
 
@@ -117,8 +120,12 @@ namespace IndianOceanAssets.ShooterSurvival
         // Hnadle Bullet shooting
         private void ShootBullet()
         {
+            Debug.Log(isShooting + " isShooting");
+            Debug.Log(TimeManager.isGameRunning + " TimeManager.isGameRunning");
+
             if (isShooting && TimeManager.isGameRunning && gameObject.activeInHierarchy)
             {
+                Debug.Log("슛!!!!?");
                 if (playerScript != null && !playerScript.canShoot) return;
 
                 int count = Mathf.Min(bulletCount, bulletPositions.Length);
@@ -128,7 +135,7 @@ namespace IndianOceanAssets.ShooterSurvival
                     parentAnimator.SetTrigger("WeaponShoot");
                     audioSource.PlayOneShot(weaponSO.weaponSound);
 
-                    // ⬇️ 종류 지정 꺼내기 (새 API)
+                    // 종류 지정 꺼내기 (새 API)
                     GameObject bullet = bulletPooler.Get(bulletKind, transform);
                     if (bullet != null)
                     {
@@ -141,14 +148,32 @@ namespace IndianOceanAssets.ShooterSurvival
             }
         }
 
+        // 발사 로직 초기화
+        public void ResetShooting()
+        {
+            isShooting = true;
+            CancelInvoke(nameof(ShootBullet));
+            RestartShooting();
+        }
+
         // Destory weapon if on ground with delay
         private void OnCollisionEnter(Collision other)
         {
-            if (other.gameObject.CompareTag("GroundTag"))
-            {
-                Destroy(weaponRB, 2f);
-            }
+            // if (other.gameObject.CompareTag("GroundTag"))
+            // {
+            //     Destroy(weaponRB, 2f);
+            // }
         }
+
+        //스탯 초기화
+        public void ResetStatBonus()
+        {
+            // 스탯 원복
+            damage = weaponSO.weaponDamage;
+            fireRate = weaponSO.weaponFireRate;
+            bulletCount = 1;
+        }
+
 
     }
 }

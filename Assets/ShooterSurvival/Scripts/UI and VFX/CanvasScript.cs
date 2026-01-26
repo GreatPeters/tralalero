@@ -64,7 +64,8 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (playerScript.currentHealth == 0 && !isGameOver)
             {
-                StartCoroutine(GameOverDelay(3f));
+                //StartCoroutine(GameOverDelay(3f));
+                //게임 오버는 일단 지워라
             }
 
             UpdateScore();
@@ -78,6 +79,8 @@ namespace IndianOceanAssets.ShooterSurvival
             tapToPlayScreen.SetActive(false);
 
             if (ftue_Script != null) StartCoroutine(ftue_Script.ShowDisplay(0, 3));
+
+            playerScript.ResetState();
         }
 
         public void ChangeGameMode()

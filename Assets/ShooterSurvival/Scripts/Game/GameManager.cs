@@ -37,6 +37,8 @@ namespace IndianOceanAssets.ShooterSurvival
         public int maxStage = 10;
         public int maxChapter = 10;
 
+        private readonly List<GameObject> destroyTargetList = new();
+
         [SerializeField] private EnemyTypeInfos[] enemyTypeInfos;
 
         public List<List<EnemyStat>> normalMonster;
@@ -78,6 +80,9 @@ namespace IndianOceanAssets.ShooterSurvival
             currentChapter = 1;
             currentStage = 1;
 
+            TimeManager.isGameRunning = false;
+            TimeManager.timeFactor = 0f;
+
             // 처음엔 대기 화면 띄우고 멈춰두는 걸 추천
             PrepareStageAndShowTapUI();
 
@@ -90,15 +95,38 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
+                //DestroyAllRegisteredTarget();
                 OnStageClear();
             }
         }
+
+        public void RegisterDestroyTarget(GameObject go)
+        {
+            if (!go) return;
+            destroyTargetList.Add(go);
+        }
+
+        public void DestroyAllRegisteredTarget()
+        {
+            // 1) 등록된 임시 오브젝트 전부 파괴
+            for (int i = destroyTargetList.Count - 1; i >= 0; i--)
+            {
+                var go = destroyTargetList[i];
+                if (go) Destroy(go);
+            }
+
+            // 2) 리스트 비우기 (remove 반복 대신 Clear)
+            destroyTargetList.Clear();
+        }
+
 
         // =========================
         // ✅ 스테이지 클리어 → 다음 스테이지로 이동 (대기 상태)
         // =========================
         public void OnStageClear()
         {
+            DestroyAllRegisteredTarget();
+
             // 1) 일단 멈추기(이동/발사 포함)
             SetGameRunning(false);
 
@@ -110,6 +138,11 @@ namespace IndianOceanAssets.ShooterSurvival
 
             // 4) "Tap to Play" 다시 띄우기 (CanvasScript가 갖고있음)
             if (canvas != null) canvas.tapToPlayScreen.SetActive(true);
+
+            playerScript.ResetStatBonus();
+            BulletScript.ResetStatBonus();
+            weaponManager.currentWeapon.GetComponentInChildren<WeaponScript>().ResetStatBonus();
+
         }
 
         // =========================
@@ -135,16 +168,17 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void PrepareStageObjectsForNextRun()
         {
+            Debug.Log("..으잉!!?");
             //보너스로 생성한 Wall 모두 제거
             ClearRuntimeBonusWalls();
 
-            // (A) 플레이어 위치 리셋
-            ResetPlayerToSpawn();
+            // // (A) 플레이어 위치 리셋
+            // ResetPlayerToSpawn();
 
             // (B) 장애물 풀 반환 + 새 스테이지 로드
             if (StageObstacleManager != null)
             {
-                StageObstacleManager.SetStage(currentChapter-1, currentStage-1);
+                StageObstacleManager.SetStage(currentChapter - 1, currentStage - 1);
                 StageObstacleManager.LoadStageObstacles(); // 내부에서 ClearObstacles() 호출됨
             }
 
@@ -160,10 +194,18 @@ namespace IndianOceanAssets.ShooterSurvival
             // (F) Wall 다시 랜덤 세팅(재생성 X, Init이 정답)
             if (WallManager.S != null)
                 WallManager.S.InIt();
+
+            // CanvasScript.isGameOver = false;
+            // TimeManager.timeFactor = 1;
+            // TimeManager.isGameRunning = true;
+
+            //(A) 플레이어 위치 리셋
+            ResetPlayerToSpawn();
         }
 
         private void ResetPlayerToSpawn()
         {
+
             if (playerScript == null) return;
             if (playerSpawnPoint == null) return;
 
@@ -179,8 +221,8 @@ namespace IndianOceanAssets.ShooterSurvival
                 rb.angularVelocity = Vector3.zero;
             }
 
-            // (선택) 플레이어 내부 상태까지 리셋하고 싶으면
-            // playerScript.ResetState();  // 이런 함수가 있다면 여기서 호출
+            if (playerScript != null)
+                playerScript.ResetState();
         }
 
         private void ResetAllEnemiesByReEnable()

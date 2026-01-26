@@ -19,6 +19,10 @@ public class ObstacleStats : MonoBehaviour
     public Vector3 bucketDetachAngularImpulse = new Vector3(-20f, 0f, 0f);
     public bool destroyAfterDetach = true;
     bool _bucketAttached;
+    Transform _bucketStartParent;
+    Vector3 _bucketStartLocalPos;
+    Quaternion _bucketStartLocalRot;
+    bool _bucketSaved;
 
 
     //열기구 관련
@@ -165,7 +169,10 @@ public class ObstacleStats : MonoBehaviour
 
 
 
-
+    Vector3 _startLocalPos;
+    Quaternion _startLocalRot;
+    Vector3 _startLocalScale;
+    bool _savedStart;
 
     bool _lampFallen;
     bool _lampDamagedOnce;   // 플레이어가 닿았을 때 1회만 데미지 주려면 사용
@@ -221,23 +228,23 @@ public class ObstacleStats : MonoBehaviour
             if (bcol) { bcol.isTrigger = true; bcol.enabled = false; }
         }
 
-        if (obstaclePattern == ObstaclePattern.Bucket)
-        {
-            // 👉 버킷 참조 없으면 자기 자신을 버킷으로 사용
-            if (bucket == null) bucket = transform;
+        // if (obstaclePattern == ObstaclePattern.Bucket)
+        // {
+        //     // 👉 버킷 참조 없으면 자기 자신을 버킷으로 사용
+        //     if (bucket == null) bucket = transform;
 
-            // 물리/충돌 기본 세팅
-            var rb = bucket.GetComponent<Rigidbody>();
-            if (!rb) rb = bucket.gameObject.AddComponent<Rigidbody>();
-            rb.isKinematic = true;
-            rb.useGravity = false;
+        //     // 물리/충돌 기본 세팅
+        //     var rb = bucket.GetComponent<Rigidbody>();
+        //     if (!rb) rb = bucket.gameObject.AddComponent<Rigidbody>();
+        //     rb.isKinematic = true;
+        //     rb.useGravity = false;
 
-            var col = bucket.GetComponent<Collider>();
-            if (col) col.isTrigger = true;
+        //     var col = bucket.GetComponent<Collider>();
+        //     if (col) col.isTrigger = true;
 
-            // 👉 “고정물”이므로 이동 트윈/회전 없음
-            // 위치/회전은 프리팹/씬에서 배치한 그대로 사용
-        }
+        //     // 👉 “고정물”이므로 이동 트윈/회전 없음
+        //     // 위치/회전은 프리팹/씬에서 배치한 그대로 사용
+        // }
     }
 
     void OnEnable()
@@ -287,6 +294,14 @@ public class ObstacleStats : MonoBehaviour
         _lampFallen = false;
         _lampDamagedOnce = false;
 
+        if (obstaclePattern == ObstaclePattern.Light && !_savedStart)
+        {
+            _savedStart = true;
+            _startLocalPos = transform.localPosition;
+            _startLocalRot = transform.localRotation;
+            _startLocalScale = transform.localScale;
+        }
+
         // 3) 패턴별 초기화
         if (obstaclePattern == ObstaclePattern.Seagull)
         {
@@ -300,6 +315,16 @@ public class ObstacleStats : MonoBehaviour
             transform.rotation = Quaternion.identity;
             StartFixedZigZag();
         }
+        else if (obstaclePattern == ObstaclePattern.Light)
+        {
+            ResetLampTransform();
+        }
+        else if (obstaclePattern == ObstaclePattern.Bucket)
+        {
+            InitBucket();
+        }
+
+
     }
 
     void InitSeagull()
@@ -370,6 +395,7 @@ public class ObstacleStats : MonoBehaviour
         switch (obstaclePattern)
         {
             case ObstaclePattern.Hole:
+                Debug.Log("홀이다!!!!");
                 quaternion toRot = Quaternion.Euler(110f, playerScript.transform.root.rotation.eulerAngles.y, playerScript.transform.root.rotation.eulerAngles.z);
                 playerScript.transform.root.DORotateQuaternion(toRot, 1f);
 
@@ -426,6 +452,8 @@ public class ObstacleStats : MonoBehaviour
 
     void Update()
     {
+        if (!TimeManager.isGameRunning) return;
+
         if (obstaclePattern == ObstaclePattern.Seagull && !_started)
         {
             if (_player == null)
@@ -515,11 +543,12 @@ public class ObstacleStats : MonoBehaviour
 
         if (destroyAfterDetach)
         {
-            Destroy(bucket.gameObject, 2f);
+            // Destroy 금지. 연출 후 원복해서 풀 재사용.
+            yield return new WaitForSeconds(0.6f); // 튕김 연출 시간
+            InitBucket();                          // 부모/물리/콜라이더 복구
         }
         else
         {
-            // 약간의 안전 지연 후 재충돌 허용
             yield return new WaitForSeconds(0.15f);
             if (col) col.enabled = true;
             _bucketAttached = false;
@@ -604,6 +633,21 @@ public class ObstacleStats : MonoBehaviour
         .SetEase(Ease.InOutQuad);
     }
 
+    void ResetLampTransform()
+    {
+        // 진행 중인 넘어짐 트윈 끊기
+        DOTween.Kill(transform);
+
+        // 상태/힌지 리셋
+        _lampFallen = false;
+        _hinge = Vector3.zero;
+
+        // 원래 트랜스폼 복구
+        transform.localPosition = _startLocalPos;
+        transform.localRotation = _startLocalRot;
+        transform.localScale = _startLocalScale;
+    }
+
     IEnumerator TelegraphThenDrop()
     {
         // 1) 그림자 켜고 커지기
@@ -680,9 +724,11 @@ public class ObstacleStats : MonoBehaviour
         Vector3 dir = (targetPos - firePos.position).normalized;
 
         GameObject proj = Instantiate(projectilePrefab, firePos.position, Quaternion.LookRotation(dir));
+        proj.SetActive(true);
         proj.transform.localScale = Vector3.one;
 
         var rb = proj.GetComponent<Rigidbody>();
+        //Rigidbody rb = proj.AddComponent<Rigidbody>();
         if (rb != null)
             rb.linearVelocity = dir * 30f;
 
@@ -694,89 +740,147 @@ public class ObstacleStats : MonoBehaviour
         }
 
         Destroy(proj, 5f);
+        GameManager.S.RegisterDestroyTarget(proj.gameObject);
     }
-}
 
-#if UNITY_EDITOR
-[CustomEditor(typeof(ObstacleStats))]
-public class ObstacleStatsEditor : Editor
-{
-    public override void OnInspectorGUI()
+    Vector3 _bucketStartLocalScale;
+
+    void CacheBucketStart()
     {
-        var script = (ObstacleStats)target;
+        if (_bucketSaved) return;
+        if (!bucket) return;
 
-        // 기본 필드
-        script.obstaclePattern = (ObstaclePattern)EditorGUILayout.EnumPopup("Obstacle Pattern", script.obstaclePattern);
-        script.value = EditorGUILayout.FloatField("Value", script.value);
-
-        // Ship일 때만 추가 필드 보이기
-        if (script.obstaclePattern == ObstaclePattern.Ship)
-        {
-            script.projectilePrefab = (GameObject)EditorGUILayout.ObjectField("Projectile Prefab", script.projectilePrefab, typeof(GameObject), true);
-            script.fireDistance = EditorGUILayout.FloatField("Fire Distance", script.fireDistance);
-            script.aheadOffset = EditorGUILayout.FloatField("Ahead Offset", script.aheadOffset);
-            script.firePos = (Transform)EditorGUILayout.ObjectField("Fire Position", script.firePos, typeof(Transform), true);
-        }
-        else if (script.obstaclePattern == ObstaclePattern.Dolphin)
-        {
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Dolphin Fixed Jump", EditorStyles.boldLabel);
-
-            script.pointA = (Transform)EditorGUILayout.ObjectField("Point A", script.pointA, typeof(Transform), true);
-            script.pointB = (Transform)EditorGUILayout.ObjectField("Point B", script.pointB, typeof(Transform), true);
-
-            script.jumpHeight = EditorGUILayout.FloatField("Jump Height", script.jumpHeight);
-            script.jumpTime = EditorGUILayout.FloatField("Jump Time", script.jumpTime);
-            script.lookAlongPath = EditorGUILayout.Toggle("Look Along Path", script.lookAlongPath);
-        }
-        else if (script.obstaclePattern == ObstaclePattern.Seagull)
-        {
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Balloon Tween Drop", EditorStyles.boldLabel);
-
-            script.balloon = (Transform)EditorGUILayout.ObjectField("Balloon (Transform)", script.balloon, typeof(Transform), true);
-            script.shadowSprite = (SpriteRenderer)EditorGUILayout.ObjectField("Shadow Sprite", script.shadowSprite, typeof(SpriteRenderer), true);
-
-            // groundMask 표시 (LayerMaskField)
-            var layers = UnityEditorInternal.InternalEditorUtility.layers;
-            int mask = 0;
-            for (int i = 0; i < layers.Length; i++)
-            {
-                int id = LayerMask.NameToLayer(layers[i]);
-                if (((1 << id) & script.groundMask.value) != 0) mask |= (1 << i);
-            }
-            int newMask = EditorGUILayout.MaskField("Ground Mask", mask, layers);
-            int finalMask = 0;
-            for (int i = 0; i < layers.Length; i++)
-            {
-                if ((newMask & (1 << i)) != 0) finalMask |= (1 << LayerMask.NameToLayer(layers[i]));
-            }
-            script.groundMask = finalMask;
-
-            // (선택) 텔레그래프/낙하 파라미터도 노출
-            script.triggerRadius = EditorGUILayout.FloatField("Trigger Radius", script.triggerRadius);
-            script.telegraphTime = EditorGUILayout.FloatField("Telegraph Time", script.telegraphTime);
-            script.shadowStartScale = EditorGUILayout.FloatField("Shadow Start Scale", script.shadowStartScale);
-            script.shadowEndScale = EditorGUILayout.FloatField("Shadow End Scale", script.shadowEndScale);
-            script.dropHeight = EditorGUILayout.FloatField("Drop Height", script.dropHeight);
-            script.dropTime = EditorGUILayout.FloatField("Drop Time", script.dropTime);
-        }
-
-        else if (script.obstaclePattern == ObstaclePattern.Bucket)
-        {
-            EditorGUILayout.Space(); EditorGUILayout.LabelField("Bucket (Fish Tub)", EditorStyles.boldLabel);
-            script.bucket = (Transform)EditorGUILayout.ObjectField("Bucket", script.bucket, typeof(Transform), true);
-            script.bucketAttachSeconds = EditorGUILayout.FloatField("Attach Seconds", script.bucketAttachSeconds);
-            script.bucketHeadOffset = EditorGUILayout.Vector3Field("Head Offset", script.bucketHeadOffset);
-            script.bucketDetachImpulse = EditorGUILayout.Vector3Field("Detach Impulse", script.bucketDetachImpulse);
-            script.bucketDetachAngularImpulse = EditorGUILayout.Vector3Field("Detach Angular Impulse", script.bucketDetachAngularImpulse);
-            script.destroyAfterDetach = EditorGUILayout.Toggle("Destroy After Detach", script.destroyAfterDetach);
-
-            EditorGUILayout.HelpBox("고정형 트리거 버킷: 닿으면 2초 씌워지고 뒤로 튕긴 후 소멸.", MessageType.Info);
-        }
-
-
-        if (GUI.changed) EditorUtility.SetDirty(script);
+        _bucketSaved = true;
+        _bucketStartParent = bucket.parent;
+        _bucketStartLocalPos = bucket.localPosition;
+        _bucketStartLocalRot = bucket.localRotation;
+        _bucketStartLocalScale = bucket.localScale; // ✅ 추가
     }
-}
+
+    void InitBucket()
+    {
+        if (bucket == null)
+        {
+            var col = GetComponentInChildren<Collider>(true);
+            bucket = col ? col.transform : transform;
+        }
+
+        CacheBucketStart();
+
+        // ✅ 핵심: 월드 유지 X (로컬 기준으로 정확히 복구)
+        bucket.SetParent(_bucketStartParent, worldPositionStays: false);
+
+        // ✅ 원래 값 복구 (지금 네 코드에 이게 없음)
+        bucket.localPosition = _bucketStartLocalPos;
+        bucket.localRotation = _bucketStartLocalRot;
+        bucket.localScale = _bucketStartLocalScale;
+
+        var rb = bucket.GetComponent<Rigidbody>();
+        if (rb)
+        {
+            rb.isKinematic = true;
+            rb.useGravity = false;
+#if UNITY_6000_0_OR_NEWER
+            rb.linearVelocity = Vector3.zero;
+#else
+        rb.velocity = Vector3.zero;
 #endif
+            rb.angularVelocity = Vector3.zero;
+        }
+
+        var c = bucket.GetComponent<Collider>();
+        if (c)
+        {
+            c.enabled = true;
+            c.isTrigger = true;
+        }
+
+        _bucketAttached = false;
+    }
+
+
+}
+
+// #if UNITY_EDITOR
+// [CustomEditor(typeof(ObstacleStats))]
+// public class ObstacleStatsEditor : Editor
+// {
+//     public override void OnInspectorGUI()
+//     {
+//         var script = (ObstacleStats)target;
+
+//         // 기본 필드
+//         script.obstaclePattern = (ObstaclePattern)EditorGUILayout.EnumPopup("Obstacle Pattern", script.obstaclePattern);
+//         script.value = EditorGUILayout.FloatField("Value", script.value);
+
+//         // Ship일 때만 추가 필드 보이기
+//         if (script.obstaclePattern == ObstaclePattern.Ship)
+//         {
+//             script.projectilePrefab = (GameObject)EditorGUILayout.ObjectField("Projectile Prefab", script.projectilePrefab, typeof(GameObject), true);
+//             script.fireDistance = EditorGUILayout.FloatField("Fire Distance", script.fireDistance);
+//             script.aheadOffset = EditorGUILayout.FloatField("Ahead Offset", script.aheadOffset);
+//             script.firePos = (Transform)EditorGUILayout.ObjectField("Fire Position", script.firePos, typeof(Transform), true);
+//         }
+//         else if (script.obstaclePattern == ObstaclePattern.Dolphin)
+//         {
+//             EditorGUILayout.Space();
+//             EditorGUILayout.LabelField("Dolphin Fixed Jump", EditorStyles.boldLabel);
+
+//             script.pointA = (Transform)EditorGUILayout.ObjectField("Point A", script.pointA, typeof(Transform), true);
+//             script.pointB = (Transform)EditorGUILayout.ObjectField("Point B", script.pointB, typeof(Transform), true);
+
+//             script.jumpHeight = EditorGUILayout.FloatField("Jump Height", script.jumpHeight);
+//             script.jumpTime = EditorGUILayout.FloatField("Jump Time", script.jumpTime);
+//             script.lookAlongPath = EditorGUILayout.Toggle("Look Along Path", script.lookAlongPath);
+//         }
+//         else if (script.obstaclePattern == ObstaclePattern.Seagull)
+//         {
+//             EditorGUILayout.Space();
+//             EditorGUILayout.LabelField("Balloon Tween Drop", EditorStyles.boldLabel);
+
+//             script.balloon = (Transform)EditorGUILayout.ObjectField("Balloon (Transform)", script.balloon, typeof(Transform), true);
+//             script.shadowSprite = (SpriteRenderer)EditorGUILayout.ObjectField("Shadow Sprite", script.shadowSprite, typeof(SpriteRenderer), true);
+
+//             // groundMask 표시 (LayerMaskField)
+//             var layers = UnityEditorInternal.InternalEditorUtility.layers;
+//             int mask = 0;
+//             for (int i = 0; i < layers.Length; i++)
+//             {
+//                 int id = LayerMask.NameToLayer(layers[i]);
+//                 if (((1 << id) & script.groundMask.value) != 0) mask |= (1 << i);
+//             }
+//             int newMask = EditorGUILayout.MaskField("Ground Mask", mask, layers);
+//             int finalMask = 0;
+//             for (int i = 0; i < layers.Length; i++)
+//             {
+//                 if ((newMask & (1 << i)) != 0) finalMask |= (1 << LayerMask.NameToLayer(layers[i]));
+//             }
+//             script.groundMask = finalMask;
+
+//             // (선택) 텔레그래프/낙하 파라미터도 노출
+//             script.triggerRadius = EditorGUILayout.FloatField("Trigger Radius", script.triggerRadius);
+//             script.telegraphTime = EditorGUILayout.FloatField("Telegraph Time", script.telegraphTime);
+//             script.shadowStartScale = EditorGUILayout.FloatField("Shadow Start Scale", script.shadowStartScale);
+//             script.shadowEndScale = EditorGUILayout.FloatField("Shadow End Scale", script.shadowEndScale);
+//             script.dropHeight = EditorGUILayout.FloatField("Drop Height", script.dropHeight);
+//             script.dropTime = EditorGUILayout.FloatField("Drop Time", script.dropTime);
+//         }
+
+//         else if (script.obstaclePattern == ObstaclePattern.Bucket)
+//         {
+//             EditorGUILayout.Space(); EditorGUILayout.LabelField("Bucket (Fish Tub)", EditorStyles.boldLabel);
+//             script.bucket = (Transform)EditorGUILayout.ObjectField("Bucket", script.bucket, typeof(Transform), true);
+//             script.bucketAttachSeconds = EditorGUILayout.FloatField("Attach Seconds", script.bucketAttachSeconds);
+//             script.bucketHeadOffset = EditorGUILayout.Vector3Field("Head Offset", script.bucketHeadOffset);
+//             script.bucketDetachImpulse = EditorGUILayout.Vector3Field("Detach Impulse", script.bucketDetachImpulse);
+//             script.bucketDetachAngularImpulse = EditorGUILayout.Vector3Field("Detach Angular Impulse", script.bucketDetachAngularImpulse);
+//             script.destroyAfterDetach = EditorGUILayout.Toggle("Destroy After Detach", script.destroyAfterDetach);
+
+//             EditorGUILayout.HelpBox("고정형 트리거 버킷: 닿으면 2초 씌워지고 뒤로 튕긴 후 소멸.", MessageType.Info);
+//         }
+
+
+//         //if (GUI.changed) EditorUtility.SetDirty(script);
+//     }
+// }
+// #endif

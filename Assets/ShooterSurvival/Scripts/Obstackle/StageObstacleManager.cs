@@ -14,45 +14,62 @@ public class StageObstacleManager : MonoBehaviour
 
     private readonly List<GameObject> activeObstacles = new();
 
+
+    private bool _isLoading;
     public void LoadStageObstacles()
     {
+        // ✅ 같은 프레임/연속 호출로 2번 로드되는 케이스 방지
+        if (_isLoading) return;
+        _isLoading = true;
+
         ClearObstacles();
 
-        // 이 스테이지의 15칸 패턴
+        if (patternData == null)
+        {
+            Debug.LogError("[StageObstacleManager] patternData is null");
+            _isLoading = false;
+            return;
+        }
+
         var steps = patternData.chapters[chapterIndex].stages[stageIndex].steps;
 
         for (int i = 0; i < steps.Length; i++)
         {
             ObstacleDifficulty obstacleDifficulty = steps[i].obstacleDifficulty;
             ObstaclePattern pattern = steps[i].pattern;
-            Debug.Log(GetSpawnPosition(i, pattern));
 
             if (pattern == ObstaclePattern.None) continue;
 
             Vector3 pos = GetSpawnPosition(i, pattern);
 
             GameObject obj = ObstaclePooler.Instance.Get(pattern, pos);
-            if (obj != null)
-            {
-                activeObstacles.Add(obj);
+            if (obj == null) continue; // ✅ null 가드 (여기 없으면 아래에서 터짐)
+
+            // ✅ 중요: ClearObstacles가 Return하려면 Identifier가 반드시 있어야 함
+            var id = obj.GetComponent<ObstacleIdentifier>();
+            if (id == null) id = obj.AddComponent<ObstacleIdentifier>();
+            id.pattern = pattern;
+
+            // (풀러가 위치 세팅을 안 할 수도 있어서 안전하게 한번 더)
+            obj.transform.position = pos;
+
+            activeObstacles.Add(obj);
+            if (ObstacleParent != null)
                 obj.transform.SetParent(ObstacleParent.transform);
-            }
 
-            //난이도에 따라 오브젝트 활성화 비활성화 결정
-            //for()
-            //{
-                //일단 다 활성화  
-            //}
+            // ✅ 풀 재사용 안정화: 자식 전부 OFF 후 필요한 것만 ON
+            int childCount = obj.transform.childCount;
+            for (int j = 0; j < childCount; j++)
+                obj.transform.GetChild(j).gameObject.SetActive(false);
 
-            int max = Mathf.Min(obj.transform.childCount, (int)obstacleDifficulty);
+            int max = Mathf.Min(childCount, (int)obstacleDifficulty);
             for (int j = 0; j < max; j++)
-            {
                 obj.transform.GetChild(j).gameObject.SetActive(true);
-            }
         }
 
-        Debug.Log("된거야?");
+        _isLoading = false;
     }
+
 
     private Vector3 GetSpawnPosition(int slotIndex, ObstaclePattern pattern)
     {
@@ -81,9 +98,10 @@ public class StageObstacleManager : MonoBehaviour
                 break;
 
             case ObstaclePattern.Bucket:
-                x = (Random.Range(0f, 1f));
-                y = 1.16f;
+                x = 0f;
+                y = 0.56f;
                 z += Random.Range(5f, 14f);
+                //z = 0f;
                 break;
 
             case ObstaclePattern.Light:
@@ -105,7 +123,7 @@ public class StageObstacleManager : MonoBehaviour
 
             case ObstaclePattern.Oldman_Stab:
                 // = 4.67f;
-                y = -2.5f;
+                y = -2.0f;
                 z += 10f;
                 break;
 

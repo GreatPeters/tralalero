@@ -20,7 +20,7 @@ namespace IndianOceanAssets.ShooterSurvival
         [Tooltip("less value more move(standard is 50)")]
         [SerializeField] public float moveSensitivity_Devision;              // Mouse sensitivity for aiming
 
-        [Header("Params")] 
+        [Header("Params")]
         [SerializeField]
         public float originalHealth = 100f;                           // Maximum player health
         [Tooltip("X movement Range (min to max)")]
@@ -40,7 +40,7 @@ namespace IndianOceanAssets.ShooterSurvival
         [Header("Player Debugging Options")]
         public bool movement = true;
         public bool animationActive = true;
-        public bool enemyDetection = true;        
+        public bool enemyDetection = true;
 
         [Header("Dependancies")]
         [SerializeField] private Image healthBar;
@@ -65,6 +65,7 @@ namespace IndianOceanAssets.ShooterSurvival
         public bool canShoot;
 
         public Animator sharkAnim;
+        public float originalMoveSpeed;
 
 
         private void Awake()
@@ -74,6 +75,7 @@ namespace IndianOceanAssets.ShooterSurvival
             // Set player health to the max health at the start
             currentHealth = originalHealth;
             originalDamage = GetComponentInChildren<WeaponScript>().damage;
+            originalMoveSpeed = fwdMoveSpeed;
         }
 
 
@@ -81,7 +83,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             playerAnimator = GetComponentInChildren<Animator>();
             playerAnimator.SetBool("PlayerIsDead", false);
-            weaponManager = GetComponent<WeaponManager>();          
+            weaponManager = GetComponent<WeaponManager>();
 
             moveSensitivity = PlayerPrefs.GetFloat("moveSensitivity", 1f);  // Get move sensitivity from PlayerPrefs
 
@@ -103,7 +105,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (currentWeaponScript != null)
             {
                 currentDamage = currentWeaponScript.damage;
-                currentFireRate = currentWeaponScript.fireRate;                
+                currentFireRate = currentWeaponScript.fireRate;
             }
 
             if (TimeManager.isGameRunning == true && winDancePlayed == false) RotateTowardEnemy();
@@ -113,6 +115,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void FixedUpdate()
         {
+            if (!TimeManager.isGameRunning || TimeManager.timeFactor <= 0f) return;
+
             if (TimeManager.Instance.isForwardMarchScene == true)
             {
                 transform.position += Vector3.forward * fwdMoveSpeed / 100f * TimeManager.timeFactor;
@@ -143,7 +147,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void PlayerInput()
         {
-            if(currentHealth <= 0)
+            if (currentHealth <= 0)
             {
                 return;
             }
@@ -285,7 +289,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 //playerAnimator.SetTrigger("PlayerIsDead");
                 winDancePlayed = false;
                 //죽으면 애니 속도 0으로
-                
+
             }
 
             healthBar.fillAmount = currentHealth / 100;
@@ -307,6 +311,50 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             Debug.Log(collision.gameObject.name + "!!");
         }
+
+        public void ResetState()
+        {
+            isDead = false;
+            winDancePlayed = false;  
+
+            // 애니메이터 완전 초기화(DeathAnim 탈출)
+            if (playerAnimator)
+            {
+                sharkAnim.SetTrigger("Walk");
+            }
+
+            // 벽 재접촉 쿨 초기화
+            lastWallTouchTime = 0f;
+
+            // 이동/전투 복구
+            movement = true;
+            canShoot = true;
+
+            // 다시 쏘개끔 함
+            foreach (var w in GetComponentsInChildren<WeaponScript>(true))
+                w.ResetShooting();
+        }
+
+        public void ResetStatBonus()
+        {
+            // 체력 원복
+            currentHealth = originalHealth;
+
+            // UI 즉시 반영
+            if (healthBar) healthBar.fillAmount = 1f;
+            if (healthText) healthText.text = currentHealth.ToString("N0");
+
+            // Rare / ExtraHelp 관련
+            extraHelpCount = 0;
+            if (extraHelpWeaponScript != null)
+                extraHelpWeaponScript.Clear();
+
+            // 이속 원복
+            fwdMoveSpeed = originalMoveSpeed;
+        }
+
+
+
 
     }
 }

@@ -23,33 +23,37 @@ namespace IndianOceanAssets.ShooterSurvival
 
         void OnTriggerEnter(Collider other)
         {
-            // �÷��̾� �ǰ�
             if (other.CompareTag(targetTag))
-            {                
+            {
                 var ps = other.GetComponent<PlayerScript>();
                 if (ps != null) ps.currentHealth = Mathf.Max(0f, ps.currentHealth - damage);
 
-                if(transform.GetComponent<TrailRenderer>() != null)
+                if (transform.GetComponent<TrailRenderer>() != null)
                 {
-                    transform.GetComponent<TrailRenderer>().enabled = false; // Ʈ���� ������ ����
+                    transform.GetComponent<TrailRenderer>().enabled = false;
                 }
-                
-                if(transform.name != "Paddle")
+
+                if (transform.name != "Paddle" && transform.name != "Arrow2")
                 {
                     Destroy(gameObject);
                 }
-                else if(transform.name.Contains("Paddle"))
+                else if (transform.name != "Paddle" && transform.name == "Arrow2")
+                {
+                    gameObject.SetActive(false);
+                }
+
+                else if (transform.name.Contains("Paddle"))
                 {
                     var obs = GetComponentInParent<ObstacleStats>();
                     if (obs != null && !isAttacked)
                     {
                         StartCoroutine(obs.SpinAndMovePlayer(other.transform, 2f));
                         isAttacked = true;
-                    }                        
+                    }
                 }
 
-                    return;
-            } 
+                return;
+            }
         }
 
         private void OnCollisionEnter(Collision collision)

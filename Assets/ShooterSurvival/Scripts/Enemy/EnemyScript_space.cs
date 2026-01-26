@@ -8,6 +8,9 @@ namespace IndianOceanAssets.ShooterSurvival
 {
     public class EnemyScript_space : MonoBehaviour
     {
+
+        private Vector3 _projLocalScale;
+
         public GameObject bonusWall;
         private bool isDie = false;
 
@@ -83,9 +86,8 @@ namespace IndianOceanAssets.ShooterSurvival
                 _projParent = heldProjectile.parent;
                 _projLocalPos = heldProjectile.localPosition;
                 _projLocalRot = heldProjectile.localRotation;
+                _projLocalScale = heldProjectile.localScale;
             }
-
-
         }
 
         private void Start()
@@ -130,9 +132,11 @@ namespace IndianOceanAssets.ShooterSurvival
             // 🔥 미사일 다시 손에 붙이기(널 체크 추가)
             if (heldProjectile)
             {
+                heldProjectile.gameObject.SetActive(true);
                 heldProjectile.SetParent(_projParent, false);
                 heldProjectile.localPosition = _projLocalPos;
                 heldProjectile.localRotation = _projLocalRot;
+                heldProjectile.localScale = _projLocalScale;
 
                 var rb = heldProjectile.GetComponent<Rigidbody>();
                 if (rb != null)
@@ -145,6 +149,15 @@ namespace IndianOceanAssets.ShooterSurvival
 
                 var col = heldProjectile.GetComponent<Collider>();
                 if (col != null) col.isTrigger = false;
+
+                if (transform.GetComponentInChildren<TrailRenderer>() != null)
+                {
+                    Debug.Log("트레일 렌더러 초기화!!!!!");
+                    var tr = transform.GetComponentInChildren<TrailRenderer>();
+                    tr.emitting = false;
+                    tr.Clear();
+                    tr.emitting = true;
+                }
             }
         }
 
@@ -302,7 +315,7 @@ namespace IndianOceanAssets.ShooterSurvival
             }
         }
 
-        // 🟧 한 번 던지기 (심플 + 안정화)
+        // 한 번 던지기 (심플 + 안정화)
         private void ThrowOnceSimple()
         {
             enemyAnimator.SetTrigger("act");

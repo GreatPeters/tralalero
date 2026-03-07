@@ -41,6 +41,7 @@ namespace IndianOceanAssets.ShooterSurvival
             weaponRB.useGravity = false;
 
             originalFireRate = fireRate;
+            ApplyUpgradeStats();
         }
 
         void OnEnable()
@@ -55,6 +56,7 @@ namespace IndianOceanAssets.ShooterSurvival
             }
 
             parentAnimator = GetComponentInParent<Animator>();
+            ApplyUpgradeStats();
         }
 
         private void OnDisable()
@@ -120,8 +122,8 @@ namespace IndianOceanAssets.ShooterSurvival
         // Hnadle Bullet shooting
         private void ShootBullet()
         {
-            Debug.Log(isShooting + " isShooting");
-            Debug.Log(TimeManager.isGameRunning + " TimeManager.isGameRunning");
+            //Debug.Log(isShooting + " isShooting");
+            //Debug.Log(TimeManager.isGameRunning + " TimeManager.isGameRunning");
 
             if (isShooting && TimeManager.isGameRunning && gameObject.activeInHierarchy)
             {
@@ -172,6 +174,15 @@ namespace IndianOceanAssets.ShooterSurvival
             damage = weaponSO.weaponDamage;
             fireRate = weaponSO.weaponFireRate;
             bulletCount = 1;
+            ApplyUpgradeStats();
+        }
+
+        private void ApplyUpgradeStats()
+        {
+            if (UpgradeStatManager.S == null) return;
+
+            damage = UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.ATT, weaponSO.weaponDamage);
+            fireRate = UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.ATT_SPEED, weaponSO.weaponFireRate);
         }
 
 

@@ -62,6 +62,37 @@ namespace IndianOceanAssets.ShooterSurvival
             EH_animator = GetComponentInChildren<Animator>();
             audioSource = GetComponent<AudioSource>();
             healthText = GetComponentInChildren<TextMeshProUGUI>();
+
+            ApplyUpgradeStats();
+        }
+
+
+        private void ApplyUpgradeStats()
+        {
+            if (playerScript == null || UpgradeStatManager.S == null) return;
+
+            if (helpType == HelpType.Tungtungtung)
+            {
+                float value = UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.TUNGTUNGTUNG);
+                var vt = UpgradeStatManager.S.GetValueType(UpgradeStatManager.UpgradeType.TUNGTUNGTUNG);
+                currentHealth = vt == ValueType.Percent
+                    ? playerScript.currentHealth * (value / 100f)
+                    : playerScript.currentHealth + value;
+            }
+            else if (helpType == HelpType.Boombardino)
+            {
+                float value = UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.BOOMBAR);
+                var vt = UpgradeStatManager.S.GetValueType(UpgradeStatManager.UpgradeType.BOOMBAR);
+
+                var weapon = GetComponentInChildren<WeaponScript>();
+                if (weapon != null)
+                {
+                    float baseDamage = playerScript.currentDamage;
+                    weapon.damage = vt == ValueType.Percent
+                        ? baseDamage * (value / 100f)
+                        : baseDamage + value;
+                }
+            }
         }
 
         private void Update()

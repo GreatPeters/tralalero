@@ -9,12 +9,16 @@ namespace IndianOceanAssets.ShooterSurvival
         Vector3 direction;
         public static float bulletRange;
         public static float originalBulletRange;
+        public static float projectileSpeedMultiplier = 1f;
+        private const float BaseSpeedNormal = 10f;
+        private const float BaseSpeedForward = 20f;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStatics()
         {
             bulletRange = 0f;
             originalBulletRange = 0f;
+            projectileSpeedMultiplier = 1f;
         }
 
         private void Start()
@@ -32,9 +36,9 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (TimeManager.Instance.isForwardMarchScene != true)
             {
-                transform.position += direction * 10f * Time.deltaTime;
+                transform.position += direction * BaseSpeedNormal * projectileSpeedMultiplier * Time.deltaTime;
             }
-            else transform.position += direction * 20f * Time.deltaTime * TimeManager.timeFactor;
+            else transform.position += direction * BaseSpeedForward * projectileSpeedMultiplier * Time.deltaTime * TimeManager.timeFactor;
             OutOfRange();
         }
 
@@ -73,6 +77,14 @@ namespace IndianOceanAssets.ShooterSurvival
         public static void ResetStatBonus()
         {
             bulletRange = originalBulletRange;
+        }
+
+        public static void ApplyProjectileSpeedUpgrade(float value, ValueType valueType)
+        {
+            if (valueType == ValueType.Percent)
+                projectileSpeedMultiplier = 1f + value / 100f;
+            else
+                projectileSpeedMultiplier = (BaseSpeedNormal + value) / BaseSpeedNormal;
         }
     }
 }

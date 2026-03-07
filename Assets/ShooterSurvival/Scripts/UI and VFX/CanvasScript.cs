@@ -17,7 +17,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         [Space]
 
-        public GameObject tapToPlayScreen;
+        public GameObject buttons;
         public GameObject pauseMenuUI;
         public GameObject settingsMenuUI;
         public Slider sensitivitySlider;
@@ -28,6 +28,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public GameObject scoreParent;
         public GameObject pauseButton;
+        public GameObject bottom;
 
         private PlayerScript playerScript;
         public static bool isGameOver = false;
@@ -63,24 +64,33 @@ namespace IndianOceanAssets.ShooterSurvival
         private void Update()
         {
             if (playerScript.currentHealth == 0 && !isGameOver)
-            {
-                //StartCoroutine(GameOverDelay(3f));
-                //게임 오버는 일단 지워라
-            }
+                StartCoroutine(GameOverSequence(3f));
 
             UpdateScore();
         }
 
         public void PlayerPressedStartButton()
         {
-            TimeManager.timeFactor = 1;
-            TimeManager.isGameRunning = true;
+            Debug.Log("시작!?");
 
-            tapToPlayScreen.SetActive(false);
+            if (GameManager.S != null)
+                GameManager.S.OnTapToPlay();
+            else
+            {
+                TimeManager.timeFactor = 1;
+                TimeManager.isGameRunning = true;
+            }
+
+            //tapToPlayScreen.SetActive(false);
 
             if (ftue_Script != null) StartCoroutine(ftue_Script.ShowDisplay(0, 3));
 
-            playerScript.ResetState();
+            if (playerScript != null)
+                playerScript.ResetState();
+
+            if (buttons != null)
+                buttons.SetActive(false);
+            //bottom.SetActive(false);
         }
 
         public void ChangeGameMode()
@@ -123,10 +133,17 @@ namespace IndianOceanAssets.ShooterSurvival
             AudioListener.volume = SettingsManager.Instance.soundVolume;
         }
 
-        private IEnumerator GameOverDelay(float delay)
+        private IEnumerator GameOverSequence(float delay)
         {
-            yield return new WaitForSeconds(delay);
             GameOver();
+
+            yield return new WaitForSecondsRealtime(delay);
+
+            if (gameOverUI != null) gameOverUI.SetActive(false);
+            isGameOver = false;
+
+            if (GameManager.S != null)
+                GameManager.S.ResetAfterGameOver();
         }
 
         private void GameOver()

@@ -67,6 +67,8 @@ namespace IndianOceanAssets.ShooterSurvival
         public Animator sharkAnim;
         public float originalMoveSpeed;
 
+        private float maxHealthWithUpgrades;
+        private float healthRegenPerSecond;
 
         private void Awake()
         {
@@ -76,6 +78,7 @@ namespace IndianOceanAssets.ShooterSurvival
             currentHealth = originalHealth;
             originalDamage = GetComponentInChildren<WeaponScript>().damage;
             originalMoveSpeed = fwdMoveSpeed;
+            RefreshUpgradeStats();
         }
 
 
@@ -92,6 +95,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             extraHelpWeaponScript = new List<WeaponScript>();
             healthText.text = currentHealth.ToString("N0");
+            RefreshUpgradeStats();
         }
 
         private void Update()
@@ -111,6 +115,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (TimeManager.isGameRunning == true && winDancePlayed == false) RotateTowardEnemy();
 
             HandleAnimation();
+            ApplyHealthRegen();
         }
 
         private void FixedUpdate()
@@ -288,11 +293,12 @@ namespace IndianOceanAssets.ShooterSurvival
 
                 //playerAnimator.SetTrigger("PlayerIsDead");
                 winDancePlayed = false;
-                //죽으면 애니 속도 0으로
+                //죽으�??�니 ?�도 0?�로
 
             }
 
-            healthBar.fillAmount = currentHealth / 100;
+            float maxHealth = maxHealthWithUpgrades > 0f ? maxHealthWithUpgrades : originalHealth;
+            if (healthBar) healthBar.fillAmount = currentHealth / maxHealth;
             healthText.text = currentHealth.ToString("N0");
 
             return currentHealth;
@@ -317,40 +323,71 @@ namespace IndianOceanAssets.ShooterSurvival
             isDead = false;
             winDancePlayed = false;  
 
-            // 애니메이터 완전 초기화(DeathAnim 탈출)
+            // ?�니메이???�전 초기??DeathAnim ?�출)
             if (playerAnimator)
             {
                 sharkAnim.SetTrigger("Walk");
             }
 
-            // 벽 재접촉 쿨 초기화
+            // �??�접�?�?초기??
             lastWallTouchTime = 0f;
 
-            // 이동/전투 복구
+            // ?�동/?�투 복구
             movement = true;
             canShoot = true;
 
-            // 다시 쏘개끔 함
+            // ?�시 ?�개????
             foreach (var w in GetComponentsInChildren<WeaponScript>(true))
                 w.ResetShooting();
         }
 
         public void ResetStatBonus()
         {
-            // 체력 원복
+            // 체력 ?�복
             currentHealth = originalHealth;
 
             // UI 즉시 반영
             if (healthBar) healthBar.fillAmount = 1f;
             if (healthText) healthText.text = currentHealth.ToString("N0");
 
-            // Rare / ExtraHelp 관련
+            // Rare / ExtraHelp 관??
             extraHelpCount = 0;
             if (extraHelpWeaponScript != null)
                 extraHelpWeaponScript.Clear();
 
-            // 이속 원복
+            // ?�속 ?�복
             fwdMoveSpeed = originalMoveSpeed;
+            RefreshUpgradeStats();
+        }
+        public void RefreshUpgradeStats()
+        {
+            if (UpgradeStatManager.S == null) return;
+
+            maxHealthWithUpgrades = UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.HP, originalHealth);
+            currentHealth = maxHealthWithUpgrades;
+
+            if (healthBar) healthBar.fillAmount = currentHealth / maxHealthWithUpgrades;
+            if (healthText) healthText.text = currentHealth.ToString("N0");
+
+            float regen = UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.HP_REGEN);
+            healthRegenPerSecond = UpgradeStatManager.S.GetValueType(UpgradeStatManager.UpgradeType.HP_REGEN) == ValueType.Percent
+                ? maxHealthWithUpgrades * (regen / 100f)
+                : regen;
+
+            float projectileSpeedValue = UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.PROJECTILE_SPEED);
+            BulletScript.ApplyProjectileSpeedUpgrade(projectileSpeedValue,
+                UpgradeStatManager.S.GetValueType(UpgradeStatManager.UpgradeType.PROJECTILE_SPEED));
+        }
+
+        private void ApplyHealthRegen()
+        {
+            if (!TimeManager.isGameRunning) return;
+            if (healthRegenPerSecond <= 0f) return;
+
+            float maxHealth = maxHealthWithUpgrades > 0f ? maxHealthWithUpgrades : originalHealth;
+            if (currentHealth >= maxHealth) return;
+
+            currentHealth = Mathf.Min(maxHealth, currentHealth + healthRegenPerSecond * Time.deltaTime);
         }
 
 
@@ -358,3 +395,12 @@ namespace IndianOceanAssets.ShooterSurvival
 
     }
 }
+
+
+
+
+
+
+
+
+

@@ -24,7 +24,7 @@ namespace IndianOceanAssets.ShooterSurvival
     public class GameManager : MonoBehaviour
     {
         private CanvasScript canvas;
-        private WeaponManager weaponManager; // 있으면
+        private WeaponManager weaponManager; // ?�으�?
 
         public GameObject extraHelp_TungTungTung;
         public GameObject extraHelp_BoomBarDino;
@@ -51,10 +51,9 @@ namespace IndianOceanAssets.ShooterSurvival
         public Transform EnemyParent;
 
         [Header("Player Reset")]
-        [SerializeField] private Transform playerSpawnPoint;     // ✅ 스테이지 시작 위치
+        [SerializeField] private Transform playerSpawnPoint;     // ???�테?��? ?�작 ?�치
 
         [Header("UI")]
-        [SerializeField] private GameObject tapToPlayUI;         // ✅ "TAP TO PLAY" 패널(캔버스)
 
         public EnemyScript_space[] enemyScript_spaces;
         public List<float> indexBonus = new List<float> { 1.0f, 1.5f, 2.0f, 2.5f, 3.0f, 3.5f, 4.0f, 5f };
@@ -83,7 +82,7 @@ namespace IndianOceanAssets.ShooterSurvival
             TimeManager.isGameRunning = false;
             TimeManager.timeFactor = 0f;
 
-            // 처음엔 대기 화면 띄우고 멈춰두는 걸 추천
+            // 처음???��??�면 ?�우�?멈춰?�는 �?추천
             PrepareStageAndShowTapUI();
 
             SettingEnemyTypeInfos();
@@ -108,36 +107,36 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void DestroyAllRegisteredTarget()
         {
-            // 1) 등록된 임시 오브젝트 전부 파괴
+            // 1) ?�록???�시 ?�브?�트 ?��? ?�괴
             for (int i = destroyTargetList.Count - 1; i >= 0; i--)
             {
                 var go = destroyTargetList[i];
                 if (go) Destroy(go);
             }
 
-            // 2) 리스트 비우기 (remove 반복 대신 Clear)
+            // 2) 리스??비우�?(remove 반복 ?�??Clear)
             destroyTargetList.Clear();
         }
 
 
         // =========================
-        // ✅ 스테이지 클리어 → 다음 스테이지로 이동 (대기 상태)
+        // ???�테?��? ?�리?????�음 ?�테?��?�??�동 (?��??�태)
         // =========================
         public void OnStageClear()
         {
             DestroyAllRegisteredTarget();
 
-            // 1) 일단 멈추기(이동/발사 포함)
+            // 1) ?�단 멈추�??�동/발사 ?�함)
             SetGameRunning(false);
 
-            // 2) 다음 스테이지 인덱스 계산
+            // 2) ?�음 ?�테?��? ?�덱??계산
             GoNextStageIndex();
 
-            // 3) 다음 스테이지 준비(리셋+로드)
+            // 3) ?�음 ?�테?��? 준�?리셋+로드)
             PrepareStageObjectsForNextRun();
 
-            // 4) "Tap to Play" 다시 띄우기 (CanvasScript가 갖고있음)
-            if (canvas != null) canvas.tapToPlayScreen.SetActive(true);
+            // 4) "Tap to Play" ?�시 ?�우�?(CanvasScript가 갖고?�음)
+            if (canvas != null) canvas.buttons.SetActive(true);
 
             playerScript.ResetStatBonus();
             BulletScript.ResetStatBonus();
@@ -145,18 +144,65 @@ namespace IndianOceanAssets.ShooterSurvival
 
         }
 
+        public void ResetAfterGameOver()
+        {
+            DestroyAllRegisteredTarget();
+            SetGameRunning(false);
+
+            PrepareStageObjectsForNextRun();
+            ShowTapUI(true);
+
+            playerScript.ResetStatBonus();
+            BulletScript.ResetStatBonus();
+            weaponManager.currentWeapon.GetComponentInChildren<WeaponScript>().ResetStatBonus();
+        }
+        private void ApplyUpgradeExtraHelps()
+        {
+            if (playerScript == null || UpgradeStatManager.S == null) return;
+
+            int tungCount = Mathf.Max(0, Mathf.RoundToInt(UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.TUNGTUNGTUNG)));
+            int boomCount = Mathf.Max(0, Mathf.RoundToInt(UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.BOOMBAR)));
+
+            for (int i = 0; i < tungCount; i++)
+                SpawnExtraHelp(extraHelp_TungTungTung, HelpType.Tungtungtung);
+
+            for (int i = 0; i < boomCount; i++)
+                SpawnExtraHelp(extraHelp_BoomBarDino, HelpType.Boombardino);
+        }
+
+        private void SpawnExtraHelp(GameObject prefab, HelpType helpType)
+        {
+            if (prefab == null || playerScript == null) return;
+
+            Vector3 spawnOffset = new Vector3(1.5f, 0f, -0.75f);
+            Vector3 spawnPosition = playerScript.transform.position + spawnOffset;
+
+            GameObject go = Instantiate(prefab, spawnPosition, Quaternion.identity);
+            var eh = go.GetComponent<ExtraHelpBuffScript>();
+            if (eh != null)
+            {
+                playerScript.extraHelpCount++;
+                eh.spawnIndex = playerScript.extraHelpCount - 1;
+                eh.helpType = helpType;
+            }
+
+            var ws = go.GetComponentInChildren<WeaponScript>();
+            if (ws != null && playerScript.extraHelpWeaponScript != null)
+                playerScript.extraHelpWeaponScript.Add(ws);
+        }
         // =========================
-        // ✅ "TAP TO PLAY" 버튼에서 호출
+        // ??"TAP TO PLAY" 버튼?�서 ?�출
         // =========================
         public void OnTapToPlay()
         {
-            // 탭 UI 내리고 게임 시작
+            // ??UI ?�리�?게임 ?�작
             ShowTapUI(false);
             SetGameRunning(true);
+            ApplyUpgradeExtraHelps();
         }
 
         // =========================
-        // ✅ 다음 스테이지 준비(초기화 + 로드)
+        // ???�음 ?�테?��? 준�?초기??+ 로드)
         // =========================
         private void PrepareStageAndShowTapUI()
         {
@@ -168,30 +214,30 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void PrepareStageObjectsForNextRun()
         {
-            Debug.Log("..으잉!!?");
-            //보너스로 생성한 Wall 모두 제거
+            Debug.Log("..?�잉!!?");
+            //보너?�로 ?�성??Wall 모두 ?�거
             ClearRuntimeBonusWalls();
 
-            // // (A) 플레이어 위치 리셋
+            // // (A) ?�레?�어 ?�치 리셋
             // ResetPlayerToSpawn();
 
-            // (B) 장애물 풀 반환 + 새 스테이지 로드
+            // (B) ?�애�??� 반환 + ???�테?��? 로드
             if (StageObstacleManager != null)
             {
                 StageObstacleManager.SetStage(currentChapter - 1, currentStage - 1);
-                StageObstacleManager.LoadStageObstacles(); // 내부에서 ClearObstacles() 호출됨
+                StageObstacleManager.LoadStageObstacles(); // ?��??�서 ClearObstacles() ?�출??
             }
 
-            // (C) 적들 리셋 (OnEnable 리셋 구조 쓰는 게 제일 안정적)
+            // (C) ?�들 리셋 (OnEnable 리셋 구조 ?�는 �??�일 ?�정??
             ResetAllEnemiesByReEnable();
 
-            // (D) 적 스탯 다시 주입
+            // (D) ???�탯 ?�시 주입
             ApplyStatsToAllEnemies();
 
-            // (E) ExtraHelp 남아있으면 정리
+            // (E) ExtraHelp ?�아?�으�??�리
             ClearAllExtraHelps();
 
-            // (F) Wall 다시 랜덤 세팅(재생성 X, Init이 정답)
+            // (F) Wall ?�시 ?�덤 ?�팅(?�생??X, Init???�답)
             if (WallManager.S != null)
                 WallManager.S.InIt();
 
@@ -199,7 +245,7 @@ namespace IndianOceanAssets.ShooterSurvival
             // TimeManager.timeFactor = 1;
             // TimeManager.isGameRunning = true;
 
-            //(A) 플레이어 위치 리셋
+            //(A) ?�레?�어 ?�치 리셋
             ResetPlayerToSpawn();
         }
 
@@ -213,7 +259,7 @@ namespace IndianOceanAssets.ShooterSurvival
             t.position = playerSpawnPoint.position;
             t.rotation = playerSpawnPoint.rotation;
 
-            // Rigidbody 있으면 속도 0
+            // Rigidbody ?�으�??�도 0
             var rb = playerScript.GetComponent<Rigidbody>();
             if (rb != null)
             {
@@ -241,8 +287,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ClearAllExtraHelps()
         {
-            // ExtraHelpTag로 통일되어 있으면 이게 제일 깔끔
-            // (EnemyScript_space에서도 ExtraHelpTag로 충돌 체크 중)
+            // ExtraHelpTag�??�일?�어 ?�으�??�게 ?�일 깔끔
+            // (EnemyScript_space?�서??ExtraHelpTag�?충돌 체크 �?
             var helps = GameObject.FindGameObjectsWithTag("ExtraHelpTag");
             for (int i = 0; i < helps.Length; i++)
                 Destroy(helps[i]);
@@ -258,14 +304,14 @@ namespace IndianOceanAssets.ShooterSurvival
                 currentChapter++;
 
                 if (currentChapter >= maxChapter)
-                    currentChapter = 0; // 엔딩/루프 처리 원하면 여기 수정
+                    currentChapter = 0; // ?�딩/루프 처리 ?�하�??�기 ?�정
             }
         }
 
         private void ShowTapUI(bool show)
         {
-            if (tapToPlayUI != null)
-                tapToPlayUI.SetActive(show);
+            if (canvas != null && canvas.buttons != null)
+                canvas.buttons.SetActive(show);
         }
 
         private void SetGameRunning(bool running)
@@ -273,13 +319,13 @@ namespace IndianOceanAssets.ShooterSurvival
             TimeManager.isGameRunning = running;
             TimeManager.timeFactor = running ? 1f : 0f;
 
-            // // ✅ 입력/발사 확실히 멈추고 싶으면 컴포넌트도 꺼버리기(강력)
+            // // ???�력/발사 ?�실??멈추�??�으�?컴포?�트??꺼버리기(강력)
             // if (playerScript != null) playerScript.enabled = running;
             // if (weaponManager != null) weaponManager.enabled = running;
         }
 
         // =========================
-        // 기존 코드 (유지)
+        // 기존 코드 (?��?)
         // =========================
 
         public void SettingEnemyTypeInfos()
@@ -302,6 +348,9 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void SettingMonsterStats()
         {
+            if (TryBuildMonsterStatsFromExcel())
+                return;
+
             normalMonster = new List<List<EnemyStat>>();
             eliteMonster = new List<List<EnemyStat>>();
             bossMonster = new List<List<EnemyStat>>();
@@ -323,6 +372,106 @@ namespace IndianOceanAssets.ShooterSurvival
                 eliteMonster.Add(eliteList);
                 bossMonster.Add(bossList);
             }
+        }
+
+        private bool TryBuildMonsterStatsFromExcel()
+        {
+            List<MonsterRow> rows;
+            try
+            {
+                rows = MonsterTables.GetAll();
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"[GameManager] Monster table load failed. fallback to formula. {e.Message}");
+                return false;
+            }
+
+            if (rows == null || rows.Count == 0) return false;
+
+            InitMonsterListsWithNull();
+
+            foreach (var r in rows)
+            {
+                if (r.chapter < 0 || r.stage < 0) continue;
+                if (r.chapter > maxChapter || r.stage > maxStage) continue;
+
+                var list = GetTierList(r.tier);
+                if (list == null) continue;
+
+                list[r.chapter][r.stage] = new EnemyStat(r.damage, r.health);
+            }
+
+            for (int chapter = 0; chapter <= maxChapter; chapter++)
+            {
+                for (int stage = 0; stage <= maxStage; stage++)
+                {
+                    if (chapter == 0 || stage == 0) continue;
+
+                    EnsureFilled(normalMonster, EnemyTier.Normal, chapter, stage);
+                    EnsureFilled(eliteMonster, EnemyTier.Elite, chapter, stage);
+                    EnsureFilled(bossMonster, EnemyTier.Boss, chapter, stage);
+                }
+            }
+
+            Debug.Log("[GameManager] Monster stats loaded from Excel.");
+            return true;
+        }
+
+        private void InitMonsterListsWithNull()
+        {
+            normalMonster = new List<List<EnemyStat>>(maxChapter + 1);
+            eliteMonster = new List<List<EnemyStat>>(maxChapter + 1);
+            bossMonster = new List<List<EnemyStat>>(maxChapter + 1);
+
+            for (int chapter = 0; chapter <= maxChapter; chapter++)
+            {
+                var normalList = new List<EnemyStat>(maxStage + 1);
+                var eliteList = new List<EnemyStat>(maxStage + 1);
+                var bossList = new List<EnemyStat>(maxStage + 1);
+
+                for (int stage = 0; stage <= maxStage; stage++)
+                {
+                    normalList.Add(null);
+                    eliteList.Add(null);
+                    bossList.Add(null);
+                }
+
+                normalMonster.Add(normalList);
+                eliteMonster.Add(eliteList);
+                bossMonster.Add(bossList);
+            }
+        }
+
+        private List<List<EnemyStat>> GetTierList(EnemyTier tier)
+        {
+            switch (tier)
+            {
+                case EnemyTier.Normal: return normalMonster;
+                case EnemyTier.Elite: return eliteMonster;
+                case EnemyTier.Boss: return bossMonster;
+                default: return normalMonster;
+            }
+        }
+
+        private void EnsureFilled(List<List<EnemyStat>> list, EnemyTier tier, int chapter, int stage)
+        {
+            if (list[chapter][stage] != null) return;
+
+            var fallback = BuildFallbackStat(tier, chapter, stage);
+            list[chapter][stage] = fallback;
+            Debug.LogWarning($"[GameManager] Monster stats missing in Excel. fallback used. tier={tier} chapter={chapter} stage={stage}");
+        }
+
+        private EnemyStat BuildFallbackStat(EnemyTier tier, int chapter, int stage)
+        {
+            return tier switch
+            {
+                EnemyTier.Normal => new EnemyStat(30 * chapter + stage * 3, 50 * chapter + stage * 5),
+                EnemyTier.Elite => new EnemyStat(50 * chapter + stage * 5, 100 * chapter + stage * 10),
+                EnemyTier.Boss => new EnemyStat(150 * chapter + stage * 15, 300 * chapter + stage * 30),
+                _ => new EnemyStat(30 * chapter + stage * 3, 50 * chapter + stage * 5)
+            };
         }
 
         private EnemyStat GetLocalStat(EnemyTier tier)
@@ -371,3 +520,5 @@ namespace IndianOceanAssets.ShooterSurvival
 
 
 }
+
+

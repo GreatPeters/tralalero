@@ -244,7 +244,11 @@ namespace IndianOceanAssets.ShooterSurvival
                 GameObject hitfx = Instantiate(currentEnemySO.enemyHitVFX, hitPos);
                 Destroy(hitfx, hitfx.GetComponent<ParticleSystem>().main.duration);
 
-                _health -= playerScript.currentDamage;
+                float damage = playerScript.currentDamage;
+                if (enemyTier == EnemyTier.Boss && UpgradeStatManager.S != null)
+                    damage = UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.BOSS_DAMAGE, damage);
+
+                _health -= damage;
 
                 if (_health <= 0f)
                 {
@@ -280,16 +284,42 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (givePlayerScore) playerScript.playerScore += _score;
             givePlayerScore = false;
+
+            int baseCoin = 0;
+            float bonus = UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.COIN_BONUS);
+            int finalCoin = 0;
+
+            if (enemyTier == EnemyTier.Normal)
+            {
+                baseCoin = 10;
+                finalCoin = Mathf.RoundToInt(baseCoin * (1f + bonus / 100f));
+                MoneyScript.S.GetCoin(finalCoin);
+                CoinFlyFX.S?.PlayFromWorld(transform.position, finalCoin);
+            }
+            else if (enemyTier == EnemyTier.Elite)
+            {
+                baseCoin = 20;
+                finalCoin = Mathf.RoundToInt(baseCoin * (1f + bonus / 100f));
+                MoneyScript.S.GetCoin(finalCoin);
+                CoinFlyFX.S?.PlayFromWorld(transform.position, finalCoin);
+            }
+            else if (enemyTier == EnemyTier.Boss)
+            {
+                baseCoin = 50;
+                finalCoin = Mathf.RoundToInt(baseCoin * (1f + bonus / 100f));
+                MoneyScript.S.GetCoin(finalCoin);
+                CoinFlyFX.S?.PlayFromWorld(transform.position, finalCoin);
+            }
         }
 
         IEnumerator DeathFlow()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.4f);
 
             if (healthText != null)
-                healthText.enabled = false;   // ✅ 여기 핵심 (gameObject.SetActive(false) X)
+                healthText.enabled = false;   // 여기 핵심 (gameObject.SetActive(false) X)
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.4f);
             gameObject.SetActive(false);
         }
 

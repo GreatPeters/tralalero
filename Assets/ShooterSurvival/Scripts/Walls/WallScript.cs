@@ -187,31 +187,66 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (rarity == Rarity.Normal)
             {
-                att = Mathf.Round(playerOriginalDamage * Random.Range(0.05f, 0.15f));
-                Debug.Log(att);
-                Debug.Log(playerOriginalDamage);
-
-                attPercent = Random.Range(5, 16);
-                attackSpeed = Random.Range(5, 16);
-                missileDistance = Random.Range(15, 26);
-                hp = Mathf.Round(playerOriginalHealth * Random.Range(0.05f, 0.15f));
-                hpPercent = Random.Range(5, 16);
+                att = RollBonusValue("att", playerOriginalDamage, true);
+                attPercent = RollBonusValue("attPercent", 0f, false);
+                attackSpeed = RollBonusValue("attackSpeed", 0f, false);
+                missileDistance = RollBonusValue("missileDistance", 0f, false);
+                hp = RollBonusValue("hp", playerOriginalHealth, true);
+                hpPercent = RollBonusValue("hpPercent", 0f, false);
             }
             else if (rarity == Rarity.Rare)
             {
-                tungtungAdd = 1;
-                boombarAdd = 1;
+                tungtungAdd = RollBonusValue("tungtungAdd", 0f, true);
+                boombarAdd = RollBonusValue("boombarAdd", 0f, true);
             }
             else if (rarity == Rarity.Unique)
             {
-                missileAdd = 1;
-                att = Mathf.Round(playerOriginalDamage * Random.Range(0.3f, 0.4f));
-                attPercent = Random.Range(30, 41);
-                attackSpeed = Random.Range(30, 41);
-                missileDistance = Random.Range(40, 51);
-                hp = Mathf.Round(playerOriginalHealth * Random.Range(0.3f, 0.4f));
-                hpPercent = Random.Range(30, 41);
+                missileAdd = RollBonusValue("missileAdd", 0f, true);
+                att = RollBonusValue("att", playerOriginalDamage, true);
+                attPercent = RollBonusValue("attPercent", 0f, false);
+                attackSpeed = RollBonusValue("attackSpeed", 0f, false);
+                missileDistance = RollBonusValue("missileDistance", 0f, false);
+                hp = RollBonusValue("hp", playerOriginalHealth, true);
+                hpPercent = RollBonusValue("hpPercent", 0f, false);
             }
+        }
+
+        private float RollBonusValue(
+            string stat,
+            float baseValue,
+            bool round)
+        {
+            if (!TryGetBonusRange(stat, out var min, out var max, out var valueType))
+            {
+                Debug.LogError($"[WallScript] Bonus range missing. rarity={rarity} stat={stat}");
+                return 0f;
+            }
+
+            float v = Random.Range(min, max);
+
+            if (valueType == BonusValueType.Ratio)
+            {
+                v = baseValue * v;
+            }
+
+            if (round) v = Mathf.Round(v);
+
+            return v;
+        }
+
+        private bool TryGetBonusRange(string stat, out float min, out float max, out BonusValueType valueType)
+        {
+            min = 0f;
+            max = 0f;
+            valueType = BonusValueType.Value;
+
+            if (!BonusTables.TryGet(rarity.ToString(), stat, out var row))
+                return false;
+
+            min = row.min;
+            max = row.max;
+            valueType = row.valueType;
+            return true;
         }
 
         private void FixedUpdate()

@@ -69,6 +69,10 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private float maxHealthWithUpgrades;
         private float healthRegenPerSecond;
+        private CanvasScript canvasScript;
+        private bool startGestureTriggered;
+        private bool startGestureArmed;
+        private const float StartDragThreshold = 8f;
 
         private void Awake()
         {
@@ -87,6 +91,7 @@ namespace IndianOceanAssets.ShooterSurvival
             playerAnimator = GetComponentInChildren<Animator>();
             playerAnimator.SetBool("PlayerIsDead", false);
             weaponManager = GetComponent<WeaponManager>();
+            canvasScript = FindFirstObjectByType<CanvasScript>();
 
             moveSensitivity = PlayerPrefs.GetFloat("moveSensitivity", 1f);  // Get move sensitivity from PlayerPrefs
 
@@ -120,7 +125,11 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void FixedUpdate()
         {
-            if (!TimeManager.isGameRunning || TimeManager.timeFactor <= 0f) return;
+            if (!TimeManager.isGameRunning || TimeManager.timeFactor <= 0f)
+            {
+                TryStartGameFromHorizontalInput();
+                return;
+            }
 
             if (TimeManager.Instance.isForwardMarchScene == true)
             {
@@ -197,6 +206,60 @@ namespace IndianOceanAssets.ShooterSurvival
             if (movement == false) return;
             float newX = Mathf.Clamp(transform.position.x + deltaX * moveSensitivity / moveSensitivity_Devision, xRange.x, xRange.y);    // Clamp player postion
             transform.position = Vector3.Lerp(transform.position, new Vector3(newX, transform.position.y, transform.position.z), Time.deltaTime * movementSmoothness * TimeManager.timeFactor);
+        }
+
+        private void TryStartGameFromHorizontalInput()
+        {
+            if (startGestureTriggered || currentHealth <= 0 || CanvasScript.isGameOver)
+                return;
+
+            float horizontalDelta = 0f;
+
+            if (Application.isMobilePlatform)
+            {
+                if (Input.touchCount <= 0)
+                    return;
+
+                Touch touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Began)
+                {
+                    startPos = touch.position;
+                    startGestureArmed = canvasScript != null && canvasScript.IsPointerOverStartArea(touch.position);
+                    return;
+                }
+
+                if (!startGestureArmed || touch.phase != TouchPhase.Moved)
+                    return;
+
+                horizontalDelta = touch.position.x - startPos.x;
+                startPos = touch.position;
+            }
+            else
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    startPos = Input.mousePosition;
+                    startGestureArmed = canvasScript != null && canvasScript.IsPointerOverStartArea(Input.mousePosition);
+                    return;
+                }
+
+                if (!startGestureArmed || !Input.GetMouseButton(0))
+                    return;
+
+                horizontalDelta = Input.mousePosition.x - startPos.x;
+                startPos = Input.mousePosition;
+            }
+
+            if (Mathf.Abs(horizontalDelta) < StartDragThreshold)
+                return;
+
+            startGestureTriggered = true;
+
+            if (canvasScript == null)
+                canvasScript = FindFirstObjectByType<CanvasScript>();
+
+            if (canvasScript != null)
+                canvasScript.PlayerPressedStartButton();
         }
 
         private void RotateTowardEnemy()
@@ -293,7 +356,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
                 //playerAnimator.SetTrigger("PlayerIsDead");
                 winDancePlayed = false;
-                //죽으�??�니 ?�도 0?�로
+                //二쎌쑝硫??좊땲 ?띾룄 0?쇰줈
 
             }
 
@@ -322,40 +385,42 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             isDead = false;
             winDancePlayed = false;  
+            startGestureTriggered = false;
+            startGestureArmed = false;
 
-            // ?�니메이???�전 초기??DeathAnim ?�출)
+            // ?좊땲硫붿씠???꾩쟾 珥덇린??DeathAnim ?덉텧)
             if (playerAnimator)
             {
                 sharkAnim.SetTrigger("Walk");
             }
 
-            // �??�접�?�?초기??
+            // 踰??ъ젒珥?荑?珥덇린??
             lastWallTouchTime = 0f;
 
-            // ?�동/?�투 복구
+            // ?대룞/?꾪닾 蹂듦뎄
             movement = true;
             canShoot = true;
 
-            // ?�시 ?�개????
+            // ?ㅼ떆 ?섍컻????
             foreach (var w in GetComponentsInChildren<WeaponScript>(true))
                 w.ResetShooting();
         }
 
         public void ResetStatBonus()
         {
-            // 체력 ?�복
+            // 泥대젰 ?먮났
             currentHealth = originalHealth;
 
-            // UI 즉시 반영
+            // UI 利됱떆 諛섏쁺
             if (healthBar) healthBar.fillAmount = 1f;
             if (healthText) healthText.text = currentHealth.ToString("N0");
 
-            // Rare / ExtraHelp 관??
+            // Rare / ExtraHelp 愿??
             extraHelpCount = 0;
             if (extraHelpWeaponScript != null)
                 extraHelpWeaponScript.Clear();
 
-            // ?�속 ?�복
+            // ?댁냽 ?먮났
             fwdMoveSpeed = originalMoveSpeed;
             RefreshUpgradeStats();
         }

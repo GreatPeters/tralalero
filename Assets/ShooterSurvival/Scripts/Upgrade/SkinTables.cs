@@ -1,10 +1,10 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public static class SkinTables
 {
     private const string FileName = "Data.xlsx";
-    private const string SheetName = "스킨";
+    private const string SheetName = "\uC2A4\uD0A8";
 
     private static Dictionary<int, SkinRow> _map;
 

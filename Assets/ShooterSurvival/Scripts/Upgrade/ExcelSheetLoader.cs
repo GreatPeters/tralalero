@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -6,10 +6,10 @@ using ExcelDataReader;
 
 public interface ITableParser<T>
 {
-    // headerMap을 기반으로 행 파싱
-    // (없는 컬럼은 파서가 Optional 처리)
+    // headerMap??湲곕컲?쇰줈 ???뚯떛
+    // (?녿뒗 而щ읆? ?뚯꽌媛 Optional 泥섎━)
     T ParseRow(IExcelDataReader reader, Dictionary<string, int> headerMap);
-    bool IsValidRow(T row); // 빈 행/잘못된 행 스킵용
+    bool IsValidRow(T row); // 鍮????섎せ?????ㅽ궢??
 }
 
 public static class ExcelSheetLoader
@@ -46,7 +46,7 @@ public static class ExcelSheetLoader
         int colCount = reader.FieldCount;
 
         if (!TryMoveToHeaderRow(reader, colCount, out var headerRow))
-            throw new Exception($"엑셀 시트 '{sheetName}'에서 헤더 행을 찾지 못했어요. (헤더에 '식별 순번' 필요)");
+            throw new Exception($"?묒? ?쒗듃 '{sheetName}'?먯꽌 ?ㅻ뜑 ?됱쓣 李얠? 紐삵뻽?댁슂. (?ㅻ뜑??'?앸퀎 ?쒕쾲' ?꾩슂)");
 
         var headerMap = BuildHeaderMap(headerRow);
 
@@ -102,7 +102,7 @@ public static class ExcelSheetLoader
 
         } while (reader.NextResult());
 
-        throw new Exception($"시트 이름 '{sheetName}'을 찾지 못했어요. 실제 시트: {string.Join(", ", names)}");
+        throw new Exception($"?쒗듃 ?대쫫 '{sheetName}'??李얠? 紐삵뻽?댁슂. ?ㅼ젣 ?쒗듃: {string.Join(", ", names)}");
     }
 
     static bool TryMoveToHeaderRow(IExcelDataReader reader, int colCount, out object[] headerRowValues)
@@ -120,7 +120,9 @@ public static class ExcelSheetLoader
             for (int c = 0; c < colCount; c++)
             {
                 var s = (values[c]?.ToString() ?? "");
-                if (ExcelUtil.NormalizeKey(s) == ExcelUtil.NormalizeKey("식별 순번"))
+                var normalized = ExcelUtil.NormalizeKey(s);
+                if (normalized == ExcelUtil.NormalizeKey("\uC21C\uBC88")
+                    || normalized == ExcelUtil.NormalizeKey("\uC2DD\uBCC4\uC21C\uBC88"))
                 {
                     headerRowValues = values;
                     return true;
@@ -166,3 +168,4 @@ public static class ExcelSheetLoader
         return string.Join(" | ", parts);
     }
 }
+

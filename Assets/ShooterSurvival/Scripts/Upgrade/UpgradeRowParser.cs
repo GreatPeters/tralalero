@@ -1,23 +1,32 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using ExcelDataReader;
 
 public class UpgradeRowParser : ITableParser<UpgradeRow>
 {
+    private const string HeaderId = "\uC2DD\uBCC4\uC21C\uBC88";
+    private const string HeaderEnum = "\uC2DD\uBCC4Enum";
+    private const string HeaderLevel = "\uB808\uBCA8";
+    private const string HeaderItem = "\uD56D\uBAA9";
+    private const string HeaderAmount = "\uC218\uCE58";
+    private const string HeaderValueType = "\uC218\uCE58\uD0C0\uC785";
+    private const string HeaderPriceType = "\uAC00\uACA9\uD0C0\uC785";
+    private const string HeaderPrice = "\uAC00\uACA9\uC218\uCE58";
+    private const string HeaderNote = "\uAE30\uD0C0\uC124\uBA85";
+
     public UpgradeRow ParseRow(IExcelDataReader reader, Dictionary<string, int> h)
     {
-        int idxId        = ExcelUtil.GetIdx(h, "식별 순번");
-        int idxEnum      = ExcelUtil.GetIdxOptional(h, "식별 Enum"); // 새 컬럼
-        int idxLv        = ExcelUtil.GetIdx(h, "레벨");
-        int idxItem      = ExcelUtil.GetIdx(h, "항목");
-        int idxAmount    = ExcelUtil.GetIdx(h, "수치");
-        int idxValType   = ExcelUtil.GetIdx(h, "수치 타입");
-        int idxPriceType = ExcelUtil.GetIdx(h, "가격 타입");
-        int idxPrice     = ExcelUtil.GetIdx(h, "가격 수치");
-        int idxNote      = ExcelUtil.GetIdxOptional(h, "기타 설명");
+        int idxId = ExcelUtil.GetIdx(h, HeaderId);
+        int idxEnum = ExcelUtil.GetIdxOptional(h, HeaderEnum);
+        int idxLv = ExcelUtil.GetIdx(h, HeaderLevel);
+        int idxItem = ExcelUtil.GetIdx(h, HeaderItem);
+        int idxAmount = ExcelUtil.GetIdx(h, HeaderAmount);
+        int idxValType = ExcelUtil.GetIdx(h, HeaderValueType);
+        int idxPriceType = ExcelUtil.GetIdx(h, HeaderPriceType);
+        int idxPrice = ExcelUtil.GetIdx(h, HeaderPrice);
+        int idxNote = ExcelUtil.GetIdxOptional(h, HeaderNote);
 
         int id = ExcelUtil.ToInt(reader.GetValue(idxId));
-
         string enumKey = idxEnum >= 0 ? (reader.GetValue(idxEnum)?.ToString() ?? "").Trim() : "";
         var type = ParseTypeFallback(enumKey, id);
 
@@ -49,7 +58,6 @@ public class UpgradeRowParser : ITableParser<UpgradeRow>
             );
         }
 
-        // 예전 시트/누락 대비용 fallback (가능하면 엑셀에 '식별 Enum' 넣는 게 정답)
         return id switch
         {
             1 => UpgradeStatManager.UpgradeType.ATT,

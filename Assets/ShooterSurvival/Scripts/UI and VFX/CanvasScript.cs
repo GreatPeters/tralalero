@@ -1,4 +1,4 @@
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
@@ -29,6 +29,7 @@ namespace IndianOceanAssets.ShooterSurvival
         public GameObject scoreParent;
         public GameObject pauseButton;
         public GameObject bottom;
+        public RectTransform startAreaImg;
 
         private PlayerScript playerScript;
         public static bool isGameOver = false;
@@ -71,7 +72,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void PlayerPressedStartButton()
         {
-            Debug.Log("시작!?");
+            Debug.Log("??뽰삂!?");
 
             if (GameManager.S != null)
                 GameManager.S.OnTapToPlay();
@@ -88,9 +89,30 @@ namespace IndianOceanAssets.ShooterSurvival
             if (playerScript != null)
                 playerScript.ResetState();
 
-            if (buttons != null)
-                buttons.SetActive(false);
-            //bottom.SetActive(false);
+        }
+
+        public bool IsStartAreaActive()
+        {
+            return startAreaImg != null && startAreaImg.gameObject.activeInHierarchy;
+        }
+
+        public bool IsPointerOverStartArea(Vector2 screenPosition)
+        {
+            if (!IsStartAreaActive())
+                return false;
+
+            return RectTransformUtility.RectangleContainsScreenPoint(startAreaImg, screenPosition, null);
+        }
+
+        public void SetTapPromptVisible(bool visible)
+        {
+            if (startAreaImg != null)
+                startAreaImg.gameObject.SetActive(visible);
+
+            if (buttons == null)
+                return;
+
+            buttons.SetActive(visible);
         }
 
         public void ChangeGameMode()
@@ -235,3 +257,4 @@ namespace IndianOceanAssets.ShooterSurvival
         }
     }
 }
+

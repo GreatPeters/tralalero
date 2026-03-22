@@ -16,7 +16,6 @@ public class MoneyScript : MonoBehaviour
     [SerializeField] private int coin;
     [SerializeField] private int jewel;
 
-    // PlayerPrefs 키
     const string COIN_KEY = "coin";
     const string JEWEL_KEY = "jewel";
 
@@ -29,7 +28,6 @@ public class MoneyScript : MonoBehaviour
         }
         S = this;
 
-        // 시작할 때 불러오기
         Load();
     }
 
@@ -51,15 +49,14 @@ public class MoneyScript : MonoBehaviour
 
     void RefreshUI()
     {
-        if (coinText != null)  coinText.text  = coin.ToString();
+        if (coinText != null) coinText.text = coin.ToString();
         if (jewelText != null) jewelText.text = jewel.ToString();
 
-        // 돈 바뀌면 저장 + 알림
         Save();
         onChanged?.Invoke();
     }
 
-    public void GetCoin(int amount)  => Coin  += Mathf.Max(0, amount);
+    public void GetCoin(int amount) => Coin += Mathf.Max(0, amount);
     public void GetJewel(int amount) => Jewel += Mathf.Max(0, amount);
 
     public bool SpendCoin(int amount)
@@ -76,7 +73,6 @@ public class MoneyScript : MonoBehaviour
         return true;
     }
 
-    // 저장/로드
     void Save()
     {
         PlayerPrefs.SetInt(COIN_KEY, coin);
@@ -86,11 +82,10 @@ public class MoneyScript : MonoBehaviour
 
     void Load()
     {
-        coin = PlayerPrefs.GetInt(COIN_KEY, coin);     // 저장 없으면 현재 값 유지
+        coin = PlayerPrefs.GetInt(COIN_KEY, coin);
         jewel = PlayerPrefs.GetInt(JEWEL_KEY, jewel);
     }
 
-    // (선택) 디버그용 초기화 버튼 만들 때
     public void ResetSave()
     {
         PlayerPrefs.DeleteKey(COIN_KEY);

@@ -1,10 +1,10 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public static class UpgradeTables
 {
     private const string FileName = "Data.xlsx";
-    private const string SheetName = "업그레이드";
+    private const string SheetName = "\uC5C5\uADF8\uB808\uC774\uB4DC";
 
     private static Dictionary<int, Dictionary<int, UpgradeRow>> _map;
 
@@ -12,7 +12,6 @@ public static class UpgradeTables
     {
         if (_map != null) return;
 
-        // 디버그 켜고 싶으면 dbg 넣기
         var rows = TableCache.Load(FileName, SheetName, new UpgradeRowParser(),
             dbg: new ExcelSheetLoader.DebugOptions
             {

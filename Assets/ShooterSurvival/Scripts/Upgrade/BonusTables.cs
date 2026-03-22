@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class BonusTables
 {
     private const string FileName = "Data.xlsx";
-    private const string SheetName = "보너스";
+    private const string SheetName = "\uBCF4\uB108\uC2A4";
 
     private static Dictionary<string, BonusRow> _map;
 

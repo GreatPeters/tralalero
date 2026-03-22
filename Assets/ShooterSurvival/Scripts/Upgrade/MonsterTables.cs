@@ -1,11 +1,11 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public static class MonsterTables
 {
     private const string FileName = "Data.xlsx";
-    private const string SheetName = "몬스터";
+    private const string SheetName = "\uBAAC\uC2A4\uD130";
 
     private static Dictionary<string, MonsterRow> _map;
     private static List<MonsterRow> _allRows;
@@ -55,3 +55,4 @@ public static class MonsterTables
     private static string MakeKey(int chapter, int stage, EnemyTier tier)
         => $"{chapter}:{stage}:{tier}";
 }
+

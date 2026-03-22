@@ -95,7 +95,7 @@ namespace IndianOceanAssets.ShooterSurvival
             rt.position = startWorld;
             rt.localScale = Vector3.one;
 
-            Vector3 targetWorld = coinTarget.position + new Vector3(
+            Vector3 targetOffset = new Vector3(
                 UnityEngine.Random.Range(-targetJitter, targetJitter),
                 UnityEngine.Random.Range(-targetJitter, targetJitter),
                 0f);
@@ -106,7 +106,15 @@ namespace IndianOceanAssets.ShooterSurvival
 
             Sequence seq = DOTween.Sequence();
             seq.SetDelay(delay);
-            seq.Join(rt.DOMove(targetWorld, duration).SetEase(Ease.OutCubic));
+            seq.Join(DOTween.To(() => 0f, progress =>
+            {
+                if (rt == null || coinTarget == null)
+                    return;
+
+                float eased = DOVirtual.EasedValue(0f, 1f, progress, Ease.OutCubic);
+                Vector3 targetWorld = GetTargetWorldPosition() + targetOffset;
+                rt.position = Vector3.LerpUnclamped(startWorld, targetWorld, eased);
+            }, 1f, duration).SetEase(Ease.Linear));
             seq.Join(rt.DOScale(1f + scalePunch, duration * 0.5f).SetEase(Ease.OutBack));
             seq.Join(cg.DOFade(0f, duration).SetEase(Ease.InQuad));
             seq.OnComplete(() =>
@@ -122,7 +130,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             TextMeshProUGUI popup = Instantiate(popupPrefab, _canvasRect);
             popup.text = $"+{amount}";
-            popup.rectTransform.position = coinTarget.position;
+            popup.rectTransform.position = GetTargetWorldPosition();
             popup.rectTransform.localScale = Vector3.one;
 
             CanvasGroup cg = popup.GetComponent<CanvasGroup>();
@@ -135,6 +143,26 @@ namespace IndianOceanAssets.ShooterSurvival
             seq.Join(popup.rectTransform.DOScale(popupScale, popupDuration * 0.4f).SetEase(Ease.OutBack));
             seq.Join(cg.DOFade(0f, popupDuration).SetEase(Ease.InQuad));
             seq.OnComplete(() => Destroy(popup.gameObject));
+        }
+
+        private Vector3 GetTargetWorldPosition()
+        {
+            if (coinTarget == null || _canvasRect == null)
+                return Vector3.zero;
+
+            if (coinTarget.IsChildOf(_canvasRect))
+                return coinTarget.position;
+
+            Camera sourceCamera = Camera.main;
+            if (sourceCamera == null)
+                sourceCamera = _uiCam;
+
+            Vector3 screenPoint = sourceCamera != null
+                ? sourceCamera.WorldToScreenPoint(coinTarget.position)
+                : coinTarget.position;
+
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(_canvasRect, screenPoint, _uiCam, out var canvasWorldPoint);
+            return canvasWorldPoint;
         }
     }
 }

@@ -78,6 +78,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private float maxHealthWithUpgrades;
         private float healthRegenPerSecond;
         private CanvasScript canvasScript;
+        private Canvas playerChildCanvas;
         private bool startGestureTriggered;
         private bool startGestureArmed;
         private const float StartDragThreshold = 8f;        
@@ -92,6 +93,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             canShoot = true;
             LoadDefaultStatsConfig();
+            EnsurePlayerChildCanvasVisible();
 
             // Set player health to the max health at the start
             currentHealth = originalHealth;
@@ -126,6 +128,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             previousPosition = transform.position;
             playerMesh = transform.GetChild(0);
+            EnsurePlayerChildCanvasVisible();
 
             extraHelpWeaponScript = new List<WeaponScript>();
             healthText.text = currentHealth.ToString("N0");
@@ -506,10 +509,43 @@ namespace IndianOceanAssets.ShooterSurvival
             // ?대룞/?꾪닾 蹂듦뎄
             movement = true;
             canShoot = true;
+            EnsurePlayerChildCanvasVisible();
 
             // ?ㅼ떆 ?섍컻????
             foreach (var w in GetComponentsInChildren<WeaponScript>(true))
                 w.ResetShooting();
+        }
+
+        private Canvas GetPlayerChildCanvas()
+        {
+            if (playerChildCanvas != null)
+                return playerChildCanvas;
+
+            foreach (var canvas in GetComponentsInChildren<Canvas>(true))
+            {
+                if (canvas.transform != transform)
+                {
+                    playerChildCanvas = canvas;
+                    break;
+                }
+            }
+
+            return playerChildCanvas;
+        }
+
+        public void SetPlayerChildCanvasVisible(bool visible)
+        {
+            Canvas childCanvas = GetPlayerChildCanvas();
+            if (childCanvas == null)
+                return;
+
+            if (childCanvas.gameObject.activeSelf != visible)
+                childCanvas.gameObject.SetActive(visible);
+        }
+
+        public void EnsurePlayerChildCanvasVisible()
+        {
+            SetPlayerChildCanvasVisible(true);
         }
 
         public void ResetStatBonus()

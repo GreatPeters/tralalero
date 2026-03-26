@@ -141,8 +141,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             SettingsManager.Instance.soundVolume = volumeSlider.value;
             SettingsManager.Instance.SaveSettings();
-
-            AudioListener.volume = SettingsManager.Instance.soundVolume;
+            SettingsManager.Instance.ApplyAudioSettings();
         }
 
         private void LoadAndApplySettings()
@@ -152,7 +151,7 @@ namespace IndianOceanAssets.ShooterSurvival
             volumeSlider.value = SettingsManager.Instance.soundVolume;
 
             playerScript.moveSensitivity = SettingsManager.Instance.moveSensitivity;
-            AudioListener.volume = SettingsManager.Instance.soundVolume;
+            SettingsManager.Instance.ApplyAudioSettings();
         }
 
         private IEnumerator GameOverSequence(float delay)

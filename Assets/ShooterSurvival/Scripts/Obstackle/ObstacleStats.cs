@@ -567,6 +567,10 @@ public class ObstacleStats : MonoBehaviour
 
         if (player == null) yield break;
 
+        var playerScript = player.GetComponent<PlayerScript>();
+        if (playerScript != null)
+            playerScript.SetPlayerChildCanvasVisible(false);
+
         // 2️⃣ 초기 상태 저장
         float elapsed = 0f;
         float spinSpeed = 720f;  // 초당 2바퀴
@@ -594,6 +598,9 @@ public class ObstacleStats : MonoBehaviour
         // 5️⃣ 원래 회전으로 복귀 (부드럽게)
         player.DORotateQuaternion(originalRot, 0.4f)
               .SetEase(Ease.OutSine);
+
+        if (playerScript != null)
+            playerScript.SetPlayerChildCanvasVisible(true);
 
         // 6️⃣ 콜라이더 복구
         yield return new WaitForSeconds(0.5f);

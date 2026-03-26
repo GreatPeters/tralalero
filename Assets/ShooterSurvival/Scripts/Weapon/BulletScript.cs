@@ -86,5 +86,11 @@ namespace IndianOceanAssets.ShooterSurvival
             else
                 projectileSpeedMultiplier = (BaseSpeedNormal + value) / BaseSpeedNormal;
         }
+
+        public static void ApplyProjectileSpeedUpgrade(float flatValue, float percentValue)
+        {
+            float flatMultiplier = (BaseSpeedNormal + flatValue) / BaseSpeedNormal;
+            projectileSpeedMultiplier = flatMultiplier * (1f + percentValue / 100f);
+        }
     }
 }

@@ -189,7 +189,7 @@ public class ObstacleStats : MonoBehaviour
 
     void Start()
     {
-        if (obstaclePattern == ObstaclePattern.Oldman_Stab)
+        if (obstaclePattern == ObstaclePattern.Oldman)
         {
             SimpleProjectile sp = transform.GetComponentInChildren<SimpleProjectile>();
             sp.damage = value;

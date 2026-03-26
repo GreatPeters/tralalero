@@ -121,7 +121,7 @@ public class StageObstacleManager : MonoBehaviour
                 z += Random.Range(0f, 8f);
                 break;
 
-            case ObstaclePattern.Oldman_Stab:
+            case ObstaclePattern.Oldman:
                 // = 4.67f;
                 y = -2.0f;
                 z += 10f;
@@ -136,7 +136,7 @@ public class StageObstacleManager : MonoBehaviour
     private bool IsSeaObstacle(ObstaclePattern p)
     {
         return p == ObstaclePattern.Ship
-            || p == ObstaclePattern.Oldman_Stab
+            || p == ObstaclePattern.Oldman
             || p == ObstaclePattern.Dolphin;
     }
 

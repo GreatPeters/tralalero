@@ -4,11 +4,14 @@ using System;
 public struct SkinRow
 {
     public int id;
-    public string item; // 스킨명
+    public string item;
     public PriceType priceType;
     public int price;
+    public string bonusType;
+    public ValueType bonusValueType;
+    public float bonusValue;
     public string note;
 
     public override string ToString()
-        => $"id={id} item={item} price={priceType} {price} note={note}";
+        => $"id={id} item={item} price={priceType} {price} bonus={bonusType} {bonusValueType} {bonusValue} note={note}";
 }

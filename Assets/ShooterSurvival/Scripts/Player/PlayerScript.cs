@@ -37,6 +37,8 @@ namespace IndianOceanAssets.ShooterSurvival
         [SerializeField]
         private float fwdMoveSpeed;
 
+        public float ForwardMoveSpeed => fwdMoveSpeed;
+
         [Header("Player Debugging Options")]
         public bool movement = true;
         public bool animationActive = true;
@@ -45,6 +47,7 @@ namespace IndianOceanAssets.ShooterSurvival
         [Header("Dependancies")]
         [SerializeField] private Image healthBar;
         [SerializeField] private TextMeshProUGUI healthText;
+        [SerializeField] private GameObject sharksGO;
 
         // Local variables
         Animator playerAnimator;
@@ -66,30 +69,56 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public Animator sharkAnim;
         public float originalMoveSpeed;
+        private float maxForwardMoveSpeed;
+        private float forwardMoveSpeedGainPerSecond;
+        private float forwardMoveSpeedElapsed;
+        private float gameplayElapsedSeconds;
+        private int lastLoggedGameplaySecond;
 
         private float maxHealthWithUpgrades;
         private float healthRegenPerSecond;
         private CanvasScript canvasScript;
         private bool startGestureTriggered;
         private bool startGestureArmed;
-        private const float StartDragThreshold = 8f;
+        private const float StartDragThreshold = 8f;        
+        private const string SkinBonusSourceKey = "player_skin_bonus";
+        private const string PlayerSpeedVariableKey = "playerSpeed";
+        private const string PlayerDefaultHpVariableKey = "playerDefaultHp";
+        private const string PlayerDefaultAttVariableKey = "playerDefaultAtt";
+        private string appliedSkinItem;
+        private bool subscribedToStats;
 
         private void Awake()
         {
             canShoot = true;
+            LoadDefaultStatsConfig();
 
             // Set player health to the max health at the start
             currentHealth = originalHealth;
-            originalDamage = GetComponentInChildren<WeaponScript>().damage;
+            originalDamage = GetDefaultAttackValue();
+            LoadForwardMoveSpeedConfig();
             originalMoveSpeed = fwdMoveSpeed;
             RefreshUpgradeStats();
+        }
+
+        private void OnEnable()
+        {
+            SubscribeToStatChanges();
+        }
+
+        private void OnDisable()
+        {
+            UnsubscribeFromStatChanges();
         }
 
 
         private void Start()
         {
-            playerAnimator = GetComponentInChildren<Animator>();
-            playerAnimator.SetBool("PlayerIsDead", false);
+            playerAnimator = FindPlayerAnimator();
+            if (playerAnimator != null)
+                playerAnimator.SetBool("PlayerIsDead", false);
+
+            RefreshSharkAnimator();
             weaponManager = GetComponent<WeaponManager>();
             canvasScript = FindFirstObjectByType<CanvasScript>();
 
@@ -105,6 +134,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void Update()
         {
+            SubscribeToStatChanges();
+
             currentWeaponScript = GetComponentInChildren<WeaponScript>();
 
             // Update runtime variables
@@ -117,10 +148,73 @@ namespace IndianOceanAssets.ShooterSurvival
                 currentFireRate = currentWeaponScript.fireRate;
             }
 
+            if (!string.Equals(appliedSkinItem, GetActiveSharkItemName(), StringComparison.OrdinalIgnoreCase))
+                RefreshSharkAnimator();
+
             if (TimeManager.isGameRunning == true && winDancePlayed == false) RotateTowardEnemy();
 
             HandleAnimation();
             ApplyHealthRegen();
+        }
+
+        private Animator FindPlayerAnimator()
+        {
+            foreach (var animator in GetComponentsInChildren<Animator>(true))
+            {
+                if (sharksGO != null && animator.transform.IsChildOf(sharksGO.transform))
+                    continue;
+
+                return animator;
+            }
+
+            return null;
+        }
+
+        public void RefreshSharkAnimator()
+        {
+            sharkAnim = null;
+
+            if (sharksGO == null)
+                return;
+
+            Transform sharksRoot = sharksGO.transform;
+            for (int i = 0; i < sharksRoot.childCount; i++)
+            {
+                Transform shark = sharksRoot.GetChild(i);
+                if (!shark.gameObject.activeSelf)
+                    continue;
+
+                sharkAnim = shark.GetComponentInChildren<Animator>(true);
+                break;
+            }
+
+            ApplySkinBonusFromActiveShark();
+        }
+
+        void OnStatsChanged()
+        {
+            RefreshUpgradeStats();
+
+            foreach (var weapon in GetComponentsInChildren<WeaponScript>(true))
+                weapon.ResetStatBonus();
+        }
+
+        void SubscribeToStatChanges()
+        {
+            if (subscribedToStats || UpgradeStatManager.S == null)
+                return;
+
+            UpgradeStatManager.S.StatsChanged += OnStatsChanged;
+            subscribedToStats = true;
+        }
+
+        void UnsubscribeFromStatChanges()
+        {
+            if (!subscribedToStats || UpgradeStatManager.S == null)
+                return;
+
+            UpgradeStatManager.S.StatsChanged -= OnStatsChanged;
+            subscribedToStats = false;
         }
 
         private void FixedUpdate()
@@ -130,6 +224,11 @@ namespace IndianOceanAssets.ShooterSurvival
                 TryStartGameFromHorizontalInput();
                 return;
             }
+
+            UpdateGameplayTimeDebug();
+
+            if (TimeManager.Instance.isForwardMarchScene == true)
+                UpdateForwardMoveSpeed();
 
             if (TimeManager.Instance.isForwardMarchScene == true)
             {
@@ -352,7 +451,9 @@ namespace IndianOceanAssets.ShooterSurvival
             {
                 currentHealth = 0;
                 isDead = true;
-                sharkAnim.SetTrigger("Die");
+                RefreshSharkAnimator();
+                if (sharkAnim != null)
+                    sharkAnim.SetTrigger("Die");
 
                 //playerAnimator.SetTrigger("PlayerIsDead");
                 winDancePlayed = false;
@@ -387,11 +488,16 @@ namespace IndianOceanAssets.ShooterSurvival
             winDancePlayed = false;  
             startGestureTriggered = false;
             startGestureArmed = false;
+            forwardMoveSpeedElapsed = 0f;
+            gameplayElapsedSeconds = 0f;
+            lastLoggedGameplaySecond = 0;
 
             // ?좊땲硫붿씠???꾩쟾 珥덇린??DeathAnim ?덉텧)
             if (playerAnimator)
             {
-                sharkAnim.SetTrigger("Walk");
+                RefreshSharkAnimator();
+                if (sharkAnim != null)
+                    sharkAnim.SetTrigger("Walk");
             }
 
             // 踰??ъ젒珥?荑?珥덇린??
@@ -421,6 +527,9 @@ namespace IndianOceanAssets.ShooterSurvival
                 extraHelpWeaponScript.Clear();
 
             // ?댁냽 ?먮났
+            forwardMoveSpeedElapsed = 0f;
+            gameplayElapsedSeconds = 0f;
+            lastLoggedGameplaySecond = 0;
             fwdMoveSpeed = originalMoveSpeed;
             RefreshUpgradeStats();
         }
@@ -434,14 +543,51 @@ namespace IndianOceanAssets.ShooterSurvival
             if (healthBar) healthBar.fillAmount = currentHealth / maxHealthWithUpgrades;
             if (healthText) healthText.text = currentHealth.ToString("N0");
 
-            float regen = UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.HP_REGEN);
-            healthRegenPerSecond = UpgradeStatManager.S.GetValueType(UpgradeStatManager.UpgradeType.HP_REGEN) == ValueType.Percent
-                ? maxHealthWithUpgrades * (regen / 100f)
-                : regen;
+            healthRegenPerSecond = UpgradeStatManager.S.GetAppliedValue(UpgradeStatManager.UpgradeType.HP_REGEN, maxHealthWithUpgrades);
 
-            float projectileSpeedValue = UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.PROJECTILE_SPEED);
-            BulletScript.ApplyProjectileSpeedUpgrade(projectileSpeedValue,
-                UpgradeStatManager.S.GetValueType(UpgradeStatManager.UpgradeType.PROJECTILE_SPEED));
+            BulletScript.ApplyProjectileSpeedUpgrade(
+                UpgradeStatManager.S.GetFlatStat(UpgradeStatManager.UpgradeType.PROJECTILE_SPEED),
+                UpgradeStatManager.S.GetPercentStat(UpgradeStatManager.UpgradeType.PROJECTILE_SPEED));
+        }
+
+        void ApplySkinBonusFromActiveShark()
+        {
+            if (UpgradeStatManager.S == null)
+                return;
+
+            string activeSkinItem = GetActiveSharkItemName();
+            if (string.Equals(appliedSkinItem, activeSkinItem, StringComparison.OrdinalIgnoreCase))
+                return;
+
+            appliedSkinItem = activeSkinItem;
+            UpgradeStatManager.S.ClearRuntimeModifier(SkinBonusSourceKey);
+
+            if (!SkinTables.TryGetByItem(activeSkinItem, out var skin))
+                return;
+
+            if (!SkinBonusResolver.TryResolve(skin.bonusType, out var upgradeType))
+                return;
+
+            if (Mathf.Approximately(skin.bonusValue, 0f))
+                return;
+
+            UpgradeStatManager.S.SetRuntimeModifier(SkinBonusSourceKey, upgradeType, skin.bonusValue, skin.bonusValueType);
+        }
+
+        string GetActiveSharkItemName()
+        {
+            if (sharksGO == null)
+                return string.Empty;
+
+            Transform sharksRoot = sharksGO.transform;
+            for (int i = 0; i < sharksRoot.childCount; i++)
+            {
+                Transform shark = sharksRoot.GetChild(i);
+                if (shark.gameObject.activeSelf)
+                    return shark.name;
+            }
+
+            return string.Empty;
         }
 
         private void ApplyHealthRegen()
@@ -453,6 +599,58 @@ namespace IndianOceanAssets.ShooterSurvival
             if (currentHealth >= maxHealth) return;
 
             currentHealth = Mathf.Min(maxHealth, currentHealth + healthRegenPerSecond * Time.deltaTime);
+        }
+
+        private void LoadForwardMoveSpeedConfig()
+        {
+            maxForwardMoveSpeed = fwdMoveSpeed;
+            forwardMoveSpeedGainPerSecond = 0f;
+            forwardMoveSpeedElapsed = 0f;
+
+            if (!EnvironmentVariableTables.TryGetFloat3(PlayerSpeedVariableKey, out var speedConfig))
+                return;
+
+            fwdMoveSpeed = speedConfig.value1;
+            maxForwardMoveSpeed = Mathf.Max(speedConfig.value1, speedConfig.value2);
+            forwardMoveSpeedGainPerSecond = Mathf.Max(0f, speedConfig.value3);
+        }
+
+        private void UpdateForwardMoveSpeed()
+        {
+            if (isDead || CanvasScript.isGameOver || winDancePlayed)
+                return;
+
+            forwardMoveSpeedElapsed += Time.fixedDeltaTime * Mathf.Max(0f, TimeManager.timeFactor);
+            fwdMoveSpeed = Mathf.Min(maxForwardMoveSpeed, originalMoveSpeed + forwardMoveSpeedGainPerSecond * forwardMoveSpeedElapsed);
+        }
+
+        private void LoadDefaultStatsConfig()
+        {
+            if (EnvironmentVariableTables.TryGetFloat(PlayerDefaultHpVariableKey, out var hpValue) && hpValue > 0f)
+                originalHealth = hpValue;
+        }
+
+        private float GetDefaultAttackValue()
+        {
+            if (EnvironmentVariableTables.TryGetFloat(PlayerDefaultAttVariableKey, out var attackValue) && attackValue > 0f)
+                return attackValue;
+
+            var weapon = GetComponentInChildren<WeaponScript>();
+            return weapon != null ? weapon.damage : originalDamage;
+        }
+
+        private void UpdateGameplayTimeDebug()
+        {
+            if (isDead || CanvasScript.isGameOver || winDancePlayed)
+                return;
+
+            gameplayElapsedSeconds += Time.fixedDeltaTime * Mathf.Max(0f, TimeManager.timeFactor);
+            int currentSecond = Mathf.FloorToInt(gameplayElapsedSeconds);
+            if (currentSecond <= 0 || currentSecond == lastLoggedGameplaySecond)
+                return;
+
+            lastLoggedGameplaySecond = currentSecond;
+            Debug.Log($"[PlayerScript] Play time: {currentSecond}s");
         }
 
 

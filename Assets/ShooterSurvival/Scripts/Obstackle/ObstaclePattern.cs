@@ -6,7 +6,7 @@ public enum ObstaclePattern
     Oil,
     Ship,
     Light,
-    Oldman_Stab,
+    Oldman,
     Dolphin,
     Bucket,
     Seagull

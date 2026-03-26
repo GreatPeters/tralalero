@@ -4,6 +4,7 @@ namespace IndianOceanAssets.ShooterSurvival
 {
     public class WeaponScript : MonoBehaviour
     {
+        private const string PlayerDefaultAttVariableKey = "playerDefaultAtt";
         public BulletKind bulletKind;
 
         [Header("Runtime")]
@@ -27,15 +28,16 @@ namespace IndianOceanAssets.ShooterSurvival
         private Animator parentAnimator;
         private bool isShooting = true;
         private ExtraHelpBuffScript extraHelpBuffScript;
+        private bool subscribedToStats;
 
 
         private void Awake()
         {
-            damage = weaponSO.weaponDamage;                                 // Set damage from the weapon SO
-            fireRate = weaponSO.weaponFireRate;                             // Set fire rate from the weapon SO
             playerScript = GetComponentInParent<PlayerScript>();
             extraHelpBuffScript = GetComponentInParent<ExtraHelpBuffScript>();
             audioSource = GetComponent<AudioSource>();
+            damage = GetBaseDamage();                                        // Set damage from config or weapon SO
+            fireRate = weaponSO.weaponFireRate;                             // Set fire rate from the weapon SO
 
             weaponRB = GetComponent<Rigidbody>();
             weaponRB.useGravity = false;
@@ -46,6 +48,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         void OnEnable()
         {
+            SubscribeToStatChanges();
+
             if (bulletKind == BulletKind.Water)
             {
                 RestartShooting();
@@ -62,11 +66,14 @@ namespace IndianOceanAssets.ShooterSurvival
         private void OnDisable()
         {
             CancelInvoke("ShootBullet");
+
+            UnsubscribeFromStatChanges();
         }
 
 
         private void Start()
         {
+            SubscribeToStatChanges();
             bulletPooler = FindFirstObjectByType<BulletPooler>().GetComponent<BulletPooler>();
             previousFireRate = fireRate;                            // Store the initial fire rate
         }
@@ -74,6 +81,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void FixedUpdate()
         {
+            SubscribeToStatChanges();
+
             if (fireRate != previousFireRate)
             {
                 RestartShooting();                      // Restart shooting with the new fire rate
@@ -171,7 +180,7 @@ namespace IndianOceanAssets.ShooterSurvival
         public void ResetStatBonus()
         {
             // 스탯 원복
-            damage = weaponSO.weaponDamage;
+            damage = GetBaseDamage();
             fireRate = weaponSO.weaponFireRate;
             bulletCount = 1;
             ApplyUpgradeStats();
@@ -181,8 +190,38 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (UpgradeStatManager.S == null) return;
 
-            damage = UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.ATT, weaponSO.weaponDamage);
+            damage = UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.ATT, GetBaseDamage());
             fireRate = UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.ATT_SPEED, weaponSO.weaponFireRate);
+        }
+
+        private float GetBaseDamage()
+        {
+            if (playerScript != null
+                && EnvironmentVariableTables.TryGetFloat(PlayerDefaultAttVariableKey, out var attackValue)
+                && attackValue > 0f)
+            {
+                return attackValue;
+            }
+
+            return weaponSO.weaponDamage;
+        }
+
+        private void SubscribeToStatChanges()
+        {
+            if (subscribedToStats || UpgradeStatManager.S == null)
+                return;
+
+            UpgradeStatManager.S.StatsChanged += ApplyUpgradeStats;
+            subscribedToStats = true;
+        }
+
+        private void UnsubscribeFromStatChanges()
+        {
+            if (!subscribedToStats || UpgradeStatManager.S == null)
+                return;
+
+            UpgradeStatManager.S.StatsChanged -= ApplyUpgradeStats;
+            subscribedToStats = false;
         }
 
 

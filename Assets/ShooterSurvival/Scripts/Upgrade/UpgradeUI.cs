@@ -119,7 +119,9 @@ public class UpgradeUI : MonoBehaviour
 
         float currentValue = 0f;
         if (UpgradeStatManager.S != null)
-            currentValue = UpgradeStatManager.S.GetStat(next.type);
+            currentValue = next.valueType == ValueType.Percent
+                ? UpgradeStatManager.S.GetPercentStat(next.type)
+                : UpgradeStatManager.S.GetFlatStat(next.type);
 
         bool unlocked = true;
         if (!unlocked)

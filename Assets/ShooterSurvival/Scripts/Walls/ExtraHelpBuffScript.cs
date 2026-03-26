@@ -1,4 +1,4 @@
-using TMPro;
+ï»¿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +12,8 @@ namespace IndianOceanAssets.ShooterSurvival
 {
     public class ExtraHelpBuffScript : MonoBehaviour
     {
+        private const float TungtungMoveSpeedMultiplier = 1.06f;
+
         [Header("Runtime")]
         [Tooltip("Current health of the Extra Help Buff.")]
         public float currentHealth;
@@ -131,7 +133,7 @@ namespace IndianOceanAssets.ShooterSurvival
             }
             else if(helpType == HelpType.Tungtungtung)
             {
-                //¿©±â´Ù°¡!!
+                //ì—¬ê¸°ë‹¤ê°€!!
                 MoveAndHitEnemy();
             }
             */
@@ -231,12 +233,16 @@ namespace IndianOceanAssets.ShooterSurvival
         private void MoveAndHitEnemy()
         {
             float tf = TimeManager.timeFactor;
-            float step = Mathf.Max(0f, followSpeed) * Time.deltaTime * tf;
+            float baseSpeed = followSpeed;
+            if (helpType == HelpType.Tungtungtung && playerScript != null)
+                baseSpeed = playerScript.ForwardMoveSpeed * TungtungMoveSpeedMultiplier;
 
-            // Å¸°Ù: playerScript.nearestEnemy ¿ì¼±, ¾øÀ¸¸é ÁÖº¯¿¡¼­ Å½»ö
+            float step = Mathf.Max(0f, baseSpeed) * Time.deltaTime * tf;
+
+            // íƒ€ê²Ÿ: playerScript.nearestEnemy ìš°ì„ , ì—†ìœ¼ë©´ ì£¼ë³€ì—ì„œ íƒìƒ‰
             Transform target = (playerScript != null && playerScript.nearestEnemy != null)
                 ? playerScript.nearestEnemy
-                : FindNearestEnemy(25f); // ¹İ°æÀº ¾À¿¡ ¸Â°Ô Á¶Á¤
+                : FindNearestEnemy(25f); // ë°˜ê²½ì€ ì”¬ì— ë§ê²Œ ì¡°ì •
 
             Vector3 targetPos;
             if (target != null)
@@ -252,13 +258,13 @@ namespace IndianOceanAssets.ShooterSurvival
                 targetPos = transform.position + (Vector3.forward * 10f);
             }
 
-            // ¼öÆò¸é °íÁ¤
+            // ìˆ˜í‰ë©´ ê³ ì •
             targetPos.y = transform.position.y;
 
-            // ÀÌµ¿
+            // ì´ë™
             transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
 
-            // È¸Àü(ÀÚ½Ä ÀÖÀ¸¸é ÀÚ½Ä È¸Àü)
+            // íšŒì „(ìì‹ ìˆìœ¼ë©´ ìì‹ íšŒì „)
             Vector3 dir = targetPos - transform.position; dir.y = 0f;
             if (dir.sqrMagnitude > 0.0001f)
             {
@@ -268,17 +274,17 @@ namespace IndianOceanAssets.ShooterSurvival
             }
         }
 
-        // ¡å ÀÌµ¿¸¸À» À§ÇÑ º¸Á¶(·ÎÄÃ) ÇÔ¼ö
+        // â–¼ ì´ë™ë§Œì„ ìœ„í•œ ë³´ì¡°(ë¡œì»¬) í•¨ìˆ˜
         private Transform FindNearestEnemy(float radius)
         {           
             Transform nearest = null; float minSqr = float.MaxValue;
             //var hits = Physics.OverlapSphere(transform.position, radius);
-            int mask = LayerMask.GetMask("Enemy"); // Enemy ·¹ÀÌ¾î¸¸
+            int mask = LayerMask.GetMask("Enemy"); // Enemy ë ˆì´ì–´ë§Œ
             var hits = Physics.OverlapSphere(transform.position, radius, mask, QueryTriggerInteraction.Collide);
 
             foreach (var h in hits)
             {
-                if (!h.CompareTag("EnemyTag")) continue; // Àû ÅÂ±× ÀüÁ¦
+                if (!h.CompareTag("EnemyTag")) continue; // ì  íƒœê·¸ ì „ì œ
                 float sqr = (h.transform.position - transform.position).sqrMagnitude;
                 if (sqr < minSqr) { minSqr = sqr; nearest = h.transform; }
             }
@@ -288,3 +294,4 @@ namespace IndianOceanAssets.ShooterSurvival
 
     }
 }
+

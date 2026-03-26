@@ -286,7 +286,9 @@ namespace IndianOceanAssets.ShooterSurvival
             givePlayerScore = false;
 
             int baseCoin = 0;
-            float bonus = UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.COIN_BONUS);
+            float bonus = UpgradeStatManager.S != null
+                ? UpgradeStatManager.S.GetPercentStat(UpgradeStatManager.UpgradeType.COIN_BONUS)
+                : 0f;
             int finalCoin = 0;
 
             if (enemyTier == EnemyTier.Normal)

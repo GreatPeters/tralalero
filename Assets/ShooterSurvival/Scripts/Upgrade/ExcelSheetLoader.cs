@@ -122,7 +122,8 @@ public static class ExcelSheetLoader
                 var s = (values[c]?.ToString() ?? "");
                 var normalized = ExcelUtil.NormalizeKey(s);
                 if (normalized == ExcelUtil.NormalizeKey("\uC21C\uBC88")
-                    || normalized == ExcelUtil.NormalizeKey("\uC2DD\uBCC4\uC21C\uBC88"))
+                    || normalized == ExcelUtil.NormalizeKey("\uC2DD\uBCC4\uC21C\uBC88")
+                    || normalized == ExcelUtil.NormalizeKey("\uC2DD\uBCC4\uC21C\uC11C"))
                 {
                     headerRowValues = values;
                     return true;

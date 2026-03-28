@@ -8,22 +8,36 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: WaterShader
-  m_Shader: {fileID: -6465566751694194690, guid: 6d0c6249134db7b4ba26b154a19affa7, type: 3}
+  m_Shader: {fileID: 4800000, guid: efcaf526ceb1f4efd9eb4e4c30c6ade6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_ValidKeywords:
+  - _COLORMODE_LINEAR
+  - _FOAMMODE_GRADIENT_NOISE
+  - _NOISESOURCE_WORLD_SPACE
+  - _WAVEMODE_ROUND
+  m_InvalidKeywords:
+  - _OPAQUE_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_CustomRenderQueue: 3000
+  stringTagMap:
+    RenderType: Transparent
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _ColorGradient:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -38,15 +52,49 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _ColorMode: 0
+    - _CrestSharpness: 0.1
+    - _CrestSize: 0.1
+    - _FadeDistance: 0.5
+    - _FoamAmount: 0.29
+    - _FoamDepth: 0.5
+    - _FoamDirection: 0
+    - _FoamMode: 1
+    - _FoamNoiseAmount: 1
+    - _FoamScale: 0.81
+    - _FoamSharpness: 0.591
+    - _FoamSpeed: 0.3
+    - _FoamStretchX: 1
+    - _FoamStretchY: 1
+    - _LightContribution: 0
+    - _NoiseSource: 1
+    - _Opaque: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _RippleDensity: 27.5
-    - _RippleSpeed: 1
-    - _Slimness: 10
-    - _WaveSpeed: 0.1
+    - _RefractionAmplitude: 0.01
+    - _RefractionFrequency: 35
+    - _RefractionScale: 1
+    - _RefractionSpeed: 0.1
+    - _RippleDensity: 16
+    - _RippleSpeed: 0.72
+    - _ShadowStrength: 0.35
+    - _Slimness: 6.5
+    - _WaterClearness: 0.3
+    - _WaterDepth: 5
+    - _WaveAmplitude: 0.25
+    - _WaveDirection: 0
+    - _WaveFrequency: 10
+    - _WaveMode: 1
+    - _WaveNoise: 0.25
+    - _WaveSpeed: 5
+    - _XRMotionVectorsPass: 1
     m_Colors:
-    - _BaseColor: {r: 0.3075471, g: 0.79707104, b: 1, a: 1}
-    - _RippleColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.18, g: 0.67, b: 0.95, a: 1}
+    - _ColorDeep: {r: 0.65, g: 0.9, b: 1, a: 1}
+    - _ColorShallow: {r: 0.34999996, g: 0.6, b: 0.75, a: 0.8}
+    - _CrestColor: {r: 1, g: 1, b: 1, a: 0.9}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RippleColor: {r: 0.9, g: 0.97, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &7181906771751243018

@@ -1323,6 +1323,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 747982939}
     m_Modifications:
+    - target: {fileID: 779317327972852245, guid: 0921299fe0ec21549b8aa88b8f5709ec, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: dd95115ae02d03f46ba051f579c120f4, type: 2}
     - target: {fileID: 4166902466185233591, guid: 0921299fe0ec21549b8aa88b8f5709ec, type: 3}
       propertyPath: m_fontSize
       value: 0.3
@@ -1454,6 +1458,10 @@ PrefabInstance:
     - target: {fileID: 7924109799707602117, guid: 0921299fe0ec21549b8aa88b8f5709ec, type: 3}
       propertyPath: m_Name
       value: random_wall_normal_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7924109799707602117, guid: 0921299fe0ec21549b8aa88b8f5709ec, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

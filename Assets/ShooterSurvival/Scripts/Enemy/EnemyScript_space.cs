@@ -248,6 +248,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 if (enemyTier == EnemyTier.Boss && UpgradeStatManager.S != null)
                     damage = UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.BOSS_DAMAGE, damage);
 
+                DamagePopupFX.Show(hitPos.position + Vector3.up * 1.5f, damage);
                 _health -= damage;
 
                 if (_health <= 0f)

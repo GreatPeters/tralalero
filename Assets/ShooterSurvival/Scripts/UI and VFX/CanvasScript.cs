@@ -30,6 +30,8 @@ namespace IndianOceanAssets.ShooterSurvival
         public GameObject pauseButton;
         public GameObject bottom;
         public RectTransform startAreaImg;
+        [SerializeField] private TextMeshProUGUI attackDebugText;
+        [SerializeField] private TextMeshProUGUI damagePopupPrefab;
 
         private PlayerScript playerScript;
         public static bool isGameOver = false;
@@ -52,10 +54,12 @@ namespace IndianOceanAssets.ShooterSurvival
             playerScoreText = playerScoreUI.GetComponent<TextMeshProUGUI>();
             playerScoreText.text = "0";
             scorePopAnimator = playerScoreUI.GetComponent<Animator>();
+            attackDebugText ??= FindAttackDebugText();
 
             TimeManager.timeFactor = 0;
             TimeManager.isGameRunning = false;
             isGameOver = false;
+            SetAttackDebugVisible(false);
 
             LoadAndApplySettings();
 
@@ -87,7 +91,12 @@ namespace IndianOceanAssets.ShooterSurvival
             if (ftue_Script != null) StartCoroutine(ftue_Script.ShowDisplay(0, 3));
 
             if (playerScript != null)
+            {
                 playerScript.ResetState();
+                playerScript.LogWeaponDamageDebug("GameStart");
+                SetAttackDebugVisible(true);
+                UpdateAttackDebugText(playerScript.currentDamage);
+            }
 
         }
 
@@ -171,6 +180,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             scoreParent.SetActive(false);
             pauseButton.SetActive(false);
+            SetAttackDebugVisible(false);
             isGameOver = true;
             gameOverUI.SetActive(true);
             TimeManager.timeFactor = 0;
@@ -183,6 +193,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             scoreParent.SetActive(false);
             pauseButton.SetActive(false);
+            SetAttackDebugVisible(false);
 
             isGameOver = true;
             TimeManager.isGameRunning = false;
@@ -232,6 +243,36 @@ namespace IndianOceanAssets.ShooterSurvival
                 TimeManager.isGameRunning = false;
             }
         }
+
+        public void UpdateAttackDebugText(float currentDamage)
+        {
+            attackDebugText ??= FindAttackDebugText();
+            if (attackDebugText == null)
+                return;
+
+            attackDebugText.text = $"ATT : {Mathf.RoundToInt(currentDamage)}";
+        }
+
+        private void SetAttackDebugVisible(bool visible)
+        {
+            attackDebugText ??= FindAttackDebugText();
+            if (attackDebugText != null)
+                attackDebugText.gameObject.SetActive(visible);
+        }
+
+        private TextMeshProUGUI FindAttackDebugText()
+        {
+            var texts = GetComponentsInChildren<TextMeshProUGUI>(true);
+            foreach (var text in texts)
+            {
+                if (text != null && text.gameObject.name == "ATT")
+                    return text;
+            }
+
+            return null;
+        }
+
+        public TextMeshProUGUI DamagePopupPrefab => damagePopupPrefab;
 
         public void LoadGame()
         {

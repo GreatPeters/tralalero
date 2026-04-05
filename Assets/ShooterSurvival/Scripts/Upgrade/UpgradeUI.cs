@@ -47,6 +47,14 @@ public class UpgradeUI : MonoBehaviour
         return valueType == ValueType.Percent ? $"{number}%" : number;
     }
 
+    private string FormatNameWithLevel(string itemName, int currentLevel)
+    {
+        if (string.IsNullOrWhiteSpace(itemName))
+            return string.Empty;
+
+        return currentLevel > 0 ? $"{itemName} ({currentLevel})" : itemName;
+    }
+
     void Awake()
     {
         SyncUpgradeIdFromSiblingOrder();
@@ -61,6 +69,7 @@ public class UpgradeUI : MonoBehaviour
         SyncUpgradeIdFromSiblingOrder();
         AutoBindReferences();
         Load();
+        SyncCurrentLevelStat();
         Refresh();
     }
 
@@ -153,6 +162,9 @@ public class UpgradeUI : MonoBehaviour
 
     void ApplyMaxTexts(bool useCardV2Layout, UpgradeRow currentRow)
     {
+        if (nameText != null)
+            nameText.text = FormatNameWithLevel(currentRow.item, level);
+
         if (!useCardV2Layout)
         {
             if (valueText != null)
@@ -176,7 +188,7 @@ public class UpgradeUI : MonoBehaviour
     void ApplyTexts(UpgradeRow currentRow, UpgradeRow next, float currentValue, bool useCardV2Layout)
     {
         if (nameText != null)
-            nameText.text = next.item;
+            nameText.text = FormatNameWithLevel(next.item, level);
 
         if (useCardV2Layout)
         {
@@ -274,6 +286,21 @@ public class UpgradeUI : MonoBehaviour
     void Load()
     {
         level = PlayerPrefs.GetInt("upgrade_lv_" + upgradeId, 0);
+    }
+
+    void SyncCurrentLevelStat()
+    {
+        if (UpgradeStatManager.S == null)
+            return;
+
+        if (UpgradeTables.TryGet(upgradeId, level, out var currentRow) && currentRow.level > 0)
+        {
+            UpgradeStatManager.S.ApplyUpgrade(currentRow.type, currentRow.amount, currentRow.valueType);
+            return;
+        }
+
+        if (UpgradeTables.TryGet(upgradeId, 1, out var firstRow))
+            UpgradeStatManager.S.ApplyUpgrade(firstRow.type, 0f, firstRow.valueType);
     }
 
     void Save()

@@ -50,7 +50,7 @@ public class UpgradeStatManager : MonoBehaviour
         if (!stats.ContainsKey(type))
             stats[type] = Load(type);
 
-        stats[type] += amount;
+        stats[type] = amount;
         Save(type, stats[type]);
         SaveValueType(type, valueType);
         RaiseStatsChanged();

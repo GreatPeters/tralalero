@@ -127,6 +127,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             transform.name += "_Z_" + transform.position.z.ToString();
 
+            //일단 비활성화
             currSprite = GetComponentInChildren<SpriteRenderer>();
             if (wallAudioSource == null) wallAudioSource = GetComponent<AudioSource>();
 

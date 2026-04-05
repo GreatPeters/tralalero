@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 namespace IndianOceanAssets.ShooterSurvival
@@ -162,6 +163,7 @@ namespace IndianOceanAssets.ShooterSurvival
                     fX_Pooler.GetObjectFromPool_FX(enemyType.ToString() + "_HitEffect", hitPos.transform);
                     audioSource.PlayOneShot(currentEnemySO.enemyHitSound);
 
+                    DamagePopupFX.Show(hitPos.position + Vector3.up * 1.5f, playerScript.currentDamage);
                     _health -= playerScript.currentDamage;
 
                     if (_health <= 0f)

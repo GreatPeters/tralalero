@@ -88,6 +88,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private const string PlayerDefaultAttVariableKey = "playerDefaultAtt";
         private string appliedSkinItem;
         private bool subscribedToStats;
+        private float lastReportedCurrentDamage = float.MinValue;
 
         private void Awake()
         {
@@ -150,6 +151,12 @@ namespace IndianOceanAssets.ShooterSurvival
                 currentDamage = currentWeaponScript.damage;
                 currentFireRate = currentWeaponScript.fireRate;
             }
+            else
+            {
+                currentDamage = 0f;
+            }
+
+            PushCurrentDamageToCanvasIfChanged();
 
             if (!string.Equals(appliedSkinItem, GetActiveSharkItemName(), StringComparison.OrdinalIgnoreCase))
                 RefreshSharkAnimator();
@@ -200,6 +207,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
             foreach (var weapon in GetComponentsInChildren<WeaponScript>(true))
                 weapon.ResetStatBonus();
+
+            PushCurrentDamageToCanvasIfChanged(force: true);
         }
 
         void SubscribeToStatChanges()
@@ -568,6 +577,22 @@ namespace IndianOceanAssets.ShooterSurvival
             lastLoggedGameplaySecond = 0;
             fwdMoveSpeed = originalMoveSpeed;
             RefreshUpgradeStats();
+            PushCurrentDamageToCanvasIfChanged(force: true);
+        }
+
+        private void PushCurrentDamageToCanvasIfChanged(bool force = false)
+        {
+            if (canvasScript == null)
+                canvasScript = FindFirstObjectByType<CanvasScript>();
+
+            if (canvasScript == null)
+                return;
+
+            if (!force && Mathf.Approximately(lastReportedCurrentDamage, currentDamage))
+                return;
+
+            lastReportedCurrentDamage = currentDamage;
+            canvasScript.UpdateAttackDebugText(currentDamage);
         }
         public void RefreshUpgradeStats()
         {
@@ -584,6 +609,13 @@ namespace IndianOceanAssets.ShooterSurvival
             BulletScript.ApplyProjectileSpeedUpgrade(
                 UpgradeStatManager.S.GetFlatStat(UpgradeStatManager.UpgradeType.PROJECTILE_SPEED),
                 UpgradeStatManager.S.GetPercentStat(UpgradeStatManager.UpgradeType.PROJECTILE_SPEED));
+        }
+
+        public void LogWeaponDamageDebug(string context = "GameStart")
+        {
+            var weapons = GetComponentsInChildren<WeaponScript>(true);
+            foreach (var weapon in weapons)
+                weapon.LogDamageBreakdown(context);
         }
 
         void ApplySkinBonusFromActiveShark()

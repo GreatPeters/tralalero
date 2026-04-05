@@ -194,6 +194,28 @@ namespace IndianOceanAssets.ShooterSurvival
             fireRate = UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.ATT_SPEED, weaponSO.weaponFireRate);
         }
 
+        public void LogDamageBreakdown(string context = "GameStart")
+        {
+            float weaponSoBaseDamage = weaponSO != null ? weaponSO.weaponDamage : 0f;
+            bool usesEnvironmentOverride = playerScript != null
+                && EnvironmentVariableTables.TryGetFloat(PlayerDefaultAttVariableKey, out var attackValue)
+                && attackValue > 0f;
+
+            float originalDamage = GetBaseDamage();
+            float flatBonus = UpgradeStatManager.S != null
+                ? UpgradeStatManager.S.GetFlatStat(UpgradeStatManager.UpgradeType.ATT)
+                : 0f;
+            float percentBonus = UpgradeStatManager.S != null
+                ? UpgradeStatManager.S.GetPercentStat(UpgradeStatManager.UpgradeType.ATT)
+                : 0f;
+            float finalDamage = originalDamage * (1f + percentBonus / 100f) + flatBonus;
+
+            Debug.Log(
+                $"[DamageDebug:{context}] weapon={name}, source={(usesEnvironmentOverride ? "EnvOverride" : "WeaponSO")}, " +
+                $"weaponSOBase={weaponSoBaseDamage}, originalDamage={originalDamage}, additionalDamage={flatBonus}, " +
+                $"bonusPercent={percentBonus}%, finalDamage={finalDamage}, runtimeDamageField={damage}");
+        }
+
         private float GetBaseDamage()
         {
             if (playerScript != null

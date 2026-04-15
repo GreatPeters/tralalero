@@ -317,12 +317,12 @@ namespace IndianOceanAssets.ShooterSurvival
 
         IEnumerator DeathFlow()
         {
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.25f);
 
             if (healthText != null)
                 healthText.enabled = false;   // 여기 핵심 (gameObject.SetActive(false) X)
 
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.25f);
             gameObject.SetActive(false);
         }
 

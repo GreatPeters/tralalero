@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-//�߰�
+//占쌩곤옙
 using UnityEngine.Localization.Components; // LocalizeStringEvent
 
 
@@ -20,10 +20,10 @@ namespace IndianOceanAssets.ShooterSurvival
 
     public class WallScript : MonoBehaviour
     {
-        //�߰�
-        public LocalizeStringEvent statNameLoc; // �̸� ǥ�ÿ�
-        public TextMeshProUGUI statValueTmp; // �� ǥ�ÿ�
-        public string tableName = "AllTexts";   // �ʰ� ���� ���̺� �̸�
+        //占쌩곤옙
+        public LocalizeStringEvent statNameLoc; // 占싱몌옙 표占시울옙
+        public TextMeshProUGUI statValueTmp; // 占쏙옙 표占시울옙
+        public string tableName = "AllTexts";   // 占십곤옙 占쏙옙占쏙옙 占쏙옙占싱븝옙 占싱몌옙
 
         [Header("Type Params")]
         public WallType wallType;               // Type of wall (Buff or Nerf)
@@ -36,7 +36,7 @@ namespace IndianOceanAssets.ShooterSurvival
         public Sprite healthBoostSpr;
         public Sprite fireRateIncreaseSpr;
         public Sprite extraHelpSpr;
-        //�� �Ʒ��� �ű� �̹���
+        //占쏙옙 占싣뤄옙占쏙옙 占신깍옙 占싱뱄옙占쏙옙
         public Sprite attSpr;
         public Sprite attPercentSpr;
         public Sprite missileAddSpr;
@@ -57,7 +57,7 @@ namespace IndianOceanAssets.ShooterSurvival
         public int healthBoostAmt = 25;             // Amount of health boost
         public float fireRateIncMultipier = 4;      // Multiplier for fire rate increase
         public GameObject extraHelp;                // Prefab for Extra Help buff
-        //�� �Ʒ��� �ű� ����
+        //占쏙옙 占싣뤄옙占쏙옙 占신깍옙 占쏙옙占쏙옙
         public float att;
         public float attPercent;
         public float missileAdd;
@@ -110,14 +110,14 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             _initialized = false;
 
-            // Player 확보
+            // Player ?뺣낫
             if (playerScript == null)
             {
                 var p = GameObject.FindGameObjectWithTag("Player");
                 if (p != null) playerScript = p.GetComponent<PlayerScript>();
             }
 
-            // 아직 Player 없으면 대기
+            // ?꾩쭅 Player ?놁쑝硫??湲?
             if (playerScript == null) return;
 
             InitWall();
@@ -127,7 +127,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             transform.name += "_Z_" + transform.position.z.ToString();
 
-            //일단 비활성화
+            //?쇰떒 鍮꾪솢?깊솕
             currSprite = GetComponentInChildren<SpriteRenderer>();
             if (wallAudioSource == null) wallAudioSource = GetComponent<AudioSource>();
 
@@ -358,7 +358,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             currSprite.sprite = selectedSprite;                                 // Apply the selected sprite
             SetBonusValueText(bonusValue, isPercent);
-            UpdateStatUI(buffType, bonusValue, isPercent); // �� ���ö������ �̸� + �� ����
+            UpdateStatUI(buffType, bonusValue, isPercent); // 占쏙옙 占쏙옙占시띰옙占쏙옙占쏙옙占?占싱몌옙 + 占쏙옙 占쏙옙占쏙옙
 
         }
 
@@ -401,7 +401,7 @@ namespace IndianOceanAssets.ShooterSurvival
                     {
                         weaponManager = GameObject.FindGameObjectWithTag("Player").GetComponent<WeaponManager>();
                         var weaponScript = weaponManager.currentWeapon.GetComponentInChildren<WeaponScript>();
-                        weaponScript.damage += att; // WallScript�� att ���� ���� ���ݷ¿� ����
+                        weaponScript.damage += att; // WallScript占쏙옙 att 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쌥력울옙 占쏙옙占쏙옙
 
                         //effectOverlayVignette.BuffOverlay();
                         //wallAudioSource.PlayOneShot(buffSFX);
@@ -410,7 +410,7 @@ namespace IndianOceanAssets.ShooterSurvival
                     {
                         weaponManager = GameObject.FindGameObjectWithTag("Player").GetComponent<WeaponManager>();
                         var weaponScript = weaponManager.currentWeapon.GetComponentInChildren<WeaponScript>();
-                        weaponScript.damage *= (1 + attPercent * 0.01f); // WallScript�� att ���� ���� ���ݷ¿� ����
+                        weaponScript.damage *= (1 + attPercent * 0.01f); // WallScript占쏙옙 att 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쌥력울옙 占쏙옙占쏙옙
 
                         //effectOverlayVignette.BuffOverlay();
                         //wallAudioSource.PlayOneShot(buffSFX);
@@ -426,7 +426,7 @@ namespace IndianOceanAssets.ShooterSurvival
                     }
                     else if ((buffType == BuffType.missileDistance_normal) || (buffType == BuffType.missileDistance_unique))
                     {
-                        BulletScript.bulletRange += BulletScript.originalBulletRange * missileDistance * 0.01f; // WallScript�� missileDistance ���� �Ѿ� ��Ÿ��� ����
+                        BulletScript.bulletRange += BulletScript.originalBulletRange * missileDistance * 0.01f; // WallScript占쏙옙 missileDistance 占쏙옙占쏙옙 占싼억옙 占쏙옙타占쏙옙占?占쏙옙占쏙옙
                         Debug.Log(BulletScript.bulletRange);
 
                         //effectOverlayVignette.BuffOverlay();
@@ -440,7 +440,7 @@ namespace IndianOceanAssets.ShooterSurvival
                     }
                     else if ((buffType == BuffType.hpPer_normal) || buffType == BuffType.hpPer_unique)
                     {
-                        playerScript.currentHealth *= (1 + hpPercent * 0.01f); // WallScript�� att ���� ���� ���ݷ¿� ����
+                        playerScript.currentHealth *= (1 + hpPercent * 0.01f); // WallScript占쏙옙 att 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쌥력울옙 占쏙옙占쏙옙
                         playerScript.UpdateHealth();
                         //effectOverlayVignette.BuffOverlay();
                     }
@@ -450,8 +450,10 @@ namespace IndianOceanAssets.ShooterSurvival
                         weaponManager = GameObject.FindGameObjectWithTag("Player").GetComponent<WeaponManager>();
                         var weaponScript = weaponManager.currentWeapon.GetComponentInChildren<WeaponScript>();
 
-                        // ����: bulletPositions �迭�� ��� ������ �ø��� ���� �߰� �ʿ�
+                        // 占쏙옙占쏙옙: bulletPositions 占썼열占쏙옙 占쏙옙占?占쏙옙占쏙옙占쏙옙 占시몌옙占쏙옙 占쏙옙占쏙옙 占쌩곤옙 占십울옙
                         weaponScript.bulletCount += (int)missileAdd;
+                        playerScript.currentHealth = 1f;
+                        playerScript.UpdateHealth();
                         Debug.Log(weaponScript.bulletCount);
 
                         //effectOverlayVignette.BuffOverlay();
@@ -459,7 +461,7 @@ namespace IndianOceanAssets.ShooterSurvival
                     }
                     else if ((buffType == BuffType.tungtung_rare))
                     {
-                        //������ �߰�
+                        //占쏙옙占쏙옙占쏙옙 占쌩곤옙
                         //effectOverlayVignette.BuffOverlay();
                         //wallAudioSource.PlayOneShot(buffSFX);
 
@@ -468,7 +470,7 @@ namespace IndianOceanAssets.ShooterSurvival
                     }
                     else if ((buffType == BuffType.boombar_rare))
                     {
-                        //�չٸ� �߰�
+                        //占쌌바몌옙 占쌩곤옙
                         //effectOverlayVignette.BuffOverlay();
                         //wallAudioSource.PlayOneShot(buffSFX);
 
@@ -539,20 +541,20 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void SetBonusValueText(float volume, bool percent = false)
         {
-            // �� ��ũ��Ʈ�� ���� ������Ʈ(wall_att_normal ����) �������� TMP �ؽ�Ʈ ã��
+            // 占쏙옙 占쏙옙크占쏙옙트占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙트(wall_att_normal 占쏙옙占쏙옙) 占쏙옙占쏙옙占쏙옙占쏙옙 TMP 占쌔쏙옙트 찾占쏙옙
             TextMeshProUGUI[] texts = GetComponentsInChildren<TextMeshProUGUI>();
 
             if (texts.Length >= 2)
             {
-                texts[1].text = "+" + volume.ToString(); // �� ��° �ؽ�Ʈ�� ���� �� ����
+                texts[1].text = "+" + volume.ToString(); // 占쏙옙 占쏙옙째 占쌔쏙옙트占쏙옙 占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙
                 if (percent == true)
                 {
-                    texts[1].text += "%"; // �ۼ�Ʈ ǥ�� �߰�
+                    texts[1].text += "%"; // 占쌜쇽옙트 표占쏙옙 占쌩곤옙
                 }
             }
             else
             {
-                Debug.LogWarning("TMP �ؽ�Ʈ�� 2�� �̻� ����!");
+                Debug.LogWarning("TMP 占쌔쏙옙트占쏙옙 2占쏙옙 占싱삼옙 占쏙옙占쏙옙!");
             }
         }
 
@@ -567,7 +569,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 case BuffType.attPer_unique: return "attPercent";
 
                 case BuffType.attackSpeed_normal:
-                case BuffType.attackSpeed_unique: return "missileSpeed";   // ���̺��� �� �̸����� ����
+                case BuffType.attackSpeed_unique: return "missileSpeed";   // 占쏙옙占싱븝옙占쏙옙 占쏙옙 占싱몌옙占쏙옙占쏙옙 占쏙옙占쏙옙
 
                 case BuffType.missileDistance_normal:
                 case BuffType.missileDistance_unique: return "missileDistance";
@@ -587,13 +589,27 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void UpdateStatUI(BuffType bt, float value, bool isPercent)
         {
-            // �̸�(���ö�����)
+            // 占싱몌옙(占쏙옙占시띰옙占쏙옙占쏙옙)
             statNameLoc.StringReference.SetReference(tableName, KeyFor(bt));
             statNameLoc.RefreshString();
 
-            // ��
-            if (isPercent) statValueTmp.text = $"+{Mathf.RoundToInt(value)}%";
-            else statValueTmp.text = $"+{Mathf.RoundToInt(value)}";
+            string formattedValue = isPercent
+                ? $"+{Mathf.RoundToInt(value)}%"
+                : $"+{Mathf.RoundToInt(value)}";
+
+            if (statValueTmp != null)
+            {
+                statValueTmp.text = formattedValue;
+            }
+
+            var texts = GetComponentsInChildren<TextMeshProUGUI>(true);
+            foreach (var text in texts)
+            {
+                if (text != null && text.gameObject.name == "Value_Text")
+                {
+                    text.text = formattedValue;
+                }
+            }
         }
 
         public void RerollTWallType(BuffType exceptBuffType, int iterationCount = 30)

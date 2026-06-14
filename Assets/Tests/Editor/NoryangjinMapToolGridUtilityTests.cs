@@ -124,11 +124,11 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
-    public void KnownRoadPrefabs_UseFantasyBasicBridgeAndUphillRoadSet()
+    public void KnownRoadPrefabs_UseFantasyBasicBridgeUphillAndDownhillRoadSet()
     {
         Dictionary<string, string> roadPaths = GetKnownRoadPiecePathsByLabel();
 
-        Assert.That(roadPaths, Has.Count.EqualTo(3));
+        Assert.That(roadPaths, Has.Count.EqualTo(4));
         Assert.That(
             roadPaths["Basic"],
             Is.EqualTo("Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab"));
@@ -138,10 +138,13 @@ public sealed class NoryangjinMapToolGridUtilityTests
         Assert.That(
             roadPaths["Uphill"],
             Is.EqualTo("Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy.prefab"));
+        Assert.That(
+            roadPaths["Downhill"],
+            Is.EqualTo("Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy_Downhill.prefab"));
     }
 
     [Test]
-    public void UphillRoadPiece_IncludesPillarsAsCompanionPrefab()
+    public void StairRoadPieces_IncludePillarsAsCompanionPrefab()
     {
         Dictionary<string, string[]> companionPaths = GetKnownRoadPieceCompanionPathsByLabel();
 
@@ -153,6 +156,31 @@ public sealed class NoryangjinMapToolGridUtilityTests
             {
                 "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Pillars_Fantasy.prefab"
             }));
+        Assert.That(
+            companionPaths["Downhill"],
+            Is.EqualTo(new[]
+            {
+                "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Pillars_Fantasy.prefab"
+            }));
+    }
+
+    [Test]
+    public void DownhillRoadPiece_UsesSeparatePrefabAsset()
+    {
+        Dictionary<string, string> roadPaths = GetKnownRoadPiecePathsByLabel();
+
+        Assert.That(roadPaths["Downhill"], Is.Not.EqualTo(roadPaths["Uphill"]));
+    }
+
+    [Test]
+    public void DownhillRoadPiece_UsesCustomizedPillarsLocalPosition()
+    {
+        Dictionary<string, Vector3[]> companionPositions = GetKnownRoadPieceCompanionLocalPositionsByLabel();
+
+        Assert.That(companionPositions["Uphill"][0], Is.EqualTo(Vector3.zero));
+        Assert.That(companionPositions["Downhill"][0].x, Is.EqualTo(0f).Within(0.001f));
+        Assert.That(companionPositions["Downhill"][0].y, Is.EqualTo(1.075f).Within(0.001f));
+        Assert.That(companionPositions["Downhill"][0].z, Is.EqualTo(-2.233f).Within(0.001f));
     }
 
     [Test]
@@ -239,6 +267,27 @@ public sealed class NoryangjinMapToolGridUtilityTests
         }
 
         return paths;
+    }
+
+    private static Dictionary<string, Vector3[]> GetKnownRoadPieceCompanionLocalPositionsByLabel()
+    {
+        FieldInfo field = typeof(NoryangjinMapToolWindow).GetField("RoadPieces", BindingFlags.Static | BindingFlags.NonPublic);
+        Assert.That(field, Is.Not.Null);
+
+        var positions = new Dictionary<string, Vector3[]>();
+        foreach (object roadPiece in (System.Array)field.GetValue(null))
+        {
+            System.Type roadPieceType = roadPiece.GetType();
+            PropertyInfo labelProperty = roadPieceType.GetProperty("Label");
+            PropertyInfo companionPositionsProperty = roadPieceType.GetProperty("CompanionLocalPositions");
+            Assert.That(companionPositionsProperty, Is.Not.Null);
+
+            string label = (string)labelProperty.GetValue(roadPiece);
+            Vector3[] companionPositions = (Vector3[])companionPositionsProperty.GetValue(roadPiece);
+            positions[label] = companionPositions;
+        }
+
+        return positions;
     }
 
     [Test]
@@ -1240,6 +1289,21 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void BuildPalettePlacementPosition_AddsPerItemXYZOffset()
+    {
+        Vector3 position = NoryangjinMapToolWindow.BuildPalettePlacementPosition(
+            new Vector3(1f, 0f, 2f),
+            2,
+            -1,
+            4f,
+            0.5f,
+            1.25f,
+            new Vector3(0.25f, 0.75f, -0.5f));
+
+        Assert.That(position, Is.EqualTo(new Vector3(9.25f, 2.5f, -2.5f)));
+    }
+
+    [Test]
     public void CalculatePlacedObjectPositionOffset_UsesPlacedObjectGridAnchor()
     {
         Vector2 offset = NoryangjinMapToolWindow.CalculatePlacedObjectPositionOffset(
@@ -1253,6 +1317,21 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void CalculatePlacedObjectPositionOffset_UsesPlacementHeightForYOffset()
+    {
+        Vector3 offset = NoryangjinMapToolWindow.CalculatePlacedObjectPositionOffset(
+            new Vector3(9.25f, 1.75f, -2.5f),
+            new Vector3(1f, 0f, 2f),
+            new Vector2Int(2, -1),
+            4f,
+            0.5f);
+
+        Assert.That(offset.x, Is.EqualTo(0.25f).Within(0.001f));
+        Assert.That(offset.y, Is.EqualTo(1.25f).Within(0.001f));
+        Assert.That(offset.z, Is.EqualTo(-0.5f).Within(0.001f));
+    }
+
+    [Test]
     public void BuildPlacedObjectPositionWithOffset_KeepsCurrentHeight()
     {
         Vector3 position = NoryangjinMapToolWindow.BuildPlacedObjectPositionWithOffset(
@@ -1261,6 +1340,19 @@ public sealed class NoryangjinMapToolGridUtilityTests
             4f,
             1.75f,
             new Vector2(0.25f, -0.5f));
+
+        Assert.That(position, Is.EqualTo(new Vector3(9.25f, 1.75f, -2.5f)));
+    }
+
+    [Test]
+    public void BuildPlacedObjectPositionWithOffset_AddsYOffset()
+    {
+        Vector3 position = NoryangjinMapToolWindow.BuildPlacedObjectPositionWithOffset(
+            new Vector3(1f, 0f, 2f),
+            new Vector2Int(2, -1),
+            4f,
+            0.5f,
+            new Vector3(0.25f, 1.25f, -0.5f));
 
         Assert.That(position, Is.EqualTo(new Vector3(9.25f, 1.75f, -2.5f)));
     }

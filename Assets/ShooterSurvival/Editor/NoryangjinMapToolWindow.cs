@@ -378,7 +378,15 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             "오르막길",
             "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy.prefab",
             NoryangjinMapToolRoadTurn.Straight,
-            "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Pillars_Fantasy.prefab")
+            new RoadCompanion("Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Pillars_Fantasy.prefab")),
+        new RoadPiece(
+            "Downhill",
+            "내리막길",
+            "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy_Downhill.prefab",
+            NoryangjinMapToolRoadTurn.Straight,
+            new RoadCompanion(
+                "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Pillars_Fantasy.prefab",
+                new Vector3(0f, 1.075f, -2.233f)))
     };
 
     private static readonly string[] PalettePrefabRoots =
@@ -436,6 +444,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         ["Pier Long Fantasy"] = "기본길",
         ["Bridge Rope Small Fantasy"] = "다리",
         ["Pier Rope Stairs Fantasy"] = "오르막길",
+        ["Pier Rope Stairs Fantasy Downhill"] = "내리막길",
         ["Pier Pillars Fantasy"] = "오르막기둥"
     };
 
@@ -869,14 +878,21 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return;
 
         float placementGridCellSize = BuildPlacementSnapCellSize(cellSize, false);
-        Vector2 offset = CalculatePlacedObjectPositionOffset(target.transform.position, origin, anchor, placementGridCellSize);
-        GUILayout.Label("X/Z 이동 오프셋", EditorStyles.miniBoldLabel);
+        Vector3 offset = CalculatePlacedObjectPositionOffset(
+            target.transform.position,
+            origin,
+            anchor,
+            placementGridCellSize,
+            placementHeight);
+        GUILayout.Label("X/Z/Y 이동 오프셋", EditorStyles.miniBoldLabel);
         EditorGUI.BeginChangeCheck();
         using (new EditorGUILayout.HorizontalScope())
         {
             GUILayout.Label("X", GUILayout.Width(12f));
             offset.x = EditorGUILayout.FloatField(offset.x, GUILayout.Width(58f));
             GUILayout.Label("Z", GUILayout.Width(12f));
+            offset.z = EditorGUILayout.FloatField(offset.z, GUILayout.Width(58f));
+            GUILayout.Label("Y", GUILayout.Width(12f));
             offset.y = EditorGUILayout.FloatField(offset.y, GUILayout.Width(58f));
         }
 
@@ -893,6 +909,16 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         using (new EditorGUILayout.HorizontalScope())
         {
             GUILayout.Label("Z", GUILayout.Width(12f));
+            for (int i = 0; i < PositionOffsetQuickSteps.Length; i++)
+            {
+                if (GUILayout.Button(PositionOffsetQuickButtonLabels[i], GUILayout.Height(22f)))
+                    offset.z = MovePositionOffsetByStep(offset.z, PositionOffsetQuickSteps[i]);
+            }
+        }
+
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            GUILayout.Label("Y", GUILayout.Width(12f));
             for (int i = 0; i < PositionOffsetQuickSteps.Length; i++)
             {
                 if (GUILayout.Button(PositionOffsetQuickButtonLabels[i], GUILayout.Height(22f)))
@@ -963,9 +989,21 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
             EditorGUI.BeginChangeCheck();
             entry.scale = EditorGUILayout.Vector3Field("크기 보정", entry.scale);
-            entry.positionOffset = EditorGUILayout.Vector2Field("X/Z 오프셋", entry.positionOffset);
+            Vector3 placementOffset = new(entry.positionOffset.x, entry.heightOffset, entry.positionOffset.y);
+            EditorGUILayout.LabelField("X/Z/Y 오프셋");
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Label("X", GUILayout.Width(12f));
+                placementOffset.x = EditorGUILayout.FloatField(placementOffset.x, GUILayout.Width(58f));
+                GUILayout.Label("Z", GUILayout.Width(12f));
+                placementOffset.z = EditorGUILayout.FloatField(placementOffset.z, GUILayout.Width(58f));
+                GUILayout.Label("Y", GUILayout.Width(12f));
+                placementOffset.y = EditorGUILayout.FloatField(placementOffset.y, GUILayout.Width(58f));
+            }
+
+            entry.positionOffset = new Vector2(placementOffset.x, placementOffset.z);
+            entry.heightOffset = placementOffset.y;
             entry.yawOffset = EditorGUILayout.FloatField("개별 보정 Y", entry.yawOffset);
-            entry.heightOffset = EditorGUILayout.FloatField("높이 오프셋", entry.heightOffset);
 
             if (EditorGUI.EndChangeCheck())
                 SavePaletteDefaults();
@@ -2061,8 +2099,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void PlaceRoadCompanions(Transform roadRoot, RoadPiece roadPiece)
     {
-        foreach (string companionPrefabPath in roadPiece.CompanionPrefabPaths)
+        foreach (RoadCompanion roadCompanion in roadPiece.Companions)
         {
+            string companionPrefabPath = roadCompanion.PrefabPath;
             GameObject companionPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(companionPrefabPath);
             if (companionPrefab == null)
             {
@@ -2075,9 +2114,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 companion = Instantiate(companionPrefab, roadRoot);
 
             companion.name = companionPrefab.name;
-            companion.transform.localPosition = Vector3.zero;
-            companion.transform.localRotation = Quaternion.identity;
-            companion.transform.localScale = Vector3.one;
+            companion.transform.localPosition = roadCompanion.LocalPosition;
+            companion.transform.localRotation = Quaternion.Euler(roadCompanion.LocalEulerAngles);
+            companion.transform.localScale = roadCompanion.LocalScale;
             Undo.RegisterCreatedObjectUndo(companion, $"Place {roadPiece.KoreanLabel} companion");
             EditorUtility.SetDirty(companion);
         }
@@ -2541,6 +2580,11 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void ApplySelectedObjectPositionOffset(GameObject target, Vector2Int anchor, Vector2 offset)
     {
+        ApplySelectedObjectPositionOffset(target, anchor, new Vector3(offset.x, 0f, offset.y));
+    }
+
+    private void ApplySelectedObjectPositionOffset(GameObject target, Vector2Int anchor, Vector3 offset)
+    {
         if (target == null)
             return;
 
@@ -2549,7 +2593,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             origin,
             anchor,
             BuildPlacementSnapCellSize(cellSize, false),
-            target.transform.position.y,
+            placementHeight,
             offset);
         EditorUtility.SetDirty(target);
         SceneView.RepaintAll();
@@ -3212,14 +3256,33 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         float itemHeightOffset,
         Vector2 itemPositionOffset)
     {
+        return BuildPalettePlacementPosition(
+            currentOrigin,
+            cursorX,
+            cursorZ,
+            currentCellSize,
+            currentPlacementHeight,
+            itemHeightOffset,
+            new Vector3(itemPositionOffset.x, 0f, itemPositionOffset.y));
+    }
+
+    internal static Vector3 BuildPalettePlacementPosition(
+        Vector3 currentOrigin,
+        int cursorX,
+        int cursorZ,
+        float currentCellSize,
+        float currentPlacementHeight,
+        float itemHeightOffset,
+        Vector3 itemPositionOffset)
+    {
         Vector3 position = NoryangjinMapToolGridUtility.GridToWorld(
             currentOrigin,
             cursorX,
             cursorZ,
             currentCellSize,
-            currentPlacementHeight + itemHeightOffset);
+            currentPlacementHeight + itemHeightOffset + itemPositionOffset.y);
         position.x += itemPositionOffset.x;
-        position.z += itemPositionOffset.y;
+        position.z += itemPositionOffset.z;
         return position;
     }
 
@@ -3238,12 +3301,46 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return new Vector2(objectPosition.x - anchorPosition.x, objectPosition.z - anchorPosition.z);
     }
 
+    internal static Vector3 CalculatePlacedObjectPositionOffset(
+        Vector3 objectPosition,
+        Vector3 currentOrigin,
+        Vector2Int anchor,
+        float currentCellSize,
+        float currentPlacementHeight)
+    {
+        Vector3 anchorPosition = NoryangjinMapToolGridUtility.GridToWorld(
+            currentOrigin,
+            anchor.x,
+            anchor.y,
+            currentCellSize,
+            currentPlacementHeight);
+        return new Vector3(
+            objectPosition.x - anchorPosition.x,
+            objectPosition.y - currentPlacementHeight,
+            objectPosition.z - anchorPosition.z);
+    }
+
     internal static Vector3 BuildPlacedObjectPositionWithOffset(
         Vector3 currentOrigin,
         Vector2Int anchor,
         float currentCellSize,
         float currentHeight,
         Vector2 offset)
+    {
+        return BuildPlacedObjectPositionWithOffset(
+            currentOrigin,
+            anchor,
+            currentCellSize,
+            currentHeight,
+            new Vector3(offset.x, 0f, offset.y));
+    }
+
+    internal static Vector3 BuildPlacedObjectPositionWithOffset(
+        Vector3 currentOrigin,
+        Vector2Int anchor,
+        float currentCellSize,
+        float currentHeight,
+        Vector3 offset)
     {
         Vector3 anchorPosition = NoryangjinMapToolGridUtility.GridToWorld(
             currentOrigin,
@@ -3252,7 +3349,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             currentCellSize,
             currentHeight);
         anchorPosition.x += offset.x;
-        anchorPosition.z += offset.y;
+        anchorPosition.y += offset.y;
+        anchorPosition.z += offset.z;
         return anchorPosition;
     }
 
@@ -3272,12 +3370,14 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return;
 
         float normalizedCellSize = NoryangjinMapToolGridUtility.NormalizeCellSize(currentCellSize);
-        entry.positionOffset = CalculatePlacedObjectPositionOffset(
+        Vector3 positionOffset = CalculatePlacedObjectPositionOffset(
             objectPosition,
             currentOrigin,
             anchor,
-            normalizedCellSize);
-        entry.heightOffset = objectPosition.y - currentPlacementHeight;
+            normalizedCellSize,
+            currentPlacementHeight);
+        entry.positionOffset = new Vector2(positionOffset.x, positionOffset.z);
+        entry.heightOffset = positionOffset.y;
         entry.yawOffset = CalculatePaletteYawOffsetFromPlacedRotation(objectRotation, prefabBaseRotation);
         entry.scale = CalculatePaletteScaleMultiplier(objectScale, prefabBaseScale);
     }
@@ -3957,8 +4057,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             if (prefab == null)
                 missingPaths.Add(roadPiece.PrefabPath);
 
-            foreach (string companionPrefabPath in roadPiece.CompanionPrefabPaths)
+            foreach (RoadCompanion roadCompanion in roadPiece.Companions)
             {
+                string companionPrefabPath = roadCompanion.PrefabPath;
                 GameObject companionPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(companionPrefabPath);
                 if (companionPrefab == null)
                     missingPaths.Add(companionPrefabPath);
@@ -4074,20 +4175,48 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             string koreanLabel,
             string prefabPath,
             NoryangjinMapToolRoadTurn turn,
-            params string[] companionPrefabPaths)
+            params RoadCompanion[] companions)
         {
             Label = label;
             KoreanLabel = koreanLabel;
             PrefabPath = prefabPath;
             Turn = turn;
-            CompanionPrefabPaths = companionPrefabPaths ?? Array.Empty<string>();
+            Companions = companions ?? Array.Empty<RoadCompanion>();
         }
 
         public string Label { get; }
         public string KoreanLabel { get; }
         public string PrefabPath { get; }
         public NoryangjinMapToolRoadTurn Turn { get; }
-        public string[] CompanionPrefabPaths { get; }
+        public RoadCompanion[] Companions { get; }
+        public Vector3[] CompanionLocalPositions => Array.ConvertAll(Companions, companion => companion.LocalPosition);
+        public string[] CompanionPrefabPaths => Array.ConvertAll(Companions, companion => companion.PrefabPath);
+    }
+
+    private readonly struct RoadCompanion
+    {
+        public RoadCompanion(string prefabPath)
+            : this(prefabPath, Vector3.zero, Vector3.zero, Vector3.one)
+        {
+        }
+
+        public RoadCompanion(string prefabPath, Vector3 localPosition)
+            : this(prefabPath, localPosition, Vector3.zero, Vector3.one)
+        {
+        }
+
+        public RoadCompanion(string prefabPath, Vector3 localPosition, Vector3 localEulerAngles, Vector3 localScale)
+        {
+            PrefabPath = prefabPath;
+            LocalPosition = localPosition;
+            LocalEulerAngles = localEulerAngles;
+            LocalScale = localScale;
+        }
+
+        public string PrefabPath { get; }
+        public Vector3 LocalPosition { get; }
+        public Vector3 LocalEulerAngles { get; }
+        public Vector3 LocalScale { get; }
     }
 
     private readonly struct PaletteItem

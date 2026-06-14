@@ -228,6 +228,11 @@ namespace IndianOceanAssets.ShooterSurvival
             Invoke(nameof(ReturnToPool), 2);             // Delay Return to Pool
 
             if (givePlayerScore == true) playerScript.playerScore += _score;
+            if (givePlayerScore == true)
+            {
+                int finalCoin = CoinDropUtility.ApplyCoinBonus(CoinDropUtility.GetCoinAmount(enemyType));
+                CoinDropUtility.SpawnWorldCoinDrop(transform.position, finalCoin);
+            }
             givePlayerScore = true;
         }
 

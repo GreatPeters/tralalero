@@ -102,11 +102,41 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void GameEnded()
         {
-            if (currentWave >= waves.Count && EnemySpawnerScript.enemyCount == 0 && CanvasScript.isGameOver == false)
+            if (WaveHarnessUtility.ShouldTriggerVictory(currentWave, waves.Count, EnemySpawnerScript.enemyCount, CanvasScript.isGameOver))
             {
                 TimeManager.isGameRunning = false;
                 canvasScript.YouWin();
             }
+        }
+
+        public bool ForceAdvanceToNextWaveForHarness()
+        {
+            if (currentWave >= waves.Count)
+            {
+                GameEnded();
+                return false;
+            }
+
+            StopAllCoroutines();
+            currentWave++;
+            isSpawning = false;
+            GameEnded();
+            return true;
+        }
+
+        public string BuildHarnessSnapshot()
+        {
+            int waveIndex = currentWave + 1;
+            bool hasWave = currentWave >= 0 && currentWave < waves.Count;
+            int totalEnemiesInWave = hasWave ? WaveHarnessUtility.CountTotalEnemies(waves[currentWave]) : 0;
+            int totalBarrelsInWave = hasWave ? WaveHarnessUtility.CountTotalBarrels(waves[currentWave]) : 0;
+            int totalWallsInWave = hasWave ? WaveHarnessUtility.CountTotalWalls(waves[currentWave]) : 0;
+            int remainingEnemies = WaveHarnessUtility.CountRemainingEnemies(waves, currentWave);
+
+            return $"wave={waveIndex}/{waves.Count}, aliveEnemies={EnemySpawnerScript.enemyCount}, " +
+                   $"currentWaveEnemies={totalEnemiesInWave}, currentWaveBarrels={totalBarrelsInWave}, " +
+                   $"currentWaveWalls={totalWallsInWave}, remainingWaveEnemies={remainingEnemies}, " +
+                   $"isSpawning={isSpawning}, running={TimeManager.isGameRunning}";
         }
 
         private void SurvivalModeSpawn()

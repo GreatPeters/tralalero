@@ -11,13 +11,25 @@ namespace IndianOceanAssets.ShooterSurvival
         private const float Duration = 0.75f;
         private const int PopupSortingOrder = 32767;
         private static readonly Vector3 CanvasScale = new Vector3(0.01f, 0.01f, 0.01f);
+        private static readonly Vector3 CoinCanvasScale = new Vector3(0.007f, 0.007f, 0.007f);
         private static readonly Color DamageColor = new Color(1f, 0.25f, 0.25f, 1f);
+        private static readonly Color CoinColor = new Color(1f, 0.88f, 0.22f, 1f);
 
         public static void Show(Vector3 worldPosition, float amount)
         {
+            Show(worldPosition, Mathf.RoundToInt(amount).ToString(), DamageColor, CanvasScale);
+        }
+
+        public static void ShowCoin(Vector3 worldPosition, int amount)
+        {
+            Show(worldPosition, $"+{amount}", CoinColor, CoinCanvasScale);
+        }
+
+        private static void Show(Vector3 worldPosition, string message, Color color, Vector3 canvasScale)
+        {
             GameObject popupObject = new GameObject("DamagePopup");
             popupObject.transform.position = worldPosition + new Vector3(Random.Range(-0.15f, 0.15f), 0.35f, 0f);
-            popupObject.transform.localScale = CanvasScale;
+            popupObject.transform.localScale = canvasScale;
 
             Camera cam = Camera.main;
             Canvas canvas = popupObject.AddComponent<Canvas>();
@@ -43,8 +55,9 @@ namespace IndianOceanAssets.ShooterSurvival
             textRect.offsetMax = Vector2.zero;
 
             TextMeshProUGUI text = CreatePopupText(textObject.transform);
-            text.text = Mathf.RoundToInt(amount).ToString();
-            Color baseColor = text.color;
+            text.text = message;
+            text.color = color;
+            Color baseColor = color;
 
             if (cam != null)
                 popupObject.transform.forward = cam.transform.forward;
@@ -78,6 +91,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 rect.anchorMax = Vector2.one;
                 rect.offsetMin = Vector2.zero;
                 rect.offsetMax = Vector2.zero;
+                instance.color = DamageColor;
                 return instance;
             }
 

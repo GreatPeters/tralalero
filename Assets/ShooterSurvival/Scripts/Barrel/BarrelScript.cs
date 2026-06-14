@@ -162,6 +162,8 @@ namespace IndianOceanAssets.ShooterSurvival
                         EnemyScript enemyScript = obj.GetComponent<EnemyScript>();
                         enemyPooler.ReturnObjectToPool_Enemy(enemyScript.enemyType, obj.gameObject);
                         playerScript.playerScore += enemyScript._score;                     // Add score to player for killing enemy
+                        int finalCoin = CoinDropUtility.ApplyCoinBonus(CoinDropUtility.GetCoinAmount(enemyScript.enemyType));
+                        CoinDropUtility.SpawnWorldCoinDrop(obj.transform.position, finalCoin);
                     }
 
                     // player is enar barrel

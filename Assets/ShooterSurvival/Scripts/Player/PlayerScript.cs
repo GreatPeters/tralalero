@@ -1,7 +1,6 @@
 using UnityEngine.UI;
 using UnityEngine;
 using System;
-using NUnit.Framework;
 using System.Collections.Generic;
 using TMPro;
 namespace IndianOceanAssets.ShooterSurvival
@@ -89,6 +88,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private string appliedSkinItem;
         private bool subscribedToStats;
         private float lastReportedCurrentDamage = float.MinValue;
+        public float MaxHealth => maxHealthWithUpgrades > 0f ? maxHealthWithUpgrades : originalHealth;
 
         private void Awake()
         {
@@ -475,9 +475,15 @@ namespace IndianOceanAssets.ShooterSurvival
 
             float maxHealth = maxHealthWithUpgrades > 0f ? maxHealthWithUpgrades : originalHealth;
             if (healthBar) healthBar.fillAmount = currentHealth / maxHealth;
-            healthText.text = currentHealth.ToString("N0");
+            if (healthText) healthText.text = currentHealth.ToString("N0");
 
             return currentHealth;
+        }
+
+        public void ApplyHarnessHealthDelta(float delta)
+        {
+            currentHealth = Mathf.Clamp(currentHealth + delta, 0f, MaxHealth);
+            UpdateHealth();
         }
 
         void OnTriggerEnter(Collider other)

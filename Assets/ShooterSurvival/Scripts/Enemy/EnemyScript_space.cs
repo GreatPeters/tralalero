@@ -286,33 +286,8 @@ namespace IndianOceanAssets.ShooterSurvival
             if (givePlayerScore) playerScript.playerScore += _score;
             givePlayerScore = false;
 
-            int baseCoin = 0;
-            float bonus = UpgradeStatManager.S != null
-                ? UpgradeStatManager.S.GetPercentStat(UpgradeStatManager.UpgradeType.COIN_BONUS)
-                : 0f;
-            int finalCoin = 0;
-
-            if (enemyTier == EnemyTier.Normal)
-            {
-                baseCoin = 10;
-                finalCoin = Mathf.RoundToInt(baseCoin * (1f + bonus / 100f));
-                MoneyScript.S.GetCoin(finalCoin);
-                CoinFlyFX.S?.PlayFromWorld(transform.position, finalCoin);
-            }
-            else if (enemyTier == EnemyTier.Elite)
-            {
-                baseCoin = 20;
-                finalCoin = Mathf.RoundToInt(baseCoin * (1f + bonus / 100f));
-                MoneyScript.S.GetCoin(finalCoin);
-                CoinFlyFX.S?.PlayFromWorld(transform.position, finalCoin);
-            }
-            else if (enemyTier == EnemyTier.Boss)
-            {
-                baseCoin = 50;
-                finalCoin = Mathf.RoundToInt(baseCoin * (1f + bonus / 100f));
-                MoneyScript.S.GetCoin(finalCoin);
-                CoinFlyFX.S?.PlayFromWorld(transform.position, finalCoin);
-            }
+            int finalCoin = CoinDropUtility.ApplyCoinBonus(CoinDropUtility.GetCoinAmount(enemyTier));
+            CoinDropUtility.SpawnWorldCoinDrop(transform.position, finalCoin);
         }
 
         IEnumerator DeathFlow()

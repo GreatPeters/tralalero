@@ -184,6 +184,48 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void SlopeHeightLabels_MarkUphillStartAsHigh()
+    {
+        var footprintCells = new[]
+        {
+            new Vector2Int(0, 0),
+            new Vector2Int(0, 5)
+        };
+
+        bool hasLabels = NoryangjinMapToolWindow.TryBuildSlopeHeightLabelCells(
+            "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy.prefab",
+            footprintCells,
+            NoryangjinMapToolDirection.North,
+            out Vector2Int highCell,
+            out Vector2Int lowCell);
+
+        Assert.That(hasLabels, Is.True);
+        Assert.That(highCell, Is.EqualTo(new Vector2Int(0, 0)));
+        Assert.That(lowCell, Is.EqualTo(new Vector2Int(0, 5)));
+    }
+
+    [Test]
+    public void SlopeHeightLabels_MarkDownhillEndAsHigh()
+    {
+        var footprintCells = new[]
+        {
+            new Vector2Int(0, 0),
+            new Vector2Int(0, 5)
+        };
+
+        bool hasLabels = NoryangjinMapToolWindow.TryBuildSlopeHeightLabelCells(
+            "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy_Downhill.prefab",
+            footprintCells,
+            NoryangjinMapToolDirection.North,
+            out Vector2Int highCell,
+            out Vector2Int lowCell);
+
+        Assert.That(hasLabels, Is.True);
+        Assert.That(highCell, Is.EqualTo(new Vector2Int(0, 5)));
+        Assert.That(lowCell, Is.EqualTo(new Vector2Int(0, 0)));
+    }
+
+    [Test]
     public void KnownRoadPrefabs_AppearInRoadPaletteCategory()
     {
         Dictionary<string, NoryangjinMapToolPaletteCategory> paletteCategories = GetPaletteItemCategoriesByPath();
@@ -479,6 +521,50 @@ public sealed class NoryangjinMapToolGridUtilityTests
         Assert.That(NoryangjinMapToolWindow.PositionMoveSectionTitle, Is.EqualTo("설치 조정"));
         Assert.That(NoryangjinMapToolWindow.PlacementAngleSectionTitle, Is.EqualTo("설치 각도"));
         Assert.That(NoryangjinMapToolWindow.ObjectSectionTitle, Is.EqualTo("오브젝트"));
+    }
+
+    [Test]
+    public void MapToolEnableToggle_UsesOnOffLabels()
+    {
+        Assert.That(NoryangjinMapToolWindow.MapToolEnabledLabel, Is.EqualTo("ON"));
+        Assert.That(NoryangjinMapToolWindow.MapToolDisabledLabel, Is.EqualTo("OFF"));
+        Assert.That(NoryangjinMapToolWindow.MapToolDisabledHelp, Does.Contain("비적용"));
+    }
+
+    [Test]
+    public void MapToolEnableToggle_TargetsWorkObjectsForActiveStateSwitch()
+    {
+        Assert.That(NoryangjinMapToolWindow.MapToolWorkObjectNames, Does.Contain("MapTool_Work_Floor"));
+        Assert.That(NoryangjinMapToolWindow.MapToolWorkObjectNames, Does.Contain("MapTool_Origin_Post"));
+        Assert.That(NoryangjinMapToolWindow.MapToolWorkObjectNames, Does.Contain("MapTool_Work_Grid"));
+    }
+
+    [Test]
+    public void MapToolEnableToggle_ControlsWhetherSceneViewAppliesTooling()
+    {
+        Assert.That(NoryangjinMapToolWindow.ShouldApplyMapTool(true), Is.True);
+        Assert.That(NoryangjinMapToolWindow.ShouldApplyMapTool(false), Is.False);
+    }
+
+    [Test]
+    public void PlacedObjectHeightLabel_FormatsCurrentYValue()
+    {
+        Assert.That(NoryangjinMapToolWindow.FormatPlacedObjectHeightLabel(1.075f), Is.EqualTo("Y 1.08"));
+        Assert.That(NoryangjinMapToolWindow.FormatPlacedObjectHeightLabel(-0.5f), Is.EqualTo("Y -0.50"));
+    }
+
+    [Test]
+    public void PlacedObjectHeightLabel_DrawsOnlyForMapToolPlacedObjectsWhenToolIsOn()
+    {
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldDrawPlacedObjectHeightLabel("Road_Basic_X+00_Z+00", true),
+            Is.True);
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldDrawPlacedObjectHeightLabel("MapTool_Work_Grid", true),
+            Is.False);
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldDrawPlacedObjectHeightLabel("Road_Basic_X+00_Z+00", false),
+            Is.False);
     }
 
     [Test]

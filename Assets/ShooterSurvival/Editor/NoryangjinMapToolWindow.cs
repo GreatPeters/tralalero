@@ -278,6 +278,12 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private const string WorkFloorName = "MapTool_Work_Floor";
     private const string WorkGridName = "MapTool_Work_Grid";
     private const string OriginPostName = "MapTool_Origin_Post";
+    internal static readonly string[] MapToolWorkObjectNames =
+    {
+        WorkFloorName,
+        OriginPostName,
+        WorkGridName
+    };
     internal const string PlacementPreviewName = "MapTool_Placement_Preview";
 
     internal const string PositionMoveSectionTitle = "설치 조정";
@@ -286,6 +292,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string PlacementAnglePaletteHint = "선택 프리팹의 다음 배치 각도";
     internal const string PlacementAnglePlacedObjectHint = "선택 오브젝트에 바로 적용";
     internal const string PlacementAngleNoSelectionHint = "프리팹을 고르면 배치 전 각도를 조정할 수 있습니다.";
+    internal const string MapToolEnabledLabel = "ON";
+    internal const string MapToolDisabledLabel = "OFF";
+    internal const string MapToolDisabledHelp = "노량진 맵툴 비적용 상태입니다. ON으로 바꾸면 그리드, 프리뷰, 설치가 다시 적용됩니다.";
     internal const string DeleteAllPlacedObjectsButtonLabel = "모두 삭제";
     internal const string DeleteAllPlacedObjectsNoTargetsMessage = "삭제할 배치 오브젝트가 없습니다.";
     internal const string EmptyPaletteItemPrefabPath = "__EMPTY_CELL__";
@@ -346,6 +355,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal static readonly string[] HeightQuickButtonLabels = { "-0.1", "+0.1" };
     internal static readonly float[] PositionOffsetQuickSteps = { -0.01f, -0.1f, 0.1f, 0.01f };
     internal static readonly string[] PositionOffsetQuickButtonLabels = { "-0.01", "-0.1", "+0.1", "+0.01" };
+    internal const string SlopeHighLabel = "위";
+    internal const string SlopeLowLabel = "아래";
     internal const string SelectedObjectIndividualSaveButtonLabel = "개별 저장";
     internal const string SelectedObjectPrefabWideSaveButtonLabel = "프리팹 전체 적용";
     internal const string SelectedObjectIndividualSaveHint = "개별 저장: 위 값은 현재 선택 오브젝트에만 바로 적용됩니다.";
@@ -457,6 +468,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     [SerializeField] private Vector3 roadScale = Vector3.one;
     [SerializeField] private Vector3 propScale = Vector3.one;
     [SerializeField] private GameObject propPrefab;
+    [SerializeField] private bool mapToolEnabled = true;
     [SerializeField] private bool advanceAfterRoad = true;
     [SerializeField] private bool showSceneGrid = DefaultShowSceneGrid;
     [SerializeField] private bool showGridLabels = true;
@@ -528,6 +540,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         titleContent = new GUIContent(KoreanWindowTitle);
         cellSize = MigrateCellSizeDefault(cellSize);
         showSceneGrid = DefaultShowSceneGrid;
+        ApplyMapToolWorkObjectsActiveState(mapToolEnabled);
         SceneView.duringSceneGui -= DrawSceneGrid;
         SceneView.duringSceneGui += DrawSceneGrid;
         Undo.undoRedoPerformed -= OnUndoRedoPerformed;
@@ -549,7 +562,14 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
         DrawHeader();
         scroll = EditorGUILayout.BeginScrollView(scroll);
-        DrawPaletteControls();
+        if (!mapToolEnabled)
+            EditorGUILayout.HelpBox(MapToolDisabledHelp, MessageType.Info);
+
+        using (new EditorGUI.DisabledScope(!mapToolEnabled))
+        {
+            DrawPaletteControls();
+        }
+
         EditorGUILayout.EndScrollView();
     }
 
@@ -592,11 +612,22 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         bool isToolScene = IsMapToolScenePath(SceneManager.GetActiveScene().path);
         using (new EditorGUILayout.HorizontalScope(EditorStyles.toolbar))
         {
+            bool enabled = GUILayout.Toggle(
+                mapToolEnabled,
+                mapToolEnabled ? MapToolEnabledLabel : MapToolDisabledLabel,
+                EditorStyles.toolbarButton,
+                GUILayout.Width(44f));
+            if (enabled != mapToolEnabled)
+                SetMapToolEnabled(enabled);
+
             GUILayout.Label(FormatCursorStatus(isToolScene, gridX, gridZ, direction, cellSize), EditorStyles.miniLabel);
             GUILayout.FlexibleSpace();
 
             if (GUILayout.Button("씬", EditorStyles.toolbarButton, GUILayout.Width(36f)))
+            {
                 OpenOrCreateMapToolScene();
+                ApplyMapToolWorkObjectsActiveState(mapToolEnabled);
+            }
 
             if (GUILayout.Button(isTopSceneView ? "원래뷰" : "탑뷰", EditorStyles.toolbarButton, GUILayout.Width(56f)))
                 ToggleMapToolSceneView();
@@ -604,6 +635,46 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             if (GUILayout.Button("루트", EditorStyles.toolbarButton, GUILayout.Width(42f)))
                 Selection.activeGameObject = EnsureRoot();
         }
+    }
+
+    private void SetMapToolEnabled(bool enabled)
+    {
+        mapToolEnabled = enabled;
+        ApplyMapToolWorkObjectsActiveState(mapToolEnabled);
+        if (!mapToolEnabled)
+        {
+            coarsePlacementSnapActive = false;
+            DestroyPlacementPreview();
+        }
+
+        SceneView.RepaintAll();
+        Repaint();
+    }
+
+    private static bool ApplyMapToolWorkObjectsActiveState(bool active)
+    {
+        GameObject root = GameObject.Find(RootName);
+        if (root == null)
+            return false;
+
+        bool changed = false;
+        string undoName = active ? "Enable Noryangjin Map Tool Work Objects" : "Disable Noryangjin Map Tool Work Objects";
+        foreach (string objectName in MapToolWorkObjectNames)
+        {
+            Transform child = root.transform.Find(objectName);
+            if (child == null || child.gameObject.activeSelf == active)
+                continue;
+
+            Undo.RecordObject(child.gameObject, undoName);
+            child.gameObject.SetActive(active);
+            EditorUtility.SetDirty(child.gameObject);
+            changed = true;
+        }
+
+        if (changed)
+            EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+
+        return changed;
     }
 
     private void DrawPaletteControls()
@@ -1426,6 +1497,12 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void DrawSceneGrid(SceneView sceneView)
     {
+        if (!ShouldApplyMapTool(mapToolEnabled))
+        {
+            DestroyPlacementPreview();
+            return;
+        }
+
         if (HandleUndoCommand(Event.current))
             return;
 
@@ -1437,6 +1514,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         DrawStableTopViewWorkGridOverlay(normalizedCellSize, sceneView);
         DrawLastPlacedObjectFootprint(normalizedCellSize);
         DrawSelectedPaletteFootprintPreview(normalizedCellSize);
+        DrawPlacedObjectHeightLabels();
 
         if (!showSceneGrid)
         {
@@ -1546,6 +1624,70 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
         foreach (Vector2Int cell in previewCells)
             DrawSceneGridCellFill(cell.x, cell.y, placementGridCellSize, previewState);
+
+        DrawSlopeHeightLabels(selectedItem.Value.PrefabPath, previewCells, placementGridCellSize);
+    }
+
+    private void DrawSlopeHeightLabels(string prefabPath, IReadOnlyList<Vector2Int> previewCells, float placementGridCellSize)
+    {
+        if (!TryBuildSlopeHeightLabelCells(prefabPath, previewCells, direction, out Vector2Int highCell, out Vector2Int lowCell))
+            return;
+
+        DrawSlopeHeightLabel(highCell, placementGridCellSize, SlopeHighLabel);
+        DrawSlopeHeightLabel(lowCell, placementGridCellSize, SlopeLowLabel);
+    }
+
+    private void DrawSlopeHeightLabel(Vector2Int cell, float placementGridCellSize, string label)
+    {
+        Vector3 worldPosition = NoryangjinMapToolGridUtility.GridToWorld(
+            origin,
+            cell.x,
+            cell.y,
+            placementGridCellSize,
+            BuildSceneGridOverlayHeight(placementHeight)) + Vector3.up * 0.16f;
+        GUIStyle labelStyle = new GUIStyle(EditorStyles.boldLabel)
+        {
+            alignment = TextAnchor.MiddleCenter,
+            fontSize = 20,
+            normal = { textColor = Color.white }
+        };
+
+        Handles.Label(worldPosition, label, labelStyle);
+    }
+
+    private void DrawPlacedObjectHeightLabels()
+    {
+        GameObject root = GameObject.Find(RootName);
+        if (root == null)
+            return;
+
+        GUIStyle labelStyle = new GUIStyle(EditorStyles.boldLabel)
+        {
+            alignment = TextAnchor.MiddleCenter,
+            fontSize = 12,
+            normal = { textColor = Color.cyan }
+        };
+
+        foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
+        {
+            if (child == root.transform ||
+                !child.gameObject.activeInHierarchy ||
+                !ShouldDrawPlacedObjectHeightLabel(child.gameObject.name, mapToolEnabled))
+            {
+                continue;
+            }
+
+            Vector3 labelPosition = BuildPlacedObjectHeightLabelPosition(child.gameObject);
+            Handles.Label(labelPosition, FormatPlacedObjectHeightLabel(child.position.y), labelStyle);
+        }
+    }
+
+    private static Vector3 BuildPlacedObjectHeightLabelPosition(GameObject target)
+    {
+        Bounds bounds = CalculateRendererBounds(target);
+        Vector3 position = bounds.size == Vector3.zero ? target.transform.position : bounds.center;
+        float verticalOffset = Mathf.Max(0.35f, bounds.extents.y + 0.2f);
+        return position + Vector3.up * verticalOffset;
     }
 
     private void DrawLastPlacedObjectFootprint(float normalizedCellSize)
@@ -2942,6 +3084,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         changed |= SetTransform(floor.transform, new Vector3(0f, -0.05f, 0f), Quaternion.identity, new Vector3(floorSize, 0.04f, floorSize));
         changed |= RemoveCollider(floor);
         changed |= SetRendererMaterial(floor, EnsureMapToolMaterial(WorkFloorMaterialPath, new Color(0.88f, 0.9f, 0.88f, 1f)));
+        changed |= SetRendererEnabled(floor, false);
         return changed;
     }
 
@@ -2974,6 +3117,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 new Vector3(WorkGridLineWidth, WorkGridLineVerticalThickness, span));
             changed |= RemoveCollider(xLine);
             changed |= SetRendererMaterial(xLine, material);
+            changed |= SetRendererEnabled(xLine, false);
 
             GameObject zLine = FindOrCreatePrimitiveChild(grid, $"MapTool_Work_Grid_Z_{FormatGridIndex(i)}", PrimitiveType.Cube, out bool zCreated);
             changed |= zCreated;
@@ -2984,6 +3128,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 new Vector3(span, WorkGridLineVerticalThickness, WorkGridLineWidth));
             changed |= RemoveCollider(zLine);
             changed |= SetRendererMaterial(zLine, material);
+            changed |= SetRendererEnabled(zLine, false);
         }
 
         for (int cell = -WorkGridExtent; cell <= WorkGridExtent; cell++)
@@ -3001,6 +3146,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                     new Vector3(WorkSubGridLineWidth, WorkGridLineVerticalThickness, span));
                 changed |= RemoveCollider(xLine);
                 changed |= SetRendererMaterial(xLine, subMaterial);
+                changed |= SetRendererEnabled(xLine, false);
 
                 GameObject zLine = FindOrCreatePrimitiveChild(grid, $"MapTool_Work_SubGrid_Z_{suffix}", PrimitiveType.Cube, out bool zCreated);
                 changed |= zCreated;
@@ -3011,6 +3157,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                     new Vector3(span, WorkGridLineVerticalThickness, WorkSubGridLineWidth));
                 changed |= RemoveCollider(zLine);
                 changed |= SetRendererMaterial(zLine, subMaterial);
+                changed |= SetRendererEnabled(zLine, false);
             }
         }
 
@@ -3137,6 +3284,16 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return false;
 
         renderer.sharedMaterial = material;
+        return true;
+    }
+
+    private static bool SetRendererEnabled(GameObject target, bool enabled)
+    {
+        Renderer renderer = target.GetComponent<Renderer>();
+        if (renderer == null || renderer.enabled == enabled)
+            return false;
+
+        renderer.enabled = enabled;
         return true;
     }
 
@@ -3851,6 +4008,102 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal static bool ShouldDrawSceneGridCellFill(Vector2Int cell, Vector2Int cursor)
     {
         return cell == cursor;
+    }
+
+    internal static bool ShouldApplyMapTool(bool mapToolEnabled)
+    {
+        return mapToolEnabled;
+    }
+
+    internal static string FormatPlacedObjectHeightLabel(float y)
+    {
+        return $"Y {y:0.00}";
+    }
+
+    internal static bool ShouldDrawPlacedObjectHeightLabel(string objectName, bool mapToolEnabled)
+    {
+        return mapToolEnabled && IsMapToolPlacedObjectName(objectName);
+    }
+
+    internal static bool TryBuildSlopeHeightLabelCells(
+        string prefabPath,
+        IReadOnlyList<Vector2Int> footprintCells,
+        NoryangjinMapToolDirection placementDirection,
+        out Vector2Int highCell,
+        out Vector2Int lowCell)
+    {
+        highCell = default;
+        lowCell = default;
+        if (footprintCells == null || footprintCells.Count == 0)
+            return false;
+
+        bool uphill = IsKnownRoadPieceLabel(prefabPath, "Uphill");
+        bool downhill = IsKnownRoadPieceLabel(prefabPath, "Downhill");
+        if (!uphill && !downhill)
+            return false;
+
+        Vector2Int startCell;
+        Vector2Int endCell;
+        ResolveFootprintStartAndEndCells(footprintCells, placementDirection, out startCell, out endCell);
+        if (uphill)
+        {
+            highCell = startCell;
+            lowCell = endCell;
+            return true;
+        }
+
+        lowCell = startCell;
+        highCell = endCell;
+        return true;
+    }
+
+    private static bool IsKnownRoadPieceLabel(string prefabPath, string label)
+    {
+        foreach (RoadPiece roadPiece in RoadPieces)
+        {
+            if (string.Equals(roadPiece.Label, label, StringComparison.Ordinal) &&
+                string.Equals(roadPiece.PrefabPath, prefabPath, StringComparison.Ordinal))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static void ResolveFootprintStartAndEndCells(
+        IReadOnlyList<Vector2Int> footprintCells,
+        NoryangjinMapToolDirection placementDirection,
+        out Vector2Int startCell,
+        out Vector2Int endCell)
+    {
+        Vector2Int step = NoryangjinMapToolGridUtility.DirectionToStep(placementDirection);
+        startCell = footprintCells[0];
+        endCell = footprintCells[0];
+        int startProjection = ProjectCellOnDirection(startCell, step);
+        int endProjection = startProjection;
+
+        for (int i = 1; i < footprintCells.Count; i++)
+        {
+            Vector2Int cell = footprintCells[i];
+            int projection = ProjectCellOnDirection(cell, step);
+            if (projection < startProjection)
+            {
+                startProjection = projection;
+                startCell = cell;
+            }
+
+            if (projection > endProjection)
+            {
+                endProjection = projection;
+                endCell = cell;
+            }
+        }
+    }
+
+    private static int ProjectCellOnDirection(Vector2Int cell, Vector2Int directionStep)
+    {
+        return cell.x * directionStep.x + cell.y * directionStep.y;
     }
 
     internal static bool ShouldDrawStableTopViewWorkGridOverlay(

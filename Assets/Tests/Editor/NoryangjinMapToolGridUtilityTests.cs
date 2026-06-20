@@ -124,14 +124,20 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
-    public void KnownRoadPrefabs_UseFantasyBasicBridgeUphillAndDownhillRoadSet()
+    public void KnownRoadPrefabs_UseFantasyBasicBridgeUphillDownhillAndTurnRoadSet()
     {
         Dictionary<string, string> roadPaths = GetKnownRoadPiecePathsByLabel();
 
-        Assert.That(roadPaths, Has.Count.EqualTo(4));
+        Assert.That(roadPaths, Has.Count.EqualTo(6));
         Assert.That(
             roadPaths["Basic"],
             Is.EqualTo("Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab"));
+        Assert.That(
+            roadPaths["LeftTurn"],
+            Is.EqualTo("Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_LeftTurn.prefab"));
+        Assert.That(
+            roadPaths["RightTurn"],
+            Is.EqualTo("Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab"));
         Assert.That(
             roadPaths["Bridge"],
             Is.EqualTo("Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Bridges_Fantasy/Bridge_Rope_Small_Fantasy.prefab"));
@@ -238,13 +244,15 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
-    public void KnownRoadPrefabs_HavePrefabRootScaleOne()
+    public void KnownRoadPrefabs_HaveUsableNonZeroPrefabRootScale()
     {
         foreach (string prefabPath in GetKnownRoadPiecePathsByLabel().Values)
         {
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             Assert.That(prefab, Is.Not.Null, prefabPath);
-            Assert.That(prefab.transform.localScale, Is.EqualTo(Vector3.one), prefabPath);
+            Assert.That(Mathf.Abs(prefab.transform.localScale.x), Is.GreaterThan(0f), prefabPath);
+            Assert.That(Mathf.Abs(prefab.transform.localScale.y), Is.GreaterThan(0f), prefabPath);
+            Assert.That(Mathf.Abs(prefab.transform.localScale.z), Is.GreaterThan(0f), prefabPath);
         }
     }
 
@@ -267,10 +275,16 @@ public sealed class NoryangjinMapToolGridUtilityTests
 
     private static Dictionary<string, NoryangjinMapToolPaletteCategory> GetPaletteItemCategoriesByPath()
     {
+        return GetPaletteItemCategoriesByPath(out _);
+    }
+
+    private static Dictionary<string, NoryangjinMapToolPaletteCategory> GetPaletteItemCategoriesByPath(out Dictionary<string, int> countsByPath)
+    {
         MethodInfo method = typeof(NoryangjinMapToolWindow).GetMethod("GetPaletteItems", BindingFlags.Instance | BindingFlags.NonPublic);
         Assert.That(method, Is.Not.Null);
 
         var categories = new Dictionary<string, NoryangjinMapToolPaletteCategory>();
+        countsByPath = new Dictionary<string, int>();
         NoryangjinMapToolWindow window = ScriptableObject.CreateInstance<NoryangjinMapToolWindow>();
         try
         {
@@ -280,6 +294,7 @@ public sealed class NoryangjinMapToolGridUtilityTests
                 string prefabPath = (string)paletteItemType.GetProperty("PrefabPath").GetValue(paletteItem);
                 var category = (NoryangjinMapToolPaletteCategory)paletteItemType.GetProperty("Category").GetValue(paletteItem);
                 categories[prefabPath] = category;
+                countsByPath[prefabPath] = countsByPath.TryGetValue(prefabPath, out int count) ? count + 1 : 1;
             }
         }
         finally
@@ -288,6 +303,31 @@ public sealed class NoryangjinMapToolGridUtilityTests
         }
 
         return categories;
+    }
+
+    private static Dictionary<string, string> GetPaletteItemLabelsByPath()
+    {
+        MethodInfo method = typeof(NoryangjinMapToolWindow).GetMethod("GetPaletteItems", BindingFlags.Instance | BindingFlags.NonPublic);
+        Assert.That(method, Is.Not.Null);
+
+        var labels = new Dictionary<string, string>();
+        NoryangjinMapToolWindow window = ScriptableObject.CreateInstance<NoryangjinMapToolWindow>();
+        try
+        {
+            foreach (object paletteItem in (IEnumerable)method.Invoke(window, null))
+            {
+                System.Type paletteItemType = paletteItem.GetType();
+                string prefabPath = (string)paletteItemType.GetProperty("PrefabPath").GetValue(paletteItem);
+                string label = (string)paletteItemType.GetProperty("Label").GetValue(paletteItem);
+                labels[prefabPath] = label;
+            }
+        }
+        finally
+        {
+            Object.DestroyImmediate(window);
+        }
+
+        return labels;
     }
 
     private static Dictionary<string, string[]> GetKnownRoadPieceCompanionPathsByLabel()
@@ -427,6 +467,9 @@ public sealed class NoryangjinMapToolGridUtilityTests
         Assert.That(
             NoryangjinMapToolWindow.CategorizePrefabPath("Assets/018_STAGE01_NRY_BG_002_Harbor_fishing_boat.prefab"),
             Is.EqualTo(NoryangjinMapToolPaletteCategory.Background));
+        Assert.That(
+            NoryangjinMapToolWindow.CategorizePrefabPath(NoryangjinMapToolWindow.JhWaterPrefabPath),
+            Is.EqualTo(NoryangjinMapToolPaletteCategory.Background));
     }
 
     [Test]
@@ -449,6 +492,136 @@ public sealed class NoryangjinMapToolGridUtilityTests
         Assert.That(
             NoryangjinMapToolWindow.BuildPaletteLabel("Assets/017_STAGE01_NRY_BG_001_Ocean_water_plane_backdrop.prefab"),
             Is.EqualTo("바다배경"));
+        Assert.That(
+            NoryangjinMapToolWindow.BuildPaletteLabel(NoryangjinMapToolWindow.JhWaterPrefabPath),
+            Is.EqualTo("물"));
+    }
+
+    [Test]
+    public void JhWaterPrefab_AppearsInBackgroundPaletteCategory()
+    {
+        Dictionary<string, NoryangjinMapToolPaletteCategory> paletteCategories = GetPaletteItemCategoriesByPath(out Dictionary<string, int> paletteItemCounts);
+
+        Assert.That(paletteCategories, Contains.Key(NoryangjinMapToolWindow.JhWaterPrefabPath));
+        Assert.That(paletteCategories[NoryangjinMapToolWindow.JhWaterPrefabPath], Is.EqualTo(NoryangjinMapToolPaletteCategory.Background));
+        Assert.That(paletteItemCounts[NoryangjinMapToolWindow.JhWaterPrefabPath], Is.EqualTo(1));
+    }
+
+    [Test]
+    public void DockMetalCleatPrefab_IsHiddenFromMapToolPalette()
+    {
+        Dictionary<string, NoryangjinMapToolPaletteCategory> paletteCategories = GetPaletteItemCategoriesByPath();
+
+        Assert.That(paletteCategories, Does.Not.ContainKey(NoryangjinMapToolWindow.DockMetalCleatPrefabPath));
+    }
+
+    [Test]
+    public void JhWaterPrefab_UsesCustomDisplayNameInPalette()
+    {
+        NoryangjinMapToolPaletteDefaults defaults = AssetDatabase.LoadAssetAtPath<NoryangjinMapToolPaletteDefaults>(
+            "Assets/ShooterSurvival/Editor/NoryangjinMapToolPaletteDefaults.asset");
+        string previousLabel = defaults.GetCustomLabel(NoryangjinMapToolWindow.JhWaterPrefabPath);
+
+        try
+        {
+            defaults.SetCustomLabel(NoryangjinMapToolWindow.JhWaterPrefabPath, "테스트물");
+            Dictionary<string, string> labels = GetPaletteItemLabelsByPath();
+
+            Assert.That(labels[NoryangjinMapToolWindow.JhWaterPrefabPath], Is.EqualTo("테스트물"));
+        }
+        finally
+        {
+            defaults.SetCustomLabel(NoryangjinMapToolWindow.JhWaterPrefabPath, previousLabel);
+            EditorUtility.SetDirty(defaults);
+            AssetDatabase.SaveAssets();
+        }
+    }
+
+    [Test]
+    public void JhWaterPrefab_UsesLowCostBackgroundPlacementPath()
+    {
+        Assert.That(NoryangjinMapToolWindow.IsLowCostWaterBackgroundPath(NoryangjinMapToolWindow.JhWaterPrefabPath), Is.True);
+        Assert.That(NoryangjinMapToolWindow.IsGridManagedPaletteItemPath(NoryangjinMapToolWindow.JhWaterPrefabPath), Is.False);
+        Assert.That(NoryangjinMapToolWindow.ShouldShowPlacementPreview(NoryangjinMapToolWindow.JhWaterPrefabPath), Is.False);
+        Assert.That(NoryangjinMapToolWindow.ShouldDrawPlacementValidityFill(NoryangjinMapToolWindow.JhWaterPrefabPath), Is.False);
+    }
+
+    [Test]
+    public void NormalBackgroundPrefabs_StillUseGridManagedPlacementPath()
+    {
+        const string backdropPath = "Assets/017_STAGE01_NRY_BG_001_Ocean_water_plane_backdrop.prefab";
+
+        Assert.That(NoryangjinMapToolWindow.IsLowCostWaterBackgroundPath(backdropPath), Is.False);
+        Assert.That(NoryangjinMapToolWindow.IsGridManagedPaletteItemPath(backdropPath), Is.True);
+        Assert.That(NoryangjinMapToolWindow.ShouldShowPlacementPreview(backdropPath), Is.True);
+    }
+
+    [Test]
+    public void BackgroundPaletteItems_UseSeparatePlacementLayer()
+    {
+        const string backdropPath = "Assets/017_STAGE01_NRY_BG_001_Ocean_water_plane_backdrop.prefab";
+
+        Assert.That(
+            NoryangjinMapToolWindow.GetPaletteItemLayer(backdropPath, NoryangjinMapToolPaletteCategory.Background),
+            Is.EqualTo(NoryangjinMapToolPlacementLayer.Background));
+        Assert.That(
+            NoryangjinMapToolWindow.GetPaletteItemLayer("Assets/001_STAGE01_NRY_PROPS_001_Blue_fish_crate.prefab", NoryangjinMapToolPaletteCategory.Prop),
+            Is.EqualTo(NoryangjinMapToolPlacementLayer.Object));
+    }
+
+    [Test]
+    public void BackgroundFootprints_BlockOnlyOtherBackgrounds()
+    {
+        var footprintCells = new[] { Vector2Int.zero };
+        var occupiedCells = new HashSet<NoryangjinMapToolOccupiedCell>
+        {
+            new(Vector2Int.zero, NoryangjinMapToolPlacementLayer.Background)
+        };
+
+        Assert.That(
+            NoryangjinMapToolWindow.CanPlaceFootprintCells(
+                footprintCells,
+                NoryangjinMapToolPlacementLayer.Background,
+                occupiedCells),
+            Is.False);
+        Assert.That(
+            NoryangjinMapToolWindow.CanPlaceFootprintCells(
+                footprintCells,
+                NoryangjinMapToolPlacementLayer.Object,
+                occupiedCells),
+            Is.True);
+    }
+
+    [Test]
+    public void ObjectFootprints_DoNotBlockBackgroundPlacement()
+    {
+        var footprintCells = new[] { Vector2Int.zero };
+        var occupiedCells = new HashSet<NoryangjinMapToolOccupiedCell>
+        {
+            new(Vector2Int.zero, NoryangjinMapToolPlacementLayer.Object)
+        };
+
+        Assert.That(
+            NoryangjinMapToolWindow.CanPlaceFootprintCells(
+                footprintCells,
+                NoryangjinMapToolPlacementLayer.Background,
+                occupiedCells),
+            Is.True);
+    }
+
+    [Test]
+    public void JhWaterPrefab_UsesReducedMapToolDefaultFootprint()
+    {
+        NoryangjinMapToolPaletteDefaults defaults = AssetDatabase.LoadAssetAtPath<NoryangjinMapToolPaletteDefaults>(
+            "Assets/ShooterSurvival/Editor/NoryangjinMapToolPaletteDefaults.asset");
+
+        NoryangjinMapToolPalettePlacementEntry entry = defaults.GetOrCreateEntry(NoryangjinMapToolWindow.JhWaterPrefabPath);
+
+        Assert.That(entry.scale, Is.EqualTo(new Vector3(0.35f, 0.35f, 0.35f)));
+        Assert.That(entry.positionOffset, Is.EqualTo(new Vector2(14.0625f, 14.0625f)));
+        Assert.That(entry.heightOffset, Is.EqualTo(-0.2f).Within(0.001f));
+        Assert.That(entry.useManualFootprint, Is.True);
+        Assert.That(entry.manualFootprint, Is.EqualTo(new Vector2Int(25, 25)));
     }
 
     [Test]
@@ -528,6 +701,7 @@ public sealed class NoryangjinMapToolGridUtilityTests
     {
         Assert.That(NoryangjinMapToolWindow.MapToolEnabledLabel, Is.EqualTo("ON"));
         Assert.That(NoryangjinMapToolWindow.MapToolDisabledLabel, Is.EqualTo("OFF"));
+        Assert.That(NoryangjinMapToolWindow.RefreshMapToolButtonLabel, Is.EqualTo("리프레시"));
         Assert.That(NoryangjinMapToolWindow.MapToolDisabledHelp, Does.Contain("비적용"));
     }
 
@@ -544,6 +718,74 @@ public sealed class NoryangjinMapToolGridUtilityTests
     {
         Assert.That(NoryangjinMapToolWindow.ShouldApplyMapTool(true), Is.True);
         Assert.That(NoryangjinMapToolWindow.ShouldApplyMapTool(false), Is.False);
+    }
+
+    [Test]
+    public void RefreshMapTool_ReactivatesPlacementAndWorkObjectsOnly()
+    {
+        var root = new GameObject("Noryangjin_MapTool");
+        var roads = new GameObject("Roads");
+        var prop = new GameObject("Prop_Box_X+00_Z+00");
+        var props = new GameObject("Props");
+        var water = new GameObject("Water");
+        var workGrid = new GameObject("MapTool_Work_Grid");
+        var unrelated = new GameObject("Unrelated_Hidden");
+        MeshRenderer propRenderer = prop.AddComponent<MeshRenderer>();
+        MeshRenderer workGridRenderer = workGrid.AddComponent<MeshRenderer>();
+        MeshRenderer unrelatedRenderer = unrelated.AddComponent<MeshRenderer>();
+
+        try
+        {
+            roads.transform.SetParent(root.transform);
+            prop.transform.SetParent(roads.transform);
+            props.transform.SetParent(root.transform);
+            water.transform.SetParent(root.transform);
+            workGrid.transform.SetParent(root.transform);
+            unrelated.transform.SetParent(root.transform);
+
+            prop.SetActive(false);
+            roads.SetActive(false);
+            props.SetActive(false);
+            water.SetActive(false);
+            workGrid.SetActive(false);
+            unrelated.SetActive(false);
+            propRenderer.enabled = false;
+            workGridRenderer.enabled = false;
+            unrelatedRenderer.enabled = false;
+            root.SetActive(false);
+
+            bool changed = NoryangjinMapToolWindow.RestoreMapToolVisibleObjects(root.transform, recordUndo: false);
+
+            Assert.That(changed, Is.True);
+            Assert.That(root.activeSelf, Is.True);
+            Assert.That(roads.activeSelf, Is.True);
+            Assert.That(prop.activeSelf, Is.True);
+            Assert.That(props.activeSelf, Is.True);
+            Assert.That(water.activeSelf, Is.True);
+            Assert.That(workGrid.activeSelf, Is.True);
+            Assert.That(unrelated.activeSelf, Is.False);
+            Assert.That(propRenderer.enabled, Is.True);
+            Assert.That(workGridRenderer.enabled, Is.False);
+            Assert.That(unrelatedRenderer.enabled, Is.False);
+        }
+        finally
+        {
+            Object.DestroyImmediate(root);
+        }
+    }
+
+    [Test]
+    public void UndoRedoRefresh_ClearsTransientSceneViewFootprintState()
+    {
+        bool coarseSnapActive = true;
+        int lastPlacedInstanceId = 12345;
+
+        NoryangjinMapToolWindow.ClearTransientMapToolVisualStateAfterUndo(
+            ref coarseSnapActive,
+            ref lastPlacedInstanceId);
+
+        Assert.That(coarseSnapActive, Is.False);
+        Assert.That(lastPlacedInstanceId, Is.Zero);
     }
 
     [Test]
@@ -783,6 +1025,32 @@ public sealed class NoryangjinMapToolGridUtilityTests
             UnityEngine.Object.DestroyImmediate(exactRoad);
             UnityEngine.Object.DestroyImmediate(broadProp);
             UnityEngine.Object.DestroyImmediate(roadParent);
+            UnityEngine.Object.DestroyImmediate(propParent);
+        }
+    }
+
+    [Test]
+    public void EmptyCellDelete_FallsBackToBroadOverlapWhenNoObjectStartsAtCursor()
+    {
+        var propParent = new GameObject("Props");
+        var broadProp = new GameObject("Prop_Broad_X+99_Z+99");
+
+        try
+        {
+            broadProp.transform.SetParent(propParent.transform);
+
+            GameObject target = NoryangjinMapToolWindow.SelectSingleCursorDeleteTarget(
+                new List<GameObject>
+                {
+                    broadProp
+                },
+                Vector2Int.zero);
+
+            Assert.That(target, Is.SameAs(broadProp));
+        }
+        finally
+        {
+            UnityEngine.Object.DestroyImmediate(broadProp);
             UnityEngine.Object.DestroyImmediate(propParent);
         }
     }
@@ -1091,6 +1359,81 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void SelectedObjectMoveJoystick_MovesXZByOneSnapCellAndKeepsHeight()
+    {
+        Vector3 currentPosition = new Vector3(10f, 2.5f, -4f);
+        float snapCellSize = NoryangjinMapToolWindow.BuildPlacementSnapCellSize(NoryangjinMapToolWindow.DefaultCellSize, false);
+
+        Vector3 movedRight = NoryangjinMapToolWindow.MoveObjectPositionByGridStep(currentPosition, 1, 0, snapCellSize);
+        Vector3 movedUp = NoryangjinMapToolWindow.MoveObjectPositionByGridStep(currentPosition, 0, 1, snapCellSize);
+
+        Assert.That(movedRight.x, Is.EqualTo(currentPosition.x + snapCellSize).Within(0.001f));
+        Assert.That(movedRight.y, Is.EqualTo(currentPosition.y).Within(0.001f));
+        Assert.That(movedRight.z, Is.EqualTo(currentPosition.z).Within(0.001f));
+        Assert.That(movedUp.x, Is.EqualTo(currentPosition.x).Within(0.001f));
+        Assert.That(movedUp.y, Is.EqualTo(currentPosition.y).Within(0.001f));
+        Assert.That(movedUp.z, Is.EqualTo(currentPosition.z + snapCellSize).Within(0.001f));
+    }
+
+    [Test]
+    public void SelectedObjectRotationButtons_AddHalfTurnAndKeepOtherAxes()
+    {
+        Vector3 currentEuler = new Vector3(12f, 45f, -8f);
+
+        Assert.That(
+            NoryangjinMapToolWindow.MoveObjectRotationYByStep(currentEuler, -180f),
+            Is.EqualTo(new Vector3(12f, -135f, -8f)));
+        Assert.That(
+            NoryangjinMapToolWindow.MoveObjectRotationYByStep(currentEuler, 180f),
+            Is.EqualTo(new Vector3(12f, 225f, -8f)));
+        Assert.That(
+            NoryangjinMapToolWindow.MoveObjectRotationYByStep(new Vector3(12f, -135f, -8f), -180f),
+            Is.EqualTo(new Vector3(12f, -315f, -8f)));
+    }
+
+    [Test]
+    public void ApplySelectedObjectRotationToTarget_RecordsPrefabInstanceOverride()
+    {
+        const string folderPath = "Assets/Tests/Generated";
+        const string prefabPath = folderPath + "/MapToolLiveRotationEditTest.prefab";
+        bool createdFolder = false;
+        GameObject source = new GameObject("MapToolLiveRotationEditTest");
+        GameObject instance = null;
+
+        try
+        {
+            if (!AssetDatabase.IsValidFolder(folderPath))
+            {
+                AssetDatabase.CreateFolder("Assets/Tests", "Generated");
+                createdFolder = true;
+            }
+
+            PrefabUtility.SaveAsPrefabAsset(source, prefabPath);
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            instance = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+
+            Assert.That(
+                NoryangjinMapToolWindow.ApplySelectedObjectRotationToTarget(
+                    instance,
+                    new Vector3(0f, 45f, 0f)),
+                Is.True);
+
+            Assert.That(instance.transform.eulerAngles.y, Is.EqualTo(45f).Within(0.001f));
+            PropertyModification[] modifications = PrefabUtility.GetPropertyModifications(instance);
+            Assert.That(HasTransformRotationModification(modifications), Is.True);
+        }
+        finally
+        {
+            if (instance != null)
+                UnityEngine.Object.DestroyImmediate(instance);
+            UnityEngine.Object.DestroyImmediate(source);
+            AssetDatabase.DeleteAsset(prefabPath);
+            if (createdFolder)
+                AssetDatabase.DeleteAsset(folderPath);
+        }
+    }
+
+    [Test]
     public void SelectedObjectSaveButtons_DistinguishIndividualAndPrefabWideActions()
     {
         Assert.That(NoryangjinMapToolWindow.SelectedObjectIndividualSaveButtonLabel, Is.EqualTo("개별 저장"));
@@ -1346,6 +1689,15 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void ResolvePaletteDisplayLabel_UsesCustomLabelForRoadItems()
+    {
+        const string roadPath = "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab";
+
+        Assert.That(NoryangjinMapToolWindow.ResolvePaletteDisplayLabel(roadPath, "  나무길  "), Is.EqualTo("나무길"));
+        Assert.That(NoryangjinMapToolWindow.ResolvePaletteDisplayLabel(roadPath, ""), Is.EqualTo("기본길"));
+    }
+
+    [Test]
     public void BuildPalettePlacementPosition_AddsPerItemHeightOffset()
     {
         Vector3 position = NoryangjinMapToolWindow.BuildPalettePlacementPosition(
@@ -1490,6 +1842,19 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void PaletteYawOffset_RoundTripsPlacementRotationWithPrefabAxisCorrection()
+    {
+        Quaternion prefabRotation = Quaternion.Euler(270f, 0f, 0f);
+        Quaternion placedRotation = NoryangjinMapToolWindow.BuildPalettePlacementRotation(prefabRotation, 45f);
+
+        float yawOffset = NoryangjinMapToolWindow.CalculatePaletteYawOffsetFromPlacedRotation(
+            placedRotation,
+            prefabRotation);
+
+        Assert.That(yawOffset, Is.EqualTo(45f).Within(0.001f));
+    }
+
+    [Test]
     public void BuildPalettePlacementScale_MultipliesPrefabBaseScale()
     {
         Vector3 scale = NoryangjinMapToolWindow.BuildPalettePlacementScale(
@@ -1607,6 +1972,51 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void SeagullPerchLayer_BlocksOnlyOtherSeagullPerches()
+    {
+        var occupiedCells = new HashSet<NoryangjinMapToolOccupiedCell>
+        {
+            new(new Vector2Int(0, 0), NoryangjinMapToolPlacementLayer.Object),
+            new(new Vector2Int(1, 0), NoryangjinMapToolPlacementLayer.SeagullPerch)
+        };
+
+        Assert.That(
+            NoryangjinMapToolWindow.CanPlaceFootprintCells(
+                new[] { new Vector2Int(0, 0) },
+                NoryangjinMapToolPlacementLayer.SeagullPerch,
+                occupiedCells),
+            Is.True);
+        Assert.That(
+            NoryangjinMapToolWindow.CanPlaceFootprintCells(
+                new[] { new Vector2Int(1, 0) },
+                NoryangjinMapToolPlacementLayer.SeagullPerch,
+                occupiedCells),
+            Is.False);
+        Assert.That(
+            NoryangjinMapToolWindow.CanPlaceFootprintCells(
+                new[] { new Vector2Int(1, 0) },
+                NoryangjinMapToolPlacementLayer.Object,
+                occupiedCells),
+            Is.True);
+    }
+
+    [Test]
+    public void SeagullPerchPrefab_UsesSeparatePlacementLayer()
+    {
+        Assert.That(NoryangjinMapToolWindow.IsSeagullPerchPrefabPath(NoryangjinMapToolWindow.SeagullPerchPrefabPath), Is.True);
+        Assert.That(
+            NoryangjinMapToolWindow.GetPaletteItemLayer(
+                NoryangjinMapToolWindow.SeagullPerchPrefabPath,
+                NoryangjinMapToolPaletteCategory.Prop),
+            Is.EqualTo(NoryangjinMapToolPlacementLayer.SeagullPerch));
+        Assert.That(
+            NoryangjinMapToolWindow.GetPaletteItemLayer(
+                "Assets/ShooterSurvival/Prefabs/MeshyAI/Stage01_Noryangjin/001_STAGE01_NRY_PROPS_001_Blue_fish_crate/001_STAGE01_NRY_PROPS_001_Blue_fish_crate.prefab",
+                NoryangjinMapToolPaletteCategory.Prop),
+            Is.EqualTo(NoryangjinMapToolPlacementLayer.Object));
+    }
+
+    [Test]
     public void ResolveFootprintPreviewState_ColorsEntireFootprintRedWhenAnyCellBlocksPlacement()
     {
         var occupiedCells = new HashSet<NoryangjinMapToolOccupiedCell>
@@ -1720,6 +2130,24 @@ public sealed class NoryangjinMapToolGridUtilityTests
         {
             if (character is >= 'A' and <= 'Z' or >= 'a' and <= 'z')
                 return true;
+        }
+
+        return false;
+    }
+
+    private static bool HasTransformRotationModification(PropertyModification[] modifications)
+    {
+        if (modifications == null)
+            return false;
+
+        foreach (PropertyModification modification in modifications)
+        {
+            if (modification != null &&
+                !string.IsNullOrEmpty(modification.propertyPath) &&
+                modification.propertyPath.StartsWith("m_LocalRotation.", System.StringComparison.Ordinal))
+            {
+                return true;
+            }
         }
 
         return false;

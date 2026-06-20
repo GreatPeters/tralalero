@@ -1,6 +1,7 @@
 ---
 title: Preserve prefab root transforms in Noryangjin map tool placement
 date: 2026-06-02
+last_updated: 2026-06-20
 category: docs/solutions/logic-errors
 module: Unity Noryangjin map tooling
 problem_type: logic_error
@@ -8,6 +9,7 @@ component: tooling
 symptoms:
   - "Placed map-tool objects appeared with incorrect size or rotation."
   - "Registered MeshyAI prefabs had authored root rotations and scales that were lost after placement."
+  - "Saving a selected object's install angle as a prefab-wide placement default did not reproduce the expected angle on the next placement."
 root_cause: logic_error
 resolution_type: code_fix
 severity: medium
@@ -42,12 +44,26 @@ instance.transform.localScale = BuildPalettePlacementScale(
 
 `BuildPalettePlacementRotation` multiplies the cursor yaw on top of the prefab's base rotation. `BuildPalettePlacementScale` multiplies the prefab's authored root scale by the palette scale multiplier.
 
+The same rule applies when editing a placed object before saving it back as a prefab-wide placement default. Do not edit the selected object with arbitrary world Euler X/Y/Z values and then try to infer a placement yaw afterward. For prefab instances, show and edit the palette-compatible Y offset:
+
+```csharp
+float yawOffset = CalculatePaletteYawOffsetFromPlacedRotation(
+    target.transform.rotation,
+    prefab.transform.rotation);
+target.transform.rotation = BuildPalettePlacementRotation(
+    prefab.transform.rotation,
+    yawOffset);
+```
+
+This keeps the selected object's preview, the saved `yawOffset`, and the next placement path on the same transform model.
+
 ## Why This Works
 Unity imported FBX-backed prefabs often encode unit conversion and axis correction at the prefab root. Replacing that transform with a clean map-tool value changes the asset, even when the prefab path is correct. Keeping the root transform and applying yaw/scale as a delta preserves the imported asset contract.
 
 ## Prevention
 - For editor placement tools, treat prefab root rotation and scale as authored defaults, not disposable values.
 - Add tests that verify prefab base rotation is preserved and palette scale is a multiplier.
+- For selected-object angle editing, use the same prefab-base-plus-yaw calculation as placement. A separate world-Euler editor can look correct once but fail when saved as a reusable placement default.
 - When a placed asset looks wrong but the project prefab looks correct, inspect the placement helper before editing every registered prefab.
 
 ## Related Issues

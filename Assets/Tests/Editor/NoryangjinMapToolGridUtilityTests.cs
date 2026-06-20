@@ -642,6 +642,22 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void DistantHillsideVillage_UsesSmallManualMapToolFootprint()
+    {
+        const string hillsideVillagePath = "Assets/ShooterSurvival/Prefabs/MeshyAI/Stage01_Noryangjin/019_STAGE01_NRY_BG_003_Distant_hillside_village_module/019_STAGE01_NRY_BG_003_Distant_hillside_village_module.prefab";
+        NoryangjinMapToolPaletteDefaults defaults = AssetDatabase.LoadAssetAtPath<NoryangjinMapToolPaletteDefaults>(
+            "Assets/ShooterSurvival/Editor/NoryangjinMapToolPaletteDefaults.asset");
+
+        NoryangjinMapToolPalettePlacementEntry entry = defaults.GetOrCreateEntry(hillsideVillagePath);
+
+        Assert.That(entry.scale, Is.EqualTo(new Vector3(0.7f, 0.7f, 0.7f)));
+        Assert.That(entry.positionOffset, Is.EqualTo(new Vector2(2.25f, 1.125f)));
+        Assert.That(entry.heightOffset, Is.EqualTo(-0.08f).Within(0.001f));
+        Assert.That(entry.useManualFootprint, Is.True);
+        Assert.That(entry.manualFootprint, Is.EqualTo(new Vector2Int(5, 3)));
+    }
+
+    [Test]
     public void BuildPaletteLabel_TranslatesEveryVisibleNoryangjinPrefab()
     {
         var englishLabels = new List<string>();

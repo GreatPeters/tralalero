@@ -570,6 +570,23 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void BackgroundOverlayObjects_UseObjectPlacementLayer()
+    {
+        const string seaBuoyPath = "Assets/037_STAGE01_NRY_BG_026_Floating_sea_buoy.prefab";
+        const string woodenPlankPath = "Assets/038_STAGE01_NRY_BG_027_Floating_wooden_plank.prefab";
+
+        Assert.That(
+            NoryangjinMapToolWindow.CategorizePrefabPath(seaBuoyPath),
+            Is.EqualTo(NoryangjinMapToolPaletteCategory.Background));
+        Assert.That(
+            NoryangjinMapToolWindow.GetPaletteItemLayer(seaBuoyPath, NoryangjinMapToolPaletteCategory.Background),
+            Is.EqualTo(NoryangjinMapToolPlacementLayer.Object));
+        Assert.That(
+            NoryangjinMapToolWindow.GetPaletteItemLayer(woodenPlankPath, NoryangjinMapToolPaletteCategory.Background),
+            Is.EqualTo(NoryangjinMapToolPlacementLayer.Object));
+    }
+
+    [Test]
     public void BackgroundFootprints_BlockOnlyOtherBackgrounds()
     {
         var footprintCells = new[] { Vector2Int.zero };

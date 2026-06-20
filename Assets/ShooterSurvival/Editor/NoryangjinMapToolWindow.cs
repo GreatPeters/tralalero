@@ -3314,6 +3314,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         if (IsSeagullPerchPrefabPath(prefabPath))
             return NoryangjinMapToolPlacementLayer.SeagullPerch;
 
+        if (IsBackgroundOverlayObjectPrefabPath(prefabPath))
+            return NoryangjinMapToolPlacementLayer.Object;
+
         if (category == NoryangjinMapToolPaletteCategory.Background)
             return NoryangjinMapToolPlacementLayer.Background;
 
@@ -3327,6 +3330,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         string prefabPath = GetPrefabAssetPathForPlacedObject(target);
         if (IsSeagullPerchPrefabPath(prefabPath))
             return NoryangjinMapToolPlacementLayer.SeagullPerch;
+
+        if (IsBackgroundOverlayObjectPrefabPath(prefabPath))
+            return NoryangjinMapToolPlacementLayer.Object;
 
         if (!string.IsNullOrEmpty(prefabPath) &&
             CategorizePrefabPath(prefabPath) == NoryangjinMapToolPaletteCategory.Background)
@@ -4469,6 +4475,15 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal static bool IsSeagullPerchPrefabPath(string prefabPath)
     {
         return string.Equals((prefabPath ?? string.Empty).Replace('\\', '/'), SeagullPerchPrefabPath, StringComparison.OrdinalIgnoreCase);
+    }
+
+    internal static bool IsBackgroundOverlayObjectPrefabPath(string prefabPath)
+    {
+        string normalizedPath = (prefabPath ?? string.Empty).Replace('\\', '/');
+        return normalizedPath.Contains("Floating_sea_buoy", StringComparison.OrdinalIgnoreCase) ||
+               normalizedPath.Contains("Floating_wooden_plank", StringComparison.OrdinalIgnoreCase) ||
+               normalizedPath.Contains("Harbor_fishing_boat", StringComparison.OrdinalIgnoreCase) ||
+               normalizedPath.Contains("Fishing_boat_detail_kit", StringComparison.OrdinalIgnoreCase);
     }
 
     internal static bool IsGridManagedPaletteItemPath(string prefabPath)

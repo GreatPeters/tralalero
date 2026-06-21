@@ -1145,6 +1145,12 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void WorkSubGridOverlay_IsHiddenByDefault()
+    {
+        Assert.That(NoryangjinMapToolWindow.DefaultShowWorkSubGrid, Is.False);
+    }
+
+    [Test]
     public void SceneViewTopMode_UsesExactOverheadOrthographicView()
     {
         NoryangjinMapToolSceneViewPreset preset = NoryangjinMapToolWindow.BuildSceneViewPreset(true);
@@ -1200,7 +1206,7 @@ public sealed class NoryangjinMapToolGridUtilityTests
     [Test]
     public void WorkGridLines_AreVisibleInExactTopView()
     {
-        Assert.That(NoryangjinMapToolWindow.WorkGridExtent, Is.GreaterThanOrEqualTo(20));
+        Assert.That(NoryangjinMapToolWindow.WorkGridExtent, Is.EqualTo(100));
         Assert.That(NoryangjinMapToolWindow.WorkGridLineY, Is.GreaterThanOrEqualTo(0.035f));
         Assert.That(NoryangjinMapToolWindow.WorkGridLineWidth, Is.GreaterThanOrEqualTo(0.045f));
     }

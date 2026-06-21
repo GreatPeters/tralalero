@@ -328,12 +328,13 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const float WorkGridOverlayLineWidthPixels = 2.5f;
     internal const float WorkSubGridOverlayLineWidthPixels = 1f;
     private const float TopSceneViewForwardDotThreshold = 0.98f;
-    internal const int WorkGridExtent = 20;
+    internal const int WorkGridExtent = 100;
     internal const int WorkGridSubdivisionsPerCell = 5;
+    internal const bool DefaultShowWorkSubGrid = false;
     internal static readonly bool DrawPlacementValidityFillAsGuiOverlay = true;
     internal const float PlacementPreviewAlpha = 0.5f;
-    internal const float DefaultSceneViewSize = 18f;
-    internal const float TopSceneViewSize = 18f;
+    internal const float DefaultSceneViewSize = 60f;
+    internal const float TopSceneViewSize = 120f;
     internal const float RotationQuickStepDegrees = 45f;
     internal const int CursorCellIconSize = 128;
     internal const int CursorCellSummaryWidth = 136;
@@ -494,6 +495,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     [SerializeField] private bool mapToolEnabled = true;
     [SerializeField] private bool advanceAfterRoad = true;
     [SerializeField] private bool showSceneGrid = DefaultShowSceneGrid;
+    [SerializeField] private bool showWorkSubGrid = DefaultShowWorkSubGrid;
     [SerializeField] private bool showGridLabels = true;
     [SerializeField] private bool showCursor = true;
     [SerializeField] private int gridHalfExtent = 10;
@@ -522,6 +524,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         NoryangjinMapToolWindow window = GetWindow<NoryangjinMapToolWindow>();
         window.titleContent = new GUIContent(KoreanWindowTitle);
         window.showSceneGrid = DefaultShowSceneGrid;
+        window.showWorkSubGrid = DefaultShowWorkSubGrid;
         window.isTopSceneView = false;
         window.minSize = new Vector2(430f, 560f);
         window.Show();
@@ -1607,6 +1610,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         EditorGUILayout.Space(12f);
         EditorGUILayout.LabelField("2. 씬 그리드 표시", EditorStyles.boldLabel);
         showSceneGrid = EditorGUILayout.Toggle("그리드 표시", showSceneGrid);
+        showWorkSubGrid = GUILayout.Toggle(showWorkSubGrid, "서브 그리드 표시", "Button", GUILayout.Height(26f));
         showCursor = EditorGUILayout.Toggle("커서 표시", showCursor);
         showGridLabels = EditorGUILayout.Toggle("좌표 라벨 표시", showGridLabels);
         gridHalfExtent = Mathf.Clamp(EditorGUILayout.IntField("표시 범위", gridHalfExtent), 2, 80);
@@ -1731,7 +1735,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
         Color oldColor = Handles.color;
         CompareFunction oldZTest = Handles.zTest;
-        DrawStableTopViewWorkGridOverlay(normalizedCellSize, sceneView);
+        DrawStableTopViewWorkGridOverlay(normalizedCellSize, sceneView, showWorkSubGrid);
         DrawLastPlacedObjectFootprint(normalizedCellSize);
         DrawSelectedPaletteFootprintPreview(normalizedCellSize);
         DrawPlacedObjectHeightLabels();
@@ -1774,7 +1778,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         Handles.zTest = oldZTest;
     }
 
-    private void DrawStableTopViewWorkGridOverlay(float normalizedCellSize, SceneView sceneView)
+    private void DrawStableTopViewWorkGridOverlay(float normalizedCellSize, SceneView sceneView, bool drawSubGrid)
     {
         bool sceneViewOrthographic = sceneView != null && sceneView.orthographic;
         Quaternion sceneViewRotation = sceneView != null ? sceneView.rotation : Quaternion.identity;
@@ -1799,6 +1803,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 new Vector3(min, y, offset),
                 new Vector3(max, y, offset));
         }
+
+        if (!drawSubGrid)
+            return;
 
         Handles.color = new Color(0.18f, 0.58f, 0.68f, 0.68f);
         for (int cell = -WorkGridExtent; cell <= WorkGridExtent; cell++)
@@ -3589,7 +3596,6 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         bool changed = EnsureChildExists(parent, WorkGridName);
         Transform grid = parent.Find(WorkGridName);
         Material material = EnsureMapToolMaterial(WorkGridMaterialPath, new Color(0.02f, 0.34f, 0.42f, 1f));
-        Material subMaterial = EnsureMapToolMaterial(WorkSubGridMaterialPath, new Color(0.18f, 0.48f, 0.52f, 1f));
         float span = BuildWorkGridSpan(DefaultCellSize);
 
         for (int i = -WorkGridExtent; i <= WorkGridExtent + 1; i++)
@@ -3618,37 +3624,24 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             changed |= SetRendererEnabled(zLine, false);
         }
 
-        for (int cell = -WorkGridExtent; cell <= WorkGridExtent; cell++)
-        {
-            for (int subdivision = 1; subdivision < WorkGridSubdivisionsPerCell; subdivision++)
-            {
-                float offset = BuildWorkGridSubdivisionOffset(cell, subdivision, DefaultCellSize);
-                string suffix = $"{FormatGridIndex(cell)}_S{subdivision}";
-                GameObject xLine = FindOrCreatePrimitiveChild(grid, $"MapTool_Work_SubGrid_X_{suffix}", PrimitiveType.Cube, out bool xCreated);
-                changed |= xCreated;
-                changed |= SetTransform(
-                    xLine.transform,
-                    new Vector3(offset, WorkGridLineY, 0f),
-                    Quaternion.identity,
-                    new Vector3(WorkSubGridLineWidth, WorkGridLineVerticalThickness, span));
-                changed |= RemoveCollider(xLine);
-                changed |= SetRendererMaterial(xLine, subMaterial);
-                changed |= SetRendererEnabled(xLine, false);
-
-                GameObject zLine = FindOrCreatePrimitiveChild(grid, $"MapTool_Work_SubGrid_Z_{suffix}", PrimitiveType.Cube, out bool zCreated);
-                changed |= zCreated;
-                changed |= SetTransform(
-                    zLine.transform,
-                    new Vector3(0f, WorkGridLineY, offset),
-                    Quaternion.identity,
-                    new Vector3(span, WorkGridLineVerticalThickness, WorkSubGridLineWidth));
-                changed |= RemoveCollider(zLine);
-                changed |= SetRendererMaterial(zLine, subMaterial);
-                changed |= SetRendererEnabled(zLine, false);
-            }
-        }
+        changed |= DestroyChildrenWithPrefix(grid, "MapTool_Work_SubGrid_");
 
         return changed;
+    }
+
+    private static bool DestroyChildrenWithPrefix(Transform parent, string prefix)
+    {
+        var targets = new List<GameObject>();
+        foreach (Transform child in parent)
+        {
+            if (child.name.StartsWith(prefix, StringComparison.Ordinal))
+                targets.Add(child.gameObject);
+        }
+
+        foreach (GameObject target in targets)
+            Undo.DestroyObjectImmediate(target);
+
+        return targets.Count > 0;
     }
 
     private static string FormatGridIndex(int index)

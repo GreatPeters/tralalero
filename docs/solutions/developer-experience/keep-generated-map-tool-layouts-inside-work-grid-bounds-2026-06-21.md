@@ -1,6 +1,7 @@
 ---
 title: Keep Generated Map Tool Layouts Inside Work Grid Bounds
 date: 2026-06-21
+last_updated: 2026-07-15
 category: docs/solutions/developer-experience
 module: Noryangjin map tool layout generation
 problem_type: developer_experience
@@ -17,11 +18,13 @@ tags: [unity, map-tool, scene-generation, camera-framing, noryangjin]
 
 ## Context
 
-A generated Noryangjin map-tool layout initially used route coordinates from `Z -65` to `Z +30`, while the map tool work grid is designed around the default `-20..+20` cell range. The result looked wrong in Game view: the authored harbor-market set was pushed toward the top of the frame and the lower half showed mostly empty water.
+A generated Noryangjin map-tool layout initially used route coordinates from `Z -65` to `Z +30`, while the then-current map tool work grid used a `-20..+20` cell range. The result looked wrong in Game view: the authored harbor-market set was pushed toward the top of the frame and the lower half showed mostly empty water.
 
 ## Guidance
 
 Treat the map tool grid bounds as part of the generation contract. Keep generated route and set-dressing coordinates inside the visible authoring range unless the tool explicitly expands the work grid. For the Noryangjin concept pass, the generated route was compacted to 14 nodes and the generated coordinate range was verified at `X -19..19`, `Z -18..22`.
+
+Read the active limit from `NoryangjinMapToolWindow.WorkGridExtent` instead of copying a historical bound into generators. As of 2026-07-15 the default authoring range is `-200..+200` main cells on both axes.
 
 Frame the camera from the route bounds instead of fixed coordinates. After creating the route, build bounds from the route nodes, expand by a practical side margin for facades and harbor props, then set the map-tool camera from that center.
 

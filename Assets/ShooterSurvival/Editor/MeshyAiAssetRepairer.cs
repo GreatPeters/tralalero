@@ -59,15 +59,10 @@ public static class MeshyAiAssetRepairer
             EnsureFolder(MaterialsRoot);
             EnsureFolder(PrefabsRoot);
 
-            string[] fbxGuids = AssetDatabase.FindAssets("t:Model", new[] { ModelsRoot });
-            Array.Sort(fbxGuids, StringComparer.Ordinal);
+            SortedSet<string> fbxPaths = FindRepairTargetFbxPaths();
 
-            foreach (string guid in fbxGuids)
+            foreach (string fbxPath in fbxPaths)
             {
-                string fbxPath = AssetDatabase.GUIDToAssetPath(guid);
-                if (!IsRepairTarget(fbxPath))
-                    continue;
-
                 RepairAsset(fbxPath, report);
             }
         }
@@ -105,6 +100,33 @@ public static class MeshyAiAssetRepairer
         }
 
         return parts.Length >= 3;
+    }
+
+    private static SortedSet<string> FindRepairTargetFbxPaths()
+    {
+        var fbxPaths = new SortedSet<string>(StringComparer.Ordinal);
+
+        foreach (string guid in AssetDatabase.FindAssets("t:Model", new[] { ModelsRoot }))
+        {
+            string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+            if (IsRepairTarget(assetPath))
+                fbxPaths.Add(assetPath);
+        }
+
+        if (Directory.Exists(ModelsRoot))
+        {
+            foreach (string filePath in Directory.GetFiles(ModelsRoot, "*.fbx", SearchOption.AllDirectories))
+            {
+                string assetPath = filePath.Replace('\\', '/');
+                if (!IsRepairTarget(assetPath))
+                    continue;
+
+                AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
+                fbxPaths.Add(assetPath);
+            }
+        }
+
+        return fbxPaths;
     }
 
     private static void RepairAsset(string fbxPath, RepairReport report)

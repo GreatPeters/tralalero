@@ -29,6 +29,7 @@ Keep two repair paths available:
 
 - Preferred: run an editor utility that uses `AssetDatabase`, `TextureImporter`, `Material`, and `PrefabUtility`.
 - Fallback: generate file-level `.mat`, `.mat.meta`, copied texture assets, texture `.meta`, and FBX `.meta` `externalObjects` mappings from the filesystem.
+- If a newly copied FBX has a valid `.fbx.meta` but `AssetDatabase.FindAssets("t:Model")` still misses it, include a filesystem scan under `Assets/ShooterSurvival/Models/MeshyAI` and call `AssetDatabase.ImportAsset(..., ForceUpdate)` before the repair pass.
 
 For Meshy-generated FBX files, the embedded source material name is commonly `Material.001`. A valid FBX material remap block looks like:
 

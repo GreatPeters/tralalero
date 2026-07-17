@@ -1,7 +1,7 @@
 ---
 title: Give Unity map tool scenes a physical work grid
 date: 2026-06-06
-last_updated: 2026-06-12
+last_updated: 2026-07-15
 category: docs/solutions/developer-experience
 module: Unity Noryangjin map tooling
 problem_type: developer_experience
@@ -25,10 +25,14 @@ Editor placement scenes should include a non-gameplay physical work surface:
 - A neutral Unlit floor below the placement height.
 - Thin physical grid-line cubes above that floor so cells remain visible even outside the tool overlay path.
 - A small origin marker for orientation.
-- Automatic SceneView framing when the tool scene is opened.
+- Initial SceneView framing when the tool scene is first created.
 - Names that do not match placement-object patterns such as `Road_*_X+00_Z+00` or `Prop_*_X+00_Z+00`.
 
-In `NoryangjinMapToolWindow`, `OpenOrCreateMapToolScene()` now re-applies scene defaults for existing scenes and frames the SceneView after opening. `SetupMapToolSceneDefaults()` creates `MapTool_Work_Floor`, `MapTool_Work_Grid`, and `MapTool_Origin_Post`, while placed-object collection still only accepts objects whose names encode grid coordinates.
+In `NoryangjinMapToolWindow`, `OpenOrCreateMapToolScene()` re-applies scene defaults for existing scenes without replacing their current SceneView framing. Newly created tool scenes receive the initial automatic framing. `SetupMapToolSceneDefaults()` creates `MapTool_Work_Floor`, `MapTool_Work_Grid`, and `MapTool_Origin_Post`, while placed-object collection still only accepts objects whose names encode grid coordinates.
+
+Keep the placement cell size stable when authors need more layout room. Expand `WorkGridExtent` instead so snapping, prefab scale, and existing object coordinates do not change. The Noryangjin workspace now covers `-200..+200` main cells on each axis (401 by 401 cells) while retaining the `1.125` main-cell size.
+
+Refresh actions and existing-scene opens should restore the map-tool guide objects without moving an already-authored `MapTool_Camera` or replacing the author's current SceneView framing. Scene creation may assign an initial camera transform and SceneView preset; subsequent repair paths preserve them.
 
 For high-contrast top-view grid overlays, do not depend only on an editor-window boolean such as `isTopSceneView`. Script reloads and window recreation can reset that serialized UI state while the SceneView is still in an actual top orthographic orientation. Gate the overlay on either the explicit tool toggle or the SceneView camera state: orthographic, with its forward vector pointing down toward `Vector3.down`.
 
@@ -48,7 +52,7 @@ Stateful editor windows make this more subtle: the scene can still contain hundr
 ## Examples
 Before: `Noryangjin_MapTool_Mode.unity` had only `Roads`, `Props`, `MapTool_Camera`, and `MapTool_DirectionalLight`, so the user saw a confusing default grid/floor and had trouble placing assets.
 
-After: the scene contains a stable `MapTool_Work_Floor`, visible `MapTool_Work_Grid_*` line objects, and `MapTool_Origin_Post`. Opening the tool scene resets the SceneView to a readable orthographic angle.
+After: the scene contains a stable `MapTool_Work_Floor`, visible `MapTool_Work_Grid_*` line objects, and `MapTool_Origin_Post`. Creating the tool scene starts from a readable orthographic angle, while reopening an authored scene preserves its current framing.
 
 After the 2026-06-12 reload fix: `DrawStableTopViewWorkGridOverlay` receives the active `SceneView` and draws when `ShouldDrawStableTopViewWorkGridOverlay(...)` sees either the tool's top-view toggle or a top orthographic SceneView rotation. The regression test uses `Quaternion.Euler(90f, 0f, 0f)` to keep that fallback behavior explicit.
 

@@ -808,6 +808,61 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void RefreshMapTool_PreservesExistingCameraTransform()
+    {
+        var cameraObject = new GameObject("Custom_Camera");
+        Camera camera = cameraObject.AddComponent<Camera>();
+        camera.transform.localPosition = new Vector3(-11f, 7f, 13f);
+        camera.transform.localRotation = Quaternion.Euler(12f, 34f, 56f);
+        camera.transform.localScale = new Vector3(2f, 3f, 4f);
+
+        try
+        {
+            bool changed = NoryangjinMapToolWindow.ApplyMapToolCameraDefaults(camera, preserveTransform: true);
+
+            Assert.That(changed, Is.True);
+            Assert.That(cameraObject.name, Is.EqualTo("MapTool_Camera"));
+            Assert.That(camera.transform.localPosition, Is.EqualTo(new Vector3(-11f, 7f, 13f)));
+            Assert.That(camera.transform.localRotation.eulerAngles.x, Is.EqualTo(12f).Within(0.001f));
+            Assert.That(camera.transform.localRotation.eulerAngles.y, Is.EqualTo(34f).Within(0.001f));
+            Assert.That(camera.transform.localRotation.eulerAngles.z, Is.EqualTo(56f).Within(0.001f));
+            Assert.That(camera.transform.localScale, Is.EqualTo(new Vector3(2f, 3f, 4f)));
+            Assert.That(camera.orthographic, Is.True);
+            Assert.That(camera.orthographicSize, Is.EqualTo(24f).Within(0.001f));
+        }
+        finally
+        {
+            Object.DestroyImmediate(cameraObject);
+        }
+    }
+
+    [Test]
+    public void RefreshMapTool_CanPreserveExistingCameraProjection()
+    {
+        var cameraObject = new GameObject("Custom_Camera");
+        Camera camera = cameraObject.AddComponent<Camera>();
+        camera.orthographic = false;
+        camera.orthographicSize = 7f;
+
+        try
+        {
+            bool changed = NoryangjinMapToolWindow.ApplyMapToolCameraDefaults(
+                camera,
+                preserveTransform: true,
+                preserveProjection: true);
+
+            Assert.That(changed, Is.True);
+            Assert.That(cameraObject.name, Is.EqualTo("MapTool_Camera"));
+            Assert.That(camera.orthographic, Is.False);
+            Assert.That(camera.orthographicSize, Is.EqualTo(7f).Within(0.001f));
+        }
+        finally
+        {
+            Object.DestroyImmediate(cameraObject);
+        }
+    }
+
+    [Test]
     public void UndoRedoRefresh_ClearsTransientSceneViewFootprintState()
     {
         bool coarseSnapActive = true;
@@ -1206,7 +1261,10 @@ public sealed class NoryangjinMapToolGridUtilityTests
     [Test]
     public void WorkGridLines_AreVisibleInExactTopView()
     {
-        Assert.That(NoryangjinMapToolWindow.WorkGridExtent, Is.EqualTo(100));
+        Assert.That(NoryangjinMapToolWindow.WorkGridExtent, Is.EqualTo(200));
+        Assert.That(
+            NoryangjinMapToolWindow.BuildWorkGridSpan(NoryangjinMapToolWindow.DefaultCellSize),
+            Is.EqualTo(NoryangjinMapToolWindow.DefaultCellSize * 401f).Within(0.001f));
         Assert.That(NoryangjinMapToolWindow.WorkGridLineY, Is.GreaterThanOrEqualTo(0.035f));
         Assert.That(NoryangjinMapToolWindow.WorkGridLineWidth, Is.GreaterThanOrEqualTo(0.045f));
     }
@@ -1415,6 +1473,20 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void SelectedObjectMoveJoystick_MovesMapToolGridAnchorNameWithPosition()
+    {
+        Assert.That(
+            NoryangjinMapToolWindow.MoveMapToolPlacedObjectNameByGridStep("Prop_Test_X+02_Z-01", 1, -1),
+            Is.EqualTo("Prop_Test_X+03_Z-02"));
+        Assert.That(
+            NoryangjinMapToolWindow.MoveMapToolPlacedObjectNameByGridStep("Road_Bridge_X-02_Z+07", -1, 1),
+            Is.EqualTo("Road_Bridge_X-03_Z+08"));
+        Assert.That(
+            NoryangjinMapToolWindow.MoveMapToolPlacedObjectNameByGridStep("Renamed Prop", 1, 0),
+            Is.EqualTo("Renamed Prop"));
+    }
+
+    [Test]
     public void SelectedObjectRotationButtons_AddHalfTurnAndKeepOtherAxes()
     {
         Vector3 currentEuler = new Vector3(12f, 45f, -8f);
@@ -1425,6 +1497,12 @@ public sealed class NoryangjinMapToolGridUtilityTests
         Assert.That(
             NoryangjinMapToolWindow.MoveObjectRotationYByStep(currentEuler, 180f),
             Is.EqualTo(new Vector3(12f, 225f, -8f)));
+        Assert.That(
+            NoryangjinMapToolWindow.MoveObjectRotationYByStep(currentEuler, -90f),
+            Is.EqualTo(new Vector3(12f, -45f, -8f)));
+        Assert.That(
+            NoryangjinMapToolWindow.MoveObjectRotationYByStep(currentEuler, 90f),
+            Is.EqualTo(new Vector3(12f, 135f, -8f)));
         Assert.That(
             NoryangjinMapToolWindow.MoveObjectRotationYByStep(new Vector3(12f, -135f, -8f), -180f),
             Is.EqualTo(new Vector3(12f, -315f, -8f)));

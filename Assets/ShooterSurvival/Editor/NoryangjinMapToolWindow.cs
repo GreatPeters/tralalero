@@ -264,6 +264,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 {
     internal const string KoreanWindowTitle = "노량진 맵툴";
     internal const string MapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode.unity";
+    internal const string MapToolScene2Path = "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_2.unity";
 
     private const string PaletteDefaultsPath = "Assets/ShooterSurvival/Editor/NoryangjinMapToolPaletteDefaults.asset";
     private const string WorkFloorMaterialPath = "Assets/ShooterSurvival/Materials/Generated/MapTool_Work_Floor.mat";
@@ -273,6 +274,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private const string PrefabRoot = "Assets/ShooterSurvival/Prefabs/MeshyAI/Stage01_Noryangjin";
     private const string JhPrefabRoot = "Assets/JH/Prefab";
     internal const string JhWaterPrefabPath = JhPrefabRoot + "/water.prefab";
+    internal const string NoryangjinGroundBackdropPrefabPath = PrefabRoot + "/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop.prefab";
     internal const string SeagullPerchPrefabPath = PrefabRoot + "/008_STAGE01_NRY_PROPS_008_Seagull_perch_post/008_STAGE01_NRY_PROPS_008_Seagull_perch_post.prefab";
     internal const string DockMetalCleatPrefabPath = PrefabRoot + "/026_STAGE01_NRY_PROPS_014_Dock_metal_cleat/026_STAGE01_NRY_PROPS_014_Dock_metal_cleat.prefab";
     private const string RootName = "Noryangjin_MapTool";
@@ -328,7 +330,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const float WorkGridOverlayLineWidthPixels = 2.5f;
     internal const float WorkSubGridOverlayLineWidthPixels = 1f;
     private const float TopSceneViewForwardDotThreshold = 0.98f;
-    internal const int WorkGridExtent = 100;
+    internal const int WorkGridExtent = 200;
     internal const int WorkGridSubdivisionsPerCell = 5;
     internal const bool DefaultShowWorkSubGrid = false;
     internal static readonly bool DrawPlacementValidityFillAsGuiOverlay = true;
@@ -536,11 +538,18 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
             return;
 
-        if (AssetDatabase.LoadAssetAtPath<SceneAsset>(MapToolScenePath) != null || File.Exists(MapToolScenePath))
+        string targetScenePath = ResolveMapToolScenePathToOpen(SceneManager.GetActiveScene().path);
+        bool frameSceneViewAfterOpen = false;
+        if (AssetDatabase.LoadAssetAtPath<SceneAsset>(targetScenePath) != null || File.Exists(targetScenePath))
         {
-            EditorSceneManager.OpenScene(MapToolScenePath, OpenSceneMode.Single);
-            if (SetupMapToolSceneDefaults())
+            EditorSceneManager.OpenScene(targetScenePath, OpenSceneMode.Single);
+            if (SetupMapToolSceneDefaults(
+                    preserveExistingCameraTransform: true,
+                    preserveExistingCameraProjection: true))
+            {
                 EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
+            }
+
             AssetDatabase.SaveAssets();
         }
         else
@@ -554,11 +563,13 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             EditorSceneManager.SaveScene(scene, MapToolScenePath);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
+            frameSceneViewAfterOpen = true;
         }
 
         Open();
         Selection.activeGameObject = EnsureRoot();
-        FrameMapToolSceneView();
+        if (frameSceneViewAfterOpen)
+            FrameMapToolSceneView();
     }
 
     private void OnEnable()
@@ -621,7 +632,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     {
         ClearTransientMapToolVisualStateAfterUndo(ref coarsePlacementSnapActive, ref lastPlacedObjectInstanceId);
         DestroyPlacementPreview();
-        RestoreMapToolSceneViewRenderState(isTopSceneView, FindSceneObjectByNameIncludingInactive(RootName));
+        RestoreMapToolSceneViewRenderState(
+            isTopSceneView,
+            FindSceneObjectByNameIncludingInactive(RootName),
+            frameSceneView: false);
         SceneView.RepaintAll();
         Repaint();
     }
@@ -701,10 +715,12 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
         GameObject root = FindOrCreateRootIncludingInactive();
         bool changed = RestoreMapToolVisibleObjects(root.transform, recordUndo: false);
-        changed |= SetupMapToolSceneDefaults();
+        changed |= SetupMapToolSceneDefaults(
+            preserveExistingCameraTransform: true,
+            preserveExistingCameraProjection: true);
         changed |= ApplyMapToolWorkObjectsActiveState(true, recordUndo: false);
         changed |= DestroyTransientPlacementPreviewObjects(recordUndo: false);
-        RestoreMapToolSceneViewRenderState(isTopSceneView, root);
+        RestoreMapToolSceneViewRenderState(isTopSceneView, root, frameSceneView: false);
 
         if (changed && root.scene.IsValid())
             EditorSceneManager.MarkSceneDirty(root.scene);
@@ -771,7 +787,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return changed;
     }
 
-    private static void RestoreMapToolSceneViewRenderState(bool topView, GameObject root)
+    private static void RestoreMapToolSceneViewRenderState(bool topView, GameObject root, bool frameSceneView = true)
     {
         if (root != null)
             SceneVisibilityManager.instance.Show(root, true);
@@ -787,7 +803,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             sceneView.in2DMode = false;
         }
 
-        ApplyMapToolSceneViewPreset(BuildSceneViewPreset(topView));
+        if (frameSceneView)
+            ApplyMapToolSceneViewPreset(BuildSceneViewPreset(topView));
     }
 
     private static bool RestoreMapToolChildHierarchy(
@@ -1234,6 +1251,16 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 RotateSelectedObjectY(target, -180f);
             if (GUILayout.Button("+180", GUILayout.Width(buttonWidth), GUILayout.Height(buttonHeight)))
                 RotateSelectedObjectY(target, 180f);
+            GUILayout.FlexibleSpace();
+        }
+
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("-90", GUILayout.Width(buttonWidth), GUILayout.Height(buttonHeight)))
+                RotateSelectedObjectY(target, -90f);
+            if (GUILayout.Button("+90", GUILayout.Width(buttonWidth), GUILayout.Height(buttonHeight)))
+                RotateSelectedObjectY(target, 90f);
             GUILayout.FlexibleSpace();
         }
     }
@@ -3078,12 +3105,16 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         if (target == null)
             return;
 
+        string movedName = MoveMapToolPlacedObjectNameByGridStep(target.name, offsetX, offsetZ);
+        Undo.RecordObject(target, "Move Map Tool Object By Grid Step");
         Undo.RecordObject(target.transform, "Move Map Tool Object By Grid Step");
+        target.name = movedName;
         target.transform.position = MoveObjectPositionByGridStep(
             target.transform.position,
             offsetX,
             offsetZ,
             BuildPlacementSnapCellSize(cellSize, false));
+        PrefabUtility.RecordPrefabInstancePropertyModifications(target);
         PrefabUtility.RecordPrefabInstancePropertyModifications(target.transform);
         EditorUtility.SetDirty(target);
         EditorUtility.SetDirty(target.transform);
@@ -3441,7 +3472,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         propPrefab = selected;
     }
 
-    private static bool SetupMapToolSceneDefaults()
+    private static bool SetupMapToolSceneDefaults(
+        bool preserveExistingCameraTransform = false,
+        bool preserveExistingCameraProjection = false)
     {
         bool changed = false;
         GameObject root = EnsureRoot();
@@ -3455,9 +3488,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         Camera camera = Camera.main;
         if (camera != null)
         {
-            changed |= SetObjectName(camera.gameObject, "MapTool_Camera");
-            changed |= SetTransform(camera.transform, new Vector3(22f, 24f, -22f), Quaternion.Euler(55f, -45f, 0f), Vector3.one);
-            changed |= SetCameraProjection(camera, true, 24f);
+            changed |= ApplyMapToolCameraDefaults(
+                camera,
+                preserveExistingCameraTransform,
+                preserveExistingCameraProjection);
         }
 
         Light light = FindFirstObjectByType<Light>();
@@ -3705,6 +3739,30 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return true;
     }
 
+    internal static bool ApplyMapToolCameraDefaults(
+        Camera camera,
+        bool preserveTransform,
+        bool preserveProjection = false)
+    {
+        if (camera == null)
+            return false;
+
+        bool changed = SetObjectName(camera.gameObject, "MapTool_Camera");
+        if (!preserveTransform)
+        {
+            changed |= SetTransform(
+                camera.transform,
+                new Vector3(22f, 24f, -22f),
+                Quaternion.Euler(55f, -45f, 0f),
+                Vector3.one);
+        }
+
+        if (!preserveProjection)
+            changed |= SetCameraProjection(camera, true, 24f);
+
+        return changed;
+    }
+
     private static bool SetTransform(Transform target, Vector3 position, Quaternion rotation, Vector3 scale)
     {
         bool changed = false;
@@ -3847,7 +3905,13 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     internal static bool IsMapToolScenePath(string scenePath)
     {
-        return string.Equals(scenePath, MapToolScenePath, StringComparison.OrdinalIgnoreCase);
+        return string.Equals(scenePath, MapToolScenePath, StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(scenePath, MapToolScene2Path, StringComparison.OrdinalIgnoreCase);
+    }
+
+    internal static string ResolveMapToolScenePathToOpen(string activeScenePath)
+    {
+        return IsMapToolScenePath(activeScenePath) ? activeScenePath : MapToolScenePath;
     }
 
     internal static string FormatCursorStatus(
@@ -4192,6 +4256,20 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             currentPosition.x + offsetX * normalizedSnapCellSize,
             currentPosition.y,
             currentPosition.z + offsetZ * normalizedSnapCellSize);
+    }
+
+    internal static string MoveMapToolPlacedObjectNameByGridStep(string objectName, int offsetX, int offsetZ)
+    {
+        if (!TryGetMapToolPlacedObjectGridPosition(objectName, out Vector2Int cell))
+            return objectName;
+
+        int zMarkerIndex = objectName.LastIndexOf("_Z", StringComparison.Ordinal);
+        int xMarkerIndex = objectName.LastIndexOf("_X", zMarkerIndex, StringComparison.Ordinal);
+        if (xMarkerIndex < 0)
+            return objectName;
+
+        string prefix = objectName[..xMarkerIndex];
+        return $"{prefix}_X{cell.x + offsetX:+00;-00;+00}_Z{cell.y + offsetZ:+00;-00;+00}";
     }
 
     internal static Vector3 MoveObjectRotationYByStep(Vector3 currentEuler, float deltaY)
@@ -4956,15 +5034,26 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private void AddBuiltinBackgroundPaletteItems(List<PaletteItem> items)
     {
         GameObject waterPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(JhWaterPrefabPath);
-        if (waterPrefab == null)
-            return;
+        if (waterPrefab != null)
+        {
+            items.Add(new PaletteItem(
+                BuildPaletteDisplayLabel(JhWaterPrefabPath),
+                JhWaterPrefabPath,
+                waterPrefab,
+                NoryangjinMapToolPaletteCategory.Background,
+                BuiltinBackgroundPaletteItemSortOrder));
+        }
 
-        items.Add(new PaletteItem(
-            BuildPaletteDisplayLabel(JhWaterPrefabPath),
-            JhWaterPrefabPath,
-            waterPrefab,
-            NoryangjinMapToolPaletteCategory.Background,
-            BuiltinBackgroundPaletteItemSortOrder));
+        GameObject groundBackdropPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(NoryangjinGroundBackdropPrefabPath);
+        if (groundBackdropPrefab != null)
+        {
+            items.Add(new PaletteItem(
+                BuildPaletteDisplayLabel(NoryangjinGroundBackdropPrefabPath),
+                NoryangjinGroundBackdropPrefabPath,
+                groundBackdropPrefab,
+                NoryangjinMapToolPaletteCategory.Background,
+                BuiltinBackgroundPaletteItemSortOrder + 1));
+        }
     }
 
     private static bool HasPaletteItem(List<PaletteItem> items, string prefabPath)

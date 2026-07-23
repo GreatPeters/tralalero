@@ -1,0 +1,110 @@
+<div id="orthogonal-campaign-route">
+  <style>
+    #orthogonal-campaign-route {
+      color: var(--foreground);
+      width: 100%;
+    }
+    #orthogonal-campaign-route .route-map {
+      display: block;
+      width: 100%;
+      height: auto;
+      color: var(--foreground);
+    }
+    #orthogonal-campaign-route .grid-line {
+      stroke: var(--border);
+      stroke-width: 1;
+      vector-effect: non-scaling-stroke;
+    }
+    #orthogonal-campaign-route .route-underlay {
+      fill: none;
+      stroke: var(--background);
+      stroke-width: 18;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+    #orthogonal-campaign-route .route {
+      fill: none;
+      stroke-width: 11;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+    #orthogonal-campaign-route .nry { stroke: light-dark(#c83f45, #ff6b73); }
+    #orthogonal-campaign-route .hwy { stroke: light-dark(#246fbd, #5aa7ff); }
+    #orthogonal-campaign-route .rst { stroke: light-dark(#338452, #63c986); }
+    #orthogonal-campaign-route .city { stroke: light-dark(#c97916, #ffad42); }
+    #orthogonal-campaign-route .gng { stroke: light-dark(#7546a5, #bd83ef); }
+    #orthogonal-campaign-route .current-route {
+      fill: none;
+      stroke: var(--viz-series-2);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+    #orthogonal-campaign-route .scene-footprint {
+      fill: color-mix(in srgb, var(--viz-series-1) 18%, transparent);
+      stroke: var(--muted-foreground);
+      stroke-width: 2;
+      vector-effect: non-scaling-stroke;
+    }
+    #orthogonal-campaign-route .label,
+    #orthogonal-campaign-route .marker-label {
+      fill: var(--foreground);
+      font-weight: 500;
+      paint-order: stroke;
+      stroke: var(--background);
+      stroke-width: 3;
+      stroke-linejoin: round;
+    }
+    #orthogonal-campaign-route .marker {
+      fill: var(--card);
+      stroke: var(--foreground);
+      stroke-width: 2;
+      vector-effect: non-scaling-stroke;
+    }
+  </style>
+  <svg class="route-map" viewBox="0 0 750 430" role="img" aria-labelledby="route-plan-title route-plan-desc">
+    <title id="route-plan-title">노량진에서 백화점까지 이어지는 직선과 큰 꺾임 중심의 5개 챕터 동선</title>
+    <desc id="route-plan-desc">노량진 4분30초, 고속도로 4분, 휴게소 2분, 도심 4분30초, 백화점 5분. 노량진은 빨강, 고속도로는 파랑이며 각 챕터의 끝점은 다음 챕터 시작점과 같다.</desc>
+    <g aria-hidden="true">
+      <path class="grid-line" d="M0 50H750M0 100H750M0 150H750M0 200H750M0 250H750M0 300H750M0 350H750M0 400H750" />
+      <path class="grid-line" d="M50 0V430M100 0V430M150 0V430M200 0V430M250 0V430M300 0V430M350 0V430M400 0V430M450 0V430M500 0V430M550 0V430M600 0V430M650 0V430M700 0V430" />
+    </g>
+
+    <rect class="scene-footprint" x="310" y="210" width="80" height="80" rx="5" />
+    <text class="label" x="350" y="202" text-anchor="middle">현재 노량진 씬</text>
+
+    <polyline class="route-underlay" points="380,280 340,280 340,220 430,220 430,340 240,340 240,200 200,200 200,180" />
+    <polyline class="route nry" points="380,280 340,280 340,220 430,220 430,340 240,340 240,200 200,200 200,180" />
+    <polyline class="current-route" points="380,280 340,280 340,220" />
+
+    <polyline class="route-underlay" points="200,180 200,50 30,50 30,200 200,200" />
+    <polyline class="route hwy" points="200,180 200,50 30,50 30,200 200,200" />
+
+    <polyline class="route-underlay" points="200,200 200,290 90,290 90,240 120,240 120,220" />
+    <polyline class="route rst" points="200,200 200,290 90,290 90,240 120,240 120,220" />
+
+    <polyline class="route-underlay" points="120,220 120,380 350,380 350,420 550,420 550,370 570,370" />
+    <polyline class="route city" points="120,220 120,380 350,380 350,420 550,420 550,370 570,370" />
+
+    <polyline class="route-underlay" points="570,370 720,370 720,140 580,140 580,250 670,250 670,310" />
+    <polyline class="route gng" points="570,370 720,370 720,140 580,140 580,250 670,250 670,310" />
+
+    <text class="label" x="335" y="325" text-anchor="middle">노량진 · 4:30 · 142모듈 · 7코너</text>
+    <text class="label" x="90" y="35" text-anchor="middle">고속도로 · 4:00 · 125모듈 · 3코너</text>
+    <text class="label" x="135" y="315" text-anchor="middle">휴게소 · 2:00 · 61모듈 · 4코너</text>
+    <text class="label" x="335" y="365" text-anchor="middle">도심 · 4:30 · 141모듈 · 5코너</text>
+    <text class="label" x="645" y="125" text-anchor="middle">백화점 · 5:00 · 157모듈 · 5코너</text>
+
+    <g>
+      <circle class="marker" cx="380" cy="280" r="9" /><text class="marker-label" x="380" y="285" text-anchor="middle">S</text>
+      <circle class="marker" cx="200" cy="180" r="9" /><text class="marker-label" x="183" y="177" text-anchor="end">T1</text>
+      <circle class="marker" cx="200" cy="200" r="9" /><text class="marker-label" x="217" y="206">T2</text>
+      <circle class="marker" cx="120" cy="220" r="9" /><text class="marker-label" x="120" y="210" text-anchor="middle">T3</text>
+      <circle class="marker" cx="570" cy="370" r="9" /><text class="marker-label" x="570" y="375" text-anchor="middle">T4</text>
+      <circle class="marker" cx="670" cy="310" r="9" /><text class="marker-label" x="670" y="315" text-anchor="middle">E</text>
+    </g>
+  </svg>
+</div>

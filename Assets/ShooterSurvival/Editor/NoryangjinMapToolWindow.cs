@@ -375,6 +375,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string SelectedObjectMoveJoystickSectionLabel = "한 칸 이동";
     internal const string SelectedObjectAbsoluteRotationSectionLabel = "Y 회전";
     internal const string SelectedObjectMoveJoystickCenterLabel = "스냅";
+    internal const string ContinuationButtonLabel = "이어 복붙";
+    internal static readonly string[] ContinuationDirectionLabels = { "북", "동", "남", "서" };
     private static readonly NoryangjinMapToolPaletteCategory[] PaletteCategories =
     {
         NoryangjinMapToolPaletteCategory.All,
@@ -672,6 +674,27 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
             GUILayout.Label(FormatCursorStatus(isToolScene, gridX, gridZ, direction, cellSize), EditorStyles.miniLabel);
             GUILayout.FlexibleSpace();
+
+            using (new EditorGUI.DisabledScope(!mapToolEnabled))
+            {
+                int selectedDirection = GUILayout.Toolbar(
+                    (int)direction,
+                    ContinuationDirectionLabels,
+                    EditorStyles.toolbarButton,
+                    GUILayout.Width(88f));
+                if (selectedDirection != (int)direction)
+                    direction = (NoryangjinMapToolDirection)selectedDirection;
+            }
+
+            GameObject continuationSource = ResolveContinuationSource();
+            using (new EditorGUI.DisabledScope(!CanContinuePlacedObject(mapToolEnabled, continuationSource)))
+            {
+                GUIContent continueContent = new GUIContent(
+                    ContinuationButtonLabel,
+                    "선택한 배치물(없으면 마지막 배치물)을 지정 방향으로 이어서 복제합니다.");
+                if (GUILayout.Button(continueContent, EditorStyles.toolbarButton, GUILayout.Width(62f)))
+                    ContinuePlacedObject(continuationSource, direction);
+            }
 
             if (GUILayout.Button("씬", EditorStyles.toolbarButton, GUILayout.Width(36f)))
             {
@@ -1969,6 +1992,19 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return null;
     }
 
+    private GameObject ResolveContinuationSource()
+    {
+        GameObject selected = ResolveSelectedPlacedObject(Selection.activeGameObject);
+        return selected != null ? selected : ResolveLastPlacedObject();
+    }
+
+    internal static bool CanContinuePlacedObject(bool toolEnabled, GameObject source)
+    {
+        return toolEnabled &&
+               source != null &&
+               !string.Equals(source.name, WaterBackdropInstanceName, StringComparison.Ordinal);
+    }
+
     private static void DrawSpecialPaletteIcon(PaletteItem item, Rect imageRect)
     {
         string iconText = GetSpecialPaletteIconText(item.PrefabPath);
@@ -2936,6 +2972,150 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return selected;
 
         return FindPlacedObjectAtCursor();
+    }
+
+    internal GameObject ContinuePlacedObject(
+        GameObject source,
+        NoryangjinMapToolDirection continuationDirection)
+    {
+        source = ResolveSelectedPlacedObject(source);
+        if (!CanContinuePlacedObject(mapToolEnabled, source))
+            return null;
+
+        float fineCellSize = BuildPlacementSnapCellSize(cellSize, false);
+        Vector2Int sourceAnchor = TryGetMapToolPlacedObjectGridPosition(source.name, out Vector2Int namedAnchor)
+            ? namedAnchor
+            : BuildPlacementGridCell(source.transform.position, origin, cellSize, false);
+        Bounds sourceBounds = CalculateRendererBounds(source);
+        bool usesRoadFootprint = TryBuildRoadContinuationGridOffset(
+            source,
+            continuationDirection,
+            out Vector2Int roadGridOffset);
+
+        const string undoName = "Continue Map Tool Object";
+        int undoGroup = BeginMapToolUndoGroup(undoName);
+        Undo.RegisterCompleteObjectUndo(this, undoName);
+        GameObject duplicate = null;
+        try
+        {
+            duplicate = DuplicatePlacedObjectForContinuation(source);
+            if (duplicate == null)
+                return null;
+
+            Undo.RecordObject(duplicate, undoName);
+            Undo.RecordObject(duplicate.transform, undoName);
+
+            Vector2Int duplicateAnchor;
+            if (usesRoadFootprint)
+            {
+                duplicate.transform.position = MoveObjectPositionByGridStep(
+                    source.transform.position,
+                    roadGridOffset.x,
+                    roadGridOffset.y,
+                    fineCellSize);
+                duplicateAnchor = sourceAnchor + roadGridOffset;
+            }
+            else
+            {
+                float seamOverlap = GetPlacedObjectLayer(source) == NoryangjinMapToolPlacementLayer.Background
+                    ? fineCellSize
+                    : 0f;
+                Vector3 worldOffset = BuildBoundsContinuationOffset(
+                    sourceBounds,
+                    CalculateRendererBounds(duplicate),
+                    continuationDirection,
+                    fineCellSize,
+                    seamOverlap);
+                duplicate.transform.position += worldOffset;
+                duplicateAnchor = BuildPlacementGridCell(duplicate.transform.position, origin, cellSize, false);
+            }
+
+            duplicate.name = BuildContinuationObjectName(source.name, duplicateAnchor);
+            PrefabUtility.RecordPrefabInstancePropertyModifications(duplicate);
+            PrefabUtility.RecordPrefabInstancePropertyModifications(duplicate.transform);
+            EditorUtility.SetDirty(duplicate);
+            EditorUtility.SetDirty(duplicate.transform);
+            if (duplicate.scene.IsValid())
+                EditorSceneManager.MarkSceneDirty(duplicate.scene);
+
+            gridX = duplicateAnchor.x;
+            gridZ = duplicateAnchor.y;
+            direction = continuationDirection;
+            coarsePlacementSnapActive = false;
+            EditorUtility.SetDirty(this);
+            Selection.activeGameObject = duplicate;
+            RegisterLastPlacedObject(duplicate);
+            return duplicate;
+        }
+        finally
+        {
+            Undo.CollapseUndoOperations(undoGroup);
+            SceneView.RepaintAll();
+            Repaint();
+        }
+    }
+
+    private bool TryBuildRoadContinuationGridOffset(
+        GameObject source,
+        NoryangjinMapToolDirection continuationDirection,
+        out Vector2Int gridOffset)
+    {
+        gridOffset = default;
+        if (source == null || GetPlacedObjectLayer(source) != NoryangjinMapToolPlacementLayer.Road)
+            return false;
+
+        string prefabPath = GetPrefabAssetPathForPlacedObject(source);
+        if (string.IsNullOrEmpty(prefabPath) &&
+            !TryGetKnownRoadPrefabPathFromPlacedObjectName(source.name, out prefabPath))
+        {
+            return false;
+        }
+
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        if (prefab == null)
+            return false;
+
+        NoryangjinMapToolPalettePlacementEntry placement = GetPaletteDefaults().GetOrCreateEntry(prefabPath);
+        if (!placement.useManualFootprint)
+            return false;
+
+        gridOffset = BuildRoadContinuationGridOffset(
+            placement.manualFootprint,
+            prefab.transform.rotation,
+            source.transform.rotation,
+            continuationDirection);
+        return true;
+    }
+
+    internal static GameObject DuplicatePlacedObjectForContinuation(GameObject source)
+    {
+        return source != null ? GameObjectUtility.DuplicateGameObject(source) : null;
+    }
+
+    internal static bool TryGetKnownRoadPrefabPathFromPlacedObjectName(
+        string objectName,
+        out string prefabPath)
+    {
+        prefabPath = null;
+        if (!TryGetMapToolPlacedObjectGridPosition(objectName, out _))
+            return false;
+
+        int zMarkerIndex = objectName.LastIndexOf("_Z", StringComparison.Ordinal);
+        int xMarkerIndex = objectName.LastIndexOf("_X", zMarkerIndex, StringComparison.Ordinal);
+        if (xMarkerIndex < 0)
+            return false;
+
+        string namePrefix = objectName[..xMarkerIndex];
+        foreach (RoadPiece roadPiece in RoadPieces)
+        {
+            if (!string.Equals(namePrefix, $"Road_{roadPiece.Label}", StringComparison.Ordinal))
+                continue;
+
+            prefabPath = roadPiece.PrefabPath;
+            return true;
+        }
+
+        return false;
     }
 
     internal static GameObject ResolveSelectedPlacedObject(GameObject selected)
@@ -4256,6 +4436,80 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             currentPosition.x + offsetX * normalizedSnapCellSize,
             currentPosition.y,
             currentPosition.z + offsetZ * normalizedSnapCellSize);
+    }
+
+    internal static Vector2Int BuildRoadContinuationGridOffset(
+        Vector2Int manualFootprint,
+        Quaternion prefabBaseRotation,
+        Quaternion placedRotation,
+        NoryangjinMapToolDirection continuationDirection)
+    {
+        Vector2Int displayedFootprint = ScaleManualFootprintForPlacementGrid(manualFootprint);
+        Quaternion relativeRotation = placedRotation * Quaternion.Inverse(prefabBaseRotation);
+        float relativeYaw = NormalizeEulerAngleForInspector(relativeRotation.eulerAngles.y);
+        int quarterTurns = Mathf.RoundToInt(relativeYaw / 90f);
+        if (Mathf.Abs(quarterTurns % 2) == 1)
+            displayedFootprint = new Vector2Int(displayedFootprint.y, displayedFootprint.x);
+
+        Vector2Int directionStep = NoryangjinMapToolGridUtility.DirectionToStep(continuationDirection);
+        int distance = directionStep.x != 0 ? displayedFootprint.x : displayedFootprint.y;
+        return directionStep * distance;
+    }
+
+    internal static Vector3 BuildBoundsContinuationOffset(
+        Bounds sourceBounds,
+        Bounds duplicateBounds,
+        NoryangjinMapToolDirection continuationDirection,
+        float fallbackDistance,
+        float seamOverlap)
+    {
+        float normalizedFallback = NoryangjinMapToolGridUtility.NormalizeCellSize(fallbackDistance);
+        float normalizedOverlap = Mathf.Max(0f, seamOverlap);
+        Vector2Int directionStep = NoryangjinMapToolGridUtility.DirectionToStep(continuationDirection);
+        bool horizontal = directionStep.x != 0;
+        float sourceSize = horizontal ? sourceBounds.size.x : sourceBounds.size.z;
+        float duplicateSize = horizontal ? duplicateBounds.size.x : duplicateBounds.size.z;
+        if (sourceSize <= Mathf.Epsilon || duplicateSize <= Mathf.Epsilon)
+        {
+            return new Vector3(
+                directionStep.x * normalizedFallback,
+                0f,
+                directionStep.y * normalizedFallback);
+        }
+
+        return continuationDirection switch
+        {
+            NoryangjinMapToolDirection.East => new Vector3(
+                Mathf.Max(0f, sourceBounds.max.x - duplicateBounds.min.x - normalizedOverlap),
+                0f,
+                0f),
+            NoryangjinMapToolDirection.South => new Vector3(
+                0f,
+                0f,
+                -Mathf.Max(0f, duplicateBounds.max.z - sourceBounds.min.z - normalizedOverlap)),
+            NoryangjinMapToolDirection.West => new Vector3(
+                -Mathf.Max(0f, duplicateBounds.max.x - sourceBounds.min.x - normalizedOverlap),
+                0f,
+                0f),
+            _ => new Vector3(
+                0f,
+                0f,
+                Mathf.Max(0f, sourceBounds.max.z - duplicateBounds.min.z - normalizedOverlap))
+        };
+    }
+
+    internal static string BuildContinuationObjectName(string sourceObjectName, Vector2Int anchor)
+    {
+        string prefix = string.IsNullOrEmpty(sourceObjectName) ? "Placed" : sourceObjectName;
+        if (TryGetMapToolPlacedObjectGridPosition(prefix, out _))
+        {
+            int zMarkerIndex = prefix.LastIndexOf("_Z", StringComparison.Ordinal);
+            int xMarkerIndex = prefix.LastIndexOf("_X", zMarkerIndex, StringComparison.Ordinal);
+            if (xMarkerIndex >= 0)
+                prefix = prefix[..xMarkerIndex];
+        }
+
+        return $"{prefix}_X{anchor.x:+00;-00;+00}_Z{anchor.y:+00;-00;+00}";
     }
 
     internal static string MoveMapToolPlacedObjectNameByGridStep(string objectName, int offsetX, int offsetZ)

@@ -4,7 +4,10 @@ using System.IO;
 using System.Reflection;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools.Utils;
 
 public sealed class NoryangjinMapToolGridUtilityTests
 {
@@ -105,6 +108,318 @@ public sealed class NoryangjinMapToolGridUtilityTests
         Assert.That(NoryangjinMapToolGridUtility.DirectionAfterRoadTurn(NoryangjinMapToolDirection.East, NoryangjinMapToolRoadTurn.Left90), Is.EqualTo(NoryangjinMapToolDirection.North));
         Assert.That(NoryangjinMapToolGridUtility.DirectionAfterRoadTurn(NoryangjinMapToolDirection.South, NoryangjinMapToolRoadTurn.Left90), Is.EqualTo(NoryangjinMapToolDirection.East));
         Assert.That(NoryangjinMapToolGridUtility.DirectionAfterRoadTurn(NoryangjinMapToolDirection.West, NoryangjinMapToolRoadTurn.Left90), Is.EqualTo(NoryangjinMapToolDirection.South));
+    }
+
+    [Test]
+    public void ContinuationToolbar_UsesCardinalKoreanControlsAndExpectedActionLabel()
+    {
+        Assert.That(NoryangjinMapToolWindow.ContinuationDirectionLabels, Is.EqualTo(new[] { "북", "동", "남", "서" }));
+        Assert.That(NoryangjinMapToolWindow.ContinuationButtonLabel, Is.EqualTo("이어 복붙"));
+    }
+
+    [Test]
+    public void RoadContinuationGridOffset_UsesManualFootprintRelativeToPrefabYaw()
+    {
+        var nativeExpected = new Dictionary<NoryangjinMapToolDirection, Vector2Int>
+        {
+            [NoryangjinMapToolDirection.North] = new Vector2Int(0, 30),
+            [NoryangjinMapToolDirection.East] = new Vector2Int(50, 0),
+            [NoryangjinMapToolDirection.South] = new Vector2Int(0, -30),
+            [NoryangjinMapToolDirection.West] = new Vector2Int(-50, 0)
+        };
+        var quarterTurnExpected = new Dictionary<NoryangjinMapToolDirection, Vector2Int>
+        {
+            [NoryangjinMapToolDirection.North] = new Vector2Int(0, 50),
+            [NoryangjinMapToolDirection.East] = new Vector2Int(30, 0),
+            [NoryangjinMapToolDirection.South] = new Vector2Int(0, -50),
+            [NoryangjinMapToolDirection.West] = new Vector2Int(-30, 0)
+        };
+
+        foreach (NoryangjinMapToolDirection direction in System.Enum.GetValues(typeof(NoryangjinMapToolDirection)))
+        {
+            Assert.That(
+                NoryangjinMapToolWindow.BuildRoadContinuationGridOffset(
+                    new Vector2Int(10, 6),
+                    Quaternion.Euler(0f, 90f, 0f),
+                    Quaternion.Euler(0f, 90f, 0f),
+                    direction),
+                Is.EqualTo(nativeExpected[direction]),
+                $"native {direction}");
+            Assert.That(
+                NoryangjinMapToolWindow.BuildRoadContinuationGridOffset(
+                    new Vector2Int(10, 6),
+                    Quaternion.Euler(0f, 90f, 0f),
+                    Quaternion.Euler(0f, 180f, 0f),
+                    direction),
+                Is.EqualTo(quarterTurnExpected[direction]),
+                $"quarter turn {direction}");
+        }
+    }
+
+    [Test]
+    public void BoundsContinuationOffset_UsesEdgeContactBackgroundOverlapAndFineCellFallback()
+    {
+        Bounds sourceBounds = new Bounds(Vector3.zero, new Vector3(10f, 2f, 6f));
+        Bounds duplicateBounds = sourceBounds;
+        var propExpected = new Dictionary<NoryangjinMapToolDirection, Vector3>
+        {
+            [NoryangjinMapToolDirection.North] = new Vector3(0f, 0f, 6f),
+            [NoryangjinMapToolDirection.East] = new Vector3(10f, 0f, 0f),
+            [NoryangjinMapToolDirection.South] = new Vector3(0f, 0f, -6f),
+            [NoryangjinMapToolDirection.West] = new Vector3(-10f, 0f, 0f)
+        };
+        var backgroundExpected = new Dictionary<NoryangjinMapToolDirection, Vector3>
+        {
+            [NoryangjinMapToolDirection.North] = new Vector3(0f, 0f, 5.775f),
+            [NoryangjinMapToolDirection.East] = new Vector3(9.775f, 0f, 0f),
+            [NoryangjinMapToolDirection.South] = new Vector3(0f, 0f, -5.775f),
+            [NoryangjinMapToolDirection.West] = new Vector3(-9.775f, 0f, 0f)
+        };
+
+        foreach (NoryangjinMapToolDirection direction in System.Enum.GetValues(typeof(NoryangjinMapToolDirection)))
+        {
+            Assert.That(
+                NoryangjinMapToolWindow.BuildBoundsContinuationOffset(
+                    sourceBounds,
+                    duplicateBounds,
+                    direction,
+                    0.225f,
+                    0f),
+                Is.EqualTo(propExpected[direction]).Using(Vector3ComparerWithEqualsOperator.Instance),
+                $"prop {direction}");
+            Assert.That(
+                NoryangjinMapToolWindow.BuildBoundsContinuationOffset(
+                    sourceBounds,
+                    duplicateBounds,
+                    direction,
+                    0.225f,
+                    0.225f),
+                Is.EqualTo(backgroundExpected[direction]).Using(Vector3ComparerWithEqualsOperator.Instance),
+                $"background {direction}");
+        }
+
+        Vector3 fallbackOffset = NoryangjinMapToolWindow.BuildBoundsContinuationOffset(
+            new Bounds(Vector3.zero, Vector3.zero),
+            new Bounds(Vector3.zero, Vector3.zero),
+            NoryangjinMapToolDirection.South,
+            0.225f,
+            0f);
+
+        Assert.That(fallbackOffset.x, Is.Zero.Within(0.001f));
+        Assert.That(fallbackOffset.z, Is.EqualTo(-0.225f).Within(0.001f));
+    }
+
+    [Test]
+    public void ContinuationObjectName_ReplacesCoordinateSuffixOrAddsOneToRenamedRoots()
+    {
+        Assert.That(
+            NoryangjinMapToolWindow.BuildContinuationObjectName("Road_RightTurn_X+12_Z-03", new Vector2Int(62, -3)),
+            Is.EqualTo("Road_RightTurn_X+62_Z-03"));
+        Assert.That(
+            NoryangjinMapToolWindow.BuildContinuationObjectName("수동 배치 부두", new Vector2Int(-4, 8)),
+            Is.EqualTo("수동 배치 부두_X-04_Z+08"));
+    }
+
+    [Test]
+    public void ContinuationAvailability_RequiresEnabledToolAndRejectsSingletonWaterBackdrop()
+    {
+        GameObject source = new GameObject("Prop_Crate_X+00_Z+00");
+        GameObject water = new GameObject("Background_Water");
+        try
+        {
+            Assert.That(NoryangjinMapToolWindow.CanContinuePlacedObject(true, source), Is.True);
+            Assert.That(NoryangjinMapToolWindow.CanContinuePlacedObject(false, source), Is.False);
+            Assert.That(NoryangjinMapToolWindow.CanContinuePlacedObject(true, water), Is.False);
+            Assert.That(NoryangjinMapToolWindow.CanContinuePlacedObject(true, null), Is.False);
+        }
+        finally
+        {
+            Object.DestroyImmediate(source);
+            Object.DestroyImmediate(water);
+        }
+    }
+
+    [Test]
+    public void ResolveContinuationSource_PrefersSelectedPlacementRootThenFallsBackToLastPlaced()
+    {
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        Object previousSelection = Selection.activeObject;
+        NoryangjinMapToolWindow window = null;
+        try
+        {
+            GameObject selectedRoot = new GameObject("Prop_Selected_X+00_Z+00");
+            SceneManager.MoveGameObjectToScene(selectedRoot, previewScene);
+            GameObject selectedChild = new GameObject("SelectedChild");
+            SceneManager.MoveGameObjectToScene(selectedChild, previewScene);
+            selectedChild.transform.SetParent(selectedRoot.transform, false);
+
+            GameObject lastPlaced = new GameObject("Prop_Last_X+01_Z+00");
+            SceneManager.MoveGameObjectToScene(lastPlaced, previewScene);
+            GameObject unrelated = new GameObject("Unrelated");
+            SceneManager.MoveGameObjectToScene(unrelated, previewScene);
+
+            window = ScriptableObject.CreateInstance<NoryangjinMapToolWindow>();
+            FieldInfo lastPlacedField = typeof(NoryangjinMapToolWindow).GetField(
+                "lastPlacedObjectInstanceId",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(lastPlacedField, Is.Not.Null);
+            lastPlacedField.SetValue(window, lastPlaced.GetInstanceID());
+
+            MethodInfo resolveMethod = typeof(NoryangjinMapToolWindow).GetMethod(
+                "ResolveContinuationSource",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(resolveMethod, Is.Not.Null);
+
+            Selection.activeGameObject = selectedChild;
+            Assert.That(resolveMethod.Invoke(window, null), Is.SameAs(selectedRoot));
+
+            Selection.activeGameObject = unrelated;
+            Assert.That(resolveMethod.Invoke(window, null), Is.SameAs(lastPlaced));
+
+            Selection.activeObject = null;
+            Assert.That(resolveMethod.Invoke(window, null), Is.SameAs(lastPlaced));
+        }
+        finally
+        {
+            Selection.activeObject = previousSelection;
+            if (window != null)
+                Object.DestroyImmediate(window);
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
+    public void KnownDetachedRoadName_RecoversExactPalettePrefabOnly()
+    {
+        Assert.That(
+            NoryangjinMapToolWindow.TryGetKnownRoadPrefabPathFromPlacedObjectName(
+                "Road_RightTurn_X+12_Z-03",
+                out string prefabPath),
+            Is.True);
+        Assert.That(prefabPath, Does.EndWith("Pier_Long_Fantasy_RightTurn.prefab"));
+        Assert.That(
+            NoryangjinMapToolWindow.TryGetKnownRoadPrefabPathFromPlacedObjectName(
+                "Road_RightTurnCustom_X+12_Z-03",
+                out _),
+            Is.False);
+    }
+
+    [Test]
+    public void DuplicatePlacedObjectForContinuation_PreservesPrefabConnectionOverridesAndAddedChildren()
+    {
+        const string prefabPath = "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab";
+        Undo.IncrementCurrentGroup();
+        int testUndoGroup = Undo.GetCurrentGroup();
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        Object previousSelection = Selection.activeObject;
+        try
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            Assert.That(prefab, Is.Not.Null);
+
+            GameObject source = PrefabUtility.InstantiatePrefab(prefab, previewScene) as GameObject;
+            Assert.That(source, Is.Not.Null);
+            source.name = "Road_Basic_X+12_Z+00";
+            source.transform.position = new Vector3(2.7f, 0.4f, -1.2f);
+            source.transform.localScale = new Vector3(2.1f, 2.2f, 2.3f);
+            PrefabUtility.RecordPrefabInstancePropertyModifications(source.transform);
+
+            GameObject addedChild = new GameObject("ContinuationAddedChild");
+            SceneManager.MoveGameObjectToScene(addedChild, previewScene);
+            addedChild.transform.SetParent(source.transform, false);
+
+            GameObject duplicate = NoryangjinMapToolWindow.DuplicatePlacedObjectForContinuation(source);
+
+            Assert.That(duplicate, Is.Not.Null);
+            Assert.That(duplicate, Is.Not.SameAs(source));
+            Assert.That(PrefabUtility.GetPrefabInstanceStatus(duplicate), Is.EqualTo(PrefabInstanceStatus.Connected));
+            Assert.That(PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(duplicate), Is.EqualTo(prefabPath));
+            Assert.That(duplicate.transform.Find("ContinuationAddedChild"), Is.Not.Null);
+            Assert.That(duplicate.transform.position, Is.EqualTo(source.transform.position));
+            Assert.That(duplicate.transform.localScale, Is.EqualTo(source.transform.localScale));
+        }
+        finally
+        {
+            Undo.RevertAllDownToGroup(testUndoGroup);
+            Selection.activeObject = previousSelection;
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
+    public void ContinuePlacedObject_ChainsConnectedRightTurnCopiesUsingManualFootprint()
+    {
+        const string prefabPath = "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab";
+        Undo.IncrementCurrentGroup();
+        int testUndoGroup = Undo.GetCurrentGroup();
+        Scene activeSceneBefore = SceneManager.GetActiveScene();
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        Object previousSelection = Selection.activeObject;
+        NoryangjinMapToolWindow window = null;
+        try
+        {
+            GameObject root = new GameObject("Noryangjin_MapTool");
+            SceneManager.MoveGameObjectToScene(root, previewScene);
+            GameObject roads = new GameObject("Roads");
+            SceneManager.MoveGameObjectToScene(roads, previewScene);
+            roads.transform.SetParent(root.transform, false);
+
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            Assert.That(prefab, Is.Not.Null);
+            GameObject source = PrefabUtility.InstantiatePrefab(prefab, previewScene) as GameObject;
+            Assert.That(source, Is.Not.Null);
+            source.transform.SetParent(roads.transform, true);
+            source.name = "Road_RightTurn_X+12_Z+00";
+            source.transform.position = new Vector3(12f * 0.225f, 0f, 0f);
+
+            window = ScriptableObject.CreateInstance<NoryangjinMapToolWindow>();
+            GameObject first = window.ContinuePlacedObject(source, NoryangjinMapToolDirection.East);
+            GameObject second = window.ContinuePlacedObject(first, NoryangjinMapToolDirection.East);
+
+            Assert.That(first, Is.Not.Null);
+            Assert.That(second, Is.Not.Null);
+            Assert.That(first.name, Is.EqualTo("Road_RightTurn_X+62_Z+00"));
+            Assert.That(second.name, Is.EqualTo("Road_RightTurn_X+112_Z+00"));
+            Assert.That(first.transform.position.x - source.transform.position.x, Is.EqualTo(11.25f).Within(0.001f));
+            Assert.That(second.transform.position.x - first.transform.position.x, Is.EqualTo(11.25f).Within(0.001f));
+            Assert.That(PrefabUtility.GetPrefabInstanceStatus(first), Is.EqualTo(PrefabInstanceStatus.Connected));
+            Assert.That(PrefabUtility.GetPrefabInstanceStatus(second), Is.EqualTo(PrefabInstanceStatus.Connected));
+            Assert.That(PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(second), Is.EqualTo(prefabPath));
+            Assert.That(Selection.activeGameObject, Is.SameAs(second));
+            Assert.That(first.scene, Is.EqualTo(previewScene));
+            Assert.That(second.scene, Is.EqualTo(previewScene));
+            Assert.That(first.transform.parent, Is.SameAs(roads.transform));
+            Assert.That(second.transform.parent, Is.SameAs(roads.transform));
+            Assert.That(SceneManager.GetActiveScene(), Is.EqualTo(activeSceneBefore));
+
+            var serializedWindow = new SerializedObject(window);
+            serializedWindow.Update();
+            Assert.That(serializedWindow.FindProperty("gridX").intValue, Is.EqualTo(112));
+            Assert.That(serializedWindow.FindProperty("gridZ").intValue, Is.Zero);
+
+            string secondName = second.name;
+            Undo.FlushUndoRecordObjects();
+            Undo.PerformUndo();
+            serializedWindow.Update();
+            Assert.That(roads.transform.Find(secondName), Is.Null);
+            Assert.That(serializedWindow.FindProperty("gridX").intValue, Is.EqualTo(62));
+            Assert.That(SceneManager.GetActiveScene(), Is.EqualTo(activeSceneBefore));
+
+            Undo.PerformRedo();
+            serializedWindow.Update();
+            GameObject redoneSecond = roads.transform.Find(secondName)?.gameObject;
+            Assert.That(redoneSecond, Is.Not.Null);
+            Assert.That(PrefabUtility.GetPrefabInstanceStatus(redoneSecond), Is.EqualTo(PrefabInstanceStatus.Connected));
+            Assert.That(SceneManager.GetActiveScene(), Is.EqualTo(activeSceneBefore));
+        }
+        finally
+        {
+            Undo.RevertAllDownToGroup(testUndoGroup);
+            Selection.activeObject = previousSelection;
+            if (window != null)
+                Object.DestroyImmediate(window);
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
     }
 
     [Test]

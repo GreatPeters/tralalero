@@ -21,6 +21,15 @@ The repo is being shaped so agents can work from stable, versioned context inste
 - `CanvasScript`: start flow, game over, win UI, attack debug display.
 - `TimeManager`: global runtime gate for active gameplay.
 
+## Noryangjin Route Gameplay
+
+- `Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode.unity` is both the authored map-tool layout and, after installation, a runnable route-gameplay scene.
+- `NoryangjinForwardGameplayInstaller` composes that scene from the configured `Forward March Mode` scene rather than reconstructing its setup from bare prefabs. It clones the player/weapon rig, Canvas and pre-start/shop UI, Managers, EventSystem, and upgrade services so scene-assigned references stay intact.
+- The installer keeps the map scene's real `Original` character as the visible child of `Noryangjin_Player` and disables only the cloned Forward character renderers.
+- `PlayerScript` treats the player's current forward and right vectors as the route frame. Normal forward motion and lateral input therefore follow the new local frame after every corner instead of remaining locked to world axes.
+- `NoryangjinTurnSpot` is a rendererless trigger placed through the map-tool palette. When the player's root collider enters it, forward and lateral movement pause, the player rotates to an absolute world Y yaw over the configured duration, and movement resumes in the rebased route frame. Attack scheduling remains active during the turn.
+- Build Settings keep `Forward March Mode` enabled at index `0` and `Noryangjin_MapTool_Mode` enabled at index `1`; installing Noryangjin gameplay must not replace the project's default boot scene.
+
 ## Current Constraints
 - A large portion of gameplay logic is still `MonoBehaviour`-heavy and scene-coupled.
 - Pure logic extraction is limited, so most verification still needs runtime harnesses.

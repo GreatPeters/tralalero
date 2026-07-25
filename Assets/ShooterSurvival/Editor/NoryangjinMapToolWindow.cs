@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using IndianOceanAssets.ShooterSurvival;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -277,6 +278,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string NoryangjinGroundBackdropPrefabPath = PrefabRoot + "/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop.prefab";
     internal const string SeagullPerchPrefabPath = PrefabRoot + "/008_STAGE01_NRY_PROPS_008_Seagull_perch_post/008_STAGE01_NRY_PROPS_008_Seagull_perch_post.prefab";
     internal const string DockMetalCleatPrefabPath = PrefabRoot + "/026_STAGE01_NRY_PROPS_014_Dock_metal_cleat/026_STAGE01_NRY_PROPS_014_Dock_metal_cleat.prefab";
+    internal const string TurnSpotPrefabPath = "Assets/ShooterSurvival/Prefabs/Gameplay/Noryangjin_TurnSpot.prefab";
     private const string RootName = "Noryangjin_MapTool";
     private const string RoadParentName = "Roads";
     private const string PropParentName = "Props";
@@ -316,6 +318,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string ClearSelectionPaletteItemLabel = "해제";
     internal const string ClearSelectionPaletteItemIconText = "X";
     internal const int ClearSelectionPaletteItemSortOrder = 1;
+    internal const string TurnSpotPaletteItemLabel = "회전 스팟";
+    internal const string TurnSpotPaletteItemIconText = "↻";
+    internal const int TurnSpotPaletteItemSortOrder = 2;
     internal const int RoadPaletteItemSortOrder = 2;
     internal const int BuiltinBackgroundPaletteItemSortOrder = 3;
     internal const NoryangjinMapToolJoystickCenterAction JoystickCenterAction = NoryangjinMapToolJoystickCenterAction.PlaceSelectedIcon;
@@ -485,7 +490,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         ["Bridge Rope Small Fantasy"] = "다리",
         ["Pier Rope Stairs Fantasy"] = "오르막길",
         ["Pier Rope Stairs Fantasy Downhill"] = "내리막길",
-        ["Pier Pillars Fantasy"] = "오르막기둥"
+        ["Pier Pillars Fantasy"] = "오르막기둥",
+        ["Noryangjin Turn Spot"] = TurnSpotPaletteItemLabel
     };
 
     [SerializeField] private Vector3 origin = Vector3.zero;
@@ -1013,7 +1019,17 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             if (target == null)
             {
                 DrawSelectedPalettePlacementAngleControl();
+                if (IsTurnSpotPrefabPath(selectedPalettePrefabPath))
+                    GUILayout.Label("배치한 뒤 선택하면 목표 회전값과 시간을 설정할 수 있습니다.", EditorStyles.wordWrappedMiniLabel);
                 return;
+            }
+
+            NoryangjinTurnSpot turnSpot = target.GetComponent<NoryangjinTurnSpot>();
+            if (turnSpot != null)
+            {
+                DrawSelectedTurnSpotSettings(turnSpot);
+                GUILayout.Space(4f);
+                GUILayout.Label("스팟 설치 방향", EditorStyles.miniBoldLabel);
             }
 
             DrawSelectedObjectPlacementAngleControl(target);
@@ -1115,6 +1131,87 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                     applyDelta?.Invoke(RotationQuickStepDegrees);
             }
         }
+    }
+
+    private void DrawSelectedTurnSpotSettings(NoryangjinTurnSpot turnSpot)
+    {
+        if (turnSpot == null)
+            return;
+
+        GUILayout.Label("회전 스팟 동작", EditorStyles.miniBoldLabel);
+        EditorGUI.BeginChangeCheck();
+        float targetX = EditorGUILayout.DelayedFloatField(
+            "목표 X 회전",
+            turnSpot.TargetXDegrees);
+        float targetYaw = EditorGUILayout.DelayedFloatField("목표 Y 회전", turnSpot.TargetYawDegrees);
+        float duration = EditorGUILayout.DelayedFloatField("회전 시간(초)", turnSpot.TurnDurationSeconds);
+        if (EditorGUI.EndChangeCheck())
+            ApplyTurnSpotSettings(turnSpot, targetX, targetYaw, duration);
+
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            if (GUILayout.Button("-45도", GUILayout.Height(22f)))
+                ApplyTurnSpotSettings(
+                    turnSpot,
+                    turnSpot.TargetXDegrees,
+                    turnSpot.TargetYawDegrees - RotationQuickStepDegrees,
+                    turnSpot.TurnDurationSeconds);
+            if (GUILayout.Button("+45도", GUILayout.Height(22f)))
+                ApplyTurnSpotSettings(
+                    turnSpot,
+                    turnSpot.TargetXDegrees,
+                    turnSpot.TargetYawDegrees + RotationQuickStepDegrees,
+                    turnSpot.TurnDurationSeconds);
+        }
+
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            if (GUILayout.Button("0.25초", GUILayout.Height(22f)))
+                ApplyTurnSpotSettings(
+                    turnSpot,
+                    turnSpot.TargetXDegrees,
+                    turnSpot.TargetYawDegrees,
+                    0.25f);
+            if (GUILayout.Button("0.5초", GUILayout.Height(22f)))
+                ApplyTurnSpotSettings(
+                    turnSpot,
+                    turnSpot.TargetXDegrees,
+                    turnSpot.TargetYawDegrees,
+                    0.5f);
+            if (GUILayout.Button("1초", GUILayout.Height(22f)))
+                ApplyTurnSpotSettings(
+                    turnSpot,
+                    turnSpot.TargetXDegrees,
+                    turnSpot.TargetYawDegrees,
+                    1f);
+        }
+
+        GUILayout.Label(
+            "플레이어 이동·좌우 입력 정지 → 절대 월드 X/Y 회전 → 이동 재개",
+            EditorStyles.wordWrappedMiniLabel);
+    }
+
+    internal static void ApplyTurnSpotSettings(
+        NoryangjinTurnSpot turnSpot,
+        float targetX,
+        float targetYaw,
+        float duration)
+    {
+        if (turnSpot == null)
+            return;
+
+        const string undoName = "Edit Noryangjin Turn Spot";
+        Undo.RecordObject(turnSpot, undoName);
+        turnSpot.TargetXDegrees = targetX;
+        turnSpot.TargetYawDegrees = targetYaw;
+        turnSpot.TurnDurationSeconds = duration;
+        PrefabUtility.RecordPrefabInstancePropertyModifications(turnSpot);
+        EditorUtility.SetDirty(turnSpot);
+
+        if (turnSpot.gameObject.scene.IsValid())
+            EditorSceneManager.MarkSceneDirty(turnSpot.gameObject.scene);
+
+        SceneView.RepaintAll();
     }
 
     private void DrawRotationQuickButtons(GameObject target)
@@ -1789,6 +1886,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         DrawLastPlacedObjectFootprint(normalizedCellSize);
         DrawSelectedPaletteFootprintPreview(normalizedCellSize);
         DrawPlacedObjectHeightLabels();
+        DrawTurnSpotMarkers(normalizedCellSize);
 
         if (!showSceneGrid)
         {
@@ -2469,6 +2567,145 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         Handles.ConeHandleCap(0, end, Quaternion.LookRotation((end - start).normalized, Vector3.up), placementGridCellSize * 0.18f, EventType.Repaint);
     }
 
+    private void DrawTurnSpotMarkers(float normalizedCellSize)
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        if (!IsMapToolScenePath(scene.path))
+            return;
+
+        GameObject selected = ResolveSelectedPlacedObject(Selection.activeGameObject);
+        NoryangjinTurnSpot selectedTurnSpot = selected != null
+            ? selected.GetComponent<NoryangjinTurnSpot>()
+            : null;
+
+        Color oldColor = Handles.color;
+        CompareFunction oldZTest = Handles.zTest;
+        Matrix4x4 oldMatrix = Handles.matrix;
+        Handles.zTest = CompareFunction.Always;
+        Handles.matrix = Matrix4x4.identity;
+        try
+        {
+            foreach (NoryangjinTurnSpot turnSpot in CollectTurnSpots(scene))
+                DrawTurnSpotMarker(turnSpot, normalizedCellSize, turnSpot == selectedTurnSpot);
+        }
+        finally
+        {
+            Handles.matrix = oldMatrix;
+            Handles.color = oldColor;
+            Handles.zTest = oldZTest;
+        }
+    }
+
+    private static void DrawTurnSpotMarker(
+        NoryangjinTurnSpot turnSpot,
+        float normalizedCellSize,
+        bool isSelected)
+    {
+        BoxCollider trigger = turnSpot.GetComponent<BoxCollider>();
+        if (trigger != null)
+        {
+            Handles.matrix = trigger.transform.localToWorldMatrix;
+            float top = trigger.center.y + trigger.size.y * 0.5f;
+            var footprint = new[]
+            {
+                new Vector3(trigger.center.x - trigger.size.x * 0.5f, top, trigger.center.z - trigger.size.z * 0.5f),
+                new Vector3(trigger.center.x - trigger.size.x * 0.5f, top, trigger.center.z + trigger.size.z * 0.5f),
+                new Vector3(trigger.center.x + trigger.size.x * 0.5f, top, trigger.center.z + trigger.size.z * 0.5f),
+                new Vector3(trigger.center.x + trigger.size.x * 0.5f, top, trigger.center.z - trigger.size.z * 0.5f)
+            };
+            Color footprintColor = isSelected
+                ? new Color(1f, 0f, 0.65f, 0.48f)
+                : new Color(1f, 0f, 0.65f, 0.34f);
+            Handles.DrawSolidRectangleWithOutline(
+                footprint,
+                footprintColor,
+                new Color(1f, 0f, 0.65f, 1f));
+            Handles.color = new Color(1f, 0f, 0.65f, 1f);
+            Handles.DrawWireCube(trigger.center, trigger.size);
+            Handles.matrix = Matrix4x4.identity;
+        }
+
+        float arrowLength = Mathf.Max(2.5f, normalizedCellSize * 2.5f);
+        Vector3 direction = BuildTurnSpotArrowDirection(
+            turnSpot.TargetXDegrees,
+            turnSpot.TargetYawDegrees);
+        Vector3 start = turnSpot.transform.position + Vector3.up * 0.35f;
+        Vector3 end = start + direction * arrowLength;
+        float markerRadius = Mathf.Max(0.55f, normalizedCellSize * 0.55f);
+
+        Handles.color = new Color(0f, 0f, 0f, 0.9f);
+        Handles.DrawSolidDisc(start, Vector3.up, markerRadius);
+        Handles.DrawAAPolyLine(isSelected ? 12f : 10f, start, end);
+        Handles.ConeHandleCap(
+            0,
+            end,
+            BuildTurnSpotArrowRotation(direction),
+            normalizedCellSize * (isSelected ? 0.48f : 0.42f),
+            EventType.Repaint);
+
+        Handles.color = new Color(1f, 0.92f, 0f, 1f);
+        Handles.DrawSolidDisc(start, Vector3.up, markerRadius * 0.72f);
+        Handles.DrawAAPolyLine(isSelected ? 8f : 6f, start, end);
+        Handles.ConeHandleCap(
+            0,
+            end,
+            BuildTurnSpotArrowRotation(direction),
+            normalizedCellSize * (isSelected ? 0.38f : 0.32f),
+            EventType.Repaint);
+
+        string label = BuildTurnSpotMarkerLabel(
+            turnSpot.TargetXDegrees,
+            turnSpot.TargetYawDegrees,
+            turnSpot.TurnDurationSeconds,
+            isSelected);
+        GUIStyle labelStyle = new GUIStyle(EditorStyles.miniBoldLabel)
+        {
+            alignment = TextAnchor.MiddleCenter,
+            fontSize = 12,
+            normal = { textColor = Color.white }
+        };
+        Vector2 labelPoint = HandleUtility.WorldToGUIPoint(start);
+        Vector2 labelSize = isSelected ? new Vector2(190f, 22f) : new Vector2(130f, 20f);
+        Rect labelRect = new Rect(
+            labelPoint.x - labelSize.x * 0.5f,
+            labelPoint.y - labelSize.y - 10f,
+            labelSize.x,
+            labelSize.y);
+
+        Handles.BeginGUI();
+        EditorGUI.DrawRect(labelRect, new Color(1f, 0f, 0.65f, 1f));
+        const float labelBorder = 1f;
+        Rect labelBackground = new Rect(
+            labelRect.x + labelBorder,
+            labelRect.y + labelBorder,
+            labelRect.width - labelBorder * 2f,
+            labelRect.height - labelBorder * 2f);
+        EditorGUI.DrawRect(labelBackground, new Color(0f, 0f, 0f, 0.92f));
+        GUI.Label(labelBackground, label, labelStyle);
+        Handles.EndGUI();
+    }
+
+    internal static NoryangjinTurnSpot[] CollectTurnSpots(Scene scene)
+    {
+        if (!scene.IsValid() || !scene.isLoaded)
+            return Array.Empty<NoryangjinTurnSpot>();
+
+        var turnSpots = new List<NoryangjinTurnSpot>();
+        foreach (GameObject root in scene.GetRootGameObjects())
+        {
+            foreach (NoryangjinTurnSpot turnSpot in
+                     root.GetComponentsInChildren<NoryangjinTurnSpot>(true))
+            {
+                if ((turnSpot.gameObject.hideFlags & HideFlags.DontSaveInEditor) != 0)
+                    continue;
+
+                turnSpots.Add(turnSpot);
+            }
+        }
+
+        return turnSpots.ToArray();
+    }
+
     private void DrawGridLabels(float normalizedCellSize, int minX, int maxX, int minZ, int maxZ)
     {
         int stride = Mathf.Max(1, Mathf.CeilToInt((maxX - minX) / 8f));
@@ -2902,8 +3139,25 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             if (child == root.transform || !IsMapToolPlacedObjectName(child.gameObject.name))
                 continue;
 
-            if (TryGetMapToolPlacedObjectGridPosition(child.gameObject.name, out Vector2Int anchor) &&
-                GetPlacedObjectDisplayedFootprintCells(child.gameObject, anchor, normalizedCellSize).Contains(cursor))
+            if (!TryGetMapToolPlacedObjectGridPosition(
+                    child.gameObject.name,
+                    out Vector2Int anchor))
+            {
+                continue;
+            }
+
+            NoryangjinTurnSpot turnSpot =
+                child.gameObject.GetComponent<NoryangjinTurnSpot>();
+            List<Vector2Int> selectionCells = turnSpot != null
+                ? BuildTurnSpotSelectionFootprintCells(
+                    turnSpot,
+                    origin,
+                    normalizedCellSize)
+                : GetPlacedObjectDisplayedFootprintCells(
+                    child.gameObject,
+                    anchor,
+                    normalizedCellSize);
+            if (selectionCells.Contains(cursor))
                 candidates.Add(child.gameObject);
         }
 
@@ -4632,6 +4886,22 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return new List<Vector2Int> { new(fallbackX, fallbackZ) };
     }
 
+    internal static List<Vector2Int> BuildTurnSpotSelectionFootprintCells(
+        NoryangjinTurnSpot turnSpot,
+        Vector3 currentOrigin,
+        float currentCellSize)
+    {
+        BoxCollider trigger = turnSpot != null
+            ? turnSpot.GetComponent<BoxCollider>()
+            : null;
+        return trigger != null
+            ? BuildBoundsFootprintCells(
+                trigger.bounds,
+                currentOrigin,
+                currentCellSize)
+            : new List<Vector2Int>();
+    }
+
     internal static string BuildFootprintLabel(Vector2Int footprint)
     {
         return $"{Mathf.Max(1, footprint.x)}x{Mathf.Max(1, footprint.y)}";
@@ -4792,6 +5062,14 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return string.Equals(prefabPath, ClearSelectionPaletteItemPrefabPath, StringComparison.Ordinal);
     }
 
+    internal static bool IsTurnSpotPrefabPath(string prefabPath)
+    {
+        return string.Equals(
+            (prefabPath ?? string.Empty).Replace('\\', '/'),
+            TurnSpotPrefabPath,
+            StringComparison.OrdinalIgnoreCase);
+    }
+
     internal static bool IsLowCostWaterBackgroundPath(string prefabPath)
     {
         return string.Equals((prefabPath ?? string.Empty).Replace('\\', '/'), JhWaterPrefabPath, StringComparison.OrdinalIgnoreCase);
@@ -4858,8 +5136,44 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return SelectPaletteItemIconText;
         if (IsClearSelectionPaletteItemPath(prefabPath))
             return ClearSelectionPaletteItemIconText;
+        if (IsTurnSpotPrefabPath(prefabPath))
+            return TurnSpotPaletteItemIconText;
 
         return string.Empty;
+    }
+
+    internal static Vector3 BuildTurnSpotArrowDirection(float targetYawDegrees)
+    {
+        return BuildTurnSpotArrowDirection(0f, targetYawDegrees);
+    }
+
+    internal static Vector3 BuildTurnSpotArrowDirection(
+        float targetXDegrees,
+        float targetYawDegrees)
+    {
+        return NoryangjinTurnSpot.DirectionFromRotation(
+            targetXDegrees,
+            targetYawDegrees).normalized;
+    }
+
+    internal static Quaternion BuildTurnSpotArrowRotation(Vector3 direction)
+    {
+        Vector3 normalizedDirection = direction.normalized;
+        Vector3 up = Mathf.Abs(Vector3.Dot(normalizedDirection, Vector3.up)) > 0.99f
+            ? Vector3.forward
+            : Vector3.up;
+        return Quaternion.LookRotation(normalizedDirection, up);
+    }
+
+    internal static string BuildTurnSpotMarkerLabel(
+        float targetXDegrees,
+        float targetYawDegrees,
+        float turnDurationSeconds,
+        bool isSelected)
+    {
+        return isSelected
+            ? $"↻ X {targetXDegrees:0.#}° Y {targetYawDegrees:0.#}° · {turnDurationSeconds:0.##}초"
+            : $"↻ X {targetXDegrees:0.#}° Y {targetYawDegrees:0.#}°";
     }
 
     internal static NoryangjinMapToolSceneGridCellState GetSceneGridCellState(
@@ -5214,6 +5528,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             null,
             NoryangjinMapToolPaletteCategory.All,
             ClearSelectionPaletteItemSortOrder));
+        AddTurnSpotPaletteItem(paletteItems);
         AddRoadPaletteItems(paletteItems);
         AddBuiltinBackgroundPaletteItems(paletteItems);
 
@@ -5266,6 +5581,20 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         });
 
         return paletteItems;
+    }
+
+    private static void AddTurnSpotPaletteItem(List<PaletteItem> items)
+    {
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(TurnSpotPrefabPath);
+        if (prefab == null || HasPaletteItem(items, TurnSpotPrefabPath))
+            return;
+
+        items.Add(new PaletteItem(
+            TurnSpotPaletteItemLabel,
+            TurnSpotPrefabPath,
+            prefab,
+            NoryangjinMapToolPaletteCategory.Prop,
+            TurnSpotPaletteItemSortOrder));
     }
 
     private void AddRoadPaletteItems(List<PaletteItem> items)

@@ -15,13 +15,19 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (Instance != null && Instance != this)
             {
-                Destroy(gameObject);
+                Destroy(this);
                 return;
             }
+
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Persist across scenes
 
             LoadSettings();
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+                Instance = null;
         }
 
         public void LoadSettings()

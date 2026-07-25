@@ -5,13 +5,14 @@ namespace IndianOceanAssets.ShooterSurvival
     public class BulletScript : MonoBehaviour
     {
         BulletPooler bulletPooler;
+        Transform projectileRoot;
         Vector3 spawnPosition;
         Vector3 direction;
         public static float bulletRange;
         public static float originalBulletRange;
         public static float projectileSpeedMultiplier = 1f;
         private const float BaseSpeedNormal = 10f;
-        private const float BaseSpeedForward = 20f;
+        private const float BaseSpeedForward = 40f;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStatics()
@@ -27,25 +28,27 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (originalBulletRange <= 0f)
             {
-                bulletRange = 12f;
+                bulletRange = 30f;
                 originalBulletRange = bulletRange;
             }
         }
 
         private void FixedUpdate()
         {
+            Transform movingTransform = GetProjectileTransform();
             if (TimeManager.Instance.isForwardMarchScene != true)
             {
-                transform.position += direction * BaseSpeedNormal * projectileSpeedMultiplier * Time.deltaTime;
+                movingTransform.position += direction * BaseSpeedNormal * projectileSpeedMultiplier * Time.deltaTime;
             }
-            else transform.position += direction * BaseSpeedForward * projectileSpeedMultiplier * Time.deltaTime * TimeManager.timeFactor;
+            else movingTransform.position += direction * BaseSpeedForward * projectileSpeedMultiplier * Time.deltaTime * TimeManager.timeFactor;
             OutOfRange();
         }
 
         public void SetDirection(Vector3 dir)
         {
             direction = dir;
-            spawnPosition = transform.position;
+            projectileRoot = transform.root;
+            spawnPosition = projectileRoot.position;
         }
 
         private void OutOfRange()
@@ -54,9 +57,10 @@ namespace IndianOceanAssets.ShooterSurvival
             //if (TimeManager.Instance.isForwardMarchScene == true) bulletRange = 7.5f;
             //if (TimeManager.Instance.isForwardMarchScene == false) bulletRange = 25f;
 
-            if (Vector3.Distance(transform.position, spawnPosition) > bulletRange)
+            Transform movingTransform = GetProjectileTransform();
+            if (Vector3.Distance(movingTransform.position, spawnPosition) > bulletRange)
             {
-                bulletPooler.ReturnObjectToPool_Bullet(gameObject);
+                bulletPooler.ReturnObjectToPool_Bullet(movingTransform.gameObject);
             }
         }
 
@@ -65,12 +69,17 @@ namespace IndianOceanAssets.ShooterSurvival
             // returns to pool if contacts enemy
             if (other.CompareTag("EnemyTag") || other.CompareTag("BarrelTag"))
             {
-                bulletPooler.ReturnObjectToPool_Bullet(gameObject);
+                bulletPooler.ReturnObjectToPool_Bullet(GetProjectileTransform().gameObject);
             }
             if(other.CompareTag("Obstacle"))
             {
-                bulletPooler.ReturnObjectToPool_Bullet(gameObject);
+                bulletPooler.ReturnObjectToPool_Bullet(GetProjectileTransform().gameObject);
             }
+        }
+
+        private Transform GetProjectileTransform()
+        {
+            return projectileRoot != null ? projectileRoot : transform;
         }
 
         //초기화(Distance 초기화)

@@ -78,6 +78,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             Debug.Log("??뽰삂!?");
 
+            bool usesSceneFallback = GameManager.S == null;
             if (GameManager.S != null)
                 GameManager.S.OnTapToPlay();
             else
@@ -86,7 +87,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 TimeManager.isGameRunning = true;
             }
 
-            //tapToPlayScreen.SetActive(false);
+            SetTapPromptVisible(false);
 
             if (ftue_Script != null) StartCoroutine(ftue_Script.ShowDisplay(0, 3));
 
@@ -96,6 +97,13 @@ namespace IndianOceanAssets.ShooterSurvival
                 playerScript.LogWeaponDamageDebug("GameStart");
                 SetAttackDebugVisible(true);
                 UpdateAttackDebugText(playerScript.currentDamage);
+
+                if (usesSceneFallback)
+                {
+                    NoryangjinUpgradeExtraHelpSpawner extraHelpSpawner =
+                        FindFirstObjectByType<NoryangjinUpgradeExtraHelpSpawner>();
+                    extraHelpSpawner?.ApplyUpgradeExtraHelps(playerScript);
+                }
             }
 
         }
@@ -174,6 +182,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (GameManager.S != null)
                 GameManager.S.ResetAfterGameOver();
+            else
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         private void GameOver()
@@ -276,10 +286,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void LoadGame()
         {
-            if (TimeManager.Instance.isForwardMarchScene)
-                SceneManager.LoadScene("Forward March Mode");
-            else
-                SceneManager.LoadScene("Base Defend Mode");
+            Scene activeScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(activeScene.name);
 
             TimeManager.timeFactor = 1;
             TimeManager.isGameRunning = true;

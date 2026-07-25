@@ -5,6 +5,10 @@ namespace IndianOceanAssets.ShooterSurvival
     public class WeaponScript : MonoBehaviour
     {
         private const string PlayerDefaultAttVariableKey = "playerDefaultAtt";
+        private const string VisiblePlayerVisualName = "Original";
+        private const string VisiblePlayerMouthName = "headend";
+        private const string VisiblePlayerMuzzleName = "ProjectileMuzzle";
+        private const float VisiblePlayerMuzzleForwardOffset = 0.35f;
         public BulletKind bulletKind;
 
         [Header("Runtime")]
@@ -29,12 +33,19 @@ namespace IndianOceanAssets.ShooterSurvival
         private bool isShooting = true;
         private ExtraHelpBuffScript extraHelpBuffScript;
         private bool subscribedToStats;
+        private Transform playerProjectileMuzzle;
+        private Transform visiblePlayerMouth;
+
+        public int TotalProjectilesSpawned { get; private set; }
+        public Vector3 LastProjectileSpawnPosition { get; private set; }
+        public Vector3 LastVisibleMouthPositionAtSpawn { get; private set; }
 
 
         private void Awake()
         {
             playerScript = GetComponentInParent<PlayerScript>();
             extraHelpBuffScript = GetComponentInParent<ExtraHelpBuffScript>();
+            CacheVisiblePlayerMuzzle();
             audioSource = GetComponent<AudioSource>();
             damage = GetBaseDamage();                                        // Set damage from config or weapon SO
             fireRate = weaponSO.weaponFireRate;                             // Set fire rate from the weapon SO
@@ -143,6 +154,8 @@ namespace IndianOceanAssets.ShooterSurvival
                 for (int i = 0; i < count; i++)
                 {
                     Transform bulletPos = bulletPositions[i];
+                    Vector3 direction = bulletPos.up.normalized;
+                    Vector3 spawnPosition = ResolveProjectileSpawnPosition(bulletPos);
                     parentAnimator.SetTrigger("WeaponShoot");
                     audioSource.PlayOneShot(weaponSO.weaponSound);
 
@@ -150,13 +163,74 @@ namespace IndianOceanAssets.ShooterSurvival
                     GameObject bullet = bulletPooler.Get(bulletKind, transform);
                     if (bullet != null)
                     {
-                        bullet.transform.position = bulletPos.position;
+                        TotalProjectilesSpawned++;
+                        LastProjectileSpawnPosition = spawnPosition;
+                        LastVisibleMouthPositionAtSpawn = visiblePlayerMouth != null
+                            ? visiblePlayerMouth.position
+                            : Vector3.positiveInfinity;
                         bullet.transform.parent = null;
-                        // 기존처럼 방향 지정
-                        bullet.GetComponentInChildren<BulletScript>().SetDirection(bulletPos.up); //:contentReference[oaicite:2]{index=2}:contentReference[oaicite:3]{index=3}
+                        bullet.transform.position = spawnPosition;
+                        bullet.transform.rotation = BuildProjectileRotation(direction);
+                        bullet.GetComponentInChildren<BulletScript>().SetDirection(direction); //:contentReference[oaicite:2]{index=2}:contentReference[oaicite:3]{index=3}
                     }
                 }
             }
+        }
+
+        private Vector3 ResolveProjectileSpawnPosition(Transform authoredMuzzle)
+        {
+            if (authoredMuzzle == null)
+                return transform.position;
+
+            if (playerScript == null || extraHelpBuffScript != null)
+                return authoredMuzzle.position;
+
+            if (playerProjectileMuzzle == null)
+                CacheVisiblePlayerMuzzle();
+
+            if (playerProjectileMuzzle != null)
+                return playerProjectileMuzzle.position;
+
+            if (visiblePlayerMouth != null)
+            {
+                return visiblePlayerMouth.position +
+                    playerScript.transform.forward.normalized *
+                    VisiblePlayerMuzzleForwardOffset;
+            }
+
+            return authoredMuzzle.position;
+        }
+
+        private void CacheVisiblePlayerMuzzle()
+        {
+            if (playerScript == null || extraHelpBuffScript != null)
+                return;
+
+            Transform visibleVisual = null;
+            foreach (Transform child in playerScript.transform)
+            {
+                if (child.name != VisiblePlayerVisualName)
+                    continue;
+
+                visibleVisual = child;
+                break;
+            }
+
+            if (visibleVisual == null)
+                return;
+
+            foreach (Transform candidate in visibleVisual.GetComponentsInChildren<Transform>(true))
+            {
+                if (candidate.name == VisiblePlayerMouthName)
+                    visiblePlayerMouth = candidate;
+                else if (candidate.name == VisiblePlayerMuzzleName)
+                    playerProjectileMuzzle = candidate;
+            }
+        }
+
+        private static Quaternion BuildProjectileRotation(Vector3 direction)
+        {
+            return Quaternion.LookRotation(direction, Vector3.up);
         }
 
         // 발사 로직 초기화

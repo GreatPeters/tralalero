@@ -36,7 +36,6 @@ namespace IndianOceanAssets.ShooterSurvival
         [Tooltip("Sound effect to play when the Extra Help Buff dies.")]
         [SerializeField] private AudioClip EH_deathAudioClip;
 
-        private GameObject weaponPrefab;
         private Transform playerTransform;
         private Animator EH_animator;
         private AudioSource audioSource;
@@ -44,6 +43,10 @@ namespace IndianOceanAssets.ShooterSurvival
         private Vector3 previousPosition;
         private int dir;
         private PlayerScript playerScript;
+        private bool hasDeadParameter;
+        private bool hasWalkForwardParameter;
+        private bool hasMovingParameter;
+        private bool hasMoveDirectionParameter;
 
         public int spawnIndex;
         public HelpType helpType;
@@ -53,15 +56,37 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             // Initialize health
             //currentHealth = health;
-            currentHealth = GameManager.S.playerScript.currentHealth;
+            PlayerScript owner = GameManager.S != null
+                ? GameManager.S.playerScript
+                : FindFirstObjectByType<PlayerScript>();
+            currentHealth = owner != null ? owner.currentHealth : health;
         }
 
         private void Start()
         {
-            weaponPrefab = FindAnyObjectByType<WeaponScript>().GetComponent<GameObject>();
-            playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-            playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
-            EH_animator = GetComponentInChildren<Animator>();
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            if (playerObject == null)
+            {
+                enabled = false;
+                return;
+            }
+
+            playerTransform = playerObject.transform;
+            playerScript = playerObject.GetComponent<PlayerScript>();
+            foreach (Animator candidate in GetComponentsInChildren<Animator>(true))
+            {
+                if (candidate.runtimeAnimatorController == null)
+                    continue;
+
+                if (HasAnimatorParameter(candidate, "WalkFwd") ||
+                    HasAnimatorParameter(candidate, "IsMoving"))
+                {
+                    EH_animator = candidate;
+                    break;
+                }
+            }
+
+            CacheAnimatorParameters();
             audioSource = GetComponent<AudioSource>();
             healthText = GetComponentInChildren<TextMeshProUGUI>();
 
@@ -107,7 +132,8 @@ namespace IndianOceanAssets.ShooterSurvival
             if (isDead == false && currentHealth <= 0)
             {
                 isDead = true;
-                if (currentHealth <= 0) EH_animator.SetBool("EH_dead", isDead);
+                if (hasDeadParameter)
+                    EH_animator.SetBool("EH_dead", isDead);
                 audioSource.PlayOneShot(EH_deathAudioClip);
                 Destroy(gameObject, 0.1f);                        // Destroy gameobject
             }
@@ -184,9 +210,25 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (TimeManager.Instance.isForwardMarchScene == true)
             {
-                //float zOffset = Random.Range(-1.25f, -3.25f);
-                //float xOffset = Random.Range(0.25f, 2.25f);
-                targetPosition = new Vector3(playerTransform.position.x + xOffset, 2.0f, playerTransform.position.z + zOffset);
+                Vector3 routeOffset =
+                    playerTransform.right * xOffset +
+                    playerTransform.forward * zOffset;
+                targetPosition = playerTransform.position + routeOffset;
+                targetPosition.y = 2f;
+
+                Vector3 routeForward = Vector3.ProjectOnPlane(
+                    playerTransform.forward,
+                    Vector3.up);
+                if (routeForward.sqrMagnitude > 0.0001f)
+                {
+                    Quaternion routeRotation = Quaternion.LookRotation(
+                        routeForward.normalized,
+                        Vector3.up);
+                    transform.rotation = Quaternion.Slerp(
+                        transform.rotation,
+                        routeRotation,
+                        10f * Time.deltaTime * TimeManager.timeFactor);
+                }
             }
             else
             {
@@ -210,24 +252,55 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void HandleAnimation()
         {
+            if (EH_animator == null || EH_animator.runtimeAnimatorController == null)
+                return;
+
             if (TimeManager.isGameRunning == true) EH_animator.enabled = true;
             else EH_animator.enabled = false;
 
-            if (TimeManager.Instance.isForwardMarchScene == true) EH_animator.SetBool("WalkFwd", true);
+            if (TimeManager.Instance.isForwardMarchScene == true && hasWalkForwardParameter)
+                EH_animator.SetBool("WalkFwd", true);
 
-            bool isMoving = Mathf.Abs(transform.position.x - previousPosition.x) > 0.01f;
-            EH_animator.SetBool("IsMoving", isMoving);
+            Vector3 positionDelta = transform.position - previousPosition;
+            float lateralDelta = playerTransform != null
+                ? Vector3.Dot(positionDelta, playerTransform.right)
+                : positionDelta.x;
+            bool isMoving = Mathf.Abs(lateralDelta) > 0.01f;
+            if (hasMovingParameter)
+                EH_animator.SetBool("IsMoving", isMoving);
 
             if (isMoving == true)
             {
-                if (transform.position.x > previousPosition.x) dir = 1;
-                else if (transform.position.x < previousPosition.x) dir = -1;
+                dir = lateralDelta > 0f ? 1 : -1;
 
-                EH_animator.SetInteger("MoveDirection", dir);
+                if (hasMoveDirectionParameter)
+                    EH_animator.SetInteger("MoveDirection", dir);
             }
 
             previousPosition = transform.position;
 
+        }
+
+        private void CacheAnimatorParameters()
+        {
+            hasDeadParameter = HasAnimatorParameter(EH_animator, "EH_dead");
+            hasWalkForwardParameter = HasAnimatorParameter(EH_animator, "WalkFwd");
+            hasMovingParameter = HasAnimatorParameter(EH_animator, "IsMoving");
+            hasMoveDirectionParameter = HasAnimatorParameter(EH_animator, "MoveDirection");
+        }
+
+        private static bool HasAnimatorParameter(Animator animator, string parameterName)
+        {
+            if (animator == null || animator.runtimeAnimatorController == null)
+                return false;
+
+            foreach (AnimatorControllerParameter parameter in animator.parameters)
+            {
+                if (parameter.name == parameterName)
+                    return true;
+            }
+
+            return false;
         }
 
         private void MoveAndHitEnemy()

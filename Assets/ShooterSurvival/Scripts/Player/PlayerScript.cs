@@ -68,9 +68,6 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public Animator sharkAnim;
         public float originalMoveSpeed;
-        private float maxForwardMoveSpeed;
-        private float forwardMoveSpeedGainPerSecond;
-        private float forwardMoveSpeedElapsed;
         private float gameplayElapsedSeconds;
         private int lastLoggedGameplaySecond;
 
@@ -82,16 +79,33 @@ namespace IndianOceanAssets.ShooterSurvival
         private bool startGestureArmed;
         private const float StartDragThreshold = 8f;        
         private const string SkinBonusSourceKey = "player_skin_bonus";
-        private const string PlayerSpeedVariableKey = "playerSpeed";
         private const string PlayerDefaultHpVariableKey = "playerDefaultHp";
         private const string PlayerDefaultAttVariableKey = "playerDefaultAtt";
         private string appliedSkinItem;
         private bool subscribedToStats;
         private float lastReportedCurrentDamage = float.MinValue;
+        private Rigidbody playerRigidbody;
+        private bool isWorldYawTurnActive;
+        private UnityEngine.Object activeWorldYawTurnSource;
+        private Quaternion worldYawTurnStartRotation;
+        private Quaternion worldYawTurnTargetRotation;
+        private float worldYawTurnDuration;
+        private float worldYawTurnElapsed;
+        private Vector3 worldYawTurnLockedPosition;
+        private RigidbodyConstraints constraintsBeforeWorldYawTurn;
+        private bool worldYawTurnConstraintsCaptured;
+        private Vector3 routeLaneOrigin;
+        private Vector3 routeRight = Vector3.right;
+        private bool routeFrameInitialized;
+
+        public const float DefaultWorldYawTurnDuration = 0.5f;
+        private const float ForwardMovementCompatibilityMultiplier = 2f;
+        public bool IsWorldYawTurnActive => isWorldYawTurnActive;
         public float MaxHealth => maxHealthWithUpgrades > 0f ? maxHealthWithUpgrades : originalHealth;
 
         private void Awake()
         {
+            playerRigidbody = GetComponent<Rigidbody>();
             canShoot = true;
             LoadDefaultStatsConfig();
             EnsurePlayerChildCanvasVisible();
@@ -99,9 +113,9 @@ namespace IndianOceanAssets.ShooterSurvival
             // Set player health to the max health at the start
             currentHealth = originalHealth;
             originalDamage = GetDefaultAttackValue();
-            LoadForwardMoveSpeedConfig();
             originalMoveSpeed = fwdMoveSpeed;
             RefreshUpgradeStats();
+            RebaseRouteFrame();
         }
 
         private void OnEnable()
@@ -111,6 +125,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void OnDisable()
         {
+            CancelWorldYawTurn();
             UnsubscribeFromStatChanges();
         }
 
@@ -129,6 +144,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             previousPosition = transform.position;
             playerMesh = transform.GetChild(0);
+            RebaseRouteFrame();
             EnsurePlayerChildCanvasVisible();
 
             extraHelpWeaponScript = new List<WeaponScript>();
@@ -184,18 +200,25 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             sharkAnim = null;
 
+            Transform visibleOriginal = transform.Find("Original");
+            if (visibleOriginal != null && visibleOriginal.gameObject.activeInHierarchy)
+                sharkAnim = visibleOriginal.GetComponentInChildren<Animator>(true);
+
             if (sharksGO == null)
                 return;
 
-            Transform sharksRoot = sharksGO.transform;
-            for (int i = 0; i < sharksRoot.childCount; i++)
+            if (sharkAnim == null)
             {
-                Transform shark = sharksRoot.GetChild(i);
-                if (!shark.gameObject.activeSelf)
-                    continue;
+                Transform sharksRoot = sharksGO.transform;
+                for (int i = 0; i < sharksRoot.childCount; i++)
+                {
+                    Transform shark = sharksRoot.GetChild(i);
+                    if (!shark.gameObject.activeSelf)
+                        continue;
 
-                sharkAnim = shark.GetComponentInChildren<Animator>(true);
-                break;
+                    sharkAnim = shark.GetComponentInChildren<Animator>(true);
+                    break;
+                }
             }
 
             ApplySkinBonusFromActiveShark();
@@ -239,33 +262,43 @@ namespace IndianOceanAssets.ShooterSurvival
 
             UpdateGameplayTimeDebug();
 
-            if (TimeManager.Instance.isForwardMarchScene == true)
-                UpdateForwardMoveSpeed();
-
-            if (TimeManager.Instance.isForwardMarchScene == true)
-            {
-                transform.position += Vector3.forward * fwdMoveSpeed / 100f * TimeManager.timeFactor;
-                if (isDead == true) fwdMoveSpeed = 0;
-                enemyDetection = false;
-                playerAnimator.SetBool("WalkFwd", true);
-            }
-            else enemyDetection = true;
-
+            bool isForwardMarchScene = TimeManager.Instance != null && TimeManager.Instance.isForwardMarchScene;
             if (CanvasScript.isGameOver || winDancePlayed) // Add winDancePlayed to stop movement
             {
+                CancelWorldYawTurn();
                 fwdMoveSpeed = 0;
                 movement = false; // Disable horizontal movement
-                playerAnimator.SetBool("WalkFwd", false); // Stop forward walk animation
+                if (playerAnimator != null)
+                    playerAnimator.SetBool("WalkFwd", false); // Stop forward walk animation
                 return; // Stop further fixed update logic for movement/input
             }
-            else if (TimeManager.Instance.isForwardMarchScene == true)
+
+            if (isWorldYawTurnActive)
             {
-                transform.position += Vector3.forward * fwdMoveSpeed / 100f * TimeManager.timeFactor;
-                if (isDead == true) fwdMoveSpeed = 0;
-                enemyDetection = false;
-                playerAnimator.SetBool("WalkFwd", true);
+                UpdateWorldYawTurn();
+                enemyDetection = !isForwardMarchScene;
+                if (playerAnimator != null)
+                    playerAnimator.SetBool("WalkFwd", false);
+
+                // Keep the drag anchor current while lateral motion is locked so
+                // releasing a turn cannot apply the whole held gesture at once.
+                PlayerInput();
+                return;
             }
-            else enemyDetection = true;
+
+            if (isForwardMarchScene)
+            {
+                ApplyForwardMovement();
+                if (isDead)
+                    fwdMoveSpeed = 0f;
+                enemyDetection = false;
+                if (playerAnimator != null)
+                    playerAnimator.SetBool("WalkFwd", true);
+            }
+            else
+            {
+                enemyDetection = true;
+            }
 
             PlayerInput();
         }
@@ -314,9 +347,244 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void PlayerMove(float deltaX)
         {
-            if (movement == false) return;
-            float newX = Mathf.Clamp(transform.position.x + deltaX * moveSensitivity / moveSensitivity_Devision, xRange.x, xRange.y);    // Clamp player postion
-            transform.position = Vector3.Lerp(transform.position, new Vector3(newX, transform.position.y, transform.position.z), Time.deltaTime * movementSmoothness * TimeManager.timeFactor);
+            if (!movement || isWorldYawTurnActive)
+                return;
+
+            EnsureRouteFrame();
+            float sensitivityDivisor = Mathf.Abs(moveSensitivity_Devision) > 0.0001f
+                ? moveSensitivity_Devision
+                : 1f;
+            float currentOffset = Vector3.Dot(transform.position - routeLaneOrigin, routeRight);
+            float targetOffset = Mathf.Clamp(
+                currentOffset + deltaX * moveSensitivity / sensitivityDivisor,
+                xRange.x,
+                xRange.y);
+            Vector3 targetPosition = transform.position + routeRight * (targetOffset - currentOffset);
+            Vector3 nextPosition = Vector3.Lerp(
+                transform.position,
+                targetPosition,
+                Time.deltaTime * movementSmoothness * TimeManager.timeFactor);
+            ApplyPlayerPosition(nextPosition);
+        }
+
+        private void ApplyForwardMovement()
+        {
+            Vector3 routeForward = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
+            if (routeForward.sqrMagnitude <= 0.0001f)
+                return;
+
+            // The original Forward scene advanced twice per FixedUpdate. Keep its
+            // authored timing while consolidating that motion into one route-aware step.
+            Vector3 nextPosition = transform.position +
+                                   routeForward.normalized *
+                                   (fwdMoveSpeed / 100f) *
+                                   ForwardMovementCompatibilityMultiplier *
+                                   TimeManager.timeFactor;
+            ApplyPlayerPosition(nextPosition);
+        }
+
+        private void ApplyPlayerPosition(Vector3 position)
+        {
+            if (playerRigidbody != null)
+                playerRigidbody.position = position;
+
+            transform.position = position;
+        }
+
+        public bool RequestWorldYawTurn(
+            float targetWorldYaw,
+            float duration = DefaultWorldYawTurnDuration,
+            UnityEngine.Object source = null)
+        {
+            Quaternion currentRotation =
+                playerRigidbody != null ? playerRigidbody.rotation : transform.rotation;
+            return RequestWorldRotation(
+                currentRotation.eulerAngles.x,
+                targetWorldYaw,
+                duration,
+                source);
+        }
+
+        public bool RequestWorldRotation(
+            float targetWorldX,
+            float targetWorldY,
+            float duration = DefaultWorldYawTurnDuration,
+            UnityEngine.Object source = null)
+        {
+            if (!isActiveAndEnabled ||
+                isDead ||
+                currentHealth <= 0f ||
+                CanvasScript.isGameOver ||
+                winDancePlayed ||
+                !TimeManager.isGameRunning)
+            {
+                return false;
+            }
+
+            float normalizedTargetX = NormalizeWorldAngle(targetWorldX);
+            float normalizedTargetY = NormalizeWorldAngle(targetWorldY);
+            Quaternion currentRotation =
+                playerRigidbody != null ? playerRigidbody.rotation : transform.rotation;
+            Quaternion targetRotation = Quaternion.Euler(
+                normalizedTargetX,
+                normalizedTargetY,
+                currentRotation.eulerAngles.z);
+            if (isWorldYawTurnActive &&
+                activeWorldYawTurnSource == source &&
+                Quaternion.Angle(
+                    worldYawTurnTargetRotation,
+                    targetRotation) <= 0.01f)
+            {
+                return false;
+            }
+
+            if (!isWorldYawTurnActive)
+            {
+                worldYawTurnLockedPosition = transform.position;
+                CaptureWorldYawTurnConstraints();
+            }
+
+            worldYawTurnStartRotation = currentRotation;
+            worldYawTurnTargetRotation = targetRotation;
+            worldYawTurnDuration = Mathf.Max(0f, duration);
+            worldYawTurnElapsed = 0f;
+            activeWorldYawTurnSource = source;
+            isWorldYawTurnActive = true;
+
+            if (worldYawTurnDuration <= 0f)
+                CompleteWorldYawTurn();
+
+            return true;
+        }
+
+        public void CancelWorldYawTurn()
+        {
+            if (!isWorldYawTurnActive && !worldYawTurnConstraintsCaptured)
+                return;
+
+            isWorldYawTurnActive = false;
+            activeWorldYawTurnSource = null;
+            worldYawTurnElapsed = 0f;
+            ApplyPlayerPosition(worldYawTurnLockedPosition);
+            RestoreWorldYawTurnConstraints();
+            RebaseRouteFrame();
+        }
+
+        public static float NormalizeWorldYaw(float yaw)
+        {
+            return NormalizeWorldAngle(yaw);
+        }
+
+        public static float NormalizeWorldAngle(float angle)
+        {
+            return Mathf.Repeat(angle, 360f);
+        }
+
+        public static Quaternion EvaluateWorldYawTurn(
+            Quaternion start,
+            Quaternion target,
+            float normalizedTime)
+        {
+            float t = Mathf.Clamp01(normalizedTime);
+            float eased = t * t * (3f - 2f * t);
+            return Quaternion.Slerp(start, target, eased);
+        }
+
+        private void UpdateWorldYawTurn()
+        {
+            if (!isWorldYawTurnActive)
+                return;
+
+            if (isDead || currentHealth <= 0f || CanvasScript.isGameOver || winDancePlayed)
+            {
+                CancelWorldYawTurn();
+                return;
+            }
+
+            worldYawTurnElapsed += Time.fixedDeltaTime * Mathf.Max(0f, TimeManager.timeFactor);
+            float normalizedTime = worldYawTurnDuration <= 0f
+                ? 1f
+                : worldYawTurnElapsed / worldYawTurnDuration;
+            Quaternion nextRotation = EvaluateWorldYawTurn(
+                worldYawTurnStartRotation,
+                worldYawTurnTargetRotation,
+                normalizedTime);
+            ApplyWorldYawRotation(nextRotation);
+            ApplyPlayerPosition(worldYawTurnLockedPosition);
+
+            if (normalizedTime >= 1f)
+                CompleteWorldYawTurn();
+        }
+
+        private void CompleteWorldYawTurn()
+        {
+            ApplyWorldYawRotation(worldYawTurnTargetRotation);
+            ApplyPlayerPosition(worldYawTurnLockedPosition);
+            isWorldYawTurnActive = false;
+            activeWorldYawTurnSource = null;
+            worldYawTurnElapsed = 0f;
+            RestoreWorldYawTurnConstraints();
+            RebaseRouteFrame();
+        }
+
+        private void ApplyWorldYawRotation(Quaternion rotation)
+        {
+            if (playerRigidbody != null)
+            {
+                playerRigidbody.MoveRotation(rotation);
+                playerRigidbody.rotation = rotation;
+                transform.rotation = rotation;
+            }
+            else
+            {
+                transform.rotation = rotation;
+            }
+        }
+
+        private void CaptureWorldYawTurnConstraints()
+        {
+            playerRigidbody ??= GetComponent<Rigidbody>();
+            if (playerRigidbody == null || worldYawTurnConstraintsCaptured)
+                return;
+
+            ApplyPlayerPosition(worldYawTurnLockedPosition);
+            playerRigidbody.linearVelocity = Vector3.zero;
+            playerRigidbody.angularVelocity = Vector3.zero;
+            constraintsBeforeWorldYawTurn = playerRigidbody.constraints;
+            RigidbodyConstraints turnConstraints = constraintsBeforeWorldYawTurn;
+            turnConstraints |= RigidbodyConstraints.FreezePositionX |
+                               RigidbodyConstraints.FreezePositionZ;
+            turnConstraints &= ~(RigidbodyConstraints.FreezeRotationX |
+                                 RigidbodyConstraints.FreezeRotationY);
+            playerRigidbody.constraints = turnConstraints;
+            worldYawTurnConstraintsCaptured = true;
+        }
+
+        private void RestoreWorldYawTurnConstraints()
+        {
+            if (playerRigidbody == null || !worldYawTurnConstraintsCaptured)
+                return;
+
+            playerRigidbody.linearVelocity = Vector3.zero;
+            playerRigidbody.angularVelocity = Vector3.zero;
+            playerRigidbody.constraints = constraintsBeforeWorldYawTurn;
+            worldYawTurnConstraintsCaptured = false;
+        }
+
+        private void EnsureRouteFrame()
+        {
+            if (!routeFrameInitialized)
+                RebaseRouteFrame();
+        }
+
+        private void RebaseRouteFrame()
+        {
+            routeLaneOrigin = transform.position;
+            Vector3 flattenedRight = Vector3.ProjectOnPlane(transform.right, Vector3.up);
+            routeRight = flattenedRight.sqrMagnitude > 0.0001f
+                ? flattenedRight.normalized
+                : Vector3.right;
+            routeFrameInitialized = true;
         }
 
         private void TryStartGameFromHorizontalInput()
@@ -425,15 +693,18 @@ namespace IndianOceanAssets.ShooterSurvival
             }
 
             playerAnimator.enabled = true;
-            if (TimeManager.Instance.isForwardMarchScene == false && winDancePlayed == false) playerAnimator.SetBool("WalkFwd", false);
+            if (TimeManager.Instance != null && TimeManager.Instance.isForwardMarchScene == false && winDancePlayed == false)
+                playerAnimator.SetBool("WalkFwd", false);
 
-            isMoving = Mathf.Abs(transform.position.x - previousPosition.x) > 0.01f;
+            EnsureRouteFrame();
+            Vector3 positionDelta = transform.position - previousPosition;
+            float lateralDelta = Vector3.Dot(positionDelta, routeRight);
+            isMoving = Mathf.Abs(lateralDelta) > 0.01f;
             playerAnimator.SetBool("IsMoving", isMoving);
 
             if (isMoving == true && winDancePlayed == false)
             {
-                if (transform.position.x > previousPosition.x) dir = 1;
-                else if (transform.position.x < previousPosition.x) dir = -1;
+                dir = lateralDelta > 0f ? 1 : -1;
 
                 playerAnimator.SetInteger("MoveDirection", dir);
             }
@@ -445,6 +716,7 @@ namespace IndianOceanAssets.ShooterSurvival
         public void PlayWinDance()
         {
             if (winDancePlayed == true) return;
+            CancelWorldYawTurn();
             if (animationActive == true && playerAnimator != null)
             {
                 playerAnimator.SetTrigger("WinDance");
@@ -461,6 +733,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (currentHealth <= 0 && isDead == false)
             {
+                CancelWorldYawTurn();
                 currentHealth = 0;
                 isDead = true;
                 RefreshSharkAnimator();
@@ -502,11 +775,13 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void ResetState()
         {
+            Vector3 resetPosition = transform.position;
+            CancelWorldYawTurn();
+            ApplyPlayerPosition(resetPosition);
             isDead = false;
             winDancePlayed = false;  
             startGestureTriggered = false;
             startGestureArmed = false;
-            forwardMoveSpeedElapsed = 0f;
             gameplayElapsedSeconds = 0f;
             lastLoggedGameplaySecond = 0;
 
@@ -524,6 +799,7 @@ namespace IndianOceanAssets.ShooterSurvival
             // ?대룞/?꾪닾 蹂듦뎄
             movement = true;
             canShoot = true;
+            RebaseRouteFrame();
             EnsurePlayerChildCanvasVisible();
 
             // ?ㅼ떆 ?섍컻????
@@ -578,7 +854,6 @@ namespace IndianOceanAssets.ShooterSurvival
                 extraHelpWeaponScript.Clear();
 
             // ?댁냽 ?먮났
-            forwardMoveSpeedElapsed = 0f;
             gameplayElapsedSeconds = 0f;
             lastLoggedGameplaySecond = 0;
             fwdMoveSpeed = originalMoveSpeed;
@@ -673,29 +948,6 @@ namespace IndianOceanAssets.ShooterSurvival
             if (currentHealth >= maxHealth) return;
 
             currentHealth = Mathf.Min(maxHealth, currentHealth + healthRegenPerSecond * Time.deltaTime);
-        }
-
-        private void LoadForwardMoveSpeedConfig()
-        {
-            maxForwardMoveSpeed = fwdMoveSpeed;
-            forwardMoveSpeedGainPerSecond = 0f;
-            forwardMoveSpeedElapsed = 0f;
-
-            if (!EnvironmentVariableTables.TryGetFloat3(PlayerSpeedVariableKey, out var speedConfig))
-                return;
-
-            fwdMoveSpeed = speedConfig.value1;
-            maxForwardMoveSpeed = Mathf.Max(speedConfig.value1, speedConfig.value2);
-            forwardMoveSpeedGainPerSecond = Mathf.Max(0f, speedConfig.value3);
-        }
-
-        private void UpdateForwardMoveSpeed()
-        {
-            if (isDead || CanvasScript.isGameOver || winDancePlayed)
-                return;
-
-            forwardMoveSpeedElapsed += Time.fixedDeltaTime * Mathf.Max(0f, TimeManager.timeFactor);
-            fwdMoveSpeed = Mathf.Min(maxForwardMoveSpeed, originalMoveSpeed + forwardMoveSpeedGainPerSecond * forwardMoveSpeedElapsed);
         }
 
         private void LoadDefaultStatsConfig()

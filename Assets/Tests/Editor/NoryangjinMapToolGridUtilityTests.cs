@@ -862,6 +862,85 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void WaterBackdrop_IsSelectableWithoutGridCoordinateSuffix()
+    {
+        var waterParent = new GameObject("Water");
+        var water = new GameObject("Background_Water");
+        var unrelated = new GameObject("Background_Other");
+
+        try
+        {
+            water.transform.SetParent(waterParent.transform);
+            unrelated.transform.SetParent(waterParent.transform);
+
+            Assert.That(NoryangjinMapToolWindow.IsWaterBackdropSelectionTarget(water), Is.True);
+            Assert.That(NoryangjinMapToolWindow.IsWaterBackdropSelectionTarget(unrelated), Is.False);
+            Assert.That(NoryangjinMapToolWindow.IsWaterBackdropSelectionTarget(null), Is.False);
+        }
+        finally
+        {
+            Object.DestroyImmediate(waterParent);
+        }
+    }
+
+    [Test]
+    public void OceanWaterBackdropSelection_UsesRendererBoundsBeyondOneByOneFootprint()
+    {
+        const float placementCellSize = 0.225f;
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        NoryangjinMapToolWindow window = null;
+
+        try
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+                NoryangjinMapToolWindow.NoryangjinOceanWaterBackdropPrefabPath);
+            Assert.That(prefab, Is.Not.Null);
+
+            GameObject water = PrefabUtility.InstantiatePrefab(prefab, previewScene) as GameObject;
+            Assert.That(water, Is.Not.Null);
+            water.transform.position = Vector3.zero;
+            NoryangjinMapToolPaletteDefaults defaults = AssetDatabase.LoadAssetAtPath<NoryangjinMapToolPaletteDefaults>(
+                "Assets/ShooterSurvival/Editor/NoryangjinMapToolPaletteDefaults.asset");
+            NoryangjinMapToolPalettePlacementEntry placement =
+                defaults.GetOrCreateEntry(NoryangjinMapToolWindow.NoryangjinOceanWaterBackdropPrefabPath);
+            Assert.That(placement.useManualFootprint, Is.True);
+            Assert.That(placement.manualFootprint, Is.EqualTo(Vector2Int.one));
+            water.transform.localScale = NoryangjinMapToolWindow.BuildPalettePlacementScale(
+                prefab.transform.localScale,
+                placement.scale);
+            water.transform.rotation = NoryangjinMapToolWindow.BuildPalettePlacementRotation(
+                prefab.transform.rotation,
+                placement.yawOffset);
+
+            Renderer[] renderers = water.GetComponentsInChildren<Renderer>(true);
+            Assert.That(renderers, Is.Not.Empty);
+            Bounds rendererBounds = renderers[0].bounds;
+            for (int i = 1; i < renderers.Length; i++)
+                rendererBounds.Encapsulate(renderers[i].bounds);
+
+            List<Vector2Int> expected = NoryangjinMapToolWindow.BuildBoundsFootprintCells(
+                rendererBounds,
+                Vector3.zero,
+                placementCellSize);
+            window = ScriptableObject.CreateInstance<NoryangjinMapToolWindow>();
+
+            List<Vector2Int> actual = window.GetPlacedObjectSelectionFootprintCells(
+                water,
+                Vector2Int.zero,
+                placementCellSize);
+
+            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(actual.Count, Is.GreaterThan(25));
+        }
+        finally
+        {
+            if (window != null)
+                Object.DestroyImmediate(window);
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
     public void NormalBackgroundPrefabs_StillUseGridManagedPlacementPath()
     {
         const string backdropPath = "Assets/017_STAGE01_NRY_BG_001_Ocean_water_plane_backdrop.prefab";
@@ -1464,7 +1543,35 @@ public sealed class NoryangjinMapToolGridUtilityTests
         const string crabAquariumPrefab = "Assets/ShooterSurvival/Prefabs/MeshyAI/Stage01_Noryangjin/030_STAGE01_NRY_PROPS_030_Crab_aquarium_tank/030_STAGE01_NRY_PROPS_030_Crab_aquarium_tank.prefab";
 
         Assert.That(NoryangjinMapToolWindow.BuildCursorCellObjectLabel(crabAquariumPrefab), Is.EqualTo("게 수족관"));
+        Assert.That(
+            NoryangjinMapToolWindow.BuildCursorCellObjectLabel(NoryangjinMapToolWindow.TurnSpotPrefabPath),
+            Is.EqualTo(NoryangjinMapToolWindow.TurnSpotPaletteItemLabel));
         Assert.That(NoryangjinMapToolWindow.BuildCursorCellObjectLabel(null), Is.EqualTo("빈 칸"));
+    }
+
+    [Test]
+    public void PlacementSummary_PrefersSelectedPlacedObjectOverCursorObject()
+    {
+        var selectedRoot = new GameObject("Prop_Selected_X+00_Z+00");
+        var cursorTarget = new GameObject("Prop_Cursor_X+01_Z+00");
+
+        try
+        {
+            Assert.That(
+                NoryangjinMapToolWindow.ResolvePlacementSummaryTarget(selectedRoot, cursorTarget),
+                Is.SameAs(selectedRoot));
+            Assert.That(
+                NoryangjinMapToolWindow.ResolvePlacementSummaryTarget(null, cursorTarget),
+                Is.SameAs(cursorTarget));
+            Assert.That(
+                NoryangjinMapToolWindow.ResolvePlacementSummaryTarget(null, null),
+                Is.Null);
+        }
+        finally
+        {
+            Object.DestroyImmediate(selectedRoot);
+            Object.DestroyImmediate(cursorTarget);
+        }
     }
 
     [Test]

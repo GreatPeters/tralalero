@@ -275,6 +275,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private const string PrefabRoot = "Assets/ShooterSurvival/Prefabs/MeshyAI/Stage01_Noryangjin";
     private const string JhPrefabRoot = "Assets/JH/Prefab";
     internal const string JhWaterPrefabPath = JhPrefabRoot + "/water.prefab";
+    internal const string NoryangjinOceanWaterBackdropPrefabPath = PrefabRoot + "/017_STAGE01_NRY_BG_001_Ocean_water_plane_backdrop/017_STAGE01_NRY_BG_001_Ocean_water_plane_backdrop.prefab";
     internal const string NoryangjinGroundBackdropPrefabPath = PrefabRoot + "/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop.prefab";
     internal const string SeagullPerchPrefabPath = PrefabRoot + "/008_STAGE01_NRY_PROPS_008_Seagull_perch_post/008_STAGE01_NRY_PROPS_008_Seagull_perch_post.prefab";
     internal const string DockMetalCleatPrefabPath = PrefabRoot + "/026_STAGE01_NRY_PROPS_014_Dock_metal_cleat/026_STAGE01_NRY_PROPS_014_Dock_metal_cleat.prefab";
@@ -491,7 +492,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         ["Pier Rope Stairs Fantasy"] = "오르막길",
         ["Pier Rope Stairs Fantasy Downhill"] = "내리막길",
         ["Pier Pillars Fantasy"] = "오르막기둥",
-        ["Noryangjin Turn Spot"] = TurnSpotPaletteItemLabel
+        ["Noryangjin TurnSpot"] = TurnSpotPaletteItemLabel
     };
 
     [SerializeField] private Vector3 origin = Vector3.zero;
@@ -905,7 +906,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void DrawCursorCellObjectSummary()
     {
-        GameObject target = FindPlacedObjectAtCursor();
+        GameObject target = GetRotationTarget();
         string prefabPath = GetPrefabAssetPathForPlacedObject(target);
         string label = BuildCursorCellObjectLabel(prefabPath);
         Texture2D preview = GetCursorCellObjectPreview(prefabPath);
@@ -943,9 +944,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             labelRect.y += CursorCellLabelOffsetY;
             GUI.Label(labelRect, label, centeredNameStyle);
 
-            GameObject selectedTarget = GetRotationTarget();
-            if (selectedTarget != null)
-                DrawSelectedObjectMoveJoystick(selectedTarget);
+            if (target != null)
+                DrawSelectedObjectMoveJoystick(target);
         }
     }
 
@@ -3136,33 +3136,66 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         var candidates = new List<GameObject>();
         foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
         {
-            if (child == root.transform || !IsMapToolPlacedObjectName(child.gameObject.name))
-                continue;
-
-            if (!TryGetMapToolPlacedObjectGridPosition(
-                    child.gameObject.name,
-                    out Vector2Int anchor))
+            bool isWaterBackdrop = IsWaterBackdropSelectionTarget(child.gameObject);
+            if (child == root.transform ||
+                (!IsMapToolPlacedObjectName(child.gameObject.name) && !isWaterBackdrop))
             {
                 continue;
             }
 
-            NoryangjinTurnSpot turnSpot =
-                child.gameObject.GetComponent<NoryangjinTurnSpot>();
-            List<Vector2Int> selectionCells = turnSpot != null
-                ? BuildTurnSpotSelectionFootprintCells(
-                    turnSpot,
+            List<Vector2Int> selectionCells;
+            if (isWaterBackdrop)
+            {
+                selectionCells = BuildBoundsFootprintCells(
+                    CalculateRendererBounds(child.gameObject),
                     origin,
-                    normalizedCellSize)
-                : GetPlacedObjectDisplayedFootprintCells(
-                    child.gameObject,
-                    anchor,
                     normalizedCellSize);
+            }
+            else
+            {
+                if (!TryGetMapToolPlacedObjectGridPosition(
+                        child.gameObject.name,
+                        out Vector2Int anchor))
+                {
+                    continue;
+                }
+
+                NoryangjinTurnSpot turnSpot =
+                    child.gameObject.GetComponent<NoryangjinTurnSpot>();
+                selectionCells = turnSpot != null
+                    ? BuildTurnSpotSelectionFootprintCells(
+                        turnSpot,
+                        origin,
+                        normalizedCellSize)
+                    : GetPlacedObjectSelectionFootprintCells(
+                        child.gameObject,
+                        anchor,
+                        normalizedCellSize);
+            }
+
             if (selectionCells.Contains(cursor))
                 candidates.Add(child.gameObject);
         }
 
         candidates.Sort((left, right) => GetSelectionPriority(GetPlacedObjectLayer(left)).CompareTo(GetSelectionPriority(GetPlacedObjectLayer(right))));
         return candidates.Count > 0 ? candidates[0] : null;
+    }
+
+    internal List<Vector2Int> GetPlacedObjectSelectionFootprintCells(
+        GameObject target,
+        Vector2Int anchor,
+        float normalizedCellSize)
+    {
+        string prefabPath = GetPrefabAssetPathForPlacedObject(target);
+        return IsOceanWaterBackdropPrefabPath(prefabPath)
+            ? BuildBoundsFootprintCells(
+                CalculateRendererBounds(target),
+                origin,
+                normalizedCellSize)
+            : GetPlacedObjectDisplayedFootprintCells(
+                target,
+                anchor,
+                normalizedCellSize);
     }
 
     internal static GameObject SelectSingleCursorDeleteTarget(List<GameObject> candidates, Vector2Int cursor)
@@ -3222,10 +3255,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private GameObject GetRotationTarget()
     {
         GameObject selected = ResolveSelectedPlacedObject(Selection.activeGameObject);
-        if (selected != null)
-            return selected;
-
-        return FindPlacedObjectAtCursor();
+        return ResolvePlacementSummaryTarget(
+            selected,
+            selected == null ? FindPlacedObjectAtCursor() : null);
     }
 
     internal GameObject ContinuePlacedObject(
@@ -3384,6 +3416,13 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         }
 
         return null;
+    }
+
+    internal static GameObject ResolvePlacementSummaryTarget(
+        GameObject selected,
+        GameObject cursorTarget)
+    {
+        return selected ?? cursorTarget;
     }
 
     private static bool IsMapToolPlacementRoot(Transform transform)
@@ -5073,6 +5112,22 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal static bool IsLowCostWaterBackgroundPath(string prefabPath)
     {
         return string.Equals((prefabPath ?? string.Empty).Replace('\\', '/'), JhWaterPrefabPath, StringComparison.OrdinalIgnoreCase);
+    }
+
+    internal static bool IsOceanWaterBackdropPrefabPath(string prefabPath)
+    {
+        return string.Equals(
+            (prefabPath ?? string.Empty).Replace('\\', '/'),
+            NoryangjinOceanWaterBackdropPrefabPath,
+            StringComparison.OrdinalIgnoreCase);
+    }
+
+    internal static bool IsWaterBackdropSelectionTarget(GameObject target)
+    {
+        return target != null &&
+               string.Equals(target.name, WaterBackdropInstanceName, StringComparison.Ordinal) &&
+               target.transform.parent != null &&
+               string.Equals(target.transform.parent.name, WaterParentName, StringComparison.Ordinal);
     }
 
     internal static bool IsSeagullPerchPrefabPath(string prefabPath)

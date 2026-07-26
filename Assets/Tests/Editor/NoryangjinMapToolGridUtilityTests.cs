@@ -1148,6 +1148,105 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void PrimaryTabs_SeparateMapToolAndConvenienceControls()
+    {
+        Assert.That(
+            NoryangjinMapToolWindow.PrimaryTabLabels,
+            Is.EqualTo(new[] { "맵툴", "편의" }));
+        Assert.That((int)NoryangjinMapToolTab.MapTool, Is.EqualTo(0));
+        Assert.That((int)NoryangjinMapToolTab.Convenience, Is.EqualTo(1));
+        Assert.That(NoryangjinMapToolWindow.CanvasEnabledLabel, Is.EqualTo("CANVAS ON"));
+        Assert.That(NoryangjinMapToolWindow.CanvasDisabledLabel, Is.EqualTo("CANVAS OFF"));
+    }
+
+    [Test]
+    public void ConvenienceCanvasToggle_ChangesAndReadsOnlyRootCanvasObjects()
+    {
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        try
+        {
+            GameObject rootCanvas = new GameObject("Canvas", typeof(Canvas));
+            SceneManager.MoveGameObjectToScene(rootCanvas, previewScene);
+
+            GameObject worldObject = new GameObject("WorldObject");
+            SceneManager.MoveGameObjectToScene(worldObject, previewScene);
+            GameObject nestedCanvas = new GameObject("NestedCanvas", typeof(Canvas));
+            SceneManager.MoveGameObjectToScene(nestedCanvas, previewScene);
+            nestedCanvas.transform.SetParent(worldObject.transform, false);
+
+            GameObject unrelatedRoot = new GameObject("UnrelatedRoot");
+            SceneManager.MoveGameObjectToScene(unrelatedRoot, previewScene);
+
+            Assert.That(NoryangjinMapToolWindow.HasSceneRootCanvas(previewScene), Is.True);
+            Assert.That(NoryangjinMapToolWindow.AreSceneRootCanvasesActive(previewScene), Is.True);
+
+            bool hidden = NoryangjinMapToolWindow.SetSceneRootCanvasesActive(
+                previewScene,
+                active: false,
+                recordUndo: false);
+
+            Assert.That(hidden, Is.True);
+            Assert.That(rootCanvas.activeSelf, Is.False);
+            Assert.That(nestedCanvas.activeSelf, Is.True);
+            Assert.That(unrelatedRoot.activeSelf, Is.True);
+            Assert.That(NoryangjinMapToolWindow.AreSceneRootCanvasesActive(previewScene), Is.False);
+            Assert.That(
+                NoryangjinMapToolWindow.SetSceneRootCanvasesActive(
+                    previewScene,
+                    active: false,
+                    recordUndo: false),
+                Is.False);
+
+            bool shown = NoryangjinMapToolWindow.SetSceneRootCanvasesActive(
+                previewScene,
+                active: true,
+                recordUndo: false);
+
+            Assert.That(shown, Is.True);
+            Assert.That(rootCanvas.activeSelf, Is.True);
+            Assert.That(nestedCanvas.activeSelf, Is.True);
+            Assert.That(unrelatedRoot.activeSelf, Is.True);
+            Assert.That(NoryangjinMapToolWindow.AreSceneRootCanvasesActive(previewScene), Is.True);
+        }
+        finally
+        {
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
+    public void ConvenienceCanvasToggle_CanBeUndone()
+    {
+        Undo.IncrementCurrentGroup();
+        int testUndoGroup = Undo.GetCurrentGroup();
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        try
+        {
+            GameObject rootCanvas = new GameObject("Canvas", typeof(Canvas));
+            SceneManager.MoveGameObjectToScene(rootCanvas, previewScene);
+
+            bool changed = NoryangjinMapToolWindow.SetSceneRootCanvasesActive(
+                previewScene,
+                active: false,
+                recordUndo: true);
+
+            Assert.That(changed, Is.True);
+            Assert.That(rootCanvas.activeSelf, Is.False);
+
+            Undo.FlushUndoRecordObjects();
+            Undo.PerformUndo();
+
+            Assert.That(rootCanvas.activeSelf, Is.True);
+            Assert.That(NoryangjinMapToolWindow.AreSceneRootCanvasesActive(previewScene), Is.True);
+        }
+        finally
+        {
+            Undo.RevertAllDownToGroup(testUndoGroup);
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
     public void RefreshMapTool_ReactivatesPlacementAndWorkObjectsOnly()
     {
         var root = new GameObject("Noryangjin_MapTool");

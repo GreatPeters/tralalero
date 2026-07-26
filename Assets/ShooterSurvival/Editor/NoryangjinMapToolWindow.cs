@@ -17,6 +17,12 @@ public enum NoryangjinMapToolDirection
     West = 3
 }
 
+internal enum NoryangjinMapToolTab
+{
+    MapTool = 0,
+    Convenience = 1
+}
+
 public enum NoryangjinMapToolRoadTurn
 {
     Straight = 0,
@@ -305,6 +311,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string MapToolEnabledLabel = "ON";
     internal const string MapToolDisabledLabel = "OFF";
     internal const string MapToolDisabledHelp = "노량진 맵툴 비적용 상태입니다. ON으로 바꾸면 그리드, 프리뷰, 설치가 다시 적용됩니다.";
+    internal static readonly string[] PrimaryTabLabels = { "맵툴", "편의" };
+    internal const string CanvasEnabledLabel = "CANVAS ON";
+    internal const string CanvasDisabledLabel = "CANVAS OFF";
     internal const string RefreshMapToolButtonLabel = "리프레시";
     internal const string DeleteAllPlacedObjectsButtonLabel = "모두 삭제";
     internal const string DeleteAllPlacedObjectsNoTargetsMessage = "삭제할 배치 오브젝트가 없습니다.";
@@ -510,7 +519,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     [SerializeField] private bool showGridLabels = true;
     [SerializeField] private bool showCursor = true;
     [SerializeField] private int gridHalfExtent = 10;
-    [SerializeField] private int selectedTab;
+    [SerializeField] private NoryangjinMapToolTab selectedTab;
     [SerializeField] private bool showAdvancedSettings;
     [SerializeField] private bool showCursorControls;
     [SerializeField] private bool showSelectedItemSettings;
@@ -606,6 +615,13 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         if (HandleUndoCommand(Event.current))
             return;
 
+        DrawPrimaryTabs();
+        if (selectedTab == NoryangjinMapToolTab.Convenience)
+        {
+            DrawConvenienceControls();
+            return;
+        }
+
         DrawHeader();
         scroll = EditorGUILayout.BeginScrollView(scroll);
         if (!mapToolEnabled)
@@ -617,6 +633,51 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         }
 
         EditorGUILayout.EndScrollView();
+    }
+
+    private void DrawPrimaryTabs()
+    {
+        using (new EditorGUILayout.HorizontalScope(EditorStyles.toolbar))
+        {
+            int selectedIndex = Mathf.Clamp((int)selectedTab, 0, PrimaryTabLabels.Length - 1);
+            selectedTab = (NoryangjinMapToolTab)GUILayout.Toolbar(
+                selectedIndex,
+                PrimaryTabLabels,
+                EditorStyles.toolbarButton);
+        }
+    }
+
+    private void DrawConvenienceControls()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        bool isToolScene = IsMapToolScenePath(scene.path);
+        bool hasRootCanvas = isToolScene && HasSceneRootCanvas(scene);
+        bool canvasActive = hasRootCanvas && AreSceneRootCanvasesActive(scene);
+
+        EditorGUILayout.Space(8f);
+        using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+        {
+            EditorGUILayout.LabelField("게임 UI", EditorStyles.boldLabel);
+            using (new EditorGUI.DisabledScope(!hasRootCanvas))
+            {
+                bool requestedCanvasActive = GUILayout.Toggle(
+                    canvasActive,
+                    canvasActive ? CanvasEnabledLabel : CanvasDisabledLabel,
+                    EditorStyles.miniButton,
+                    GUILayout.Height(30f));
+                if (requestedCanvasActive != canvasActive)
+                {
+                    SetSceneRootCanvasesActive(scene, requestedCanvasActive, recordUndo: true);
+                    EditorApplication.QueuePlayerLoopUpdate();
+                    SceneView.RepaintAll();
+                }
+            }
+
+            if (!isToolScene)
+                EditorGUILayout.HelpBox("노량진 맵툴 씬에서 사용할 수 있습니다.", MessageType.Info);
+            else if (!hasRootCanvas)
+                EditorGUILayout.HelpBox("현재 씬에 루트 Canvas가 없습니다.", MessageType.Info);
+        }
     }
 
     private bool HandleUndoCommand(Event currentEvent)
@@ -759,6 +820,62 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         EditorApplication.QueuePlayerLoopUpdate();
         SceneView.RepaintAll();
         Repaint();
+    }
+
+    internal static bool SetSceneRootCanvasesActive(Scene scene, bool active, bool recordUndo)
+    {
+        if (!scene.IsValid() || !scene.isLoaded)
+            return false;
+
+        bool changed = false;
+        string undoName = active
+            ? "Show Noryangjin Scene Canvas"
+            : "Hide Noryangjin Scene Canvas";
+        foreach (GameObject rootObject in scene.GetRootGameObjects())
+        {
+            if (rootObject.GetComponent<Canvas>() == null)
+                continue;
+
+            changed |= SetGameObjectActive(rootObject, active, undoName, recordUndo);
+        }
+
+        if (changed)
+            EditorSceneManager.MarkSceneDirty(scene);
+
+        return changed;
+    }
+
+    internal static bool HasSceneRootCanvas(Scene scene)
+    {
+        if (!scene.IsValid() || !scene.isLoaded)
+            return false;
+
+        foreach (GameObject rootObject in scene.GetRootGameObjects())
+        {
+            if (rootObject.GetComponent<Canvas>() != null)
+                return true;
+        }
+
+        return false;
+    }
+
+    internal static bool AreSceneRootCanvasesActive(Scene scene)
+    {
+        if (!scene.IsValid() || !scene.isLoaded)
+            return false;
+
+        bool foundCanvas = false;
+        foreach (GameObject rootObject in scene.GetRootGameObjects())
+        {
+            if (rootObject.GetComponent<Canvas>() == null)
+                continue;
+
+            foundCanvas = true;
+            if (!rootObject.activeSelf)
+                return false;
+        }
+
+        return foundCanvas;
     }
 
     private static bool ApplyMapToolWorkObjectsActiveState(bool active)

@@ -111,7 +111,7 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
-    public void ContinuationToolbar_UsesCardinalKoreanControlsAndExpectedActionLabel()
+    public void ContinuationDirectionPopup_UsesCardinalKoreanOptionsAndExpectedActionLabel()
     {
         Assert.That(NoryangjinMapToolWindow.ContinuationDirectionLabels, Is.EqualTo(new[] { "북", "동", "남", "서" }));
         Assert.That(NoryangjinMapToolWindow.ContinuationButtonLabel, Is.EqualTo("이어 복붙"));
@@ -2252,6 +2252,121 @@ public sealed class NoryangjinMapToolGridUtilityTests
         finally
         {
             UnityEngine.Object.DestroyImmediate(roads);
+        }
+    }
+
+    [Test]
+    public void ResolveVisualPickSelectionTarget_PrefersHoveredPlacedObjectWithoutLayerPriority()
+    {
+        GameObject mapToolRoot = new GameObject("Noryangjin_MapTool");
+        GameObject roads = new GameObject("Roads");
+        GameObject props = new GameObject("Props");
+        GameObject road = new GameObject("Road_Basic_X+00_Z+00");
+        GameObject hoveredProp = new GameObject("Prop_Seagull_X+00_Z+00");
+        GameObject hoveredMesh = new GameObject("Mesh");
+        roads.transform.SetParent(mapToolRoot.transform);
+        props.transform.SetParent(mapToolRoot.transform);
+        road.transform.SetParent(roads.transform);
+        hoveredProp.transform.SetParent(props.transform);
+        hoveredMesh.transform.SetParent(hoveredProp.transform);
+
+        try
+        {
+            Assert.That(
+                NoryangjinMapToolWindow.ResolveVisualPickSelectionTarget(hoveredMesh, mapToolRoot),
+                Is.SameAs(hoveredProp));
+        }
+        finally
+        {
+            UnityEngine.Object.DestroyImmediate(mapToolRoot);
+        }
+    }
+
+    [Test]
+    public void ResolveVisualPickSelectionTarget_RejectsHoveredObjectOutsideMapTool()
+    {
+        GameObject mapToolRoot = new GameObject("Noryangjin_MapTool");
+        GameObject outsideRoot = new GameObject("Prop_Outside_X+00_Z+00");
+        GameObject outsideMesh = new GameObject("Mesh");
+        outsideMesh.transform.SetParent(outsideRoot.transform);
+
+        try
+        {
+            Assert.That(
+                NoryangjinMapToolWindow.ResolveVisualPickSelectionTarget(outsideMesh, mapToolRoot),
+                Is.Null);
+        }
+        finally
+        {
+            UnityEngine.Object.DestroyImmediate(mapToolRoot);
+            UnityEngine.Object.DestroyImmediate(outsideRoot);
+        }
+    }
+
+    [Test]
+    public void ResolveHoveredHeightLabelTarget_UsesLastDrawnLabelUnderMouse()
+    {
+        GameObject water = new GameObject("Water");
+        GameObject fishScrap = new GameObject("Fish Scrap");
+        var labels = new List<KeyValuePair<GameObject, Rect>>
+        {
+            new(water, new Rect(10f, 10f, 40f, 20f)),
+            new(fishScrap, new Rect(20f, 10f, 40f, 20f))
+        };
+
+        try
+        {
+            Assert.That(
+                NoryangjinMapToolWindow.ResolveHoveredHeightLabelTarget(
+                    labels,
+                    new Vector2(30f, 20f)),
+                Is.SameAs(fishScrap));
+            Assert.That(
+                NoryangjinMapToolWindow.ResolveHoveredHeightLabelTarget(
+                    labels,
+                    new Vector2(100f, 100f)),
+                Is.Null);
+        }
+        finally
+        {
+            UnityEngine.Object.DestroyImmediate(water);
+            UnityEngine.Object.DestroyImmediate(fishScrap);
+        }
+    }
+
+    [Test]
+    public void ResolveSceneSelectionTarget_PrefersHoveredHeightLabelOverWaterVisualPick()
+    {
+        GameObject fishScrap = new GameObject("Fish Scrap");
+        GameObject water = new GameObject("Water");
+        GameObject gridFallback = new GameObject("Grid Fallback");
+
+        try
+        {
+            Assert.That(
+                NoryangjinMapToolWindow.ResolveSceneSelectionTarget(
+                    fishScrap,
+                    water,
+                    gridFallback),
+                Is.SameAs(fishScrap));
+            Assert.That(
+                NoryangjinMapToolWindow.ResolveSceneSelectionTarget(
+                    null,
+                    water,
+                    gridFallback),
+                Is.SameAs(water));
+            Assert.That(
+                NoryangjinMapToolWindow.ResolveSceneSelectionTarget(
+                    null,
+                    null,
+                    gridFallback),
+                Is.SameAs(gridFallback));
+        }
+        finally
+        {
+            UnityEngine.Object.DestroyImmediate(fishScrap);
+            UnityEngine.Object.DestroyImmediate(water);
+            UnityEngine.Object.DestroyImmediate(gridFallback);
         }
     }
 

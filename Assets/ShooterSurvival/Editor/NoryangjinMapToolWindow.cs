@@ -358,6 +358,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const int CursorCellLabelTopGap = 0;
     internal const int CursorCellLabelOffsetX = -6;
     internal const int CursorCellLabelOffsetY = -6;
+    private const float PlacedObjectHeightLabelHorizontalPadding = 4f;
+    private const float PlacedObjectHeightLabelVerticalPadding = 2f;
+    private static readonly Color PlacedObjectHeightLabelHoverColor = new(0.32f, 0.32f, 0.32f, 0.82f);
     internal const int PositionMoveControlsMinHeight = 174;
     internal const bool DefaultShowSceneGrid = false;
     internal const bool ShowSceneDirectionArrow = false;
@@ -745,11 +748,11 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
             using (new EditorGUI.DisabledScope(!mapToolEnabled))
             {
-                int selectedDirection = GUILayout.Toolbar(
+                int selectedDirection = EditorGUILayout.Popup(
                     (int)direction,
                     ContinuationDirectionLabels,
-                    EditorStyles.toolbarButton,
-                    GUILayout.Width(88f));
+                    EditorStyles.toolbarPopup,
+                    GUILayout.Width(44f));
                 if (selectedDirection != (int)direction)
                     direction = (NoryangjinMapToolDirection)selectedDirection;
             }
@@ -2149,16 +2152,42 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void DrawPlacedObjectHeightLabels()
     {
-        GameObject root = GameObject.Find(RootName);
-        if (root == null)
+        GUIStyle labelStyle = CreatePlacedObjectHeightLabelStyle();
+        List<KeyValuePair<GameObject, Rect>> labels = BuildPlacedObjectHeightLabelRects(labelStyle);
+        if (labels.Count == 0)
             return;
 
-        GUIStyle labelStyle = new GUIStyle(EditorStyles.boldLabel)
+        GameObject hovered = IsSelectPaletteItemPath(selectedPalettePrefabPath) && Event.current != null
+            ? ResolveHoveredHeightLabelTarget(labels, Event.current.mousePosition)
+            : null;
+
+        Handles.BeginGUI();
+        foreach (KeyValuePair<GameObject, Rect> label in labels)
         {
-            alignment = TextAnchor.MiddleCenter,
-            fontSize = 12,
-            normal = { textColor = Color.cyan }
-        };
+            if (label.Key == hovered && Event.current.type == EventType.Repaint)
+                EditorGUI.DrawRect(label.Value, PlacedObjectHeightLabelHoverColor);
+
+            GUI.Label(
+                label.Value,
+                FormatPlacedObjectHeightLabel(label.Key.transform.position.y),
+                labelStyle);
+        }
+        Handles.EndGUI();
+    }
+
+    private GameObject FindPlacedObjectHeightLabelAtMouse(Vector2 mousePosition)
+    {
+        return ResolveHoveredHeightLabelTarget(
+            BuildPlacedObjectHeightLabelRects(CreatePlacedObjectHeightLabelStyle()),
+            mousePosition);
+    }
+
+    private List<KeyValuePair<GameObject, Rect>> BuildPlacedObjectHeightLabelRects(GUIStyle labelStyle)
+    {
+        var labels = new List<KeyValuePair<GameObject, Rect>>();
+        GameObject root = GameObject.Find(RootName);
+        if (root == null)
+            return labels;
 
         foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
         {
@@ -2169,9 +2198,26 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 continue;
             }
 
-            Vector3 labelPosition = BuildPlacedObjectHeightLabelPosition(child.gameObject);
-            Handles.Label(labelPosition, FormatPlacedObjectHeightLabel(child.position.y), labelStyle);
+            string label = FormatPlacedObjectHeightLabel(child.position.y);
+            Vector2 size = labelStyle.CalcSize(new GUIContent(label));
+            size.x += PlacedObjectHeightLabelHorizontalPadding * 2f;
+            size.y += PlacedObjectHeightLabelVerticalPadding * 2f;
+            Vector2 center = HandleUtility.WorldToGUIPoint(BuildPlacedObjectHeightLabelPosition(child.gameObject));
+            var rect = new Rect(center - size * 0.5f, size);
+            labels.Add(new KeyValuePair<GameObject, Rect>(child.gameObject, rect));
         }
+
+        return labels;
+    }
+
+    private static GUIStyle CreatePlacedObjectHeightLabelStyle()
+    {
+        return new GUIStyle(EditorStyles.boldLabel)
+        {
+            alignment = TextAnchor.MiddleCenter,
+            fontSize = 12,
+            normal = { textColor = Color.cyan }
+        };
     }
 
     private static Vector3 BuildPlacedObjectHeightLabelPosition(GameObject target)
@@ -2340,7 +2386,16 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
         if (IsSelectPaletteItemPath(selectedItem.Value.PrefabPath))
         {
-            Selection.activeGameObject = FindPlacedObjectOverlappingCursor(placementGridCellSize);
+            GameObject heightLabelPick = FindPlacedObjectHeightLabelAtMouse(currentEvent.mousePosition);
+            GameObject visualPick = heightLabelPick == null
+                ? ResolveVisualPickSelectionTarget(
+                    HandleUtility.PickGameObject(currentEvent.mousePosition, false),
+                    GameObject.Find(RootName))
+                : null;
+            GameObject gridPick = heightLabelPick == null && visualPick == null
+                ? FindPlacedObjectOverlappingCursor(placementGridCellSize)
+                : null;
+            Selection.activeGameObject = ResolveSceneSelectionTarget(heightLabelPick, visualPick, gridPick);
             Repaint();
         }
         else if (IsClearSelectionPaletteItemPath(selectedItem.Value.PrefabPath))
@@ -3533,6 +3588,42 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         }
 
         return null;
+    }
+
+    internal static GameObject ResolveVisualPickSelectionTarget(GameObject pickedObject, GameObject mapToolRoot)
+    {
+        GameObject placedObject = ResolveSelectedPlacedObject(pickedObject);
+        if (placedObject == null || mapToolRoot == null || placedObject == mapToolRoot)
+            return null;
+
+        return placedObject.transform.IsChildOf(mapToolRoot.transform)
+            ? placedObject
+            : null;
+    }
+
+    internal static GameObject ResolveHoveredHeightLabelTarget(
+        IReadOnlyList<KeyValuePair<GameObject, Rect>> labels,
+        Vector2 mousePosition)
+    {
+        GameObject hovered = null;
+        if (labels == null)
+            return null;
+
+        foreach (KeyValuePair<GameObject, Rect> label in labels)
+        {
+            if (label.Key != null && label.Value.Contains(mousePosition))
+                hovered = label.Key;
+        }
+
+        return hovered;
+    }
+
+    internal static GameObject ResolveSceneSelectionTarget(
+        GameObject hoveredHeightLabelTarget,
+        GameObject visualPickTarget,
+        GameObject gridOverlapTarget)
+    {
+        return hoveredHeightLabelTarget ?? visualPickTarget ?? gridOverlapTarget;
     }
 
     internal static GameObject ResolvePlacementSummaryTarget(

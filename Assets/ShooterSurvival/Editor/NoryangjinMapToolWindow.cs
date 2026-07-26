@@ -395,6 +395,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string SelectedObjectMoveJoystickCenterLabel = "스냅";
     internal const string ContinuationButtonLabel = "이어 복붙";
     internal static readonly string[] ContinuationDirectionLabels = { "북", "동", "남", "서" };
+    internal const string CopyPlacedObjectButtonLabel = "복사하기";
+    internal const string PasteCopiedObjectModeLabel = "붙여넣기 중";
     private static readonly NoryangjinMapToolPaletteCategory[] PaletteCategories =
     {
         NoryangjinMapToolPaletteCategory.All,
@@ -540,6 +542,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private bool coarsePlacementSnapActive;
     private Vector2Int coarsePlacementSnapAnchor;
     private int lastPlacedObjectInstanceId;
+    private int copiedPlacedObjectInstanceId;
 
     [MenuItem("Tools/MeshyAI/노량진 맵툴", false, 2305)]
     public static void Open()
@@ -791,7 +794,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         if (!mapToolEnabled)
         {
             coarsePlacementSnapActive = false;
+            copiedPlacedObjectInstanceId = 0;
             DestroyPlacementPreview();
+            DestroyPlacementPreviewMaterials();
         }
 
         SceneView.RepaintAll();
@@ -803,6 +808,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         mapToolEnabled = true;
         coarsePlacementSnapActive = false;
         lastPlacedObjectInstanceId = 0;
+        copiedPlacedObjectInstanceId = 0;
         Selection.activeObject = null;
         DestroyPlacementPreview();
         DestroyPlacementPreviewMaterials();
@@ -1064,9 +1070,40 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             labelRect.y += CursorCellLabelOffsetY;
             GUI.Label(labelRect, label, centeredNameStyle);
 
+            DrawCopiedObjectPasteControl(target);
+
             if (target != null)
                 DrawSelectedObjectMoveJoystick(target);
         }
+    }
+
+    private void DrawCopiedObjectPasteControl(GameObject target)
+    {
+        GameObject copiedSource = ResolveCopiedPlacedObject();
+        bool pasteModeActive = copiedSource != null;
+        bool canCopyTarget = CanCopyPlacedObject(mapToolEnabled, ResolveSelectedPlacedObject(target));
+        string label = pasteModeActive ? PasteCopiedObjectModeLabel : CopyPlacedObjectButtonLabel;
+        string tooltip = pasteModeActive
+            ? "SceneView의 원하는 타일을 클릭하면 복사한 성질 그대로 붙여넣습니다. 다시 누르면 취소합니다."
+            : "현재 오브젝트의 프리팹 연결, 오버라이드, 자식, 회전, 크기, 높이를 복사합니다.";
+
+        GUILayout.Space(2f);
+        Color previousBackgroundColor = GUI.backgroundColor;
+        if (pasteModeActive)
+            GUI.backgroundColor = new Color(0.35f, 0.78f, 1f, 1f);
+
+        using (new EditorGUI.DisabledScope(!pasteModeActive && !canCopyTarget))
+        {
+            if (GUILayout.Button(new GUIContent(label, tooltip), GUILayout.Height(24f)))
+            {
+                if (pasteModeActive)
+                    CancelCopiedObjectPasteMode();
+                else
+                    BeginCopiedObjectPaste(target);
+            }
+        }
+
+        GUI.backgroundColor = previousBackgroundColor;
     }
 
     private void DrawObjectSection()
@@ -1683,6 +1720,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                     footprintBadgeRect.Contains(currentEvent.mousePosition) &&
                     ShouldEditPaletteFootprintBadge(currentEvent.clickCount, currentEvent.button))
                 {
+                    CancelCopiedObjectPasteMode();
                     selectedPalettePrefabPath = item.PrefabPath;
                     OpenPaletteFootprintWindow(item);
                     currentEvent.Use();
@@ -1696,6 +1734,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                     return;
                 }
 
+                CancelCopiedObjectPasteMode();
                 selectedPalettePrefabPath = item.PrefabPath;
 
                 if (GetPaletteTileClickAction(currentEvent.clickCount, currentEvent.button) == NoryangjinMapToolPaletteClickAction.SelectPrefabAsset)
@@ -1714,6 +1753,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             if (currentEvent.type == EventType.MouseDown && labelRect.Contains(currentEvent.mousePosition) &&
                 GetPaletteLabelClickAction(currentEvent.clickCount, currentEvent.button) == NoryangjinMapToolPaletteClickAction.RenameDisplayName)
             {
+                CancelCopiedObjectPasteMode();
                 selectedPalettePrefabPath = item.PrefabPath;
                 OpenPaletteRenameWindow(item);
                 currentEvent.Use();
@@ -2105,11 +2145,28 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void DrawSelectedPaletteFootprintPreview(float normalizedCellSize)
     {
+        float placementGridCellSize = BuildPlacementSnapCellSize(normalizedCellSize, false);
+        GameObject copiedSource = ResolveCopiedPlacedObject();
+        if (copiedSource != null)
+        {
+            List<Vector2Int> copiedPreviewCells = GetCopiedObjectFootprintCellsAtCursor(
+                copiedSource,
+                placementGridCellSize);
+            NoryangjinMapToolSceneGridCellState copiedPreviewState = ResolveFootprintPreviewState(
+                copiedPreviewCells,
+                GetPlacedObjectLayer(copiedSource),
+                CollectLayeredOccupiedGridCells(placementGridCellSize));
+
+            foreach (Vector2Int cell in copiedPreviewCells)
+                DrawSceneGridCellFill(cell.x, cell.y, placementGridCellSize, copiedPreviewState);
+
+            return;
+        }
+
         PaletteItem? selectedItem = FindSelectedPaletteItem();
         if (!selectedItem.HasValue || !ShouldDrawPlacementValidityFill(selectedItem.Value.PrefabPath))
             return;
 
-        float placementGridCellSize = BuildPlacementSnapCellSize(normalizedCellSize, false);
         List<Vector2Int> previewCells = GetPaletteItemFootprintCells(selectedItem.Value, placementGridCellSize);
         HashSet<NoryangjinMapToolOccupiedCell> occupiedCells = CollectLayeredOccupiedGridCells(placementGridCellSize);
         NoryangjinMapToolSceneGridCellState previewState = ResolveFootprintPreviewState(
@@ -2259,6 +2316,57 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return selected != null ? selected : ResolveLastPlacedObject();
     }
 
+    private void BeginCopiedObjectPaste(GameObject source)
+    {
+        source = ResolveVisualPickSelectionTarget(source, GameObject.Find(RootName));
+        if (!CanCopyPlacedObject(mapToolEnabled, source))
+            return;
+
+        copiedPlacedObjectInstanceId = source.GetInstanceID();
+        coarsePlacementSnapActive = false;
+        DestroyPlacementPreview();
+        DestroyPlacementPreviewMaterials();
+        ShowNotification(new GUIContent($"{source.name} 복사됨 · 타일을 클릭해 붙여넣기"));
+        SceneView.RepaintAll();
+        Repaint();
+    }
+
+    private void CancelCopiedObjectPasteMode()
+    {
+        if (copiedPlacedObjectInstanceId == 0)
+            return;
+
+        copiedPlacedObjectInstanceId = 0;
+        coarsePlacementSnapActive = false;
+        DestroyPlacementPreview();
+        DestroyPlacementPreviewMaterials();
+        SceneView.RepaintAll();
+        Repaint();
+    }
+
+    private GameObject ResolveCopiedPlacedObject()
+    {
+        if (copiedPlacedObjectInstanceId == 0)
+            return null;
+
+        GameObject source = EditorUtility.InstanceIDToObject(copiedPlacedObjectInstanceId) as GameObject;
+        source = ResolveVisualPickSelectionTarget(source, GameObject.Find(RootName));
+        if (!CanCopyPlacedObject(mapToolEnabled, source))
+        {
+            copiedPlacedObjectInstanceId = 0;
+            DestroyPlacementPreview();
+            DestroyPlacementPreviewMaterials();
+            return null;
+        }
+
+        return source;
+    }
+
+    internal static bool CanCopyPlacedObject(bool toolEnabled, GameObject source)
+    {
+        return CanContinuePlacedObject(toolEnabled, source);
+    }
+
     internal static bool CanContinuePlacedObject(bool toolEnabled, GameObject source)
     {
         return toolEnabled &&
@@ -2324,8 +2432,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void HandleScenePalettePlacement(SceneView sceneView, float normalizedCellSize)
     {
-        PaletteItem? selectedItem = FindSelectedPaletteItem();
-        if (!selectedItem.HasValue)
+        GameObject copiedSource = ResolveCopiedPlacedObject();
+        bool copiedPasteModeActive = copiedSource != null;
+        PaletteItem? selectedItem = copiedPasteModeActive ? null : FindSelectedPaletteItem();
+        if (!copiedPasteModeActive && !selectedItem.HasValue)
         {
             DestroyPlacementPreview();
             return;
@@ -2368,7 +2478,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         {
             gridX = hoverCell.x;
             gridZ = hoverCell.y;
-            UpdatePlacementPreview(selectedItem.Value);
+            if (copiedPasteModeActive)
+                UpdateCopiedObjectPlacementPreview(copiedSource);
+            else
+                UpdatePlacementPreview(selectedItem.Value);
         }
 
         if (currentEvent.type == EventType.MouseMove || currentEvent.type == EventType.MouseDrag)
@@ -2382,30 +2495,42 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
         gridX = hoverCell.x;
         gridZ = hoverCell.y;
-        UpdatePlacementPreview(selectedItem.Value);
-
-        if (IsSelectPaletteItemPath(selectedItem.Value.PrefabPath))
+        if (copiedPasteModeActive)
         {
-            GameObject heightLabelPick = FindPlacedObjectHeightLabelAtMouse(currentEvent.mousePosition);
-            GameObject visualPick = heightLabelPick == null
-                ? ResolveVisualPickSelectionTarget(
-                    HandleUtility.PickGameObject(currentEvent.mousePosition, false),
-                    GameObject.Find(RootName))
-                : null;
-            GameObject gridPick = heightLabelPick == null && visualPick == null
-                ? FindPlacedObjectOverlappingCursor(placementGridCellSize)
-                : null;
-            Selection.activeGameObject = ResolveSceneSelectionTarget(heightLabelPick, visualPick, gridPick);
-            Repaint();
+            UpdateCopiedObjectPlacementPreview(copiedSource);
+            if (CanPasteCopiedObjectAtCursor(copiedSource, placementGridCellSize))
+            {
+                PasteCopiedPlacedObject(copiedSource, hoverCell);
+                UpdateCopiedObjectPlacementPreview(copiedSource);
+            }
         }
-        else if (IsClearSelectionPaletteItemPath(selectedItem.Value.PrefabPath))
+        else
         {
-            ClearMapToolSelection();
-        }
-        else if (CanPlaceSelectedPaletteItemAtCursor(placementGridCellSize))
-        {
-            PlaceSelectedPaletteItem();
             UpdatePlacementPreview(selectedItem.Value);
+
+            if (IsSelectPaletteItemPath(selectedItem.Value.PrefabPath))
+            {
+                GameObject heightLabelPick = FindPlacedObjectHeightLabelAtMouse(currentEvent.mousePosition);
+                GameObject visualPick = heightLabelPick == null
+                    ? ResolveVisualPickSelectionTarget(
+                        HandleUtility.PickGameObject(currentEvent.mousePosition, false),
+                        GameObject.Find(RootName))
+                    : null;
+                GameObject gridPick = heightLabelPick == null && visualPick == null
+                    ? FindPlacedObjectOverlappingCursor(placementGridCellSize)
+                    : null;
+                Selection.activeGameObject = ResolveSceneSelectionTarget(heightLabelPick, visualPick, gridPick);
+                Repaint();
+            }
+            else if (IsClearSelectionPaletteItemPath(selectedItem.Value.PrefabPath))
+            {
+                ClearMapToolSelection();
+            }
+            else if (CanPlaceSelectedPaletteItemAtCursor(placementGridCellSize))
+            {
+                PlaceSelectedPaletteItem();
+                UpdatePlacementPreview(selectedItem.Value);
+            }
         }
 
         currentEvent.Use();
@@ -2473,6 +2598,50 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         preview.transform.rotation = BuildPalettePlacementRotation(selectedItem.Prefab.transform.rotation, placement.yawOffset);
         preview.transform.localScale = BuildPalettePlacementScale(selectedItem.Prefab.transform.localScale, placement.scale);
         preview.SetActive(true);
+    }
+
+    private void UpdateCopiedObjectPlacementPreview(GameObject source)
+    {
+        if (!CanCopyPlacedObject(mapToolEnabled, source))
+        {
+            DestroyPlacementPreview();
+            return;
+        }
+
+        GameObject preview = EnsureCopiedObjectPlacementPreview(source);
+        if (preview == null)
+            return;
+
+        Vector2Int sourceAnchor = ResolvePlacedObjectAnchor(source);
+        preview.transform.position = BuildCopiedObjectPastePosition(
+            source.transform.position,
+            sourceAnchor,
+            new Vector2Int(gridX, gridZ),
+            BuildPlacementSnapCellSize(cellSize, false));
+        preview.transform.rotation = source.transform.rotation;
+        preview.transform.localScale = source.transform.localScale;
+        preview.SetActive(true);
+    }
+
+    private GameObject EnsureCopiedObjectPlacementPreview(GameObject source)
+    {
+        string previewKey = $"__COPIED_OBJECT__{source.GetInstanceID()}";
+        if (placementPreviewInstance != null &&
+            string.Equals(placementPreviewPrefabPath, previewKey, StringComparison.Ordinal))
+        {
+            return placementPreviewInstance;
+        }
+
+        DestroyPlacementPreview();
+        placementPreviewInstance = Instantiate(source, source.transform.parent);
+        if (placementPreviewInstance == null)
+            return null;
+
+        placementPreviewInstance.name = PlacementPreviewName;
+        placementPreviewPrefabPath = previewKey;
+        PreparePlacementPreviewObject(placementPreviewInstance);
+        ApplyPlacementPreviewTransparency(placementPreviewInstance);
+        return placementPreviewInstance;
     }
 
     private GameObject EnsurePlacementPreview(PaletteItem selectedItem)
@@ -3513,6 +3682,79 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         }
     }
 
+    internal GameObject PasteCopiedPlacedObject(GameObject source, Vector2Int targetAnchor)
+    {
+        source = ResolveSelectedPlacedObject(source);
+        if (!CanCopyPlacedObject(mapToolEnabled, source))
+            return null;
+
+        Vector2Int sourceAnchor = ResolvePlacedObjectAnchor(source);
+        const string undoName = "Paste Copied Map Tool Object";
+        int undoGroup = BeginMapToolUndoGroup(undoName);
+        Undo.RegisterCompleteObjectUndo(this, undoName);
+        GameObject duplicate = null;
+        try
+        {
+            duplicate = DuplicatePlacedObjectForContinuation(source);
+            if (duplicate == null)
+                return null;
+
+            Undo.RecordObject(duplicate, undoName);
+            Undo.RecordObject(duplicate.transform, undoName);
+            duplicate.transform.position = BuildCopiedObjectPastePosition(
+                source.transform.position,
+                sourceAnchor,
+                targetAnchor,
+                BuildPlacementSnapCellSize(cellSize, false));
+            duplicate.name = BuildContinuationObjectName(source.name, targetAnchor);
+            PrefabUtility.RecordPrefabInstancePropertyModifications(duplicate);
+            PrefabUtility.RecordPrefabInstancePropertyModifications(duplicate.transform);
+            EditorUtility.SetDirty(duplicate);
+            EditorUtility.SetDirty(duplicate.transform);
+            if (duplicate.scene.IsValid())
+                EditorSceneManager.MarkSceneDirty(duplicate.scene);
+
+            gridX = targetAnchor.x;
+            gridZ = targetAnchor.y;
+            coarsePlacementSnapActive = false;
+            EditorUtility.SetDirty(this);
+            Selection.activeGameObject = duplicate;
+            RegisterLastPlacedObject(duplicate);
+            return duplicate;
+        }
+        finally
+        {
+            Undo.CollapseUndoOperations(undoGroup);
+            SceneView.RepaintAll();
+            Repaint();
+        }
+    }
+
+    private Vector2Int ResolvePlacedObjectAnchor(GameObject source)
+    {
+        return TryGetMapToolPlacedObjectGridPosition(source.name, out Vector2Int namedAnchor)
+            ? namedAnchor
+            : BuildPlacementGridCell(source.transform.position, origin, cellSize, false);
+    }
+
+    private List<Vector2Int> GetCopiedObjectFootprintCellsAtCursor(GameObject source, float normalizedCellSize)
+    {
+        Vector2Int sourceAnchor = ResolvePlacedObjectAnchor(source);
+        return TranslateCopiedObjectFootprintCells(
+            GetPlacedObjectDisplayedFootprintCells(source, sourceAnchor, normalizedCellSize),
+            sourceAnchor,
+            new Vector2Int(gridX, gridZ));
+    }
+
+    private bool CanPasteCopiedObjectAtCursor(GameObject source, float normalizedCellSize)
+    {
+        return CanCopyPlacedObject(mapToolEnabled, source) &&
+               CanPlaceFootprintCells(
+                   GetCopiedObjectFootprintCellsAtCursor(source, normalizedCellSize),
+                   GetPlacedObjectLayer(source),
+                   CollectLayeredOccupiedGridCells(normalizedCellSize));
+    }
+
     private bool TryBuildRoadContinuationGridOffset(
         GameObject source,
         NoryangjinMapToolDirection continuationDirection,
@@ -3642,6 +3884,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void ClearMapToolSelection()
     {
+        CancelCopiedObjectPasteMode();
         Selection.activeObject = null;
         selectedPalettePrefabPath = null;
         SceneView.RepaintAll();
@@ -4937,6 +5180,36 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             currentPosition.x + offsetX * normalizedSnapCellSize,
             currentPosition.y,
             currentPosition.z + offsetZ * normalizedSnapCellSize);
+    }
+
+    internal static Vector3 BuildCopiedObjectPastePosition(
+        Vector3 sourcePosition,
+        Vector2Int sourceAnchor,
+        Vector2Int targetAnchor,
+        float snapCellSize)
+    {
+        Vector2Int anchorOffset = targetAnchor - sourceAnchor;
+        return MoveObjectPositionByGridStep(
+            sourcePosition,
+            anchorOffset.x,
+            anchorOffset.y,
+            snapCellSize);
+    }
+
+    internal static List<Vector2Int> TranslateCopiedObjectFootprintCells(
+        IEnumerable<Vector2Int> sourceCells,
+        Vector2Int sourceAnchor,
+        Vector2Int targetAnchor)
+    {
+        var translatedCells = new List<Vector2Int>();
+        if (sourceCells == null)
+            return translatedCells;
+
+        Vector2Int offset = targetAnchor - sourceAnchor;
+        foreach (Vector2Int sourceCell in sourceCells)
+            translatedCells.Add(sourceCell + offset);
+
+        return translatedCells;
     }
 
     internal static Vector2Int BuildRoadContinuationGridOffset(

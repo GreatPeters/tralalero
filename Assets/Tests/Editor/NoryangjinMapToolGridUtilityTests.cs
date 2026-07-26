@@ -118,6 +118,54 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void CopyPasteMode_UsesExplicitKoreanActionLabels()
+    {
+        Assert.That(NoryangjinMapToolWindow.CopyPlacedObjectButtonLabel, Is.EqualTo("복사하기"));
+        Assert.That(NoryangjinMapToolWindow.PasteCopiedObjectModeLabel, Is.EqualTo("붙여넣기 중"));
+    }
+
+    [Test]
+    public void CopiedObjectPastePosition_PreservesTileOffsetAndHeight()
+    {
+        Vector3 sourcePosition = new Vector3(2.93f, -2f, -1.24f);
+
+        Vector3 pastedPosition = NoryangjinMapToolWindow.BuildCopiedObjectPastePosition(
+            sourcePosition,
+            new Vector2Int(12, -5),
+            new Vector2Int(20, 3),
+            0.225f);
+
+        Assert.That(pastedPosition.x, Is.EqualTo(4.73f).Within(0.001f));
+        Assert.That(pastedPosition.y, Is.EqualTo(-2f).Within(0.001f));
+        Assert.That(pastedPosition.z, Is.EqualTo(0.56f).Within(0.001f));
+    }
+
+    [Test]
+    public void CopiedObjectFootprintCells_TranslateToDestinationAnchor()
+    {
+        var sourceCells = new List<Vector2Int>
+        {
+            new(4, 7),
+            new(5, 7),
+            new(4, 8)
+        };
+
+        IReadOnlyList<Vector2Int> pastedCells = NoryangjinMapToolWindow.TranslateCopiedObjectFootprintCells(
+            sourceCells,
+            new Vector2Int(4, 7),
+            new Vector2Int(-2, 3));
+
+        Assert.That(
+            pastedCells,
+            Is.EqualTo(new[]
+            {
+                new Vector2Int(-2, 3),
+                new Vector2Int(-1, 3),
+                new Vector2Int(-2, 4)
+            }));
+    }
+
+    [Test]
     public void RoadContinuationGridOffset_UsesManualFootprintRelativeToPrefabYaw()
     {
         var nativeExpected = new Dictionary<NoryangjinMapToolDirection, Vector2Int>
@@ -342,6 +390,65 @@ public sealed class NoryangjinMapToolGridUtilityTests
         {
             Undo.RevertAllDownToGroup(testUndoGroup);
             Selection.activeObject = previousSelection;
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
+    public void PasteCopiedPlacedObject_PreservesInstancePropertiesAtTargetTile()
+    {
+        const string prefabPath = "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab";
+        Undo.IncrementCurrentGroup();
+        int testUndoGroup = Undo.GetCurrentGroup();
+        Scene activeSceneBefore = SceneManager.GetActiveScene();
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        Object previousSelection = Selection.activeObject;
+        NoryangjinMapToolWindow window = null;
+        try
+        {
+            GameObject root = new GameObject("Noryangjin_MapTool");
+            SceneManager.MoveGameObjectToScene(root, previewScene);
+            GameObject roads = new GameObject("Roads");
+            SceneManager.MoveGameObjectToScene(roads, previewScene);
+            roads.transform.SetParent(root.transform, false);
+
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            Assert.That(prefab, Is.Not.Null);
+            GameObject source = PrefabUtility.InstantiatePrefab(prefab, previewScene) as GameObject;
+            Assert.That(source, Is.Not.Null);
+            source.transform.SetParent(roads.transform, true);
+            source.name = "Road_Basic_X+12_Z-05";
+            source.transform.position = new Vector3(2.93f, -2f, -1.24f);
+            source.transform.rotation = Quaternion.Euler(7f, 123f, 11f);
+            source.transform.localScale = new Vector3(1.2f, 0.8f, 1.6f);
+            PrefabUtility.RecordPrefabInstancePropertyModifications(source.transform);
+
+            GameObject addedChild = new GameObject("CopiedAddedChild");
+            SceneManager.MoveGameObjectToScene(addedChild, previewScene);
+            addedChild.transform.SetParent(source.transform, false);
+
+            window = ScriptableObject.CreateInstance<NoryangjinMapToolWindow>();
+            GameObject pasted = window.PasteCopiedPlacedObject(source, new Vector2Int(20, 3));
+
+            Assert.That(pasted, Is.Not.Null);
+            Assert.That(pasted.name, Is.EqualTo("Road_Basic_X+20_Z+03"));
+            Assert.That(pasted.transform.position, Is.EqualTo(new Vector3(4.73f, -2f, 0.56f)).Using(Vector3ComparerWithEqualsOperator.Instance));
+            Assert.That(pasted.transform.rotation, Is.EqualTo(source.transform.rotation).Using(QuaternionEqualityComparer.Instance));
+            Assert.That(pasted.transform.localScale, Is.EqualTo(source.transform.localScale).Using(Vector3ComparerWithEqualsOperator.Instance));
+            Assert.That(pasted.transform.Find("CopiedAddedChild"), Is.Not.Null);
+            Assert.That(PrefabUtility.GetPrefabInstanceStatus(pasted), Is.EqualTo(PrefabInstanceStatus.Connected));
+            Assert.That(PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(pasted), Is.EqualTo(prefabPath));
+            Assert.That(pasted.transform.parent, Is.SameAs(roads.transform));
+            Assert.That(pasted.scene, Is.EqualTo(previewScene));
+            Assert.That(Selection.activeGameObject, Is.SameAs(pasted));
+            Assert.That(SceneManager.GetActiveScene(), Is.EqualTo(activeSceneBefore));
+        }
+        finally
+        {
+            Undo.RevertAllDownToGroup(testUndoGroup);
+            Selection.activeObject = previousSelection;
+            if (window != null)
+                Object.DestroyImmediate(window);
             EditorSceneManager.ClosePreviewScene(previewScene);
         }
     }

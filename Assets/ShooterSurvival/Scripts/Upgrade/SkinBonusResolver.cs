@@ -16,7 +16,7 @@ public static class SkinBonusResolver
                 upgradeType = UpgradeStatManager.UpgradeType.ATT_SPEED;
                 return true;
             case "PROJECTILE_SPEED":
-                upgradeType = UpgradeStatManager.UpgradeType.PROJECTILE_SPEED;
+                upgradeType = UpgradeStatManager.MissileDurationUpgradeType;
                 return true;
             case "BOSS_DAMAGE":
                 upgradeType = UpgradeStatManager.UpgradeType.BOSS_DAMAGE;

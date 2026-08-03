@@ -18,7 +18,7 @@ tags: [unity, meshy, asset-import, materials, mcp]
 ## Context
 MeshyAI FBX assets imported with sibling texture files but no extracted material assets or prefab assets. The intended editor utility path was:
 
-1. Add a `Tools/MeshyAI/Repair Materials And Prefabs` menu item.
+1. Add a `Tools/맵 제작 도구/유지보수/재질 및 프리팹 복구` menu item.
 2. Run it through MCP Unity.
 3. Let Unity create materials, copy textures, and save prefabs.
 

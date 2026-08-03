@@ -28,19 +28,31 @@ public static class ExcelSheetLoader
         ITableParser<T> parser,
         DebugOptions dbg = null)
     {
-        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-
-        var path = Path.Combine(Application.streamingAssetsPath, fileName);
-
-        using var stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        using var reader = ExcelReaderFactory.CreateReader(stream);
-
         if (dbg != null && dbg.logSheetNames)
         {
-            var names = GetSheetNames(path);
+            var names = GetSheetNames(fileName);
             Debug.Log($"[ExcelSheetLoader] Sheets in {fileName}: " + string.Join(", ", names));
         }
 
+        using var stream = GameDataWorkbook.OpenRead(fileName);
+        return LoadBySheetName(stream, fileName, sheetName, parser, dbg);
+    }
+
+    public static List<T> LoadBySheetName<T>(
+        Stream stream,
+        string sourceName,
+        string sheetName,
+        ITableParser<T> parser,
+        DebugOptions dbg = null)
+    {
+        if (stream == null)
+            throw new ArgumentNullException(nameof(stream));
+        if (parser == null)
+            throw new ArgumentNullException(nameof(parser));
+
+        System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+        using var reader = ExcelReaderFactory.CreateReader(stream);
         MoveToSheetByName(reader, sheetName);
 
         int colCount = reader.FieldCount;
@@ -72,16 +84,16 @@ public static class ExcelSheetLoader
             }
         }
 
-        Debug.Log($"[ExcelSheetLoader] Loaded {list.Count} rows from '{fileName}' / sheet '{sheetName}'. ({typeof(T).Name})");
+        Debug.Log($"[ExcelSheetLoader] Loaded {list.Count} rows from '{sourceName}' / sheet '{sheetName}'. ({typeof(T).Name})");
         return list;
     }
 
     // ---- helpers ----
-    public static List<string> GetSheetNames(string fullPath)
+    public static List<string> GetSheetNames(string fileName)
     {
         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
-        using var stream = File.Open(fullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        using var stream = GameDataWorkbook.OpenRead(fileName);
         using var reader = ExcelReaderFactory.CreateReader(stream);
 
         var names = new List<string>();
@@ -117,6 +129,8 @@ public static class ExcelSheetLoader
             for (int c = 0; c < colCount; c++)
                 values[c] = reader.GetValue(c);
 
+            bool hasChapterHeader = false;
+            bool hasTierHeader = false;
             for (int c = 0; c < colCount; c++)
             {
                 var s = (values[c]?.ToString() ?? "");
@@ -128,6 +142,15 @@ public static class ExcelSheetLoader
                     headerRowValues = values;
                     return true;
                 }
+
+                hasChapterHeader |= normalized == ExcelUtil.NormalizeKey("\uCC55\uD130");
+                hasTierHeader |= normalized == ExcelUtil.NormalizeKey("\uD2F0\uC5B4");
+            }
+
+            if (hasChapterHeader && hasTierHeader)
+            {
+                headerRowValues = values;
+                return true;
             }
         }
 

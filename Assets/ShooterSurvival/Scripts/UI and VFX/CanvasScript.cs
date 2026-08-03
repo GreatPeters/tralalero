@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using UnityEngine.UI;
+using IndianOceanAssets.ShooterSurvival.Analytics;
 
 namespace IndianOceanAssets.ShooterSurvival
 {
@@ -83,6 +84,9 @@ namespace IndianOceanAssets.ShooterSurvival
                 GameManager.S.OnTapToPlay();
             else
             {
+                NoryangjinTurnSpot.ResetAllForNewRun();
+                EnemyMovementController.ResetAllForNewRun();
+                EnemyMovementActivationTrigger.ResetAllForNewRun();
                 TimeManager.timeFactor = 1;
                 TimeManager.isGameRunning = true;
             }
@@ -106,6 +110,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 }
             }
 
+            GameplayAnalytics.BeginRun(playerScript);
         }
 
         public bool IsStartAreaActive()
@@ -134,6 +139,10 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void ChangeGameMode()
         {
+            GameplayAnalytics.EndRun(
+                GameplayAnalytics.OutcomeAbandoned,
+                playerScript);
+
             if (TimeManager.Instance.isForwardMarchScene)
                 SceneManager.LoadScene("Forward March Mode");
             else
@@ -188,6 +197,9 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void GameOver()
         {
+            GameplayAnalytics.EndRun(
+                GameplayAnalytics.OutcomeDeath,
+                playerScript);
             scoreParent.SetActive(false);
             pauseButton.SetActive(false);
             SetAttackDebugVisible(false);
@@ -201,6 +213,9 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (isGameOver == true) return;
 
+            GameplayAnalytics.EndRun(
+                GameplayAnalytics.OutcomeWin,
+                playerScript);
             scoreParent.SetActive(false);
             pauseButton.SetActive(false);
             SetAttackDebugVisible(false);
@@ -286,6 +301,10 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void LoadGame()
         {
+            GameplayAnalytics.EndRun(
+                GameplayAnalytics.OutcomeAbandoned,
+                playerScript);
+
             Scene activeScene = SceneManager.GetActiveScene();
             SceneManager.LoadScene(activeScene.name);
 
@@ -295,6 +314,10 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void QuitGame()
         {
+            GameplayAnalytics.EndRun(
+                GameplayAnalytics.OutcomeAbandoned,
+                playerScript);
+            GameplayAnalytics.Flush();
             Application.Quit();
         }
 

@@ -6,75 +6,95 @@ namespace IndianOceanAssets.ShooterSurvival
     {
         BulletPooler bulletPooler;
         Transform projectileRoot;
-        Vector3 spawnPosition;
         Vector3 direction;
-        public static float bulletRange;
-        public static float originalBulletRange;
-        public static float projectileSpeedMultiplier = 1f;
-        private const float BaseSpeedNormal = 10f;
-        private const float BaseSpeedForward = 40f;
+        float elapsedDuration;
 
+        private const float FallbackMissileSpeed = 16f;
+        private const float FallbackMissileDuration = 1f;
+        private const float MinimumMissileDuration = 0.01f;
+        private static float baseMissileSpeed = FallbackMissileSpeed;
+        private static float baseMissileDuration = FallbackMissileDuration;
+        private static float upgradeDurationFlatBonus;
+        private static float upgradeDurationPercentBonus;
+        private static float runDurationPercentBonus;
+
+        public static float BaseMissileSpeed => baseMissileSpeed;
+        public static float BaseMissileDuration => baseMissileDuration;
+        public static float CurrentMissileDuration => Mathf.Max(
+            MinimumMissileDuration,
+            baseMissileDuration *
+            (1f + (upgradeDurationPercentBonus + runDurationPercentBonus) / 100f) +
+            upgradeDurationFlatBonus);
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void ResetStatics()
         {
-            bulletRange = 0f;
-            originalBulletRange = 0f;
-            projectileSpeedMultiplier = 1f;
+            baseMissileSpeed = FallbackMissileSpeed;
+            baseMissileDuration = FallbackMissileDuration;
+            upgradeDurationFlatBonus = 0f;
+            upgradeDurationPercentBonus = 0f;
+            runDurationPercentBonus = 0f;
         }
 
         private void Start()
         {
             bulletPooler = FindFirstObjectByType<BulletPooler>();
-
-            if (originalBulletRange <= 0f)
-            {
-                bulletRange = 30f;
-                originalBulletRange = bulletRange;
-            }
         }
 
         private void FixedUpdate()
         {
+            float remainingDuration = Mathf.Max(0f, CurrentMissileDuration - elapsedDuration);
+            float deltaSeconds = Mathf.Min(GetSimulationDeltaTime(), remainingDuration);
             Transform movingTransform = GetProjectileTransform();
-            if (TimeManager.Instance.isForwardMarchScene != true)
-            {
-                movingTransform.position += direction * BaseSpeedNormal * projectileSpeedMultiplier * Time.deltaTime;
-            }
-            else movingTransform.position += direction * BaseSpeedForward * projectileSpeedMultiplier * Time.deltaTime * TimeManager.timeFactor;
-            OutOfRange();
+            movingTransform.position += direction * baseMissileSpeed * deltaSeconds;
+            AdvanceLifetime(deltaSeconds);
+        }
+
+        public static void ConfigureMissileDefaults(float missileSpeed, float missileDuration)
+        {
+            baseMissileSpeed = Mathf.Max(0.01f, missileSpeed);
+            baseMissileDuration = Mathf.Max(MinimumMissileDuration, missileDuration);
         }
 
         public void SetDirection(Vector3 dir)
         {
             direction = dir;
             projectileRoot = transform.root;
-            spawnPosition = projectileRoot.position;
+            elapsedDuration = 0f;
         }
 
-        private void OutOfRange()
+        private static float GetSimulationDeltaTime()
         {
-            // Checks if the bullet is outside the range, if true, return the bullet back to pool
-            //if (TimeManager.Instance.isForwardMarchScene == true) bulletRange = 7.5f;
-            //if (TimeManager.Instance.isForwardMarchScene == false) bulletRange = 25f;
+            bool isForwardMarch =
+                TimeManager.Instance != null &&
+                TimeManager.Instance.isForwardMarchScene;
+            float timeScale = isForwardMarch
+                ? Mathf.Max(0f, TimeManager.timeFactor)
+                : 1f;
+            return Time.fixedDeltaTime * timeScale;
+        }
 
-            Transform movingTransform = GetProjectileTransform();
-            if (Vector3.Distance(movingTransform.position, spawnPosition) > bulletRange)
-            {
-                bulletPooler.ReturnObjectToPool_Bullet(movingTransform.gameObject);
-            }
+        private void AdvanceLifetime(float deltaSeconds)
+        {
+            elapsedDuration += Mathf.Max(0f, deltaSeconds);
+            if (elapsedDuration < CurrentMissileDuration)
+                return;
+
+            ReturnToPool();
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            // returns to pool if contacts enemy
-            if (other.CompareTag("EnemyTag") || other.CompareTag("BarrelTag"))
+            if (other.CompareTag("EnemyTag") ||
+                other.CompareTag("BarrelTag") ||
+                other.CompareTag("Obstacle"))
             {
-                bulletPooler.ReturnObjectToPool_Bullet(GetProjectileTransform().gameObject);
+                ReturnToPool();
             }
-            if(other.CompareTag("Obstacle"))
-            {
-                bulletPooler.ReturnObjectToPool_Bullet(GetProjectileTransform().gameObject);
-            }
+        }
+
+        private void ReturnToPool()
+        {
+            bulletPooler.ReturnObjectToPool_Bullet(GetProjectileTransform().gameObject);
         }
 
         private Transform GetProjectileTransform()
@@ -82,24 +102,21 @@ namespace IndianOceanAssets.ShooterSurvival
             return projectileRoot != null ? projectileRoot : transform;
         }
 
-        //초기화(Distance 초기화)
+        // Reset only temporary in-run duration bonuses. Permanent upgrades remain applied.
         public static void ResetStatBonus()
         {
-            bulletRange = originalBulletRange;
+            runDurationPercentBonus = 0f;
         }
 
-        public static void ApplyProjectileSpeedUpgrade(float value, ValueType valueType)
+        public static void AddMissileDurationPercent(float percentValue)
         {
-            if (valueType == ValueType.Percent)
-                projectileSpeedMultiplier = 1f + value / 100f;
-            else
-                projectileSpeedMultiplier = (BaseSpeedNormal + value) / BaseSpeedNormal;
+            runDurationPercentBonus += percentValue;
         }
 
-        public static void ApplyProjectileSpeedUpgrade(float flatValue, float percentValue)
+        public static void ApplyMissileDurationUpgrade(float flatValue, float percentValue)
         {
-            float flatMultiplier = (BaseSpeedNormal + flatValue) / BaseSpeedNormal;
-            projectileSpeedMultiplier = flatMultiplier * (1f + percentValue / 100f);
+            upgradeDurationFlatBonus = flatValue;
+            upgradeDurationPercentBonus = percentValue;
         }
     }
 }

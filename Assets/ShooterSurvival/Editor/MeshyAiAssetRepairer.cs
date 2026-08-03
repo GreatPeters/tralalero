@@ -46,7 +46,7 @@ public static class MeshyAiAssetRepairer
         };
     }
 
-    [MenuItem("Tools/MeshyAI/Repair Materials And Prefabs", false, 2300)]
+    [MenuItem("Tools/맵 제작 도구/유지보수/재질 및 프리팹 복구", false, 2300)]
     public static void RepairAll()
     {
         AssetDatabase.StartAssetEditing();

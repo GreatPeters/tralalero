@@ -11,13 +11,15 @@ public class UpgradeStatManager : MonoBehaviour
         ATT,
         HP,
         ATT_SPEED,
-        PROJECTILE_SPEED,
+        PROJECTILE_SPEED, // Legacy save/data key; this now upgrades missile duration.
         BOSS_DAMAGE,
         COIN_BONUS,
         HP_REGEN,
         TUNGTUNGTUNG,
         BOOMBAR
     }
+
+    public const UpgradeType MissileDurationUpgradeType = UpgradeType.PROJECTILE_SPEED;
 
     private struct RuntimeStatModifier
     {

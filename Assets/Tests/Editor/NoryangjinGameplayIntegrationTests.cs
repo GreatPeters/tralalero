@@ -47,6 +47,8 @@ public sealed class NoryangjinGameplayIntegrationTests
         UpgradeStatManager upgradeManager = Object.FindFirstObjectByType<UpgradeStatManager>();
         NoryangjinUpgradeExtraHelpSpawner extraHelpSpawner =
             Object.FindFirstObjectByType<NoryangjinUpgradeExtraHelpSpawner>();
+        ChapterEnemyStatController chapterEnemyStats =
+            Object.FindFirstObjectByType<ChapterEnemyStatController>();
         WeaponScript weapon = player == null
             ? null
             : player.GetComponentsInChildren<WeaponScript>(true)
@@ -60,7 +62,17 @@ public sealed class NoryangjinGameplayIntegrationTests
         Assert.That(upgradeManager, Is.Not.Null);
         Assert.That(extraHelpSpawner, Is.Not.Null);
         Assert.That(extraHelpSpawner.IsConfigured, Is.True);
+        Assert.That(chapterEnemyStats, Is.Not.Null);
+        Assert.That(chapterEnemyStats.Chapter, Is.EqualTo(1));
         float authoredForwardSpeed = player.ForwardMoveSpeed;
+        Assert.That(player.UseExcelCharacterDefaults, Is.True);
+        Assert.That(
+            EnvironmentVariableTables.TryGetFloat3("playerSpeed", out var playerSpeed),
+            Is.True);
+        Assert.That(
+            authoredForwardSpeed,
+            Is.EqualTo(playerSpeed.value1).Within(0.0001f),
+            "The installed scene must resolve forward speed from playerSpeed value1.");
         Transform originalVisual = player.transform.Find("Original");
         Assert.That(originalVisual, Is.Not.Null);
         Animator originalAnimator = originalVisual.GetComponent<Animator>();
@@ -308,7 +320,7 @@ public sealed class NoryangjinGameplayIntegrationTests
         Assert.That(
             player.ForwardMoveSpeed,
             Is.EqualTo(authoredForwardSpeed).Within(0.0001f),
-            "Forward speed must stay at the scene-authored Fwd Move Speed during gameplay.");
+            "Forward speed must remain at the resolved playerSpeed value1 during gameplay.");
 
         float targetYaw = PlayerScript.NormalizeWorldYaw(
             player.transform.eulerAngles.y + 90f);

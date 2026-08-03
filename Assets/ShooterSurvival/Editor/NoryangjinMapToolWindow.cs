@@ -40,6 +40,21 @@ public enum NoryangjinMapToolPaletteCategory
     Background = 5
 }
 
+public enum NoryangjinMapToolContentTab
+{
+    Object = 0,
+    Enemy = 1,
+    Gimmick = 2
+}
+
+internal enum NoryangjinMapToolPaletteSection
+{
+    Common = 0,
+    Object = 1,
+    Enemy = 2,
+    Gimmick = 3
+}
+
 public enum NoryangjinMapToolPaletteClickAction
 {
     SelectInMapTool = 0,
@@ -65,7 +80,8 @@ public enum NoryangjinMapToolPlacementLayer
     Road = 0,
     Object = 1,
     SeagullPerch = 2,
-    Background = 3
+    Background = 3,
+    Enemy = 4
 }
 
 public readonly struct NoryangjinMapToolSceneViewPreset
@@ -269,6 +285,43 @@ public static class NoryangjinMapToolGridUtility
 
 public sealed class NoryangjinMapToolWindow : EditorWindow
 {
+    private readonly struct RendererBoundsCacheEntry
+    {
+        public RendererBoundsCacheEntry(
+            GameObject target,
+            Matrix4x4 localToWorldMatrix,
+            Bounds bounds)
+        {
+            Target = target;
+            LocalToWorldMatrix = localToWorldMatrix;
+            Bounds = bounds;
+        }
+
+        public GameObject Target { get; }
+        public Matrix4x4 LocalToWorldMatrix { get; }
+        public Bounds Bounds { get; }
+    }
+
+    private readonly struct EnemyConnectionLabelCacheEntry
+    {
+        public EnemyConnectionLabelCacheEntry(
+            EnemyMovementController target,
+            int index,
+            string targetName,
+            string label)
+        {
+            Target = target;
+            Index = index;
+            TargetName = targetName;
+            Label = label;
+        }
+
+        public EnemyMovementController Target { get; }
+        public int Index { get; }
+        public string TargetName { get; }
+        public string Label { get; }
+    }
+
     internal const string KoreanWindowTitle = "노량진 맵툴";
     internal const string MapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode.unity";
     internal const string MapToolScene2Path = "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_2.unity";
@@ -280,15 +333,19 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private const string OriginMarkerMaterialPath = "Assets/ShooterSurvival/Materials/Generated/MapTool_Origin_Marker.mat";
     private const string PrefabRoot = "Assets/ShooterSurvival/Prefabs/MeshyAI/Stage01_Noryangjin";
     private const string JhPrefabRoot = "Assets/JH/Prefab";
+    private const string JhEnemyPrefabRoot = "Assets/JH/Model/Prefab";
     internal const string JhWaterPrefabPath = JhPrefabRoot + "/water.prefab";
     internal const string NoryangjinOceanWaterBackdropPrefabPath = PrefabRoot + "/017_STAGE01_NRY_BG_001_Ocean_water_plane_backdrop/017_STAGE01_NRY_BG_001_Ocean_water_plane_backdrop.prefab";
     internal const string NoryangjinGroundBackdropPrefabPath = PrefabRoot + "/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop.prefab";
     internal const string SeagullPerchPrefabPath = PrefabRoot + "/008_STAGE01_NRY_PROPS_008_Seagull_perch_post/008_STAGE01_NRY_PROPS_008_Seagull_perch_post.prefab";
     internal const string DockMetalCleatPrefabPath = PrefabRoot + "/026_STAGE01_NRY_PROPS_014_Dock_metal_cleat/026_STAGE01_NRY_PROPS_014_Dock_metal_cleat.prefab";
     internal const string TurnSpotPrefabPath = "Assets/ShooterSurvival/Prefabs/Gameplay/Noryangjin_TurnSpot.prefab";
+    internal const string EnemyMovementTriggerPrefabPath =
+        "Assets/ShooterSurvival/Prefabs/Gameplay/Noryangjin_EnemyMovementTrigger.prefab";
     private const string RootName = "Noryangjin_MapTool";
     private const string RoadParentName = "Roads";
     private const string PropParentName = "Props";
+    private const string EnemyParentName = "Enemies";
     private const string WaterParentName = "Water";
     private const string WaterBackdropInstanceName = "Background_Water";
     private const string WorkFloorName = "MapTool_Work_Floor";
@@ -304,6 +361,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     internal const string PositionMoveSectionTitle = "설치 조정";
     internal const string ObjectSectionTitle = "오브젝트";
+    internal static readonly string[] ContentTabLabels = { "오브젝트", "적군", "기믹" };
     internal const string PlacementAngleSectionTitle = "설치 각도";
     internal const string PlacementAnglePaletteHint = "선택 프리팹의 다음 배치 각도";
     internal const string PlacementAnglePlacedObjectHint = "선택 오브젝트에 바로 적용";
@@ -314,6 +372,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal static readonly string[] PrimaryTabLabels = { "맵툴", "편의" };
     internal const string CanvasEnabledLabel = "CANVAS ON";
     internal const string CanvasDisabledLabel = "CANVAS OFF";
+    internal const string GameDataOpenButtonLabel = "Excel 열기";
+    internal const string GameDataSelectButtonLabel = "프로젝트에서 보기";
+    internal const string GameDataBuildButtonLabel = "런타임 데이터 갱신";
+    internal const string GameDataValidateButtonLabel = "보호 데이터 검증";
     internal const string RefreshMapToolButtonLabel = "리프레시";
     internal const string DeleteAllPlacedObjectsButtonLabel = "모두 삭제";
     internal const string DeleteAllPlacedObjectsNoTargetsMessage = "삭제할 배치 오브젝트가 없습니다.";
@@ -331,6 +393,30 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string TurnSpotPaletteItemLabel = "회전 스팟";
     internal const string TurnSpotPaletteItemIconText = "↻";
     internal const int TurnSpotPaletteItemSortOrder = 2;
+    internal const string EnemyMovementTriggerPaletteItemLabel = "적 발동 스팟";
+    internal const string EnemyMovementTriggerPaletteItemIconText = "!";
+    internal const int EnemyMovementTriggerPaletteItemSortOrder = 3;
+    internal const string AlignSelectedEnemyToRouteButtonLabel =
+        "선택 적을 플레이어 진행 방향으로 정렬";
+    internal const string AlignAllEnemiesToRouteButtonLabel =
+        "모든 적을 플레이어 진행 방향으로 정렬";
+    internal const string EnemyAutomaticRouteAlignmentHint =
+        "적은 배치 위치의 플레이어 진행 방향으로 자동 정렬됩니다. " +
+        "플레이어 경로가 없을 때만 아래 Y값을 사용하며, 배치 후 수동 회전할 수 있습니다.";
+    internal static readonly string[] EnemyPalettePrefabPaths =
+        BuildEnemyPalettePrefabPaths();
+    private static readonly string[] EnemyMovementModeLabels =
+    {
+        "가만히",
+        "좌우 이동",
+        "트리거 후 전진",
+        "트리거 후 옆 등장"
+    };
+    private static readonly string[] EnemyEntranceSideLabels =
+    {
+        "왼쪽",
+        "오른쪽"
+    };
     internal const int RoadPaletteItemSortOrder = 2;
     internal const int BuiltinBackgroundPaletteItemSortOrder = 3;
     internal const NoryangjinMapToolJoystickCenterAction JoystickCenterAction = NoryangjinMapToolJoystickCenterAction.PlaceSelectedIcon;
@@ -361,6 +447,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private const float PlacedObjectHeightLabelHorizontalPadding = 4f;
     private const float PlacedObjectHeightLabelVerticalPadding = 2f;
     private static readonly Color PlacedObjectHeightLabelHoverColor = new(0.32f, 0.32f, 0.32f, 0.82f);
+    internal static readonly Color EnemyPlacedObjectHeightLabelColor = Color.red;
     internal const int PositionMoveControlsMinHeight = 174;
     internal const bool DefaultShowSceneGrid = false;
     internal const bool ShowSceneDirectionArrow = false;
@@ -506,7 +593,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         ["Pier Rope Stairs Fantasy"] = "오르막길",
         ["Pier Rope Stairs Fantasy Downhill"] = "내리막길",
         ["Pier Pillars Fantasy"] = "오르막기둥",
-        ["Noryangjin TurnSpot"] = TurnSpotPaletteItemLabel
+        ["Noryangjin TurnSpot"] = TurnSpotPaletteItemLabel,
+        ["Noryangjin Enemy Movement Trigger"] =
+            EnemyMovementTriggerPaletteItemLabel
     };
 
     [SerializeField] private Vector3 origin = Vector3.zero;
@@ -529,6 +618,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     [SerializeField] private bool showCursorControls;
     [SerializeField] private bool showSelectedItemSettings;
     [SerializeField] private bool isTopSceneView;
+    [SerializeField] private NoryangjinMapToolContentTab selectedContentTab;
     [SerializeField] private NoryangjinMapToolPaletteCategory selectedPaletteCategory = NoryangjinMapToolPaletteCategory.Building;
     [SerializeField] private string selectedPalettePrefabPath;
 
@@ -543,8 +633,14 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private Vector2Int coarsePlacementSnapAnchor;
     private int lastPlacedObjectInstanceId;
     private int copiedPlacedObjectInstanceId;
+    private EnemyMovementActivationTrigger enemyAssignmentTrigger;
+    private EnemyMovementController hoveredEnemyAssignmentTarget;
+    private readonly Dictionary<int, RendererBoundsCacheEntry> sceneRendererBoundsCache = new();
+    private readonly Dictionary<int, EnemyConnectionLabelCacheEntry> enemyConnectionLabelCache = new();
+    private readonly HashSet<EnemyMovementController> uniqueEnemyMovementTargets = new();
+    private readonly List<Renderer> rendererBoundsBuffer = new();
 
-    [MenuItem("Tools/MeshyAI/노량진 맵툴", false, 2305)]
+    [MenuItem("Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기", false, 2305)]
     public static void Open()
     {
         NoryangjinMapToolWindow window = GetWindow<NoryangjinMapToolWindow>();
@@ -556,7 +652,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         window.Show();
     }
 
-    [MenuItem("Tools/MeshyAI/노량진 맵툴 열기 또는 생성", false, 2306)]
+    [MenuItem("Tools/맵 제작 도구/노량진 맵 제작/맵툴 씬 열기 또는 생성", false, 2306)]
     public static void OpenOrCreateMapToolScene()
     {
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
@@ -606,12 +702,17 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         SceneView.duringSceneGui += DrawSceneGrid;
         Undo.undoRedoPerformed -= OnUndoRedoPerformed;
         Undo.undoRedoPerformed += OnUndoRedoPerformed;
+        EditorApplication.hierarchyChanged -= ClearSceneRenderCaches;
+        EditorApplication.hierarchyChanged += ClearSceneRenderCaches;
     }
 
     private void OnDisable()
     {
         SceneView.duringSceneGui -= DrawSceneGrid;
         Undo.undoRedoPerformed -= OnUndoRedoPerformed;
+        EditorApplication.hierarchyChanged -= ClearSceneRenderCaches;
+        ClearSceneRenderCaches();
+        StopEnemyAssignmentMode();
         DestroyPlacementPreview();
         DestroyPlacementPreviewMaterials();
     }
@@ -619,6 +720,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private void OnGUI()
     {
         if (HandleUndoCommand(Event.current))
+            return;
+
+        if (TryHandleEnemyAssignmentCancel(Event.current))
             return;
 
         DrawPrimaryTabs();
@@ -646,10 +750,17 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         using (new EditorGUILayout.HorizontalScope(EditorStyles.toolbar))
         {
             int selectedIndex = Mathf.Clamp((int)selectedTab, 0, PrimaryTabLabels.Length - 1);
-            selectedTab = (NoryangjinMapToolTab)GUILayout.Toolbar(
+            NoryangjinMapToolTab nextTab =
+                (NoryangjinMapToolTab)GUILayout.Toolbar(
                 selectedIndex,
                 PrimaryTabLabels,
                 EditorStyles.toolbarButton);
+            if (nextTab == selectedTab)
+                return;
+
+            selectedTab = nextTab;
+            ClearEnemyAssignmentSelection();
+            SceneView.RepaintAll();
         }
     }
 
@@ -684,6 +795,51 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             else if (!hasRootCanvas)
                 EditorGUILayout.HelpBox("현재 씬에 루트 Canvas가 없습니다.", MessageType.Info);
         }
+
+        EditorGUILayout.Space(6f);
+        using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+        {
+            EditorGUILayout.LabelField("게임 데이터 (Excel)", EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox(
+                "적 스탯, 업그레이드, 스킨, 보너스, 패턴, 캐릭터 기본값의 원본입니다. " +
+                "수정 후 런타임 데이터를 갱신하세요.",
+                MessageType.Info);
+
+            if (GUILayout.Button(GameDataOpenButtonLabel, GUILayout.Height(30f)))
+                GameDataWorkbookEditor.OpenSourceWorkbook();
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                if (GUILayout.Button(GameDataSelectButtonLabel))
+                    GameDataWorkbookEditor.SelectSourceWorkbook();
+
+                if (GUILayout.Button(GameDataBuildButtonLabel))
+                {
+                    try
+                    {
+                        GameDataWorkbookEditor.EnsureRuntimeArchiveCurrent(
+                            logResult: true);
+                    }
+                    catch (Exception exception)
+                    {
+                        Debug.LogException(exception);
+                    }
+                }
+            }
+
+            if (GUILayout.Button(GameDataValidateButtonLabel))
+            {
+                GameDataRuntimeArchiveStatus status =
+                    GameDataWorkbookEditor.GetRuntimeArchiveStatus(
+                        out string detail);
+                EditorUtility.DisplayDialog(
+                    "게임 데이터",
+                    detail,
+                    status == GameDataRuntimeArchiveStatus.Current
+                        ? "확인"
+                        : "닫기");
+            }
+        }
     }
 
     private bool HandleUndoCommand(Event currentEvent)
@@ -706,6 +862,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void RefreshAfterUndoRedo()
     {
+        ClearSceneRenderCaches();
+        StopEnemyAssignmentMode();
         ClearTransientMapToolVisualStateAfterUndo(ref coarsePlacementSnapActive, ref lastPlacedObjectInstanceId);
         DestroyPlacementPreview();
         RestoreMapToolSceneViewRenderState(
@@ -793,6 +951,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         ApplyMapToolWorkObjectsActiveState(mapToolEnabled);
         if (!mapToolEnabled)
         {
+            ClearEnemyAssignmentSelection();
             coarsePlacementSnapActive = false;
             copiedPlacedObjectInstanceId = 0;
             DestroyPlacementPreview();
@@ -805,6 +964,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void RefreshMapToolVisibility()
     {
+        ClearSceneRenderCaches();
+        StopEnemyAssignmentMode();
         mapToolEnabled = true;
         coarsePlacementSnapActive = false;
         lastPlacedObjectInstanceId = 0;
@@ -935,6 +1096,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
         changed |= RestoreMapToolChildHierarchy(root, RoadParentName, undoName, recordUndo, enableRenderers: true);
         changed |= RestoreMapToolChildHierarchy(root, PropParentName, undoName, recordUndo, enableRenderers: true);
+        changed |= RestoreMapToolChildHierarchy(root, EnemyParentName, undoName, recordUndo, enableRenderers: true);
         changed |= RestoreMapToolChildHierarchy(root, WaterParentName, undoName, recordUndo, enableRenderers: true);
 
         foreach (string objectName in MapToolWorkObjectNames)
@@ -1121,8 +1283,52 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 GUI.backgroundColor = oldBackgroundColor;
             }
 
-            DrawPaletteCategoryToolbar();
+            DrawContentTabToolbar();
+            if (selectedContentTab == NoryangjinMapToolContentTab.Enemy)
+                DrawAlignAllEnemiesToRouteControl();
+            if (selectedContentTab == NoryangjinMapToolContentTab.Object)
+                DrawPaletteCategoryToolbar();
             DrawPaletteGrid();
+        }
+    }
+
+    private void DrawContentTabToolbar()
+    {
+        int selectedIndex = Mathf.Clamp(
+            (int)selectedContentTab,
+            0,
+            ContentTabLabels.Length - 1);
+        int nextIndex = GUILayout.Toolbar(
+            selectedIndex,
+            ContentTabLabels,
+            GUILayout.Height(30f));
+        if (nextIndex == selectedIndex)
+            return;
+
+        selectedContentTab = (NoryangjinMapToolContentTab)nextIndex;
+        ClearEnemyAssignmentSelection();
+        selectedPalettePrefabPath = null;
+        paletteScroll = Vector2.zero;
+        CancelCopiedObjectPasteMode();
+        DestroyPlacementPreview();
+        SceneView.RepaintAll();
+    }
+
+    private void DrawAlignAllEnemiesToRouteControl()
+    {
+        GameObject root = FindSceneObjectByNameIncludingInactive(RootName);
+        PlayerScript routeStart = root != null
+            ? FindScenePlayerRouteStart(root.scene)
+            : null;
+
+        using (new EditorGUI.DisabledScope(routeStart == null))
+        {
+            if (GUILayout.Button(AlignAllEnemiesToRouteButtonLabel, GUILayout.Height(26f)))
+            {
+                AlignAllEnemiesToRoute(
+                    CollectEnemyRouteAlignmentTargets(root),
+                    routeStart);
+            }
         }
     }
 
@@ -1178,15 +1384,39 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 DrawSelectedPalettePlacementAngleControl();
                 if (IsTurnSpotPrefabPath(selectedPalettePrefabPath))
                     GUILayout.Label("배치한 뒤 선택하면 목표 회전값과 시간을 설정할 수 있습니다.", EditorStyles.wordWrappedMiniLabel);
+                else if (IsEnemyMovementTriggerPrefabPath(selectedPalettePrefabPath))
+                    GUILayout.Label("배치한 뒤 선택해서 발동할 적들을 연결할 수 있습니다.", EditorStyles.wordWrappedMiniLabel);
                 return;
             }
 
+            bool drewBehaviorSettings = false;
             NoryangjinTurnSpot turnSpot = target.GetComponent<NoryangjinTurnSpot>();
             if (turnSpot != null)
             {
                 DrawSelectedTurnSpotSettings(turnSpot);
+                drewBehaviorSettings = true;
+            }
+
+            EnemyMovementController movement =
+                target.GetComponent<EnemyMovementController>();
+            if (movement != null)
+            {
+                DrawSelectedEnemyMovementSettings(movement);
+                drewBehaviorSettings = true;
+            }
+
+            EnemyMovementActivationTrigger movementTrigger =
+                target.GetComponent<EnemyMovementActivationTrigger>();
+            if (movementTrigger != null)
+            {
+                DrawSelectedEnemyMovementTriggerSettings(movementTrigger);
+                drewBehaviorSettings = true;
+            }
+
+            if (drewBehaviorSettings)
+            {
                 GUILayout.Space(4f);
-                GUILayout.Label("스팟 설치 방향", EditorStyles.miniBoldLabel);
+                GUILayout.Label("오브젝트 설치 방향", EditorStyles.miniBoldLabel);
             }
 
             DrawSelectedObjectPlacementAngleControl(target);
@@ -1226,6 +1456,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
         PaletteItem item = selectedItem.Value;
         NoryangjinMapToolPalettePlacementEntry entry = GetPaletteDefaults().GetOrCreateEntry(item.PrefabPath);
+
+        if (IsEnemyPalettePrefabPath(item.PrefabPath))
+            GUILayout.Label(EnemyAutomaticRouteAlignmentHint, EditorStyles.wordWrappedMiniLabel);
 
         GUILayout.Label(PlacementAnglePaletteHint, EditorStyles.wordWrappedMiniLabel);
         EditorGUI.BeginChangeCheck();
@@ -1369,6 +1602,390 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             EditorSceneManager.MarkSceneDirty(turnSpot.gameObject.scene);
 
         SceneView.RepaintAll();
+    }
+
+    private void DrawSelectedEnemyMovementSettings(
+        EnemyMovementController movement)
+    {
+        if (movement == null)
+            return;
+
+        GUILayout.Label("적 이동 동작", EditorStyles.miniBoldLabel);
+        EditorGUI.BeginChangeCheck();
+        EnemyMovementMode mode = (EnemyMovementMode)EditorGUILayout.Popup(
+            "동작",
+            (int)movement.MovementMode,
+            EnemyMovementModeLabels);
+        float speed = movement.MoveSpeed;
+        float sideDistance = movement.SideToSideDistance;
+        EnemyEntranceSide entranceSide = movement.EntranceSide;
+        float entranceDistance = movement.EntranceDistance;
+
+        if (mode != EnemyMovementMode.StayStill)
+            speed = EditorGUILayout.DelayedFloatField("속도", speed);
+
+        if (mode == EnemyMovementMode.MoveSideToSide)
+        {
+            sideDistance = EditorGUILayout.DelayedFloatField(
+                "좌우 거리",
+                sideDistance);
+        }
+        else if (mode == EnemyMovementMode.EnterFromSideOnTrigger)
+        {
+            int entranceSideIndex = EditorGUILayout.Popup(
+                "등장 방향",
+                entranceSide == EnemyEntranceSide.Left ? 0 : 1,
+                EnemyEntranceSideLabels);
+            entranceSide = entranceSideIndex == 0
+                ? EnemyEntranceSide.Left
+                : EnemyEntranceSide.Right;
+            entranceDistance = EditorGUILayout.DelayedFloatField(
+                "등장 거리",
+                entranceDistance);
+        }
+
+        if (EditorGUI.EndChangeCheck())
+        {
+            ApplyEnemyMovementSettings(
+                movement,
+                mode,
+                speed,
+                sideDistance,
+                entranceSide,
+                entranceDistance);
+        }
+
+        if (EnemyMovementController.RequiresTrigger(mode))
+        {
+            GUILayout.Label(
+                "적 발동 스팟을 선택한 뒤 씬에서 이 적을 클릭해 연결해야 시작됩니다.",
+                EditorStyles.wordWrappedMiniLabel);
+        }
+
+        PlayerScript routeStart = FindScenePlayerRouteStart(movement.gameObject.scene);
+        using (new EditorGUI.DisabledScope(
+                   !CanAlignEnemyRootToPlayerRoute(movement.gameObject, routeStart != null
+                       ? routeStart.transform
+                       : null)))
+        {
+            if (GUILayout.Button(AlignSelectedEnemyToRouteButtonLabel, GUILayout.Height(24f)))
+                AlignEnemyToRoute(movement.gameObject, routeStart);
+        }
+    }
+
+    internal static void ApplyEnemyMovementSettings(
+        EnemyMovementController movement,
+        EnemyMovementMode mode,
+        float speed,
+        float sideDistance,
+        EnemyEntranceSide entranceSide,
+        float entranceDistance)
+    {
+        if (movement == null)
+            return;
+
+        const string undoName = "Edit Enemy Movement";
+        Undo.RecordObject(movement, undoName);
+        movement.MovementMode = mode;
+        movement.MoveSpeed = speed;
+        movement.SideToSideDistance = sideDistance;
+        movement.EntranceSide = entranceSide;
+        movement.EntranceDistance = entranceDistance;
+        PrefabUtility.RecordPrefabInstancePropertyModifications(movement);
+        EditorUtility.SetDirty(movement);
+
+        if (movement.gameObject.scene.IsValid())
+            EditorSceneManager.MarkSceneDirty(movement.gameObject.scene);
+
+        SceneView.RepaintAll();
+    }
+
+    private void AlignEnemyToRoute(GameObject enemyRoot, PlayerScript routeStart)
+    {
+        if (!TryCalculateEnemyRouteAlignedRotation(
+                enemyRoot,
+                routeStart,
+                ChapterEnemyProgression.CollectRouteTurns(enemyRoot.scene),
+                out Quaternion rotation))
+        {
+            return;
+        }
+
+        if (!ApplySelectedObjectRotationToTarget(enemyRoot, rotation))
+            return;
+
+        SceneView.RepaintAll();
+        Repaint();
+    }
+
+    private void AlignAllEnemiesToRoute(
+        IReadOnlyList<GameObject> targets,
+        PlayerScript routeStart)
+    {
+        if (routeStart == null || targets == null || targets.Count == 0)
+            return;
+
+        IReadOnlyList<ChapterRouteTurn> turns =
+            ChapterEnemyProgression.CollectRouteTurns(routeStart.gameObject.scene);
+        int undoGroup = BeginMapToolUndoGroup("Align All Enemies To Player Route");
+        try
+        {
+            foreach (GameObject target in targets)
+            {
+                if (TryCalculateEnemyRouteAlignedRotation(
+                        target,
+                        routeStart,
+                        turns,
+                        out Quaternion rotation))
+                {
+                    ApplySelectedObjectRotationToTarget(target, rotation);
+                }
+            }
+        }
+        finally
+        {
+            Undo.CollapseUndoOperations(undoGroup);
+        }
+
+        SceneView.RepaintAll();
+        Repaint();
+    }
+
+    private static bool TryCalculateEnemyRouteAlignedRotation(
+        GameObject enemyRoot,
+        PlayerScript routeStart,
+        IReadOnlyList<ChapterRouteTurn> turns,
+        out Quaternion rotation)
+    {
+        rotation = enemyRoot != null
+            ? enemyRoot.transform.rotation
+            : Quaternion.identity;
+        if (!CanAlignEnemyRootToPlayerRoute(
+                enemyRoot,
+                routeStart != null ? routeStart.transform : null))
+        {
+            return false;
+        }
+
+        rotation = CalculateEnemyRouteAlignedRotation(
+            enemyRoot.transform.position,
+            routeStart.transform,
+            turns);
+        return true;
+    }
+
+    private static Quaternion CalculateEnemyRouteAlignedRotation(
+        Vector3 position,
+        Transform routeStart,
+        IReadOnlyList<ChapterRouteTurn> turns)
+    {
+        Vector3 routeDirection = ChapterEnemyProgression.CalculateRouteDirection(
+            position,
+            routeStart.position,
+            routeStart.forward,
+            turns);
+        return BuildEnemyRouteAlignedRotation(routeDirection);
+    }
+
+    internal static bool CanAlignEnemyRootToPlayerRoute(
+        GameObject enemyRoot,
+        Transform routeStart)
+    {
+        return enemyRoot != null &&
+               routeStart != null &&
+               enemyRoot.GetComponentInChildren<EnemyMovementController>(true) != null;
+    }
+
+    internal static List<GameObject> CollectEnemyRouteAlignmentTargets(
+        GameObject mapToolRoot)
+    {
+        var targets = new List<GameObject>();
+        Transform enemies = mapToolRoot != null
+            ? mapToolRoot.transform.Find(EnemyParentName)
+            : null;
+        if (enemies == null)
+            return targets;
+
+        foreach (Transform child in enemies)
+        {
+            if (child == null)
+                continue;
+
+            HideFlags combinedHideFlags = child.hideFlags | child.gameObject.hideFlags;
+            if ((combinedHideFlags & HideFlags.DontSave) != 0)
+                continue;
+
+            if (child.GetComponentInChildren<EnemyMovementController>(true) != null)
+                targets.Add(child.gameObject);
+        }
+
+        return targets;
+    }
+
+    internal static PlayerScript FindScenePlayerRouteStart(Scene scene)
+    {
+        if (!scene.IsValid() || !scene.isLoaded)
+            return null;
+
+        foreach (PlayerScript player in UnityEngine.Object.FindObjectsByType<PlayerScript>(
+                     FindObjectsInactive.Include,
+                     FindObjectsSortMode.None))
+        {
+            if (player == null || player.gameObject.scene != scene)
+                continue;
+
+            HideFlags combinedHideFlags = player.hideFlags | player.gameObject.hideFlags;
+            if ((combinedHideFlags & HideFlags.DontSave) == 0)
+                return player;
+        }
+
+        return null;
+    }
+
+    private void DrawSelectedEnemyMovementTriggerSettings(
+        EnemyMovementActivationTrigger trigger)
+    {
+        if (trigger == null)
+            return;
+
+        GUILayout.Label("적 이동 발동", EditorStyles.miniBoldLabel);
+        var serializedTrigger = new SerializedObject(trigger);
+        serializedTrigger.Update();
+        SerializedProperty oneShot = serializedTrigger.FindProperty("oneShot");
+        EditorGUILayout.PropertyField(
+            oneShot,
+            new GUIContent("한 번만 발동"));
+        if (serializedTrigger.ApplyModifiedProperties())
+            SceneView.RepaintAll();
+
+        List<EnemyMovementController> assignedTargets =
+            NormalizeEnemyMovementTargets(trigger.Targets);
+        int assignedCount = assignedTargets.Count;
+        GUILayout.Label($"연결된 적: {assignedCount}명", EditorStyles.miniBoldLabel);
+
+        EditorGUILayout.HelpBox(
+            IsEnemyAssignmentModeActiveFor(trigger)
+                ? "스팟 선택 중: 씬에서 적을 클릭하면 연결/해제됩니다. Esc를 누르면 스팟 선택이 해제됩니다."
+                : "스팟을 선택한 뒤 씬에서 적을 클릭하면 자동으로 연결됩니다.",
+            MessageType.Info);
+
+        int inactiveTargetCount = CountTargetsWithoutTriggerMovement(assignedTargets);
+        if (inactiveTargetCount > 0)
+        {
+            EditorGUILayout.HelpBox(
+                $"{inactiveTargetCount}명은 '트리거 후 전진/옆 등장' 동작이 아니라서 실제로 발동되지 않습니다.",
+                MessageType.Warning);
+        }
+
+        GUILayout.Label(
+            "플레이어가 이 영역에 들어오면 연결한 적의 전진/옆 등장을 시작합니다.",
+            EditorStyles.wordWrappedMiniLabel);
+    }
+
+    private void StartEnemyAssignmentMode(
+        EnemyMovementActivationTrigger trigger)
+    {
+        if (trigger == null)
+            return;
+
+        enemyAssignmentTrigger = trigger;
+        hoveredEnemyAssignmentTarget = null;
+        selectedContentTab = NoryangjinMapToolContentTab.Enemy;
+        selectedPalettePrefabPath = null;
+        coarsePlacementSnapActive = false;
+        copiedPlacedObjectInstanceId = 0;
+        DestroyPlacementPreview();
+        DestroyPlacementPreviewMaterials();
+        SceneView.RepaintAll();
+        Repaint();
+    }
+
+    private void StopEnemyAssignmentMode()
+    {
+        enemyAssignmentTrigger = null;
+        hoveredEnemyAssignmentTarget = null;
+    }
+
+    private void ClearEnemyAssignmentSelection()
+    {
+        StopEnemyAssignmentMode();
+        if (ResolveEnemyMovementAssignmentTriggerFromSelection(
+                Selection.activeGameObject) != null)
+        {
+            Selection.activeObject = null;
+        }
+    }
+
+    private void CancelEnemyAssignmentSelection()
+    {
+        ClearEnemyAssignmentSelection();
+        selectedPalettePrefabPath = SelectPaletteItemPrefabPath;
+    }
+
+    private bool IsEnemyAssignmentModeActiveFor(
+        EnemyMovementActivationTrigger trigger)
+    {
+        return trigger != null &&
+               enemyAssignmentTrigger == trigger &&
+               mapToolEnabled &&
+               selectedTab == NoryangjinMapToolTab.MapTool &&
+               selectedContentTab == NoryangjinMapToolContentTab.Enemy &&
+               selectedPalettePrefabPath == null &&
+               copiedPlacedObjectInstanceId == 0;
+    }
+
+    private EnemyMovementActivationTrigger ResolveActiveEnemyAssignmentTrigger()
+    {
+        bool canUseSelectedTrigger =
+            mapToolEnabled &&
+            selectedTab == NoryangjinMapToolTab.MapTool;
+        if (!canUseSelectedTrigger)
+        {
+            StopEnemyAssignmentMode();
+            return null;
+        }
+
+        EnemyMovementActivationTrigger selectedTrigger =
+            ResolveEnemyMovementAssignmentTriggerFromSelection(
+                Selection.activeGameObject);
+        if (selectedTrigger == null)
+        {
+            StopEnemyAssignmentMode();
+            return null;
+        }
+
+        if (enemyAssignmentTrigger != selectedTrigger)
+            StartEnemyAssignmentMode(selectedTrigger);
+
+        return IsEnemyAssignmentModeActiveFor(selectedTrigger)
+            ? selectedTrigger
+            : null;
+    }
+
+    internal static EnemyMovementActivationTrigger
+        ResolveEnemyMovementAssignmentTriggerFromSelection(
+            GameObject selectedObject)
+    {
+        GameObject mapToolRoot = ResolveMapToolRootFromSelection(selectedObject);
+        GameObject placedObject = ResolveVisualPickSelectionTarget(
+            selectedObject,
+            mapToolRoot);
+        return placedObject != null
+            ? placedObject.GetComponent<EnemyMovementActivationTrigger>()
+            : null;
+    }
+
+    private static int CountTargetsWithoutTriggerMovement(
+        IReadOnlyList<EnemyMovementController> targets)
+    {
+        int inactiveTargetCount = 0;
+        foreach (EnemyMovementController target in targets)
+        {
+            if (!target.RequiresPlayerTrigger)
+                inactiveTargetCount++;
+        }
+
+        return inactiveTargetCount;
     }
 
     private void DrawRotationQuickButtons(GameObject target)
@@ -1720,6 +2337,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                     footprintBadgeRect.Contains(currentEvent.mousePosition) &&
                     ShouldEditPaletteFootprintBadge(currentEvent.clickCount, currentEvent.button))
                 {
+                    ClearEnemyAssignmentSelection();
                     CancelCopiedObjectPasteMode();
                     selectedPalettePrefabPath = item.PrefabPath;
                     OpenPaletteFootprintWindow(item);
@@ -1734,6 +2352,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                     return;
                 }
 
+                ClearEnemyAssignmentSelection();
                 CancelCopiedObjectPasteMode();
                 selectedPalettePrefabPath = item.PrefabPath;
 
@@ -1746,6 +2365,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             GUI.Button(imageRect, content);
             DrawSpecialPaletteIcon(item, imageRect);
             DrawPaletteFootprintBadge(footprintLabel, footprintBadgeRect, hasFootprintBadge);
+            DrawEnemyTierBadge(item.PrefabPath, imageRect);
 
             Rect labelRect = GUILayoutUtility.GetRect(new GUIContent(item.Label), EditorStyles.miniLabel, GUILayout.Width(tileSize - 8));
             GUI.Label(labelRect, item.Label, EditorStyles.miniLabel);
@@ -1753,6 +2373,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             if (currentEvent.type == EventType.MouseDown && labelRect.Contains(currentEvent.mousePosition) &&
                 GetPaletteLabelClickAction(currentEvent.clickCount, currentEvent.button) == NoryangjinMapToolPaletteClickAction.RenameDisplayName)
             {
+                ClearEnemyAssignmentSelection();
                 CancelCopiedObjectPasteMode();
                 selectedPalettePrefabPath = item.PrefabPath;
                 OpenPaletteRenameWindow(item);
@@ -1801,12 +2422,31 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private bool IsPaletteItemVisible(PaletteItem item)
     {
-        if (string.Equals(item.PrefabPath, EmptyPaletteItemPrefabPath, StringComparison.Ordinal))
+        if (!IsPaletteSectionVisible(selectedContentTab, item.Section))
+            return false;
+
+        if (item.Section == NoryangjinMapToolPaletteSection.Common)
             return true;
-        if (IsSelectPaletteItemPath(item.PrefabPath) || IsClearSelectionPaletteItemPath(item.PrefabPath))
+
+        if (selectedContentTab != NoryangjinMapToolContentTab.Object)
             return true;
 
         return selectedPaletteCategory == NoryangjinMapToolPaletteCategory.All || item.Category == selectedPaletteCategory;
+    }
+
+    internal static bool IsPaletteSectionVisible(
+        NoryangjinMapToolContentTab contentTab,
+        NoryangjinMapToolPaletteSection section)
+    {
+        if (section == NoryangjinMapToolPaletteSection.Common)
+            return true;
+
+        return contentTab switch
+        {
+            NoryangjinMapToolContentTab.Enemy => section == NoryangjinMapToolPaletteSection.Enemy,
+            NoryangjinMapToolContentTab.Gimmick => section == NoryangjinMapToolPaletteSection.Gimmick,
+            _ => section == NoryangjinMapToolPaletteSection.Object
+        };
     }
 
     private PaletteItem? FindSelectedPaletteItem()
@@ -2038,15 +2678,57 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return;
 
         float normalizedCellSize = NoryangjinMapToolGridUtility.NormalizeCellSize(cellSize);
-        HandleScenePalettePlacement(sceneView, normalizedCellSize);
+        EnemyMovementActivationTrigger activeAssignmentTrigger =
+            ResolveActiveEnemyAssignmentTrigger();
+        GameObject assignmentMapToolRoot = activeAssignmentTrigger != null
+            ? ResolveMapToolRootFromSelection(activeAssignmentTrigger.gameObject)
+            : null;
+        bool shouldBuildHeightLabels = ShouldBuildPlacedObjectHeightLabels(Event.current);
+        GUIStyle heightLabelStyle = shouldBuildHeightLabels
+            ? CreatePlacedObjectHeightLabelStyle(Color.cyan)
+            : null;
+        GUIStyle enemyHeightLabelStyle = Event.current != null &&
+                                         Event.current.type == EventType.Repaint
+            ? CreatePlacedObjectHeightLabelStyle(EnemyPlacedObjectHeightLabelColor)
+            : null;
+        IReadOnlyList<KeyValuePair<GameObject, Rect>> heightLabels =
+            shouldBuildHeightLabels
+                ? activeAssignmentTrigger != null
+                    ? BuildEnemyPlacedObjectHeightLabelRects(
+                        heightLabelStyle,
+                        assignmentMapToolRoot,
+                        activeAssignmentTrigger)
+                    : BuildPlacedObjectHeightLabelRects(heightLabelStyle)
+                : Array.Empty<KeyValuePair<GameObject, Rect>>();
+        if (activeAssignmentTrigger != null)
+        {
+            DestroyPlacementPreview();
+            HandleSceneEnemyAssignment(
+                sceneView,
+                normalizedCellSize,
+                activeAssignmentTrigger,
+                heightLabels,
+                assignmentMapToolRoot);
+        }
+        else
+        {
+            HandleScenePalettePlacement(
+                sceneView,
+                normalizedCellSize,
+                heightLabels);
+        }
 
         Color oldColor = Handles.color;
         CompareFunction oldZTest = Handles.zTest;
         DrawStableTopViewWorkGridOverlay(normalizedCellSize, sceneView, showWorkSubGrid);
         DrawLastPlacedObjectFootprint(normalizedCellSize);
         DrawSelectedPaletteFootprintPreview(normalizedCellSize);
-        DrawPlacedObjectHeightLabels();
+        DrawPlacedObjectHeightLabels(
+            heightLabelStyle,
+            enemyHeightLabelStyle,
+            heightLabels);
         DrawTurnSpotMarkers(normalizedCellSize);
+        DrawEnemyMovementTriggerConnections(normalizedCellSize);
 
         if (!showSceneGrid)
         {
@@ -2207,11 +2889,15 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         Handles.Label(worldPosition, label, labelStyle);
     }
 
-    private void DrawPlacedObjectHeightLabels()
+    private void DrawPlacedObjectHeightLabels(
+        GUIStyle labelStyle,
+        GUIStyle enemyLabelStyle,
+        IReadOnlyList<KeyValuePair<GameObject, Rect>> labels)
     {
-        GUIStyle labelStyle = CreatePlacedObjectHeightLabelStyle();
-        List<KeyValuePair<GameObject, Rect>> labels = BuildPlacedObjectHeightLabelRects(labelStyle);
-        if (labels.Count == 0)
+        if (Event.current == null ||
+            Event.current.type != EventType.Repaint ||
+            labels == null ||
+            labels.Count == 0)
             return;
 
         GameObject hovered = IsSelectPaletteItemPath(selectedPalettePrefabPath) && Event.current != null
@@ -2227,16 +2913,19 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             GUI.Label(
                 label.Value,
                 FormatPlacedObjectHeightLabel(label.Key.transform.position.y),
-                labelStyle);
+                ShouldUseEnemyHeightLabelColor(label.Key)
+                    ? enemyLabelStyle
+                    : labelStyle);
         }
         Handles.EndGUI();
     }
 
-    private GameObject FindPlacedObjectHeightLabelAtMouse(Vector2 mousePosition)
+    private static bool ShouldBuildPlacedObjectHeightLabels(Event currentEvent)
     {
-        return ResolveHoveredHeightLabelTarget(
-            BuildPlacedObjectHeightLabelRects(CreatePlacedObjectHeightLabelStyle()),
-            mousePosition);
+        return currentEvent != null &&
+               (currentEvent.type == EventType.Repaint ||
+                currentEvent.type == EventType.MouseMove ||
+                currentEvent.type == EventType.MouseDown);
     }
 
     private List<KeyValuePair<GameObject, Rect>> BuildPlacedObjectHeightLabelRects(GUIStyle labelStyle)
@@ -2255,31 +2944,77 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 continue;
             }
 
-            string label = FormatPlacedObjectHeightLabel(child.position.y);
-            Vector2 size = labelStyle.CalcSize(new GUIContent(label));
-            size.x += PlacedObjectHeightLabelHorizontalPadding * 2f;
-            size.y += PlacedObjectHeightLabelVerticalPadding * 2f;
-            Vector2 center = HandleUtility.WorldToGUIPoint(BuildPlacedObjectHeightLabelPosition(child.gameObject));
-            var rect = new Rect(center - size * 0.5f, size);
-            labels.Add(new KeyValuePair<GameObject, Rect>(child.gameObject, rect));
+            AddPlacedObjectHeightLabelRect(labels, child.gameObject, labelStyle);
         }
 
         return labels;
     }
 
-    private static GUIStyle CreatePlacedObjectHeightLabelStyle()
+    private List<KeyValuePair<GameObject, Rect>> BuildEnemyPlacedObjectHeightLabelRects(
+        GUIStyle labelStyle,
+        GameObject mapToolRoot,
+        EnemyMovementActivationTrigger activeTrigger)
+    {
+        var labels = new List<KeyValuePair<GameObject, Rect>>();
+        Transform enemyParent = mapToolRoot != null
+            ? mapToolRoot.transform.Find(EnemyParentName)
+            : null;
+        if (enemyParent != null)
+        {
+            foreach (Transform child in enemyParent)
+            {
+                if (!child.gameObject.activeInHierarchy ||
+                    !ShouldDrawPlacedObjectHeightLabel(child.gameObject.name, mapToolEnabled))
+                {
+                    continue;
+                }
+
+                AddPlacedObjectHeightLabelRect(labels, child.gameObject, labelStyle);
+            }
+        }
+
+        GameObject triggerObject = activeTrigger != null
+            ? activeTrigger.gameObject
+            : null;
+        if (ShouldAppendActiveTriggerHeightLabel(
+                triggerObject,
+                enemyParent,
+                mapToolEnabled))
+        {
+            AddPlacedObjectHeightLabelRect(labels, triggerObject, labelStyle);
+        }
+
+        return labels;
+    }
+
+    private void AddPlacedObjectHeightLabelRect(
+        ICollection<KeyValuePair<GameObject, Rect>> labels,
+        GameObject target,
+        GUIStyle labelStyle)
+    {
+        string label = FormatPlacedObjectHeightLabel(target.transform.position.y);
+        Vector2 size = labelStyle.CalcSize(new GUIContent(label));
+        size.x += PlacedObjectHeightLabelHorizontalPadding * 2f;
+        size.y += PlacedObjectHeightLabelVerticalPadding * 2f;
+        Vector2 center = HandleUtility.WorldToGUIPoint(
+            BuildPlacedObjectHeightLabelPosition(target));
+        var rect = new Rect(center - size * 0.5f, size);
+        labels.Add(new KeyValuePair<GameObject, Rect>(target, rect));
+    }
+
+    private static GUIStyle CreatePlacedObjectHeightLabelStyle(Color textColor)
     {
         return new GUIStyle(EditorStyles.boldLabel)
         {
             alignment = TextAnchor.MiddleCenter,
             fontSize = 12,
-            normal = { textColor = Color.cyan }
+            normal = { textColor = textColor }
         };
     }
 
-    private static Vector3 BuildPlacedObjectHeightLabelPosition(GameObject target)
+    private Vector3 BuildPlacedObjectHeightLabelPosition(GameObject target)
     {
-        Bounds bounds = CalculateRendererBounds(target);
+        Bounds bounds = CalculateSceneRendererBounds(target);
         Vector3 position = bounds.size == Vector3.zero ? target.transform.position : bounds.center;
         float verticalOffset = Mathf.Max(0.35f, bounds.extents.y + 0.2f);
         return position + Vector3.up * verticalOffset;
@@ -2322,6 +3057,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         if (!CanCopyPlacedObject(mapToolEnabled, source))
             return;
 
+        CancelEnemyAssignmentSelection();
         copiedPlacedObjectInstanceId = source.GetInstanceID();
         coarsePlacementSnapActive = false;
         DestroyPlacementPreview();
@@ -2329,6 +3065,45 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         ShowNotification(new GUIContent($"{source.name} 복사됨 · 타일을 클릭해 붙여넣기"));
         SceneView.RepaintAll();
         Repaint();
+    }
+
+    internal static void RefreshOpenWindowPaletteAssets()
+    {
+        foreach (NoryangjinMapToolWindow window in
+                 Resources.FindObjectsOfTypeAll<NoryangjinMapToolWindow>())
+        {
+            window.paletteItems = null;
+            window.Repaint();
+        }
+    }
+
+    private static void DrawEnemyTierBadge(string prefabPath, Rect imageRect)
+    {
+        if (!TryGetFixedEnemyTier(prefabPath, out EnemyTier tier))
+            return;
+
+        string label = EnemyTierToKorean(tier);
+        var style = new GUIStyle(EditorStyles.miniBoldLabel)
+        {
+            alignment = TextAnchor.MiddleCenter,
+            normal = { textColor = Color.white }
+        };
+        Vector2 size = style.CalcSize(new GUIContent(label));
+        Rect badgeRect = new Rect(
+            imageRect.xMax - size.x - 10f,
+            imageRect.yMax - 20f,
+            size.x + 8f,
+            18f);
+        Color previousColor = GUI.color;
+        GUI.color = tier switch
+        {
+            EnemyTier.Boss => new Color(0.72f, 0.16f, 0.2f, 0.95f),
+            EnemyTier.Elite => new Color(0.66f, 0.38f, 0.08f, 0.95f),
+            _ => new Color(0.15f, 0.42f, 0.64f, 0.95f)
+        };
+        GUI.DrawTexture(badgeRect, Texture2D.whiteTexture);
+        GUI.color = previousColor;
+        GUI.Label(badgeRect, label, style);
     }
 
     private void CancelCopiedObjectPasteMode()
@@ -2430,7 +3205,231 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         GUI.Label(badgeRect, footprintLabel, badgeStyle);
     }
 
-    private void HandleScenePalettePlacement(SceneView sceneView, float normalizedCellSize)
+    private void HandleSceneEnemyAssignment(
+        SceneView sceneView,
+        float normalizedCellSize,
+        EnemyMovementActivationTrigger trigger,
+        IReadOnlyList<KeyValuePair<GameObject, Rect>> heightLabels,
+        GameObject mapToolRoot)
+    {
+        Event currentEvent = Event.current;
+        if (currentEvent == null || trigger == null)
+            return;
+
+        if (currentEvent.type == EventType.Layout)
+            HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
+
+        if (TryHandleEnemyAssignmentCancel(currentEvent))
+            return;
+
+        if (currentEvent.type == EventType.MouseMove)
+        {
+            EnemyMovementController previousTarget = hoveredEnemyAssignmentTarget;
+            int previousGridX = gridX;
+            int previousGridZ = gridZ;
+            hoveredEnemyAssignmentTarget = FindEnemyAssignmentTargetAtMouse(
+                currentEvent.mousePosition,
+                normalizedCellSize,
+                heightLabels,
+                mapToolRoot,
+                allowGridFallback: false);
+            if (previousTarget != hoveredEnemyAssignmentTarget ||
+                previousGridX != gridX ||
+                previousGridZ != gridZ)
+            {
+                sceneView?.Repaint();
+                Repaint();
+            }
+            return;
+        }
+
+        if (!ShouldHandleEnemyAssignmentSceneEvent(currentEvent))
+            return;
+
+        EnemyMovementController target = FindEnemyAssignmentTargetAtMouse(
+            currentEvent.mousePosition,
+            normalizedCellSize,
+            heightLabels,
+            mapToolRoot,
+            allowGridFallback: true);
+        if (target != null)
+        {
+            bool added = ToggleEnemyMovementTargetAssignment(trigger, target);
+            hoveredEnemyAssignmentTarget = target;
+            Selection.activeGameObject = trigger.gameObject;
+            ShowNotification(new GUIContent(
+                added
+                    ? $"{target.gameObject.name} 연결됨"
+                    : $"{target.gameObject.name} 연결 해제됨"));
+        }
+        else
+        {
+            ShowNotification(new GUIContent("EnemyMovementController가 있는 적을 클릭하세요"));
+        }
+
+        currentEvent.Use();
+        SceneView.RepaintAll();
+        Repaint();
+    }
+
+    private EnemyMovementController FindEnemyAssignmentTargetAtMouse(
+        Vector2 mousePosition,
+        float normalizedCellSize,
+        IReadOnlyList<KeyValuePair<GameObject, Rect>> heightLabels,
+        GameObject mapToolRoot,
+        bool allowGridFallback)
+    {
+        bool hasGridCell = TryGetSceneMouseGridCell(
+            mousePosition,
+            normalizedCellSize,
+            out Vector2Int hoverCell);
+        if (hasGridCell)
+        {
+            gridX = hoverCell.x;
+            gridZ = hoverCell.y;
+        }
+
+        GameObject pickedObject = FindSceneSelectionTargetAtMouse(
+            mousePosition,
+            BuildPlacementSnapCellSize(normalizedCellSize, false),
+            heightLabels,
+            mapToolRoot,
+            hasGridCell && allowGridFallback,
+            enemyTargetsOnly: true);
+        return ResolveEnemyMovementAssignmentTarget(pickedObject, mapToolRoot);
+    }
+
+    private GameObject FindSceneSelectionTargetAtMouse(
+        Vector2 mousePosition,
+        float placementGridCellSize,
+        IReadOnlyList<KeyValuePair<GameObject, Rect>> heightLabels,
+        GameObject mapToolRoot,
+        bool allowGridFallback,
+        bool enemyTargetsOnly = false)
+    {
+        GameObject heightLabelPick = ResolveHoveredHeightLabelTarget(
+            heightLabels,
+            mousePosition);
+        GameObject visualPick = heightLabelPick == null
+            ? ResolveVisualPickSelectionTarget(
+                HandleUtility.PickGameObject(mousePosition, false),
+                mapToolRoot)
+            : null;
+        GameObject gridPick = heightLabelPick == null &&
+                              visualPick == null &&
+                              allowGridFallback
+            ? enemyTargetsOnly
+                ? FindEnemyPlacedObjectOverlappingCursor(
+                    mapToolRoot,
+                    placementGridCellSize)
+                : FindPlacedObjectOverlappingCursor(placementGridCellSize)
+            : null;
+        return ResolveSceneSelectionTarget(
+            heightLabelPick,
+            visualPick,
+            gridPick);
+    }
+
+    internal static bool ShouldHandleEnemyAssignmentSceneEvent(
+        Event currentEvent)
+    {
+        return currentEvent != null &&
+               currentEvent.type == EventType.MouseDown &&
+               currentEvent.button == 0 &&
+               (currentEvent.modifiers &
+                (EventModifiers.Alt |
+                 EventModifiers.Control |
+                 EventModifiers.Command |
+                 EventModifiers.Shift)) == EventModifiers.None;
+    }
+
+    internal static bool IsEnemyAssignmentCancelEvent(Event currentEvent)
+    {
+        return currentEvent != null &&
+               currentEvent.type == EventType.KeyDown &&
+               currentEvent.keyCode == KeyCode.Escape;
+    }
+
+    private bool TryHandleEnemyAssignmentCancel(Event currentEvent)
+    {
+        if (!mapToolEnabled ||
+            selectedTab != NoryangjinMapToolTab.MapTool ||
+            !IsEnemyAssignmentCancelEvent(currentEvent) ||
+            ResolveEnemyMovementAssignmentTriggerFromSelection(
+                Selection.activeGameObject) == null)
+        {
+            return false;
+        }
+
+        CancelEnemyAssignmentSelection();
+        ShowNotification(new GUIContent("적 발동 스팟 선택 해제"));
+        currentEvent.Use();
+        SceneView.RepaintAll();
+        Repaint();
+        return true;
+    }
+
+    internal static EnemyMovementController ResolveEnemyMovementAssignmentTarget(
+        GameObject pickedObject,
+        GameObject mapToolRoot)
+    {
+        GameObject placedObject = ResolveVisualPickSelectionTarget(
+            pickedObject,
+            mapToolRoot);
+        if (placedObject == null ||
+            GetPlacedObjectLayer(placedObject) !=
+            NoryangjinMapToolPlacementLayer.Enemy)
+        {
+            return null;
+        }
+
+        return placedObject.GetComponent<EnemyMovementController>();
+    }
+
+    internal static EnemyMovementController[] BuildToggledEnemyMovementTargets(
+        EnemyMovementController[] existingTargets,
+        EnemyMovementController target,
+        out bool added)
+    {
+        List<EnemyMovementController> normalizedTargets =
+            NormalizeEnemyMovementTargets(existingTargets);
+        bool wasAssigned = target != null && normalizedTargets.Remove(target);
+        added = target != null && !wasAssigned;
+        if (added)
+            normalizedTargets.Add(target);
+
+        return normalizedTargets.ToArray();
+    }
+
+    internal static bool ToggleEnemyMovementTargetAssignment(
+        EnemyMovementActivationTrigger trigger,
+        EnemyMovementController target)
+    {
+        if (trigger == null)
+            throw new ArgumentNullException(nameof(trigger));
+        if (target == null)
+            throw new ArgumentNullException(nameof(target));
+
+        EnemyMovementController[] nextTargets =
+            BuildToggledEnemyMovementTargets(
+                trigger.Targets,
+                target,
+                out bool added);
+        const string undoName = "Assign Enemy Movement Trigger";
+        Undo.RecordObject(trigger, undoName);
+        trigger.Targets = nextTargets;
+        PrefabUtility.RecordPrefabInstancePropertyModifications(trigger);
+        EditorUtility.SetDirty(trigger);
+        if (trigger.gameObject.scene.IsValid())
+            EditorSceneManager.MarkSceneDirty(trigger.gameObject.scene);
+
+        return added;
+    }
+
+    private void HandleScenePalettePlacement(
+        SceneView sceneView,
+        float normalizedCellSize,
+        IReadOnlyList<KeyValuePair<GameObject, Rect>> heightLabels)
     {
         GameObject copiedSource = ResolveCopiedPlacedObject();
         bool copiedPasteModeActive = copiedSource != null;
@@ -2510,16 +3509,13 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
             if (IsSelectPaletteItemPath(selectedItem.Value.PrefabPath))
             {
-                GameObject heightLabelPick = FindPlacedObjectHeightLabelAtMouse(currentEvent.mousePosition);
-                GameObject visualPick = heightLabelPick == null
-                    ? ResolveVisualPickSelectionTarget(
-                        HandleUtility.PickGameObject(currentEvent.mousePosition, false),
-                        GameObject.Find(RootName))
-                    : null;
-                GameObject gridPick = heightLabelPick == null && visualPick == null
-                    ? FindPlacedObjectOverlappingCursor(placementGridCellSize)
-                    : null;
-                Selection.activeGameObject = ResolveSceneSelectionTarget(heightLabelPick, visualPick, gridPick);
+                GameObject mapToolRoot = GameObject.Find(RootName);
+                Selection.activeGameObject = FindSceneSelectionTargetAtMouse(
+                    currentEvent.mousePosition,
+                    placementGridCellSize,
+                    heightLabels,
+                    mapToolRoot,
+                    true);
                 Repaint();
             }
             else if (IsClearSelectionPaletteItemPath(selectedItem.Value.PrefabPath))
@@ -2595,7 +3591,14 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             placementHeight,
             placement.heightOffset,
             placement.positionOffset);
-        preview.transform.rotation = BuildPalettePlacementRotation(selectedItem.Prefab.transform.rotation, placement.yawOffset);
+        Quaternion authoredRotation = BuildPalettePlacementRotation(
+            selectedItem.Prefab.transform.rotation,
+            placement.yawOffset);
+        preview.transform.rotation = ResolveEnemyPlacementRotation(
+            selectedItem.PrefabPath,
+            preview.transform.position,
+            authoredRotation,
+            preview.scene);
         preview.transform.localScale = BuildPalettePlacementScale(selectedItem.Prefab.transform.localScale, placement.scale);
         preview.SetActive(true);
     }
@@ -2924,6 +3927,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         Matrix4x4 oldMatrix = Handles.matrix;
         Handles.zTest = CompareFunction.Always;
         Handles.matrix = Matrix4x4.identity;
+        uniqueEnemyMovementTargets.Clear();
         try
         {
             foreach (NoryangjinTurnSpot turnSpot in CollectTurnSpots(scene))
@@ -2935,6 +3939,238 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             Handles.color = oldColor;
             Handles.zTest = oldZTest;
         }
+    }
+
+    private void DrawEnemyMovementTriggerConnections(float normalizedCellSize)
+    {
+        if (Event.current == null || Event.current.type != EventType.Repaint)
+            return;
+
+        GameObject selected = ResolveSelectedPlacedObject(Selection.activeGameObject);
+        EnemyMovementActivationTrigger trigger = selected != null
+            ? selected.GetComponent<EnemyMovementActivationTrigger>()
+            : null;
+        if (trigger == null)
+            return;
+
+        bool assignmentModeActive = IsEnemyAssignmentModeActiveFor(trigger);
+        Vector3 start = BuildEnemyMovementTriggerConnectionPoint(trigger);
+        Color oldColor = Handles.color;
+        CompareFunction oldZTest = Handles.zTest;
+        Matrix4x4 oldMatrix = Handles.matrix;
+        Handles.zTest = CompareFunction.Always;
+        Handles.matrix = Matrix4x4.identity;
+        try
+        {
+            int labelFontSize = assignmentModeActive ? 12 : 11;
+            var activeTargetLabelStyle = new GUIStyle(EditorStyles.miniBoldLabel)
+            {
+                fontSize = labelFontSize,
+                normal = { textColor = new Color(1f, 0.45f, 0.05f, 1f) }
+            };
+            var inactiveTargetLabelStyle = new GUIStyle(EditorStyles.miniBoldLabel)
+            {
+                fontSize = labelFontSize,
+                normal = { textColor = new Color(1f, 0.85f, 0.1f, 1f) }
+            };
+            int connectionIndex = 0;
+            foreach (EnemyMovementController target in
+                     trigger.Targets ?? Array.Empty<EnemyMovementController>())
+            {
+                if (target == null || !uniqueEnemyMovementTargets.Add(target))
+                    continue;
+
+                connectionIndex++;
+                Bounds targetBounds = CalculateSceneRendererBounds(target.gameObject);
+                string connectionLabel = GetEnemyMovementConnectionLabel(
+                    target,
+                    connectionIndex);
+                DrawEnemyMovementTriggerConnection(
+                    start,
+                    target,
+                    targetBounds,
+                    connectionLabel,
+                    normalizedCellSize,
+                    assignmentModeActive,
+                    target.RequiresPlayerTrigger
+                        ? activeTargetLabelStyle
+                        : inactiveTargetLabelStyle);
+            }
+
+            if (assignmentModeActive && hoveredEnemyAssignmentTarget != null)
+            {
+                DrawEnemyAssignmentHover(
+                    start,
+                    trigger,
+                    hoveredEnemyAssignmentTarget,
+                    normalizedCellSize);
+            }
+        }
+        finally
+        {
+            uniqueEnemyMovementTargets.Clear();
+            Handles.matrix = oldMatrix;
+            Handles.color = oldColor;
+            Handles.zTest = oldZTest;
+        }
+    }
+
+    private static void DrawEnemyMovementTriggerConnection(
+        Vector3 start,
+        EnemyMovementController target,
+        Bounds targetBounds,
+        string connectionLabel,
+        float normalizedCellSize,
+        bool assignmentModeActive,
+        GUIStyle labelStyle)
+    {
+        Vector3 end = BuildEnemyMovementTargetConnectionPoint(targetBounds);
+        Vector3 direction = end - start;
+        Color connectionColor = target.RequiresPlayerTrigger
+            ? new Color(1f, 0.45f, 0.05f, 1f)
+            : new Color(1f, 0.85f, 0.1f, 1f);
+        Handles.color = connectionColor;
+        Handles.DrawAAPolyLine(
+            assignmentModeActive ? 5f : 3f,
+            start,
+            end);
+
+        if (direction.sqrMagnitude > 0.001f)
+        {
+            Vector3 normalizedDirection = direction.normalized;
+            Vector3 arrowUp = Mathf.Abs(Vector3.Dot(
+                normalizedDirection,
+                Vector3.up)) > 0.99f
+                ? Vector3.forward
+                : Vector3.up;
+            Handles.ConeHandleCap(
+                0,
+                end,
+                Quaternion.LookRotation(normalizedDirection, arrowUp),
+                Mathf.Max(0.22f, normalizedCellSize * 0.22f),
+                EventType.Repaint);
+        }
+
+        Handles.Label(
+            end + Vector3.up * 0.2f,
+            connectionLabel,
+            labelStyle);
+    }
+
+    private string GetEnemyMovementConnectionLabel(
+        EnemyMovementController target,
+        int connectionIndex)
+    {
+        int instanceId = target.GetInstanceID();
+        string targetName = target.gameObject.name;
+        if (enemyConnectionLabelCache.TryGetValue(
+                instanceId,
+                out EnemyConnectionLabelCacheEntry cachedEntry) &&
+            cachedEntry.Target == target &&
+            cachedEntry.Index == connectionIndex &&
+            string.Equals(
+                cachedEntry.TargetName,
+                targetName,
+                StringComparison.Ordinal))
+        {
+            return cachedEntry.Label;
+        }
+
+        string label = $"#{connectionIndex} {targetName}";
+        enemyConnectionLabelCache[instanceId] =
+            new EnemyConnectionLabelCacheEntry(
+                target,
+                connectionIndex,
+                targetName,
+                label);
+        return label;
+    }
+
+    private void DrawEnemyAssignmentHover(
+        Vector3 start,
+        EnemyMovementActivationTrigger trigger,
+        EnemyMovementController target,
+        float normalizedCellSize)
+    {
+        bool alreadyAssigned = IsEnemyMovementTargetAssigned(
+            trigger.Targets,
+            target);
+        Color hoverColor = alreadyAssigned
+            ? new Color(1f, 0.2f, 0.15f, 1f)
+            : new Color(0.2f, 1f, 0.35f, 1f);
+        Bounds bounds = CalculateSceneRendererBounds(target.gameObject);
+        Vector3 size = bounds.size.sqrMagnitude > 0.001f
+            ? bounds.size + Vector3.one * 0.15f
+            : Vector3.one * Mathf.Max(0.5f, normalizedCellSize * 0.5f);
+        Vector3 end = BuildEnemyMovementTargetConnectionPoint(bounds);
+
+        Handles.color = hoverColor;
+        Handles.DrawWireCube(bounds.center, size);
+        Handles.DrawDottedLine(start, end, 4f);
+        var labelStyle = new GUIStyle(EditorStyles.miniBoldLabel)
+        {
+            fontSize = 12,
+            normal = { textColor = hoverColor }
+        };
+        Handles.Label(
+            end + Vector3.up * 0.45f,
+            alreadyAssigned ? "클릭하면 연결 해제" : "클릭하면 연결",
+            labelStyle);
+    }
+
+    private static Vector3 BuildEnemyMovementTriggerConnectionPoint(
+        EnemyMovementActivationTrigger trigger)
+    {
+        if (trigger == null)
+            return Vector3.zero;
+
+        BoxCollider triggerCollider = trigger.GetComponent<BoxCollider>();
+        return triggerCollider != null
+            ? new Vector3(
+                triggerCollider.bounds.center.x,
+                triggerCollider.bounds.max.y + 0.15f,
+                triggerCollider.bounds.center.z)
+            : trigger.transform.position + Vector3.up * 0.5f;
+    }
+
+    private static Vector3 BuildEnemyMovementTargetConnectionPoint(Bounds bounds)
+    {
+        return new Vector3(
+            bounds.center.x,
+            bounds.max.y + 0.15f,
+            bounds.center.z);
+    }
+
+    private static bool IsEnemyMovementTargetAssigned(
+        EnemyMovementController[] targets,
+        EnemyMovementController target)
+    {
+        if (target == null)
+            return false;
+
+        foreach (EnemyMovementController existingTarget in
+                 targets ?? Array.Empty<EnemyMovementController>())
+        {
+            if (existingTarget == target)
+                return true;
+        }
+
+        return false;
+    }
+
+    private static List<EnemyMovementController> NormalizeEnemyMovementTargets(
+        EnemyMovementController[] targets)
+    {
+        var normalizedTargets = new List<EnemyMovementController>();
+        var seenTargets = new HashSet<EnemyMovementController>();
+        foreach (EnemyMovementController target in
+                 targets ?? Array.Empty<EnemyMovementController>())
+        {
+            if (target != null && seenTargets.Add(target))
+                normalizedTargets.Add(target);
+        }
+
+        return normalizedTargets;
     }
 
     private static void DrawTurnSpotMarker(
@@ -3095,6 +4331,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 NoryangjinMapToolGridUtility.BuildInstanceName("Road", roadPiece.Label, gridX, gridZ),
                 placement);
             PlaceRoadCompanions(instance.transform, roadPiece);
+            NoryangjinMapStaticOptimizer.OptimizePlacedRoot(instance, recordUndo: true);
 
             Selection.activeGameObject = instance;
             RegisterLastPlacedObject(instance);
@@ -3136,6 +4373,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             companion.transform.localRotation = Quaternion.Euler(roadCompanion.LocalEulerAngles);
             companion.transform.localScale = roadCompanion.LocalScale;
             Undo.RegisterCreatedObjectUndo(companion, $"Place {roadPiece.KoreanLabel} companion");
+            NoryangjinMapStaticOptimizer.OptimizePlacedRoot(companion, recordUndo: true);
             EditorUtility.SetDirty(companion);
         }
     }
@@ -3216,8 +4454,14 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return;
         }
 
-        string parentName = item.Category == NoryangjinMapToolPaletteCategory.Road ? RoadParentName : PropParentName;
-        string instanceKind = item.Category == NoryangjinMapToolPaletteCategory.Road ? "Road" : "Prop";
+        bool isRoad = item.Category == NoryangjinMapToolPaletteCategory.Road;
+        bool isEnemy = IsEnemyPalettePrefabPath(item.PrefabPath);
+        string parentName = isRoad
+            ? RoadParentName
+            : isEnemy
+                ? EnemyParentName
+                : PropParentName;
+        string instanceKind = isRoad ? "Road" : isEnemy ? "Enemy" : "Prop";
 
         int undoGroup = BeginMapToolUndoGroup($"Place {item.Label}");
         try
@@ -3226,7 +4470,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 item.Prefab,
                 EnsureChild(EnsureRoot().transform, parentName),
                 NoryangjinMapToolGridUtility.BuildInstanceName(instanceKind, item.Prefab.name, gridX, gridZ),
-                placement);
+                placement,
+                isEnemy ? item.PrefabPath : null);
 
             Selection.activeGameObject = instance;
             RegisterLastPlacedObject(instance);
@@ -3312,7 +4557,19 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         if (deleteTargets.Count == 0)
             return;
 
-        GameObject deleteTarget = SelectSingleCursorDeleteTarget(deleteTargets, cursor);
+        deleteTargets.RemoveAll(target =>
+            !IsPlacedObjectOwnedByContentTab(target, selectedContentTab));
+        if (deleteTargets.Count == 0)
+            return;
+
+        NoryangjinMapToolPlacementLayer? preferredLayer =
+            selectedContentTab == NoryangjinMapToolContentTab.Enemy
+                ? NoryangjinMapToolPlacementLayer.Enemy
+                : null;
+        GameObject deleteTarget = SelectSingleCursorDeleteTarget(
+            deleteTargets,
+            cursor,
+            preferredLayer);
         if (deleteTarget == null)
             return;
 
@@ -3405,6 +4662,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
         AddDirectChildrenToDeleteTargets(root.Find(RoadParentName), deleteTargets, seen);
         AddDirectChildrenToDeleteTargets(root.Find(PropParentName), deleteTargets, seen);
+        AddDirectChildrenToDeleteTargets(root.Find(EnemyParentName), deleteTargets, seen);
         AddDirectChildrenToDeleteTargets(root.Find(WaterParentName), deleteTargets, seen);
 
         foreach (Transform child in root.GetComponentsInChildren<Transform>(true))
@@ -3484,6 +4742,13 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 continue;
             }
 
+            if (!IsPlacedObjectOwnedByContentTab(
+                    child.gameObject,
+                    selectedContentTab))
+            {
+                continue;
+            }
+
             List<Vector2Int> selectionCells;
             if (isWaterBackdrop)
             {
@@ -3522,11 +4787,61 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return candidates.Count > 0 ? candidates[0] : null;
     }
 
+    private GameObject FindEnemyPlacedObjectOverlappingCursor(
+        GameObject mapToolRoot,
+        float normalizedCellSize)
+    {
+        Transform enemyParent = mapToolRoot != null
+            ? mapToolRoot.transform.Find(EnemyParentName)
+            : null;
+        if (enemyParent == null)
+            return null;
+
+        Vector2Int cursor = new Vector2Int(gridX, gridZ);
+        foreach (Transform child in enemyParent)
+        {
+            if (IsMapToolPlacedObjectName(child.gameObject.name, cursor.x, cursor.y))
+                return child.gameObject;
+        }
+
+        foreach (Transform child in enemyParent)
+        {
+            if (!TryGetMapToolPlacedObjectGridPosition(
+                    child.gameObject.name,
+                    out Vector2Int anchor))
+            {
+                continue;
+            }
+
+            if (GetPlacedObjectSelectionFootprintCells(
+                    child.gameObject,
+                    anchor,
+                    normalizedCellSize).Contains(cursor))
+            {
+                return child.gameObject;
+            }
+        }
+
+        return null;
+    }
+
     internal List<Vector2Int> GetPlacedObjectSelectionFootprintCells(
         GameObject target,
         Vector2Int anchor,
         float normalizedCellSize)
     {
+        EnemyMovementActivationTrigger movementTrigger =
+            target != null
+                ? target.GetComponent<EnemyMovementActivationTrigger>()
+                : null;
+        if (movementTrigger != null)
+        {
+            return BuildEnemyMovementTriggerSelectionFootprintCells(
+                movementTrigger,
+                origin,
+                normalizedCellSize);
+        }
+
         string prefabPath = GetPrefabAssetPathForPlacedObject(target);
         return IsOceanWaterBackdropPrefabPath(prefabPath)
             ? BuildBoundsFootprintCells(
@@ -3539,10 +4854,21 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 normalizedCellSize);
     }
 
-    internal static GameObject SelectSingleCursorDeleteTarget(List<GameObject> candidates, Vector2Int cursor)
+    internal static GameObject SelectSingleCursorDeleteTarget(
+        List<GameObject> candidates,
+        Vector2Int cursor,
+        NoryangjinMapToolPlacementLayer? preferredLayer = null)
     {
         if (candidates == null || candidates.Count == 0)
             return null;
+
+        if (preferredLayer.HasValue)
+        {
+            candidates = candidates.FindAll(candidate =>
+                GetPlacedObjectLayer(candidate) == preferredLayer.Value);
+            if (candidates.Count == 0)
+                return null;
+        }
 
         var anchoredCandidates = new List<GameObject>();
         foreach (GameObject candidate in candidates)
@@ -3658,6 +4984,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             }
 
             duplicate.name = BuildContinuationObjectName(source.name, duplicateAnchor);
+            NoryangjinMapStaticOptimizer.OptimizePlacedRoot(duplicate, recordUndo: true);
             PrefabUtility.RecordPrefabInstancePropertyModifications(duplicate);
             PrefabUtility.RecordPrefabInstancePropertyModifications(duplicate.transform);
             EditorUtility.SetDirty(duplicate);
@@ -3707,6 +5034,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 targetAnchor,
                 BuildPlacementSnapCellSize(cellSize, false));
             duplicate.name = BuildContinuationObjectName(source.name, targetAnchor);
+            NoryangjinMapStaticOptimizer.OptimizePlacedRoot(duplicate, recordUndo: true);
             PrefabUtility.RecordPrefabInstancePropertyModifications(duplicate);
             PrefabUtility.RecordPrefabInstancePropertyModifications(duplicate.transform);
             EditorUtility.SetDirty(duplicate);
@@ -3832,6 +5160,20 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return null;
     }
 
+    internal static GameObject ResolveMapToolRootFromSelection(GameObject selected)
+    {
+        Transform current = selected != null ? selected.transform : null;
+        while (current != null)
+        {
+            if (string.Equals(current.name, RootName, StringComparison.Ordinal))
+                return current.gameObject;
+
+            current = current.parent;
+        }
+
+        return null;
+    }
+
     internal static GameObject ResolveVisualPickSelectionTarget(GameObject pickedObject, GameObject mapToolRoot)
     {
         GameObject placedObject = ResolveSelectedPlacedObject(pickedObject);
@@ -3884,6 +5226,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void ClearMapToolSelection()
     {
+        StopEnemyAssignmentMode();
         CancelCopiedObjectPasteMode();
         Selection.activeObject = null;
         selectedPalettePrefabPath = null;
@@ -4153,7 +5496,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         GameObject prefab,
         Transform parent,
         string instanceName,
-        NoryangjinMapToolPalettePlacementEntry placement)
+        NoryangjinMapToolPalettePlacementEntry placement,
+        string autoAlignEnemyPrefabPath = null)
     {
         GameObject instance = PrefabUtility.InstantiatePrefab(prefab, parent) as GameObject;
         if (instance == null)
@@ -4168,9 +5512,19 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             placementHeight,
             placement.heightOffset,
             placement.positionOffset);
-        instance.transform.rotation = BuildPalettePlacementRotation(prefab.transform.rotation, placement.yawOffset);
+        Quaternion authoredRotation = BuildPalettePlacementRotation(
+            prefab.transform.rotation,
+            placement.yawOffset);
+        instance.transform.rotation = string.IsNullOrEmpty(autoAlignEnemyPrefabPath)
+            ? authoredRotation
+            : ResolveEnemyPlacementRotation(
+                autoAlignEnemyPrefabPath,
+                instance.transform.position,
+                authoredRotation,
+                instance.scene);
         instance.transform.localScale = BuildPalettePlacementScale(prefab.transform.localScale, placement.scale);
         Undo.RegisterCreatedObjectUndo(instance, $"Place {instanceName}");
+        NoryangjinMapStaticOptimizer.OptimizePlacedRoot(instance, recordUndo: true);
         EditorUtility.SetDirty(instance);
         return instance;
     }
@@ -4187,24 +5541,12 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         if (instance == null)
             return;
 
-        foreach (Collider collider in instance.GetComponentsInChildren<Collider>(true))
-        {
-            Undo.RecordObject(collider, "Disable water collision");
-            collider.enabled = false;
-            EditorUtility.SetDirty(collider);
-        }
-
-        foreach (Renderer renderer in instance.GetComponentsInChildren<Renderer>(true))
-        {
-            Undo.RecordObject(renderer, "Optimize water renderer");
-            renderer.shadowCastingMode = ShadowCastingMode.Off;
-            renderer.receiveShadows = false;
-            renderer.motionVectorGenerationMode = MotionVectorGenerationMode.ForceNoMotion;
-            renderer.lightProbeUsage = LightProbeUsage.Off;
-            renderer.reflectionProbeUsage = ReflectionProbeUsage.Off;
-            renderer.allowOcclusionWhenDynamic = false;
-            EditorUtility.SetDirty(renderer);
-        }
+        NoryangjinMapStaticOptimizer.OptimizeWaterInstance(
+            instance,
+            recordUndo: true);
+        NoryangjinMapStaticOptimizer.OptimizePlacedRoot(
+            instance,
+            recordUndo: true);
     }
 
     private Vector2Int GetPaletteItemFootprint(PaletteItem item, float normalizedCellSize)
@@ -4273,6 +5615,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         string prefabPath,
         NoryangjinMapToolPaletteCategory category)
     {
+        if (IsEnemyPalettePrefabPath(prefabPath) ||
+            IsEnemyMovementTriggerPrefabPath(prefabPath))
+            return NoryangjinMapToolPlacementLayer.Enemy;
+
         if (IsSeagullPerchPrefabPath(prefabPath))
             return NoryangjinMapToolPlacementLayer.SeagullPerch;
 
@@ -4290,6 +5636,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private static NoryangjinMapToolPlacementLayer GetPlacedObjectLayer(GameObject target)
     {
         string prefabPath = GetPrefabAssetPathForPlacedObject(target);
+        if (IsEnemyPalettePrefabPath(prefabPath) ||
+            IsEnemyMovementTriggerPrefabPath(prefabPath))
+            return NoryangjinMapToolPlacementLayer.Enemy;
+
         if (IsSeagullPerchPrefabPath(prefabPath))
             return NoryangjinMapToolPlacementLayer.SeagullPerch;
 
@@ -4307,6 +5657,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         {
             if (string.Equals(current.name, RoadParentName, StringComparison.Ordinal))
                 return NoryangjinMapToolPlacementLayer.Road;
+            if (string.Equals(current.name, EnemyParentName, StringComparison.Ordinal))
+                return NoryangjinMapToolPlacementLayer.Enemy;
 
             current = current.parent;
         }
@@ -4314,18 +5666,68 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return NoryangjinMapToolPlacementLayer.Object;
     }
 
-    private static Bounds CalculateRendererBounds(GameObject target)
+    internal static bool IsPlacedObjectOwnedByContentTab(
+        GameObject target,
+        NoryangjinMapToolContentTab contentTab)
+    {
+        if (target == null)
+            return false;
+
+        bool isGimmick = target.GetComponent<NoryangjinTurnSpot>() != null;
+        bool isEnemyContent = GetPlacedObjectLayer(target) == NoryangjinMapToolPlacementLayer.Enemy;
+        return contentTab switch
+        {
+            NoryangjinMapToolContentTab.Enemy => isEnemyContent,
+            NoryangjinMapToolContentTab.Gimmick => isGimmick,
+            _ => !isEnemyContent && !isGimmick
+        };
+    }
+
+    private Bounds CalculateSceneRendererBounds(GameObject target)
     {
         if (target == null)
             return new Bounds(Vector3.zero, Vector3.zero);
 
-        Renderer[] renderers = target.GetComponentsInChildren<Renderer>(true);
-        if (renderers.Length == 0)
+        int instanceId = target.GetInstanceID();
+        Matrix4x4 localToWorldMatrix = target.transform.localToWorldMatrix;
+        if (sceneRendererBoundsCache.TryGetValue(
+                instanceId,
+                out RendererBoundsCacheEntry cachedEntry) &&
+            cachedEntry.Target == target &&
+            cachedEntry.LocalToWorldMatrix.Equals(localToWorldMatrix))
+        {
+            return cachedEntry.Bounds;
+        }
+
+        Bounds bounds = CalculateRendererBounds(target);
+        sceneRendererBoundsCache[instanceId] = new RendererBoundsCacheEntry(
+            target,
+            localToWorldMatrix,
+            bounds);
+        return bounds;
+    }
+
+    private void ClearSceneRenderCaches()
+    {
+        sceneRendererBoundsCache.Clear();
+        enemyConnectionLabelCache.Clear();
+        uniqueEnemyMovementTargets.Clear();
+        rendererBoundsBuffer.Clear();
+    }
+
+    private Bounds CalculateRendererBounds(GameObject target)
+    {
+        if (target == null)
+            return new Bounds(Vector3.zero, Vector3.zero);
+
+        rendererBoundsBuffer.Clear();
+        target.GetComponentsInChildren(true, rendererBoundsBuffer);
+        if (rendererBoundsBuffer.Count == 0)
             return new Bounds(target.transform.position, Vector3.zero);
 
-        Bounds bounds = renderers[0].bounds;
-        for (int i = 1; i < renderers.Length; i++)
-            bounds.Encapsulate(renderers[i].bounds);
+        Bounds bounds = rendererBoundsBuffer[0].bounds;
+        for (int i = 1; i < rendererBoundsBuffer.Count; i++)
+            bounds.Encapsulate(rendererBoundsBuffer[i].bounds);
 
         return bounds;
     }
@@ -4404,6 +5806,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         GameObject root = EnsureRoot();
         changed |= EnsureChildExists(root.transform, RoadParentName);
         changed |= EnsureChildExists(root.transform, PropParentName);
+        changed |= EnsureChildExists(root.transform, EnemyParentName);
         changed |= EnsureChildExists(root.transform, WaterParentName);
         changed |= EnsureWorkFloor(root.transform);
         changed |= EnsureWorkGrid(root.transform);
@@ -4532,6 +5935,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private static bool EnsureWorkFloor(Transform parent)
     {
         GameObject floor = FindOrCreatePrimitiveChild(parent, WorkFloorName, PrimitiveType.Cube, out bool changed);
+        changed |= SetEditorOnlyTag(floor);
         float floorSize = BuildWorkGridFloorSize(DefaultCellSize);
         changed |= SetTransform(floor.transform, new Vector3(0f, -0.05f, 0f), Quaternion.identity, new Vector3(floorSize, 0.04f, floorSize));
         changed |= RemoveCollider(floor);
@@ -4543,6 +5947,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private static bool EnsureOriginPost(Transform parent)
     {
         GameObject marker = FindOrCreatePrimitiveChild(parent, OriginPostName, PrimitiveType.Cylinder, out bool changed);
+        changed |= SetEditorOnlyTag(marker);
         changed |= SetTransform(marker.transform, new Vector3(0f, 0.16f, 0f), Quaternion.identity, new Vector3(0.12f, 0.16f, 0.12f));
         changed |= RemoveCollider(marker);
         changed |= SetRendererMaterial(marker, EnsureMapToolMaterial(OriginMarkerMaterialPath, new Color(1f, 0.78f, 0.12f, 1f)));
@@ -4553,6 +5958,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     {
         bool changed = EnsureChildExists(parent, WorkGridName);
         Transform grid = parent.Find(WorkGridName);
+        changed |= SetEditorOnlyTag(grid.gameObject);
         Material material = EnsureMapToolMaterial(WorkGridMaterialPath, new Color(0.02f, 0.34f, 0.42f, 1f));
         float span = BuildWorkGridSpan(DefaultCellSize);
 
@@ -4660,6 +6066,17 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return false;
 
         target.name = expectedName;
+        return true;
+    }
+
+    private static bool SetEditorOnlyTag(GameObject target)
+    {
+        if (target == null || target.CompareTag("EditorOnly"))
+            return false;
+
+        Undo.RecordObject(target, "Exclude map guide from builds");
+        target.tag = "EditorOnly";
+        EditorUtility.SetDirty(target);
         return true;
     }
 
@@ -5034,6 +6451,41 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     {
         Quaternion cursorYaw = Quaternion.Euler(0f, itemYawOffset, 0f);
         return cursorYaw * prefabBaseRotation;
+    }
+
+    internal static bool ShouldAutomaticallyAlignEnemyPlacement(
+        string prefabPath,
+        Transform routeStart)
+    {
+        return routeStart != null && IsEnemyPalettePrefabPath(prefabPath);
+    }
+
+    internal static Quaternion BuildEnemyRouteAlignedRotation(Vector3 routeDirection)
+    {
+        return Quaternion.LookRotation(routeDirection, Vector3.up);
+    }
+
+    internal static Quaternion ResolveEnemyPlacementRotation(
+        string prefabPath,
+        Vector3 position,
+        Quaternion authoredRotation,
+        Scene scene)
+    {
+        if (!IsEnemyPalettePrefabPath(prefabPath))
+            return authoredRotation;
+
+        PlayerScript routeStart = FindScenePlayerRouteStart(scene);
+        if (!ShouldAutomaticallyAlignEnemyPlacement(
+                prefabPath,
+                routeStart != null ? routeStart.transform : null))
+        {
+            return authoredRotation;
+        }
+
+        return CalculateEnemyRouteAlignedRotation(
+            position,
+            routeStart.transform,
+            ChapterEnemyProgression.CollectRouteTurns(scene));
     }
 
     internal static Vector3 NormalizeEulerForInspector(Vector3 euler)
@@ -5422,6 +6874,23 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             : new List<Vector2Int>();
     }
 
+    internal static List<Vector2Int>
+        BuildEnemyMovementTriggerSelectionFootprintCells(
+            EnemyMovementActivationTrigger movementTrigger,
+            Vector3 currentOrigin,
+            float currentCellSize)
+    {
+        BoxCollider trigger = movementTrigger != null
+            ? movementTrigger.GetComponent<BoxCollider>()
+            : null;
+        return trigger != null
+            ? BuildBoundsFootprintCells(
+                trigger.bounds,
+                currentOrigin,
+                currentCellSize)
+            : new List<Vector2Int>();
+    }
+
     internal static string BuildFootprintLabel(Vector2Int footprint)
     {
         return $"{Mathf.Max(1, footprint.x)}x{Mathf.Max(1, footprint.y)}";
@@ -5467,6 +6936,36 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return NoryangjinMapToolPaletteCategory.Prop;
     }
 
+    internal static bool IsEnemyPalettePrefabPath(string prefabPath)
+    {
+        if (string.IsNullOrEmpty(prefabPath))
+            return false;
+
+        string normalizedPath = prefabPath.Replace('\\', '/');
+        foreach (string enemyPrefabPath in EnemyPalettePrefabPaths)
+        {
+            if (string.Equals(normalizedPath, enemyPrefabPath, StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+
+        return false;
+    }
+
+    internal static bool TryGetFixedEnemyTier(string prefabPath, out EnemyTier tier)
+    {
+        return ForwardEnemyTierResolver.TryResolve(prefabPath, out tier);
+    }
+
+    internal static string EnemyTierToKorean(EnemyTier tier)
+    {
+        return tier switch
+        {
+            EnemyTier.Elite => "엘리트",
+            EnemyTier.Boss => "보스",
+            _ => "노멀"
+        };
+    }
+
     internal static string BuildPaletteLabel(string prefabPath)
     {
         string fileName = Path.GetFileNameWithoutExtension(prefabPath);
@@ -5487,6 +6986,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal static bool IsSelectablePalettePrefabPath(string prefabPath)
     {
         string normalizedPath = prefabPath.Replace('\\', '/');
+        if (IsEnemyPalettePrefabPath(normalizedPath))
+            return true;
+
         foreach (string palettePrefabRoot in PalettePrefabRoots)
         {
             if (IsAssetUnderPath(normalizedPath, palettePrefabRoot))
@@ -5590,6 +7092,14 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             StringComparison.OrdinalIgnoreCase);
     }
 
+    internal static bool IsEnemyMovementTriggerPrefabPath(string prefabPath)
+    {
+        return string.Equals(
+            (prefabPath ?? string.Empty).Replace('\\', '/'),
+            EnemyMovementTriggerPrefabPath,
+            StringComparison.OrdinalIgnoreCase);
+    }
+
     internal static bool IsLowCostWaterBackgroundPath(string prefabPath)
     {
         return string.Equals((prefabPath ?? string.Empty).Replace('\\', '/'), JhWaterPrefabPath, StringComparison.OrdinalIgnoreCase);
@@ -5674,6 +7184,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return ClearSelectionPaletteItemIconText;
         if (IsTurnSpotPrefabPath(prefabPath))
             return TurnSpotPaletteItemIconText;
+        if (IsEnemyMovementTriggerPrefabPath(prefabPath))
+            return EnemyMovementTriggerPaletteItemIconText;
 
         return string.Empty;
     }
@@ -5701,15 +7213,32 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return Quaternion.LookRotation(normalizedDirection, up);
     }
 
+    internal static string BuildTurnSpotYawDirectionGlyph(float targetYawDegrees)
+    {
+        int sector = Mathf.FloorToInt((Mathf.Repeat(targetYawDegrees, 360f) + 22.5f) / 45f) % 8;
+        return sector switch
+        {
+            0 => "↑",
+            1 => "↗",
+            2 => "→",
+            3 => "↘",
+            4 => "↓",
+            5 => "↙",
+            6 => "←",
+            _ => "↖"
+        };
+    }
+
     internal static string BuildTurnSpotMarkerLabel(
         float targetXDegrees,
         float targetYawDegrees,
         float turnDurationSeconds,
         bool isSelected)
     {
+        string directionGlyph = BuildTurnSpotYawDirectionGlyph(targetYawDegrees);
         return isSelected
-            ? $"↻ X {targetXDegrees:0.#}° Y {targetYawDegrees:0.#}° · {turnDurationSeconds:0.##}초"
-            : $"↻ X {targetXDegrees:0.#}° Y {targetYawDegrees:0.#}°";
+            ? $"↻ X {targetXDegrees:0.#}° Y {targetYawDegrees:0.#}° {directionGlyph} · {turnDurationSeconds:0.##}초"
+            : $"↻ X {targetXDegrees:0.#}° Y {targetYawDegrees:0.#}° {directionGlyph}";
     }
 
     internal static NoryangjinMapToolSceneGridCellState GetSceneGridCellState(
@@ -5735,6 +7264,27 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal static string FormatPlacedObjectHeightLabel(float y)
     {
         return $"Y {y:0.00}";
+    }
+
+    internal static bool ShouldUseEnemyHeightLabelColor(GameObject target)
+    {
+        return target != null &&
+               (GetPlacedObjectLayer(target) ==
+                NoryangjinMapToolPlacementLayer.Enemy ||
+                target.GetComponent<EnemyMovementActivationTrigger>() != null);
+    }
+
+    internal static bool ShouldAppendActiveTriggerHeightLabel(
+        GameObject triggerObject,
+        Transform enemyParent,
+        bool mapToolEnabled)
+    {
+        return triggerObject != null &&
+               triggerObject.transform.parent != enemyParent &&
+               triggerObject.activeInHierarchy &&
+               ShouldDrawPlacedObjectHeightLabel(
+                   triggerObject.name,
+                   mapToolEnabled);
     }
 
     internal static bool ShouldDrawPlacedObjectHeightLabel(string objectName, bool mapToolEnabled)
@@ -5975,6 +7525,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     {
         return string.Equals(objectName, RoadParentName, StringComparison.Ordinal) ||
                string.Equals(objectName, PropParentName, StringComparison.Ordinal) ||
+               string.Equals(objectName, EnemyParentName, StringComparison.Ordinal) ||
                string.Equals(objectName, WaterParentName, StringComparison.Ordinal);
     }
 
@@ -6051,20 +7602,25 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             EmptyPaletteItemPrefabPath,
             null,
             NoryangjinMapToolPaletteCategory.All,
-            EmptyPaletteItemSortOrder));
+            EmptyPaletteItemSortOrder,
+            NoryangjinMapToolPaletteSection.Common));
         paletteItems.Add(new PaletteItem(
             SelectPaletteItemLabel,
             SelectPaletteItemPrefabPath,
             null,
             NoryangjinMapToolPaletteCategory.All,
-            SelectPaletteItemSortOrder));
+            SelectPaletteItemSortOrder,
+            NoryangjinMapToolPaletteSection.Common));
         paletteItems.Add(new PaletteItem(
             ClearSelectionPaletteItemLabel,
             ClearSelectionPaletteItemPrefabPath,
             null,
             NoryangjinMapToolPaletteCategory.All,
-            ClearSelectionPaletteItemSortOrder));
+            ClearSelectionPaletteItemSortOrder,
+            NoryangjinMapToolPaletteSection.Common));
         AddTurnSpotPaletteItem(paletteItems);
+        AddEnemyMovementTriggerPaletteItem(paletteItems);
+        AddEnemyPaletteItems(paletteItems);
         AddRoadPaletteItems(paletteItems);
         AddBuiltinBackgroundPaletteItems(paletteItems);
 
@@ -6130,7 +7686,57 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             TurnSpotPrefabPath,
             prefab,
             NoryangjinMapToolPaletteCategory.Prop,
-            TurnSpotPaletteItemSortOrder));
+            TurnSpotPaletteItemSortOrder,
+            NoryangjinMapToolPaletteSection.Gimmick));
+    }
+
+    private static void AddEnemyMovementTriggerPaletteItem(
+        List<PaletteItem> items)
+    {
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+            EnemyMovementTriggerPrefabPath);
+        if (prefab == null ||
+            HasPaletteItem(items, EnemyMovementTriggerPrefabPath))
+        {
+            return;
+        }
+
+        items.Add(new PaletteItem(
+            EnemyMovementTriggerPaletteItemLabel,
+            EnemyMovementTriggerPrefabPath,
+            prefab,
+            NoryangjinMapToolPaletteCategory.Prop,
+            EnemyMovementTriggerPaletteItemSortOrder,
+            NoryangjinMapToolPaletteSection.Enemy));
+    }
+
+    private static void AddEnemyPaletteItems(List<PaletteItem> items)
+    {
+        for (int i = 0; i < ForwardEnemyArchetypeCatalog.Definitions.Length; i++)
+        {
+            ForwardEnemyArchetypeDefinition definition =
+                ForwardEnemyArchetypeCatalog.Definitions[i];
+            string prefabPath = definition.PrefabPath;
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            if (prefab == null || HasPaletteItem(items, prefabPath))
+                continue;
+
+            items.Add(new PaletteItem(
+                definition.KoreanLabel,
+                prefabPath,
+                prefab,
+                NoryangjinMapToolPaletteCategory.Prop,
+                10 + i,
+                NoryangjinMapToolPaletteSection.Enemy));
+        }
+    }
+
+    private static string[] BuildEnemyPalettePrefabPaths()
+    {
+        var paths = new string[ForwardEnemyArchetypeCatalog.Definitions.Length];
+        for (int i = 0; i < paths.Length; i++)
+            paths[i] = ForwardEnemyArchetypeCatalog.Definitions[i].PrefabPath;
+        return paths;
     }
 
     private void AddRoadPaletteItems(List<PaletteItem> items)
@@ -6259,12 +7865,30 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             GameObject prefab,
             NoryangjinMapToolPaletteCategory category,
             int sortOrder)
+            : this(
+                label,
+                prefabPath,
+                prefab,
+                category,
+                sortOrder,
+                NoryangjinMapToolPaletteSection.Object)
+        {
+        }
+
+        public PaletteItem(
+            string label,
+            string prefabPath,
+            GameObject prefab,
+            NoryangjinMapToolPaletteCategory category,
+            int sortOrder,
+            NoryangjinMapToolPaletteSection section)
         {
             Label = label;
             PrefabPath = prefabPath;
             Prefab = prefab;
             Category = category;
             SortOrder = sortOrder;
+            Section = section;
         }
 
         public string Label { get; }
@@ -6272,6 +7896,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         public GameObject Prefab { get; }
         public NoryangjinMapToolPaletteCategory Category { get; }
         public int SortOrder { get; }
+        public NoryangjinMapToolPaletteSection Section { get; }
     }
 }
 #endif

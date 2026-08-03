@@ -3,13 +3,6 @@ using UnityEngine;
 
 namespace IndianOceanAssets.ShooterSurvival
 {
-    [System.Serializable]
-    public struct EnemyTypeInfos
-    {
-        public EnemyTier tier;                 // Normal / Elite / Boss
-        public EnemyCombatType combatType;     // Melee / Ranged
-    }
-
     public class EnemyStat
     {
         public float damage;
@@ -39,11 +32,11 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private readonly List<GameObject> destroyTargetList = new();
 
-        [SerializeField] private EnemyTypeInfos[] enemyTypeInfos;
-
         public List<List<EnemyStat>> normalMonster;
         public List<List<EnemyStat>> eliteMonster;
         public List<List<EnemyStat>> bossMonster;
+
+        private Dictionary<int, Dictionary<EnemyTier, MonsterGrowthRow>> chapterGrowthRows;
 
         [SerializeField] private StageObstacleManager StageObstacleManager;
 
@@ -56,7 +49,6 @@ namespace IndianOceanAssets.ShooterSurvival
         [Header("UI")]
 
         public EnemyScript_space[] enemyScript_spaces;
-        public List<float> indexBonus = new List<float> { 1.0f, 1.5f, 2.0f, 2.5f, 3.0f, 3.5f, 4.0f, 5f };
 
         void Awake()
         {
@@ -65,13 +57,6 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (playerScript != null)
                 weaponManager = playerScript.GetComponent<WeaponManager>();
-
-
-            enemyScript_spaces = new EnemyScript_space[EnemyParent.childCount];
-            for (int i = 0; i < EnemyParent.childCount; i++)
-                enemyScript_spaces[i] = EnemyParent.GetChild(i).GetComponent<EnemyScript_space>();
-
-
         }
 
         void Start()
@@ -85,9 +70,8 @@ namespace IndianOceanAssets.ShooterSurvival
             // 처음???��??�면 ?�우�?멈춰?�는 �?추천
             PrepareStageAndShowTapUI();
 
-            SettingEnemyTypeInfos();
             SettingMonsterStats();
-            ApplyStatsToAllEnemies();
+            ApplyStatsToEnemyReferences();
         }
 
         void Update()
@@ -198,6 +182,8 @@ namespace IndianOceanAssets.ShooterSurvival
             // ??UI ?�리�?게임 ?�작
             ShowTapUI(false);
             NoryangjinTurnSpot.ResetAllForNewRun();
+            EnemyMovementController.ResetAllForNewRun();
+            EnemyMovementActivationTrigger.ResetAllForNewRun();
             SetGameRunning(true);
             ApplyUpgradeExtraHelps();
         }
@@ -229,11 +215,13 @@ namespace IndianOceanAssets.ShooterSurvival
                 StageObstacleManager.LoadStageObstacles(); // ?��??�서 ClearObstacles() ?�출??
             }
 
+            RefreshEnemyReferences();
+
             // (C) ?�들 리셋 (OnEnable 리셋 구조 ?�는 �??�일 ?�정??
             ResetAllEnemiesByReEnable();
 
             // (D) ???�탯 ?�시 주입
-            ApplyStatsToAllEnemies();
+            ApplyStatsToEnemyReferences();
 
             // (E) ExtraHelp ?�아?�으�??�리
             ClearAllExtraHelps();
@@ -279,11 +267,22 @@ namespace IndianOceanAssets.ShooterSurvival
             for (int i = 0; i < enemyScript_spaces.Length; i++)
             {
                 var e = enemyScript_spaces[i];
-                if (e == null) continue;
+                if (e == null || !ShouldResetEnemyByReEnable(e.gameObject)) continue;
 
                 e.gameObject.SetActive(false);
                 e.gameObject.SetActive(true);
             }
+        }
+
+        public static bool ShouldResetEnemyByReEnable(GameObject enemyObject)
+        {
+            if (enemyObject == null)
+                return false;
+
+            bool isInactiveQueuedPoolObject =
+                !enemyObject.activeSelf &&
+                enemyObject.GetComponentInParent<EnemyPooler>(includeInactive: true) != null;
+            return !isInactiveQueuedPoolObject;
         }
 
         private void ClearAllExtraHelps()
@@ -299,13 +298,13 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             currentStage++;
 
-            if (currentStage >= maxStage)
+            if (currentStage > Mathf.Max(1, maxStage))
             {
-                currentStage = 0;
+                currentStage = 1;
                 currentChapter++;
 
-                if (currentChapter >= maxChapter)
-                    currentChapter = 0; // ?�딩/루프 처리 ?�하�??�기 ?�정
+                if (currentChapter > Mathf.Max(1, maxChapter))
+                    currentChapter = 1; // 마지막 챕터 다음에는 캠페인 처음으로 순환한다.
             }
         }
 
@@ -329,58 +328,50 @@ namespace IndianOceanAssets.ShooterSurvival
         // 기존 코드 (?��?)
         // =========================
 
-        public void SettingEnemyTypeInfos()
-        {
-            if (enemyTypeInfos == null || enemyTypeInfos.Length == 0)
-            {
-                enemyTypeInfos = new EnemyTypeInfos[]
-                {
-                    new() { tier = EnemyTier.Normal, combatType = EnemyCombatType.Melee  },
-                    new() { tier = EnemyTier.Normal, combatType = EnemyCombatType.Ranged },
-                    new() { tier = EnemyTier.Elite,  combatType = EnemyCombatType.Melee  },
-                    new() { tier = EnemyTier.Normal, combatType = EnemyCombatType.Melee  },
-                    new() { tier = EnemyTier.Normal, combatType = EnemyCombatType.Ranged },
-                    new() { tier = EnemyTier.Normal, combatType = EnemyCombatType.Melee  },
-                    new() { tier = EnemyTier.Elite,  combatType = EnemyCombatType.Ranged },
-                    new() { tier = EnemyTier.Boss,   combatType = EnemyCombatType.Melee  },
-                };
-            }
-        }
-
         public void SettingMonsterStats()
         {
-            if (TryBuildMonsterStatsFromExcel())
+            chapterGrowthRows = null;
+            if (TryBuildMonsterStatsFromGrowthExcel())
                 return;
 
-            normalMonster = new List<List<EnemyStat>>();
-            eliteMonster = new List<List<EnemyStat>>();
-            bossMonster = new List<List<EnemyStat>>();
+            if (TryBuildMonsterStatsFromLegacyExcelEndpoints())
+                return;
 
-            for (int chapter = 0; chapter < maxChapter; chapter++)
-            {
-                var normalList = new List<EnemyStat>();
-                var eliteList = new List<EnemyStat>();
-                var bossList = new List<EnemyStat>();
-
-                for (int stage = 0; stage < maxStage; stage++)
-                {
-                    normalList.Add(new EnemyStat(30 * chapter + stage * 3, 50 * chapter + stage * 5));
-                    eliteList.Add(new EnemyStat(50 * chapter + stage * 5, 100 * chapter + stage * 10));
-                    bossList.Add(new EnemyStat(150 * chapter + stage * 15, 300 * chapter + stage * 30));
-                }
-
-                normalMonster.Add(normalList);
-                eliteMonster.Add(eliteList);
-                bossMonster.Add(bossList);
-            }
+            BuildFormulaFallbackMonsterStats();
+            Debug.LogWarning("[GameManager] Monster growth data was unavailable. Formula stats were used.");
         }
 
-        private bool TryBuildMonsterStatsFromExcel()
+        private bool TryBuildMonsterStatsFromGrowthExcel()
+        {
+            if (!MonsterGrowthTables.TryGetAll(out List<MonsterGrowthRow> rows))
+            {
+                Debug.Log(
+                    $"[GameManager] Optional '{MonsterGrowthTables.SheetName}' sheet is absent. " +
+                    "Using legacy monster endpoints.");
+                return false;
+            }
+
+            if (!TryCollectGrowthRowsByChapter(
+                    rows,
+                    out Dictionary<int, Dictionary<EnemyTier, MonsterGrowthRow>> growthByChapter))
+                return false;
+
+            chapterGrowthRows = growthByChapter;
+            BuildInterpolatedMonsterStats(growthByChapter);
+            Debug.Log("[GameManager] Monster stats loaded from chapter enemy growth rows.");
+            return true;
+        }
+
+        private bool TryBuildMonsterStatsFromLegacyExcelEndpoints()
         {
             List<MonsterRow> rows;
             try
             {
                 rows = MonsterTables.GetAll();
+            }
+            catch (GameDataIntegrityException)
+            {
+                throw;
             }
             catch (System.Exception e)
             {
@@ -388,50 +379,157 @@ namespace IndianOceanAssets.ShooterSurvival
                 return false;
             }
 
-            if (rows == null || rows.Count == 0) return false;
-
             InitMonsterListsWithNull();
-
-            foreach (var r in rows)
+            foreach (MonsterRow row in rows)
             {
-                if (r.chapter < 0 || r.stage < 0) continue;
-                if (r.chapter > maxChapter || r.stage > maxStage) continue;
+                if (row.chapter <= 0 || row.chapter > Mathf.Max(1, maxChapter) ||
+                    row.stage <= 0 || row.stage > Mathf.Max(1, maxStage) ||
+                    !System.Enum.IsDefined(typeof(EnemyTier), row.tier))
+                {
+                    continue;
+                }
 
-                var list = GetTierList(r.tier);
-                if (list == null) continue;
-
-                list[r.chapter][r.stage] = new EnemyStat(r.damage, r.health);
+                GetTierList(row.tier)[row.chapter][row.stage] =
+                    new EnemyStat(row.damage, row.health);
             }
 
-            for (int chapter = 0; chapter <= maxChapter; chapter++)
+            for (int chapter = 1; chapter <= Mathf.Max(1, maxChapter); chapter++)
             {
-                for (int stage = 0; stage <= maxStage; stage++)
+                for (int stage = 1; stage <= Mathf.Max(1, maxStage); stage++)
                 {
-                    if (chapter == 0 || stage == 0) continue;
-
-                    EnsureFilled(normalMonster, EnemyTier.Normal, chapter, stage);
-                    EnsureFilled(eliteMonster, EnemyTier.Elite, chapter, stage);
-                    EnsureFilled(bossMonster, EnemyTier.Boss, chapter, stage);
+                    foreach (EnemyTier tier in System.Enum.GetValues(typeof(EnemyTier)))
+                    {
+                        if (GetTierList(tier)[chapter][stage] == null)
+                            return false;
+                    }
                 }
             }
 
-            Debug.Log("[GameManager] Monster stats loaded from Excel.");
+            Debug.LogWarning(
+                "[GameManager] The legacy '몬스터' sheet is being used directly because " +
+                "the optional chapter growth sheet is absent.");
             return true;
+        }
+
+        public static bool TryCollectGrowthRowsByChapter(
+            IEnumerable<MonsterGrowthRow> rows,
+            out Dictionary<int, Dictionary<EnemyTier, MonsterGrowthRow>> growthByChapter)
+        {
+            growthByChapter = new Dictionary<int, Dictionary<EnemyTier, MonsterGrowthRow>>();
+            if (rows != null)
+            {
+                foreach (MonsterGrowthRow row in rows)
+                {
+                    if (row.chapter <= 0 || !System.Enum.IsDefined(typeof(EnemyTier), row.tier))
+                    {
+                        growthByChapter.Clear();
+                        return false;
+                    }
+
+                    if (!growthByChapter.TryGetValue(
+                            row.chapter,
+                            out Dictionary<EnemyTier, MonsterGrowthRow> chapterRows))
+                    {
+                        chapterRows = new Dictionary<EnemyTier, MonsterGrowthRow>();
+                        growthByChapter.Add(row.chapter, chapterRows);
+                    }
+
+                    if (chapterRows.ContainsKey(row.tier))
+                    {
+                        growthByChapter.Clear();
+                        return false;
+                    }
+
+                    chapterRows.Add(row.tier, row);
+                }
+            }
+
+            if (growthByChapter.Count == 0)
+                return false;
+
+            foreach (Dictionary<EnemyTier, MonsterGrowthRow> chapterRows in growthByChapter.Values)
+            {
+                if (chapterRows.Count != 3 ||
+                    !chapterRows.ContainsKey(EnemyTier.Normal) ||
+                    !chapterRows.ContainsKey(EnemyTier.Elite) ||
+                    !chapterRows.ContainsKey(EnemyTier.Boss))
+                {
+                    growthByChapter.Clear();
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void BuildFormulaFallbackMonsterStats()
+        {
+            InitMonsterListsWithNull();
+            for (int chapter = 1; chapter <= Mathf.Max(1, maxChapter); chapter++)
+            {
+                for (int stage = 1; stage <= Mathf.Max(1, maxStage); stage++)
+                {
+                    foreach (EnemyTier tier in System.Enum.GetValues(typeof(EnemyTier)))
+                        GetTierList(tier)[chapter][stage] = BuildFallbackStat(tier, chapter, stage);
+                }
+            }
+        }
+
+        private void BuildInterpolatedMonsterStats(
+            IReadOnlyDictionary<int, Dictionary<EnemyTier, MonsterGrowthRow>> growthByChapter)
+        {
+            InitMonsterListsWithNull();
+            for (int chapter = 1; chapter <= Mathf.Max(1, maxChapter); chapter++)
+            {
+                if (!growthByChapter.TryGetValue(
+                        chapter,
+                        out Dictionary<EnemyTier, MonsterGrowthRow> chapterRows))
+                {
+                    continue;
+                }
+
+                for (int stage = 1; stage <= Mathf.Max(1, maxStage); stage++)
+                {
+                    float progress = MonsterStatInterpolator.CalculateProgress(
+                        stage - 1,
+                        Mathf.Max(1, maxStage));
+                    FillInterpolatedTier(EnemyTier.Normal, chapter, stage, progress, chapterRows);
+                    FillInterpolatedTier(EnemyTier.Elite, chapter, stage, progress, chapterRows);
+                    FillInterpolatedTier(EnemyTier.Boss, chapter, stage, progress, chapterRows);
+                }
+            }
+        }
+
+        private void FillInterpolatedTier(
+            EnemyTier tier,
+            int chapter,
+            int stage,
+            float progress,
+            IReadOnlyDictionary<EnemyTier, MonsterGrowthRow> chapterRows)
+        {
+            MonsterStatInterpolator.Evaluate(
+                chapterRows[tier],
+                progress,
+                out float damage,
+                out float health);
+            GetTierList(tier)[chapter][stage] = new EnemyStat(damage, health);
         }
 
         private void InitMonsterListsWithNull()
         {
-            normalMonster = new List<List<EnemyStat>>(maxChapter + 1);
-            eliteMonster = new List<List<EnemyStat>>(maxChapter + 1);
-            bossMonster = new List<List<EnemyStat>>(maxChapter + 1);
+            int chapterCount = Mathf.Max(1, maxChapter);
+            int stageCount = Mathf.Max(1, maxStage);
+            normalMonster = new List<List<EnemyStat>>(chapterCount + 1);
+            eliteMonster = new List<List<EnemyStat>>(chapterCount + 1);
+            bossMonster = new List<List<EnemyStat>>(chapterCount + 1);
 
-            for (int chapter = 0; chapter <= maxChapter; chapter++)
+            for (int chapter = 0; chapter <= chapterCount; chapter++)
             {
-                var normalList = new List<EnemyStat>(maxStage + 1);
-                var eliteList = new List<EnemyStat>(maxStage + 1);
-                var bossList = new List<EnemyStat>(maxStage + 1);
+                var normalList = new List<EnemyStat>(stageCount + 1);
+                var eliteList = new List<EnemyStat>(stageCount + 1);
+                var bossList = new List<EnemyStat>(stageCount + 1);
 
-                for (int stage = 0; stage <= maxStage; stage++)
+                for (int stage = 0; stage <= stageCount; stage++)
                 {
                     normalList.Add(null);
                     eliteList.Add(null);
@@ -455,15 +553,6 @@ namespace IndianOceanAssets.ShooterSurvival
             }
         }
 
-        private void EnsureFilled(List<List<EnemyStat>> list, EnemyTier tier, int chapter, int stage)
-        {
-            if (list[chapter][stage] != null) return;
-
-            var fallback = BuildFallbackStat(tier, chapter, stage);
-            list[chapter][stage] = fallback;
-            Debug.LogWarning($"[GameManager] Monster stats missing in Excel. fallback used. tier={tier} chapter={chapter} stage={stage}");
-        }
-
         private EnemyStat BuildFallbackStat(EnemyTier tier, int chapter, int stage)
         {
             return tier switch
@@ -477,40 +566,122 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private EnemyStat GetLocalStat(EnemyTier tier)
         {
-            switch (tier)
+            int chapter = Mathf.Clamp(currentChapter, 1, Mathf.Max(1, maxChapter));
+            int stage = Mathf.Clamp(currentStage, 1, Mathf.Max(1, maxStage));
+            EnemyStat stat = tier switch
             {
-                case EnemyTier.Normal: return normalMonster[currentChapter][currentStage];
-                case EnemyTier.Elite: return eliteMonster[currentChapter][currentStage];
-                case EnemyTier.Boss: return bossMonster[currentChapter][currentStage];
-                default: return normalMonster[currentChapter][currentStage];
-            }
+                EnemyTier.Normal => normalMonster[chapter][stage],
+                EnemyTier.Elite => eliteMonster[chapter][stage],
+                EnemyTier.Boss => bossMonster[chapter][stage],
+                _ => normalMonster[chapter][stage]
+            };
+
+            return stat ?? BuildFallbackStat(tier, chapter, stage);
         }
 
         public void ApplyStatsToAllEnemies()
         {
-            if (enemyScript_spaces == null || enemyTypeInfos == null) return;
-
-            int count = Mathf.Min(enemy_script_spaces_len(), enemyTypeInfos.Length);
-            for (int i = 0; i < count; i++)
-            {
-                var info = enemyTypeInfos[i];
-                var baseStat = GetLocalStat(info.tier);
-
-                var enemy = enemyScript_spaces[i];
-                if (enemy == null) continue;
-
-                float bonus = (indexBonus != null && indexBonus.Count > 0)
-                              ? indexBonus[Mathf.Min(i, indexBonus.Count - 1)]
-                              : 1f;
-
-                enemy.ApplyStat(baseStat.damage * bonus, baseStat.health * bonus, info.tier, info.combatType);
-            }
-
-            if (enemyScript_spaces.Length != enemyTypeInfos.Length)
-                Debug.LogWarning($"Count mismatch: enemies={enemyScript_spaces.Length}, infos={enemyTypeInfos.Length}");
+            RefreshEnemyReferences();
+            ApplyStatsToEnemyReferences();
         }
 
-        private int enemy_script_spaces_len() => enemyScript_spaces == null ? 0 : enemyScript_spaces.Length;
+        private void ApplyStatsToEnemyReferences()
+        {
+            if (enemyScript_spaces == null)
+                return;
+
+            if (chapterGrowthRows != null)
+            {
+                ApplyChapterGrowthStatsToEnemyReferences();
+                return;
+            }
+
+            if (normalMonster == null)
+                return;
+
+            for (int i = 0; i < enemyScript_spaces.Length; i++)
+            {
+                var enemy = enemyScript_spaces[i];
+                if (enemy == null)
+                    continue;
+
+                ApplyLegacyStat(enemy);
+            }
+        }
+
+        private void ApplyChapterGrowthStatsToEnemyReferences()
+        {
+            if (!chapterGrowthRows.TryGetValue(
+                    currentChapter,
+                    out Dictionary<EnemyTier, MonsterGrowthRow> chapterRows))
+            {
+                throw new System.IO.InvalidDataException(
+                    $"Sheet '{MonsterGrowthTables.SheetName}' has no rows for chapter {currentChapter}.");
+            }
+
+            var encounterEnemies = new List<EnemyScript_space>();
+            foreach (EnemyScript_space enemy in enemyScript_spaces)
+            {
+                if (enemy == null)
+                    continue;
+
+                if (IsPooledEnemy(enemy.gameObject))
+                    ApplyLegacyStat(enemy);
+                else
+                    encounterEnemies.Add(enemy);
+            }
+
+            if (encounterEnemies.Count == 0)
+                return;
+
+            Vector3 routeStart = playerSpawnPoint != null
+                ? playerSpawnPoint.position
+                : playerScript != null
+                    ? playerScript.transform.position
+                    : Vector3.zero;
+            Vector3 routeDirection = playerSpawnPoint != null
+                ? playerSpawnPoint.forward
+                : playerScript != null
+                    ? playerScript.transform.forward
+                    : Vector3.forward;
+            ChapterEnemyProgression.ApplyStats(
+                encounterEnemies,
+                chapterRows,
+                routeStart,
+                routeDirection,
+                ChapterEnemyProgression.CollectRouteTurns(gameObject.scene));
+        }
+
+        private void ApplyLegacyStat(EnemyScript_space enemy)
+        {
+            EnemyTier fixedTier = ForwardEnemyTierResolver.ResolveOrFallback(
+                enemy.gameObject.name,
+                enemy.enemyTier);
+            EnemyStat baseStat = GetLocalStat(fixedTier);
+            enemy.ApplyStat(
+                baseStat.damage,
+                baseStat.health,
+                fixedTier,
+                enemy.enemyCombatType);
+        }
+
+        public static bool IsPooledEnemy(GameObject enemyObject)
+            => ChapterEnemyProgression.IsPooledEnemy(enemyObject);
+
+        private void RefreshEnemyReferences()
+        {
+            EnemyScript_space[] sceneEnemies = FindObjectsByType<EnemyScript_space>(
+                FindObjectsInactive.Include,
+                FindObjectsSortMode.None);
+            var activeSceneEnemies = new List<EnemyScript_space>(sceneEnemies.Length);
+            foreach (EnemyScript_space enemy in sceneEnemies)
+            {
+                if (enemy != null && enemy.gameObject.scene == gameObject.scene)
+                    activeSceneEnemies.Add(enemy);
+            }
+
+            enemyScript_spaces = activeSceneEnemies.ToArray();
+        }
 
         private void ClearRuntimeBonusWalls()
         {

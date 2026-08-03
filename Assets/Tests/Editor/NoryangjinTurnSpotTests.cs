@@ -56,22 +56,27 @@ public sealed class NoryangjinTurnSpotTests
     }
 
     [Test]
-    public void Awake_PreservesSerializedForwardMoveSpeed()
+    public void Awake_UsesInspectorForwardMoveSpeedWhenExcelDefaultsAreDisabled()
     {
         var gameObject = new GameObject("Player Speed Test");
         try
         {
             PlayerScript player = gameObject.AddComponent<PlayerScript>();
+            FieldInfo useExcelField = typeof(PlayerScript).GetField(
+                "useExcelCharacterDefaults",
+                BindingFlags.Instance | BindingFlags.NonPublic);
             FieldInfo speedField = typeof(PlayerScript).GetField(
-                "fwdMoveSpeed",
+                "defaultForwardMoveSpeed",
                 BindingFlags.Instance | BindingFlags.NonPublic);
             MethodInfo awakeMethod = typeof(PlayerScript).GetMethod(
                 "Awake",
                 BindingFlags.Instance | BindingFlags.NonPublic);
 
+            Assert.That(useExcelField, Is.Not.Null);
             Assert.That(speedField, Is.Not.Null);
             Assert.That(awakeMethod, Is.Not.Null);
 
+            useExcelField.SetValue(player, false);
             speedField.SetValue(player, 7f);
             awakeMethod.Invoke(player, null);
 
@@ -173,6 +178,78 @@ public sealed class NoryangjinTurnSpotTests
     }
 
     [Test]
+    public void RouteProgress_CountsActiveAndConsumedCheckpointsOnly()
+    {
+        Scene scene = EditorSceneManager.NewPreviewScene();
+        Scene otherScene = EditorSceneManager.NewPreviewScene();
+        try
+        {
+            var root = new GameObject("Route Progress Root");
+            SceneManager.MoveGameObjectToScene(root, scene);
+
+            var activeObject = new GameObject("Active Checkpoint");
+            activeObject.transform.SetParent(root.transform);
+            NoryangjinTurnSpot active =
+                activeObject.AddComponent<NoryangjinTurnSpot>();
+            active.TurnDurationSeconds = 0f;
+
+            var inactiveObject = new GameObject("Authored Inactive Checkpoint");
+            inactiveObject.transform.SetParent(root.transform);
+            inactiveObject.AddComponent<NoryangjinTurnSpot>();
+            inactiveObject.SetActive(false);
+
+            var previewObject = new GameObject("Placement Preview Checkpoint");
+            previewObject.transform.SetParent(root.transform);
+            previewObject.AddComponent<NoryangjinTurnSpot>();
+            previewObject.hideFlags = HideFlags.HideAndDontSave;
+
+            var otherSceneObject = new GameObject("Other Scene Checkpoint");
+            SceneManager.MoveGameObjectToScene(otherSceneObject, otherScene);
+            otherSceneObject.AddComponent<NoryangjinTurnSpot>();
+
+            Assert.That(
+                NoryangjinTurnSpot.TryGetRouteProgress(
+                    scene,
+                    out int completed,
+                    out int total),
+                Is.True);
+            Assert.That(completed, Is.Zero);
+            Assert.That(total, Is.EqualTo(1));
+
+            var playerObject = new GameObject("Route Progress Player");
+            SceneManager.MoveGameObjectToScene(playerObject, scene);
+            playerObject.tag = "Player";
+            playerObject.AddComponent<Rigidbody>();
+            PlayerScript player = playerObject.AddComponent<PlayerScript>();
+            player.currentHealth = 100f;
+            TimeManager.isGameRunning = true;
+
+            MethodInfo tryActivate = typeof(NoryangjinTurnSpot).GetMethod(
+                "TryActivate",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(tryActivate, Is.Not.Null);
+            Assert.That(
+                (bool)tryActivate.Invoke(active, new object[] { player }),
+                Is.True);
+
+            Assert.That(
+                NoryangjinTurnSpot.TryGetRouteProgress(
+                    scene,
+                    out completed,
+                    out total),
+                Is.True);
+            Assert.That(completed, Is.EqualTo(1));
+            Assert.That(total, Is.EqualTo(1));
+        }
+        finally
+        {
+            NoryangjinTurnSpot.ResetAllForNewRun();
+            EditorSceneManager.ClosePreviewScene(scene);
+            EditorSceneManager.ClosePreviewScene(otherScene);
+        }
+    }
+
+    [Test]
     public void RejectedActivation_LeavesTurnSpotEnabled()
     {
         var turnSpotObject = new GameObject("Rejected Turn Spot");
@@ -229,6 +306,97 @@ public sealed class NoryangjinTurnSpotTests
         finally
         {
             Object.DestroyImmediate(gameObject);
+        }
+    }
+
+    [Test]
+    public void ImmediateWorldRotation_RebasesLateralRangeAtTurnSpotCenter()
+    {
+        var turnSpotObject = new GameObject("Lane Center Turn Spot");
+        var playerObject = new GameObject("Offset Turn Player");
+        try
+        {
+            turnSpotObject.transform.position = new Vector3(10f, 0f, 20f);
+            NoryangjinTurnSpot turnSpot =
+                turnSpotObject.AddComponent<NoryangjinTurnSpot>();
+            playerObject.tag = "Player";
+            playerObject.transform.position = new Vector3(11.5f, 0f, 19.5f);
+            playerObject.AddComponent<Rigidbody>();
+            PlayerScript player = playerObject.AddComponent<PlayerScript>();
+            player.currentHealth = 100f;
+            TimeManager.isGameRunning = true;
+
+            Assert.That(
+                player.RequestWorldRotation(0f, 90f, 0f, turnSpot),
+                Is.True);
+
+            FieldInfo routeLaneOriginField = typeof(PlayerScript).GetField(
+                "routeLaneOrigin",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(routeLaneOriginField, Is.Not.Null);
+            Assert.That(
+                (Vector3)routeLaneOriginField.GetValue(player),
+                Is.EqualTo(turnSpotObject.transform.position)
+                    .Using(Vector3ComparerWithEqualsOperator.Instance),
+                "After a corner, xRange must remain centered on the route trigger, " +
+                "not on the player's offset trigger-entry position.");
+        }
+        finally
+        {
+            Object.DestroyImmediate(turnSpotObject);
+            Object.DestroyImmediate(playerObject);
+        }
+    }
+
+    [Test]
+    public void TimedTurnSpotRotation_UsesDisabledTurnSpotAsLateralRangeCenter()
+    {
+        var turnSpotObject = new GameObject("Timed Lane Center Turn Spot");
+        var playerObject = new GameObject("Timed Offset Turn Player");
+        try
+        {
+            turnSpotObject.transform.position = new Vector3(-4f, 0f, 12f);
+            NoryangjinTurnSpot turnSpot =
+                turnSpotObject.AddComponent<NoryangjinTurnSpot>();
+            turnSpot.TargetYawDegrees = 90f;
+            turnSpot.TurnDurationSeconds = Time.fixedDeltaTime;
+            playerObject.tag = "Player";
+            playerObject.transform.position = new Vector3(-3f, 0f, 11.5f);
+            playerObject.AddComponent<Rigidbody>();
+            PlayerScript player = playerObject.AddComponent<PlayerScript>();
+            player.currentHealth = 100f;
+            TimeManager.isGameRunning = true;
+
+            MethodInfo tryActivate = typeof(NoryangjinTurnSpot).GetMethod(
+                "TryActivate",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo updateTurn = typeof(PlayerScript).GetMethod(
+                "UpdateWorldYawTurn",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            FieldInfo routeLaneOriginField = typeof(PlayerScript).GetField(
+                "routeLaneOrigin",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(tryActivate, Is.Not.Null);
+            Assert.That(updateTurn, Is.Not.Null);
+            Assert.That(routeLaneOriginField, Is.Not.Null);
+
+            Assert.That(
+                (bool)tryActivate.Invoke(turnSpot, new object[] { player }),
+                Is.True);
+            Assert.That(turnSpotObject.activeSelf, Is.False);
+
+            updateTurn.Invoke(player, null);
+
+            Assert.That(player.IsWorldYawTurnActive, Is.False);
+            Assert.That(
+                (Vector3)routeLaneOriginField.GetValue(player),
+                Is.EqualTo(turnSpotObject.transform.position)
+                    .Using(Vector3ComparerWithEqualsOperator.Instance));
+        }
+        finally
+        {
+            Object.DestroyImmediate(turnSpotObject);
+            Object.DestroyImmediate(playerObject);
         }
     }
 
@@ -474,6 +642,20 @@ public sealed class NoryangjinTurnSpotTests
                 .Using(Vector3ComparerWithEqualsOperator.Instance));
     }
 
+    [TestCase(0f, "↑")]
+    [TestCase(45f, "↗")]
+    [TestCase(90f, "→")]
+    [TestCase(135f, "↘")]
+    [TestCase(180f, "↓")]
+    [TestCase(-135f, "↙")]
+    [TestCase(-90f, "←")]
+    [TestCase(-45f, "↖")]
+    [TestCase(360f, "↑")]
+    public void MapToolTurnSpotYawDirectionGlyph_MatchesCompassDirection(float yaw, string expected)
+    {
+        Assert.That(NoryangjinMapToolWindow.BuildTurnSpotYawDirectionGlyph(yaw), Is.EqualTo(expected));
+    }
+
     [Test]
     public void MapToolTurnSpotSettingsAndLabels_KeepXAboveYDataTogether()
     {
@@ -500,14 +682,14 @@ public sealed class NoryangjinTurnSpotTests
                     90f,
                     0.5f,
                     false),
-                Is.EqualTo("↻ X 25° Y 90°"));
+                Is.EqualTo("↻ X 25° Y 90° →"));
             Assert.That(
                 NoryangjinMapToolWindow.BuildTurnSpotMarkerLabel(
                     25f,
                     90f,
                     0.5f,
                     true),
-                Is.EqualTo("↻ X 25° Y 90° · 0.5초"));
+                Is.EqualTo("↻ X 25° Y 90° → · 0.5초"));
         }
         finally
         {
@@ -843,7 +1025,7 @@ public sealed class NoryangjinTurnSpotTests
     [TestCase(
         "Assets/ShooterSurvival/Prefabs/Weapons/PrefabBullet_Bomb.prefab",
         BulletKind.Bomb)]
-    public void ProjectileReturn_ReusesRegisteredRootWithVisualIntact(
+    public void ProjectileDurationExpiry_ReusesRegisteredRootWithVisualIntact(
         string prefabPath,
         BulletKind bulletKind)
     {
@@ -854,21 +1036,24 @@ public sealed class NoryangjinTurnSpotTests
         FieldInfo poolerField = typeof(BulletScript).GetField(
             "bulletPooler",
             BindingFlags.Instance | BindingFlags.NonPublic);
-        MethodInfo outOfRange = typeof(BulletScript).GetMethod(
-            "OutOfRange",
+        MethodInfo advanceLifetime = typeof(BulletScript).GetMethod(
+            "AdvanceLifetime",
             BindingFlags.Instance | BindingFlags.NonPublic);
+        MethodInfo resetStatics = typeof(BulletScript).GetMethod(
+            "ResetStatics",
+            BindingFlags.Static | BindingFlags.NonPublic);
 
         Assert.That(prefab, Is.Not.Null);
         Assert.That(reverseField, Is.Not.Null);
         Assert.That(poolerField, Is.Not.Null);
-        Assert.That(outOfRange, Is.Not.Null);
+        Assert.That(advanceLifetime, Is.Not.Null);
+        Assert.That(resetStatics, Is.Not.Null);
 
         var poolerObject = new GameObject("Projectile Root Pool Test");
         poolerObject.SetActive(false);
         BulletPooler pooler = poolerObject.AddComponent<BulletPooler>();
         var caller = new GameObject("Projectile Root Pool Caller");
         GameObject projectileRoot = Object.Instantiate(prefab);
-        float previousRange = BulletScript.bulletRange;
 
         try
         {
@@ -880,10 +1065,9 @@ public sealed class NoryangjinTurnSpotTests
             reverse.Add(projectileRoot, bulletKind);
             poolerField.SetValue(projectile, pooler);
 
-            BulletScript.bulletRange = 0.01f;
+            BulletScript.ConfigureMissileDefaults(16f, 0.01f);
             projectile.SetDirection(Vector3.right);
-            projectileRoot.transform.position = Vector3.right;
-            outOfRange.Invoke(projectile, null);
+            advanceLifetime.Invoke(projectile, new object[] { 0.02f });
 
             GameObject reused = pooler.Get(bulletKind, caller.transform);
 
@@ -893,7 +1077,7 @@ public sealed class NoryangjinTurnSpotTests
         }
         finally
         {
-            BulletScript.bulletRange = previousRange;
+            resetStatics.Invoke(null, null);
             Object.DestroyImmediate(caller);
             Object.DestroyImmediate(poolerObject);
             if (projectileRoot != null)
@@ -1055,9 +1239,9 @@ public sealed class NoryangjinTurnSpotTests
                         true),
                 });
 
-        Assert.That(result[0].path, Is.EqualTo(NoryangjinForwardGameplayInstaller.SourceScenePath));
+        Assert.That(result[0].path, Is.EqualTo(NoryangjinForwardGameplayInstaller.TargetScenePath));
         Assert.That(result[0].enabled, Is.True);
-        Assert.That(result[1].path, Is.EqualTo(NoryangjinForwardGameplayInstaller.TargetScenePath));
+        Assert.That(result[1].path, Is.EqualTo(NoryangjinForwardGameplayInstaller.SourceScenePath));
         Assert.That(result[1].enabled, Is.True);
         Assert.That(
             result.Count(scene => scene.path == NoryangjinForwardGameplayInstaller.SourceScenePath),

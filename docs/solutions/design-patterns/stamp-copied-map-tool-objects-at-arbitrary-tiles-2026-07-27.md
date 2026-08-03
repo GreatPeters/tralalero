@@ -1,6 +1,7 @@
 ---
 title: Stamp copied Unity map-tool objects at arbitrary tiles
 date: 2026-07-27
+last_updated: 2026-08-03
 category: docs/solutions/design-patterns
 module: Unity Noryangjin map tooling
 problem_type: design_pattern
@@ -100,6 +101,32 @@ destroy both the preview object and its generated materials when:
 - refresh resets transient tool state; or
 - the copied source becomes invalid or leaves the map-tool root.
 
+The same contract applies to SceneView modes that do not create a preview,
+such as clicking enemies to assign them to an activation trigger. Give every
+temporary interaction one explicit owner. For selection-driven modes, derive
+that owner from the actual `Selection.activeGameObject`, not the object under
+the cursor or an Inspector-only button.
+
+Resolve the selected placed-object root within the actual map-tool root, then
+read the mode-owner component from that placed object. Activate it only while
+the map tool and its map tab are enabled. This keeps hierarchy membership,
+mode guards, and selection ownership explicit without duplicating a concrete
+helper signature in the documentation.
+
+Route every context change through the same stop method. This includes the
+Escape selection clear, `OnDisable`, MapTool OFF, refresh, Undo/Redo refresh,
+primary-tab and content-tab changes, palette selection, paste-mode entry,
+selection clearing, and owner invalidation. SceneView callbacks keep running
+even when the editor window shows another tab, so a hidden mode is still
+capable of consuming clicks and mutating the scene. Keep serialized mappings
+hidden from the Inspector when the intended authoring contract is object
+selection in SceneView.
+
+For responsive hover assignment, reuse the height-label rectangles already
+built for the current SceneView event, draw noninteractive connection visuals
+only during `EventType.Repaint`, and limit grid fallback to direct children of
+the `Enemies` container instead of traversing the whole authored map.
+
 Reject the singleton `Background_Water` object just as continuation does.
 Its dedicated palette action updates the one backdrop in place.
 
@@ -148,9 +175,17 @@ Verification should include:
 - a before/after scene hash so EditMode verification cannot silently rewrite
   the authored map-tool scene.
 
+Create scene-object and Undo fixtures in
+`EditorSceneManager.NewPreviewScene()` and close the preview scene in a
+`finally` block. A narrow test filter does not by itself protect an already
+dirty authored scene: if Unity opens `Scene(s) Have Been Modified`, do not
+automatically choose Save or Don't Save. Cancel the run and preserve the
+author's scene state.
+
 ## Related
 
 - [Continue Unity map-tool layouts by placement-specific geometry](continue-map-tool-layouts-by-selected-renderer-bounds-2026-07-19.md)
 - [Resolve selected prefab children to Noryangjin map-tool placement roots](../logic-errors/resolve-selected-prefab-child-to-map-tool-placement-root-2026-06-08.md)
 - [Prefer prefab placement previews over SceneView line grids](../developer-experience/prefer-prefab-placement-previews-over-sceneview-line-grids-2026-06-06.md)
 - [Protect active Unity scenes from broad EditMode test runs](../workflow-issues/protect-active-unity-scenes-from-broad-editmode-test-runs-2026-07-18.md)
+- [Select hovered height labels before SceneView visual picks](../ui-bugs/select-sceneview-visual-pick-before-grid-overlap-2026-07-27.md)

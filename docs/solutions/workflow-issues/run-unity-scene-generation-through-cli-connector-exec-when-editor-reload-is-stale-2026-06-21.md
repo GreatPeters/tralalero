@@ -41,7 +41,7 @@ Do not assume that the first responsive port belongs to this editor. Probe the e
 When a menu path contains Korean or other non-ASCII characters, keep the HTTP request body ASCII-only by encoding those characters as JSON `\uXXXX` escapes. This avoids losing the menu name at the PowerShell or console encoding boundary before the connector parses the JSON. For example:
 
 ```json
-{"command":"menu","params":{"menu_path":"Tools/MeshyAI/\uB178\uB7C9\uC9C4 \uB9F5\uD234 \uC5F4\uAE30 \uB610\uB294 \uC0DD\uC131"}}
+{"command":"menu","params":{"menu_path":"Tools/\uB9F5 \uC81C\uC791 \uB3C4\uAD6C/\uB178\uB7C9\uC9C4 \uB9F5 \uC81C\uC791/\uB9F5\uD234 \uC52C \uC5F4\uAE30 \uB610\uB294 \uC0DD\uC131"}}
 ```
 
 Send that raw JSON body with `Content-Type: application/json`. If a literal Korean path arrives as `???`, treat the failed menu lookup as a no-op, rebuild the request with Unicode escapes, and verify the scene state after the retry.
@@ -84,10 +84,10 @@ Select-String `
 The checked-in menu item still matters for future clean rebuilds after Unity completes a proper script reload:
 
 ```text
-Tools/MeshyAI/Build Noryangjin MapTool Concept Layout
+Tools/맵 제작 도구/노량진 맵 제작/자동 배치/현재 맵 콘셉트 배치
 ```
 
-During the 2026-07-15 map-tool workspace expansion, a PowerShell request containing the literal menu path `Tools/MeshyAI/노량진 맵툴 열기 또는 생성` reached the CLI Connector as question marks and failed without changing the scene. Retrying with the escaped JSON path above succeeded. The final saved scene was clean and contained a `452.25 × 452.25` floor with `804` grid children, while the existing `13` Roads and `42` Props remained intact.
+During the 2026-07-15 map-tool workspace expansion, a PowerShell request containing the then-current literal menu path `Tools/MeshyAI/노량진 맵툴 열기 또는 생성` reached the CLI Connector as question marks and failed without changing the scene. The command now lives at `Tools/맵 제작 도구/노량진 맵 제작/맵툴 씬 열기 또는 생성`; retrying with the escaped JSON path above avoids the same encoding failure. The final saved scene was clean and contained a `452.25 × 452.25` floor with `804` grid children, while the existing `13` Roads and `42` Props remained intact.
 
 ## Related
 

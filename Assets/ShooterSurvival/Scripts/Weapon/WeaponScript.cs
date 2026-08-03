@@ -48,7 +48,8 @@ namespace IndianOceanAssets.ShooterSurvival
             CacheVisiblePlayerMuzzle();
             audioSource = GetComponent<AudioSource>();
             damage = GetBaseDamage();                                        // Set damage from config or weapon SO
-            fireRate = weaponSO.weaponFireRate;                             // Set fire rate from the weapon SO
+            fireRate = GetBaseFireRate();
+            bulletCount = GetBaseBulletCount();
 
             weaponRB = GetComponent<Rigidbody>();
             weaponRB.useGravity = false;
@@ -255,8 +256,8 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             // 스탯 원복
             damage = GetBaseDamage();
-            fireRate = weaponSO.weaponFireRate;
-            bulletCount = 1;
+            fireRate = GetBaseFireRate();
+            bulletCount = GetBaseBulletCount();
             ApplyUpgradeStats();
         }
 
@@ -265,13 +266,17 @@ namespace IndianOceanAssets.ShooterSurvival
             if (UpgradeStatManager.S == null) return;
 
             damage = UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.ATT, GetBaseDamage());
-            fireRate = UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.ATT_SPEED, weaponSO.weaponFireRate);
+            fireRate = UpgradeStatManager.S.ApplyToBase(
+                UpgradeStatManager.UpgradeType.ATT_SPEED,
+                GetBaseFireRate());
         }
 
         public void LogDamageBreakdown(string context = "GameStart")
         {
             float weaponSoBaseDamage = weaponSO != null ? weaponSO.weaponDamage : 0f;
             bool usesEnvironmentOverride = playerScript != null
+                && extraHelpBuffScript == null
+                && playerScript.UseExcelCharacterDefaults
                 && EnvironmentVariableTables.TryGetFloat(PlayerDefaultAttVariableKey, out var attackValue)
                 && attackValue > 0f;
 
@@ -292,14 +297,25 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private float GetBaseDamage()
         {
-            if (playerScript != null
-                && EnvironmentVariableTables.TryGetFloat(PlayerDefaultAttVariableKey, out var attackValue)
-                && attackValue > 0f)
-            {
-                return attackValue;
-            }
+            if (playerScript != null && extraHelpBuffScript == null)
+                return playerScript.DefaultAttackDamage;
 
-            return weaponSO.weaponDamage;
+            return weaponSO != null ? weaponSO.weaponDamage : 0f;
+        }
+
+        private float GetBaseFireRate()
+        {
+            if (playerScript != null && extraHelpBuffScript == null)
+                return playerScript.DefaultFireRate;
+
+            return weaponSO != null ? weaponSO.weaponFireRate : 0f;
+        }
+
+        private int GetBaseBulletCount()
+        {
+            return playerScript != null && extraHelpBuffScript == null
+                ? Mathf.Max(1, playerScript.DefaultProjectileCount)
+                : 1;
         }
 
         private void SubscribeToStatChanges()

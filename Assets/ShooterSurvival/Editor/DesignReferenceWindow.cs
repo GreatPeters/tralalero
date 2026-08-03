@@ -6,26 +6,34 @@ using UnityEngine;
 
 public sealed class DesignReferenceWindow : EditorWindow
 {
-    private const string WindowTitle = "Design Reference";
+    private const string WindowTitle = "MeshyAI 자료 위치";
     private const string DesignFolderRelativePath = "docs/design";
+    private const string NoryangjinMapPlanFolderRelativePath =
+        "outputs/chapter_campaign_reference_orthogonal_20min";
     private const string MeshyImagesFolderRelativePath = "output/meshy_images";
 
-    [MenuItem("Tools/Design Reference/Open Page", false, 2200)]
+    [MenuItem("Tools/맵 제작 도구/자료/자료 위치 안내", false, 2200)]
     public static void OpenPage()
     {
         DesignReferenceWindow window = GetWindow<DesignReferenceWindow>();
         window.titleContent = new GUIContent(WindowTitle);
-        window.minSize = new Vector2(540f, 220f);
+        window.minSize = new Vector2(540f, 300f);
         window.Show();
     }
 
-    [MenuItem("Tools/Design Reference/Open Excel List Folder", false, 2201)]
+    [MenuItem("Tools/맵 제작 도구/자료/에셋 설계도 폴더", false, 2201)]
     public static void OpenDesignFolder()
     {
         OpenFolder(DesignFolderRelativePath);
     }
 
-    [MenuItem("Tools/Design Reference/Open Meshy Image Folder", false, 2202)]
+    [MenuItem("Tools/맵 제작 도구/자료/노량진 맵 설계도 및 미리보기 폴더", false, 2202)]
+    public static void OpenNoryangjinMapPlanFolder()
+    {
+        OpenFolder(NoryangjinMapPlanFolderRelativePath);
+    }
+
+    [MenuItem("Tools/맵 제작 도구/자료/Meshy 이미지 폴더", false, 2203)]
     public static void OpenMeshyImagesFolder()
     {
         OpenFolder(MeshyImagesFolderRelativePath);
@@ -36,13 +44,17 @@ public sealed class DesignReferenceWindow : EditorWindow
         EditorGUILayout.Space(8f);
         EditorGUILayout.LabelField(WindowTitle, EditorStyles.boldLabel);
         EditorGUILayout.HelpBox(
-            "Use tralalero_meshy_asset_plan_kr.xlsx as the current Korean design list. " +
-            "The MeshyAI-named Korean workbook is a legacy mirror rebuilt from that file.",
+            "에셋 설계도, 노량진 맵 설계도와 미리보기, 생성된 Meshy 이미지의 위치입니다.",
             MessageType.Info);
 
         EditorGUILayout.Space(4f);
-        DrawPathRow("Design Excel list folder", DesignFolderRelativePath, "Open", OpenDesignFolder);
-        DrawPathRow("Generated design images folder", MeshyImagesFolderRelativePath, "Open", OpenMeshyImagesFolder);
+        DrawPathRow("에셋 설계도 폴더", DesignFolderRelativePath, "열기", OpenDesignFolder);
+        DrawPathRow(
+            "노량진 맵 설계도 및 미리보기 폴더",
+            NoryangjinMapPlanFolderRelativePath,
+            "열기",
+            OpenNoryangjinMapPlanFolder);
+        DrawPathRow("Meshy 이미지 폴더", MeshyImagesFolderRelativePath, "열기", OpenMeshyImagesFolder);
     }
 
     private static void DrawPathRow(string label, string relativePath, string buttonLabel, Action action)

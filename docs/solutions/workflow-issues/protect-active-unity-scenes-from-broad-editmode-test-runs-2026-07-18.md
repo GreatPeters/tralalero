@@ -1,6 +1,7 @@
 ---
 title: Protect Active Unity Scenes from Broad EditMode Test Runs
 date: 2026-07-18
+last_updated: 2026-08-01
 category: docs/solutions/workflow-issues
 module: Unity Noryangjin map tooling
 problem_type: workflow_issue
@@ -29,6 +30,8 @@ tags:
 Running the complete `NoryangjinMapToolGridUtilityTests` fixture through the open Unity editor timed out at the MCP boundary. The editor continued working after the request timed out, temporarily switched to an untitled test scene, and later returned to `Noryangjin_MapTool_Mode`.
 
 The run also saved test-created prefab instances and active-state changes into the authored map-tool scene. The scene had been clean before verification, but afterward `git diff` showed hundreds of unrelated YAML lines. Narrow single-test filters completed normally and did not leave the same broad mutation footprint.
+
+A later narrow `PlayerCharacterDefaultsTests` EditMode run exposed a separate risk: even tests that only create and destroy temporary `GameObject` instances can save an already-dirty authored scene before the test starts. The connector's `allow_dirty_scenes` option bypasses only its own preflight guard. Unity Test Framework still schedules `SaveModifiedSceneTask`, which calls `EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()` for EditMode runs.
 
 Two tempting signals were insufficient:
 
@@ -72,6 +75,18 @@ finally
 }
 ```
 
+### Do not treat `allow_dirty_scenes` as save protection
+
+Leave `allow_dirty_scenes` unset when an authored scene has unsaved changes. A blocked request is safer than letting Unity Test Framework enter its own save-scene task. The connector flag permits the run; it does not guarantee that the scene remains only in memory.
+
+For unattended verification, use one of these safe states before calling `run_tests`:
+
+- the user has intentionally saved the open scene;
+- the user has intentionally discarded its pending edits;
+- the test runs in a separate project copy or editor instance where saving cannot overwrite active authoring work.
+
+If the scene must remain dirty, stop at compilation or another read-only verification step instead of forcing the in-process Test Runner through the connector.
+
 ### Treat connector timeout and editor completion as separate states
 
 After a timeout, do not immediately start another test run. Check `Editor.log`, the Unity process state, and the active-scene title until the original run finishes and the authored scene is active again. Then retry only the narrow, idempotent test command.
@@ -106,6 +121,21 @@ Narrow filters reduce exposure, but real isolation comes from preview scenes, ex
 In the observed run, the broad fixture request timed out while Unity continued processing. Once the editor returned to the authored scene, the scene diff contained test-positioned puffer enemies, fish scraps, buoys, and active-state toggles. Fourteen reverse hunks removed the first group, and a fresh diff removed the remaining three hunks; reloading the scene then restored the clean authored state.
 
 The three exact regression tests each returned `1/1 passed`, and the final editor script compilation completed with zero errors and warnings. This was sufficient evidence for the selection-label and thumbnail changes without rerunning the mutation-heavy fixture.
+
+Also avoid this unattended request while a scene is dirty:
+
+```json
+{
+  "command": "run_tests",
+  "params": {
+    "mode": "EditMode",
+    "filter": "PlayerCharacterDefaultsTests",
+    "allow_dirty_scenes": true
+  }
+}
+```
+
+It may pass all tests while persisting the scene's existing in-memory edits to disk during Test Runner setup.
 
 ## Related
 

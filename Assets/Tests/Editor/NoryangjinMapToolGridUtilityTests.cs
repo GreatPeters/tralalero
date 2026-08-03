@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using IndianOceanAssets.ShooterSurvival;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -2050,6 +2051,149 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void EnemyRouteAlignmentButtons_DescribePlayerTravelDirectionInKorean()
+    {
+        Assert.That(
+            NoryangjinMapToolWindow.AlignSelectedEnemyToRouteButtonLabel,
+            Does.Contain("플레이어 진행 방향"));
+        Assert.That(
+            NoryangjinMapToolWindow.AlignAllEnemiesToRouteButtonLabel,
+            Does.Contain("플레이어 진행 방향"));
+        Assert.That(
+            NoryangjinMapToolWindow.EnemyAutomaticRouteAlignmentHint,
+            Does.Contain("플레이어 경로가 없을 때만 아래 Y값"));
+        Assert.That(
+            NoryangjinMapToolWindow.EnemyAutomaticRouteAlignmentHint,
+            Does.Contain("배치 후 수동 회전"));
+    }
+
+    [Test]
+    public void BuildEnemyRouteAlignedRotation_PointsRootForwardAlongRouteWithoutHalfTurn()
+    {
+        Vector3 routeDirection = new Vector3(4f, 0f, -2f).normalized;
+
+        Quaternion rotation =
+            NoryangjinMapToolWindow.BuildEnemyRouteAlignedRotation(routeDirection);
+
+        Vector3 expectedForward = new Vector3(4f, 0f, -2f).normalized;
+        Assert.That(
+            Vector3.Angle(rotation * Vector3.forward, expectedForward),
+            Is.EqualTo(0f).Within(0.001f));
+        Assert.That(
+            Vector3.Dot(rotation * Vector3.forward, expectedForward),
+            Is.GreaterThan(0.999f));
+    }
+
+    [Test]
+    public void AutomaticEnemyRouteAlignment_RequiresOneOfFiveEnemyPrefabsAndRouteStart()
+    {
+        var routeStart = new GameObject("Route Start");
+        try
+        {
+            Assert.That(NoryangjinMapToolWindow.EnemyPalettePrefabPaths, Has.Length.EqualTo(5));
+            foreach (string prefabPath in NoryangjinMapToolWindow.EnemyPalettePrefabPaths)
+            {
+                Assert.That(
+                    NoryangjinMapToolWindow.ShouldAutomaticallyAlignEnemyPlacement(
+                        prefabPath,
+                        routeStart.transform),
+                    Is.True,
+                    prefabPath);
+            }
+
+            Assert.That(
+                NoryangjinMapToolWindow.ShouldAutomaticallyAlignEnemyPlacement(
+                    NoryangjinMapToolWindow.TurnSpotPrefabPath,
+                    routeStart.transform),
+                Is.False);
+            Assert.That(
+                NoryangjinMapToolWindow.ShouldAutomaticallyAlignEnemyPlacement(
+                    NoryangjinMapToolWindow.EnemyPalettePrefabPaths[0],
+                    null),
+                Is.False);
+        }
+        finally
+        {
+            Object.DestroyImmediate(routeStart);
+        }
+    }
+
+    [Test]
+    public void ResolveEnemyPlacementRotation_WithoutPlayerPreservesAuthoredYaw()
+    {
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        Quaternion authoredRotation = Quaternion.Euler(0f, 37f, 0f);
+
+        try
+        {
+            Quaternion resolved = NoryangjinMapToolWindow.ResolveEnemyPlacementRotation(
+                NoryangjinMapToolWindow.EnemyPalettePrefabPaths[0],
+                new Vector3(4f, 0f, 8f),
+                authoredRotation,
+                previewScene);
+
+            Assert.That(
+                Quaternion.Angle(resolved, authoredRotation),
+                Is.EqualTo(0f).Within(0.001f));
+        }
+        finally
+        {
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
+    public void CollectEnemyRouteAlignmentTargets_ReturnsPlacedEnemyRootsOnly()
+    {
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        try
+        {
+            var mapToolRoot = new GameObject("Noryangjin_MapTool");
+            SceneManager.MoveGameObjectToScene(mapToolRoot, previewScene);
+            var enemies = new GameObject("Enemies");
+            SceneManager.MoveGameObjectToScene(enemies, previewScene);
+            enemies.transform.SetParent(mapToolRoot.transform, false);
+
+            var directEnemy = new GameObject("Enemy_Direct_X+00_Z+00");
+            SceneManager.MoveGameObjectToScene(directEnemy, previewScene);
+            directEnemy.transform.SetParent(enemies.transform, false);
+            directEnemy.AddComponent<EnemyMovementController>();
+
+            var nestedEnemyRoot = new GameObject("Enemy_Nested_X+01_Z+00");
+            SceneManager.MoveGameObjectToScene(nestedEnemyRoot, previewScene);
+            nestedEnemyRoot.transform.SetParent(enemies.transform, false);
+            var nestedController = new GameObject("Movement Controller");
+            SceneManager.MoveGameObjectToScene(nestedController, previewScene);
+            nestedController.transform.SetParent(nestedEnemyRoot.transform, false);
+            nestedController.AddComponent<EnemyMovementController>();
+
+            var outsideEnemy = new GameObject("Enemy_Outside_X+02_Z+00");
+            SceneManager.MoveGameObjectToScene(outsideEnemy, previewScene);
+            outsideEnemy.transform.SetParent(mapToolRoot.transform, false);
+            outsideEnemy.AddComponent<EnemyMovementController>();
+
+            List<GameObject> targets =
+                NoryangjinMapToolWindow.CollectEnemyRouteAlignmentTargets(mapToolRoot);
+
+            Assert.That(targets, Is.EqualTo(new[] { directEnemy, nestedEnemyRoot }));
+            Assert.That(
+                NoryangjinMapToolWindow.CanAlignEnemyRootToPlayerRoute(
+                    nestedEnemyRoot,
+                    mapToolRoot.transform),
+                Is.True);
+            Assert.That(
+                NoryangjinMapToolWindow.CanAlignEnemyRootToPlayerRoute(
+                    outsideEnemy,
+                    null),
+                Is.False);
+        }
+        finally
+        {
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
     public void RotationQuickButtons_UseFortyFiveDegreeStepsWithoutReset()
     {
         Assert.That(NoryangjinMapToolWindow.RotationQuickStepDegrees, Is.EqualTo(45f));
@@ -2359,6 +2503,39 @@ public sealed class NoryangjinMapToolGridUtilityTests
         finally
         {
             UnityEngine.Object.DestroyImmediate(roads);
+        }
+    }
+
+    [Test]
+    public void ApplySelectedObjectRotationToTarget_SupportsUndoAndRedo()
+    {
+        Undo.IncrementCurrentGroup();
+        int testUndoGroup = Undo.GetCurrentGroup();
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        var target = new GameObject("Enemy_Guard_X+00_Z+00");
+        SceneManager.MoveGameObjectToScene(target, previewScene);
+        target.transform.rotation = Quaternion.Euler(0f, 37f, 0f);
+
+        try
+        {
+            Assert.That(
+                NoryangjinMapToolWindow.ApplySelectedObjectRotationToTarget(
+                    target,
+                    new Vector3(0f, 90f, 0f)),
+                Is.True);
+            Assert.That(target.transform.eulerAngles.y, Is.EqualTo(90f).Within(0.001f));
+
+            Undo.FlushUndoRecordObjects();
+            Undo.PerformUndo();
+            Assert.That(target.transform.eulerAngles.y, Is.EqualTo(37f).Within(0.001f));
+
+            Undo.PerformRedo();
+            Assert.That(target.transform.eulerAngles.y, Is.EqualTo(90f).Within(0.001f));
+        }
+        finally
+        {
+            Undo.RevertAllDownToGroup(testUndoGroup);
+            EditorSceneManager.ClosePreviewScene(previewScene);
         }
     }
 

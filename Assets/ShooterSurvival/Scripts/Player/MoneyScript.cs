@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using IndianOceanAssets.ShooterSurvival.Analytics;
 
 public class MoneyScript : MonoBehaviour
 {
@@ -57,7 +58,12 @@ public class MoneyScript : MonoBehaviour
         onChanged?.Invoke();
     }
 
-    public void GetCoin(int amount) => Coin += Mathf.Max(0, amount);
+    public void GetCoin(int amount)
+    {
+        int earnedAmount = Mathf.Max(0, amount);
+        Coin += earnedAmount;
+        GameplayAnalytics.RecordCoinEarned(earnedAmount);
+    }
     public void GetJewel(int amount) => Jewel += Mathf.Max(0, amount);
 
     public bool SpendCoin(int amount)

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using ExcelDataReader;
 
@@ -22,14 +21,12 @@ public static class ExcelReader
     {
         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
-        var path = Path.Combine(Application.streamingAssetsPath, fileName);
-
-        using var stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        using var stream = GameDataWorkbook.OpenRead(fileName);
         using var reader = ExcelReaderFactory.CreateReader(stream);
 
         if (dbg != null && dbg.logSheetNames)
         {
-            var names = GetSheetNames(path);
+            var names = GetSheetNames(fileName);
             Debug.Log($"[ExcelReader] Sheets in {fileName}: " + string.Join(", ", names));
         }
 
@@ -101,11 +98,11 @@ public static class ExcelReader
     }
 
     // ---- Utilities ----
-    public static List<string> GetSheetNames(string fullPath)
+    public static List<string> GetSheetNames(string fileName)
     {
         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
-        using var stream = File.Open(fullPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        using var stream = GameDataWorkbook.OpenRead(fileName);
         using var reader = ExcelReaderFactory.CreateReader(stream);
 
         var names = new List<string>();

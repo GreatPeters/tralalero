@@ -42,8 +42,10 @@ public static class EnvironmentVariableTables
 
     public static void Reload()
     {
-        _float3Map = null;
-        EnsureInit();
+        using var stream = GameDataWorkbook.OpenRead(FileName);
+        Dictionary<string, Float3> refreshedMap = ReadRows(stream);
+        _float3Map = refreshedMap;
+        Debug.Log($"[EnvironmentVariableTables] Ready. rows={_float3Map.Count}");
     }
 
     private static void EnsureInit()
@@ -51,10 +53,26 @@ public static class EnvironmentVariableTables
         if (_float3Map != null)
             return;
 
+        Reload();
+    }
+
+    public static void ValidateWorkbook(Stream stream)
+    {
+        Dictionary<string, Float3> rows = ReadRows(stream);
+        if (rows.Count == 0)
+        {
+            throw new InvalidDataException(
+                $"Sheet '{SheetName}' does not contain any valid environment variables.");
+        }
+    }
+
+    private static Dictionary<string, Float3> ReadRows(Stream stream)
+    {
+        if (stream == null)
+            throw new ArgumentNullException(nameof(stream));
+
         System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
-        var path = Path.Combine(Application.streamingAssetsPath, FileName);
-        using var stream = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         using var reader = ExcelReaderFactory.CreateReader(stream);
 
         MoveToSheetByName(reader, SheetName);
@@ -69,7 +87,7 @@ public static class EnvironmentVariableTables
         int idxValue2 = ExcelUtil.GetIdx(headerMap, HeaderValue2);
         int idxValue3 = ExcelUtil.GetIdx(headerMap, HeaderValue3);
 
-        _float3Map = new Dictionary<string, Float3>(StringComparer.OrdinalIgnoreCase);
+        var rows = new Dictionary<string, Float3>(StringComparer.OrdinalIgnoreCase);
 
         while (reader.Read())
         {
@@ -81,7 +99,7 @@ public static class EnvironmentVariableTables
             if (string.IsNullOrEmpty(name) || !string.Equals(type, "float", StringComparison.OrdinalIgnoreCase))
                 continue;
 
-            _float3Map[name] = new Float3
+            rows[name] = new Float3
             {
                 value1 = ExcelUtil.ToFloat(reader.GetValue(idxValue1)),
                 value2 = ExcelUtil.ToFloat(reader.GetValue(idxValue2)),
@@ -89,7 +107,7 @@ public static class EnvironmentVariableTables
             };
         }
 
-        Debug.Log($"[EnvironmentVariableTables] Ready. rows={_float3Map.Count}");
+        return rows;
     }
 
     private static void MoveToSheetByName(IExcelDataReader reader, string sheetName)

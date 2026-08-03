@@ -3,20 +3,22 @@
 ## Forward 기능 연결
 
 1. Unity에서 `Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode.unity`를 연다.
-2. Play Mode가 꺼진 상태에서 `Tools/MeshyAI/노량진 게임플레이/Forward 기능 연결`을 실행한다.
+2. Play Mode가 꺼진 상태에서 `Tools/맵 제작 도구/노량진 맵 제작/게임플레이/Forward 기능 연결`을 실행한다.
 3. 설치가 끝나면 `Noryangjin_Player` 아래에 기존 `Original` 캐릭터가 유지되는지 확인한다. `Original`을 분리하거나 Forward에서 복제된 숨김 비주얼을 다시 켜지 않는다.
-4. Build Settings에서 `Forward March Mode`가 활성화된 index `0`, `Noryangjin_MapTool_Mode`가 활성화된 index `1`인지 확인한다.
+4. Build Settings에서 `Noryangjin_MapTool_Mode`가 활성화된 index `0`, `Forward March Mode`가 활성화된 index `1`인지 확인한다.
 
 이 명령은 Forward 씬에 실제로 설정된 플레이어·무기 리그, 시작 전 UI와 상점 UI, Managers, EventSystem, 업그레이드 서비스를 노량진 씬에 연결한다. 노량진 맵의 캐릭터 외형과 카메라는 유지하며, 실행에 필요한 동작과 UI만 Forward 구성에 맞춘다.
 
+`Noryangjin_MapTool_Mode_2.unity`에는 복제 시점의 동일한 게임플레이 구성이 들어 있지만, 설치 명령 대상이나 Build Settings 항목은 아니다. 맵2는 설계도 구현을 검토하는 정적 씬으로 유지하고, 실제 런타임 시간·웨이브 계약이 확정되기 전에는 맵1용 설치 명령을 억지로 적용하지 않는다.
+
 ## 전진 이동 속도
 
-- `Noryangjin_Player`의 `Player Script > Fwd Move Speed`가 전진 속도의 단일 설정값이다.
-- 실행 중 시간 경과에 따른 가속은 없으며, `Data.xlsx`의 `playerSpeed` 값도 전진 속도를 덮어쓰지 않는다.
+- `Data.xlsx`의 `환경 변수 > playerSpeed > 값1`이 전진 속도의 단일 설정값이다.
+- 실행 중 시간 경과에 따른 가속은 없으며, `playerSpeed`의 값2와 값3은 사용하지 않는다.
 
 ## 회전 스팟 배치
 
-1. `Tools/MeshyAI/노량진 맵툴`을 연다.
+1. `Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기`를 연다.
 2. 팔레트에서 `회전 스팟`(↻)을 선택하고 캐릭터가 코너에 진입할 때 반드시 통과하도록 길을 가로질러 배치한다.
 3. 선택 모드에서 배치한 회전 스팟의 핫핑크 트리거 영역 아무 곳이나 눌러 선택한다.
 4. `설치 조정`에서 스팟 자체의 위치와 설치 방향을 맞춘다. 설치 방향은 트리거가 길을 가로지르는 범위를 정하는 값이며 캐릭터의 최종 방향과는 별개다.

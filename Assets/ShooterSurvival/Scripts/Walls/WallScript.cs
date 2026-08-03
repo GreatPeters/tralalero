@@ -426,8 +426,8 @@ namespace IndianOceanAssets.ShooterSurvival
                     }
                     else if ((buffType == BuffType.missileDistance_normal) || (buffType == BuffType.missileDistance_unique))
                     {
-                        BulletScript.bulletRange += BulletScript.originalBulletRange * missileDistance * 0.01f; // WallScript占쏙옙 missileDistance 占쏙옙占쏙옙 占싼억옙 占쏙옙타占쏙옙占?占쏙옙占쏙옙
-                        Debug.Log(BulletScript.bulletRange);
+                        BulletScript.AddMissileDurationPercent(missileDistance);
+                        Debug.Log(BulletScript.CurrentMissileDuration);
 
                         //effectOverlayVignette.BuffOverlay();
                         //wallAudioSource.PlayOneShot(buffSFX);

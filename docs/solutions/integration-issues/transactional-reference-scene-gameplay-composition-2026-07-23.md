@@ -1,7 +1,7 @@
 ---
 title: "Make reference-scene gameplay composition transactional and idempotent in authored Unity maps"
 date: 2026-07-23
-last_updated: 2026-07-25
+last_updated: 2026-08-01
 category: integration-issues
 module: Unity Noryangjin gameplay composition
 problem_type: integration_issue
@@ -204,6 +204,20 @@ playerRigidbody.constraints = turnConstraints;
 
 During the yaw interpolation, apply the locked position to both the Rigidbody and Transform. On completion or cancellation, restore the exact saved constraints and rebase the lane origin and local right vector.
 
+The lane origin and the player's locked position are not interchangeable. If a player enters the trigger off-center, using that trigger-entry position as the new origin shifts the entire post-corner `xRange` corridor away from the bridge. Capture the turn source before clearing transient state and use the authored turn-spot center for successful route turns:
+
+```csharp
+Vector3 completedRouteLaneOrigin =
+    activeWorldYawTurnSource is NoryangjinTurnSpot turnSpot
+        ? turnSpot.transform.position
+        : worldYawTurnLockedPosition;
+
+// Apply the final rotation and restore constraints before rebasing.
+RebaseRouteFrame(completedRouteLaneOrigin);
+```
+
+Keep the parameterless `RebaseRouteFrame()` player-centered for initialization, cancellation, and non-spot callers. This separates the authored lane-center policy from the fallback player-centered policy.
+
 ### Make the projectile root the lifecycle owner
 
 The authored muzzle's positive local Y axis is the travel direction, but the composed player's spawn position comes from the visible-mouth anchor. Detach the rented root first, then overwrite its complete pose before the child script captures ownership:
@@ -220,7 +234,7 @@ bullet.GetComponentInChildren<BulletScript>().SetDirection(direction);
 
 Both Water and Bomb prefabs use root forward as their travel axis; their authored `GFX` transform makes `GFX.up` align with that direction. A fresh root rotation therefore fixes both prefabs without projectile-specific Euler offsets.
 
-`BulletScript` lives on `GFX`, but `BulletPooler.reverse` registers the prefab root. Capture that root after detachment and use the same identity for motion, range, and every return path:
+`BulletScript` lives on `GFX`, but `BulletPooler.reverse` registers the prefab root. Capture that root after detachment and use the same identity for motion, lifetime, and every return path:
 
 ```csharp
 public void SetDirection(Vector3 dir)
@@ -236,7 +250,7 @@ private Transform GetProjectileTransform()
 }
 ```
 
-Range expiry and `EnemyTag`, `BarrelTag`, or `Obstacle` collisions must pass `GetProjectileTransform().gameObject` to the pool. Returning the registered root preserves its `GFX` and `BulletScript` and makes the exact same root reusable.
+Duration expiry and `EnemyTag`, `BarrelTag`, or `Obstacle` collisions must pass `GetProjectileTransform().gameObject` to the pool. Returning the registered root preserves its `GFX` and `BulletScript` and makes the exact same root reusable.
 
 ### Verify durable outcomes instead of transient state
 
@@ -271,7 +285,7 @@ LastVisibleMouthPositionAtSpawn = visiblePlayerMouth.position;
 
 Wait for the spawn counter, then compare those same-frame snapshots. Do not compare the recorded spawn with the mouth's live transform after yielding, because the player and animated head have already moved.
 
-Projectile verification also uses the actual Water and Bomb prefabs. It asserts that a second rental overwrites stale rotation, `root.forward` and `GFX.up` align with travel, range and collision returns enqueue the registered root, and the same intact root is rented again.
+Projectile verification also uses the actual Water and Bomb prefabs. It asserts that a second rental overwrites stale rotation, `root.forward` and `GFX.up` align with travel, duration expiry and collision returns enqueue the registered root, and the same intact root is rented again.
 
 The end-to-end test loads the saved Noryangjin scene and verifies pre-start/shop UI, the direct visible `Original`, movement, the `Walk` state, advancing normalized time, a changing rendered `backleg` pose, a successful projectile rent, projectile root/travel alignment, upgrade helpers, turn locking, final yaw, and movement resuming along the new local forward.
 
@@ -285,15 +299,15 @@ The visible hierarchy owns the controller that deforms its rendered generic rig,
 
 The visible mouth owns only player projectile origin, while the authored weapon muzzle continues to own travel direction. This separation removes the stale hidden-model offset without changing turn-relative firing, spread, or companion weapon behavior. Parenting one idempotent anchor to `headend` keeps the origin attached to the animated pose.
 
-The turn is an explicit temporary physics state: movement and velocity are locked, only the required rotation bit changes, and every original constraint returns afterward. Rebasing the route frame makes the next segment consistent for the player and helpers.
+The turn is an explicit temporary physics state: movement and velocity are locked, only the required rotation bit changes, and every original constraint returns afterward. Rebasing the route direction makes the next segment consistent for the player and helpers, while anchoring the lane origin to the `NoryangjinTurnSpot` keeps lateral bounds centered on the authored bridge. The trigger-entry position remains the player's physical position, not the new lane's zero point.
 
-For projectiles, one registered root owns rotation, motion, distance, and pool return:
+For projectiles, one registered root owns rotation, motion, lifetime, and pool return:
 
 ```text
-pooled root = rotation owner = movement owner = range origin = returned object
+pooled root = rotation owner = movement owner = lifetime owner = returned object
 ```
 
-The tests assert stable boundaries—actual rendered-bone motion, root/travel alignment, same-root reuse after range and collision returns, an active transition, exact final yaw, and route-relative resumed displacement—rather than short-lived object visibility or an assumed number of fixed steps per rendered frame.
+The tests assert stable boundaries—actual rendered-bone motion, root/travel alignment, same-root reuse after duration expiry and collision returns, an active transition, exact final yaw, and route-relative resumed displacement—rather than short-lived object visibility or an assumed number of fixed steps per rendered frame.
 
 ## Prevention
 
@@ -308,20 +322,24 @@ The tests assert stable boundaries—actual rendered-bone motion, root/travel al
 - Include non-scene project settings in the same Undo group and retain an exception-recovery snapshot.
 - Capture and restore exact Rigidbody constraints; change only the bits required by the temporary mode.
 - Calculate forward movement, lateral motion, and companion offsets from one route frame.
-- Treat the pooled prefab root as the single owner of pose, movement, range origin, and return identity.
+- Test route-frame rebasing with deliberately different player and turn-spot positions; an on-center player hides lane-origin drift.
+- Capture transition-source metadata before clearing transient turn state, and keep successful completion semantics separate from cancellation fallbacks.
+- Treat the pooled prefab root as the single owner of pose, movement, lifetime, and return identity.
 - Initialize pooled projectiles in this order: rent root, detach, set position, overwrite rotation, then let child scripts capture the root.
-- Test actual projectile prefabs through range expiry and collision returns, then assert the same root and visual hierarchy are reusable.
+- Test actual projectile prefabs through duration expiry and collision returns, then assert the same root and visual hierarchy are reusable.
 - Wait for the editor test assembly timestamp to advance after Unity refresh before trusting a rerun.
 - Run Unity-generated runtime and editor solution builds sequentially because they share intermediate paths.
 - Record a repository baseline before tests that can serialize scenes, fonts, atlases, or generated assets.
 
 ## Verification Evidence
 
-- `NoryangjinTurnSpotTests`: 24/24 passed.
+- `NoryangjinTurnSpotTests`: 37/37 passed.
+  - `ImmediateWorldRotation_RebasesLateralRangeAtTurnSpotCenter` reproduced the old origin shift, then passed with the turn-spot-centered frame.
+  - `TimedTurnSpotRotation_UsesDisabledTurnSpotAsLateralRangeCenter` verifies the consumed inactive trigger remains the authoritative origin until timed completion.
   - Existing misconfigured Animators are repaired without duplication.
   - Repeated installation reuses one `ProjectileMuzzle` under the visible `headend`, aligned `0.35` units along player forward.
   - Water and Bomb roots overwrite stale rotation and align both `root.forward` and `GFX.up` with travel.
-  - Range, `EnemyTag`, and `Obstacle` returns re-rent the same registered root with `GFX` and `BulletScript` intact.
+  - Duration expiry, `EnemyTag`, and `Obstacle` returns re-rent the same registered root with `GFX` and `BulletScript` intact.
 - `NoryangjinGameplayIntegrationTests`: 1/1 passed against the saved Noryangjin scene.
   - The visible direct `Original` enters `Walk`, advances its animation, and changes a rendered generic-rig `backleg` pose.
   - The hidden Forward muzzle is not used as player origin; same-frame snapshots keep the projectile `0.3` to `0.4` units from the moving visible mouth.
@@ -340,3 +358,5 @@ The tests assert stable boundaries—actual rendered-bone motion, root/travel al
 - [Advance Unity map tool cursors after applying road turns](../logic-errors/advance-unity-map-tool-cursor-after-road-turn-2026-06-01.md)
 - [Preserve prefab root transforms in Noryangjin map tool placement](../logic-errors/preserve-prefab-transform-in-noryangjin-map-tool-placement-2026-06-02.md)
 - [Continue Unity map-tool layouts by placement-specific geometry](../design-patterns/continue-map-tool-layouts-by-selected-renderer-bounds-2026-07-19.md)
+- [Preserve externally assigned player position when resetting during a turn](../logic-errors/preserve-external-player-position-when-canceling-turn-on-reset-2026-07-26.md)
+- [Restore consumed turn spots when restarting Unity runs in place](restore-consumed-turn-spots-on-in-place-run-restart-2026-07-25.md)

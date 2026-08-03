@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1763793154828632031}
   - component: {fileID: 6147559193528786983}
   - component: {fileID: 2867802748243985862}
+  - component: {fileID: 4445701112426212153}
   m_Layer: 0
   m_Name: Enemy_YllowMan
   m_TagString: EnemyTag
@@ -73,7 +74,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bonusWall: {fileID: 7924109799707602117, guid: 0921299fe0ec21549b8aa88b8f5709ec, type: 3}
-  enemyTier: 2
+  enemyTier: 0
   enemyCombatType: 0
   _health: 0
   _damage: 0
@@ -187,6 +188,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4445701112426212153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127747719688740808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54e1bdd9773bf9b41a6fd63b8d57548f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IndianOceanAssets.ShooterSurvival.EnemyMovementController
+  movementMode: 0
+  moveSpeed: 2
+  sideToSideDistance: 2
+  entranceSide: -1
+  entranceDistance: 3
 --- !u!1 &5373966266097683866
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,8 +556,8 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3414151031743661625}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: d2d3d209776b25a41b042c62252f1d52, type: 3}
-  m_Controller: {fileID: 9100000, guid: 20bd12df188889e468825fa6a2d46585, type: 2}
+  m_Avatar: {fileID: 9000000, guid: 6c154cd185c811a4ba04d027946c2baa, type: 3}
+  m_Controller: {fileID: 22100000, guid: f3a4f60063dedcf45bd53b4da3a5abb4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

@@ -80,9 +80,7 @@ public class StagePatternDataEditor : Editor
 
             if (GUILayout.Button("Open Excel Asset"))
             {
-                var excel = AssetDatabase.LoadAssetAtPath<Object>("Assets/StreamingAssets/Data.xlsx");
-                if (excel != null)
-                    EditorGUIUtility.PingObject(excel);
+                GameDataWorkbookEditor.OpenSourceWorkbook();
             }
         }
     }

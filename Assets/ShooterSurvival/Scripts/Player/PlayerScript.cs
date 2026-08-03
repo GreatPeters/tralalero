@@ -3,16 +3,51 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.Serialization;
 namespace IndianOceanAssets.ShooterSurvival
 {
     public class PlayerScript : MonoBehaviour
     {
+        [Header("Character Defaults (Excel / Inspector)")]
+        [Tooltip("켜면 Data.xlsx의 캐릭터 기본값이 인스펙터 값을 덮어씁니다. 엑셀에 없는 값은 아래 인스펙터 값을 사용합니다.")]
+        [SerializeField] private bool useExcelCharacterDefaults = true;
+
+        [Tooltip("기본 최대 체력. Excel key: playerDefaultHp")]
+        [Min(0.01f)]
+        [SerializeField] public float originalHealth = 100f;
+
+        [Tooltip("기본 공격력. Excel key: playerDefaultAtt")]
+        [Min(0f)]
+        [SerializeField] private float defaultAttackDamage = 50f;
+
+        [Tooltip("전진 모드 이동 속도. Excel key: playerSpeed 값1")]
+        [Min(0f)]
+        [FormerlySerializedAs("fwdMoveSpeed")]
+        [FormerlySerializedAs("defaultInitialForwardMoveSpeed")]
+        [SerializeField] private float defaultForwardMoveSpeed = 4f;
+
+        [Tooltip("초당 발사 횟수. Excel key: playerDefaultFireRate")]
+        [Min(0.01f)]
+        [SerializeField] private float defaultFireRate = 1f;
+
+        [Tooltip("한 번에 발사할 미사일 수. Excel key: playerDefaultMissileCount")]
+        [Min(1)]
+        [SerializeField] private int defaultProjectileCount = 1;
+
+        [Tooltip("미사일 절대 이동 속도(unit/s). playerSpeed와 같은 단위지만 서로 연동되지 않습니다. Excel key: missileSpeed 값1 (기존 misspleSpeed도 지원)")]
+        [Min(0.01f)]
+        [SerializeField] private float defaultMissileSpeed = 16f;
+
+        [Tooltip("미사일이 발사 후 유지되는 시간(초). Excel key: missileDuration 값1")]
+        [Min(0.01f)]
+        [SerializeField] private float defaultMissileDuration = 1f;
+
         [Header("Runtime")]
         [SerializeField] public int playerScore = 0;                // Current score of the player
         //[SerializeField] public float originalHealth;                // Player's current health
         [SerializeField] public float currentHealth;                // Player's current health
         [SerializeField] private GameObject currentWeapon;          // Reference to the current weapon the player is using
-        [SerializeField] public float originalDamage;
+        [HideInInspector] public float originalDamage;
         [SerializeField] public float currentDamage;                // Current damage dealt by the player
         [SerializeField] private float currentFireRate;             // Current fire rate of the weapon
         [SerializeField] public float moveSensitivity;              // Movement sensitivity for player movement
@@ -20,8 +55,6 @@ namespace IndianOceanAssets.ShooterSurvival
         [SerializeField] public float moveSensitivity_Devision;              // Mouse sensitivity for aiming
 
         [Header("Params")]
-        [SerializeField]
-        public float originalHealth = 100f;                           // Maximum player health
         [Tooltip("X movement Range (min to max)")]
         [SerializeField]
         private Vector2 xRange;                                     // Range of x-axis movement (min, max)
@@ -31,12 +64,6 @@ namespace IndianOceanAssets.ShooterSurvival
         private float movementSmoothness;                           // Smoothness of player movement
         [Tooltip("Enemy detection range")]
         public float enemyDetectRadius;                             // Radius to detect enemy
-        [Tooltip("Forward Movement speed")]
-        [UnityEngine.Range(1f, 20f)]
-        [SerializeField]
-        private float fwdMoveSpeed;
-
-        public float ForwardMoveSpeed => fwdMoveSpeed;
 
         [Header("Player Debugging Options")]
         public bool movement = true;
@@ -67,7 +94,13 @@ namespace IndianOceanAssets.ShooterSurvival
         public bool canShoot;
 
         public Animator sharkAnim;
-        public float originalMoveSpeed;
+        [HideInInspector] public float originalMoveSpeed;
+        private float currentForwardMoveSpeed;
+        private float resolvedDefaultFireRate;
+        private int resolvedDefaultProjectileCount;
+        private float resolvedDefaultMissileSpeed;
+        private float resolvedDefaultMissileDuration;
+        private bool characterDefaultsInitialized;
         private float gameplayElapsedSeconds;
         private int lastLoggedGameplaySecond;
 
@@ -79,8 +112,14 @@ namespace IndianOceanAssets.ShooterSurvival
         private bool startGestureArmed;
         private const float StartDragThreshold = 8f;        
         private const string SkinBonusSourceKey = "player_skin_bonus";
+        private const string PlayerSpeedVariableKey = "playerSpeed";
         private const string PlayerDefaultHpVariableKey = "playerDefaultHp";
         private const string PlayerDefaultAttVariableKey = "playerDefaultAtt";
+        private const string MissileSpeedVariableKey = "missileSpeed";
+        private const string LegacyMissileSpeedVariableKey = "misspleSpeed";
+        private const string MissileDurationVariableKey = "missileDuration";
+        private const string PlayerDefaultFireRateVariableKey = "playerDefaultFireRate";
+        private const string PlayerDefaultMissileCountVariableKey = "playerDefaultMissileCount";
         private string appliedSkinItem;
         private bool subscribedToStats;
         private float lastReportedCurrentDamage = float.MinValue;
@@ -99,21 +138,67 @@ namespace IndianOceanAssets.ShooterSurvival
         private bool routeFrameInitialized;
 
         public const float DefaultWorldYawTurnDuration = 0.5f;
-        private const float ForwardMovementCompatibilityMultiplier = 2f;
         public bool IsWorldYawTurnActive => isWorldYawTurnActive;
         public float MaxHealth => maxHealthWithUpgrades > 0f ? maxHealthWithUpgrades : originalHealth;
+        public bool UseExcelCharacterDefaults => useExcelCharacterDefaults;
+        public float ForwardMoveSpeed
+        {
+            get
+            {
+                EnsureCharacterDefaultsInitialized();
+                return currentForwardMoveSpeed;
+            }
+        }
+        public float DefaultAttackDamage
+        {
+            get
+            {
+                EnsureCharacterDefaultsInitialized();
+                return originalDamage;
+            }
+        }
+        public float DefaultFireRate
+        {
+            get
+            {
+                EnsureCharacterDefaultsInitialized();
+                return resolvedDefaultFireRate;
+            }
+        }
+        public int DefaultProjectileCount
+        {
+            get
+            {
+                EnsureCharacterDefaultsInitialized();
+                return resolvedDefaultProjectileCount;
+            }
+        }
+        public float DefaultMissileSpeed
+        {
+            get
+            {
+                EnsureCharacterDefaultsInitialized();
+                return resolvedDefaultMissileSpeed;
+            }
+        }
+        public float DefaultMissileDuration
+        {
+            get
+            {
+                EnsureCharacterDefaultsInitialized();
+                return resolvedDefaultMissileDuration;
+            }
+        }
 
         private void Awake()
         {
             playerRigidbody = GetComponent<Rigidbody>();
             canShoot = true;
-            LoadDefaultStatsConfig();
+            EnsureCharacterDefaultsInitialized();
             EnsurePlayerChildCanvasVisible();
 
             // Set player health to the max health at the start
             currentHealth = originalHealth;
-            originalDamage = GetDefaultAttackValue();
-            originalMoveSpeed = fwdMoveSpeed;
             RefreshUpgradeStats();
             RebaseRouteFrame();
         }
@@ -266,7 +351,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (CanvasScript.isGameOver || winDancePlayed) // Add winDancePlayed to stop movement
             {
                 CancelWorldYawTurn();
-                fwdMoveSpeed = 0;
+                currentForwardMoveSpeed = 0;
                 movement = false; // Disable horizontal movement
                 if (playerAnimator != null)
                     playerAnimator.SetBool("WalkFwd", false); // Stop forward walk animation
@@ -290,7 +375,7 @@ namespace IndianOceanAssets.ShooterSurvival
             {
                 ApplyForwardMovement();
                 if (isDead)
-                    fwdMoveSpeed = 0f;
+                    currentForwardMoveSpeed = 0f;
                 enemyDetection = false;
                 if (playerAnimator != null)
                     playerAnimator.SetBool("WalkFwd", true);
@@ -373,12 +458,10 @@ namespace IndianOceanAssets.ShooterSurvival
             if (routeForward.sqrMagnitude <= 0.0001f)
                 return;
 
-            // The original Forward scene advanced twice per FixedUpdate. Keep its
-            // authored timing while consolidating that motion into one route-aware step.
             Vector3 nextPosition = transform.position +
                                    routeForward.normalized *
-                                   (fwdMoveSpeed / 100f) *
-                                   ForwardMovementCompatibilityMultiplier *
+                                   currentForwardMoveSpeed *
+                                   Time.fixedDeltaTime *
                                    TimeManager.timeFactor;
             ApplyPlayerPosition(nextPosition);
         }
@@ -470,6 +553,17 @@ namespace IndianOceanAssets.ShooterSurvival
             RebaseRouteFrame();
         }
 
+        private void OnValidate()
+        {
+            characterDefaultsInitialized = false;
+        }
+
+        public void ReloadCharacterDefaults()
+        {
+            characterDefaultsInitialized = false;
+            EnsureCharacterDefaultsInitialized();
+        }
+
         public static float NormalizeWorldYaw(float yaw)
         {
             return NormalizeWorldAngle(yaw);
@@ -518,13 +612,17 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void CompleteWorldYawTurn()
         {
+            Vector3 completedRouteLaneOrigin =
+                activeWorldYawTurnSource is NoryangjinTurnSpot turnSpot
+                    ? turnSpot.transform.position
+                    : worldYawTurnLockedPosition;
             ApplyWorldYawRotation(worldYawTurnTargetRotation);
             ApplyPlayerPosition(worldYawTurnLockedPosition);
             isWorldYawTurnActive = false;
             activeWorldYawTurnSource = null;
             worldYawTurnElapsed = 0f;
             RestoreWorldYawTurnConstraints();
-            RebaseRouteFrame();
+            RebaseRouteFrame(completedRouteLaneOrigin);
         }
 
         private void ApplyWorldYawRotation(Quaternion rotation)
@@ -579,7 +677,12 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void RebaseRouteFrame()
         {
-            routeLaneOrigin = transform.position;
+            RebaseRouteFrame(transform.position);
+        }
+
+        private void RebaseRouteFrame(Vector3 laneOrigin)
+        {
+            routeLaneOrigin = laneOrigin;
             Vector3 flattenedRight = Vector3.ProjectOnPlane(transform.right, Vector3.up);
             routeRight = flattenedRight.sqrMagnitude > 0.0001f
                 ? flattenedRight.normalized
@@ -784,6 +887,7 @@ namespace IndianOceanAssets.ShooterSurvival
             startGestureArmed = false;
             gameplayElapsedSeconds = 0f;
             lastLoggedGameplaySecond = 0;
+            currentForwardMoveSpeed = originalMoveSpeed;
 
             // ?좊땲硫붿씠???꾩쟾 珥덇린??DeathAnim ?덉텧)
             if (playerAnimator)
@@ -856,7 +960,7 @@ namespace IndianOceanAssets.ShooterSurvival
             // ?댁냽 ?먮났
             gameplayElapsedSeconds = 0f;
             lastLoggedGameplaySecond = 0;
-            fwdMoveSpeed = originalMoveSpeed;
+            currentForwardMoveSpeed = originalMoveSpeed;
             RefreshUpgradeStats();
             PushCurrentDamageToCanvasIfChanged(force: true);
         }
@@ -887,9 +991,9 @@ namespace IndianOceanAssets.ShooterSurvival
 
             healthRegenPerSecond = UpgradeStatManager.S.GetAppliedValue(UpgradeStatManager.UpgradeType.HP_REGEN, maxHealthWithUpgrades);
 
-            BulletScript.ApplyProjectileSpeedUpgrade(
-                UpgradeStatManager.S.GetFlatStat(UpgradeStatManager.UpgradeType.PROJECTILE_SPEED),
-                UpgradeStatManager.S.GetPercentStat(UpgradeStatManager.UpgradeType.PROJECTILE_SPEED));
+            BulletScript.ApplyMissileDurationUpgrade(
+                UpgradeStatManager.S.GetFlatStat(UpgradeStatManager.MissileDurationUpgradeType),
+                UpgradeStatManager.S.GetPercentStat(UpgradeStatManager.MissileDurationUpgradeType));
         }
 
         public void LogWeaponDamageDebug(string context = "GameStart")
@@ -950,19 +1054,98 @@ namespace IndianOceanAssets.ShooterSurvival
             currentHealth = Mathf.Min(maxHealth, currentHealth + healthRegenPerSecond * Time.deltaTime);
         }
 
-        private void LoadDefaultStatsConfig()
+        private void EnsureCharacterDefaultsInitialized()
         {
-            if (EnvironmentVariableTables.TryGetFloat(PlayerDefaultHpVariableKey, out var hpValue) && hpValue > 0f)
-                originalHealth = hpValue;
-        }
+            if (characterDefaultsInitialized)
+                return;
 
-        private float GetDefaultAttackValue()
-        {
-            if (EnvironmentVariableTables.TryGetFloat(PlayerDefaultAttVariableKey, out var attackValue) && attackValue > 0f)
-                return attackValue;
+            float maxHealth = Mathf.Max(0.01f, originalHealth);
+            float attackDamage = Mathf.Max(0f, defaultAttackDamage);
+            float moveSpeed = Mathf.Max(0f, defaultForwardMoveSpeed);
+            float fireRate = Mathf.Max(0.01f, defaultFireRate);
+            int projectileCount = Mathf.Max(1, defaultProjectileCount);
+            float missileSpeed = Mathf.Max(0.01f, defaultMissileSpeed);
+            float missileDuration = Mathf.Max(0.01f, defaultMissileDuration);
 
-            var weapon = GetComponentInChildren<WeaponScript>();
-            return weapon != null ? weapon.damage : originalDamage;
+            if (useExcelCharacterDefaults)
+            {
+                if (EnvironmentVariableTables.TryGetFloat(
+                        PlayerDefaultHpVariableKey,
+                        out var hpValue) &&
+                    hpValue > 0f)
+                {
+                    maxHealth = hpValue;
+                }
+
+                if (EnvironmentVariableTables.TryGetFloat(
+                        PlayerDefaultAttVariableKey,
+                        out var attackValue) &&
+                    attackValue > 0f)
+                {
+                    attackDamage = attackValue;
+                }
+
+                if (EnvironmentVariableTables.TryGetFloat(
+                        PlayerSpeedVariableKey,
+                        out var speedValue) &&
+                    speedValue >= 0f)
+                {
+                    moveSpeed = speedValue;
+                }
+
+                bool hasMissileSpeed = EnvironmentVariableTables.TryGetFloat(
+                    MissileSpeedVariableKey,
+                    out var missileSpeedValue);
+                if (!hasMissileSpeed || missileSpeedValue <= 0f)
+                {
+                    hasMissileSpeed = EnvironmentVariableTables.TryGetFloat(
+                        LegacyMissileSpeedVariableKey,
+                        out missileSpeedValue);
+                }
+
+                if (hasMissileSpeed && missileSpeedValue > 0f)
+                {
+                    missileSpeed = missileSpeedValue;
+                }
+
+                if (EnvironmentVariableTables.TryGetFloat(
+                        MissileDurationVariableKey,
+                        out var missileDurationValue) &&
+                    missileDurationValue > 0f)
+                {
+                    missileDuration = missileDurationValue;
+                }
+
+                if (EnvironmentVariableTables.TryGetFloat(
+                        PlayerDefaultFireRateVariableKey,
+                        out var fireRateValue) &&
+                    fireRateValue > 0f)
+                {
+                    fireRate = fireRateValue;
+                }
+
+                if (EnvironmentVariableTables.TryGetFloat(
+                        PlayerDefaultMissileCountVariableKey,
+                        out var projectileCountValue) &&
+                    projectileCountValue >= 1f)
+                {
+                    projectileCount = Mathf.Max(1, Mathf.RoundToInt(projectileCountValue));
+                }
+            }
+
+            originalHealth = maxHealth;
+            originalDamage = attackDamage;
+            originalMoveSpeed = moveSpeed;
+            currentForwardMoveSpeed = moveSpeed;
+            resolvedDefaultFireRate = fireRate;
+            resolvedDefaultProjectileCount = projectileCount;
+            resolvedDefaultMissileSpeed = missileSpeed;
+            resolvedDefaultMissileDuration = missileDuration;
+
+            BulletScript.ConfigureMissileDefaults(
+                resolvedDefaultMissileSpeed,
+                resolvedDefaultMissileDuration);
+            characterDefaultsInitialized = true;
         }
 
         private void UpdateGameplayTimeDebug()

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace IndianOceanAssets.ShooterSurvival
 {
@@ -9,6 +10,8 @@ namespace IndianOceanAssets.ShooterSurvival
     {
         public const float DefaultTurnDurationSeconds = 0.5f;
         private static readonly HashSet<NoryangjinTurnSpot> ConsumedTurnSpots = new();
+        private static readonly Dictionary<int, List<NoryangjinTurnSpot>>
+            RouteSpotsBySceneHandle = new();
 
         [Tooltip("플레이어가 도착할 절대 월드 X 회전값입니다.")]
         [SerializeField] private float targetXDegrees;
@@ -51,9 +54,15 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void Awake()
         {
+            InvalidateRouteSpotCache();
             BoxCollider trigger = GetComponent<BoxCollider>();
             if (trigger != null)
                 trigger.isTrigger = true;
+        }
+
+        private void OnEnable()
+        {
+            InvalidateRouteSpotCache();
         }
 
         private void OnValidate()
@@ -63,6 +72,12 @@ namespace IndianOceanAssets.ShooterSurvival
             BoxCollider trigger = GetComponent<BoxCollider>();
             if (trigger != null)
                 trigger.isTrigger = true;
+        }
+
+        private void OnDestroy()
+        {
+            ConsumedTurnSpots.Remove(this);
+            InvalidateRouteSpotCache();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -127,6 +142,69 @@ namespace IndianOceanAssets.ShooterSurvival
             }
 
             ConsumedTurnSpots.Clear();
+        }
+
+        public static bool TryGetRouteProgress(
+            Scene scene,
+            out int completedCheckpointCount,
+            out int totalCheckpointCount)
+        {
+            completedCheckpointCount = 0;
+            totalCheckpointCount = 0;
+
+            if (!scene.IsValid() || !scene.isLoaded)
+                return false;
+
+            foreach (NoryangjinTurnSpot turnSpot in GetRouteSpots(scene))
+            {
+                if (turnSpot == null)
+                    continue;
+
+                HideFlags combinedHideFlags =
+                    turnSpot.hideFlags | turnSpot.gameObject.hideFlags;
+                if ((combinedHideFlags & HideFlags.DontSave) != 0)
+                    continue;
+
+                bool consumed = ConsumedTurnSpots.Contains(turnSpot);
+                if (!consumed && !turnSpot.isActiveAndEnabled)
+                    continue;
+
+                totalCheckpointCount++;
+                if (consumed)
+                    completedCheckpointCount++;
+            }
+
+            return totalCheckpointCount > 0;
+        }
+
+        private static IReadOnlyList<NoryangjinTurnSpot> GetRouteSpots(
+            Scene scene)
+        {
+            int sceneHandle = scene.handle;
+            if (RouteSpotsBySceneHandle.TryGetValue(
+                    sceneHandle,
+                    out List<NoryangjinTurnSpot> cachedSpots) &&
+                !cachedSpots.Exists(turnSpot => turnSpot == null))
+            {
+                return cachedSpots;
+            }
+
+            var routeSpots = new List<NoryangjinTurnSpot>();
+            foreach (GameObject root in scene.GetRootGameObjects())
+            {
+                routeSpots.AddRange(
+                    root.GetComponentsInChildren<NoryangjinTurnSpot>(true));
+            }
+
+            RouteSpotsBySceneHandle[sceneHandle] = routeSpots;
+            return routeSpots;
+        }
+
+        private void InvalidateRouteSpotCache()
+        {
+            Scene scene = gameObject.scene;
+            if (scene.IsValid())
+                RouteSpotsBySceneHandle.Remove(scene.handle);
         }
 
         internal void ResetForNewRun()

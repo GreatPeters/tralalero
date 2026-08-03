@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 3217920740108345681}
   - component: {fileID: 7535093213971140797}
   - component: {fileID: 7979261263588834552}
+  - component: {fileID: 3682602123234194214}
   m_Layer: 0
   m_Name: Enemy_Guard
   m_TagString: EnemyTag
@@ -272,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bonusWall: {fileID: 7924109799707602117, guid: 0921299fe0ec21549b8aa88b8f5709ec, type: 3}
-  enemyTier: 2
+  enemyTier: 0
   enemyCombatType: 0
   _health: 0
   _damage: 0
@@ -386,6 +387,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3682602123234194214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7596627218402003408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54e1bdd9773bf9b41a6fd63b8d57548f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IndianOceanAssets.ShooterSurvival.EnemyMovementController
+  movementMode: 0
+  moveSpeed: 2
+  sideToSideDistance: 2
+  entranceSide: -1
+  entranceDistance: 3
 --- !u!1 &7621180490812681715
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,6 +639,8 @@ TrailRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -642,6 +662,7 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -719,6 +740,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b5244520c6e4b4c957ce4de4195c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAttacked: 0
   damage: 999
   targetTag: Player
   helperTag: ExtraHelpTag
@@ -825,7 +847,7 @@ Animator:
   m_GameObject: {fileID: 6018284201788555853}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 9bfa181b824fbc342a53626dc7416b0d, type: 3}
-  m_Controller: {fileID: 9100000, guid: 7d0a9ff3853f3044a82f08d2eea2d38b, type: 2}
+  m_Controller: {fileID: 22100000, guid: 700e1b353b5f97046acd47f61e89bcf0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

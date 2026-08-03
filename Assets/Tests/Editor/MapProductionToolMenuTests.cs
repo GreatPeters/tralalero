@@ -1,0 +1,62 @@
+#if UNITY_EDITOR
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using NUnit.Framework;
+using UnityEditor;
+
+public sealed class MapProductionToolMenuTests
+{
+    private const string MenuRoot = "Tools/맵 제작 도구/";
+
+    [Test]
+    public void MapProductionToolMenus_AreGroupedByUserWorkflow()
+    {
+        string[] expected =
+        {
+            "Tools/맵 제작 도구/노량진 맵 제작/게임플레이/적 이동 기능 연결",
+            "Tools/맵 제작 도구/노량진 맵 제작/게임플레이/Forward 기능 연결",
+            "Tools/맵 제작 도구/노량진 맵 제작/맵툴 씬 열기 또는 생성",
+            "Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기",
+            NoryangjinMapStaticOptimizer.OptimizeCurrentSceneMenuPath,
+            NoryangjinMapStaticOptimizer.OptimizeAllScenesMenuPath,
+            "Tools/맵 제작 도구/유지보수/노량진 다리를 끝 로프 없는 복사본으로 교체",
+            "Tools/맵 제작 도구/유지보수/다리 끝 로프 없는 복사본 생성",
+            "Tools/맵 제작 도구/유지보수/재질 및 프리팹 복구",
+            "Tools/맵 제작 도구/자료/Meshy 이미지 폴더",
+            "Tools/맵 제작 도구/자료/노량진 맵 설계도 및 미리보기 폴더",
+            "Tools/맵 제작 도구/자료/에셋 설계도 폴더",
+            "Tools/맵 제작 도구/자료/자료 위치 안내"
+        };
+
+        CollectionAssert.AreEquivalent(expected, FindMapProductionToolMenuPaths());
+    }
+
+    [Test]
+    public void NoryangjinMapPlanMenu_TargetsCurrentPlanOutputFolder()
+    {
+        FieldInfo field = typeof(DesignReferenceWindow).GetField(
+            "NoryangjinMapPlanFolderRelativePath",
+            BindingFlags.NonPublic | BindingFlags.Static);
+
+        Assert.That(field, Is.Not.Null);
+        Assert.That(
+            field.GetRawConstantValue(),
+            Is.EqualTo("outputs/chapter_campaign_reference_orthogonal_20min"));
+    }
+
+    private static IReadOnlyList<string> FindMapProductionToolMenuPaths()
+    {
+        return typeof(DesignReferenceWindow).Assembly
+            .GetTypes()
+            .SelectMany(type => type.GetMethods(
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static))
+            .SelectMany(method => method.CustomAttributes)
+            .Where(attribute => attribute.AttributeType == typeof(MenuItem))
+            .Select(attribute => attribute.ConstructorArguments[0].Value as string)
+            .Where(path => path != null && path.StartsWith(MenuRoot, StringComparison.Ordinal))
+            .ToArray();
+    }
+}
+#endif

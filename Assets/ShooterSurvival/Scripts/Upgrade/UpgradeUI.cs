@@ -8,6 +8,9 @@ using UnityEditor;
 
 public class UpgradeUI : MonoBehaviour
 {
+    private const string MissileDurationDisplayName = "미사일 지속 시간";
+    private const string MissileDurationDescription = "미사일 지속 시간이 증가합니다!";
+
     private enum LayoutMode
     {
         Auto,
@@ -53,6 +56,21 @@ public class UpgradeUI : MonoBehaviour
             return string.Empty;
 
         return currentLevel > 0 ? $"{itemName} ({currentLevel})" : itemName;
+    }
+
+    private static string GetDisplayName(UpgradeRow row)
+    {
+        return row.type == UpgradeStatManager.MissileDurationUpgradeType
+            ? MissileDurationDisplayName
+            : row.item;
+    }
+
+    private static string GetDescription(UpgradeRow row)
+    {
+        if (row.type == UpgradeStatManager.MissileDurationUpgradeType)
+            return MissileDurationDescription;
+
+        return string.IsNullOrWhiteSpace(row.note) ? row.item : row.note;
     }
 
     void Awake()
@@ -163,7 +181,7 @@ public class UpgradeUI : MonoBehaviour
     void ApplyMaxTexts(bool useCardV2Layout, UpgradeRow currentRow)
     {
         if (nameText != null)
-            nameText.text = FormatNameWithLevel(currentRow.item, level);
+            nameText.text = FormatNameWithLevel(GetDisplayName(currentRow), level);
 
         if (!useCardV2Layout)
         {
@@ -188,7 +206,7 @@ public class UpgradeUI : MonoBehaviour
     void ApplyTexts(UpgradeRow currentRow, UpgradeRow next, float currentValue, bool useCardV2Layout)
     {
         if (nameText != null)
-            nameText.text = FormatNameWithLevel(next.item, level);
+            nameText.text = FormatNameWithLevel(GetDisplayName(next), level);
 
         if (useCardV2Layout)
         {
@@ -205,7 +223,7 @@ public class UpgradeUI : MonoBehaviour
                 valueText.text = FormatValue(displayCurrent, displayValueType);
 
             if (descriptionText != null)
-                descriptionText.text = string.IsNullOrWhiteSpace(next.note) ? next.item : next.note;
+                descriptionText.text = GetDescription(next);
 
             if (levelText != null)
                 levelText.text = string.Empty;

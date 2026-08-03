@@ -8,6 +8,7 @@ namespace IndianOceanAssets.ShooterSurvival
 {
     public class EnemyScript_space : MonoBehaviour
     {
+        private const float DirectionEpsilonSqr = 0.000001f;
 
         private Vector3 _projLocalScale;
 
@@ -47,6 +48,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private EffectOverlayScript effectOverlayVignette;
         private EnemySO currentEnemySO;
         private PlayerScript playerScript;
+        private Collider playerCollider;
         private Animator enemyAnimator;
         private AudioSource audioSource;
         private bool givePlayerScore = true;
@@ -71,7 +73,12 @@ namespace IndianOceanAssets.ShooterSurvival
         private void Awake()
         {
             hitPos = transform.GetChild(1).GetComponent<Transform>();
-            playerScript = FindFirstObjectByType<PlayerScript>().GetComponent<PlayerScript>();
+            playerScript = FindFirstObjectByType<PlayerScript>();
+            if (playerScript != null)
+            {
+                playerCollider = playerScript.GetComponent<Collider>();
+            }
+
             effectOverlayVignette = GameObject.FindGameObjectWithTag("VolumeTag").GetComponent<EffectOverlayScript>();
             audioSource = GetComponent<AudioSource>();
             enemyAnimator = GetComponentInChildren<Animator>();
@@ -305,7 +312,6 @@ namespace IndianOceanAssets.ShooterSurvival
         public void ApplyStat(float damage, float health, EnemyTier tier, EnemyCombatType combatType)
         {
             _injected = true;
-            Debug.Log("적용!");
 
             enemyTier = tier;
             enemyCombatType = combatType;
@@ -352,14 +358,17 @@ namespace IndianOceanAssets.ShooterSurvival
                     return;
                 }
 
-                if (throwPoint)
-                {
-                    heldProjectile.position = throwPoint.position;
-                    heldProjectile.rotation = throwPoint.rotation;
-                }
+                Transform releaseTransform = throwPoint ? throwPoint : transform;
+                Vector3 releasePosition = releaseTransform.position;
+                Vector3 targetPosition = GetPlayerAimPoint();
+                Vector3 throwDirection = CalculateThrowDirection(
+                    releasePosition,
+                    targetPosition,
+                    -releaseTransform.forward);
 
+                heldProjectile.position = releasePosition;
                 heldProjectile.SetParent(null, true);
-                heldProjectile.rotation = Quaternion.Euler(0f, 90f, 0f);
+                heldProjectile.rotation = BuildThrownProjectileRotation(throwDirection);
 
                 var col = heldProjectile.GetComponent<Collider>();
                 if (col == null) col = heldProjectile.gameObject.AddComponent<SphereCollider>();
@@ -378,12 +387,61 @@ namespace IndianOceanAssets.ShooterSurvival
                     if (ec && col) Physics.IgnoreCollision(col, ec, true);
 
                 // 발사
-                rb.linearVelocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
-                rb.AddForce(-throwPoint.forward * throwSpeed, ForceMode.VelocityChange);
+                rb.linearVelocity = throwDirection * throwSpeed;
 
                 //Destroy(heldProjectile.gameObject, projectileLife);
             });
+        }
+
+        private Vector3 GetPlayerAimPoint()
+        {
+            if (playerScript == null)
+            {
+                Transform releaseTransform = throwPoint ? throwPoint : transform;
+                return releaseTransform.position - releaseTransform.forward;
+            }
+
+            if (playerCollider == null)
+            {
+                playerCollider = playerScript.GetComponent<Collider>();
+            }
+
+            return playerCollider != null
+                ? playerCollider.bounds.center
+                : playerScript.transform.position;
+        }
+
+        private static Vector3 CalculateThrowDirection(
+            Vector3 releasePosition,
+            Vector3 targetPosition,
+            Vector3 fallbackDirection)
+        {
+            Vector3 direction = targetPosition - releasePosition;
+            if (direction.sqrMagnitude > DirectionEpsilonSqr)
+            {
+                return direction.normalized;
+            }
+
+            if (fallbackDirection.sqrMagnitude > DirectionEpsilonSqr)
+            {
+                return fallbackDirection.normalized;
+            }
+
+            return Vector3.forward;
+        }
+
+        private static Quaternion BuildThrownProjectileRotation(Vector3 direction)
+        {
+            Vector3 normalizedDirection = direction.sqrMagnitude > DirectionEpsilonSqr
+                ? direction.normalized
+                : Vector3.forward;
+            Vector3 up = Mathf.Abs(Vector3.Dot(normalizedDirection, Vector3.up)) > 0.999f
+                ? Vector3.forward
+                : Vector3.up;
+
+            return Quaternion.LookRotation(normalizedDirection, up)
+                * Quaternion.Euler(0f, -90f, 0f);
         }
     }
 }

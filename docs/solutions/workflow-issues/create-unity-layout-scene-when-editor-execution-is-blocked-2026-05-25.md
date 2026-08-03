@@ -61,7 +61,7 @@ MissingSourceGuids=0
 The editor utility remains useful for a later clean rebuild:
 
 ```text
-Tools/MeshyAI/Build Stage01 Noryangjin Auto Draft Scene
+Tools/맵 제작 도구/자동 생성/Stage01 노량진 초안 씬
 ```
 
 The Stage01_2 rebuild used a direct WebSocket call on the project-configured port to confirm the active scene and run the filtered Unity tests after the Codex MCP transport had closed:

@@ -5,26 +5,45 @@ This directory is the repo-local record for agent work.
 Use it as a map, not a dump.
 
 Available documents:
+
 - `QUALITY_SCORE.md`: current quality assessment and next leverage points.
 - `RELIABILITY.md`: operational failure modes and recovery notes.
 - `SECURITY.md`: trust boundaries and risky assumptions.
 - `solutions/`: reusable fixes, workflow notes, and scene-generation patterns discovered during agent work.
 - `noryangjin-gameplay-maptool.md`: Forward gameplay installation and route-turn authoring guide for the Noryangjin map-tool scene.
+- `noryangjin-enemy-movement.md`: per-enemy movement modes and player-trigger authoring for Forward/Noryangjin encounters.
+- `noryangjin-map2-authored-scene.md`: reconciled reference contract, authored-scene composition, and verification record for Noryangjin Map 2.
+- `noryangjin-mobile-optimization.md`: safe Static classification, low-poly water, Android texture budgets, camera overrides, and measured Map 1/2 results.
+- `player-character-defaults.md`: Player defaults, Excel precedence, and the absolute missile speed + duration model.
+- `game-data-workbook.md`: the Editor-only Excel source, map-tool shortcuts, protected runtime archive, build guard, and security boundary.
+- `firebase-analytics-bigquery.md`: Firebase Unity SDK setup, retention/playtime and round-event contract, BigQuery export/query workflow, and telemetry trust boundary.
+- `exec-plans/completed/protected-game-data-workbook.md`: completed implementation and verification record for the protected workbook workflow.
+- `exec-plans/active/firebase-analytics-bigquery.md`: analytics implementation, verification status, and the remaining external Firebase/BigQuery console steps.
 - `design/stage_prop_rebuild_20260510.md`: stage-reference prop reuse and missing-image rebuild record.
 - `exec-plans/active/codex-harness-foundation.md`: current repo-shaping plan for agent harness engineering.
 
 Editor shortcuts:
-- `Tools/Design Reference/Open Page`: opens a Unity Editor page for the design spreadsheet folder and generated Meshy image folder.
-- `Tools/MeshyAI/Build Stage01 Noryangjin Auto Draft Scene`: regenerates the generated Stage01 Noryangjin reference scene.
-- `Tools/MeshyAI/Build Stage01_2 Noryangjin Auto Draft Scene`: regenerates the generated Stage01_2 open-harbor pier reference scene.
-- `Tools/MeshyAI/Build Noryangjin MapTool Concept Layout`: regenerates the generated `Concept` layout inside the Noryangjin map-tool scene. It uses registered map-tool roads and Stage01 Noryangjin palette props to draft a playable S-shaped harbor-market route while leaving non-`Concept` manual placements in place.
-- `Tools/MeshyAI/Build Noryangjin MapTool Mode 2 From Excel Plan`: rebuilds the Excel-grounded extension only in `Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_2.unity`. It preserves and validates the 21 copied MapTool 1 roads and 170 copied props, then regenerates 117 main-route roads, eight dead-end `+`-arm roads, and 341 props for the 146-road / 511-prop chapter layout. The command is fail-closed to the sibling scene, keeps MapTool 1 untouched, validates route-graph, lane, market-quay, collision, highway, and water-coverage invariants before saving, and writes a report plus 3840 by 2160 top and three-quarter previews under `outputs/chapter_campaign_reference_orthogonal_20min/`. See [`Scale Live Map-Tool Object Matches Into Route Plans`](solutions/design-patterns/scale-live-map-tool-object-matches-into-route-plans-2026-07-19.md).
-- `Tools/MeshyAI/노량진 맵툴`: opens the Korean RTS-style palette for imported Noryangjin road modules, buildings, props, decorations, and backgrounds. The default screen intentionally shows only category filters (`전체/도로/건물/소품/장식/배경`) and prefab thumbnails, so layout work can be built back up one step at a time. Per-prefab defaults for `기본 크기`, `기본 회전 Y`, and `높이 오프셋` are saved in `Assets/ShooterSurvival/Editor/NoryangjinMapToolPaletteDefaults.asset`.
+
+- The Noryangjin map tool's `편의` tab opens or locates the shared game-data Excel file and regenerates or validates its protected runtime archive. The same actions are available under `Tools/Data`.
+- `Tools/Analytics/Firebase 대상 고정`: records the reviewed Firebase project ID, app ID, and Android package under `ProjectSettings` so later config swaps fail the build.
+- `Tools/Analytics/Firebase 설정 검증`: checks pinned SDK archive hashes, Android privacy defaults, the Android config, and the reviewed destination before a device build.
+- `Tools/Analytics/Firebase 연결 문서 열기`: opens the Firebase/BigQuery setup and query guide.
+- `Tools/맵 제작 도구/자료`: opens the asset design folder, the Noryangjin map-plan and preview folder, or the generated Meshy image folder.
+- `Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기`: opens the Noryangjin map-tool palette.
+- `Tools/맵 제작 도구/노량진 맵 제작/맵툴 씬 열기 또는 생성`: opens or creates the authored map-tool scene.
+- `Tools/맵 제작 도구/노량진 맵 제작/게임플레이/Forward 기능 연결`: installs the Forward gameplay setup into the authored map-tool scene.
+- `Tools/맵 제작 도구/노량진 맵 제작/게임플레이/적 이동 기능 연결`: repairs the five Forward enemy movement components and the map-tool trigger prefab without saving the open scene.
+- `Tools/맵 제작 도구/노량진 맵 제작/최적화/현재 씬 모바일 최적화`: applies the safe mobile bake to the open Noryangjin map scene without saving that scene automatically.
+- `Tools/맵 제작 도구/노량진 맵 제작/최적화/맵 1·2 모바일 최적화`: applies and saves the same idempotent bake to both authored map scenes; it refuses to overwrite a loaded dirty target scene.
+- `Tools/맵 제작 도구/유지보수`: contains destructive or rarely used repair and bridge-conversion commands.
+- `Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_2.unity` is the baked Map 2 implementation of `outputs/chapter_campaign_reference_orthogonal_20min`. It is edited with the normal map-tool workflow and has no regeneration command.
+- `Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기`: opens the Korean RTS-style palette for imported Noryangjin road modules, buildings, props, decorations, and backgrounds. The default screen intentionally shows only category filters (`전체/도로/건물/소품/장식/배경`) and prefab thumbnails, so layout work can be built back up one step at a time. Per-prefab defaults for `기본 크기`, `기본 회전 Y`, and `높이 오프셋` are saved in `Assets/ShooterSurvival/Editor/NoryangjinMapToolPaletteDefaults.asset`.
 - The Noryangjin map-tool background palette also includes `Assets/JH/Prefab/water.prefab`, displayed as `물`. It is placed as the single low-cost `Water/Background_Water` backdrop instead of a grid-managed prop, so repeated clicks update one water plane rather than accumulating water objects in `Props`.
 - Grid-managed background palette items use their own placement layer: background items block only other background items, while roads, buildings, props, and decorations can still be placed over the background.
-- `Tools/MeshyAI/노량진 맵툴 씬 열기 또는 생성`: opens or creates the authored map-tool scene at `Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode.unity`. It contains the editable layout surface and, after Forward gameplay is connected, also runs as the Noryangjin gameplay scene. Do not treat it as a disposable generated preview.
-- `Tools/MeshyAI/노량진 게임플레이/Forward 기능 연결`: copies the configured Forward player/weapon rig, pre-start/shop UI, Managers, EventSystem, and upgrade services into the open Noryangjin map-tool scene while preserving its visible `Original` character. It also keeps Forward at Build Index `0` and enables Noryangjin at Build Index `1`.
+- `Tools/맵 제작 도구/노량진 맵 제작/맵툴 씬 열기 또는 생성`: opens or creates the authored map-tool scene at `Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode.unity`. It contains the editable layout surface and, after Forward gameplay is connected, also runs as the Noryangjin gameplay scene. Do not treat it as a disposable generated preview.
+- `Tools/맵 제작 도구/노량진 맵 제작/게임플레이/Forward 기능 연결`: copies the configured Forward player/weapon rig, pre-start/shop UI, Managers, EventSystem, and upgrade services into the open Noryangjin map-tool scene while preserving its visible `Original` character. It also keeps Forward at Build Index `0` and enables Noryangjin at Build Index `1`.
 - The map-tool palette's rendererless `회전 스팟` item marks route corners. Select one to set its absolute target Y yaw and turn duration; see `noryangjin-gameplay-maptool.md` for placement, yaw convention, and Play Mode verification.
+- The rendererless `적 발동 스팟` item starts linked enemies configured for forward movement or a side entrance. Select the trigger, then click enemies in SceneView to toggle their mapping; `Esc` clears the spot selection. Direct target-list editing is hidden from the Inspector; see `noryangjin-enemy-movement.md`.
 - In the Noryangjin map tool's selection mode, each placed object's `Y` height label is a clickable selection target. The `설치 조정` preview follows the selected placement root first and falls back to the object under the map cursor when nothing is selected.
 - The map-tool toolbar's `이어 복붙` action duplicates the selected placed object with its current transform and child setup. Roads advance by their manual fine-grid footprint, backgrounds retain freeform renderer placement with a one-fine-cell seam overlap, and ordinary objects meet at their renderer edges. The new copy becomes the selection, so repeated clicks continue the same placement chain.
 - The selected-object card's `복사하기` action enters `붙여넣기 중` mode. Clicking any valid SceneView tile stamps another copy there while preserving the source instance's prefab connection, overrides, added children, rotation, scale, height, and within-tile offset. It can stamp multiple separated tiles without changing the clipboard source; click `붙여넣기 중` again or choose a palette item to cancel.

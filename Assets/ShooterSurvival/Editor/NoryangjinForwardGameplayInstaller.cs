@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using IndianOceanAssets.ShooterSurvival;
+using IndianOceanAssets.ShooterSurvival.Analytics;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -17,7 +18,7 @@ public static class NoryangjinForwardGameplayInstaller
     internal const string OriginalProjectileMuzzleName = "ProjectileMuzzle";
     internal const float OriginalProjectileMuzzleForwardOffset = 0.35f;
 
-    [MenuItem("Tools/MeshyAI/노량진 게임플레이/Forward 기능 연결", false, 2310)]
+    [MenuItem("Tools/맵 제작 도구/노량진 맵 제작/게임플레이/Forward 기능 연결", false, 2310)]
     public static void InstallIntoOpenNoryangjinScene()
     {
         if (EditorApplication.isPlayingOrWillChangePlaymode)
@@ -63,6 +64,8 @@ public static class NoryangjinForwardGameplayInstaller
 
             PlayerScript player = EnsurePlayer(sourceScene, targetScene, original);
             EnsureManagers(sourceScene, targetScene);
+            EnsureAnalyticsSceneContext(targetScene);
+            EnsureChapterEnemyStats(targetScene);
             CanvasScript canvas = EnsureCanvas(sourceScene, targetScene);
             EnsureEventSystem(sourceScene, targetScene);
             EnsureUpgradeServices(sourceScene, targetScene);
@@ -317,6 +320,40 @@ public static class NoryangjinForwardGameplayInstaller
         EditorUtility.SetDirty(timeManager);
     }
 
+    private static void EnsureAnalyticsSceneContext(Scene targetScene)
+    {
+        GameplayAnalyticsSceneContext context =
+            FindInScene<GameplayAnalyticsSceneContext>(targetScene);
+        if (context == null)
+        {
+            TimeManager timeManager = FindInScene<TimeManager>(targetScene);
+            context = Undo.AddComponent<GameplayAnalyticsSceneContext>(
+                timeManager.gameObject);
+        }
+
+        Undo.RecordObject(context, "Configure Noryangjin Analytics Context");
+        context.Configure(1, 1, 10, "forward_march", true);
+        EditorUtility.SetDirty(context);
+    }
+
+    private static void EnsureChapterEnemyStats(Scene targetScene)
+    {
+        ChapterEnemyStatController controller =
+            FindInScene<ChapterEnemyStatController>(targetScene);
+        if (controller == null)
+        {
+            TimeManager timeManager = FindInScene<TimeManager>(targetScene);
+            controller = Undo.AddComponent<ChapterEnemyStatController>(
+                timeManager.gameObject);
+        }
+
+        GameplayAnalyticsSceneContext context =
+            FindInScene<GameplayAnalyticsSceneContext>(targetScene);
+        Undo.RecordObject(controller, "Configure Noryangjin Chapter Enemy Stats");
+        controller.Configure(context != null ? context.Chapter : 1);
+        EditorUtility.SetDirty(controller);
+    }
+
     private static CanvasScript EnsureCanvas(Scene sourceScene, Scene targetScene)
     {
         CanvasScript canvas = FindInScene<CanvasScript>(targetScene);
@@ -422,6 +459,10 @@ public static class NoryangjinForwardGameplayInstaller
             missing.Add("NoryangjinUpgradeExtraHelpSpawner");
         if (FindInScene<MoneyScript>(targetScene) == null)
             missing.Add("MoneyScript");
+        if (FindInScene<GameplayAnalyticsSceneContext>(targetScene) == null)
+            missing.Add("GameplayAnalyticsSceneContext");
+        if (FindInScene<ChapterEnemyStatController>(targetScene) == null)
+            missing.Add("ChapterEnemyStatController");
 
         if (missing.Count > 0)
             throw new InvalidOperationException($"설치 검증 실패: {string.Join(", ", missing)}");
@@ -526,10 +567,10 @@ public static class NoryangjinForwardGameplayInstaller
             string.Equals(scene.path, SourceScenePath, StringComparison.OrdinalIgnoreCase) ||
             string.Equals(scene.path, TargetScenePath, StringComparison.OrdinalIgnoreCase));
 
-        // Forward remains the project's enabled default scene. Noryangjin is added
-        // after it so installing the map gameplay never changes the boot scene.
-        scenes.Insert(0, new EditorBuildSettingsScene(SourceScenePath, true));
-        scenes.Insert(1, new EditorBuildSettingsScene(TargetScenePath, true));
+        // Noryangjin is the project's enabled default scene. Keep Forward available
+        // after it as the source and fallback gameplay scene.
+        scenes.Insert(0, new EditorBuildSettingsScene(TargetScenePath, true));
+        scenes.Insert(1, new EditorBuildSettingsScene(SourceScenePath, true));
 
         return scenes.ToArray();
     }

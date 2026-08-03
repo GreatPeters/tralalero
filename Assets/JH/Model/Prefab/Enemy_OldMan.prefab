@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 5210715936473351095}
   - component: {fileID: 4147755106931063023}
   - component: {fileID: 728864601674101553}
+  - component: {fileID: 2238496825315952039}
   m_Layer: 0
   m_Name: Enemy_OldMan
   m_TagString: EnemyTag
@@ -209,7 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bonusWall: {fileID: 7924109799707602117, guid: 0921299fe0ec21549b8aa88b8f5709ec, type: 3}
-  enemyTier: 2
+  enemyTier: 0
   enemyCombatType: 0
   _health: 0
   _damage: 0
@@ -323,6 +324,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2238496825315952039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738255497893005468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54e1bdd9773bf9b41a6fd63b8d57548f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IndianOceanAssets.ShooterSurvival.EnemyMovementController
+  movementMode: 0
+  moveSpeed: 2
+  sideToSideDistance: 2
+  entranceSide: -1
+  entranceDistance: 3
 --- !u!1 &4011440250019876081
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +574,7 @@ Animator:
   m_GameObject: {fileID: 1963228428943740051}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 11645f2ce81a8ce4a82bc3662a0b919c, type: 3}
-  m_Controller: {fileID: 9100000, guid: 9f972837684fed8499ea082c2b40f9ef, type: 2}
+  m_Controller: {fileID: 22100000, guid: 8d6f02548514af3479c7fe2c371f1a74, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

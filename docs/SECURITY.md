@@ -39,6 +39,9 @@
 ## Analytics Trust Limit
 
 - `google-services.json` is Firebase client configuration, not an administrator credential, but it must match Android app ID `com.mzkoreagames.tralaleroshooter` and the reviewed project/app destination recorded in `ProjectSettings/FirebaseAnalyticsDestination.json`.
+- GitHub secret scanning ignores only the three Firebase-generated client configuration artifacts listed in `.github/secret_scanning.yml`: the source `google-services.json`, generated desktop JSON, and generated Android XML. Do not broaden these exclusions with directories or wildcards.
+- Keep the Google Cloud API key restricted to the Firebase APIs used by this client. Firebase Security Rules and App Check remain the authorization and abuse-prevention boundaries; an API key is not authorization.
+- Never commit a Google Cloud service-account file or any value containing `private_key`, `client_secret`, or another server credential. Those are not covered by the client-configuration exclusions.
 - The Android manifest starts Analytics collection disabled, removes the Advertising ID permission, disables Advertising ID collection, and disables ad-personalization signals. Runtime collection state is persisted; disabling it clears the unsent event queue and unfinished-round checkpoint instead of re-enabling on the next launch.
 - A modified client can forge `chapter`, progress, coins, play time, position, upgrade state, and even arbitrary event volume. BigQuery round logs are product analytics, not an authoritative audit ledger.
 - Do not use client telemetry by itself to grant rewards, settle the economy, ban users, or make anti-cheat decisions. Those decisions require server-validated state and a server-owned logging path.

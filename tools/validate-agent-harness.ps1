@@ -4,6 +4,7 @@ $root = Split-Path -Parent $PSScriptRoot
 Set-Location $root
 
 $requiredFiles = @(
+    ".github/secret_scanning.yml",
     "AGENTS.md",
     "ARCHITECTURE.md",
     "docs/README.md",
@@ -26,6 +27,41 @@ foreach ($file in $requiredFiles) {
 
 if ($missing.Count -gt 0) {
     Write-Error ("Missing required harness files:`n - " + ($missing -join "`n - "))
+}
+
+$secretScanningConfig = ".github/secret_scanning.yml"
+$expectedIgnoredPaths = @(
+    "Assets/google-services.json",
+    "Assets/StreamingAssets/google-services-desktop.json",
+    "Assets/Plugins/Android/FirebaseApp.androidlib/res/values/google-services.xml"
+)
+$secretScanningLines = Get-Content -LiteralPath $secretScanningConfig
+
+if (-not ($secretScanningLines -match '^\s*paths-ignore:\s*$')) {
+    Write-Error "$secretScanningConfig does not define paths-ignore."
+}
+
+$configuredIgnoredPaths = @(
+    foreach ($line in $secretScanningLines) {
+        if ($line -match '^\s*-\s*"([^"]+)"\s*$') {
+            $Matches[1]
+        }
+    }
+)
+
+$pathDifferences = @(
+    Compare-Object `
+        -ReferenceObject @($expectedIgnoredPaths | Sort-Object) `
+        -DifferenceObject @($configuredIgnoredPaths | Sort-Object)
+)
+
+if ($configuredIgnoredPaths.Count -ne $expectedIgnoredPaths.Count -or $pathDifferences.Count -gt 0) {
+    Write-Error "$secretScanningConfig must ignore exactly the reviewed Firebase client configuration files."
+}
+
+$broadExclusions = @($configuredIgnoredPaths | Where-Object { $_ -match '[*?\[\]]' })
+if ($broadExclusions.Count -gt 0) {
+    Write-Error "$secretScanningConfig must not contain wildcard exclusions."
 }
 
 $mcpSettings = Get-Content "ProjectSettings/McpUnitySettings.json" | ConvertFrom-Json

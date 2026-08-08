@@ -41,7 +41,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9060276802507500553}
   - component: {fileID: 8678173887378176849}
-  - component: {fileID: 8380124030579082009}
   - component: {fileID: 6819769021475906300}
   m_Layer: 0
   m_Name: EnemyTypeWalker
@@ -91,35 +90,6 @@ CapsuleCollider:
   m_Height: 2.9
   m_Direction: 1
   m_Center: {x: -0.04, y: 1.16, z: 0}
---- !u!114 &8380124030579082009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6179784834069341620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa4f76f7467c05942a616df56b170964, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyTier: 2
-  enemyCombatType: 0
-  _health: 0
-  _damage: 0
-  _score: 0
-  enemyType: 0
-  recieveDamage: 1
-  giveDamage: 1
-  enemySOArray:
-  - {fileID: 11400000, guid: 540a5d24ed1af08488d38a3679c240cb, type: 2}
-  - {fileID: 11400000, guid: f36d32aec349c4f439cec28ee4d09ce6, type: 2}
-  - {fileID: 11400000, guid: 4f9a0ce9d96615344ad9b9e21114e82e, type: 2}
-  heldProjectile: {fileID: 0}
-  throwPoint: {fileID: 0}
-  throwRange: 7
-  throwSpeed: 12
-  projectileLife: 6
 --- !u!82 &6819769021475906300
 AudioSource:
   m_ObjectHideFlags: 0

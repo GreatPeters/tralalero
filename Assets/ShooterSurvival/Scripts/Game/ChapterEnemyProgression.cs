@@ -140,7 +140,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 EnemyScript_space enemy = orderedEnemies[index];
                 EnemyTier fixedTier = ForwardEnemyTierResolver.ResolveOrFallback(
                     enemy.gameObject.name,
-                    enemy.enemyTier);
+                    EnemyTier.Normal);
                 if (!chapterRows.TryGetValue(fixedTier, out MonsterGrowthRow growth))
                 {
                     throw new KeyNotFoundException(
@@ -156,8 +156,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 enemy.ApplyStat(
                     damage,
                     health,
-                    fixedTier,
-                    enemy.enemyCombatType);
+                    fixedTier);
             }
 
             return orderedEnemies.Count;

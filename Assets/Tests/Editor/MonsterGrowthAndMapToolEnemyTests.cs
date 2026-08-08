@@ -294,11 +294,11 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
     }
 
     [Test]
-    public void MapTool_ExposesObjectEnemyAndGimmickTabs()
+    public void MapTool_ExposesObjectEnemyGimmickAndBonusTabs()
     {
         Assert.That(
             NoryangjinMapToolWindow.ContentTabLabels,
-            Is.EqualTo(new[] { "오브젝트", "적군", "기믹" }));
+            Is.EqualTo(new[] { "오브젝트", "적군", "기믹", "보너스" }));
         Assert.That(
             NoryangjinMapToolWindow.IsPaletteSectionVisible(
                 NoryangjinMapToolContentTab.Enemy,
@@ -309,6 +309,82 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
                 NoryangjinMapToolContentTab.Enemy,
                 NoryangjinMapToolPaletteSection.Gimmick),
             Is.False);
+        Assert.That(
+            NoryangjinMapToolWindow.IsPaletteSectionVisible(
+                NoryangjinMapToolContentTab.Bonus,
+                NoryangjinMapToolPaletteSection.Bonus),
+            Is.True);
+    }
+
+    [Test]
+    public void BonusPalette_ExposesPlayableWallsOnItsOwnPlacementLayer()
+    {
+        string[] prefabPaths =
+            NoryangjinMapToolWindow.FindBonusWallPalettePrefabPaths();
+
+        Assert.That(prefabPaths, Has.Length.EqualTo(14));
+        Assert.That(
+            prefabPaths,
+            Does.Not.Contain(
+                NoryangjinMapToolWindow.BonusWallPrefabRoot +
+                "/random_wall_normal_fix.prefab"));
+
+        foreach (string prefabPath in prefabPaths)
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            Assert.That(prefab, Is.Not.Null, prefabPath);
+            Assert.That(
+                prefab.GetComponentInChildren<WallScript>(true),
+                Is.Not.Null,
+                prefabPath);
+            Assert.That(
+                NoryangjinMapToolWindow.GetPaletteItemLayer(
+                    prefabPath,
+                    NoryangjinMapToolPaletteCategory.Prop),
+                Is.EqualTo(NoryangjinMapToolPlacementLayer.Bonus),
+                prefabPath);
+        }
+
+        Vector2Int[] footprint = { Vector2Int.zero };
+        HashSet<NoryangjinMapToolOccupiedCell> occupiedCells = new()
+        {
+            new NoryangjinMapToolOccupiedCell(
+                Vector2Int.zero,
+                NoryangjinMapToolPlacementLayer.Object)
+        };
+        Assert.That(
+            NoryangjinMapToolWindow.CanPlaceFootprintCells(
+                footprint,
+                NoryangjinMapToolPlacementLayer.Bonus,
+                occupiedCells),
+            Is.True);
+    }
+
+    [Test]
+    public void ConfigureBonusWallInstance_MarksEveryPlayableWallAsNoryangjinRuntime()
+    {
+        string prefabPath =
+            NoryangjinMapToolWindow.BonusWallPrefabRoot +
+            "/random_wall_normal.prefab";
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        GameObject instance = Object.Instantiate(prefab);
+        try
+        {
+            NoryangjinMapToolWindow.ConfigureBonusWallInstance(instance);
+
+            WallScript[] walls = instance.GetComponentsInChildren<WallScript>(true);
+            Assert.That(walls, Is.Not.Empty);
+            foreach (WallScript wall in walls)
+            {
+                RuntimeBonusWall marker = wall.GetComponent<RuntimeBonusWall>();
+                Assert.That(marker, Is.Not.Null);
+                Assert.That(marker.RemoveWhenPreparingStage, Is.False);
+            }
+        }
+        finally
+        {
+            Object.DestroyImmediate(instance);
+        }
     }
 
     [Test]
@@ -338,7 +414,6 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
             Assert.That(prefab, Is.Not.Null, prefabPath);
             EnemyScript_space enemy = prefab.GetComponent<EnemyScript_space>();
             Assert.That(enemy, Is.Not.Null, prefabPath);
-            Assert.That(enemy.enemyTier, Is.EqualTo(definition.Tier), prefabPath);
         }
 
         Assert.That(
@@ -346,6 +421,53 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
                 NoryangjinMapToolWindow.EnemyMovementTriggerPrefabPath,
                 NoryangjinMapToolPaletteCategory.Prop),
             Is.EqualTo(NoryangjinMapToolPlacementLayer.Enemy));
+    }
+
+    [Test]
+    public void EnemyScriptSpace_UsesOnlyTheNoryangjinAuthoringContract()
+    {
+        foreach (ForwardEnemyArchetypeDefinition definition in
+                 ForwardEnemyArchetypeCatalog.Definitions)
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+                definition.PrefabPath);
+            EnemyScript_space enemy = prefab.GetComponent<EnemyScript_space>();
+            Assert.That(enemy, Is.Not.Null, definition.PrefabPath);
+
+            var serializedEnemy = new SerializedObject(enemy);
+            Assert.That(
+                serializedEnemy.FindProperty("enemyData").objectReferenceValue,
+                Is.Not.Null,
+                definition.PrefabPath);
+            Assert.That(
+                serializedEnemy.FindProperty("bonusWall").objectReferenceValue,
+                Is.Not.Null,
+                definition.PrefabPath);
+
+            float expectedDelay = definition.Identity switch
+            {
+                "Enemy_FatMan" => 1.6f,
+                "Enemy_Guard" => 0.8f,
+                _ => 2f
+            };
+            Assert.That(
+                serializedEnemy.FindProperty("throwReleaseDelay").floatValue,
+                Is.EqualTo(expectedDelay).Within(0.001f),
+                definition.PrefabPath);
+        }
+
+        string[] legacySpacePrefabPaths =
+        {
+            "Assets/ShooterSurvival/Prefabs/Entities/Space/EnemyTypeWalker.prefab",
+            "Assets/ShooterSurvival/Prefabs/Entities/Space/EnemyTypeRusher.prefab",
+            "Assets/ShooterSurvival/Prefabs/Entities/Space/EnemyTypeTank.prefab"
+        };
+        foreach (string prefabPath in legacySpacePrefabPaths)
+        {
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            Assert.That(prefab, Is.Not.Null, prefabPath);
+            Assert.That(prefab.GetComponent<EnemyScript_space>(), Is.Null, prefabPath);
+        }
     }
 
     [Test]
@@ -466,13 +588,16 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
     public void ContentTabs_OwnOnlyTheirMatchingPlacedObjects()
     {
         GameObject enemyParent = new("Enemies");
+        GameObject bonusParent = new("Bonuses");
         GameObject enemy = new("Enemy_Guard_X+00_Z+00");
+        GameObject bonus = new("Bonus_random_wall_normal_X+00_Z+00");
         GameObject prop = new("Prop_Box_X+00_Z+00");
         GameObject turnSpot = new("TurnSpot_X+00_Z+00");
 
         try
         {
             enemy.transform.SetParent(enemyParent.transform);
+            bonus.transform.SetParent(bonusParent.transform);
             turnSpot.AddComponent<NoryangjinTurnSpot>();
 
             Assert.That(
@@ -495,13 +620,25 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
                     turnSpot,
                     NoryangjinMapToolContentTab.Object),
                 Is.False);
+            Assert.That(
+                NoryangjinMapToolWindow.IsPlacedObjectOwnedByContentTab(
+                    bonus,
+                    NoryangjinMapToolContentTab.Bonus),
+                Is.True);
+            Assert.That(
+                NoryangjinMapToolWindow.IsPlacedObjectOwnedByContentTab(
+                    bonus,
+                    NoryangjinMapToolContentTab.Object),
+                Is.False);
         }
         finally
         {
             Object.DestroyImmediate(enemy);
+            Object.DestroyImmediate(bonus);
             Object.DestroyImmediate(prop);
             Object.DestroyImmediate(turnSpot);
             Object.DestroyImmediate(enemyParent);
+            Object.DestroyImmediate(bonusParent);
         }
     }
 
@@ -725,65 +862,47 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
     [Test]
     public void EnemyAssignment_ConsumesOnlyPlainLeftClick()
     {
-        var leftClick = new Event
-        {
-            type = EventType.MouseDown,
-            button = 0
-        };
-        var altLeftClick = new Event
-        {
-            type = EventType.MouseDown,
-            button = 0,
-            modifiers = EventModifiers.Alt
-        };
-        var shiftLeftClick = new Event
-        {
-            type = EventType.MouseDown,
-            button = 0,
-            modifiers = EventModifiers.Shift
-        };
-        var controlLeftClick = new Event
-        {
-            type = EventType.MouseDown,
-            button = 0,
-            modifiers = EventModifiers.Control
-        };
-        var commandLeftClick = new Event
-        {
-            type = EventType.MouseDown,
-            button = 0,
-            modifiers = EventModifiers.Command
-        };
-        var rightClick = new Event
-        {
-            type = EventType.MouseDown,
-            button = 1
-        };
-        var mouseMove = new Event
-        {
-            type = EventType.MouseMove
-        };
-
         Assert.That(
-            NoryangjinMapToolWindow.ShouldHandleEnemyAssignmentSceneEvent(leftClick),
+            NoryangjinMapToolWindow.ShouldHandleEnemyAssignmentInput(
+                EventType.MouseDown,
+                0,
+                EventModifiers.None),
             Is.True);
         Assert.That(
-            NoryangjinMapToolWindow.ShouldHandleEnemyAssignmentSceneEvent(altLeftClick),
+            NoryangjinMapToolWindow.ShouldHandleEnemyAssignmentInput(
+                EventType.MouseDown,
+                0,
+                EventModifiers.Alt),
             Is.False);
         Assert.That(
-            NoryangjinMapToolWindow.ShouldHandleEnemyAssignmentSceneEvent(shiftLeftClick),
+            NoryangjinMapToolWindow.ShouldHandleEnemyAssignmentInput(
+                EventType.MouseDown,
+                0,
+                EventModifiers.Shift),
             Is.False);
         Assert.That(
-            NoryangjinMapToolWindow.ShouldHandleEnemyAssignmentSceneEvent(controlLeftClick),
+            NoryangjinMapToolWindow.ShouldHandleEnemyAssignmentInput(
+                EventType.MouseDown,
+                0,
+                EventModifiers.Control),
             Is.False);
         Assert.That(
-            NoryangjinMapToolWindow.ShouldHandleEnemyAssignmentSceneEvent(commandLeftClick),
+            NoryangjinMapToolWindow.ShouldHandleEnemyAssignmentInput(
+                EventType.MouseDown,
+                0,
+                EventModifiers.Command),
             Is.False);
         Assert.That(
-            NoryangjinMapToolWindow.ShouldHandleEnemyAssignmentSceneEvent(rightClick),
+            NoryangjinMapToolWindow.ShouldHandleEnemyAssignmentInput(
+                EventType.MouseDown,
+                1,
+                EventModifiers.None),
             Is.False);
         Assert.That(
-            NoryangjinMapToolWindow.ShouldHandleEnemyAssignmentSceneEvent(mouseMove),
+            NoryangjinMapToolWindow.ShouldHandleEnemyAssignmentInput(
+                EventType.MouseMove,
+                0,
+                EventModifiers.None),
             Is.False);
     }
 

@@ -347,12 +347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e05046c2d6af655459ac5140daff7df3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerScore: 0
-  currentHealth: 0
-  currentWeapon: {fileID: 0}
-  currentDamage: 0
-  currentFireRate: 0
-  moveSensitivity: 1
   playerHealth: 100
   xRange: {x: -1, y: 1}
   movementSmoothness: 40
@@ -360,12 +354,7 @@ MonoBehaviour:
   fwdMoveSpeed: 2
   movement: 1
   animationActive: 1
-  enemyDetection: 1
   healthBar: {fileID: 408395557795352465}
-  previousPosition: {x: 0, y: 0, z: 0}
-  isMoving: 0
-  dir: 0
-  nearestEnemy: {fileID: 0}
 --- !u!114 &7608299530434229643
 MonoBehaviour:
   m_ObjectHideFlags: 0

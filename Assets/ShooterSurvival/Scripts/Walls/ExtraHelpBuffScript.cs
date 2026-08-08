@@ -1,6 +1,5 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public enum HelpType
 {
@@ -13,10 +12,12 @@ namespace IndianOceanAssets.ShooterSurvival
     public class ExtraHelpBuffScript : MonoBehaviour
     {
         private const float TungtungMoveSpeedMultiplier = 1.06f;
+        private const int InitialEnemySearchCapacity = 32;
+        private int enemyLayerMask;
 
         [Header("Runtime")]
         [Tooltip("Current health of the Extra Help Buff.")]
-        public float currentHealth;
+        [System.NonSerialized] public float currentHealth;
 
         [Header("ExtraHelp Buff Params")]
         [Tooltip("Maximum health of the Extra Help Buff.")]
@@ -26,12 +27,7 @@ namespace IndianOceanAssets.ShooterSurvival
         [SerializeField] private float followSpeed;
 
         [Header("Dependencies")]
-        [Tooltip("Position of the weapon used by the Extra Help Buff.")]
-        [SerializeField] private Transform weaponPos;
-
-        [Tooltip("Health bar UI to display the Extra Help Buff's health.")]
-        [SerializeField] private Image healthBar;
-        [SerializeField] private TextMeshProUGUI healthText;
+        private TextMeshProUGUI healthText;
 
         [Tooltip("Sound effect to play when the Extra Help Buff dies.")]
         [SerializeField] private AudioClip EH_deathAudioClip;
@@ -41,21 +37,22 @@ namespace IndianOceanAssets.ShooterSurvival
         private AudioSource audioSource;
         private bool isDead = false;
         private Vector3 previousPosition;
-        private int dir;
         private PlayerScript playerScript;
         private bool hasDeadParameter;
         private bool hasWalkForwardParameter;
         private bool hasMovingParameter;
         private bool hasMoveDirectionParameter;
 
-        public int spawnIndex;
-        public HelpType helpType;
+        private float lastDisplayedHealth = float.NaN;
+        private Collider[] enemySearchBuffer;
+
+        [System.NonSerialized] public int spawnIndex;
+        [System.NonSerialized] public HelpType helpType;
 
 
         private void Awake()
         {
-            // Initialize health
-            //currentHealth = health;
+            enemyLayerMask = LayerMask.GetMask("Enemy");
             PlayerScript owner = GameManager.S != null
                 ? GameManager.S.playerScript
                 : FindFirstObjectByType<PlayerScript>();
@@ -124,95 +121,60 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void Update()
         {
-            // Update Health bar UI
-            //healthBar.fillAmount = currentHealth / health;            
-            
-
-            // Check for EH death
-            if (isDead == false && currentHealth <= 0)
+            if (!isDead && currentHealth <= 0f)
             {
                 isDead = true;
                 if (hasDeadParameter)
                     EH_animator.SetBool("EH_dead", isDead);
-                audioSource.PlayOneShot(EH_deathAudioClip);
-                Destroy(gameObject, 0.1f);                        // Destroy gameobject
+                if (audioSource != null && EH_deathAudioClip != null)
+                    audioSource.PlayOneShot(EH_deathAudioClip);
+                Destroy(gameObject, 0.1f);
+                return;
             }
 
             if (helpType == HelpType.Boombardino)
             {
                 FollowPlayer();
-                healthText.text = "";
+                HandleAnimation();
+                if (healthText != null && healthText.text.Length > 0)
+                    healthText.text = string.Empty;
             }
             else if (helpType == HelpType.Tungtungtung)
             {
                 MoveAndHitEnemy();
-                healthText.text = currentHealth.ToString("F0");
+                if (healthText != null &&
+                    !Mathf.Approximately(lastDisplayedHealth, currentHealth))
+                {
+                    healthText.text = currentHealth.ToString("F0");
+                    lastDisplayedHealth = currentHealth;
+                }
             }
-        }
-
-        private void FixedUpdate()
-        {
-            /*
-            if(helpType == HelpType.Boombardino)
-            {
-                FollowPlayer();
-            }
-            else if(helpType == HelpType.Tungtungtung)
-            {
-                //여기다가!!
-                MoveAndHitEnemy();
-            }
-            */
-
-            if(helpType == HelpType.Boombardino)
-            {
-                HandleAnimation();
-            }
-            
         }
 
         private void FollowPlayer()
-        {             
-            float xOffset = 0f;
-            float zOffset = 0f;
-
-            if (spawnIndex == 0)
-            {
-                xOffset = 0.0f;
-                zOffset = -1.5f;
-            }
-            else if(spawnIndex == 1)
-            {
-                xOffset = -0.5f;
-                zOffset = -1.5f;
-            }
-            else if(spawnIndex == 2)
-            {
-                xOffset = 0.5f;
-                zOffset = -1.5f;
-            }
-            else if (spawnIndex == 3)
-            {
-                xOffset = -1.0f;
-                zOffset = -1.5f;
-            }
-            else if (spawnIndex == 4)
-            {
-                xOffset = 1.0f;
-                zOffset = -1.5f;
-            }
-
-            // Follow the player while maintaining the offset distance
+        {
             Vector3 targetPosition;
 
             if (playerScript.currentHealth <= 0)
+            {
                 Destroy(gameObject);
+                return;
+            }
 
             if (TimeManager.Instance.isForwardMarchScene == true)
             {
+                Vector3 offset = spawnIndex switch
+                {
+                    0 => new Vector3(0f, 0f, -1.5f),
+                    1 => new Vector3(-0.5f, 0f, -1.5f),
+                    2 => new Vector3(0.5f, 0f, -1.5f),
+                    3 => new Vector3(-1f, 0f, -1.5f),
+                    4 => new Vector3(1f, 0f, -1.5f),
+                    _ => Vector3.zero
+                };
                 Vector3 routeOffset =
-                    playerTransform.right * xOffset +
-                    playerTransform.forward * zOffset;
+                    playerTransform.right * offset.x +
+                    playerTransform.forward * offset.z;
                 targetPosition = playerTransform.position + routeOffset;
                 targetPosition.y = 2f;
 
@@ -235,19 +197,6 @@ namespace IndianOceanAssets.ShooterSurvival
                 targetPosition = new Vector3(playerTransform.position.x, transform.position.y, transform.position.z);
             }
             transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime * TimeManager.timeFactor);
-
-            if (playerScript.nearestEnemy != null)
-            {
-                Vector3 enemyDir = playerScript.nearestEnemy.position - transform.GetChild(0).position;
-                enemyDir.y = 0;
-                //Quaternion targetRot = Quaternion.LookRotation(enemyDir);
-                //transform.GetChild(0).rotation = Quaternion.Slerp(transform.GetChild(0).rotation, targetRot, 10f * Time.deltaTime * TimeManager.timeFactor);
-            }
-            else
-            {
-                //Quaternion targetRot = Quaternion.LookRotation(Vector3.forward);
-                //transform.GetChild(0).rotation = Quaternion.Slerp(transform.GetChild(0).rotation, targetRot, 10f * Time.deltaTime * TimeManager.timeFactor);
-            }
         }
 
         private void HandleAnimation()
@@ -255,8 +204,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (EH_animator == null || EH_animator.runtimeAnimatorController == null)
                 return;
 
-            if (TimeManager.isGameRunning == true) EH_animator.enabled = true;
-            else EH_animator.enabled = false;
+            EH_animator.enabled = TimeManager.isGameRunning;
 
             if (TimeManager.Instance.isForwardMarchScene == true && hasWalkForwardParameter)
                 EH_animator.SetBool("WalkFwd", true);
@@ -271,10 +219,12 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (isMoving == true)
             {
-                dir = lateralDelta > 0f ? 1 : -1;
-
                 if (hasMoveDirectionParameter)
-                    EH_animator.SetInteger("MoveDirection", dir);
+                {
+                    EH_animator.SetInteger(
+                        "MoveDirection",
+                        lateralDelta > 0f ? 1 : -1);
+                }
             }
 
             previousPosition = transform.position;
@@ -306,9 +256,9 @@ namespace IndianOceanAssets.ShooterSurvival
         private void MoveAndHitEnemy()
         {
             float tf = TimeManager.timeFactor;
-            float baseSpeed = followSpeed;
-            if (helpType == HelpType.Tungtungtung && playerScript != null)
-                baseSpeed = playerScript.ForwardMoveSpeed * TungtungMoveSpeedMultiplier;
+            float baseSpeed = playerScript != null
+                ? playerScript.ForwardMoveSpeed * TungtungMoveSpeedMultiplier
+                : followSpeed;
 
             float step = Mathf.Max(0f, baseSpeed) * Time.deltaTime * tf;
 
@@ -349,18 +299,41 @@ namespace IndianOceanAssets.ShooterSurvival
 
         // ▼ 이동만을 위한 보조(로컬) 함수
         private Transform FindNearestEnemy(float radius)
-        {           
-            Transform nearest = null; float minSqr = float.MaxValue;
-            //var hits = Physics.OverlapSphere(transform.position, radius);
-            int mask = LayerMask.GetMask("Enemy"); // Enemy 레이어만
-            var hits = Physics.OverlapSphere(transform.position, radius, mask, QueryTriggerInteraction.Collide);
+        {
+            enemySearchBuffer ??= new Collider[InitialEnemySearchCapacity];
 
-            foreach (var h in hits)
+            int hitCount;
+            while (true)
             {
-                if (!h.CompareTag("EnemyTag")) continue; // 적 태그 전제
-                float sqr = (h.transform.position - transform.position).sqrMagnitude;
-                if (sqr < minSqr) { minSqr = sqr; nearest = h.transform; }
+                hitCount = Physics.OverlapSphereNonAlloc(
+                    transform.position,
+                    radius,
+                    enemySearchBuffer,
+                    enemyLayerMask,
+                    QueryTriggerInteraction.Collide);
+
+                if (hitCount < enemySearchBuffer.Length)
+                    break;
+
+                enemySearchBuffer = new Collider[enemySearchBuffer.Length * 2];
             }
+
+            Transform nearest = null;
+            float minSqr = float.MaxValue;
+            for (int i = 0; i < hitCount; i++)
+            {
+                Collider hit = enemySearchBuffer[i];
+                if (hit == null || !hit.CompareTag("EnemyTag"))
+                    continue;
+
+                float sqr = (hit.transform.position - transform.position).sqrMagnitude;
+                if (sqr >= minSqr)
+                    continue;
+
+                minSqr = sqr;
+                nearest = hit.transform;
+            }
+
             return nearest;
         }
 

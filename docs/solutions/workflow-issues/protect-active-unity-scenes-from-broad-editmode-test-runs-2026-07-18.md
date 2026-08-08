@@ -1,7 +1,7 @@
 ---
 title: Protect Active Unity Scenes from Broad EditMode Test Runs
 date: 2026-07-18
-last_updated: 2026-08-01
+last_updated: 2026-08-05
 category: docs/solutions/workflow-issues
 module: Unity Noryangjin map tooling
 problem_type: workflow_issue
@@ -32,6 +32,8 @@ Running the complete `NoryangjinMapToolGridUtilityTests` fixture through the ope
 The run also saved test-created prefab instances and active-state changes into the authored map-tool scene. The scene had been clean before verification, but afterward `git diff` showed hundreds of unrelated YAML lines. Narrow single-test filters completed normally and did not leave the same broad mutation footprint.
 
 A later narrow `PlayerCharacterDefaultsTests` EditMode run exposed a separate risk: even tests that only create and destroy temporary `GameObject` instances can save an already-dirty authored scene before the test starts. The connector's `allow_dirty_scenes` option bypasses only its own preflight guard. Unity Test Framework still schedules `SaveModifiedSceneTask`, which calls `EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()` for EditMode runs.
+
+The same failure mode recurred while verifying a single enemy-facing regression test. `Noryangjin_MapTool_Mode` already had unsaved authoring work, the test request timed out, and subsequent MCP scene queries also timed out while Unity remained responsive. This is consistent with the Test Runner waiting behind the modal save decision rather than executing the test.
 
 Two tempting signals were insufficient:
 
@@ -87,6 +89,8 @@ For unattended verification, use one of these safe states before calling `run_te
 
 If the scene must remain dirty, stop at compilation or another read-only verification step instead of forcing the in-process Test Runner through the connector.
 
+If a run has already reached the modal save decision, preserve the authored work by having the user choose Cancel. Use Don't Save only when the user explicitly intends to discard those scene edits. Do not send blind keyboard input, terminate Unity, or restart the editor when the prompt cannot be observed reliably; those recovery attempts can discard the unsaved scene that the guardrail is meant to protect.
+
 ### Treat connector timeout and editor completion as separate states
 
 After a timeout, do not immediately start another test run. Check `Editor.log`, the Unity process state, and the active-scene title until the original run finishes and the authored scene is active again. Then retry only the narrow, idempotent test command.
@@ -136,6 +140,8 @@ Also avoid this unattended request while a scene is dirty:
 ```
 
 It may pass all tests while persisting the scene's existing in-memory edits to disk during Test Runner setup.
+
+In the later enemy-facing run, the safe fallback was to leave the dirty scene untouched, stop retrying MCP commands, compile both runtime and editor assemblies, and report the Unity test as pending rather than claiming a pass.
 
 ## Related
 

@@ -37,7 +37,6 @@ namespace IndianOceanAssets.ShooterSurvival
         [Header("Dependencies")]
         [Tooltip("Visual shown when this enemy is hit.")]
         public GameObject enemyHitVFX;
-        public GameObject enemyDeathVFX;
 
         [Tooltip("Sound played when this enemy is hit.")]
         public AudioClip enemyHitSound;

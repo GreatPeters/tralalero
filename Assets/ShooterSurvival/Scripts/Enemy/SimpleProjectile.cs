@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace IndianOceanAssets.ShooterSurvival
@@ -6,59 +5,45 @@ namespace IndianOceanAssets.ShooterSurvival
     // ����ü�� '���𰡿� �ε����� ��' ���� �ְ� ������ �ı�
     public class SimpleProjectile : MonoBehaviour
     {
-        public bool isAttacked = false;
-        public float damage = 5f;
-        public string targetTag = "Player";
-        public string helperTag = "ExtraHelpTag"; // �ɼ�
+        private const string PlayerTag = "Player";
+        private bool isAttacked;
+        [System.NonSerialized] public float damage = 5f;
 
-        void InIt()
+        private void OnEnable()
         {
             isAttacked = false;
         }
 
-        void OnEnable()
+        private void OnTriggerEnter(Collider other)
         {
-            InIt();
-        }
+            if (!other.CompareTag(PlayerTag))
+                return;
 
-        void OnTriggerEnter(Collider other)
-        {
-            if (other.CompareTag(targetTag))
+            PlayerScript player = other.GetComponent<PlayerScript>();
+            if (player != null)
+                player.currentHealth = Mathf.Max(0f, player.currentHealth - damage);
+
+            if (TryGetComponent(out TrailRenderer trail))
+                trail.enabled = false;
+
+            if (transform.name == "Arrow2")
             {
-                var ps = other.GetComponent<PlayerScript>();
-                if (ps != null) ps.currentHealth = Mathf.Max(0f, ps.currentHealth - damage);
-
-                if (transform.GetComponent<TrailRenderer>() != null)
-                {
-                    transform.GetComponent<TrailRenderer>().enabled = false;
-                }
-
-                if (transform.name != "Paddle" && transform.name != "Arrow2")
-                {
-                    Destroy(gameObject);
-                }
-                else if (transform.name != "Paddle" && transform.name == "Arrow2")
-                {
-                    gameObject.SetActive(false);
-                }
-
-                else if (transform.name.Contains("Paddle"))
-                {
-                    var obs = GetComponentInParent<ObstacleStats>();
-                    if (obs != null && !isAttacked)
-                    {
-                        StartCoroutine(obs.SpinAndMovePlayer(other.transform, 2f));
-                        isAttacked = true;
-                    }
-                }
-
+                gameObject.SetActive(false);
                 return;
             }
-        }
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            Debug.Log(collision.gameObject.name + "!!");
+            if (transform.name == "Paddle")
+            {
+                ObstacleStats obstacle = GetComponentInParent<ObstacleStats>();
+                if (obstacle != null && !isAttacked)
+                {
+                    StartCoroutine(obstacle.SpinAndMovePlayer(other.transform, 2f));
+                    isAttacked = true;
+                }
+                return;
+            }
+
+            Destroy(gameObject);
         }
     }
 }

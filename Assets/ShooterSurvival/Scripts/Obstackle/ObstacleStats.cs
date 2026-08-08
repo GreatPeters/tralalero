@@ -175,7 +175,6 @@ public class ObstacleStats : MonoBehaviour
     bool _savedStart;
 
     bool _lampFallen;
-    bool _lampDamagedOnce;   // 플레이어가 닿았을 때 1회만 데미지 주려면 사용
     Vector3 _hinge;          // 바닥 힌지 (Bounds로 자동 계산)
 
     public ObstaclePattern obstaclePattern;
@@ -253,7 +252,6 @@ public class ObstacleStats : MonoBehaviour
         // _started = false;
         // _bucketAttached = false;
         // _lampFallen = false;
-        // _lampDamagedOnce = false;
 
         // if (obstaclePattern == ObstaclePattern.Seagull)
         // {
@@ -292,7 +290,6 @@ public class ObstacleStats : MonoBehaviour
         _started = false;
         _bucketAttached = false;
         _lampFallen = false;
-        _lampDamagedOnce = false;
 
         if (obstaclePattern == ObstaclePattern.Light && !_savedStart)
         {
@@ -743,7 +740,6 @@ public class ObstacleStats : MonoBehaviour
         if (sp != null)
         {
             sp.damage = value;
-            sp.targetTag = "Player";
         }
 
         Destroy(proj, 5f);

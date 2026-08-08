@@ -44,7 +44,8 @@ public enum NoryangjinMapToolContentTab
 {
     Object = 0,
     Enemy = 1,
-    Gimmick = 2
+    Gimmick = 2,
+    Bonus = 3
 }
 
 internal enum NoryangjinMapToolPaletteSection
@@ -52,7 +53,8 @@ internal enum NoryangjinMapToolPaletteSection
     Common = 0,
     Object = 1,
     Enemy = 2,
-    Gimmick = 3
+    Gimmick = 3,
+    Bonus = 4
 }
 
 public enum NoryangjinMapToolPaletteClickAction
@@ -81,7 +83,8 @@ public enum NoryangjinMapToolPlacementLayer
     Object = 1,
     SeagullPerch = 2,
     Background = 3,
-    Enemy = 4
+    Enemy = 4,
+    Bonus = 5
 }
 
 public readonly struct NoryangjinMapToolSceneViewPreset
@@ -334,6 +337,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private const string PrefabRoot = "Assets/ShooterSurvival/Prefabs/MeshyAI/Stage01_Noryangjin";
     private const string JhPrefabRoot = "Assets/JH/Prefab";
     private const string JhEnemyPrefabRoot = "Assets/JH/Model/Prefab";
+    internal const string BonusWallPrefabRoot =
+        "Assets/ShooterSurvival/Prefabs/Walls/New";
+    private const string ExcludedBonusWallPrefabPath =
+        BonusWallPrefabRoot + "/random_wall_normal_fix.prefab";
     internal const string JhWaterPrefabPath = JhPrefabRoot + "/water.prefab";
     internal const string NoryangjinOceanWaterBackdropPrefabPath = PrefabRoot + "/017_STAGE01_NRY_BG_001_Ocean_water_plane_backdrop/017_STAGE01_NRY_BG_001_Ocean_water_plane_backdrop.prefab";
     internal const string NoryangjinGroundBackdropPrefabPath = PrefabRoot + "/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop.prefab";
@@ -346,6 +353,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private const string RoadParentName = "Roads";
     private const string PropParentName = "Props";
     private const string EnemyParentName = "Enemies";
+    private const string BonusParentName = "Bonuses";
     private const string WaterParentName = "Water";
     private const string WaterBackdropInstanceName = "Background_Water";
     private const string WorkFloorName = "MapTool_Work_Floor";
@@ -361,7 +369,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     internal const string PositionMoveSectionTitle = "설치 조정";
     internal const string ObjectSectionTitle = "오브젝트";
-    internal static readonly string[] ContentTabLabels = { "오브젝트", "적군", "기믹" };
+    internal static readonly string[] ContentTabLabels =
+        { "오브젝트", "적군", "기믹", "보너스" };
     internal const string PlacementAngleSectionTitle = "설치 각도";
     internal const string PlacementAnglePaletteHint = "선택 프리팹의 다음 배치 각도";
     internal const string PlacementAnglePlacedObjectHint = "선택 오브젝트에 바로 적용";
@@ -431,7 +440,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const float WorkGridOverlayLineWidthPixels = 2.5f;
     internal const float WorkSubGridOverlayLineWidthPixels = 1f;
     private const float TopSceneViewForwardDotThreshold = 0.98f;
-    internal const int WorkGridExtent = 200;
+    internal const int WorkGridExtent = 300;
     internal const int WorkGridSubdivisionsPerCell = 5;
     internal const bool DefaultShowWorkSubGrid = false;
     internal static readonly bool DrawPlacementValidityFillAsGuiOverlay = true;
@@ -2445,6 +2454,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         {
             NoryangjinMapToolContentTab.Enemy => section == NoryangjinMapToolPaletteSection.Enemy,
             NoryangjinMapToolContentTab.Gimmick => section == NoryangjinMapToolPaletteSection.Gimmick,
+            NoryangjinMapToolContentTab.Bonus => section == NoryangjinMapToolPaletteSection.Bonus,
             _ => section == NoryangjinMapToolPaletteSection.Object
         };
     }
@@ -3334,9 +3344,20 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         Event currentEvent)
     {
         return currentEvent != null &&
-               currentEvent.type == EventType.MouseDown &&
-               currentEvent.button == 0 &&
-               (currentEvent.modifiers &
+               ShouldHandleEnemyAssignmentInput(
+                   currentEvent.type,
+                   currentEvent.button,
+                   currentEvent.modifiers);
+    }
+
+    internal static bool ShouldHandleEnemyAssignmentInput(
+        EventType eventType,
+        int button,
+        EventModifiers modifiers)
+    {
+        return eventType == EventType.MouseDown &&
+               button == 0 &&
+               (modifiers &
                 (EventModifiers.Alt |
                  EventModifiers.Control |
                  EventModifiers.Command |
@@ -4456,12 +4477,21 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
         bool isRoad = item.Category == NoryangjinMapToolPaletteCategory.Road;
         bool isEnemy = IsEnemyPalettePrefabPath(item.PrefabPath);
+        bool isBonus = IsBonusWallPalettePrefabPath(item.PrefabPath);
         string parentName = isRoad
             ? RoadParentName
             : isEnemy
                 ? EnemyParentName
-                : PropParentName;
-        string instanceKind = isRoad ? "Road" : isEnemy ? "Enemy" : "Prop";
+                : isBonus
+                    ? BonusParentName
+                    : PropParentName;
+        string instanceKind = isRoad
+            ? "Road"
+            : isEnemy
+                ? "Enemy"
+                : isBonus
+                    ? "Bonus"
+                    : "Prop";
 
         int undoGroup = BeginMapToolUndoGroup($"Place {item.Label}");
         try
@@ -4472,6 +4502,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 NoryangjinMapToolGridUtility.BuildInstanceName(instanceKind, item.Prefab.name, gridX, gridZ),
                 placement,
                 isEnemy ? item.PrefabPath : null);
+
+            if (isBonus)
+                ConfigureBonusWallInstance(instance);
 
             Selection.activeGameObject = instance;
             RegisterLastPlacedObject(instance);
@@ -4562,10 +4595,12 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         if (deleteTargets.Count == 0)
             return;
 
-        NoryangjinMapToolPlacementLayer? preferredLayer =
-            selectedContentTab == NoryangjinMapToolContentTab.Enemy
-                ? NoryangjinMapToolPlacementLayer.Enemy
-                : null;
+        NoryangjinMapToolPlacementLayer? preferredLayer = selectedContentTab switch
+        {
+            NoryangjinMapToolContentTab.Enemy => NoryangjinMapToolPlacementLayer.Enemy,
+            NoryangjinMapToolContentTab.Bonus => NoryangjinMapToolPlacementLayer.Bonus,
+            _ => null
+        };
         GameObject deleteTarget = SelectSingleCursorDeleteTarget(
             deleteTargets,
             cursor,
@@ -5529,6 +5564,23 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return instance;
     }
 
+    internal static void ConfigureBonusWallInstance(GameObject instance)
+    {
+        if (instance == null)
+            return;
+
+        foreach (WallScript wall in instance.GetComponentsInChildren<WallScript>(true))
+        {
+            RuntimeBonusWall marker = wall.GetComponent<RuntimeBonusWall>();
+            if (marker == null)
+                marker = Undo.AddComponent<RuntimeBonusWall>(wall.gameObject);
+
+            Undo.RecordObject(marker, "Keep Map-Authored Bonus Wall");
+            marker.KeepAsMapAuthoredWall();
+            EditorUtility.SetDirty(marker);
+        }
+    }
+
     private void RegisterLastPlacedObject(GameObject instance)
     {
         lastPlacedObjectInstanceId = instance != null ? instance.GetInstanceID() : 0;
@@ -5619,6 +5671,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             IsEnemyMovementTriggerPrefabPath(prefabPath))
             return NoryangjinMapToolPlacementLayer.Enemy;
 
+        if (IsBonusWallPalettePrefabPath(prefabPath))
+            return NoryangjinMapToolPlacementLayer.Bonus;
+
         if (IsSeagullPerchPrefabPath(prefabPath))
             return NoryangjinMapToolPlacementLayer.SeagullPerch;
 
@@ -5640,6 +5695,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             IsEnemyMovementTriggerPrefabPath(prefabPath))
             return NoryangjinMapToolPlacementLayer.Enemy;
 
+        if (IsBonusWallPalettePrefabPath(prefabPath))
+            return NoryangjinMapToolPlacementLayer.Bonus;
+
         if (IsSeagullPerchPrefabPath(prefabPath))
             return NoryangjinMapToolPlacementLayer.SeagullPerch;
 
@@ -5659,6 +5717,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 return NoryangjinMapToolPlacementLayer.Road;
             if (string.Equals(current.name, EnemyParentName, StringComparison.Ordinal))
                 return NoryangjinMapToolPlacementLayer.Enemy;
+            if (string.Equals(current.name, BonusParentName, StringComparison.Ordinal))
+                return NoryangjinMapToolPlacementLayer.Bonus;
 
             current = current.parent;
         }
@@ -5674,12 +5734,15 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return false;
 
         bool isGimmick = target.GetComponent<NoryangjinTurnSpot>() != null;
-        bool isEnemyContent = GetPlacedObjectLayer(target) == NoryangjinMapToolPlacementLayer.Enemy;
+        NoryangjinMapToolPlacementLayer layer = GetPlacedObjectLayer(target);
+        bool isEnemyContent = layer == NoryangjinMapToolPlacementLayer.Enemy;
+        bool isBonusContent = layer == NoryangjinMapToolPlacementLayer.Bonus;
         return contentTab switch
         {
             NoryangjinMapToolContentTab.Enemy => isEnemyContent,
             NoryangjinMapToolContentTab.Gimmick => isGimmick,
-            _ => !isEnemyContent && !isGimmick
+            NoryangjinMapToolContentTab.Bonus => isBonusContent,
+            _ => !isEnemyContent && !isGimmick && !isBonusContent
         };
     }
 
@@ -6986,7 +7049,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal static bool IsSelectablePalettePrefabPath(string prefabPath)
     {
         string normalizedPath = prefabPath.Replace('\\', '/');
-        if (IsEnemyPalettePrefabPath(normalizedPath))
+        if (IsEnemyPalettePrefabPath(normalizedPath) ||
+            IsBonusWallPalettePrefabPath(normalizedPath))
             return true;
 
         foreach (string palettePrefabRoot in PalettePrefabRoots)
@@ -6996,6 +7060,38 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         }
 
         return false;
+    }
+
+    internal static bool IsBonusWallPalettePrefabPath(string prefabPath)
+    {
+        if (string.IsNullOrEmpty(prefabPath))
+            return false;
+
+        string normalizedPath = prefabPath.Replace('\\', '/');
+        return IsAssetUnderPath(normalizedPath, BonusWallPrefabRoot) &&
+               !string.Equals(
+                   normalizedPath,
+                   ExcludedBonusWallPrefabPath,
+                   StringComparison.OrdinalIgnoreCase);
+    }
+
+    internal static string[] FindBonusWallPalettePrefabPaths()
+    {
+        if (!AssetDatabase.IsValidFolder(BonusWallPrefabRoot))
+            return Array.Empty<string>();
+
+        var paths = new List<string>();
+        foreach (string guid in AssetDatabase.FindAssets(
+                     "t:Prefab",
+                     new[] { BonusWallPrefabRoot }))
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid).Replace('\\', '/');
+            if (IsBonusWallPalettePrefabPath(path))
+                paths.Add(path);
+        }
+
+        paths.Sort(StringComparer.OrdinalIgnoreCase);
+        return paths.ToArray();
     }
 
     private static bool IsPalettePrefabPathAllowed(string prefabPath)
@@ -7526,6 +7622,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return string.Equals(objectName, RoadParentName, StringComparison.Ordinal) ||
                string.Equals(objectName, PropParentName, StringComparison.Ordinal) ||
                string.Equals(objectName, EnemyParentName, StringComparison.Ordinal) ||
+               string.Equals(objectName, BonusParentName, StringComparison.Ordinal) ||
                string.Equals(objectName, WaterParentName, StringComparison.Ordinal);
     }
 
@@ -7621,6 +7718,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         AddTurnSpotPaletteItem(paletteItems);
         AddEnemyMovementTriggerPaletteItem(paletteItems);
         AddEnemyPaletteItems(paletteItems);
+        AddBonusWallPaletteItems(paletteItems);
         AddRoadPaletteItems(paletteItems);
         AddBuiltinBackgroundPaletteItems(paletteItems);
 
@@ -7737,6 +7835,52 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         for (int i = 0; i < paths.Length; i++)
             paths[i] = ForwardEnemyArchetypeCatalog.Definitions[i].PrefabPath;
         return paths;
+    }
+
+    private static void AddBonusWallPaletteItems(List<PaletteItem> items)
+    {
+        string[] prefabPaths = FindBonusWallPalettePrefabPaths();
+        for (int i = 0; i < prefabPaths.Length; i++)
+        {
+            string prefabPath = prefabPaths[i];
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            if (prefab == null ||
+                prefab.GetComponentInChildren<WallScript>(true) == null ||
+                HasPaletteItem(items, prefabPath))
+            {
+                continue;
+            }
+
+            items.Add(new PaletteItem(
+                BuildBonusWallPaletteLabel(prefabPath),
+                prefabPath,
+                prefab,
+                NoryangjinMapToolPaletteCategory.Prop,
+                10 + i,
+                NoryangjinMapToolPaletteSection.Bonus));
+        }
+    }
+
+    internal static string BuildBonusWallPaletteLabel(string prefabPath)
+    {
+        return Path.GetFileNameWithoutExtension(prefabPath) switch
+        {
+            "random_wall_normal" => "랜덤 보너스 (노멀)",
+            "wall_atk_normal" => "공격력 + (노멀)",
+            "wall_atk_unique" => "공격력 + (유니크)",
+            "wall_attPer_normal" => "공격력 % (노멀)",
+            "wall_attPer_unique" => "공격력 % (유니크)",
+            "wall_attackSpeed_normal" => "공격 속도 (노멀)",
+            "wall_attackSpeed_unique" => "공격 속도 (유니크)",
+            "wall_boombardino_rare" => "봄바르디노 (레어)",
+            "wall_hp_normal" => "체력 + (노멀)",
+            "wall_hp_per_normal" => "체력 % (노멀)",
+            "wall_missilDistance_normal" => "미사일 지속 시간 (노멀)",
+            "wall_missilDistance_unique" => "미사일 지속 시간 (유니크)",
+            "wall_missileAdd_unique" => "미사일 추가 (유니크)",
+            "wall_tungtungtugn_rare" => "퉁퉁퉁 (레어)",
+            _ => BuildPaletteLabel(prefabPath)
+        };
     }
 
     private void AddRoadPaletteItems(List<PaletteItem> items)

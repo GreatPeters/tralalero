@@ -656,13 +656,12 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             EnemyTier fixedTier = ForwardEnemyTierResolver.ResolveOrFallback(
                 enemy.gameObject.name,
-                enemy.enemyTier);
+                EnemyTier.Normal);
             EnemyStat baseStat = GetLocalStat(fixedTier);
             enemy.ApplyStat(
                 baseStat.damage,
                 baseStat.health,
-                fixedTier,
-                enemy.enemyCombatType);
+                fixedTier);
         }
 
         public static bool IsPooledEnemy(GameObject enemyObject)
@@ -686,7 +685,11 @@ namespace IndianOceanAssets.ShooterSurvival
         private void ClearRuntimeBonusWalls()
         {
             var walls = FindObjectsByType<RuntimeBonusWall>(FindObjectsSortMode.None);
-            foreach (var w in walls) Destroy(w.gameObject);
+            foreach (RuntimeBonusWall wall in walls)
+            {
+                if (wall.RemoveWhenPreparingStage)
+                    Destroy(wall.gameObject);
+            }
         }
     }
 

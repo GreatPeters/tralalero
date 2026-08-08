@@ -41,7 +41,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2052299210905845682}
   - component: {fileID: 8919946450956603832}
-  - component: {fileID: 4190692332822734217}
   - component: {fileID: 7667735636574172570}
   m_Layer: 0
   m_Name: EnemyTypeRusher
@@ -90,28 +89,6 @@ CapsuleCollider:
   m_Height: 0.6958505
   m_Direction: 1
   m_Center: {x: 0, y: 0.34552038, z: -0.030000001}
---- !u!114 &4190692332822734217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5950074007520861693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa4f76f7467c05942a616df56b170964, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _health: 0
-  _damage: 0
-  _score: 0
-  enemyType: 1
-  recieveDamage: 1
-  giveDamage: 1
-  enemySOArray:
-  - {fileID: 11400000, guid: 540a5d24ed1af08488d38a3679c240cb, type: 2}
-  - {fileID: 11400000, guid: f36d32aec349c4f439cec28ee4d09ce6, type: 2}
-  - {fileID: 11400000, guid: 4f9a0ce9d96615344ad9b9e21114e82e, type: 2}
 --- !u!82 &7667735636574172570
 AudioSource:
   m_ObjectHideFlags: 0

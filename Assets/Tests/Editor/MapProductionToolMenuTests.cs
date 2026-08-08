@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
@@ -24,6 +25,7 @@ public sealed class MapProductionToolMenuTests
             "Tools/맵 제작 도구/유지보수/노량진 다리를 끝 로프 없는 복사본으로 교체",
             "Tools/맵 제작 도구/유지보수/다리 끝 로프 없는 복사본 생성",
             "Tools/맵 제작 도구/유지보수/재질 및 프리팹 복구",
+            "Tools/맵 제작 도구/자료/Codex 생성 이미지 폴더",
             "Tools/맵 제작 도구/자료/Meshy 이미지 폴더",
             "Tools/맵 제작 도구/자료/노량진 맵 설계도 및 미리보기 폴더",
             "Tools/맵 제작 도구/자료/에셋 설계도 폴더",
@@ -44,6 +46,22 @@ public sealed class MapProductionToolMenuTests
         Assert.That(
             field.GetRawConstantValue(),
             Is.EqualTo("outputs/chapter_campaign_reference_orthogonal_20min"));
+    }
+
+    [Test]
+    public void CodexGeneratedImagesMenu_TargetsRequestedSessionFolder()
+    {
+        PropertyInfo property = typeof(DesignReferenceWindow).GetProperty(
+            "CodexGeneratedImagesFolderPath",
+            BindingFlags.NonPublic | BindingFlags.Static);
+        string expected = Path.GetFullPath(Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            ".codex",
+            "generated_images",
+            "019f22f4-e2cc-73b1-8fdf-68dd8b36147a"));
+
+        Assert.That(property, Is.Not.Null);
+        Assert.That(property.GetValue(null), Is.EqualTo(expected));
     }
 
     private static IReadOnlyList<string> FindMapProductionToolMenuPaths()

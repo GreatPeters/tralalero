@@ -1,6 +1,6 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 //占쌩곤옙
 using UnityEngine.Localization.Components; // LocalizeStringEvent
@@ -37,36 +37,13 @@ namespace IndianOceanAssets.ShooterSurvival
         public Sprite fireRateIncreaseSpr;
         public Sprite extraHelpSpr;
         //占쏙옙 占싣뤄옙占쏙옙 占신깍옙 占싱뱄옙占쏙옙
-        public Sprite attSpr;
-        public Sprite attPercentSpr;
-        public Sprite missileAddSpr;
-        public Sprite attackSpeedSpr;
-        public Sprite missileDistanceSpr;
-        public Sprite hpSpr;
-        public Sprite hpPercentSpr;
-        public Sprite tungtungRareSpr;
-        public Sprite boombarRareSpr;
-        public Sprite attUniqueSpr;
-        public Sprite attPerUniqueSpr;
-        public Sprite missileAddUniqueSpr;
-        public Sprite attackSpeedUniqueSpr;
-        public Sprite distanceUniqueSpr;
-        public Sprite hpUniqueSpr;
-        public Sprite hpPerUniqueSpr;
 
         public int healthBoostAmt = 25;             // Amount of health boost
         public float fireRateIncMultipier = 4;      // Multiplier for fire rate increase
         public GameObject extraHelp;                // Prefab for Extra Help buff
         //占쏙옙 占싣뤄옙占쏙옙 占신깍옙 占쏙옙占쏙옙
-        public float att;
-        public float attPercent;
-        public float missileAdd;
-        public float attackSpeed;
-        public float missileDistance;
-        public float hp;
-        public float hpPercent;
-        public float tungtungAdd;
-        public float boombarAdd;
+        private float bonusValue;
+        private bool isPercent;
 
         [Header("Nerf Wall Properties")]
         public Sprite healthReduceSpr;
@@ -85,30 +62,9 @@ namespace IndianOceanAssets.ShooterSurvival
         private SpriteRenderer currSprite;
         private PlayerScript playerScript;
         private WeaponManager weaponManager;
-        private bool _initialized;
-
-
-
-        // private void Start()
-        // {
-        //     transform.name += "_Z_" + transform.position.z.ToString();
-
-        //     currSprite = GetComponentInChildren<SpriteRenderer>();
-        //     playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerScript>();
-        //     effectOverlayVignette = GameObject.FindGameObjectWithTag("VolumeTag").GetComponent<EffectOverlayScript>();
-        //     if (effectOverlayVignette == null) { print("not found"); }
-        //     ;
-        //     wallAudioSource = GetComponent<AudioSource>();
-
-        //     SetRandomStat();
-        //     SetStats();
-
-        //     SetWallSprite();
-        // }
-
         private void OnEnable()
         {
-            _initialized = false;
+            StartCoroutine(MoveOutsideForwardMarch());
 
             // Player ?뺣낫
             if (playerScript == null)
@@ -125,23 +81,14 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void InitWall()
         {
-            transform.name += "_Z_" + transform.position.z.ToString();
-
             //?쇰떒 鍮꾪솢?깊솕
             currSprite = GetComponentInChildren<SpriteRenderer>();
             if (wallAudioSource == null) wallAudioSource = GetComponent<AudioSource>();
-
-            if (effectOverlayVignette == null)
-            {
-                var v = GameObject.FindGameObjectWithTag("VolumeTag");
-                if (v) effectOverlayVignette = v.GetComponent<EffectOverlayScript>();
-            }
+            if (weaponManager == null) weaponManager = playerScript.GetComponent<WeaponManager>();
 
             SetRandomStat();
             SetStats();
             SetWallSprite();
-
-            _initialized = true;
         }
 
         public void SetRandomStat()
@@ -186,30 +133,38 @@ namespace IndianOceanAssets.ShooterSurvival
             float playerOriginalDamage = playerScript.originalDamage;
             float playerOriginalHealth = playerScript.originalHealth;
 
-            if (rarity == Rarity.Normal)
+            bonusValue = buffType switch
             {
-                att = RollBonusValue("att", playerOriginalDamage, true);
-                attPercent = RollBonusValue("attPercent", 0f, false);
-                attackSpeed = RollBonusValue("attackSpeed", 0f, false);
-                missileDistance = RollBonusValue("missileDistance", 0f, false);
-                hp = RollBonusValue("hp", playerOriginalHealth, true);
-                hpPercent = RollBonusValue("hpPercent", 0f, false);
-            }
-            else if (rarity == Rarity.Rare)
-            {
-                tungtungAdd = RollBonusValue("tungtungAdd", 0f, true);
-                boombarAdd = RollBonusValue("boombarAdd", 0f, true);
-            }
-            else if (rarity == Rarity.Unique)
-            {
-                missileAdd = RollBonusValue("missileAdd", 0f, true);
-                att = RollBonusValue("att", playerOriginalDamage, true);
-                attPercent = RollBonusValue("attPercent", 0f, false);
-                attackSpeed = RollBonusValue("attackSpeed", 0f, false);
-                missileDistance = RollBonusValue("missileDistance", 0f, false);
-                hp = RollBonusValue("hp", playerOriginalHealth, true);
-                hpPercent = RollBonusValue("hpPercent", 0f, false);
-            }
+                BuffType.att_normmal or BuffType.att_unique =>
+                    RollBonusValue("att", playerOriginalDamage, true),
+                BuffType.attPer_normal or BuffType.attPer_unique =>
+                    RollBonusValue("attPercent", 0f, false),
+                BuffType.missileAdd_unique =>
+                    RollBonusValue("missileAdd", 0f, true),
+                BuffType.attackSpeed_normal or BuffType.attackSpeed_unique =>
+                    RollBonusValue("attackSpeed", 0f, false),
+                BuffType.missileDistance_normal or BuffType.missileDistance_unique =>
+                    RollBonusValue("missileDistance", 0f, false),
+                BuffType.hp_normal or BuffType.hp_unique =>
+                    RollBonusValue("hp", playerOriginalHealth, true),
+                BuffType.hpPer_normal or BuffType.hpPer_unique =>
+                    RollBonusValue("hpPercent", 0f, false),
+                BuffType.tungtung_rare =>
+                    RollBonusValue("tungtungAdd", 0f, true),
+                BuffType.boombar_rare =>
+                    RollBonusValue("boombarAdd", 0f, true),
+                _ => 0f
+            };
+
+            isPercent = buffType is
+                BuffType.attPer_normal or
+                BuffType.attPer_unique or
+                BuffType.attackSpeed_normal or
+                BuffType.attackSpeed_unique or
+                BuffType.missileDistance_normal or
+                BuffType.missileDistance_unique or
+                BuffType.hpPer_normal or
+                BuffType.hpPer_unique;
         }
 
         private float RollBonusValue(
@@ -250,10 +205,24 @@ namespace IndianOceanAssets.ShooterSurvival
             return true;
         }
 
-        private void FixedUpdate()
+        private IEnumerator MoveOutsideForwardMarch()
         {
-            // Wall movement
-            if (!TimeManager.Instance.isForwardMarchScene) transform.Translate(-Vector3.forward * wallMoveSpeed * Time.deltaTime * TimeManager.timeFactor);
+            while (TimeManager.Instance == null)
+                yield return null;
+
+            if (TimeManager.Instance.isForwardMarchScene)
+                yield break;
+
+            var fixedUpdate = new WaitForFixedUpdate();
+            while (true)
+            {
+                yield return fixedUpdate;
+                transform.Translate(
+                    -Vector3.forward *
+                    wallMoveSpeed *
+                    Time.fixedDeltaTime *
+                    TimeManager.timeFactor);
+            }
         }
 
         private void OnTriggerEnter(Collider other)
@@ -280,207 +249,112 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void SetWallSprite()
         {
-            // Set the correct sprite based on the wall's type
-            Sprite selectedSprite = null;
-
-            float bonusValue = 0;
-            bool isPercent = false;
-
-            switch (wallType)
+            Sprite selectedSprite = wallType switch
             {
-                case WallType.BuffWall:
-                    selectedSprite = buffType switch
-                    {
-                        BuffType.HealthBoost => healthBoostSpr,                 // Set sprite for health boost
-                        BuffType.FireRateIncrease => fireRateIncreaseSpr,       // Set sprite for fire rate increase
-                        BuffType.ExtraHelp => extraHelpSpr,                     // Set sprite for extra help                       
-                        _ => null
-                    };
-                    break;
-                case WallType.NerfWall:
-                    selectedSprite = nerfType switch
-                    {
-                        NerfType.HealthReduce => healthReduceSpr,               // Set sprite for health reduction
-                        NerfType.FireRateReduce => fireRateReduceSpr,           // Set sprite for fire rate reduction
-                        _ => null
-                    };
-                    break;
-            }
+                WallType.BuffWall => buffType switch
+                {
+                    BuffType.HealthBoost => healthBoostSpr,
+                    BuffType.FireRateIncrease => fireRateIncreaseSpr,
+                    BuffType.ExtraHelp => extraHelpSpr,
+                    _ => null
+                },
+                WallType.NerfWall => nerfType switch
+                {
+                    NerfType.HealthReduce => healthReduceSpr,
+                    NerfType.FireRateReduce => fireRateReduceSpr,
+                    _ => null
+                },
+                _ => null
+            };
 
-            if (wallType == WallType.BuffWall)
-            {
-                if (buffType == BuffType.att_normmal || buffType == BuffType.att_unique)
-                {
-                    bonusValue = att;
-                    isPercent = false;
-                }
-                else if (buffType == BuffType.attPer_normal || buffType == BuffType.attPer_unique)
-                {
-                    bonusValue = attPercent;
-                    isPercent = true;
-                }
-                else if (buffType == BuffType.missileAdd_unique)
-                {
-                    bonusValue = missileAdd;
-                    isPercent = false;
-                }
-                else if (buffType == BuffType.attackSpeed_normal || buffType == BuffType.attackSpeed_unique)
-                {
-                    bonusValue = attackSpeed;
-                    isPercent = true;
-                }
-                else if (buffType == BuffType.missileDistance_normal || buffType == BuffType.missileDistance_unique)
-                {
-                    bonusValue = missileDistance;
-                    isPercent = true;
-                }
-                else if (buffType == BuffType.hp_normal || buffType == BuffType.hp_unique)
-                {
-                    bonusValue = hp;
-                    isPercent = false;
-                }
-                else if (buffType == BuffType.hpPer_normal || buffType == BuffType.hpPer_unique)
-                {
-                    bonusValue = hpPercent;
-                    isPercent = true;
-                }
-                else if (buffType == BuffType.tungtung_rare)
-                {
-                    bonusValue = tungtungAdd;
-                    isPercent = false;
-                }
-                else if (buffType == BuffType.boombar_rare)
-                {
-                    bonusValue = boombarAdd;
-                    isPercent = false;
-                }
-            }
-
-            currSprite.sprite = selectedSprite;                                 // Apply the selected sprite
+            currSprite.sprite = selectedSprite;
             SetBonusValueText(bonusValue, isPercent);
-            UpdateStatUI(buffType, bonusValue, isPercent); // 占쏙옙 占쏙옙占시띰옙占쏙옙占쏙옙占?占싱몌옙 + 占쏙옙 占쏙옙占쏙옙
-
+            UpdateStatUI(buffType, bonusValue, isPercent);
         }
 
         private void ApplyWallEffect()
         {
-            // Apply effects based on wall type and specific buff/nerf.
-
-            GameObject fireRateDisplay = GameObject.FindGameObjectWithTag("FireRateDisplayTag");
-            Animator fireRateDisplayAnimator = fireRateDisplay.GetComponent<Animator>();
-            SpriteRenderer fireRateDisplaySpr = fireRateDisplay.GetComponentInChildren<SpriteRenderer>();
-            TextMeshProUGUI fireRateDisplayText = fireRateDisplay.GetComponentInChildren<TextMeshProUGUI>();
-
-            Debug.Log(buffType);
-
             switch (wallType)
             {
                 case WallType.BuffWall:
                     if (buffType == BuffType.HealthBoost)
                     {
                         playerScript.currentHealth += healthBoostAmt;       // Increase player's health
-                        //effectOverlayVignette.BuffOverlay();
                     }
                     else if (buffType == BuffType.FireRateIncrease)
                     {
-                        weaponManager = GameObject.FindGameObjectWithTag("Player").GetComponent<WeaponManager>();
-                        weaponManager.currentWeapon.GetComponentInChildren<WeaponScript>().fireRate *= fireRateIncMultipier; // Increase fire rate
-                        //effectOverlayVignette.BuffOverlay();
+                        WeaponScript weaponScript = GetCurrentWeaponScript();
+                        if (weaponScript == null)
+                            return;
 
-                        fireRateDisplaySpr.sprite = fireRateIncreaseSpr;            // Update fire rate display sprite
-                        fireRateDisplayText.text = "x" + fireRateIncMultipier;      // Update fire rate display text
-                        fireRateDisplayAnimator.SetTrigger("FireTextPopIn");
+                        weaponScript.fireRate *= fireRateIncMultipier;
+                        ShowFireRateModifier(fireRateIncreaseSpr, fireRateIncMultipier);
                     }
                     else if (buffType == BuffType.ExtraHelp)
                     {
                         playerScript.extraHelpCount++;
-                        SpawnTungTung(HelpType.Tungtungtung);
-                        //effectOverlayVignette.BuffOverlay();
+                        SpawnExtraHelp(HelpType.Tungtungtung);
                     }
                     else if ((buffType == BuffType.att_normmal) || (buffType == BuffType.att_unique))
                     {
-                        weaponManager = GameObject.FindGameObjectWithTag("Player").GetComponent<WeaponManager>();
-                        var weaponScript = weaponManager.currentWeapon.GetComponentInChildren<WeaponScript>();
-                        weaponScript.damage += att; // WallScript占쏙옙 att 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쌥력울옙 占쏙옙占쏙옙
-
-                        //effectOverlayVignette.BuffOverlay();
-                        //wallAudioSource.PlayOneShot(buffSFX);
+                        WeaponScript weaponScript = GetCurrentWeaponScript();
+                        if (weaponScript == null)
+                            return;
+                        weaponScript.damage += bonusValue;
                     }
                     else if ((buffType == BuffType.attPer_normal) || (buffType == BuffType.attPer_unique))
                     {
-                        weaponManager = GameObject.FindGameObjectWithTag("Player").GetComponent<WeaponManager>();
-                        var weaponScript = weaponManager.currentWeapon.GetComponentInChildren<WeaponScript>();
-                        weaponScript.damage *= (1 + attPercent * 0.01f); // WallScript占쏙옙 att 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쌥력울옙 占쏙옙占쏙옙
-
-                        //effectOverlayVignette.BuffOverlay();
-                        //wallAudioSource.PlayOneShot(buffSFX);
+                        WeaponScript weaponScript = GetCurrentWeaponScript();
+                        if (weaponScript == null)
+                            return;
+                        weaponScript.damage *= 1f + bonusValue * 0.01f;
                     }
                     else if ((buffType == BuffType.attackSpeed_normal) || (buffType == BuffType.attackSpeed_unique))
                     {
-                        weaponManager = GameObject.FindGameObjectWithTag("Player").GetComponent<WeaponManager>();
-                        var weaponScript = weaponManager.currentWeapon.GetComponentInChildren<WeaponScript>();
-                        weaponScript.fireRate += weaponScript.originalFireRate * attackSpeed * 0.01f;
-
-                        //.BuffOverlay();
-                        //wallAudioSource.PlayOneShot(buffSFX);
+                        WeaponScript weaponScript = GetCurrentWeaponScript();
+                        if (weaponScript == null)
+                            return;
+                        weaponScript.fireRate += weaponScript.originalFireRate * bonusValue * 0.01f;
                     }
                     else if ((buffType == BuffType.missileDistance_normal) || (buffType == BuffType.missileDistance_unique))
                     {
-                        BulletScript.AddMissileDurationPercent(missileDistance);
-                        Debug.Log(BulletScript.CurrentMissileDuration);
-
-                        //effectOverlayVignette.BuffOverlay();
-                        //wallAudioSource.PlayOneShot(buffSFX);
+                        BulletScript.AddMissileDurationPercent(bonusValue);
                     }
                     else if ((buffType == BuffType.hp_normal) || (buffType == BuffType.hp_unique))
                     {
-                        playerScript.currentHealth += hp;       // Increase player's health
+                        playerScript.currentHealth += bonusValue;
                         playerScript.UpdateHealth();
-                        //effectOverlayVignette.BuffOverlay();
                     }
                     else if ((buffType == BuffType.hpPer_normal) || buffType == BuffType.hpPer_unique)
                     {
-                        playerScript.currentHealth *= (1 + hpPercent * 0.01f); // WallScript占쏙옙 att 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쌥력울옙 占쏙옙占쏙옙
+                        playerScript.currentHealth *= 1f + bonusValue * 0.01f;
                         playerScript.UpdateHealth();
-                        //effectOverlayVignette.BuffOverlay();
                     }
 
                     else if ((buffType == BuffType.missileAdd_unique))
                     {
-                        weaponManager = GameObject.FindGameObjectWithTag("Player").GetComponent<WeaponManager>();
-                        var weaponScript = weaponManager.currentWeapon.GetComponentInChildren<WeaponScript>();
+                        WeaponScript weaponScript = GetCurrentWeaponScript();
+                        if (weaponScript == null)
+                            return;
 
-                        // 占쏙옙占쏙옙: bulletPositions 占썼열占쏙옙 占쏙옙占?占쏙옙占쏙옙占쏙옙 占시몌옙占쏙옙 占쏙옙占쏙옙 占쌩곤옙 占십울옙
-                        weaponScript.bulletCount += (int)missileAdd;
+                        weaponScript.bulletCount += (int)bonusValue;
                         playerScript.currentHealth = 1f;
                         playerScript.UpdateHealth();
-                        Debug.Log(weaponScript.bulletCount);
-
-                        //effectOverlayVignette.BuffOverlay();
-                        //wallAudioSource.PlayOneShot(buffSFX);
                     }
                     else if ((buffType == BuffType.tungtung_rare))
                     {
-                        //占쏙옙占쏙옙占쏙옙 占쌩곤옙
-                        //effectOverlayVignette.BuffOverlay();
-                        //wallAudioSource.PlayOneShot(buffSFX);
-
                         playerScript.extraHelpCount++;
-                        SpawnTungTung(HelpType.Tungtungtung);
+                        SpawnExtraHelp(HelpType.Tungtungtung);
                     }
                     else if ((buffType == BuffType.boombar_rare))
                     {
-                        //占쌌바몌옙 占쌩곤옙
-                        //effectOverlayVignette.BuffOverlay();
-                        //wallAudioSource.PlayOneShot(buffSFX);
-
                         playerScript.extraHelpCount++;
-                        SpawnBoomBarDino(HelpType.Boombardino);
+                        SpawnExtraHelp(HelpType.Boombardino);
                     }
-                    //wallAudioSource.PlayOneShot(buffSFX);
-                    AudioSource.PlayClipAtPoint(buffSFX, transform.position);
+                    if (buffSFX != null)
+                        AudioSource.PlayClipAtPoint(buffSFX, transform.position);
 
-                    effectOverlayVignette.BuffOverlay();
+                    ShowBuffOverlay();
 
                     break;
 
@@ -488,55 +362,99 @@ namespace IndianOceanAssets.ShooterSurvival
                     if (nerfType == NerfType.HealthReduce)
                     {
                         playerScript.currentHealth -= healthReduceAmt;          // Reduce player's health
-                        effectOverlayVignette.NerfOverlay();
+                        ShowNerfOverlay();
                     }
 
                     else if (nerfType == NerfType.FireRateReduce)
                     {
-                        weaponManager = GameObject.FindGameObjectWithTag("Player").GetComponent<WeaponManager>();
-                        weaponManager.currentWeapon.GetComponentInChildren<WeaponScript>().fireRate *= fireRateDecMultipier; // Reduce fire rate
-                        effectOverlayVignette.NerfOverlay();
+                        WeaponScript weaponScript = GetCurrentWeaponScript();
+                        if (weaponScript == null)
+                            return;
 
-                        fireRateDisplaySpr.sprite = fireRateReduceSpr;              // Update fire rate display sprite
-                        fireRateDisplayText.text = "x" + fireRateDecMultipier;      // Update fire rate display text
-                        fireRateDisplayAnimator.SetTrigger("FireTextPopIn");
+                        weaponScript.fireRate *= fireRateDecMultipier;
+                        ShowNerfOverlay();
+
+                        ShowFireRateModifier(fireRateReduceSpr, fireRateDecMultipier);
                     }
 
-                    wallAudioSource.PlayOneShot(nerfSFX);                           // Play the nerf sound effect
+                    if (wallAudioSource != null && nerfSFX != null)
+                        wallAudioSource.PlayOneShot(nerfSFX);
                     break;
             }
         }
 
-        private void SpawnTungTung(HelpType helptype = HelpType.Tungtungtung)
+        private void ShowBuffOverlay()
         {
-            // Spawn Extra Help Buff
-
-            if (extraHelp == null || playerScript == null) return;
-
-            // Define spawn position relative to player
-            Vector3 spawnOffset = new Vector3(1.5f, 0, -0.75f);
-            Vector3 spawnPosition = playerScript.transform.position + spawnOffset;
-
-            GameObject GO = Instantiate(GameManager.S.extraHelp_TungTungTung, spawnPosition, Quaternion.identity);
-            GO.GetComponent<ExtraHelpBuffScript>().spawnIndex = playerScript.extraHelpCount - 1; // Set spawn index for identification
-            GO.GetComponent<ExtraHelpBuffScript>().helpType = helptype;
-            playerScript.extraHelpWeaponScript.Add(GO.GetComponentInChildren<WeaponScript>());
+            EffectOverlayScript overlay = ResolveEffectOverlay();
+            if (overlay != null)
+                overlay.BuffOverlay();
         }
 
-        private void SpawnBoomBarDino(HelpType helptype = HelpType.Boombardino)
+        private void ShowNerfOverlay()
         {
-            // Spawn Extra Help Buff
+            EffectOverlayScript overlay = ResolveEffectOverlay();
+            if (overlay != null)
+                overlay.NerfOverlay();
+        }
 
+        private EffectOverlayScript ResolveEffectOverlay()
+        {
+            if (GetComponent<RuntimeBonusWall>() != null)
+                return null;
+
+            if (effectOverlayVignette != null)
+                return effectOverlayVignette;
+
+            GameObject volumeObject = GameObject.FindGameObjectWithTag("VolumeTag");
+            if (volumeObject != null)
+                effectOverlayVignette = volumeObject.GetComponent<EffectOverlayScript>();
+
+            return effectOverlayVignette;
+        }
+
+        private WeaponScript GetCurrentWeaponScript()
+        {
+            if (weaponManager == null && playerScript != null)
+                weaponManager = playerScript.GetComponent<WeaponManager>();
+
+            return weaponManager != null && weaponManager.currentWeapon != null
+                ? weaponManager.currentWeapon.GetComponentInChildren<WeaponScript>()
+                : null;
+        }
+
+        private static void ShowFireRateModifier(Sprite sprite, float multiplier)
+        {
+            GameObject display = GameObject.FindGameObjectWithTag("FireRateDisplayTag");
+            if (display == null)
+                return;
+
+            SpriteRenderer displaySprite = display.GetComponentInChildren<SpriteRenderer>();
+            if (displaySprite != null)
+                displaySprite.sprite = sprite;
+
+            TextMeshProUGUI displayText = display.GetComponentInChildren<TextMeshProUGUI>();
+            if (displayText != null)
+                displayText.text = "x" + multiplier;
+
+            Animator displayAnimator = display.GetComponent<Animator>();
+            if (displayAnimator != null)
+                displayAnimator.SetTrigger("FireTextPopIn");
+        }
+
+        private void SpawnExtraHelp(HelpType helpType)
+        {
             if (extraHelp == null || playerScript == null) return;
 
-            // Define spawn position relative to player
             Vector3 spawnOffset = new Vector3(1.5f, 0, -0.75f);
             Vector3 spawnPosition = playerScript.transform.position + spawnOffset;
-
-            GameObject GO = Instantiate(GameManager.S.extraHelp_BoomBarDino, spawnPosition, Quaternion.identity);
-            GO.GetComponent<ExtraHelpBuffScript>().spawnIndex = playerScript.extraHelpCount - 1; // Set spawn index for identification
-            GO.GetComponent<ExtraHelpBuffScript>().helpType = helptype;
-            playerScript.extraHelpWeaponScript.Add(GO.GetComponentInChildren<WeaponScript>());
+            GameObject prefab = helpType == HelpType.Tungtungtung
+                ? GameManager.S.extraHelp_TungTungTung
+                : GameManager.S.extraHelp_BoomBarDino;
+            GameObject instance = Instantiate(prefab, spawnPosition, Quaternion.identity);
+            ExtraHelpBuffScript helper = instance.GetComponent<ExtraHelpBuffScript>();
+            helper.spawnIndex = playerScript.extraHelpCount - 1;
+            helper.helpType = helpType;
+            playerScript.extraHelpWeaponScript.Add(instance.GetComponentInChildren<WeaponScript>());
         }
 
         private void SetBonusValueText(float volume, bool percent = false)

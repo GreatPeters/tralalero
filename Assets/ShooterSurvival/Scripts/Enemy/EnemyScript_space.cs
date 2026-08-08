@@ -1,411 +1,366 @@
-﻿using System.Collections;
+using System.Collections;
 using TMPro;
 using UnityEngine;
-using DG.Tweening;
-
 
 namespace IndianOceanAssets.ShooterSurvival
 {
-    public class EnemyScript_space : MonoBehaviour
+    [DisallowMultipleComponent]
+    public sealed class EnemyScript_space : MonoBehaviour
     {
         private const float DirectionEpsilonSqr = 0.000001f;
 
-        private Vector3 _projLocalScale;
+        [Header("Noryangjin Enemy")]
+        [SerializeField] private EnemySO enemyData;
+        [SerializeField] private GameObject bonusWall;
 
-        public GameObject bonusWall;
-        private bool isDie = false;
+        [Header("Throw (Optional)")]
+        [SerializeField] private Transform heldProjectile;
+        [SerializeField] private Transform throwPoint;
+        [SerializeField, Min(0f)] private float throwRange = 7f;
+        [SerializeField, Min(0f)] private float throwSpeed = 12f;
+        [SerializeField, Min(0f)] private float throwReleaseDelay = 2f;
 
-        private bool _injected;
-        public EnemyTier enemyTier;
-        public EnemyCombatType enemyCombatType;
+        private float _health;
+        private float _damage;
+        private bool isDead;
+        private bool hasThrown;
+        private bool rewardPlayerScore;
+        private EnemyTier enemyTier;
 
-        [Header("Runtime")]
-        [Tooltip("Health value that decreases when damaged")]
-        [SerializeField] private float _health;
-
-        [Tooltip("Damage dealt to player or other entities")]
-        [SerializeField] private float _damage;
-
-        [Tooltip("Score rewarded to player when this enemy dies")]
-        [SerializeField] public int _score;
-
-        [Header("Params")]
-        [Tooltip("Defines the type of this enemy (e.g., Walker, Rusher, Tank)")]
-        [SerializeField] public EnemyType enemyType;
-
-        [Header("Debugging options")]
-        [Tooltip("Enable/Disable receiving damage")]
-        [SerializeField] private bool recieveDamage = true;
-
-        [Tooltip("Enable/Disable giving damage")]
-        [SerializeField] private bool giveDamage = true;
-
-        [Header("Dependancies")]
-        [Tooltip("ScriptableObject list for all enemy type data")]
-        [SerializeField] private EnemySO[] enemySOArray;
-
-        private Transform hitPos;
-        private EffectOverlayScript effectOverlayVignette;
-        private EnemySO currentEnemySO;
+        private Transform hitPosition;
         private PlayerScript playerScript;
-        private Collider playerCollider;
         private Animator enemyAnimator;
         private AudioSource audioSource;
-        private bool givePlayerScore = true;
-
         private TextMeshProUGUI healthText;
 
-        Transform _projParent;     // 어느 손의 자식이었는지
-        Vector3 _projLocalPos;     // 손 기준 위치
-        Quaternion _projLocalRot; // 손 기준 회전
-
-
-
-        // 🟧 Throw (Once)
-        [Header("🟧 Throw (Once)")]
-        [SerializeField] private Transform heldProjectile; // 손에 들고 있는 오브젝트(자식)
-        [SerializeField] private Transform throwPoint;     // 손끝 기준(없어도 OK)
-        [SerializeField] private float throwRange = 7f;    // 던질 거리
-        [SerializeField] private float throwSpeed = 12f;   // 던질 속도(=VelocityChange 크기)
-        [SerializeField] private float projectileLife = 6f;// 투사체 수명
-        private bool hasThrown = false;                    // 한 번만 던지기 플래그
+        private Transform projectileParent;
+        private Vector3 projectileLocalPosition;
+        private Quaternion projectileLocalRotation;
+        private Vector3 projectileLocalScale;
 
         private void Awake()
         {
-            hitPos = transform.GetChild(1).GetComponent<Transform>();
+            hitPosition = transform.Find("Walker-HitPos");
+            if (hitPosition == null && transform.childCount > 1)
+                hitPosition = transform.GetChild(1);
             playerScript = FindFirstObjectByType<PlayerScript>();
-            if (playerScript != null)
-            {
-                playerCollider = playerScript.GetComponent<Collider>();
-            }
 
-            effectOverlayVignette = GameObject.FindGameObjectWithTag("VolumeTag").GetComponent<EffectOverlayScript>();
             audioSource = GetComponent<AudioSource>();
             enemyAnimator = GetComponentInChildren<Animator>();
+            healthText = GetComponentInChildren<TextMeshProUGUI>(true);
 
-            if (enemyType == EnemyType.Walker)
-            {
-                healthText = transform.GetComponentInChildren<TextMeshProUGUI>();
-            }
+            if (heldProjectile == null)
+                return;
 
-            if (heldProjectile)
-            {
-                _projParent = heldProjectile.parent;
-                _projLocalPos = heldProjectile.localPosition;
-                _projLocalRot = heldProjectile.localRotation;
-                _projLocalScale = heldProjectile.localScale;
-            }
-        }
-
-        private void Start()
-        {
-            currentEnemySO = enemySOArray[(int)enemyType];
-
-            if (_injected) return;
-
-            _health = currentEnemySO.enemyHealth;
-            _damage = currentEnemySO.enemyDamage;
-            _score = currentEnemySO.scoreUponDeath;
+            projectileParent = heldProjectile.parent;
+            projectileLocalPosition = heldProjectile.localPosition;
+            projectileLocalRotation = heldProjectile.localRotation;
+            projectileLocalScale = heldProjectile.localScale;
         }
 
         private void OnEnable()
         {
-            // 상태 리셋
-            isDie = false;
+            isDead = false;
             hasThrown = false;
-            givePlayerScore = true;
+            rewardPlayerScore = true;
 
-            recieveDamage = true;
-            giveDamage = true;
-
-            StopAllCoroutines();
-            DOTween.Kill(gameObject);
-
-            // 애니 초기화
             if (enemyAnimator != null)
             {
                 enemyAnimator.Rebind();
                 enemyAnimator.Update(0f);
             }
 
-            // 콜라이더 다시 켜기(안전)
-            var myCol = GetComponent<Collider>();
-            if (myCol != null) myCol.enabled = true;
+            Collider enemyCollider = GetComponent<Collider>();
+            if (enemyCollider != null)
+                enemyCollider.enabled = true;
 
-            // healthText 다시 켜기(없을 수도 있으니 안전)
             if (healthText != null)
-                healthText.enabled = true;
-
-            // 🔥 미사일 다시 손에 붙이기(널 체크 추가)
-            if (heldProjectile)
             {
-                heldProjectile.gameObject.SetActive(true);
-                heldProjectile.SetParent(_projParent, false);
-                heldProjectile.localPosition = _projLocalPos;
-                heldProjectile.localRotation = _projLocalRot;
-                heldProjectile.localScale = _projLocalScale;
-
-                var rb = heldProjectile.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    rb.linearVelocity = Vector3.zero;
-                    rb.angularVelocity = Vector3.zero;
-                    rb.useGravity = false;
-                    rb.isKinematic = true;
-                }
-
-                var col = heldProjectile.GetComponent<Collider>();
-                if (col != null) col.isTrigger = false;
-
-                if (transform.GetComponentInChildren<TrailRenderer>() != null)
-                {
-                    Debug.Log("트레일 렌더러 초기화!!!!!");
-                    var tr = transform.GetComponentInChildren<TrailRenderer>();
-                    tr.emitting = false;
-                    tr.Clear();
-                    tr.emitting = true;
-                }
+                healthText.enabled = true;
+                RefreshHealthText();
             }
-        }
 
+            ResetHeldProjectile();
+        }
 
         private void OnDisable()
         {
-            DOTween.Kill(gameObject);
+            StopAllCoroutines();
         }
 
         private void Update()
         {
-            enemyAnimator.enabled = TimeManager.isGameRunning;
-            if (!TimeManager.isGameRunning) return;
+            bool isGameRunning = TimeManager.isGameRunning;
+            if (enemyAnimator.enabled != isGameRunning)
+                enemyAnimator.enabled = isGameRunning;
 
-            // 가까워지면 한 번만 던지기
-            if (!hasThrown && playerScript != null && heldProjectile != null)
-            {
-                Vector3 from = (throwPoint ? throwPoint.position : transform.position);
-                if (Vector3.Distance(from, playerScript.transform.position) <= throwRange)
-                {
-                    ThrowOnceSimple();
-                }
-            }
+            if (!isGameRunning ||
+                isDead)
+                return;
 
-            if (enemyType == EnemyType.Walker && healthText != null)
-            {
-                healthText.text = _health.ToString("F0");
-            }
+            FacePlayer();
+
+            if (hasThrown || heldProjectile == null || playerScript == null)
+                return;
+
+            Vector3 releasePosition = throwPoint != null
+                ? throwPoint.position
+                : transform.position;
+            float throwRangeSqr = throwRange * throwRange;
+            if ((releasePosition - playerScript.transform.position).sqrMagnitude <= throwRangeSqr)
+                BeginThrow();
         }
 
-        void OnTriggerEnter(Collider other)
+        private void FacePlayer()
         {
+            if (enemyAnimator == null || playerScript == null)
+                return;
+
+            Vector3 direction =
+                playerScript.transform.position - enemyAnimator.transform.position;
+            direction.y = 0f;
+            if (direction.sqrMagnitude <= DirectionEpsilonSqr)
+                return;
+
+            enemyAnimator.transform.rotation =
+                Quaternion.LookRotation(direction, Vector3.up);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (isDead)
+                return;
+
             if (other.CompareTag("Player"))
             {
-                if (!giveDamage) return;
-
-                effectOverlayVignette.NerfOverlay();
-
-                if (playerScript.currentHealth > _health)
-                {
-                    playerScript.currentHealth -= _health;
-                    _health = 0f;
-
-                    givePlayerScore = false;
-                    EnemyDeath();
-                    isDie = true;
-                }
-                else
-                {
-                    float playerHP = playerScript.currentHealth;
-                    _health -= playerHP;
-                    playerScript.currentHealth = 0f;
-                    givePlayerScore = false;
-                }
+                ResolvePlayerContact();
+                return;
             }
 
             if (other.CompareTag("ExtraHelpTag"))
             {
-                if (!giveDamage) return;
-
-                ExtraHelpBuffScript extraHelpBuffScript = other.GetComponent<ExtraHelpBuffScript>();
-
-                if (extraHelpBuffScript.currentHealth > _health)
-                {
-                    extraHelpBuffScript.currentHealth -= _health;
-                    _health = 0f;
-
-                    givePlayerScore = false;
-                    EnemyDeath();
-                }
-                else
-                {
-                    float extraHP = extraHelpBuffScript.currentHealth;
-                    _health -= extraHP;
-                    extraHelpBuffScript.currentHealth = 0f;
-                    givePlayerScore = false;
-                }
+                ResolveExtraHelpContact(other);
+                return;
             }
 
             if (other.CompareTag("BulletTag"))
             {
-                if (!recieveDamage) return;
-
-                GameObject hitfx = Instantiate(currentEnemySO.enemyHitVFX, hitPos);
-                Destroy(hitfx, hitfx.GetComponent<ParticleSystem>().main.duration);
-
-                float damage = playerScript.currentDamage;
-                if (enemyTier == EnemyTier.Boss && UpgradeStatManager.S != null)
-                    damage = UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.BOSS_DAMAGE, damage);
-
-                DamagePopupFX.Show(hitPos.position + Vector3.up * 1.5f, damage);
-                _health -= damage;
-
-                if (_health <= 0f)
-                {
-                    _health = 0f;
-                    audioSource.PlayOneShot(currentEnemySO.enemyDeathSound);
-                    EnemyDeath();
-                }
+                ReceiveBulletDamage();
+                return;
             }
 
             if (other.CompareTag("DestroyerTag"))
-            {
                 EnemyDeath();
+        }
+
+        private void ResolvePlayerContact()
+        {
+            rewardPlayerScore = false;
+
+            if (playerScript.currentHealth > _health)
+            {
+                playerScript.currentHealth -= _health;
+                _health = 0f;
+                RefreshHealthText();
+                EnemyDeath();
+                return;
             }
+
+            float playerHealth = playerScript.currentHealth;
+            _health -= playerHealth;
+            playerScript.currentHealth = 0f;
+            RefreshHealthText();
+        }
+
+        private void ResolveExtraHelpContact(Collider other)
+        {
+            ExtraHelpBuffScript extraHelp = other.GetComponent<ExtraHelpBuffScript>();
+            rewardPlayerScore = false;
+            if (extraHelp.currentHealth > _health)
+            {
+                extraHelp.currentHealth -= _health;
+                _health = 0f;
+                RefreshHealthText();
+                EnemyDeath();
+                return;
+            }
+
+            float extraHelpHealth = extraHelp.currentHealth;
+            _health -= extraHelpHealth;
+            extraHelp.currentHealth = 0f;
+            RefreshHealthText();
+        }
+
+        private void ReceiveBulletDamage()
+        {
+            GameObject hitEffect = Instantiate(enemyData.enemyHitVFX, hitPosition);
+            ParticleSystem particles = hitEffect.GetComponent<ParticleSystem>();
+            Destroy(hitEffect, particles.main.duration);
+
+            float damage = playerScript.currentDamage;
+            if (enemyTier == EnemyTier.Boss && UpgradeStatManager.S != null)
+            {
+                damage = UpgradeStatManager.S.ApplyToBase(
+                    UpgradeStatManager.UpgradeType.BOSS_DAMAGE,
+                    damage);
+            }
+
+            DamagePopupFX.Show(hitPosition.position + Vector3.up * 1.5f, damage);
+            _health -= damage;
+            if (_health > 0f)
+            {
+                RefreshHealthText();
+                return;
+            }
+
+            _health = 0f;
+            RefreshHealthText();
+            audioSource.PlayOneShot(enemyData.enemyDeathSound);
+            EnemyDeath();
         }
 
         public void EnemyDeath()
         {
-            if (isDie) return;
-            isDie = true;
+            if (isDead)
+                return;
 
-            Vector3 spawnPos = new Vector3(transform.position.x, transform.position.y + 0.95f, transform.position.z);
-            var wall = Instantiate(bonusWall, spawnPos, Quaternion.identity);
+            isDead = true;
+            Vector3 wallPosition = transform.position + Vector3.up * 0.95f;
+            GameObject wall = Instantiate(bonusWall, wallPosition, Quaternion.identity);
             wall.AddComponent<RuntimeBonusWall>();
 
-            recieveDamage = false;
-            giveDamage = false;
-
-            var col = GetComponent<Collider>();
-            if (col != null) col.enabled = false;
+            Collider enemyCollider = GetComponent<Collider>();
+            if (enemyCollider != null)
+                enemyCollider.enabled = false;
 
             enemyAnimator.SetTrigger("die");
             StartCoroutine(DeathFlow());
 
-            if (givePlayerScore) playerScript.playerScore += _score;
-            givePlayerScore = false;
+            if (rewardPlayerScore)
+                playerScript.playerScore += enemyData.scoreUponDeath;
+            rewardPlayerScore = false;
 
-            int finalCoin = CoinDropUtility.ApplyCoinBonus(CoinDropUtility.GetCoinAmount(enemyTier));
-            CoinDropUtility.SpawnWorldCoinDrop(transform.position, finalCoin);
+            int coinAmount = CoinDropUtility.ApplyCoinBonus(
+                CoinDropUtility.GetCoinAmount(enemyTier));
+            CoinDropUtility.SpawnWorldCoinDrop(transform.position, coinAmount);
         }
 
-        IEnumerator DeathFlow()
+        private IEnumerator DeathFlow()
         {
             yield return new WaitForSeconds(0.25f);
 
             if (healthText != null)
-                healthText.enabled = false;   // 여기 핵심 (gameObject.SetActive(false) X)
+                healthText.enabled = false;
 
             yield return new WaitForSeconds(0.25f);
             gameObject.SetActive(false);
         }
 
-
-        public void ApplyStat(float damage, float health, EnemyTier tier, EnemyCombatType combatType)
+        public void ApplyStat(float damage, float health, EnemyTier tier)
         {
-            _injected = true;
-
-            enemyTier = tier;
-            enemyCombatType = combatType;
-
             _damage = damage;
             _health = health;
+            enemyTier = tier;
 
-            if (enemyType == EnemyType.Walker)
-            {
-                if (healthText == null)
-                    healthText = GetComponentInChildren<TextMeshProUGUI>(true);
+            if (healthText == null)
+                healthText = GetComponentInChildren<TextMeshProUGUI>(true);
 
-                if (healthText != null)
-                    healthText.text = _health.ToString("F0");
-            }
+            RefreshHealthText();
         }
 
-        // 한 번 던지기 (심플 + 안정화)
-        private void ThrowOnceSimple()
+        private void RefreshHealthText()
         {
-            enemyAnimator.SetTrigger("act");
+            if (healthText != null)
+                healthText.text = _health.ToString("F0");
+        }
 
-            if (hasThrown || heldProjectile == null) return;
+        private void ResetHeldProjectile()
+        {
+            if (heldProjectile == null)
+                return;
+
+            heldProjectile.gameObject.SetActive(true);
+            heldProjectile.SetParent(projectileParent, false);
+            heldProjectile.localPosition = projectileLocalPosition;
+            heldProjectile.localRotation = projectileLocalRotation;
+            heldProjectile.localScale = projectileLocalScale;
+
+            Rigidbody rigidbody = heldProjectile.GetComponent<Rigidbody>();
+            if (rigidbody != null)
+            {
+                rigidbody.linearVelocity = Vector3.zero;
+                rigidbody.angularVelocity = Vector3.zero;
+                rigidbody.useGravity = false;
+                rigidbody.isKinematic = true;
+            }
+
+            Collider projectileCollider = heldProjectile.GetComponent<Collider>();
+            if (projectileCollider != null)
+                projectileCollider.isTrigger = false;
+
+            TrailRenderer trail = heldProjectile.GetComponentInChildren<TrailRenderer>(true);
+            if (trail == null)
+                return;
+
+            trail.emitting = false;
+            trail.Clear();
+            trail.emitting = true;
+        }
+
+        private void BeginThrow()
+        {
             hasThrown = true;
-            float sec = 2f;
+            enemyAnimator.SetTrigger("act");
+            StartCoroutine(ReleaseProjectileAfterDelay());
+        }
 
-            if (transform.name.Contains("FatMan"))
-            {
-                sec = 1.6f;
-            }
-            else if (transform.name.Contains("Guard"))
-            {
-                sec = 0.8f;
-            }
-            else
-            {
-                sec = 2f;
-            }
+        private IEnumerator ReleaseProjectileAfterDelay()
+        {
+            yield return new WaitForSeconds(throwReleaseDelay);
+            if (isDead || heldProjectile == null)
+                yield break;
 
-            DOVirtual.DelayedCall(sec, () =>
-            {
-                if (isDie == true)
-                {
-                    return;
-                }
+            Transform releaseTransform = throwPoint != null ? throwPoint : transform;
+            Vector3 releasePosition = releaseTransform.position;
+            Vector3 throwDirection = CalculateThrowDirection(
+                releasePosition,
+                GetPlayerAimPoint(),
+                -releaseTransform.forward);
 
-                Transform releaseTransform = throwPoint ? throwPoint : transform;
-                Vector3 releasePosition = releaseTransform.position;
-                Vector3 targetPosition = GetPlayerAimPoint();
-                Vector3 throwDirection = CalculateThrowDirection(
-                    releasePosition,
-                    targetPosition,
-                    -releaseTransform.forward);
+            heldProjectile.position = releasePosition;
+            heldProjectile.SetParent(null, true);
+            heldProjectile.rotation = BuildThrownProjectileRotation(throwDirection);
 
-                heldProjectile.position = releasePosition;
-                heldProjectile.SetParent(null, true);
-                heldProjectile.rotation = BuildThrownProjectileRotation(throwDirection);
+            Collider projectileCollider = heldProjectile.GetComponent<Collider>();
+            if (projectileCollider == null)
+                projectileCollider = heldProjectile.gameObject.AddComponent<SphereCollider>();
+            projectileCollider.isTrigger = true;
+            heldProjectile.GetComponent<SimpleProjectile>().damage = _damage;
 
-                var col = heldProjectile.GetComponent<Collider>();
-                if (col == null) col = heldProjectile.gameObject.AddComponent<SphereCollider>();
-                col.isTrigger = true;
-                col.GetComponent<SimpleProjectile>().damage = _damage;
+            Rigidbody rigidbody = heldProjectile.GetComponent<Rigidbody>();
+            if (rigidbody == null)
+                rigidbody = heldProjectile.gameObject.AddComponent<Rigidbody>();
+            rigidbody.isKinematic = false;
+            rigidbody.useGravity = false;
+            rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 
-                var rb = heldProjectile.GetComponent<Rigidbody>();
-                if (rb == null) rb = heldProjectile.gameObject.AddComponent<Rigidbody>();
-                rb.isKinematic = false;
-                rb.useGravity = false; // 포물선 원하면 true
-                rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-                rb.interpolation = RigidbodyInterpolation.Interpolate;
+            foreach (Collider enemyCollider in GetComponentsInChildren<Collider>(true))
+                Physics.IgnoreCollision(projectileCollider, enemyCollider, true);
 
-                // 발사자 본체와 충돌 무시
-                foreach (var ec in GetComponentsInChildren<Collider>(true))
-                    if (ec && col) Physics.IgnoreCollision(col, ec, true);
-
-                // 발사
-                rb.angularVelocity = Vector3.zero;
-                rb.linearVelocity = throwDirection * throwSpeed;
-
-                //Destroy(heldProjectile.gameObject, projectileLife);
-            });
+            rigidbody.angularVelocity = Vector3.zero;
+            rigidbody.linearVelocity = throwDirection * throwSpeed;
         }
 
         private Vector3 GetPlayerAimPoint()
         {
             if (playerScript == null)
             {
-                Transform releaseTransform = throwPoint ? throwPoint : transform;
+                Transform releaseTransform = throwPoint != null ? throwPoint : transform;
                 return releaseTransform.position - releaseTransform.forward;
             }
 
-            if (playerCollider == null)
-            {
-                playerCollider = playerScript.GetComponent<Collider>();
-            }
+            Collider playerCollider = playerScript.GetComponent<Collider>();
 
             return playerCollider != null
                 ? playerCollider.bounds.center
@@ -419,14 +374,10 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             Vector3 direction = targetPosition - releasePosition;
             if (direction.sqrMagnitude > DirectionEpsilonSqr)
-            {
                 return direction.normalized;
-            }
 
             if (fallbackDirection.sqrMagnitude > DirectionEpsilonSqr)
-            {
                 return fallbackDirection.normalized;
-            }
 
             return Vector3.forward;
         }

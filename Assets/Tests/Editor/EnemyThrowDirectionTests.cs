@@ -28,9 +28,6 @@ public sealed class EnemyThrowDirectionTests
             typeof(EnemyScript_space).GetField(
                 "playerScript",
                 InstanceMemberFlags)?.SetValue(enemy, player);
-            typeof(EnemyScript_space).GetField(
-                "playerCollider",
-                InstanceMemberFlags)?.SetValue(enemy, playerCollider);
             MethodInfo getAimPoint = typeof(EnemyScript_space).GetMethod(
                 "GetPlayerAimPoint",
                 InstanceMemberFlags);
@@ -110,6 +107,54 @@ public sealed class EnemyThrowDirectionTests
             new object[] { Vector3.one, Vector3.one, Vector3.left });
 
         Assert.That(Vector3.Angle(actual, Vector3.left), Is.LessThan(0.01f));
+    }
+
+    [Test]
+    public void FacePlayer_RotatesOnlyTheVisualRootTowardThePlayer()
+    {
+        var playerObject = new GameObject("Facing Target Player");
+        var enemyObject = new GameObject("Facing Enemy Root");
+        var visualObject = new GameObject("Facing Enemy Visual");
+        try
+        {
+            visualObject.transform.SetParent(enemyObject.transform);
+            visualObject.transform.localRotation = Quaternion.Euler(0f, 180f, 0f);
+            Animator animator = visualObject.AddComponent<Animator>();
+            PlayerScript player = playerObject.AddComponent<PlayerScript>();
+
+            enemyObject.transform.position = new Vector3(1f, 0f, 2f);
+            enemyObject.transform.rotation = Quaternion.Euler(0f, 35f, 0f);
+            playerObject.transform.position = new Vector3(4f, 8f, 6f);
+            Quaternion originalRootRotation = enemyObject.transform.rotation;
+
+            EnemyScript_space enemy = enemyObject.AddComponent<EnemyScript_space>();
+            typeof(EnemyScript_space).GetField(
+                "enemyAnimator",
+                InstanceMemberFlags)?.SetValue(enemy, animator);
+            typeof(EnemyScript_space).GetField(
+                "playerScript",
+                InstanceMemberFlags)?.SetValue(enemy, player);
+            MethodInfo facePlayer = typeof(EnemyScript_space).GetMethod(
+                "FacePlayer",
+                InstanceMemberFlags);
+
+            Assert.That(facePlayer, Is.Not.Null);
+            facePlayer.Invoke(enemy, null);
+
+            Vector3 expectedDirection = playerObject.transform.position - enemyObject.transform.position;
+            expectedDirection.y = 0f;
+            Assert.That(
+                Vector3.Angle(visualObject.transform.forward, expectedDirection),
+                Is.LessThan(0.01f));
+            Assert.That(
+                Quaternion.Angle(enemyObject.transform.rotation, originalRootRotation),
+                Is.LessThan(0.01f));
+        }
+        finally
+        {
+            Object.DestroyImmediate(enemyObject);
+            Object.DestroyImmediate(playerObject);
+        }
     }
 
     [TestCase(0f)]

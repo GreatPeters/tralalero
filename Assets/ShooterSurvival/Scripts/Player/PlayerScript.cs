@@ -43,14 +43,11 @@ namespace IndianOceanAssets.ShooterSurvival
         [SerializeField] private float defaultMissileDuration = 1f;
 
         [Header("Runtime")]
-        [SerializeField] public int playerScore = 0;                // Current score of the player
-        //[SerializeField] public float originalHealth;                // Player's current health
-        [SerializeField] public float currentHealth;                // Player's current health
-        [SerializeField] private GameObject currentWeapon;          // Reference to the current weapon the player is using
-        [HideInInspector] public float originalDamage;
-        [SerializeField] public float currentDamage;                // Current damage dealt by the player
-        [SerializeField] private float currentFireRate;             // Current fire rate of the weapon
-        [SerializeField] public float moveSensitivity;              // Movement sensitivity for player movement
+        [NonSerialized] public int playerScore;
+        [NonSerialized] public float currentHealth;
+        [NonSerialized] public float originalDamage;
+        [NonSerialized] public float currentDamage;
+        [NonSerialized] public float moveSensitivity;               // Runtime value loaded from PlayerPrefs
         [Tooltip("less value more move(standard is 50)")]
         [SerializeField] public float moveSensitivity_Devision;              // Mouse sensitivity for aiming
 
@@ -68,7 +65,6 @@ namespace IndianOceanAssets.ShooterSurvival
         [Header("Player Debugging Options")]
         public bool movement = true;
         public bool animationActive = true;
-        public bool enemyDetection = true;
 
         [Header("Dependancies")]
         [SerializeField] private Image healthBar;
@@ -80,21 +76,20 @@ namespace IndianOceanAssets.ShooterSurvival
         Vector3 startPos;                           // Start position of input (for mouse or touch)
         WeaponManager weaponManager;                // Reference to WeaponManager
         WeaponScript currentWeaponScript;           // Reference to the script of the current weapon
-        [HideInInspector] public Vector3 previousPosition = Vector3.zero;
-        [HideInInspector] public bool isMoving;
-        [HideInInspector] public int dir;
+        private Vector3 previousPosition;
+        private bool isMoving;
         private bool isDead = false;
         Transform playerMesh;
-        [HideInInspector] public Transform nearestEnemy;
+        [NonSerialized] public Transform nearestEnemy;
         private bool winDancePlayed;
 
-        public List<WeaponScript> extraHelpWeaponScript;
-        public int extraHelpCount = 0;
-        public float lastWallTouchTime;
-        public bool canShoot;
+        [NonSerialized] public List<WeaponScript> extraHelpWeaponScript = new();
+        [NonSerialized] public int extraHelpCount;
+        [NonSerialized] public float lastWallTouchTime;
+        [NonSerialized] public bool canShoot;
 
-        public Animator sharkAnim;
-        [HideInInspector] public float originalMoveSpeed;
+        [NonSerialized] public Animator sharkAnim;
+        [NonSerialized] public float originalMoveSpeed;
         private float currentForwardMoveSpeed;
         private float resolvedDefaultFireRate;
         private int resolvedDefaultProjectileCount;
@@ -123,6 +118,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private string appliedSkinItem;
         private bool subscribedToStats;
         private float lastReportedCurrentDamage = float.MinValue;
+        private GameObject cachedWeaponObject;
         private Rigidbody playerRigidbody;
         private bool isWorldYawTurnActive;
         private UnityEngine.Object activeWorldYawTurnSource;
@@ -136,6 +132,8 @@ namespace IndianOceanAssets.ShooterSurvival
         private Vector3 routeLaneOrigin;
         private Vector3 routeRight = Vector3.right;
         private bool routeFrameInitialized;
+        private float lastHealthTextValue = float.NaN;
+        private float lastHealthBarValue = float.NaN;
 
         public const float DefaultWorldYawTurnDuration = 0.5f;
         public bool IsWorldYawTurnActive => isWorldYawTurnActive;
@@ -224,6 +222,7 @@ namespace IndianOceanAssets.ShooterSurvival
             RefreshSharkAnimator();
             weaponManager = GetComponent<WeaponManager>();
             canvasScript = FindFirstObjectByType<CanvasScript>();
+            SubscribeToStatChanges();
 
             moveSensitivity = PlayerPrefs.GetFloat("moveSensitivity", 1f);  // Get move sensitivity from PlayerPrefs
 
@@ -232,40 +231,52 @@ namespace IndianOceanAssets.ShooterSurvival
             RebaseRouteFrame();
             EnsurePlayerChildCanvasVisible();
 
-            extraHelpWeaponScript = new List<WeaponScript>();
-            healthText.text = currentHealth.ToString("N0");
+            extraHelpWeaponScript.Clear();
+            RefreshHealthUI(force: true);
             RefreshUpgradeStats();
         }
 
         private void Update()
         {
-            SubscribeToStatChanges();
+            if (!subscribedToStats)
+                SubscribeToStatChanges();
 
-            currentWeaponScript = GetComponentInChildren<WeaponScript>();
+            UpdateHealth();
+            RefreshCurrentWeapon();
 
-            // Update runtime variables
-            currentHealth = UpdateHealth();
-            currentWeapon = weaponManager.currentWeapon;
-
-            if (currentWeaponScript != null)
-            {
-                currentDamage = currentWeaponScript.damage;
-                currentFireRate = currentWeaponScript.fireRate;
-            }
-            else
-            {
-                currentDamage = 0f;
-            }
+            currentDamage = currentWeaponScript != null
+                ? currentWeaponScript.damage
+                : 0f;
 
             PushCurrentDamageToCanvasIfChanged();
 
             if (!string.Equals(appliedSkinItem, GetActiveSharkItemName(), StringComparison.OrdinalIgnoreCase))
                 RefreshSharkAnimator();
 
-            if (TimeManager.isGameRunning == true && winDancePlayed == false) RotateTowardEnemy();
+            if (TimeManager.isGameRunning &&
+                !winDancePlayed &&
+                TimeManager.Instance != null &&
+                !TimeManager.Instance.isForwardMarchScene)
+            {
+                RotateTowardEnemy();
+            }
 
             HandleAnimation();
             ApplyHealthRegen();
+        }
+
+        private void RefreshCurrentWeapon()
+        {
+            GameObject activeWeapon = weaponManager != null
+                ? weaponManager.currentWeapon
+                : null;
+            if (cachedWeaponObject == activeWeapon)
+                return;
+
+            cachedWeaponObject = activeWeapon;
+            currentWeaponScript = activeWeapon != null
+                ? activeWeapon.GetComponentInChildren<WeaponScript>()
+                : null;
         }
 
         private Animator FindPlayerAnimator()
@@ -361,7 +372,6 @@ namespace IndianOceanAssets.ShooterSurvival
             if (isWorldYawTurnActive)
             {
                 UpdateWorldYawTurn();
-                enemyDetection = !isForwardMarchScene;
                 if (playerAnimator != null)
                     playerAnimator.SetBool("WalkFwd", false);
 
@@ -376,13 +386,8 @@ namespace IndianOceanAssets.ShooterSurvival
                 ApplyForwardMovement();
                 if (isDead)
                     currentForwardMoveSpeed = 0f;
-                enemyDetection = false;
                 if (playerAnimator != null)
                     playerAnimator.SetBool("WalkFwd", true);
-            }
-            else
-            {
-                enemyDetection = true;
             }
 
             PlayerInput();
@@ -746,7 +751,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void RotateTowardEnemy()
         {
-            if (enemyDetection == false || TimeManager.Instance.isForwardMarchScene == true || CanvasScript.isGameOver == true || winDancePlayed == true) return;
+            if (CanvasScript.isGameOver || winDancePlayed)
+                return;
 
             Collider[] colliders = Physics.OverlapSphere(transform.position, enemyDetectRadius);
             nearestEnemy = null;
@@ -807,9 +813,9 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (isMoving == true && winDancePlayed == false)
             {
-                dir = lateralDelta > 0f ? 1 : -1;
-
-                playerAnimator.SetInteger("MoveDirection", dir);
+                playerAnimator.SetInteger(
+                    "MoveDirection",
+                    lateralDelta > 0f ? 1 : -1);
             }
 
             previousPosition = transform.position;
@@ -830,10 +836,8 @@ namespace IndianOceanAssets.ShooterSurvival
             winDancePlayed = true;
         }
 
-        public float UpdateHealth()
+        public void UpdateHealth()
         {
-            //if (currentHealth > 100) currentHealth = 100;
-
             if (currentHealth <= 0 && isDead == false)
             {
                 CancelWorldYawTurn();
@@ -843,17 +847,32 @@ namespace IndianOceanAssets.ShooterSurvival
                 if (sharkAnim != null)
                     sharkAnim.SetTrigger("Die");
 
-                //playerAnimator.SetTrigger("PlayerIsDead");
                 winDancePlayed = false;
                 //二쎌쑝硫??좊땲 ?띾룄 0?쇰줈
 
             }
 
-            float maxHealth = maxHealthWithUpgrades > 0f ? maxHealthWithUpgrades : originalHealth;
-            if (healthBar) healthBar.fillAmount = currentHealth / maxHealth;
-            if (healthText) healthText.text = currentHealth.ToString("N0");
+            RefreshHealthUI();
+        }
 
-            return currentHealth;
+        private void RefreshHealthUI(bool force = false)
+        {
+            float maxHealth = MaxHealth;
+            float healthBarValue = maxHealth > 0f ? currentHealth / maxHealth : 0f;
+
+            if (healthBar != null &&
+                (force || !Mathf.Approximately(lastHealthBarValue, healthBarValue)))
+            {
+                healthBar.fillAmount = healthBarValue;
+                lastHealthBarValue = healthBarValue;
+            }
+
+            if (healthText != null &&
+                (force || !Mathf.Approximately(lastHealthTextValue, currentHealth)))
+            {
+                healthText.text = currentHealth.ToString("N0");
+                lastHealthTextValue = currentHealth;
+            }
         }
 
         public void ApplyHarnessHealthDelta(float delta)
@@ -869,11 +888,6 @@ namespace IndianOceanAssets.ShooterSurvival
                 CanvasScript canvasScript = FindAnyObjectByType<CanvasScript>();
                 if (canvasScript != null && winDancePlayed == false) canvasScript.YouWin();
             }
-        }
-
-        private void OnCollisionEnter(Collision collision)
-        {
-            Debug.Log(collision.gameObject.name + "!!");
         }
 
         public void ResetState()
@@ -949,8 +963,7 @@ namespace IndianOceanAssets.ShooterSurvival
             currentHealth = originalHealth;
 
             // UI 利됱떆 諛섏쁺
-            if (healthBar) healthBar.fillAmount = 1f;
-            if (healthText) healthText.text = currentHealth.ToString("N0");
+            RefreshHealthUI(force: true);
 
             // Rare / ExtraHelp 愿??
             extraHelpCount = 0;
@@ -986,8 +999,7 @@ namespace IndianOceanAssets.ShooterSurvival
             maxHealthWithUpgrades = UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.HP, originalHealth);
             currentHealth = maxHealthWithUpgrades;
 
-            if (healthBar) healthBar.fillAmount = currentHealth / maxHealthWithUpgrades;
-            if (healthText) healthText.text = currentHealth.ToString("N0");
+            RefreshHealthUI(force: true);
 
             healthRegenPerSecond = UpgradeStatManager.S.GetAppliedValue(UpgradeStatManager.UpgradeType.HP_REGEN, maxHealthWithUpgrades);
 
@@ -1048,7 +1060,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (!TimeManager.isGameRunning) return;
             if (healthRegenPerSecond <= 0f) return;
 
-            float maxHealth = maxHealthWithUpgrades > 0f ? maxHealthWithUpgrades : originalHealth;
+            float maxHealth = MaxHealth;
             if (currentHealth >= maxHealth) return;
 
             currentHealth = Mathf.Min(maxHealth, currentHealth + healthRegenPerSecond * Time.deltaTime);

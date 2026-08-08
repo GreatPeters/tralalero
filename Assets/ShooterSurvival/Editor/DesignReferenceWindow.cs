@@ -11,6 +11,15 @@ public sealed class DesignReferenceWindow : EditorWindow
     private const string NoryangjinMapPlanFolderRelativePath =
         "outputs/chapter_campaign_reference_orthogonal_20min";
     private const string MeshyImagesFolderRelativePath = "output/meshy_images";
+    private const string CodexGeneratedImagesFolderRelativeToUserHome =
+        ".codex/generated_images/019f22f4-e2cc-73b1-8fdf-68dd8b36147a";
+
+    private static string CodexGeneratedImagesFolderPath =>
+        Path.GetFullPath(Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            CodexGeneratedImagesFolderRelativeToUserHome.Replace(
+                '/',
+                Path.DirectorySeparatorChar)));
 
     [MenuItem("Tools/맵 제작 도구/자료/자료 위치 안내", false, 2200)]
     public static void OpenPage()
@@ -39,12 +48,18 @@ public sealed class DesignReferenceWindow : EditorWindow
         OpenFolder(MeshyImagesFolderRelativePath);
     }
 
+    [MenuItem("Tools/맵 제작 도구/자료/Codex 생성 이미지 폴더", false, 2204)]
+    public static void OpenCodexGeneratedImagesFolder()
+    {
+        OpenAbsoluteFolder(CodexGeneratedImagesFolderPath);
+    }
+
     private void OnGUI()
     {
         EditorGUILayout.Space(8f);
         EditorGUILayout.LabelField(WindowTitle, EditorStyles.boldLabel);
         EditorGUILayout.HelpBox(
-            "에셋 설계도, 노량진 맵 설계도와 미리보기, 생성된 Meshy 이미지의 위치입니다.",
+            "에셋 설계도, 노량진 맵 설계도와 미리보기, 생성된 Meshy 및 Codex 이미지의 위치입니다.",
             MessageType.Info);
 
         EditorGUILayout.Space(4f);
@@ -55,9 +70,14 @@ public sealed class DesignReferenceWindow : EditorWindow
             "열기",
             OpenNoryangjinMapPlanFolder);
         DrawPathRow("Meshy 이미지 폴더", MeshyImagesFolderRelativePath, "열기", OpenMeshyImagesFolder);
+        DrawPathRow(
+            "Codex 생성 이미지 폴더",
+            CodexGeneratedImagesFolderPath,
+            "열기",
+            OpenCodexGeneratedImagesFolder);
     }
 
-    private static void DrawPathRow(string label, string relativePath, string buttonLabel, Action action)
+    private static void DrawPathRow(string label, string path, string buttonLabel, Action action)
     {
         using (new EditorGUILayout.HorizontalScope())
         {
@@ -65,7 +85,7 @@ public sealed class DesignReferenceWindow : EditorWindow
             {
                 EditorGUILayout.LabelField(label, EditorStyles.miniBoldLabel);
                 EditorGUILayout.SelectableLabel(
-                    relativePath,
+                    path,
                     EditorStyles.textField,
                     GUILayout.Height(EditorGUIUtility.singleLineHeight));
             }
@@ -79,7 +99,11 @@ public sealed class DesignReferenceWindow : EditorWindow
 
     private static void OpenFolder(string relativePath)
     {
-        string absolutePath = GetProjectPath(relativePath);
+        OpenAbsoluteFolder(GetProjectPath(relativePath));
+    }
+
+    private static void OpenAbsoluteFolder(string absolutePath)
+    {
         if (!Directory.Exists(absolutePath))
         {
             ShowMissingPath(absolutePath);

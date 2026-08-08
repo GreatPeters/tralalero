@@ -28,7 +28,8 @@ Editor shortcuts:
 - `Tools/Analytics/Firebase 대상 고정`: records the reviewed Firebase project ID, app ID, and Android package under `ProjectSettings` so later config swaps fail the build.
 - `Tools/Analytics/Firebase 설정 검증`: checks pinned SDK archive hashes, Android privacy defaults, the Android config, and the reviewed destination before a device build.
 - `Tools/Analytics/Firebase 연결 문서 열기`: opens the Firebase/BigQuery setup and query guide.
-- `Tools/맵 제작 도구/자료`: opens the asset design folder, the Noryangjin map-plan and preview folder, or the generated Meshy image folder.
+- `Tools/맵 제작 도구/자료`: opens the asset design folder, the Noryangjin map-plan and preview folder, or generated Meshy and Codex image folders.
+- `Tools/맵 제작 도구/자료/Codex 생성 이미지 폴더`: opens the saved pig-head gosa-table concept session under the current user's `.codex/generated_images` folder.
 - `Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기`: opens the Noryangjin map-tool palette.
 - `Tools/맵 제작 도구/노량진 맵 제작/맵툴 씬 열기 또는 생성`: opens or creates the authored map-tool scene.
 - `Tools/맵 제작 도구/노량진 맵 제작/게임플레이/Forward 기능 연결`: installs the Forward gameplay setup into the authored map-tool scene.
@@ -44,6 +45,7 @@ Editor shortcuts:
 - `Tools/맵 제작 도구/노량진 맵 제작/게임플레이/Forward 기능 연결`: copies the configured Forward player/weapon rig, pre-start/shop UI, Managers, EventSystem, and upgrade services into the open Noryangjin map-tool scene while preserving its visible `Original` character. It also keeps Forward at Build Index `0` and enables Noryangjin at Build Index `1`.
 - The map-tool palette's rendererless `회전 스팟` item marks route corners. Select one to set its absolute target Y yaw and turn duration; see `noryangjin-gameplay-maptool.md` for placement, yaw convention, and Play Mode verification.
 - The rendererless `적 발동 스팟` item starts linked enemies configured for forward movement or a side entrance. Select the trigger, then click enemies in SceneView to toggle their mapping; `Esc` clears the spot selection. Direct target-list editing is hidden from the Inspector; see `noryangjin-enemy-movement.md`.
+- The map tool's `보너스` tab exposes the playable Bonus Wall prefabs from `Assets/ShooterSurvival/Prefabs/Walls/New`, places them under `Noryangjin_MapTool/Bonuses`, and keeps their occupancy separate from roads, scenery, and enemies. The internal duplicate `random_wall_normal_fix` is intentionally excluded.
 - In the Noryangjin map tool's selection mode, each placed object's `Y` height label is a clickable selection target. The `설치 조정` preview follows the selected placement root first and falls back to the object under the map cursor when nothing is selected.
 - The map-tool toolbar's `이어 복붙` action duplicates the selected placed object with its current transform and child setup. Roads advance by their manual fine-grid footprint, backgrounds retain freeform renderer placement with a one-fine-cell seam overlap, and ordinary objects meet at their renderer edges. The new copy becomes the selection, so repeated clicks continue the same placement chain.
 - The selected-object card's `복사하기` action enters `붙여넣기 중` mode. Clicking any valid SceneView tile stamps another copy there while preserving the source instance's prefab connection, overrides, added children, rotation, scale, height, and within-tile offset. It can stamp multiple separated tiles without changing the clipboard source; click `붙여넣기 중` again or choose a palette item to cancel.

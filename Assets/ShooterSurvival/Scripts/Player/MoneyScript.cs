@@ -93,13 +93,6 @@ public class MoneyScript : MonoBehaviour
         jewel = PlayerPrefs.GetInt(JEWEL_KEY, jewel);
     }
 
-    public void ResetSave()
-    {
-        PlayerPrefs.DeleteKey(COIN_KEY);
-        PlayerPrefs.DeleteKey(JEWEL_KEY);
-        PlayerPrefs.Save();
-        RefreshUI();
-    }
 }
 
 namespace IndianOceanAssets.ShooterSurvival
@@ -158,10 +151,10 @@ namespace IndianOceanAssets.ShooterSurvival
 
     public class CoinPickup : MonoBehaviour
     {
-        [SerializeField] private int amount;
-        [SerializeField] private float bobHeight = 0.28f;
-        [SerializeField] private float bobDuration = 0.75f;
-        [SerializeField] private float rotateSpeed = 120f;
+        private int amount;
+        private const float BobHeight = 0.28f;
+        private const float BobDuration = 0.75f;
+        private const float RotateSpeed = 120f;
 
         private static Material s_coinMaterial;
         private static Material s_coinFaceMaterial;
@@ -170,11 +163,11 @@ namespace IndianOceanAssets.ShooterSurvival
         private Vector3 basePosition;
         private Tween bobTween;
         private Transform arrowRootTransform;
+        private Camera cachedMainCamera;
 
         public static CoinPickup Spawn(Vector3 worldPosition, int amount)
         {
             GameObject pickupObject = new GameObject($"Coin Pickup ({amount})");
-            pickupObject.name = $"Coin Pickup ({amount})";
             pickupObject.transform.position = worldPosition + Vector3.up * 1.1f;
 
             var trigger = pickupObject.AddComponent<SphereCollider>();
@@ -350,7 +343,6 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void Awake()
         {
-            basePosition = transform.position;
             arrowRootTransform = transform.Find("Coin Arrow Root");
         }
 
@@ -358,7 +350,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             basePosition = transform.position;
             bobTween?.Kill();
-            bobTween = transform.DOMoveY(basePosition.y + bobHeight, bobDuration)
+            bobTween = transform.DOMoveY(basePosition.y + BobHeight, BobDuration)
                 .SetEase(Ease.InOutSine)
                 .SetLoops(-1, LoopType.Yoyo);
         }
@@ -371,15 +363,17 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void Update()
         {
-            transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime, Space.World);
+            transform.Rotate(Vector3.up, RotateSpeed * Time.deltaTime, Space.World);
 
             if (arrowRootTransform != null)
             {
                 float pulse = 1f + Mathf.Sin(Time.time * 6f) * 0.08f;
                 arrowRootTransform.localScale = Vector3.one * pulse;
                 arrowRootTransform.localPosition = new Vector3(0f, 0.92f + Mathf.Sin(Time.time * 4f) * 0.04f, 0f);
-                if (Camera.main != null)
-                    arrowRootTransform.forward = Camera.main.transform.forward;
+                if (cachedMainCamera == null)
+                    cachedMainCamera = Camera.main;
+                if (cachedMainCamera != null)
+                    arrowRootTransform.forward = cachedMainCamera.transform.forward;
             }
         }
 

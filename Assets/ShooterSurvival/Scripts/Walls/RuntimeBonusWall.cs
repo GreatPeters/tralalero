@@ -1,16 +1,13 @@
 using UnityEngine;
 
-public class RuntimeBonusWall : MonoBehaviour
+public sealed class RuntimeBonusWall : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [SerializeField] private bool removeWhenPreparingStage = true;
 
-    // Update is called once per frame
-    void Update()
+    public bool RemoveWhenPreparingStage => removeWhenPreparingStage;
+
+    public void KeepAsMapAuthoredWall()
     {
-        
+        removeWhenPreparingStage = false;
     }
 }

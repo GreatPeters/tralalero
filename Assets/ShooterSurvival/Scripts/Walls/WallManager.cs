@@ -7,6 +7,7 @@ public class WallManager : MonoBehaviour
 {
     public static WallManager S;
     public WallScript[] walls;
+    private Coroutine checkWallSameAbilityCoroutine;
 
     void Awake()
     {
@@ -15,28 +16,39 @@ public class WallManager : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine("CheckWallSameAbility");
+        ScheduleSameAbilityCheck();
     }
 
     public void InIt()
     {
         foreach(var w in walls)
         {
-            w.gameObject.SetActive(true);
+            bool wasActive = w.gameObject.activeInHierarchy;
+            w.ReactivateLifetimeObject();
+            if (!wasActive && w.gameObject.activeInHierarchy)
+                continue;
+
             w.SetRandomStat();
             w.SetStats();
             w.SetWallSprite();
         }
 
-        StartCoroutine("CheckWallSameAbility");
+        ScheduleSameAbilityCheck();
     }
 
+    private void ScheduleSameAbilityCheck()
+    {
+        if (checkWallSameAbilityCoroutine != null)
+            StopCoroutine(checkWallSameAbilityCoroutine);
+
+        checkWallSameAbilityCoroutine = StartCoroutine(CheckWallSameAbility());
+    }
 
     IEnumerator CheckWallSameAbility()
     {
         yield return new WaitForSeconds(0.5f);
 
-        for (int i = 0; i < walls.Length; i+=2)
+        for (int i = 0; i + 1 < walls.Length; i += 2)
         {
             var a = walls[i];
             var b = walls[i + 1];
@@ -44,5 +56,7 @@ public class WallManager : MonoBehaviour
             if (a.buffType == b.buffType)
                 b.RerollTWallType(a.buffType);
         }
+
+        checkWallSameAbilityCoroutine = null;
     }
 }

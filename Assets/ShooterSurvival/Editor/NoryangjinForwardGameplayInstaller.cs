@@ -67,6 +67,7 @@ public static class NoryangjinForwardGameplayInstaller
             EnsureAnalyticsSceneContext(targetScene);
             EnsureChapterEnemyStats(targetScene);
             CanvasScript canvas = EnsureCanvas(sourceScene, targetScene);
+            PlayerStatusHudBuilder.Build(canvas, player);
             EnsureEventSystem(sourceScene, targetScene);
             EnsureUpgradeServices(sourceScene, targetScene);
 
@@ -449,6 +450,8 @@ public static class NoryangjinForwardGameplayInstaller
             missing.Add("BulletPooler");
         if (canvas == null)
             missing.Add("CanvasScript");
+        else if (!canvas.HasPlayerStatusHud)
+            missing.Add("PlayerStatusHUD");
         if (FindInScene<EventSystem>(targetScene) == null)
             missing.Add("EventSystem");
         if (FindInScene<UpgradeStatManager>(targetScene) == null)

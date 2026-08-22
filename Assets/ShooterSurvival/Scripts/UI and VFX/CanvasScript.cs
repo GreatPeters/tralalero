@@ -32,6 +32,7 @@ namespace IndianOceanAssets.ShooterSurvival
         public GameObject bottom;
         public RectTransform startAreaImg;
         [SerializeField] private TextMeshProUGUI attackDebugText;
+        [SerializeField] private PlayerStatusHud playerStatusHud;
         [SerializeField] private TextMeshProUGUI damagePopupPrefab;
 
         private PlayerScript playerScript;
@@ -52,10 +53,18 @@ namespace IndianOceanAssets.ShooterSurvival
                 GetComponent<CanvasScaler>().referenceResolution = new Vector2(1080, 1920);
 
             playerScript = FindFirstObjectByType<PlayerScript>();
+            playerScript?.ConfigureCanvasScript(this);
             playerScoreText = playerScoreUI.GetComponent<TextMeshProUGUI>();
             playerScoreText.text = "0";
             scorePopAnimator = playerScoreUI.GetComponent<Animator>();
             attackDebugText ??= FindAttackDebugText();
+            ResolvePlayerStatusHud();
+
+            if (playerStatusHud != null && playerScript != null)
+            {
+                playerStatusHud.SetHealth(playerScript.currentHealth, playerScript.MaxHealth);
+                playerStatusHud.SetAttack(playerScript.currentDamage);
+            }
 
             TimeManager.timeFactor = 0;
             TimeManager.isGameRunning = false;
@@ -271,6 +280,13 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void UpdateAttackDebugText(float currentDamage)
         {
+            PlayerStatusHud hud = ResolvePlayerStatusHud();
+            if (hud != null && hud.IsConfigured)
+            {
+                hud.SetAttack(currentDamage);
+                return;
+            }
+
             attackDebugText ??= FindAttackDebugText();
             if (attackDebugText == null)
                 return;
@@ -278,11 +294,51 @@ namespace IndianOceanAssets.ShooterSurvival
             attackDebugText.text = $"ATT : {Mathf.RoundToInt(currentDamage)}";
         }
 
+        public void UpdatePlayerHealthStatus(float currentHealth, float maxHealth)
+        {
+            PlayerStatusHud hud = ResolvePlayerStatusHud();
+            if (hud != null && hud.IsConfigured)
+                hud.SetHealth(currentHealth, maxHealth);
+        }
+
+        public void ConfigurePlayerStatusHud(PlayerStatusHud hud, PlayerScript player = null)
+        {
+            playerStatusHud = hud;
+            if (player != null)
+            {
+                playerScript = player;
+                player.ConfigureCanvasScript(this);
+            }
+
+            SetAttackDebugVisible(false);
+        }
+
+        public bool HasPlayerStatusHud => ResolvePlayerStatusHud()?.IsConfigured == true;
+
         private void SetAttackDebugVisible(bool visible)
         {
             attackDebugText ??= FindAttackDebugText();
+            PlayerStatusHud hud = ResolvePlayerStatusHud();
+
+            if (hud != null && hud.IsConfigured)
+            {
+                hud.gameObject.SetActive(visible);
+                playerScript?.SetPlayerChildCanvasVisible(false);
+                if (attackDebugText != null)
+                    attackDebugText.gameObject.SetActive(false);
+                return;
+            }
+
             if (attackDebugText != null)
                 attackDebugText.gameObject.SetActive(visible);
+        }
+
+        private PlayerStatusHud ResolvePlayerStatusHud()
+        {
+            if (playerStatusHud == null)
+                playerStatusHud = GetComponentInChildren<PlayerStatusHud>(true);
+
+            return playerStatusHud;
         }
 
         private TextMeshProUGUI FindAttackDebugText()

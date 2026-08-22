@@ -4,9 +4,11 @@ using System.Reflection;
 using IndianOceanAssets.ShooterSurvival;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.Localization;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public sealed class MonsterGrowthAndMapToolEnemyTests
 {
@@ -322,12 +324,18 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
         string[] prefabPaths =
             NoryangjinMapToolWindow.FindBonusWallPalettePrefabPaths();
 
-        Assert.That(prefabPaths, Has.Length.EqualTo(14));
         Assert.That(
             prefabPaths,
-            Does.Not.Contain(
+            Is.EqualTo(new[]
+            {
                 NoryangjinMapToolWindow.BonusWallPrefabRoot +
-                "/random_wall_normal_fix.prefab"));
+                "/Box_left.prefab"
+            }));
+        Assert.That(
+            NoryangjinMapToolWindow.BuildBonusWallPaletteLabel(
+                NoryangjinMapToolWindow.BonusWallPrefabRoot +
+                "/Box_left.prefab"),
+            Is.EqualTo("운명의 제단"));
 
         foreach (string prefabPath in prefabPaths)
         {
@@ -361,16 +369,878 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
     }
 
     [Test]
+    public void BonusAltar_UsesOneReusableRandomPrefab()
+    {
+        FeastOfFortuneWallSetup.BuildWallPrefabs();
+
+        string prefabPath = NoryangjinMapToolWindow.FeastOfFortuneBonusWallPrefabPaths[0];
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        Assert.That(prefab, Is.Not.Null);
+        Assert.That(
+            prefab.name,
+            Is.EqualTo(Path.GetFileNameWithoutExtension(prefabPath)),
+            "Unity normalizes a prefab root name to the prefab asset filename.");
+
+        AuthoredBonusWall altar = prefab.GetComponent<AuthoredBonusWall>();
+        WallScript wall = prefab.GetComponentInChildren<WallScript>(true);
+        Assert.That(altar, Is.Not.Null);
+        Assert.That(altar.Rarity, Is.EqualTo(Rarity.Normal));
+        Assert.That(wall, Is.Not.Null);
+        Assert.That(wall.isRandom, Is.True);
+        Assert.That(wall.wallType, Is.EqualTo(WallType.BuffWall));
+        Assert.That(wall.statValueTmp.text, Is.EqualTo("+?"));
+        Assert.That(
+            prefab.transform.Find("GFX/Canvas/Choice_Title")
+                .GetComponent<TMPro.TextMeshProUGUI>().text,
+            Is.EqualTo("운명의 제단"));
+    }
+
+    [Test]
+    public void BonusChoiceMagicCircle_RemainsSparseAndTransparentAfterRegeneration()
+    {
+        const string texturePath =
+            "Assets/ShooterSurvival/Textures/Generated/BonusChoiceBoxes/BonusBox_MagicCircle.png";
+        string absolutePath = Path.GetFullPath(texturePath);
+        Assert.That(File.Exists(absolutePath), Is.True, texturePath);
+
+        Texture2D readableTexture = new Texture2D(
+            2,
+            2,
+            TextureFormat.RGBA32,
+            false,
+            true);
+        try
+        {
+            bool loaded = ImageConversion.LoadImage(
+                readableTexture,
+                File.ReadAllBytes(absolutePath),
+                false);
+            Assert.That(loaded, Is.True, texturePath);
+            Assert.That(readableTexture.width, Is.GreaterThanOrEqualTo(128));
+            Assert.That(readableTexture.height, Is.EqualTo(readableTexture.width));
+
+            Assert.That(
+                readableTexture.GetPixel(0, 0).a,
+                Is.LessThan(0.1f),
+                "The transparent circle texture must not fill its corners.");
+            Assert.That(
+                readableTexture.GetPixel(
+                    readableTexture.width / 2,
+                    readableTexture.height / 2).a,
+                Is.LessThan(0.1f),
+                "The middle of the magic circle must remain open.");
+            Assert.That(
+                readableTexture.GetPixelBilinear(0.96f, 0.5f).a,
+                Is.GreaterThan(0.5f),
+                "The outer rune ring near normalized radius 0.92 must remain visible.");
+
+            Color32[] pixels = readableTexture.GetPixels32();
+            int opaquePixelCount = 0;
+            foreach (Color32 pixel in pixels)
+            {
+                if (pixel.a >= 26)
+                    opaquePixelCount++;
+            }
+
+            float opaqueRatio = (float)opaquePixelCount / pixels.Length;
+            Assert.That(
+                opaqueRatio,
+                Is.LessThan(0.35f),
+                $"Magic-circle alpha must stay sparse, but {opaqueRatio:P1} of pixels were opaque.");
+        }
+        finally
+        {
+            Object.DestroyImmediate(readableTexture);
+        }
+    }
+
+    [Test]
+    public void BonusChoiceEnergyMote_RemainsSoftAndSparseAfterRegeneration()
+    {
+        const string texturePath =
+            "Assets/ShooterSurvival/Textures/Generated/BonusChoiceBoxes/BonusBox_EnergyMote.png";
+        string absolutePath = Path.GetFullPath(texturePath);
+        Assert.That(File.Exists(absolutePath), Is.True, texturePath);
+
+        Texture2D readableTexture = new Texture2D(
+            2,
+            2,
+            TextureFormat.RGBA32,
+            false,
+            true);
+        try
+        {
+            bool loaded = ImageConversion.LoadImage(
+                readableTexture,
+                File.ReadAllBytes(absolutePath),
+                false);
+            Assert.That(loaded, Is.True, texturePath);
+            Assert.That(readableTexture.width, Is.EqualTo(64));
+            Assert.That(readableTexture.height, Is.EqualTo(64));
+            Assert.That(readableTexture.GetPixel(0, 0).a, Is.LessThan(0.02f));
+            Assert.That(
+                readableTexture.GetPixel(
+                    readableTexture.width / 2,
+                    readableTexture.height / 2).a,
+                Is.GreaterThan(0.8f));
+
+            Color32[] pixels = readableTexture.GetPixels32();
+            int brightPixelCount = 0;
+            foreach (Color32 pixel in pixels)
+            {
+                if (pixel.a >= 128)
+                    brightPixelCount++;
+            }
+
+            float brightRatio = (float)brightPixelCount / pixels.Length;
+            Assert.That(
+                brightRatio,
+                Is.InRange(0.01f, 0.22f),
+                $"The energy mote needs a compact bright core, but measured {brightRatio:P1}.");
+        }
+        finally
+        {
+            Object.DestroyImmediate(readableTexture);
+        }
+    }
+
+    [Test]
+    public void BonusChoiceAltarVfx_ReenableRestoresAuthoredScaleAndIconPosition()
+    {
+        GameObject root = new("BonusChoiceAltarVfxTest");
+        GameObject glowObject = new("GlowOrbit");
+        GameObject iconObject = new("StatIcon", typeof(RectTransform));
+        GameObject innerAuraObject = new("InnerAura", typeof(RectTransform));
+        GameObject outerAuraObject = new("OuterAura", typeof(RectTransform));
+
+        try
+        {
+            glowObject.transform.SetParent(root.transform, false);
+            RectTransform iconRect = iconObject.GetComponent<RectTransform>();
+            iconRect.SetParent(root.transform, false);
+            RectTransform innerAuraRect = innerAuraObject.GetComponent<RectTransform>();
+            RectTransform outerAuraRect = outerAuraObject.GetComponent<RectTransform>();
+            innerAuraRect.SetParent(root.transform, false);
+            outerAuraRect.SetParent(root.transform, false);
+
+            Vector3 authoredGlowScale = new(1.2f, 0.8f, 1.4f);
+            Vector2 authoredIconPosition = new(12f, 34f);
+            Quaternion authoredIconRotation = Quaternion.Euler(0f, 0f, -4f);
+            Vector2 authoredInnerAuraPosition = new(-3f, 7f);
+            Vector2 authoredOuterAuraPosition = new(5f, 9f);
+            Vector3 authoredInnerAuraScale = new(1.1f, 1.2f, 1f);
+            Vector3 authoredOuterAuraScale = new(1.4f, 1.5f, 1f);
+            Quaternion authoredInnerAuraRotation = Quaternion.Euler(0f, 0f, -2f);
+            Quaternion authoredOuterAuraRotation = Quaternion.Euler(0f, 0f, 3f);
+            glowObject.transform.localScale = authoredGlowScale;
+            iconRect.anchoredPosition = authoredIconPosition;
+            iconRect.localRotation = authoredIconRotation;
+            innerAuraRect.anchoredPosition = authoredInnerAuraPosition;
+            outerAuraRect.anchoredPosition = authoredOuterAuraPosition;
+            innerAuraRect.localScale = authoredInnerAuraScale;
+            outerAuraRect.localScale = authoredOuterAuraScale;
+            innerAuraRect.localRotation = authoredInnerAuraRotation;
+            outerAuraRect.localRotation = authoredOuterAuraRotation;
+
+            BonusChoiceAltarVfx vfx = root.AddComponent<BonusChoiceAltarVfx>();
+            vfx.Configure(glowObject.transform, iconRect, innerAuraRect, outerAuraRect);
+
+            glowObject.transform.localScale = authoredGlowScale * 1.08f;
+            iconRect.anchoredPosition = authoredIconPosition + Vector2.up * 4f;
+            iconRect.localRotation = Quaternion.Euler(0f, 0f, 8f);
+            innerAuraRect.anchoredPosition += Vector2.up * 2f;
+            outerAuraRect.anchoredPosition += Vector2.down * 3f;
+            innerAuraRect.localScale *= 1.2f;
+            outerAuraRect.localScale *= 0.8f;
+            innerAuraRect.localRotation = Quaternion.Euler(0f, 0f, 12f);
+            outerAuraRect.localRotation = Quaternion.Euler(0f, 0f, -9f);
+            typeof(BonusChoiceAltarVfx)
+                .GetMethod("OnEnable", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(vfx, null);
+
+            Assert.That(glowObject.transform.localScale, Is.EqualTo(authoredGlowScale));
+            Assert.That(iconRect.anchoredPosition, Is.EqualTo(authoredIconPosition));
+            Assert.That(iconRect.localRotation, Is.EqualTo(authoredIconRotation));
+            Assert.That(innerAuraRect.anchoredPosition, Is.EqualTo(authoredInnerAuraPosition));
+            Assert.That(outerAuraRect.anchoredPosition, Is.EqualTo(authoredOuterAuraPosition));
+            Assert.That(innerAuraRect.localScale, Is.EqualTo(authoredInnerAuraScale));
+            Assert.That(outerAuraRect.localScale, Is.EqualTo(authoredOuterAuraScale));
+            Assert.That(innerAuraRect.localRotation, Is.EqualTo(authoredInnerAuraRotation));
+            Assert.That(outerAuraRect.localRotation, Is.EqualTo(authoredOuterAuraRotation));
+        }
+        finally
+        {
+            Object.DestroyImmediate(root);
+        }
+    }
+
+    [Test]
+    public void BonusChoiceAltarVfx_UniqueGradeEnlargesAndEnrichesExistingEffects()
+    {
+        GameObject root = new("UniqueBonusChoiceAltarVfxTest");
+        GameObject visual = new("ChoiceAltarVisual");
+        GameObject glow = new("GlowOrbit");
+        GameObject energy = new("IconEnergyBillboard");
+        GameObject groundAura = new("GroundAura");
+        GameObject frontSigil = new("FrontSigil");
+        GameObject particleObject = new("ChoiceParticles", typeof(ParticleSystem));
+        GameObject iconObject = new("StatIcon", typeof(RectTransform));
+        GameObject auraObject = new("IconAura", typeof(RectTransform));
+        Material effectMaterial = null;
+
+        try
+        {
+            visual.transform.SetParent(root.transform, false);
+            glow.transform.SetParent(visual.transform, false);
+            energy.transform.SetParent(visual.transform, false);
+            groundAura.transform.SetParent(visual.transform, false);
+            frontSigil.transform.SetParent(visual.transform, false);
+            particleObject.transform.SetParent(visual.transform, false);
+            RectTransform icon = iconObject.GetComponent<RectTransform>();
+            RectTransform aura = auraObject.GetComponent<RectTransform>();
+            RawImage auraGraphic = auraObject.AddComponent<RawImage>();
+            icon.SetParent(root.transform, false);
+            aura.SetParent(root.transform, false);
+
+            Shader effectShader = Shader.Find("Universal Render Pipeline/Unlit");
+            Assert.That(effectShader, Is.Not.Null);
+            effectMaterial = new Material(effectShader);
+            Color baseEffectColor = new(2.3f, 0.75f, 0.04f, 0.44f);
+            if (effectMaterial.HasProperty("_BaseColor"))
+                effectMaterial.SetColor("_BaseColor", baseEffectColor);
+            if (effectMaterial.HasProperty("_Color"))
+                effectMaterial.SetColor("_Color", baseEffectColor);
+            Color sharedBaseColor = effectMaterial.GetColor("_BaseColor");
+            Color sharedLegacyColor = effectMaterial.GetColor("_Color");
+
+            MeshRenderer glowRenderer = glow.AddComponent<MeshRenderer>();
+            MeshRenderer energyRenderer = energy.AddComponent<MeshRenderer>();
+            MeshRenderer groundRenderer = groundAura.AddComponent<MeshRenderer>();
+            MeshRenderer sigilRenderer = frontSigil.AddComponent<MeshRenderer>();
+            ParticleSystemRenderer particleRenderer =
+                particleObject.GetComponent<ParticleSystemRenderer>();
+            glowRenderer.sharedMaterial = effectMaterial;
+            energyRenderer.sharedMaterial = effectMaterial;
+            groundRenderer.sharedMaterial = effectMaterial;
+            sigilRenderer.sharedMaterial = effectMaterial;
+            particleRenderer.sharedMaterial = effectMaterial;
+            Renderer[] effectRenderers =
+            {
+                glowRenderer,
+                energyRenderer,
+                groundRenderer,
+                sigilRenderer,
+                particleRenderer
+            };
+            Color glowOverrideColor = new(1.8f, 0.55f, 0.04f, 0.17f);
+            var glowBaseBlock = new MaterialPropertyBlock();
+            glowBaseBlock.SetColor("_BaseColor", glowOverrideColor);
+            glowRenderer.SetPropertyBlock(glowBaseBlock);
+            bool[] baseBlockEmpty = new bool[effectRenderers.Length];
+            Color[] baseBlockColors = new Color[effectRenderers.Length];
+            Color[] baseLegacyColors = new Color[effectRenderers.Length];
+            var baseBlockProbe = new MaterialPropertyBlock();
+            for (int index = 0; index < effectRenderers.Length; index++)
+            {
+                baseBlockProbe.Clear();
+                effectRenderers[index].GetPropertyBlock(baseBlockProbe);
+                baseBlockEmpty[index] = baseBlockProbe.isEmpty;
+                baseBlockColors[index] = baseBlockProbe.GetColor("_BaseColor");
+                baseLegacyColors[index] = baseBlockProbe.GetColor("_Color");
+            }
+
+            Vector3 glowScale = new(1.2f, 0.9f, 1.1f);
+            Vector3 energyScale = new(0.8f, 1.3f, 1f);
+            Vector3 groundScale = new(1.4f, 1f, 1.2f);
+            Vector3 auraScale = new(1.1f, 1.25f, 1f);
+            Color baseAuraColor = new(1f, 0.35f, 0.08f, 0.25f);
+            glow.transform.localScale = glowScale;
+            energy.transform.localScale = energyScale;
+            groundAura.transform.localScale = groundScale;
+            aura.localScale = auraScale;
+            auraGraphic.color = baseAuraColor;
+
+            ParticleSystem particles = particleObject.GetComponent<ParticleSystem>();
+            ParticleSystem.MainModule main = particles.main;
+            main.startSize3D = true;
+            main.startSpeed = new ParticleSystem.MinMaxCurve(0.3f, 0.5f);
+            main.startSizeX = new ParticleSystem.MinMaxCurve(0.09f, 0.13f);
+            main.startSizeY = new ParticleSystem.MinMaxCurve(0.15f, 0.22f);
+            main.startSizeZ = new ParticleSystem.MinMaxCurve(0.09f, 0.13f);
+            main.maxParticles = 12;
+            ParticleSystem.EmissionModule emission = particles.emission;
+            emission.rateOverTime = 7f;
+
+            BonusChoiceAltarVfx vfx = root.AddComponent<BonusChoiceAltarVfx>();
+            vfx.Configure(false, glow.transform, icon, aura);
+            vfx.SetRarity(Rarity.Unique);
+
+            Assert.That(vfx.Rarity, Is.EqualTo(Rarity.Unique));
+            Assert.That(glow.transform.localScale, Is.EqualTo(glowScale));
+            Assert.That(energy.transform.localScale, Is.EqualTo(energyScale));
+            Assert.That(groundAura.transform.localScale, Is.EqualTo(groundScale));
+            Assert.That(aura.localScale, Is.EqualTo(auraScale));
+            Assert.That(auraGraphic.color, Is.EqualTo(baseAuraColor));
+            Assert.That(particles.emission.rateOverTime.constant, Is.EqualTo(7f));
+            Assert.That(particles.main.startSizeY.constantMax, Is.EqualTo(0.22f));
+            Assert.That(particles.main.maxParticles, Is.EqualTo(12));
+            var editModeBlock = new MaterialPropertyBlock();
+            for (int index = 0; index < effectRenderers.Length; index++)
+            {
+                editModeBlock.Clear();
+                effectRenderers[index].GetPropertyBlock(editModeBlock);
+                Assert.That(editModeBlock.isEmpty, Is.EqualTo(baseBlockEmpty[index]));
+                AssertColorApproximately(
+                    editModeBlock.GetColor("_BaseColor"),
+                    baseBlockColors[index]);
+                AssertColorApproximately(
+                    editModeBlock.GetColor("_Color"),
+                    baseLegacyColors[index]);
+            }
+            AssertColorApproximately(
+                effectMaterial.GetColor("_BaseColor"),
+                sharedBaseColor);
+            AssertColorApproximately(
+                effectMaterial.GetColor("_Color"),
+                sharedLegacyColor);
+
+            MethodInfo refreshPresentation = typeof(BonusChoiceAltarVfx).GetMethod(
+                "RefreshPresentation",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(refreshPresentation, Is.Not.Null);
+            refreshPresentation.Invoke(vfx, null);
+
+            Assert.That(glow.transform.localScale.x, Is.GreaterThan(glowScale.x));
+            Assert.That(energy.transform.localScale.y, Is.GreaterThan(energyScale.y));
+            Assert.That(groundAura.transform.localScale.x, Is.GreaterThan(groundScale.x));
+            Assert.That(aura.localScale.x, Is.GreaterThan(auraScale.x));
+            Assert.That(particles.emission.rateOverTime.constant, Is.GreaterThan(7f));
+            Assert.That(particles.main.startSizeY.constantMax, Is.GreaterThan(0.22f));
+            Assert.That(particles.main.maxParticles, Is.GreaterThan(12));
+            var propertyBlock = new MaterialPropertyBlock();
+            Color uniqueEffectColor = default;
+            foreach (Renderer effectRenderer in effectRenderers)
+            {
+                propertyBlock.Clear();
+                effectRenderer.GetPropertyBlock(propertyBlock);
+                Color rendererColor = propertyBlock.GetColor("_BaseColor");
+                Assert.That(rendererColor.b, Is.GreaterThan(rendererColor.r));
+                Assert.That(rendererColor.r, Is.GreaterThan(rendererColor.g));
+                Assert.That(
+                    rendererColor.a,
+                    Is.EqualTo(effectRenderer == glowRenderer
+                        ? glowOverrideColor.a
+                        : baseEffectColor.a));
+                if (effectRenderer == glowRenderer)
+                    uniqueEffectColor = rendererColor;
+            }
+            Assert.That(auraGraphic.color.b, Is.GreaterThan(auraGraphic.color.r));
+            Assert.That(auraGraphic.color.r, Is.GreaterThan(auraGraphic.color.g));
+            Assert.That(auraGraphic.color.a, Is.EqualTo(baseAuraColor.a));
+            AssertColorApproximately(
+                effectMaterial.GetColor("_BaseColor"),
+                sharedBaseColor);
+            AssertColorApproximately(
+                effectMaterial.GetColor("_Color"),
+                sharedLegacyColor);
+
+            Vector3 uniqueGlowScale = glow.transform.localScale;
+            Vector3 uniqueEnergyScale = energy.transform.localScale;
+            Vector3 uniqueGroundScale = groundAura.transform.localScale;
+            Vector3 uniqueAuraScale = aura.localScale;
+            float uniqueParticleRate = particles.emission.rateOverTime.constant;
+            float uniqueParticleSize = particles.main.startSizeY.constantMax;
+            int uniqueParticleCapacity = particles.main.maxParticles;
+            Color uniqueAuraColor = auraGraphic.color;
+            refreshPresentation.Invoke(vfx, null);
+
+            Assert.That(glow.transform.localScale, Is.EqualTo(uniqueGlowScale));
+            Assert.That(energy.transform.localScale, Is.EqualTo(uniqueEnergyScale));
+            Assert.That(groundAura.transform.localScale, Is.EqualTo(uniqueGroundScale));
+            Assert.That(aura.localScale, Is.EqualTo(uniqueAuraScale));
+            Assert.That(
+                particles.emission.rateOverTime.constant,
+                Is.EqualTo(uniqueParticleRate));
+            Assert.That(
+                particles.main.startSizeY.constantMax,
+                Is.EqualTo(uniqueParticleSize));
+            Assert.That(particles.main.maxParticles, Is.EqualTo(uniqueParticleCapacity));
+            propertyBlock.Clear();
+            glowRenderer.GetPropertyBlock(propertyBlock);
+            Assert.That(
+                propertyBlock.GetColor("_BaseColor"),
+                Is.EqualTo(uniqueEffectColor));
+            Assert.That(auraGraphic.color, Is.EqualTo(uniqueAuraColor));
+
+            vfx.SetRarity(Rarity.Rare);
+            refreshPresentation.Invoke(vfx, null);
+
+            Assert.That(vfx.Rarity, Is.EqualTo(Rarity.Rare));
+            Assert.That(glow.transform.localScale, Is.EqualTo(glowScale));
+            Assert.That(energy.transform.localScale, Is.EqualTo(energyScale));
+            Assert.That(groundAura.transform.localScale, Is.EqualTo(groundScale));
+            Assert.That(aura.localScale, Is.EqualTo(auraScale));
+            Assert.That(particles.emission.rateOverTime.constant, Is.EqualTo(7f));
+            Assert.That(particles.main.startSizeY.constantMax, Is.EqualTo(0.22f));
+            Assert.That(particles.main.maxParticles, Is.EqualTo(12));
+            for (int index = 0; index < effectRenderers.Length; index++)
+            {
+                Renderer effectRenderer = effectRenderers[index];
+                propertyBlock.Clear();
+                effectRenderer.GetPropertyBlock(propertyBlock);
+                Assert.That(propertyBlock.isEmpty, Is.EqualTo(baseBlockEmpty[index]));
+                AssertColorApproximately(
+                    propertyBlock.GetColor("_BaseColor"),
+                    baseBlockColors[index]);
+                AssertColorApproximately(
+                    propertyBlock.GetColor("_Color"),
+                    baseLegacyColors[index]);
+            }
+            Assert.That(auraGraphic.color, Is.EqualTo(baseAuraColor));
+            AssertColorApproximately(
+                effectMaterial.GetColor("_BaseColor"),
+                sharedBaseColor);
+            AssertColorApproximately(
+                effectMaterial.GetColor("_Color"),
+                sharedLegacyColor);
+        }
+        finally
+        {
+            Object.DestroyImmediate(root);
+            if (effectMaterial != null)
+                Object.DestroyImmediate(effectMaterial);
+        }
+
+        static void AssertColorApproximately(Color actual, Color expected)
+        {
+            float difference = Mathf.Max(
+                Mathf.Abs(actual.r - expected.r),
+                Mathf.Abs(actual.g - expected.g),
+                Mathf.Abs(actual.b - expected.b),
+                Mathf.Abs(actual.a - expected.a));
+            Assert.That(difference, Is.LessThanOrEqualTo(0.0001f));
+        }
+    }
+
+    [Test]
+    public void FeastOfFortuneStatCanvas_FacesTheGameplayCamera()
+    {
+        Assert.That(
+            typeof(WallStatCanvasBillboard).IsDefined(typeof(ExecuteAlways), false),
+            Is.True,
+            "The Noryangjin map-tool preview must face its camera outside Play mode.");
+
+        string[] prefabPaths =
+        {
+            NoryangjinMapToolWindow.BonusWallPrefabRoot +
+            "/Box_left.prefab"
+        };
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        try
+        {
+            GameObject cameraObject = new GameObject("Gameplay Camera");
+            SceneManager.MoveGameObjectToScene(cameraObject, previewScene);
+            Camera camera = cameraObject.AddComponent<Camera>();
+            cameraObject.tag = "MainCamera";
+            camera.transform.rotation = Quaternion.Euler(24f, 37f, 3f);
+            Camera previouslyEnabledMainCamera = Camera.main;
+            if (previouslyEnabledMainCamera != null && previouslyEnabledMainCamera != camera)
+                previouslyEnabledMainCamera.enabled = false;
+
+            try
+            {
+                foreach (string prefabPath in prefabPaths)
+                {
+                    GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+                    GameObject instance =
+                        PrefabUtility.InstantiatePrefab(prefab, previewScene) as GameObject;
+                    Assert.That(instance, Is.Not.Null, prefabPath);
+
+                    WallStatCanvasBillboard[] billboards =
+                        instance.GetComponentsInChildren<WallStatCanvasBillboard>(true);
+                    Assert.That(
+                        billboards.Length,
+                        Is.EqualTo(2),
+                        "The stat Canvas and the grouped energy plume must face the camera.");
+
+                    Transform energyBillboard = instance.transform.Find(
+                        "ChoiceAltarVisual/IconEnergyBillboard");
+                    Assert.That(energyBillboard, Is.Not.Null, prefabPath);
+                    Transform leftVeil = energyBillboard.Find("IconEnergyVeilLeft");
+                    Transform rightVeil = energyBillboard.Find("IconEnergyVeilRight");
+                    Quaternion leftTiltBeforeFacing = leftVeil.localRotation;
+                    Quaternion rightTiltBeforeFacing = rightVeil.localRotation;
+
+                    MethodInfo onValidate = typeof(WallStatCanvasBillboard).GetMethod(
+                        "OnValidate",
+                        BindingFlags.Instance | BindingFlags.NonPublic);
+                    MethodInfo delayedFacing = typeof(WallStatCanvasBillboard).GetMethod(
+                        "FaceMainCameraIfAvailable",
+                        BindingFlags.Instance | BindingFlags.NonPublic);
+                    Assert.That(onValidate, Is.Not.Null, prefabPath);
+                    Assert.That(delayedFacing, Is.Not.Null, prefabPath);
+                    foreach (WallStatCanvasBillboard billboard in billboards)
+                    {
+                        onValidate.Invoke(billboard, null);
+                        delayedFacing.Invoke(billboard, null);
+                        billboard.FaceCamera(camera);
+
+                        Assert.That(
+                            Vector3.Dot(billboard.transform.right, camera.transform.right),
+                            Is.GreaterThan(0.999f),
+                            $"{prefabPath}: {billboard.name}");
+                        Assert.That(
+                            Vector3.Dot(billboard.transform.up, camera.transform.up),
+                            Is.GreaterThan(0.999f),
+                            $"{prefabPath}: {billboard.name}");
+                        Assert.That(
+                            Vector3.Dot(billboard.transform.forward, camera.transform.forward),
+                            Is.GreaterThan(0.999f),
+                            $"{prefabPath}: {billboard.name}");
+                    }
+
+                    Assert.That(
+                        Quaternion.Angle(leftVeil.localRotation, leftTiltBeforeFacing),
+                        Is.LessThan(0.001f),
+                        "Camera-facing must not erase the authored left plume tilt.");
+                    Assert.That(
+                        Quaternion.Angle(rightVeil.localRotation, rightTiltBeforeFacing),
+                        Is.LessThan(0.001f),
+                        "Camera-facing must not erase the authored right plume tilt.");
+                    Assert.That(
+                        Mathf.DeltaAngle(0f, leftVeil.localEulerAngles.z),
+                        Is.LessThan(-5f));
+                    Assert.That(
+                        Mathf.DeltaAngle(0f, rightVeil.localEulerAngles.z),
+                        Is.GreaterThan(5f));
+
+                    Object.DestroyImmediate(instance);
+                }
+            }
+            finally
+            {
+                if (previouslyEnabledMainCamera != null)
+                    previouslyEnabledMainCamera.enabled = true;
+            }
+        }
+        finally
+        {
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
+    public void FeastOfFortuneStatLabels_FormSingleRowAboveLargeFloatingIcons()
+    {
+        string[] prefabPaths =
+        {
+            NoryangjinMapToolWindow.BonusWallPrefabRoot +
+            "/Box_left.prefab"
+        };
+        float[] iconWidths = new float[prefabPaths.Length];
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        try
+        {
+            for (int index = 0; index < prefabPaths.Length; index++)
+            {
+                string prefabPath = prefabPaths[index];
+                GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+                GameObject instance =
+                    PrefabUtility.InstantiatePrefab(prefab, previewScene) as GameObject;
+                Assert.That(instance, Is.Not.Null, prefabPath);
+
+                RectTransform canvas =
+                    instance.transform.Find("GFX/Canvas") as RectTransform;
+                RectTransform icon =
+                    instance.transform.Find("GFX/Canvas/Stat_Icon") as RectTransform;
+                WallScript wall = instance.GetComponentInChildren<WallScript>(true);
+                TMPro.TextMeshProUGUI statName =
+                    wall?.statNameLoc?.GetComponent<TMPro.TextMeshProUGUI>();
+                TMPro.TextMeshProUGUI statValue = wall?.statValueTmp;
+                RectTransform statRow =
+                    instance.transform.Find("GFX/Canvas/Stat_Row") as RectTransform;
+                Assert.That(canvas, Is.Not.Null, prefabPath);
+                Assert.That(icon, Is.Not.Null, prefabPath);
+                Assert.That(statName, Is.Not.Null, prefabPath);
+                Assert.That(statValue, Is.Not.Null, prefabPath);
+                Assert.That(statRow, Is.Not.Null, prefabPath);
+
+                const string expectedLabel = "\uACF5\uACA9\uB825";
+                statName.GetComponent<UnityEngine.Localization.Components.LocalizeStringEvent>()
+                    .enabled = false;
+                statName.text = expectedLabel;
+                LayoutRebuilder.ForceRebuildLayoutImmediate(statRow);
+                Canvas.ForceUpdateCanvases();
+                statName.ForceMeshUpdate(true, true);
+                statValue.ForceMeshUpdate(true, true);
+
+                Rect iconBounds = GetRectBoundsInSpace(icon, canvas);
+                Vector2 nameHorizontalBounds = GetVisibleTextHorizontalBoundsInSpace(
+                    statName,
+                    canvas);
+                Vector2 nameVerticalBounds = GetVisibleTextVerticalBoundsInSpace(
+                    statName,
+                    canvas);
+                Vector2 valueHorizontalBounds = GetVisibleTextHorizontalBoundsInSpace(
+                    statValue,
+                    canvas);
+                Vector2 valueVerticalBounds = GetVisibleTextVerticalBoundsInSpace(
+                    statValue,
+                    canvas);
+                Assert.That(
+                    statName.textInfo.characterCount,
+                    Is.EqualTo(expectedLabel.Length),
+                    prefabPath);
+                Assert.That(
+                    nameVerticalBounds.x,
+                    Is.GreaterThan(iconBounds.center.y),
+                    $"The label row must sit over the floating item: {prefabPath}");
+                Assert.That(
+                    valueVerticalBounds.x,
+                    Is.GreaterThan(iconBounds.center.y),
+                    $"The value row must sit over the floating item: {prefabPath}");
+                Assert.That(
+                    Mathf.Abs(
+                        (nameVerticalBounds.x + nameVerticalBounds.y) * 0.5f -
+                        (valueVerticalBounds.x + valueVerticalBounds.y) * 0.5f),
+                    Is.LessThanOrEqualTo(0.01f),
+                    $"The title and value must read as one row: {prefabPath}");
+                Assert.That(
+                    (nameHorizontalBounds.x + nameHorizontalBounds.y) * 0.5f,
+                    Is.LessThan((valueHorizontalBounds.x + valueHorizontalBounds.y) * 0.5f),
+                    $"The value must follow the localized stat title: {prefabPath}");
+                float combinedTextCenter =
+                    (Mathf.Min(nameHorizontalBounds.x, valueHorizontalBounds.x) +
+                     Mathf.Max(nameHorizontalBounds.y, valueHorizontalBounds.y)) * 0.5f;
+                Assert.That(
+                    Mathf.Abs(combinedTextCenter - iconBounds.center.x),
+                    Is.LessThanOrEqualTo(0.02f),
+                    $"The complete stat row must stay centered over the choice: {prefabPath}. " +
+                    $"rowCenter={combinedTextCenter:F4}, iconCenter={iconBounds.center.x:F4}");
+                iconWidths[index] = iconBounds.width;
+                Assert.That(
+                    iconBounds.width,
+                    Is.GreaterThanOrEqualTo(index == 0 ? 0.5f : 0.6f),
+                    $"Stat icon must remain readable at gameplay size: {prefabPath}");
+                Assert.That(
+                    Mathf.Abs(iconBounds.center.x),
+                    Is.LessThanOrEqualTo(0.01f),
+                    $"Stat icon must be centered over its label: {prefabPath}");
+                Assert.That(
+                    canvas.rect.xMax - valueHorizontalBounds.y,
+                    Is.GreaterThanOrEqualTo(0.02f),
+                    $"Stat value must remain inside its Canvas: {prefabPath}. " +
+                    $"textRight={valueHorizontalBounds.y:F4}, canvasRight={canvas.rect.xMax:F4}");
+                Assert.That(
+                    nameHorizontalBounds.x - canvas.rect.xMin,
+                    Is.GreaterThanOrEqualTo(0.02f),
+                    $"Stat title must remain inside its Canvas: {prefabPath}. " +
+                    $"textLeft={nameHorizontalBounds.x:F4}, canvasLeft={canvas.rect.xMin:F4}");
+
+                Object.DestroyImmediate(instance);
+            }
+
+            Assert.That(iconWidths[0], Is.GreaterThanOrEqualTo(0.5f));
+        }
+        finally
+        {
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
+    public void WallBonusIcons_CoverEveryBuffTypeWithAnImportedSprite()
+    {
+        Dictionary<BuffType, string> expectedResourceNames = new()
+        {
+            { BuffType.HealthBoost, "WallBonus_Health" },
+            { BuffType.FireRateIncrease, "WallBonus_AttackSpeed" },
+            { BuffType.ExtraHelp, "WallBonus_Tungtung" },
+            { BuffType.att_normmal, "WallBonus_Attack" },
+            { BuffType.attPer_normal, "WallBonus_Attack" },
+            { BuffType.attackSpeed_normal, "WallBonus_AttackSpeed" },
+            { BuffType.missileDistance_normal, "WallBonus_MissileDuration" },
+            { BuffType.hp_normal, "WallBonus_Health" },
+            { BuffType.hpPer_normal, "WallBonus_Health" },
+            { BuffType.tungtung_rare, "WallBonus_Tungtung" },
+            { BuffType.boombar_rare, "WallBonus_Boombar" },
+            { BuffType.att_unique, "WallBonus_Attack" },
+            { BuffType.attPer_unique, "WallBonus_Attack" },
+            { BuffType.missileAdd_unique, "WallBonus_MissileAdd" },
+            { BuffType.attackSpeed_unique, "WallBonus_AttackSpeed" },
+            { BuffType.missileDistance_unique, "WallBonus_MissileDuration" },
+            { BuffType.hp_unique, "WallBonus_Health" },
+            { BuffType.hpPer_unique, "WallBonus_Health" }
+        };
+        MethodInfo loadEditorIcon = typeof(FeastOfFortuneWallSetup).GetMethod(
+            "LoadBonusIcon",
+            BindingFlags.Static | BindingFlags.NonPublic);
+
+        Assert.That(loadEditorIcon, Is.Not.Null);
+        Assert.That(
+            expectedResourceNames.Count,
+            Is.EqualTo(System.Enum.GetValues(typeof(BuffType)).Length));
+
+        foreach (KeyValuePair<BuffType, string> expected in expectedResourceNames)
+        {
+            string actual = BonusAltarRules.ResolveIconResourceName(expected.Key);
+            Assert.That(actual, Is.EqualTo(expected.Value), expected.Key.ToString());
+            Assert.That(actual, Does.Not.Contain("Percent"), expected.Key.ToString());
+            Assert.That(
+                Resources.Load<Sprite>("WallBonusIcons/" + actual),
+                Is.Not.Null,
+                expected.Key.ToString());
+            Sprite editorIcon = (Sprite)loadEditorIcon.Invoke(
+                null,
+                new object[] { expected.Key });
+            Assert.That(editorIcon.name, Is.EqualTo(expected.Value), expected.Key.ToString());
+        }
+    }
+
+    [Test]
+    public void BonusAltarGrade_CanChangePerInstanceAndSyncsRandomWall()
+    {
+        string prefabPath =
+            NoryangjinMapToolWindow.FeastOfFortuneBonusWallPrefabPaths[0];
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        try
+        {
+            GameObject instance = PrefabUtility.InstantiatePrefab(prefab, previewScene) as GameObject;
+            Assert.That(instance, Is.Not.Null);
+
+            AuthoredBonusWall authoredBonus = instance.GetComponent<AuthoredBonusWall>();
+            BonusChoiceAltarVfx altarVfx = instance.GetComponent<BonusChoiceAltarVfx>();
+            Transform visual = instance.transform.Find("ChoiceAltarVisual");
+            Transform glow = visual.Find("GlowOrbit");
+            Transform energy = visual.Find("IconEnergyBillboard");
+            Transform groundAura = visual.Find("GroundAura");
+            ParticleSystem particles = visual.Find("ChoiceParticles")
+                .GetComponent<ParticleSystem>();
+            Vector3 glowScale = glow.localScale;
+            Vector3 energyScale = energy.localScale;
+            Vector3 groundAuraScale = groundAura.localScale;
+            ParticleSystem.MinMaxCurve particleRate = particles.emission.rateOverTime;
+            ParticleSystem.MinMaxCurve particleSize = particles.main.startSizeY;
+            int particleCapacity = particles.main.maxParticles;
+
+            Assert.That(
+                NoryangjinMapToolWindow.ResolveFeastOfFortuneWall(instance),
+                Is.Not.Null);
+            Assert.That(
+                NoryangjinMapToolWindow.ApplyFeastOfFortuneRarity(
+                    instance,
+                    Rarity.Unique,
+                    recordUndo: false),
+                Is.True);
+            Assert.That(
+                instance.GetComponentInChildren<WallScript>(true).rarity,
+                Is.EqualTo(Rarity.Unique));
+            Assert.That(authoredBonus.Rarity, Is.EqualTo(Rarity.Unique));
+            Assert.That(altarVfx.Rarity, Is.EqualTo(Rarity.Unique));
+            Assert.That(instance.GetComponentInChildren<WallScript>(true).isRandom, Is.True);
+            Assert.That(glow.localScale, Is.EqualTo(glowScale));
+            Assert.That(energy.localScale, Is.EqualTo(energyScale));
+            Assert.That(groundAura.localScale, Is.EqualTo(groundAuraScale));
+            Assert.That(
+                particles.emission.rateOverTime.constant,
+                Is.EqualTo(particleRate.constant));
+            Assert.That(
+                particles.main.startSizeY.constantMin,
+                Is.EqualTo(particleSize.constantMin));
+            Assert.That(
+                particles.main.startSizeY.constantMax,
+                Is.EqualTo(particleSize.constantMax));
+            Assert.That(particles.main.maxParticles, Is.EqualTo(particleCapacity));
+        }
+        finally
+        {
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
+    public void FeastOfFortuneRarity_RejectsOtherBonusWalls()
+    {
+        string prefabPath =
+            NoryangjinMapToolWindow.BonusWallPrefabRoot +
+            "/wall_atk_normal.prefab";
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        try
+        {
+            GameObject instance = PrefabUtility.InstantiatePrefab(prefab, previewScene) as GameObject;
+            Assert.That(instance, Is.Not.Null);
+
+            Assert.That(
+                NoryangjinMapToolWindow.ResolveFeastOfFortuneWall(instance),
+                Is.Null);
+            Assert.That(
+                NoryangjinMapToolWindow.ApplyFeastOfFortuneRarity(
+                    instance,
+                    Rarity.Unique,
+                    recordUndo: false),
+                Is.False);
+            Assert.That(
+                instance.GetComponentInChildren<WallScript>(true).rarity,
+                Is.EqualTo(Rarity.Normal));
+        }
+        finally
+        {
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
+    public void WallLifetimeRoot_ResolvesCompleteCompositeRoot()
+    {
+        GameObject root = new GameObject("CompositeWallRoot");
+        root.SetActive(false);
+        try
+        {
+            root.AddComponent<BonusWallLifetimeRoot>();
+            GameObject wallObject = new GameObject("WallLogic");
+            wallObject.transform.SetParent(root.transform, false);
+            WallScript wall = wallObject.AddComponent<WallScript>();
+            wall.enabled = false;
+            BoxCollider trigger = wallObject.AddComponent<BoxCollider>();
+            trigger.enabled = false;
+            trigger.isTrigger = false;
+
+            MethodInfo getLifetimeObject = typeof(WallScript).GetMethod(
+                "GetLifetimeObject",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+
+            Assert.That(getLifetimeObject, Is.Not.Null);
+            Assert.That(getLifetimeObject.Invoke(wall, null), Is.SameAs(root));
+
+            wall.ReactivateLifetimeObject();
+            Assert.That(root.activeSelf, Is.True);
+            Assert.That(trigger.enabled, Is.True);
+            Assert.That(trigger.isTrigger, Is.True, "A reused bonus choice must accept the player again.");
+        }
+        finally
+        {
+            Object.DestroyImmediate(root);
+        }
+    }
+
+    [Test]
     public void ConfigureBonusWallInstance_MarksEveryPlayableWallAsNoryangjinRuntime()
     {
         string prefabPath =
             NoryangjinMapToolWindow.BonusWallPrefabRoot +
             "/random_wall_normal.prefab";
         GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-        GameObject instance = Object.Instantiate(prefab);
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
         try
         {
-            NoryangjinMapToolWindow.ConfigureBonusWallInstance(instance);
+            GameObject instance =
+                PrefabUtility.InstantiatePrefab(prefab, previewScene) as GameObject;
+            Assert.That(instance, Is.Not.Null);
+            Assert.That(instance.scene, Is.EqualTo(previewScene));
+
+            NoryangjinMapToolWindow.ConfigureBonusWallInstance(instance, recordUndo: false);
 
             WallScript[] walls = instance.GetComponentsInChildren<WallScript>(true);
             Assert.That(walls, Is.Not.Empty);
@@ -383,7 +1253,7 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
         }
         finally
         {
-            Object.DestroyImmediate(instance);
+            EditorSceneManager.ClosePreviewScene(previewScene);
         }
     }
 
@@ -426,6 +1296,10 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
     [Test]
     public void EnemyScriptSpace_UsesOnlyTheNoryangjinAuthoringContract()
     {
+        GameObject fortuneAltar = AssetDatabase.LoadAssetAtPath<GameObject>(
+            NoryangjinMapToolWindow.FeastOfFortuneBonusWallPrefabPaths[0]);
+        Assert.That(fortuneAltar, Is.Not.Null);
+
         foreach (ForwardEnemyArchetypeDefinition definition in
                  ForwardEnemyArchetypeCatalog.Definitions)
         {
@@ -441,7 +1315,7 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
                 definition.PrefabPath);
             Assert.That(
                 serializedEnemy.FindProperty("bonusWall").objectReferenceValue,
-                Is.Not.Null,
+                Is.SameAs(fortuneAltar),
                 definition.PrefabPath);
 
             float expectedDelay = definition.Identity switch
@@ -467,6 +1341,59 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
             GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
             Assert.That(prefab, Is.Not.Null, prefabPath);
             Assert.That(prefab.GetComponent<EnemyScript_space>(), Is.Null, prefabPath);
+        }
+    }
+
+    [Test]
+    public void EnemyDeathDrop_SpawnsTransientFortuneAltarAtEnemyPosition()
+    {
+        GameObject fortuneAltar = AssetDatabase.LoadAssetAtPath<GameObject>(
+            NoryangjinMapToolWindow.FeastOfFortuneBonusWallPrefabPaths[0]);
+        GameObject enemyObject = new("Enemy Drop Test");
+        GameObject spawnedAltar = null;
+        try
+        {
+            enemyObject.transform.position = new Vector3(3f, 0.4f, -7f);
+            EnemyScript_space enemy = enemyObject.AddComponent<EnemyScript_space>();
+            FieldInfo bonusWallField = typeof(EnemyScript_space).GetField(
+                "bonusWall",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo spawnBonusAltar = typeof(EnemyScript_space).GetMethod(
+                "SpawnBonusAltar",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(bonusWallField, Is.Not.Null);
+            Assert.That(spawnBonusAltar, Is.Not.Null);
+
+            bonusWallField.SetValue(enemy, fortuneAltar);
+            spawnedAltar = (GameObject)spawnBonusAltar.Invoke(enemy, null);
+
+            Assert.That(spawnedAltar, Is.Not.Null);
+            Assert.That(spawnedAltar.transform.position, Is.EqualTo(enemyObject.transform.position));
+            Assert.That(spawnedAltar.transform.localScale, Is.EqualTo(Vector3.one * 3f));
+            Assert.That(
+                Mathf.DeltaAngle(spawnedAltar.transform.eulerAngles.y, 180f),
+                Is.EqualTo(0f).Within(0.01f));
+            Assert.That(spawnedAltar.GetComponent<AuthoredBonusWall>(), Is.Not.Null);
+            Assert.That(spawnedAltar.GetComponent<BonusWallLifetimeRoot>(), Is.Not.Null);
+            RuntimeBonusWall runtimeMarker = spawnedAltar.GetComponent<RuntimeBonusWall>();
+            Assert.That(runtimeMarker, Is.Not.Null);
+            Assert.That(runtimeMarker.RemoveWhenPreparingStage, Is.True);
+            Assert.That(
+                spawnedAltar.GetComponents<RuntimeBonusWall>(),
+                Has.Length.EqualTo(1));
+            WallScript wall = spawnedAltar.GetComponentInChildren<WallScript>(true);
+            MethodInfo resolveEffectOverlay = typeof(WallScript).GetMethod(
+                "ResolveEffectOverlay",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(wall, Is.Not.Null);
+            Assert.That(resolveEffectOverlay, Is.Not.Null);
+            Assert.That(resolveEffectOverlay.Invoke(wall, null), Is.Null);
+        }
+        finally
+        {
+            if (spawnedAltar != null)
+                Object.DestroyImmediate(spawnedAltar);
+            Object.DestroyImmediate(enemyObject);
         }
     }
 
@@ -1056,6 +1983,138 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
             Object.DestroyImmediate(window);
             EditorSceneManager.ClosePreviewScene(previewScene);
         }
+    }
+
+    private static void AssertMaterialRegisteredForAllQualityRenderers(Material material)
+    {
+        string[] rendererDataPaths =
+        {
+            "Assets/FlatKit/Demos/Common/URP Configs/[FlatKit] Example Renderer.asset",
+            "Assets/Settings/Mobile RP.asset",
+            "Assets/Settings/PC RP.asset"
+        };
+
+        foreach (string rendererDataPath in rendererDataPaths)
+        {
+            Object[] rendererAssets = AssetDatabase.LoadAllAssetsAtPath(rendererDataPath);
+            Object outlineFeature = System.Array.Find(
+                rendererAssets,
+                asset => asset != null && asset.GetType().Name == "ObjectOutlineRendererFeature");
+            Assert.That(
+                outlineFeature,
+                Is.Not.Null,
+                $"Renderer must support FlatKit object outlines: {rendererDataPath}");
+
+            SerializedObject serializedFeature = new SerializedObject(outlineFeature);
+            SerializedProperty activeProperty = serializedFeature.FindProperty("m_Active");
+            Assert.That(activeProperty, Is.Not.Null, rendererDataPath);
+            Assert.That(activeProperty.boolValue, Is.True, rendererDataPath);
+
+            SerializedProperty materialsProperty = serializedFeature.FindProperty("materials");
+            Assert.That(materialsProperty, Is.Not.Null, rendererDataPath);
+            bool materialIsRegistered = false;
+            for (int index = 0; index < materialsProperty.arraySize; index++)
+            {
+                if (materialsProperty.GetArrayElementAtIndex(index).objectReferenceValue == material)
+                {
+                    materialIsRegistered = true;
+                    break;
+                }
+            }
+
+            Assert.That(
+                materialIsRegistered,
+                Is.True,
+                $"Outline feature must register {material.name}: {rendererDataPath}");
+        }
+    }
+
+    private static Rect GetRectBoundsInSpace(RectTransform source, RectTransform space)
+    {
+        Vector3[] corners = new Vector3[4];
+        source.GetWorldCorners(corners);
+        float left = float.PositiveInfinity;
+        float right = float.NegativeInfinity;
+        float bottom = float.PositiveInfinity;
+        float top = float.NegativeInfinity;
+        foreach (Vector3 corner in corners)
+        {
+            Vector3 point = space.InverseTransformPoint(corner);
+            left = Mathf.Min(left, point.x);
+            right = Mathf.Max(right, point.x);
+            bottom = Mathf.Min(bottom, point.y);
+            top = Mathf.Max(top, point.y);
+        }
+
+        return Rect.MinMaxRect(left, bottom, right, top);
+    }
+
+    private static Vector2 GetVisibleTextHorizontalBoundsInSpace(
+        TMPro.TextMeshProUGUI text,
+        RectTransform space)
+    {
+        float left = float.PositiveInfinity;
+        float right = float.NegativeInfinity;
+        int visibleCharacters = 0;
+        for (int index = 0; index < text.textInfo.characterCount; index++)
+        {
+            TMPro.TMP_CharacterInfo character = text.textInfo.characterInfo[index];
+            if (!character.isVisible)
+                continue;
+
+            visibleCharacters++;
+            Vector3[] corners =
+            {
+                character.vertex_BL.position,
+                character.vertex_TL.position,
+                character.vertex_TR.position,
+                character.vertex_BR.position
+            };
+            foreach (Vector3 corner in corners)
+            {
+                Vector3 world = text.transform.TransformPoint(corner);
+                float x = space.InverseTransformPoint(world).x;
+                left = Mathf.Min(left, x);
+                right = Mathf.Max(right, x);
+            }
+        }
+
+        Assert.That(visibleCharacters, Is.GreaterThan(0), text.text);
+        return new Vector2(left, right);
+    }
+
+    private static Vector2 GetVisibleTextVerticalBoundsInSpace(
+        TMPro.TextMeshProUGUI text,
+        RectTransform space)
+    {
+        float bottom = float.PositiveInfinity;
+        float top = float.NegativeInfinity;
+        int visibleCharacters = 0;
+        for (int index = 0; index < text.textInfo.characterCount; index++)
+        {
+            TMPro.TMP_CharacterInfo character = text.textInfo.characterInfo[index];
+            if (!character.isVisible)
+                continue;
+
+            visibleCharacters++;
+            Vector3[] corners =
+            {
+                character.vertex_BL.position,
+                character.vertex_TL.position,
+                character.vertex_TR.position,
+                character.vertex_BR.position
+            };
+            foreach (Vector3 corner in corners)
+            {
+                Vector3 world = text.transform.TransformPoint(corner);
+                float y = space.InverseTransformPoint(world).y;
+                bottom = Mathf.Min(bottom, y);
+                top = Mathf.Max(top, y);
+            }
+        }
+
+        Assert.That(visibleCharacters, Is.GreaterThan(0), text.text);
+        return new Vector2(bottom, top);
     }
 
     private static GameObject CreatePreviewObject(Scene scene, string name)

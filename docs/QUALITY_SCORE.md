@@ -10,7 +10,7 @@
 ## Why
 - Core gameplay entry points are discoverable, but repo-level operating context was mostly absent.
 - Runtime combat harness exists, but only a small amount of pure logic is testable outside scenes.
-- MCP Unity is usable, but server restart behavior has been fragile around reloads and play mode transitions.
+- The official Unity CLI/Pipeline path is available and survives Play Mode transitions; the legacy MCP Unity fallback remains fragile around reloads and port reuse.
 
 ## Next Improvements
 - Extract score, damage, and progression calculations into pure helpers.

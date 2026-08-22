@@ -1,7 +1,7 @@
 ---
 title: Resolve selected prefab children to Noryangjin map tool placement roots
 date: 2026-06-08
-last_updated: 2026-07-26
+last_updated: 2026-08-14
 category: docs/solutions/logic-errors
 module: Unity Noryangjin map tooling
 problem_type: logic_error
@@ -12,10 +12,12 @@ symptoms:
   - "Editing scale on a placed object may not affect future placements if the value is saved only on the scene instance."
   - "Bulk delete can miss copied or renamed placed objects when it relies only on coordinate suffixes."
   - "Scale edits can target the wrong object when a placed prefab root is under `Roads` or `Props` but no longer has a coordinate suffix name."
+  - "A palette-specific next-placement setting can disappear when the cursor fallback resolves an unrelated placed object."
+  - "The blue footprint can remain under the last placed object after a different placement is selected."
 root_cause: logic_error
 resolution_type: code_fix
 severity: medium
-tags: [unity, noryangjin, map-tool, selection, scale, thumbnail, placement-summary]
+tags: [unity, noryangjin, map-tool, selection, scale, thumbnail, placement-summary, footprint]
 ---
 
 # Resolve selected prefab children to Noryangjin map tool placement roots
@@ -30,12 +32,14 @@ The Noryangjin map tool exposes a selected-object summary plus rotation, offset,
 - A selected Prop could still show `빈 칸` in `설치 조정` whenever the map cursor was over an empty cell.
 - Future installations could keep using the old prefab root scale if scale edits were not written back to the prefab asset.
 - `모두 삭제` could leave manually copied or renamed objects under `Roads` or `Props` because the delete pass only matched names parseable as `..._X+00_Z+00`.
+- The blue footprint could stay on the last installed tile after selecting another placement, and could remain visible after clearing selection.
 
 ## What Didn't Work
 - Adding scale fields alone was insufficient. The fields read and wrote `target.transform.localScale`, but target selection still depended on the exact selected object name.
 - Checking only the current cursor position was also insufficient because an author may be editing an already selected object away from the cursor.
 - Changing `AssetPreview`, thumbnail layout, or label rendering would not fix the empty summary. Those paths already worked once they received the selected placement root's prefab path.
 - Marking the scene object dirty was not enough for prefab-wide scale editing. It preserved an instance override, not the prefab's authored root transform.
+- Reusing `lastPlacedObjectInstanceId` for the blue selection display mixed workflow history with current UI selection. Removing it entirely would also break the valid continuation fallback.
 
 ## Solution
 Resolve editor selection by walking up the selected object's transform parents until a map-tool placement root is found. A root can be identified either by the coordinate suffix name or by being a direct child of a semantic placement container such as `Roads` or `Props`:
@@ -95,6 +99,43 @@ internal static GameObject ResolvePlacementSummaryTarget(
 }
 ```
 
+Palette-specific controls need a slightly different policy. A generic cursor
+fallback is useful for transform editing, but it must not suppress the selected
+palette item's next-placement options. Only a matching selected/hovered semantic
+target should replace those palette controls:
+
+```csharp
+GameObject target = GetRotationTarget();
+if (ResolveFeastOfFortuneWall(target) != null)
+    DrawSelectedFeastOfFortuneInstanceRarityControl(target);
+else
+    DrawSelectedFeastOfFortunePaletteRarityControl();
+```
+
+This keeps a selected Feast of Fortune icon's next-placement rarity visible
+even when the cursor happens to overlap a road, prop, enemy, or unrelated wall.
+
+The blue footprint is a selection display, not placement history. Resolve it
+directly from Unity's current selection and do not fall back to the last placed
+object when selection is empty or unrelated:
+
+```csharp
+private void DrawSelectedPlacedObjectFootprint(float cellSize)
+{
+    GameObject target = ResolveSelectedPlacedObject(Selection.activeGameObject);
+    if (target == null || !TryGetMapToolPlacedObjectGridPosition(target.name, out var anchor))
+        return;
+
+    foreach (Vector2Int cell in GetPlacedObjectDisplayedFootprintCells(target, anchor, cellSize))
+        DrawSceneGridCellFill(cell.x, cell.y, cellSize, NoryangjinMapToolSceneGridCellState.Selected);
+}
+```
+
+Subscribe to `Selection.selectionChanged` while the map-tool window is enabled
+and repaint both the SceneView and window. Unsubscribe in `OnDisable`. Keep
+`lastPlacedObjectInstanceId` only for actions whose contract explicitly needs
+history, such as continuation when no placement is selected.
+
 Once the selected root reaches the existing summary pipeline,
 `GetPrefabAssetPathForPlacedObject`, `BuildCursorCellObjectLabel`, and
 `AssetPreview` provide the Prop's localized name and image without separate
@@ -139,15 +180,25 @@ object under the cursor is a fallback, and `null` represents a genuinely empty
 state. The conditional fallback also avoids scanning cursor occupancy while a
 valid selection already exists.
 
+Separating the blue footprint from last-placement history makes its ownership
+unambiguous: `Selection.activeGameObject` owns what is highlighted, while the
+last placed ID remains a fallback for continuation commands only. Resolving a
+selected child through the shared placement-root helper ensures the displayed
+footprint matches the root that transform controls edit.
+
 ## Prevention
 - For any SceneView map-tool transform control, resolve selection to the tool's semantic root before reading or writing transforms.
 - Bind both display and editing UI to the same resolved placement target; do not let summary panels query cursor occupancy independently.
+- For palette-specific next-placement settings, let only a semantically matching placed target replace the palette UI. An unrelated cursor fallback must not hide the selected icon's options.
 - Keep `Assets/Tests/Editor/NoryangjinMapToolGridUtilityTests.cs` coverage for `PlacementSummary_PrefersSelectedPlacedObjectOverCursorObject`, including selected, cursor-fallback, and null cases.
 - For destructive map-tool actions such as `모두 삭제`, target semantic placement roots under `Roads` and `Props`, not only names that still match the coordinate suffix format.
 - Add tests that create a placed root plus child and assert child selection resolves to the root.
 - Add tests for copied or renamed placement roots under placement containers so Unity's automatic ` (1)` duplicate suffixes do not bypass cleanup.
 - Add tests for scale edits where the placement root has a non-coordinate prefab name but is still a direct child of `Roads` or `Props`.
 - Keep individual transform apply paths consistent: record undo, update the root transform, dirty both object and transform, and mark the scene dirty.
+- Treat selection visuals and operation-history fallbacks as separate state. A cleared or unrelated selection must clear the blue footprint even when a valid last-placed ID exists.
+- Pair `Selection.selectionChanged` subscription and unsubscription, and repaint SceneView immediately so the footprint follows Hierarchy and SceneView selection changes.
+- Keep regression coverage for child-to-root footprint selection, unrelated selection, cleared selection, and the independent selected-then-last-placed continuation policy.
 - For prefab-wide scale edits, add an asset-writing test that creates a temporary prefab, applies the helper, reloads the prefab asset, and asserts the root `localScale`.
 - For live numeric UI, use delayed float fields or another explicit commit point before writing prefab assets; do not reimport prefab assets on every keystroke.
 
@@ -155,3 +206,5 @@ valid selection already exists.
 - [Prefer prefab placement previews over SceneView line grids](../developer-experience/prefer-prefab-placement-previews-over-sceneview-line-grids-2026-06-06.md)
 - [Preserve prefab root transforms in Noryangjin map tool placement](preserve-prefab-transform-in-noryangjin-map-tool-placement-2026-06-02.md)
 - [Protect active Unity scenes from broad EditMode test runs](../workflow-issues/protect-active-unity-scenes-from-broad-editmode-test-runs-2026-07-18.md)
+- [Select hovered height labels before SceneView visual picks](../ui-bugs/select-sceneview-visual-pick-before-grid-overlap-2026-07-27.md)
+- [Continue Unity map-tool layouts by placement-specific geometry](../design-patterns/continue-map-tool-layouts-by-selected-renderer-bounds-2026-07-19.md)

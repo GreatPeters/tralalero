@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 //占쌩곤옙
 using UnityEngine.Localization.Components; // LocalizeStringEvent
@@ -25,6 +26,8 @@ namespace IndianOceanAssets.ShooterSurvival
         public TextMeshProUGUI statValueTmp; // 占쏙옙 표占시울옙
         public string tableName = "AllTexts";   // 占십곤옙 占쏙옙占쏙옙 占쏙옙占싱븝옙 占싱몌옙
 
+        public Image statIconImage;
+
         [Header("Type Params")]
         public WallType wallType;               // Type of wall (Buff or Nerf)
         public BuffType buffType;               // Type of buff for BuffWall
@@ -43,7 +46,16 @@ namespace IndianOceanAssets.ShooterSurvival
         public GameObject extraHelp;                // Prefab for Extra Help buff
         //占쏙옙 占싣뤄옙占쏙옙 占신깍옙 占쏙옙占쏙옙
         private float bonusValue;
-        private bool isPercent;
+        private float displayBonusValue;
+        private BonusValueType bonusValueType;
+        private BonusRow selectedBonusRow;
+        private BonusRow selectedDisplayRow;
+        private bool hasSelectedBonusRow;
+        private string bonusAlias;
+
+        public float CurrentBonusValue => bonusValue;
+        public float CurrentBonusDisplayValue => displayBonusValue;
+        public string CurrentBonusAlias => bonusAlias;
 
         [Header("Nerf Wall Properties")]
         public Sprite healthReduceSpr;
@@ -74,7 +86,26 @@ namespace IndianOceanAssets.ShooterSurvival
             }
 
             // ?꾩쭅 Player ?놁쑝硫??湲?
-            if (playerScript == null) return;
+            if (playerScript == null)
+            {
+                StartCoroutine(InitializeWhenPlayerAvailable());
+                return;
+            }
+
+            InitWall();
+        }
+
+        private IEnumerator InitializeWhenPlayerAvailable()
+        {
+            while (playerScript == null)
+            {
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null)
+                    playerScript = player.GetComponent<PlayerScript>();
+
+                if (playerScript == null)
+                    yield return null;
+            }
 
             InitWall();
         }
@@ -93,6 +124,15 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void SetRandomStat()
         {
+            AuthoredBonusWall authoredAltar = GetComponentInParent<AuthoredBonusWall>();
+            if (authoredAltar != null)
+            {
+                RollAuthoredAltar(authoredAltar);
+                return;
+            }
+
+            hasSelectedBonusRow = false;
+            bonusAlias = null;
             if (isRandom == true)
             {
                 if (rarity == Rarity.Normal)
@@ -130,79 +170,78 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void SetStats()
         {
-            float playerOriginalDamage = playerScript.originalDamage;
-            float playerOriginalHealth = playerScript.originalHealth;
+            displayBonusValue = 0f;
+            bonusValueType = BonusValueType.Value;
+            float playerOriginalDamage = playerScript != null
+                ? playerScript.originalDamage
+                : 0f;
+            float playerOriginalHealth = playerScript != null
+                ? playerScript.originalHealth
+                : 0f;
 
-            bonusValue = buffType switch
+            if (HasInvalidAuthoredRoll())
             {
-                BuffType.att_normmal or BuffType.att_unique =>
-                    RollBonusValue("att", playerOriginalDamage, true),
-                BuffType.attPer_normal or BuffType.attPer_unique =>
-                    RollBonusValue("attPercent", 0f, false),
-                BuffType.missileAdd_unique =>
-                    RollBonusValue("missileAdd", 0f, true),
-                BuffType.attackSpeed_normal or BuffType.attackSpeed_unique =>
-                    RollBonusValue("attackSpeed", 0f, false),
-                BuffType.missileDistance_normal or BuffType.missileDistance_unique =>
-                    RollBonusValue("missileDistance", 0f, false),
-                BuffType.hp_normal or BuffType.hp_unique =>
-                    RollBonusValue("hp", playerOriginalHealth, true),
-                BuffType.hpPer_normal or BuffType.hpPer_unique =>
-                    RollBonusValue("hpPercent", 0f, false),
-                BuffType.tungtung_rare =>
-                    RollBonusValue("tungtungAdd", 0f, true),
-                BuffType.boombar_rare =>
-                    RollBonusValue("boombarAdd", 0f, true),
-                _ => 0f
-            };
-
-            isPercent = buffType is
-                BuffType.attPer_normal or
-                BuffType.attPer_unique or
-                BuffType.attackSpeed_normal or
-                BuffType.attackSpeed_unique or
-                BuffType.missileDistance_normal or
-                BuffType.missileDistance_unique or
-                BuffType.hpPer_normal or
-                BuffType.hpPer_unique;
+                bonusValue = 0f;
+            }
+            else if (hasSelectedBonusRow)
+            {
+                float baseValue = selectedBonusRow.stat switch
+                {
+                    "att" => playerOriginalDamage,
+                    "hp" => playerOriginalHealth,
+                    _ => 0f
+                };
+                float random01 = Random.value;
+                bonusValue = BonusAltarRules.ResolveValue(
+                    selectedBonusRow,
+                    random01,
+                    baseValue);
+                displayBonusValue = BonusAltarRules.ResolveDisplayValue(
+                    selectedBonusRow,
+                    random01);
+                bonusValueType = selectedBonusRow.valueType;
+            }
+            else
+            {
+                bonusValue = buffType switch
+                {
+                    BuffType.att_normmal or BuffType.att_unique =>
+                        RollBonusValue("att", playerOriginalDamage),
+                    BuffType.attPer_normal or BuffType.attPer_unique =>
+                        RollBonusValue("attPercent", 0f),
+                    BuffType.missileAdd_unique =>
+                        RollBonusValue("missileAdd", 0f),
+                    BuffType.attackSpeed_normal or BuffType.attackSpeed_unique =>
+                        RollBonusValue("attackSpeed", 0f),
+                    BuffType.missileDistance_normal or BuffType.missileDistance_unique =>
+                        RollBonusValue("missileDistance", 0f),
+                    BuffType.hp_normal or BuffType.hp_unique =>
+                        RollBonusValue("hp", playerOriginalHealth),
+                    BuffType.hpPer_normal or BuffType.hpPer_unique =>
+                        RollBonusValue("hpPercent", 0f),
+                    BuffType.tungtung_rare =>
+                        RollBonusValue("tungtungAdd", 0f),
+                    BuffType.boombar_rare =>
+                        RollBonusValue("boombarAdd", 0f),
+                    _ => 0f
+                };
+            }
         }
 
         private float RollBonusValue(
             string stat,
-            float baseValue,
-            bool round)
+            float baseValue)
         {
-            if (!TryGetBonusRange(stat, out var min, out var max, out var valueType))
+            if (!BonusTables.TryGet(rarity.ToString(), stat, out BonusRow row))
             {
                 Debug.LogError($"[WallScript] Bonus range missing. rarity={rarity} stat={stat}");
                 return 0f;
             }
 
-            float v = Random.Range(min, max);
-
-            if (valueType == BonusValueType.Ratio)
-            {
-                v = baseValue * v;
-            }
-
-            if (round) v = Mathf.Round(v);
-
-            return v;
-        }
-
-        private bool TryGetBonusRange(string stat, out float min, out float max, out BonusValueType valueType)
-        {
-            min = 0f;
-            max = 0f;
-            valueType = BonusValueType.Value;
-
-            if (!BonusTables.TryGet(rarity.ToString(), stat, out var row))
-                return false;
-
-            min = row.min;
-            max = row.max;
-            valueType = row.valueType;
-            return true;
+            bonusValueType = row.valueType;
+            float random01 = Random.value;
+            displayBonusValue = BonusAltarRules.ResolveDisplayValue(row, random01);
+            return BonusAltarRules.ResolveValue(row, random01, baseValue);
         }
 
         private IEnumerator MoveOutsideForwardMarch()
@@ -214,10 +253,11 @@ namespace IndianOceanAssets.ShooterSurvival
                 yield break;
 
             var fixedUpdate = new WaitForFixedUpdate();
+            Transform movementRoot = GetLifetimeObject().transform;
             while (true)
             {
                 yield return fixedUpdate;
-                transform.Translate(
+                movementRoot.Translate(
                     -Vector3.forward *
                     wallMoveSpeed *
                     Time.fixedDeltaTime *
@@ -225,30 +265,102 @@ namespace IndianOceanAssets.ShooterSurvival
             }
         }
 
+        private void RollAuthoredAltar(AuthoredBonusWall authoredAltar)
+        {
+            authoredAltar.BeginRoll();
+            selectedDisplayRow = default;
+            wallType = WallType.BuffWall;
+            isRandom = true;
+            rarity = authoredAltar.Rarity;
+
+            var rows = BonusTables.GetAll(BonusAltarRules.DataRarityFor(rarity));
+            var candidates = BonusAltarRules.BuildCandidates(
+                rows,
+                rarity,
+                authoredAltar.CollectNearbyRolledStats());
+            if (candidates.Count == 0)
+            {
+                hasSelectedBonusRow = false;
+                bonusAlias = null;
+                Debug.LogError(
+                    $"[WallScript] No supported bonus rows for altar grade {BonusAltarRules.GradeLabel(rarity)}.");
+                return;
+            }
+
+            selectedBonusRow = candidates[Random.Range(0, candidates.Count)];
+            if (!BonusAltarRules.TryResolveBuffType(
+                    rarity,
+                    selectedBonusRow.stat,
+                    out buffType))
+            {
+                hasSelectedBonusRow = false;
+                return;
+            }
+
+            hasSelectedBonusRow = true;
+            selectedDisplayRow = BonusTables.ResolveDisplayRow(selectedBonusRow);
+            bonusAlias = BonusAltarRules.ResolveAlias(selectedBonusRow);
+            authoredAltar.CommitRoll(selectedBonusRow.stat);
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             // wall moves out of camera range
             if (other.CompareTag("DestroyerTag"))
             {
-                Destroy(gameObject); // Destroy the wall object
+                Destroy(GetLifetimeObject()); // Destroy the complete authored wall when its visual is a sibling.
             }
 
             // player enters the wall
             else if (other.CompareTag("Player"))
             {
+                if (playerScript == null || HasInvalidAuthoredRoll())
+                    return;
+
                 if (playerScript.lastWallTouchTime == 0 || Time.time - playerScript.lastWallTouchTime > 1f)
                 {
                     playerScript.lastWallTouchTime = Time.time;           // Update the last time the wall was touched
                     ApplyWallEffect();                                      // Apply the effect based on the wall's type
                     gameObject.GetComponent<Collider>().isTrigger = false;  // Disable trigger once applied
 
-                    gameObject.SetActive(false);
+                    GetLifetimeObject().SetActive(false);
                 }
             }
         }
 
+        private GameObject GetLifetimeObject()
+        {
+            BonusWallLifetimeRoot lifetimeRoot =
+                GetComponentInParent<BonusWallLifetimeRoot>(true);
+            if (lifetimeRoot != null)
+                return lifetimeRoot.gameObject;
+
+            AuthoredBonusWall authoredBonus =
+                GetComponentInParent<AuthoredBonusWall>(true);
+            return authoredBonus != null ? authoredBonus.gameObject : gameObject;
+        }
+
+        public void ReactivateLifetimeObject()
+        {
+            Collider trigger = GetComponent<Collider>();
+            if (trigger != null)
+            {
+                trigger.enabled = true;
+                trigger.isTrigger = true;
+            }
+
+            GetLifetimeObject().SetActive(true);
+        }
+
         public void SetWallSprite()
         {
+            if (HasInvalidAuthoredRoll())
+            {
+                UpdateStatIcon();
+                DisableInvalidAuthoredPresentation();
+                return;
+            }
+
             Sprite selectedSprite = wallType switch
             {
                 WallType.BuffWall => buffType switch
@@ -267,13 +379,80 @@ namespace IndianOceanAssets.ShooterSurvival
                 _ => null
             };
 
-            currSprite.sprite = selectedSprite;
-            SetBonusValueText(bonusValue, isPercent);
-            UpdateStatUI(buffType, bonusValue, isPercent);
+            if (currSprite != null)
+                currSprite.sprite = selectedSprite;
+            UpdateStatIcon();
+            UpdateStatUI(buffType, displayBonusValue);
+        }
+
+        private void DisableInvalidAuthoredPresentation()
+        {
+            TextMeshProUGUI statNameText = null;
+            if (statNameLoc != null)
+            {
+                statNameLoc.enabled = false;
+                statNameText = statNameLoc.GetComponent<TextMeshProUGUI>();
+            }
+
+            foreach (TextMeshProUGUI text in
+                     GetComponentsInChildren<TextMeshProUGUI>(true))
+            {
+                if (text == null ||
+                    (text != statValueTmp &&
+                     text != statNameText &&
+                     text.gameObject.name is not ("Choice_Title" or "Value_Text")))
+                {
+                    continue;
+                }
+
+                text.text = string.Empty;
+                text.enabled = false;
+            }
+
+            Collider trigger = GetComponent<Collider>();
+            if (trigger != null)
+            {
+                trigger.isTrigger = false;
+                trigger.enabled = false;
+            }
+        }
+
+        private void UpdateStatIcon()
+        {
+            if (statIconImage == null)
+            {
+                foreach (Image image in GetComponentsInChildren<Image>(true))
+                {
+                    if (image.gameObject.name != "Stat_Icon")
+                        continue;
+
+                    statIconImage = image;
+                    break;
+                }
+            }
+
+            if (statIconImage == null)
+                return;
+
+            if (wallType != WallType.BuffWall || HasInvalidAuthoredRoll())
+            {
+                statIconImage.enabled = false;
+                return;
+            }
+
+            string resourceName = BonusAltarRules.ResolveIconResourceName(buffType);
+            Sprite icon = string.IsNullOrEmpty(resourceName)
+                ? null
+                : Resources.Load<Sprite>("WallBonusIcons/" + resourceName);
+            statIconImage.sprite = icon;
+            statIconImage.enabled = icon != null;
         }
 
         private void ApplyWallEffect()
         {
+            if (HasInvalidAuthoredRoll())
+                return;
+
             switch (wallType)
             {
                 case WallType.BuffWall:
@@ -399,7 +578,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private EffectOverlayScript ResolveEffectOverlay()
         {
-            if (GetComponent<RuntimeBonusWall>() != null)
+            if (GetComponentInParent<RuntimeBonusWall>(true) != null)
                 return null;
 
             if (effectOverlayVignette != null)
@@ -457,66 +636,24 @@ namespace IndianOceanAssets.ShooterSurvival
             playerScript.extraHelpWeaponScript.Add(instance.GetComponentInChildren<WeaponScript>());
         }
 
-        private void SetBonusValueText(float volume, bool percent = false)
+        private bool HasInvalidAuthoredRoll()
         {
-            // 占쏙옙 占쏙옙크占쏙옙트占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙트(wall_att_normal 占쏙옙占쏙옙) 占쏙옙占쏙옙占쏙옙占쏙옙 TMP 占쌔쏙옙트 찾占쏙옙
-            TextMeshProUGUI[] texts = GetComponentsInChildren<TextMeshProUGUI>();
-
-            if (texts.Length >= 2)
-            {
-                texts[1].text = "+" + volume.ToString(); // 占쏙옙 占쏙옙째 占쌔쏙옙트占쏙옙 占쏙옙占쏙옙 占쏙옙 占쏙옙占쏙옙
-                if (percent == true)
-                {
-                    texts[1].text += "%"; // 占쌜쇽옙트 표占쏙옙 占쌩곤옙
-                }
-            }
-            else
-            {
-                Debug.LogWarning("TMP 占쌔쏙옙트占쏙옙 2占쏙옙 占싱삼옙 占쏙옙占쏙옙!");
-            }
+            return !hasSelectedBonusRow &&
+                   GetComponentInParent<AuthoredBonusWall>(true) != null;
         }
 
-        private string KeyFor(BuffType bt)
-        {
-            switch (bt)
-            {
-                case BuffType.att_normmal:
-                case BuffType.att_unique: return "att";
-
-                case BuffType.attPer_normal:
-                case BuffType.attPer_unique: return "attPercent";
-
-                case BuffType.attackSpeed_normal:
-                case BuffType.attackSpeed_unique: return "missileSpeed";   // 占쏙옙占싱븝옙占쏙옙 占쏙옙 占싱몌옙占쏙옙占쏙옙 占쏙옙占쏙옙
-
-                case BuffType.missileDistance_normal:
-                case BuffType.missileDistance_unique: return "missileDistance";
-
-                case BuffType.hp_normal:
-                case BuffType.hp_unique: return "hp";
-
-                case BuffType.hpPer_normal:
-                case BuffType.hpPer_unique: return "hpPercent";
-
-                case BuffType.missileAdd_unique: return "missileAdd";
-                case BuffType.tungtung_rare: return "tungtungAdd";
-                case BuffType.boombar_rare: return "boombarAdd";
-                default: return "att";
-            }
-        }
-
-        private void UpdateStatUI(BuffType bt, float value, bool isPercent)
+        private void UpdateStatUI(BuffType bt, float value)
         {
             // 占싱몌옙(占쏙옙占시띰옙占쏙옙占쏙옙)
-            statNameLoc.StringReference.SetReference(tableName, KeyFor(bt));
-            statNameLoc.RefreshString();
+            UpdateStatName(bt);
 
-            string formattedValue = isPercent
-                ? $"+{Mathf.RoundToInt(value)}%"
-                : $"+{Mathf.RoundToInt(value)}";
+            string formattedValue = BonusAltarRules.FormatDisplayValue(
+                value,
+                bonusValueType);
 
             if (statValueTmp != null)
             {
+                statValueTmp.enabled = true;
                 statValueTmp.text = formattedValue;
             }
 
@@ -525,9 +662,49 @@ namespace IndianOceanAssets.ShooterSurvival
             {
                 if (text != null && text.gameObject.name == "Value_Text")
                 {
+                    text.enabled = true;
                     text.text = formattedValue;
                 }
+                else if (text != null &&
+                         text.gameObject.name == "Choice_Title" &&
+                         !string.IsNullOrEmpty(bonusAlias))
+                {
+                    text.enabled = true;
+                    text.text = bonusAlias;
+                }
             }
+        }
+
+        private void UpdateStatName(BuffType bt)
+        {
+            if (statNameLoc == null)
+                return;
+
+            if (hasSelectedBonusRow)
+            {
+                statNameLoc.enabled = false;
+                TextMeshProUGUI statNameText =
+                    statNameLoc.GetComponent<TextMeshProUGUI>();
+                if (statNameText != null)
+                {
+                    statNameText.enabled = true;
+                    statNameText.text = BonusAltarRules.ResolveDisplayName(
+                        selectedDisplayRow);
+                }
+
+                return;
+            }
+
+            TextMeshProUGUI localizedText =
+                statNameLoc.GetComponent<TextMeshProUGUI>();
+            if (localizedText != null)
+                localizedText.enabled = true;
+
+            statNameLoc.enabled = true;
+            statNameLoc.StringReference.SetReference(
+                tableName,
+                BonusAltarRules.ResolveLocalizationKey(bt));
+            statNameLoc.RefreshString();
         }
 
         public void RerollTWallType(BuffType exceptBuffType, int iterationCount = 30)

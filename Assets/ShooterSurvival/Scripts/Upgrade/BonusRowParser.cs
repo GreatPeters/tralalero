@@ -7,6 +7,8 @@ public class BonusRowParser : ITableParser<BonusRow>
     private const string HeaderId = "\uC2DD\uBCC4\uC21C\uBC88";
     private const string HeaderEnum = "\uC2DD\uBCC4Enum";
     private const string HeaderLevel = "\uB808\uBCA8";
+    private const string HeaderAlias = "\uBCC4\uCE6D";
+    private const string HeaderName = "\uC774\uB984";
     private const string HeaderItem = "\uD56D\uBAA9";
     private const string HeaderValueType = "\uC218\uCE58\uD0C0\uC785";
     private const string HeaderValue = "\uC218\uCE58";
@@ -20,6 +22,8 @@ public class BonusRowParser : ITableParser<BonusRow>
         int idxId = ExcelUtil.GetIdx(h, HeaderId);
         int idxEnum = ExcelUtil.GetIdxOptional(h, HeaderEnum);
         int idxLv = ExcelUtil.GetIdxOptional(h, HeaderLevel);
+        int idxAlias = ExcelUtil.GetIdxOptional(h, HeaderAlias);
+        int idxName = ExcelUtil.GetIdxOptional(h, HeaderName);
         int idxItem = ExcelUtil.GetIdxOptional(h, HeaderItem);
         int idxType = ExcelUtil.GetIdxOptional(h, HeaderValueType);
         int idxMin = ExcelUtil.GetIdxOptional(h, HeaderMin);
@@ -35,6 +39,8 @@ public class BonusRowParser : ITableParser<BonusRow>
             id = ExcelUtil.ToInt(reader.GetValue(idxId)),
             rarity = idxEnum >= 0 ? (reader.GetValue(idxEnum)?.ToString() ?? "").Trim() : "",
             level = idxLv >= 0 ? ExcelUtil.ToInt(reader.GetValue(idxLv)) : 0,
+            alias = idxAlias >= 0 ? (reader.GetValue(idxAlias)?.ToString() ?? "").Trim() : "",
+            displayName = idxName >= 0 ? (reader.GetValue(idxName)?.ToString() ?? "").Trim() : "",
             stat = idxItem >= 0 ? (reader.GetValue(idxItem)?.ToString() ?? "").Trim() : "",
             min = idxMin >= 0 ? ExcelUtil.ToFloat(reader.GetValue(idxMin)) : 0f,
             max = idxMax >= 0 ? ExcelUtil.ToFloat(reader.GetValue(idxMax)) : 0f,

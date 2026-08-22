@@ -74,7 +74,7 @@ public enum NoryangjinMapToolSceneGridCellState
 {
     Empty = 0,
     Occupied = 1,
-    LastPlaced = 2
+    Selected = 2
 }
 
 public enum NoryangjinMapToolPlacementLayer
@@ -341,6 +341,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         "Assets/ShooterSurvival/Prefabs/Walls/New";
     private const string ExcludedBonusWallPrefabPath =
         BonusWallPrefabRoot + "/random_wall_normal_fix.prefab";
+    internal static readonly string[] FeastOfFortuneBonusWallPrefabPaths =
+    {
+        BonusWallPrefabRoot + "/Box_left.prefab"
+    };
     internal const string JhWaterPrefabPath = JhPrefabRoot + "/water.prefab";
     internal const string NoryangjinOceanWaterBackdropPrefabPath = PrefabRoot + "/017_STAGE01_NRY_BG_001_Ocean_water_plane_backdrop/017_STAGE01_NRY_BG_001_Ocean_water_plane_backdrop.prefab";
     internal const string NoryangjinGroundBackdropPrefabPath = PrefabRoot + "/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop.prefab";
@@ -379,8 +383,6 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string MapToolDisabledLabel = "OFF";
     internal const string MapToolDisabledHelp = "노량진 맵툴 비적용 상태입니다. ON으로 바꾸면 그리드, 프리뷰, 설치가 다시 적용됩니다.";
     internal static readonly string[] PrimaryTabLabels = { "맵툴", "편의" };
-    internal const string CanvasEnabledLabel = "CANVAS ON";
-    internal const string CanvasDisabledLabel = "CANVAS OFF";
     internal const string GameDataOpenButtonLabel = "Excel 열기";
     internal const string GameDataSelectButtonLabel = "프로젝트에서 보기";
     internal const string GameDataBuildButtonLabel = "런타임 데이터 갱신";
@@ -475,6 +477,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     internal static readonly string[] PrimaryTabNames = Array.Empty<string>();
     internal static readonly string[] RotationQuickButtonLabels = { "-45도", "+45도" };
+    internal static readonly string[] FeastOfFortuneRarityLabels =
+        BonusAltarRules.CreateGradeLabels();
     internal const float HeightQuickStep = 0.1f;
     internal static readonly string[] HeightQuickButtonLabels = { "-0.1", "+0.1" };
     internal static readonly float[] PositionOffsetQuickSteps = { -0.01f, -0.1f, 0.1f, 0.01f };
@@ -707,12 +711,15 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         cellSize = MigrateCellSizeDefault(cellSize);
         showSceneGrid = DefaultShowSceneGrid;
         ApplyMapToolWorkObjectsActiveState(mapToolEnabled);
+        ApplyMapToolSceneViewProjection(mapToolEnabled);
         SceneView.duringSceneGui -= DrawSceneGrid;
         SceneView.duringSceneGui += DrawSceneGrid;
         Undo.undoRedoPerformed -= OnUndoRedoPerformed;
         Undo.undoRedoPerformed += OnUndoRedoPerformed;
         EditorApplication.hierarchyChanged -= ClearSceneRenderCaches;
         EditorApplication.hierarchyChanged += ClearSceneRenderCaches;
+        Selection.selectionChanged -= OnMapToolSelectionChanged;
+        Selection.selectionChanged += OnMapToolSelectionChanged;
     }
 
     private void OnDisable()
@@ -720,10 +727,17 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         SceneView.duringSceneGui -= DrawSceneGrid;
         Undo.undoRedoPerformed -= OnUndoRedoPerformed;
         EditorApplication.hierarchyChanged -= ClearSceneRenderCaches;
+        Selection.selectionChanged -= OnMapToolSelectionChanged;
         ClearSceneRenderCaches();
         StopEnemyAssignmentMode();
         DestroyPlacementPreview();
         DestroyPlacementPreviewMaterials();
+    }
+
+    private void OnMapToolSelectionChanged()
+    {
+        SceneView.RepaintAll();
+        Repaint();
     }
 
     private void OnGUI()
@@ -775,37 +789,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void DrawConvenienceControls()
     {
-        Scene scene = SceneManager.GetActiveScene();
-        bool isToolScene = IsMapToolScenePath(scene.path);
-        bool hasRootCanvas = isToolScene && HasSceneRootCanvas(scene);
-        bool canvasActive = hasRootCanvas && AreSceneRootCanvasesActive(scene);
-
         EditorGUILayout.Space(8f);
-        using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
-        {
-            EditorGUILayout.LabelField("게임 UI", EditorStyles.boldLabel);
-            using (new EditorGUI.DisabledScope(!hasRootCanvas))
-            {
-                bool requestedCanvasActive = GUILayout.Toggle(
-                    canvasActive,
-                    canvasActive ? CanvasEnabledLabel : CanvasDisabledLabel,
-                    EditorStyles.miniButton,
-                    GUILayout.Height(30f));
-                if (requestedCanvasActive != canvasActive)
-                {
-                    SetSceneRootCanvasesActive(scene, requestedCanvasActive, recordUndo: true);
-                    EditorApplication.QueuePlayerLoopUpdate();
-                    SceneView.RepaintAll();
-                }
-            }
-
-            if (!isToolScene)
-                EditorGUILayout.HelpBox("노량진 맵툴 씬에서 사용할 수 있습니다.", MessageType.Info);
-            else if (!hasRootCanvas)
-                EditorGUILayout.HelpBox("현재 씬에 루트 Canvas가 없습니다.", MessageType.Info);
-        }
-
-        EditorGUILayout.Space(6f);
         using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
         {
             EditorGUILayout.LabelField("게임 데이터 (Excel)", EditorStyles.boldLabel);
@@ -958,6 +942,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     {
         mapToolEnabled = enabled;
         ApplyMapToolWorkObjectsActiveState(mapToolEnabled);
+        ApplyMapToolSceneViewProjection(mapToolEnabled);
         if (!mapToolEnabled)
         {
             ClearEnemyAssignmentSelection();
@@ -999,62 +984,6 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         EditorApplication.QueuePlayerLoopUpdate();
         SceneView.RepaintAll();
         Repaint();
-    }
-
-    internal static bool SetSceneRootCanvasesActive(Scene scene, bool active, bool recordUndo)
-    {
-        if (!scene.IsValid() || !scene.isLoaded)
-            return false;
-
-        bool changed = false;
-        string undoName = active
-            ? "Show Noryangjin Scene Canvas"
-            : "Hide Noryangjin Scene Canvas";
-        foreach (GameObject rootObject in scene.GetRootGameObjects())
-        {
-            if (rootObject.GetComponent<Canvas>() == null)
-                continue;
-
-            changed |= SetGameObjectActive(rootObject, active, undoName, recordUndo);
-        }
-
-        if (changed)
-            EditorSceneManager.MarkSceneDirty(scene);
-
-        return changed;
-    }
-
-    internal static bool HasSceneRootCanvas(Scene scene)
-    {
-        if (!scene.IsValid() || !scene.isLoaded)
-            return false;
-
-        foreach (GameObject rootObject in scene.GetRootGameObjects())
-        {
-            if (rootObject.GetComponent<Canvas>() != null)
-                return true;
-        }
-
-        return false;
-    }
-
-    internal static bool AreSceneRootCanvasesActive(Scene scene)
-    {
-        if (!scene.IsValid() || !scene.isLoaded)
-            return false;
-
-        bool foundCanvas = false;
-        foreach (GameObject rootObject in scene.GetRootGameObjects())
-        {
-            if (rootObject.GetComponent<Canvas>() == null)
-                continue;
-
-            foundCanvas = true;
-            if (!rootObject.activeSelf)
-                return false;
-        }
-
-        return foundCanvas;
     }
 
     private static bool ApplyMapToolWorkObjectsActiveState(bool active)
@@ -1388,6 +1317,12 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             GUILayout.Label(PlacementAngleSectionTitle, EditorStyles.miniBoldLabel);
 
             GameObject target = GetRotationTarget();
+            AuthoredBonusWall altar = ResolveFeastOfFortuneAltar(target);
+            if (altar != null)
+                DrawSelectedFeastOfFortuneInstanceRarityControl(altar);
+            else
+                DrawSelectedFeastOfFortunePaletteRarityControl();
+
             if (target == null)
             {
                 DrawSelectedPalettePlacementAngleControl();
@@ -1479,6 +1414,46 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         {
             ApplySelectedPaletteYawOffset(item, entry, MovePlacementYawOffsetByStep(entry.yawOffset, deltaY));
         });
+    }
+
+    private void DrawSelectedFeastOfFortunePaletteRarityControl()
+    {
+        PaletteItem? selectedItem = FindSelectedPaletteItem();
+        if (!selectedItem.HasValue ||
+            !IsFeastOfFortuneBonusWallPrefabPath(selectedItem.Value.PrefabPath))
+        {
+            return;
+        }
+
+        NoryangjinMapToolPalettePlacementEntry entry =
+            GetPaletteDefaults().GetOrCreateEntry(selectedItem.Value.PrefabPath);
+        GUILayout.Label("제단 다음 배치 등급", EditorStyles.miniBoldLabel);
+        EditorGUI.BeginChangeCheck();
+        Rarity rarity = DrawFeastOfFortuneRarityPopup(entry.bonusWallRarity);
+        if (EditorGUI.EndChangeCheck())
+        {
+            entry.bonusWallRarity = rarity;
+            SavePaletteDefaults();
+        }
+
+        GUILayout.Space(4f);
+    }
+
+    private void DrawSelectedFeastOfFortuneInstanceRarityControl(AuthoredBonusWall altar)
+    {
+        GUILayout.Label("제단 등급", EditorStyles.miniBoldLabel);
+        EditorGUI.BeginChangeCheck();
+        Rarity rarity = DrawFeastOfFortuneRarityPopup(altar.Rarity);
+        if (EditorGUI.EndChangeCheck())
+            ApplyFeastOfFortuneRarity(altar.gameObject, rarity, recordUndo: true);
+
+        GUILayout.Space(4f);
+    }
+
+    private static Rarity DrawFeastOfFortuneRarityPopup(Rarity rarity)
+    {
+        int selectedIndex = Mathf.Clamp((int)rarity, 0, FeastOfFortuneRarityLabels.Length - 1);
+        return (Rarity)EditorGUILayout.Popup(selectedIndex, FeastOfFortuneRarityLabels);
     }
 
     private void DrawSelectedObjectPlacementAngleControl(GameObject target)
@@ -2731,7 +2706,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         Color oldColor = Handles.color;
         CompareFunction oldZTest = Handles.zTest;
         DrawStableTopViewWorkGridOverlay(normalizedCellSize, sceneView, showWorkSubGrid);
-        DrawLastPlacedObjectFootprint(normalizedCellSize);
+        DrawSelectedPlacedObjectFootprint(normalizedCellSize);
         DrawSelectedPaletteFootprintPreview(normalizedCellSize);
         DrawPlacedObjectHeightLabels(
             heightLabelStyle,
@@ -3030,16 +3005,21 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return position + Vector3.up * verticalOffset;
     }
 
-    private void DrawLastPlacedObjectFootprint(float normalizedCellSize)
+    private void DrawSelectedPlacedObjectFootprint(float normalizedCellSize)
     {
-        GameObject lastPlacedObject = ResolveLastPlacedObject();
-        if (lastPlacedObject == null ||
-            !TryGetMapToolPlacedObjectGridPosition(lastPlacedObject.name, out Vector2Int anchor))
+        GameObject selectedObject = ResolveSelectedFootprintTarget(Selection.activeGameObject);
+        if (selectedObject == null ||
+            !TryGetMapToolPlacedObjectGridPosition(selectedObject.name, out Vector2Int anchor))
             return;
 
         float placementGridCellSize = BuildPlacementSnapCellSize(normalizedCellSize, false);
-        foreach (Vector2Int cell in GetPlacedObjectDisplayedFootprintCells(lastPlacedObject, anchor, placementGridCellSize))
-            DrawSceneGridCellFill(cell.x, cell.y, placementGridCellSize, NoryangjinMapToolSceneGridCellState.LastPlaced);
+        foreach (Vector2Int cell in GetPlacedObjectDisplayedFootprintCells(selectedObject, anchor, placementGridCellSize))
+            DrawSceneGridCellFill(cell.x, cell.y, placementGridCellSize, NoryangjinMapToolSceneGridCellState.Selected);
+    }
+
+    internal static GameObject ResolveSelectedFootprintTarget(GameObject selected)
+    {
+        return ResolveSelectedPlacedObject(selected);
     }
 
     private GameObject ResolveLastPlacedObject()
@@ -4504,7 +4484,13 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 isEnemy ? item.PrefabPath : null);
 
             if (isBonus)
+            {
                 ConfigureBonusWallInstance(instance);
+                ApplyFeastOfFortuneRarity(
+                    instance,
+                    placement.bonusWallRarity,
+                    recordUndo: true);
+            }
 
             Selection.activeGameObject = instance;
             RegisterLastPlacedObject(instance);
@@ -5564,7 +5550,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return instance;
     }
 
-    internal static void ConfigureBonusWallInstance(GameObject instance)
+    internal static void ConfigureBonusWallInstance(GameObject instance, bool recordUndo = true)
     {
         if (instance == null)
             return;
@@ -5573,12 +5559,87 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         {
             RuntimeBonusWall marker = wall.GetComponent<RuntimeBonusWall>();
             if (marker == null)
-                marker = Undo.AddComponent<RuntimeBonusWall>(wall.gameObject);
+            {
+                marker = recordUndo
+                    ? Undo.AddComponent<RuntimeBonusWall>(wall.gameObject)
+                    : wall.gameObject.AddComponent<RuntimeBonusWall>();
+            }
 
-            Undo.RecordObject(marker, "Keep Map-Authored Bonus Wall");
+            if (recordUndo)
+                Undo.RecordObject(marker, "Keep Map-Authored Bonus Wall");
+
             marker.KeepAsMapAuthoredWall();
             EditorUtility.SetDirty(marker);
         }
+    }
+
+    internal static bool IsFeastOfFortuneBonusWallPrefabPath(string prefabPath)
+    {
+        if (string.IsNullOrEmpty(prefabPath))
+            return false;
+
+        string normalizedPath = prefabPath.Replace('\\', '/');
+        foreach (string feastPrefabPath in FeastOfFortuneBonusWallPrefabPaths)
+        {
+            if (string.Equals(
+                    normalizedPath,
+                    feastPrefabPath,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    internal static AuthoredBonusWall ResolveFeastOfFortuneAltar(GameObject target)
+    {
+        if (target == null)
+            return null;
+
+        AuthoredBonusWall altar = target.GetComponentInParent<AuthoredBonusWall>(true)
+            ?? target.GetComponentInChildren<AuthoredBonusWall>(true);
+        if (altar == null)
+            return null;
+
+        string prefabPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(
+            altar.gameObject);
+        return IsFeastOfFortuneBonusWallPrefabPath(prefabPath) ? altar : null;
+    }
+
+    internal static WallScript ResolveFeastOfFortuneWall(GameObject target)
+    {
+        return ResolveFeastOfFortuneAltar(target)?.Wall;
+    }
+
+    internal static bool ApplyFeastOfFortuneRarity(
+        GameObject target,
+        Rarity rarity,
+        bool recordUndo)
+    {
+        AuthoredBonusWall altar = ResolveFeastOfFortuneAltar(target);
+        WallScript wall = altar?.Wall;
+        if (wall == null ||
+            (altar.Rarity == rarity && wall.rarity == rarity && wall.isRandom &&
+             wall.wallType == WallType.BuffWall))
+            return false;
+
+        if (recordUndo)
+        {
+            Undo.RecordObject(altar, "Change Bonus Altar Grade");
+            Undo.RecordObject(wall, "Change Feast Of Fortune Rarity");
+        }
+
+        altar.Configure(rarity);
+        PrefabUtility.RecordPrefabInstancePropertyModifications(altar);
+        PrefabUtility.RecordPrefabInstancePropertyModifications(wall);
+        EditorUtility.SetDirty(altar);
+        EditorUtility.SetDirty(wall);
+        if (altar.gameObject.scene.IsValid())
+            EditorSceneManager.MarkSceneDirty(altar.gameObject.scene);
+
+        return true;
     }
 
     private void RegisterLastPlacedObject(GameObject instance)
@@ -6253,15 +6314,43 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private static void ApplyMapToolSceneViewPreset(NoryangjinMapToolSceneViewPreset preset)
     {
-        SceneView sceneView = SceneView.lastActiveSceneView;
-        if (sceneView == null && SceneView.sceneViews.Count > 0)
-            sceneView = SceneView.sceneViews[0] as SceneView;
-
+        SceneView sceneView = ResolveActiveSceneView();
         if (sceneView == null)
             return;
 
         sceneView.LookAt(Vector3.zero, preset.Rotation, preset.Size, preset.Orthographic);
         sceneView.Repaint();
+    }
+
+    private static void ApplyMapToolSceneViewProjection(bool enabled)
+    {
+        SceneView sceneView = ResolveActiveSceneView();
+        if (sceneView == null)
+            return;
+
+        sceneView.orthographic = ShouldUseOrthographicSceneView(enabled);
+        sceneView.isRotationLocked = ShouldLockSceneViewRotation(enabled);
+        sceneView.Repaint();
+    }
+
+    private static SceneView ResolveActiveSceneView()
+    {
+        if (SceneView.lastActiveSceneView != null)
+            return SceneView.lastActiveSceneView;
+
+        return SceneView.sceneViews.Count > 0
+            ? SceneView.sceneViews[0] as SceneView
+            : null;
+    }
+
+    internal static bool ShouldUseOrthographicSceneView(bool mapToolEnabled)
+    {
+        return mapToolEnabled;
+    }
+
+    internal static bool ShouldLockSceneViewRotation(bool mapToolEnabled)
+    {
+        return mapToolEnabled;
     }
 
     internal static NoryangjinMapToolSceneViewPreset BuildSceneViewPreset(bool topView)
@@ -7081,16 +7170,11 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return Array.Empty<string>();
 
         var paths = new List<string>();
-        foreach (string guid in AssetDatabase.FindAssets(
-                     "t:Prefab",
-                     new[] { BonusWallPrefabRoot }))
+        foreach (string path in FeastOfFortuneBonusWallPrefabPaths)
         {
-            string path = AssetDatabase.GUIDToAssetPath(guid).Replace('\\', '/');
-            if (IsBonusWallPalettePrefabPath(path))
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(path) != null)
                 paths.Add(path);
         }
-
-        paths.Sort(StringComparer.OrdinalIgnoreCase);
         return paths.ToArray();
     }
 
@@ -7257,7 +7341,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return state switch
         {
             NoryangjinMapToolSceneGridCellState.Occupied => new Color(1f, 0.04f, 0.02f, 0.5f),
-            NoryangjinMapToolSceneGridCellState.LastPlaced => new Color(0.08f, 0.35f, 1f, 0.34f),
+            NoryangjinMapToolSceneGridCellState.Selected => new Color(0.08f, 0.35f, 1f, 0.34f),
             _ => new Color(0.35f, 1f, 0.18f, 0.25f)
         };
     }
@@ -7837,7 +7921,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return paths;
     }
 
-    private static void AddBonusWallPaletteItems(List<PaletteItem> items)
+    private void AddBonusWallPaletteItems(List<PaletteItem> items)
     {
         string[] prefabPaths = FindBonusWallPalettePrefabPaths();
         for (int i = 0; i < prefabPaths.Length; i++)
@@ -7852,7 +7936,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             }
 
             items.Add(new PaletteItem(
-                BuildBonusWallPaletteLabel(prefabPath),
+                BuildBonusWallPaletteDisplayLabel(prefabPath),
                 prefabPath,
                 prefab,
                 NoryangjinMapToolPaletteCategory.Prop,
@@ -7861,11 +7945,31 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         }
     }
 
+    private string BuildBonusWallPaletteDisplayLabel(string prefabPath)
+    {
+        string customLabel = NormalizePaletteDisplayName(
+            GetPaletteDefaults().GetCustomLabel(prefabPath));
+        return ResolveBonusWallPaletteDisplayLabel(prefabPath, customLabel);
+    }
+
+    internal static string ResolveBonusWallPaletteDisplayLabel(
+        string prefabPath,
+        string customLabel)
+    {
+        string normalizedCustomLabel = NormalizePaletteDisplayName(customLabel);
+        return string.IsNullOrEmpty(normalizedCustomLabel) ||
+               LooksLikeBrokenKoreanText(normalizedCustomLabel)
+            ? BuildBonusWallPaletteLabel(prefabPath)
+            : normalizedCustomLabel;
+    }
+
     internal static string BuildBonusWallPaletteLabel(string prefabPath)
     {
         return Path.GetFileNameWithoutExtension(prefabPath) switch
         {
             "random_wall_normal" => "랜덤 보너스 (노멀)",
+            "Box_left" => "운명의 제단",
+            "Box_Right" => "운명의 제단 (이전 버전)",
             "wall_atk_normal" => "공격력 + (노멀)",
             "wall_atk_unique" => "공격력 + (유니크)",
             "wall_attPer_normal" => "공격력 % (노멀)",

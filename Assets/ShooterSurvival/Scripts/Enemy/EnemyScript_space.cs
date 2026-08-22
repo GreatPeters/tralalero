@@ -8,6 +8,8 @@ namespace IndianOceanAssets.ShooterSurvival
     public sealed class EnemyScript_space : MonoBehaviour
     {
         private const float DirectionEpsilonSqr = 0.000001f;
+        private static readonly Vector3 DroppedBonusAltarScale = Vector3.one * 3f;
+        private static readonly Quaternion DroppedBonusAltarRotation = Quaternion.Euler(0f, 180f, 0f);
 
         [Header("Noryangjin Enemy")]
         [SerializeField] private EnemySO enemyData;
@@ -225,9 +227,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 return;
 
             isDead = true;
-            Vector3 wallPosition = transform.position + Vector3.up * 0.95f;
-            GameObject wall = Instantiate(bonusWall, wallPosition, Quaternion.identity);
-            wall.AddComponent<RuntimeBonusWall>();
+            SpawnBonusAltar();
 
             Collider enemyCollider = GetComponent<Collider>();
             if (enemyCollider != null)
@@ -243,6 +243,19 @@ namespace IndianOceanAssets.ShooterSurvival
             int coinAmount = CoinDropUtility.ApplyCoinBonus(
                 CoinDropUtility.GetCoinAmount(enemyTier));
             CoinDropUtility.SpawnWorldCoinDrop(transform.position, coinAmount);
+        }
+
+        private GameObject SpawnBonusAltar()
+        {
+            GameObject altar = Instantiate(
+                bonusWall,
+                transform.position,
+                DroppedBonusAltarRotation);
+            altar.transform.localScale = DroppedBonusAltarScale;
+            if (altar.GetComponent<RuntimeBonusWall>() == null)
+                altar.AddComponent<RuntimeBonusWall>();
+
+            return altar;
         }
 
         private IEnumerator DeathFlow()

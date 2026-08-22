@@ -101,7 +101,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private float maxHealthWithUpgrades;
         private float healthRegenPerSecond;
-        private CanvasScript canvasScript;
+        [SerializeField] private CanvasScript canvasScript;
         private Canvas playerChildCanvas;
         private bool startGestureTriggered;
         private bool startGestureArmed;
@@ -134,6 +134,8 @@ namespace IndianOceanAssets.ShooterSurvival
         private bool routeFrameInitialized;
         private float lastHealthTextValue = float.NaN;
         private float lastHealthBarValue = float.NaN;
+        private float lastReportedCurrentHealth = float.NaN;
+        private float lastReportedMaxHealth = float.NaN;
 
         public const float DefaultWorldYawTurnDuration = 0.5f;
         public bool IsWorldYawTurnActive => isWorldYawTurnActive;
@@ -859,12 +861,17 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             float maxHealth = MaxHealth;
             float healthBarValue = maxHealth > 0f ? currentHealth / maxHealth : 0f;
+            bool statusChanged =
+                force ||
+                !Mathf.Approximately(lastReportedCurrentHealth, currentHealth) ||
+                !Mathf.Approximately(lastReportedMaxHealth, maxHealth);
 
             if (healthBar != null &&
                 (force || !Mathf.Approximately(lastHealthBarValue, healthBarValue)))
             {
                 healthBar.fillAmount = healthBarValue;
                 lastHealthBarValue = healthBarValue;
+                statusChanged = true;
             }
 
             if (healthText != null &&
@@ -872,7 +879,19 @@ namespace IndianOceanAssets.ShooterSurvival
             {
                 healthText.text = currentHealth.ToString("N0");
                 lastHealthTextValue = currentHealth;
+                statusChanged = true;
             }
+
+            if (!statusChanged)
+                return;
+
+            lastReportedCurrentHealth = currentHealth;
+            lastReportedMaxHealth = maxHealth;
+
+            if (canvasScript == null)
+                canvasScript = FindFirstObjectByType<CanvasScript>();
+
+            canvasScript?.UpdatePlayerHealthStatus(currentHealth, maxHealth);
         }
 
         public void ApplyHarnessHealthDelta(float delta)
@@ -954,7 +973,12 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void EnsurePlayerChildCanvasVisible()
         {
-            SetPlayerChildCanvasVisible(true);
+            SetPlayerChildCanvasVisible(canvasScript == null || !canvasScript.HasPlayerStatusHud);
+        }
+
+        public void ConfigureCanvasScript(CanvasScript configuredCanvas)
+        {
+            canvasScript = configuredCanvas;
         }
 
         public void ResetStatBonus()

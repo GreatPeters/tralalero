@@ -37,11 +37,12 @@ Key commands:
 - `dotnet build Assembly-CSharp-Editor.csproj -nologo`
 - `powershell -ExecutionPolicy Bypass -File tools/validate-agent-harness.ps1`
 
-MCP Unity:
-- MCP Unity server settings live in `ProjectSettings/McpUnitySettings.json`.
-- The current port is part of project state. Do not hardcode `8090` in docs or scripts.
-- The Node bridge reads `ProjectSettings/McpUnitySettings.json`, so Unity and Codex stay aligned when that file changes.
-- If MCP reconnects fail after script reloads or play mode transitions, inspect Unity `Editor.log` for `[MCP Unity]` entries.
+Unity editor automation:
+- Use the official Unity CLI plus `com.unity.pipeline` as the primary editor-control path. The Codex MCP server name is `unity`.
+- Verify the live editor with `unity status --project-path .`, list tools with `unity list --project-path . --detail compact`, and invoke a tool with `unity command --project-path . <tool>`.
+- Let the Unity CLI discover the authenticated per-editor Pipeline endpoint. Do not hardcode its transient localhost port in docs or scripts.
+- The embedded CoderGamester server remains a temporary fallback under the Codex MCP name `mcp-unity`. Only that legacy bridge uses `ProjectSettings/McpUnitySettings.json` and its Node bridge.
+- If the official connection is unavailable, run `unity pipeline list` and `unity status --project-path .`. If only the fallback fails after reload or Play Mode transitions, inspect Unity `Editor.log` for `[MCP Unity]` entries.
 
 Documentation rules:
 - Search `docs/solutions/` for documented fixes and workflow patterns when working in related areas; entries are organized by category with YAML frontmatter such as `module`, `problem_type`, and `tags`.
@@ -50,6 +51,11 @@ Documentation rules:
 - Put quality gaps in `docs/QUALITY_SCORE.md`.
 - Put runtime or operational failure modes in `docs/RELIABILITY.md`.
 - Put trust boundaries and risky assumptions in `docs/SECURITY.md`.
+
+Generated image previews:
+- Do not rely only on the desktop app's inline `Canvas` viewer when presenting generated images.
+- Copy preview images that the user may want to inspect into `tmp/image-previews/<topic>/` without overwriting existing files.
+- Include clickable absolute PNG links in the final response so the full-resolution files remain accessible even if the inline viewer fails.
 
 Definition of done for repo-shaping work:
 - Code change implemented.

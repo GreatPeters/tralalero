@@ -78,6 +78,28 @@ The automatic editor reload does not replace the protected runtime archive
 step. Regenerate `Data.bytes` before testing a built application; a player build
 also regenerates it through the build preprocessor when needed.
 
+## Bonus Altars
+
+The `보너스` sheet is also the source of truth for the Noryangjin map-tool altar.
+Each row supplies its rarity in `식별 Enum`, stat key in `항목`, value semantics in
+`수치 타입`, and the random range in `최소`/`최대`. `Normal` and `Unique` map
+directly to the same altar grades; the Inspector's `Elite` label maps to the
+workbook's existing `Rare` rows.
+
+`별칭` becomes the runtime altar title, and `이름` becomes the visible stat label.
+If `별칭` is empty, the title falls back to the same row's `이름`, then its `항목`
+key; there is no code-owned alias table. Adding an unsupported stat does not
+silently turn it into a different bonus: the altar excludes that row and reports
+an error if a grade has no supported rows.
+
+Ratio values multiply the workbook range by the player's original matching stat;
+percent values remain percentage points internally. The bonus-altar UI appends
+`%` only when `수치 타입` is `Percent`; `Ratio` and `Value` render plain numbers.
+Percent-specific attack/health icons are not used, and `attPercent`/`hpPercent`
+reuse the corresponding `att`/`hp` display names; helper and projectile-count values are
+rounded to whole numbers. `BonusAltarRulesTests` verifies the current workbook
+candidate counts, aliases, names, ranges, and nearby duplicate exclusion.
+
 ## Build and Runtime Flow
 
 - The raw workbook stays inside an `Editor` folder. The RSA private key stays

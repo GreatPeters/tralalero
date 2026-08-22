@@ -597,7 +597,7 @@ public class ObstacleStats : MonoBehaviour
               .SetEase(Ease.OutSine);
 
         if (playerScript != null)
-            playerScript.SetPlayerChildCanvasVisible(true);
+            playerScript.EnsurePlayerChildCanvasVisible();
 
         // 6️⃣ 콜라이더 복구
         yield return new WaitForSeconds(0.5f);

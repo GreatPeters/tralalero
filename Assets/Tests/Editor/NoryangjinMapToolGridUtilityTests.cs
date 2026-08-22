@@ -338,6 +338,33 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void SelectedFootprintHighlight_UsesOnlySelectedPlacementRoot()
+    {
+        GameObject selectedRoot = new GameObject("Prop_Selected_X+03_Z-02");
+        GameObject selectedChild = new GameObject("SelectedChild");
+        GameObject unrelated = new GameObject("Unrelated");
+        try
+        {
+            selectedChild.transform.SetParent(selectedRoot.transform, false);
+
+            Assert.That(
+                NoryangjinMapToolWindow.ResolveSelectedFootprintTarget(selectedChild),
+                Is.SameAs(selectedRoot));
+            Assert.That(
+                NoryangjinMapToolWindow.ResolveSelectedFootprintTarget(unrelated),
+                Is.Null);
+            Assert.That(
+                NoryangjinMapToolWindow.ResolveSelectedFootprintTarget(null),
+                Is.Null);
+        }
+        finally
+        {
+            Object.DestroyImmediate(selectedRoot);
+            Object.DestroyImmediate(unrelated);
+        }
+    }
+
+    [Test]
     public void KnownDetachedRoadName_RecoversExactPalettePrefabOnly()
     {
         Assert.That(
@@ -822,6 +849,21 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void MapToolScene_FeastWallsInheritFixedTypographyFromTheirPrefabs()
+    {
+        string sceneYaml = File.ReadAllText(NoryangjinMapToolWindow.MapToolScenePath);
+        string altarGuid = AssetDatabase.AssetPathToGUID(
+            NoryangjinMapToolWindow.BonusWallPrefabRoot +
+            "/Box_left.prefab");
+
+        Assert.That(altarGuid, Is.Not.Empty);
+        Assert.That(
+            HasTypographyOverride(sceneYaml, altarGuid),
+            Is.False,
+            "Placed bonus altars must inherit the prefab's fixed TMP sizing.");
+    }
+
+    [Test]
     public void FormatCursorStatus_UsesKoreanLabelsAndGridCoordinates()
     {
         string status = NoryangjinMapToolWindow.FormatCursorStatus(
@@ -988,6 +1030,31 @@ public sealed class NoryangjinMapToolGridUtilityTests
         finally
         {
             Object.DestroyImmediate(waterParent);
+        }
+    }
+
+    [Test]
+    public void BonusAltar_UsesCustomDisplayNameInBonusPalette()
+    {
+        string prefabPath =
+            NoryangjinMapToolWindow.FeastOfFortuneBonusWallPrefabPaths[0];
+        NoryangjinMapToolPaletteDefaults defaults =
+            AssetDatabase.LoadAssetAtPath<NoryangjinMapToolPaletteDefaults>(
+                "Assets/ShooterSurvival/Editor/NoryangjinMapToolPaletteDefaults.asset");
+        string previousLabel = defaults.GetCustomLabel(prefabPath);
+
+        try
+        {
+            defaults.SetCustomLabel(prefabPath, "공격 상자");
+            Dictionary<string, string> labels = GetPaletteItemLabelsByPath();
+
+            Assert.That(labels[prefabPath], Is.EqualTo("공격 상자"));
+        }
+        finally
+        {
+            defaults.SetCustomLabel(prefabPath, previousLabel);
+            EditorUtility.SetDirty(defaults);
+            AssetDatabase.SaveAssets();
         }
     }
 
@@ -1263,95 +1330,25 @@ public sealed class NoryangjinMapToolGridUtilityTests
             Is.EqualTo(new[] { "맵툴", "편의" }));
         Assert.That((int)NoryangjinMapToolTab.MapTool, Is.EqualTo(0));
         Assert.That((int)NoryangjinMapToolTab.Convenience, Is.EqualTo(1));
-        Assert.That(NoryangjinMapToolWindow.CanvasEnabledLabel, Is.EqualTo("CANVAS ON"));
-        Assert.That(NoryangjinMapToolWindow.CanvasDisabledLabel, Is.EqualTo("CANVAS OFF"));
     }
 
     [Test]
-    public void ConvenienceCanvasToggle_ChangesAndReadsOnlyRootCanvasObjects()
+    public void ConvenienceControls_DoNotExposeCanvasVisibilityToggle()
     {
-        Scene previewScene = EditorSceneManager.NewPreviewScene();
-        try
-        {
-            GameObject rootCanvas = new GameObject("Canvas", typeof(Canvas));
-            SceneManager.MoveGameObjectToScene(rootCanvas, previewScene);
+        const BindingFlags flags =
+            BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
 
-            GameObject worldObject = new GameObject("WorldObject");
-            SceneManager.MoveGameObjectToScene(worldObject, previewScene);
-            GameObject nestedCanvas = new GameObject("NestedCanvas", typeof(Canvas));
-            SceneManager.MoveGameObjectToScene(nestedCanvas, previewScene);
-            nestedCanvas.transform.SetParent(worldObject.transform, false);
-
-            GameObject unrelatedRoot = new GameObject("UnrelatedRoot");
-            SceneManager.MoveGameObjectToScene(unrelatedRoot, previewScene);
-
-            Assert.That(NoryangjinMapToolWindow.HasSceneRootCanvas(previewScene), Is.True);
-            Assert.That(NoryangjinMapToolWindow.AreSceneRootCanvasesActive(previewScene), Is.True);
-
-            bool hidden = NoryangjinMapToolWindow.SetSceneRootCanvasesActive(
-                previewScene,
-                active: false,
-                recordUndo: false);
-
-            Assert.That(hidden, Is.True);
-            Assert.That(rootCanvas.activeSelf, Is.False);
-            Assert.That(nestedCanvas.activeSelf, Is.True);
-            Assert.That(unrelatedRoot.activeSelf, Is.True);
-            Assert.That(NoryangjinMapToolWindow.AreSceneRootCanvasesActive(previewScene), Is.False);
-            Assert.That(
-                NoryangjinMapToolWindow.SetSceneRootCanvasesActive(
-                    previewScene,
-                    active: false,
-                    recordUndo: false),
-                Is.False);
-
-            bool shown = NoryangjinMapToolWindow.SetSceneRootCanvasesActive(
-                previewScene,
-                active: true,
-                recordUndo: false);
-
-            Assert.That(shown, Is.True);
-            Assert.That(rootCanvas.activeSelf, Is.True);
-            Assert.That(nestedCanvas.activeSelf, Is.True);
-            Assert.That(unrelatedRoot.activeSelf, Is.True);
-            Assert.That(NoryangjinMapToolWindow.AreSceneRootCanvasesActive(previewScene), Is.True);
-        }
-        finally
-        {
-            EditorSceneManager.ClosePreviewScene(previewScene);
-        }
-    }
-
-    [Test]
-    public void ConvenienceCanvasToggle_CanBeUndone()
-    {
-        Undo.IncrementCurrentGroup();
-        int testUndoGroup = Undo.GetCurrentGroup();
-        Scene previewScene = EditorSceneManager.NewPreviewScene();
-        try
-        {
-            GameObject rootCanvas = new GameObject("Canvas", typeof(Canvas));
-            SceneManager.MoveGameObjectToScene(rootCanvas, previewScene);
-
-            bool changed = NoryangjinMapToolWindow.SetSceneRootCanvasesActive(
-                previewScene,
-                active: false,
-                recordUndo: true);
-
-            Assert.That(changed, Is.True);
-            Assert.That(rootCanvas.activeSelf, Is.False);
-
-            Undo.FlushUndoRecordObjects();
-            Undo.PerformUndo();
-
-            Assert.That(rootCanvas.activeSelf, Is.True);
-            Assert.That(NoryangjinMapToolWindow.AreSceneRootCanvasesActive(previewScene), Is.True);
-        }
-        finally
-        {
-            Undo.RevertAllDownToGroup(testUndoGroup);
-            EditorSceneManager.ClosePreviewScene(previewScene);
-        }
+        Assert.That(
+            typeof(NoryangjinMapToolWindow).GetField("CanvasEnabledLabel", flags),
+            Is.Null);
+        Assert.That(
+            typeof(NoryangjinMapToolWindow).GetField("CanvasDisabledLabel", flags),
+            Is.Null);
+        Assert.That(
+            typeof(NoryangjinMapToolWindow).GetMethod(
+                "SetSceneRootCanvasesActive",
+                flags),
+            Is.Null);
     }
 
     [Test]
@@ -1857,6 +1854,23 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void SceneViewProjection_UsesOrthographicOnlyWhileMapToolIsEnabled()
+    {
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldUseOrthographicSceneView(true),
+            Is.True);
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldUseOrthographicSceneView(false),
+            Is.False);
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldLockSceneViewRotation(true),
+            Is.True);
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldLockSceneViewRotation(false),
+            Is.False);
+    }
+
+    [Test]
     public void WorkGridLines_UseCellBoundariesInsteadOfCellCenters()
     {
         float cellSize = NoryangjinMapToolWindow.DefaultCellSize;
@@ -2022,9 +2036,9 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
-    public void PlacementValidityFill_UsesBlueForLastPlacedArea()
+    public void PlacementValidityFill_UsesBlueForSelectedArea()
     {
-        Color fill = NoryangjinMapToolWindow.GetPlacementValidityFillColor(NoryangjinMapToolSceneGridCellState.LastPlaced);
+        Color fill = NoryangjinMapToolWindow.GetPlacementValidityFillColor(NoryangjinMapToolSceneGridCellState.Selected);
 
         Assert.That(fill.b, Is.GreaterThan(fill.r));
         Assert.That(fill.b, Is.GreaterThan(fill.g));
@@ -3167,6 +3181,30 @@ public sealed class NoryangjinMapToolGridUtilityTests
         {
             if (character is >= 'A' and <= 'Z' or >= 'a' and <= 'z')
                 return true;
+        }
+
+        return false;
+    }
+
+    private static bool HasTypographyOverride(string sceneYaml, string prefabGuid)
+    {
+        string[] lines = sceneYaml.Split('\n');
+        for (int index = 0; index < lines.Length; index++)
+        {
+            if (!lines[index].Contains("guid: " + prefabGuid))
+                continue;
+
+            int end = Mathf.Min(index + 3, lines.Length);
+            for (int propertyIndex = index + 1; propertyIndex < end; propertyIndex++)
+            {
+                string property = lines[propertyIndex].Trim();
+                if (property is
+                    "propertyPath: m_fontSize" or
+                    "propertyPath: m_enableAutoSizing")
+                {
+                    return true;
+                }
+            }
         }
 
         return false;

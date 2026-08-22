@@ -66,7 +66,17 @@ if ($broadExclusions.Count -gt 0) {
 
 $mcpSettings = Get-Content "ProjectSettings/McpUnitySettings.json" | ConvertFrom-Json
 if (-not $mcpSettings.Port) {
-    Write-Error "MCP Unity settings do not define a Port."
+    Write-Error "Legacy MCP Unity settings do not define a Port."
 }
 
-Write-Output ("Harness files OK. MCP Unity port: {0}" -f $mcpSettings.Port)
+$packageManifest = Get-Content "Packages/manifest.json" | ConvertFrom-Json
+$pipelineVersion = $packageManifest.dependencies."com.unity.pipeline"
+if (-not $pipelineVersion) {
+    Write-Error "Packages/manifest.json does not include the official com.unity.pipeline package."
+}
+
+Write-Output (
+    "Harness files OK. Unity Pipeline: {0}; legacy MCP Unity port: {1}" -f `
+        $pipelineVersion,
+        $mcpSettings.Port
+)

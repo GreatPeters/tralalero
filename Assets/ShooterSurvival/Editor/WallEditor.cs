@@ -1,6 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Localization.Components;
+using UnityEngine.UI;
 
 namespace IndianOceanAssets.ShooterSurvival
 {
@@ -71,6 +72,8 @@ namespace IndianOceanAssets.ShooterSurvival
             EditorGUILayout.LabelField("UI (Localization)", EditorStyles.boldLabel);
             wall.statNameLoc = (LocalizeStringEvent)EditorGUILayout.ObjectField(
                 "Stat Name (LocalizeStringEvent)", wall.statNameLoc, typeof(LocalizeStringEvent), true);
+            wall.statIconImage = (Image)EditorGUILayout.ObjectField(
+                "Stat Icon", wall.statIconImage, typeof(Image), true);
 
             if (GUI.changed)
             {

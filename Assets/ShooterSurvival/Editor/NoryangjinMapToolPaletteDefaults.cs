@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
+using IndianOceanAssets.ShooterSurvival;
 using UnityEngine;
 
 [Serializable]
@@ -13,6 +14,7 @@ public sealed class NoryangjinMapToolPalettePlacementEntry
     public float heightOffset;
     public bool useManualFootprint;
     public Vector2Int manualFootprint = Vector2Int.one;
+    public Rarity bonusWallRarity = Rarity.Normal;
 
     public static NoryangjinMapToolPalettePlacementEntry CreateDefault(string prefabPath)
     {
@@ -24,7 +26,8 @@ public sealed class NoryangjinMapToolPalettePlacementEntry
             yawOffset = 0f,
             heightOffset = 0f,
             useManualFootprint = false,
-            manualFootprint = Vector2Int.one
+            manualFootprint = Vector2Int.one,
+            bonusWallRarity = Rarity.Normal
         };
     }
 }
@@ -63,6 +66,7 @@ public sealed class NoryangjinMapToolPaletteDefaults : ScriptableObject
         entry.heightOffset = 0f;
         entry.useManualFootprint = false;
         entry.manualFootprint = Vector2Int.one;
+        entry.bonusWallRarity = Rarity.Normal;
     }
 
     public string GetCustomLabel(string prefabPath)

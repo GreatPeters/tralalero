@@ -140,11 +140,14 @@ public sealed class NoryangjinRuntimeCleanupContractTests
             "hp",
             "hpPercent",
             "tungtungAdd",
-            "boombarAdd");
+            "boombarAdd",
+            "isPercent");
 
         AssertFieldsArePrivateAndNotUnitySerialized<WallScript>(
             "bonusValue",
-            "isPercent");
+            "displayBonusValue",
+            "bonusValueType",
+            "selectedDisplayRow");
 
         AssertMethodIsMissing<WallScript>("FixedUpdate");
     }
@@ -188,11 +191,13 @@ public sealed class NoryangjinRuntimeCleanupContractTests
     [Test]
     public void RuntimeBonusWall_DoesNotResolveGlobalPostProcessing()
     {
-        GameObject wallObject = new GameObject("Runtime Bonus Wall Test");
+        GameObject rootObject = new GameObject("Runtime Bonus Wall Root Test");
+        GameObject wallObject = new GameObject("Wall Logic");
         try
         {
+            wallObject.transform.SetParent(rootObject.transform, false);
             WallScript wall = wallObject.AddComponent<WallScript>();
-            RuntimeBonusWall marker = wallObject.AddComponent<RuntimeBonusWall>();
+            RuntimeBonusWall marker = rootObject.AddComponent<RuntimeBonusWall>();
             MethodInfo resolveEffectOverlay = typeof(WallScript).GetMethod(
                 "ResolveEffectOverlay",
                 InstanceMembers);
@@ -200,6 +205,30 @@ public sealed class NoryangjinRuntimeCleanupContractTests
             Assert.That(marker.RemoveWhenPreparingStage, Is.True);
             Assert.That(resolveEffectOverlay, Is.Not.Null);
             Assert.That(resolveEffectOverlay.Invoke(wall, null), Is.Null);
+        }
+        finally
+        {
+            UnityEngine.Object.DestroyImmediate(rootObject);
+        }
+    }
+
+    [Test]
+    public void AuthoredBonusWall_UsesConfiguredGradeForDataDrivenRoll()
+    {
+        GameObject wallObject = new GameObject("Authored Bonus Wall Test");
+        try
+        {
+            WallScript wall = wallObject.AddComponent<WallScript>();
+            AuthoredBonusWall authoredBonus = wallObject.AddComponent<AuthoredBonusWall>();
+            authoredBonus.Configure(Rarity.Unique);
+
+            wall.SetRandomStat();
+
+            Assert.That(wall.wallType, Is.EqualTo(WallType.BuffWall));
+            Assert.That(wall.rarity, Is.EqualTo(Rarity.Unique));
+            Assert.That(wall.isRandom, Is.True);
+            Assert.That(authoredBonus.RolledStat, Is.Not.Empty);
+            Assert.That(wall.CurrentBonusAlias, Is.Not.Empty);
         }
         finally
         {

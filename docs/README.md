@@ -14,6 +14,7 @@ Available documents:
 - `noryangjin-enemy-movement.md`: per-enemy movement modes and player-trigger authoring for Forward/Noryangjin encounters.
 - `noryangjin-map2-authored-scene.md`: reconciled reference contract, authored-scene composition, and verification record for Noryangjin Map 2.
 - `noryangjin-mobile-optimization.md`: safe Static classification, low-poly water, Android texture budgets, camera overrides, and measured Map 1/2 results.
+- `mobile-ui-atlas-optimizer.md`: one-click Sprite Atlas V2 maintenance, exclusions, settings, validation contract, and measured UI batching results.
 - `player-character-defaults.md`: Player defaults, Excel precedence, and the absolute missile speed + duration model.
 - `game-data-workbook.md`: the Editor-only Excel source, map-tool shortcuts, protected runtime archive, build guard, and security boundary.
 - `firebase-analytics-bigquery.md`: Firebase Unity SDK setup, retention/playtime and round-event contract, BigQuery export/query workflow, and telemetry trust boundary.

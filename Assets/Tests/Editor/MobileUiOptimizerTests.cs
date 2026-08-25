@@ -6,9 +6,11 @@ using System.Linq;
 using System.Security.Cryptography;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 using UnityEngine.U2D;
 
 public sealed class MobileUiOptimizerTests
@@ -39,6 +41,14 @@ public sealed class MobileUiOptimizerTests
         Assert.That(
             MobileUiOptimizerWindow.IsExcludedPath("Assets/UI/HUD/health.png"),
             Is.False);
+        Assert.That(
+            MobileUiOptimizerWindow.IsProductionUiPath(
+                "Assets/ShooterSurvival/UI/HUD/health.png"),
+            Is.True);
+        Assert.That(
+            MobileUiOptimizerWindow.IsProductionUiPath(
+                "Assets/ShooterSurvival/Sprites/world-effect.png"),
+            Is.False);
     }
 
     [Test]
@@ -59,10 +69,20 @@ public sealed class MobileUiOptimizerTests
             var importer = AssetImporter.GetAtPath(path) as TextureImporter;
             Assert.That(importer, Is.Not.Null, path);
             Assert.That(importer.textureType, Is.EqualTo(TextureImporterType.Sprite), path);
+            Assert.That(MobileUiOptimizerWindow.IsProductionUiPath(path), Is.True, path);
             importer.GetSourceTextureWidthAndHeight(out int width, out int height);
             Assert.That(width, Is.LessThanOrEqualTo(1024), path);
             Assert.That(height, Is.LessThanOrEqualTo(1024), path);
         }
+
+        Assert.That(
+            collection.Paths,
+            Does.Contain(
+                "Assets/ShooterSurvival/Resources/WallBonusIcons/WallBonus_Attack.png"));
+        Assert.That(
+            collection.Paths,
+            Does.Not.Contain(
+                "Assets/ShooterSurvival/Resources/WallBonusIcons/WallBonus_AttackPercent.png"));
     }
 
     [Test]
@@ -134,6 +154,42 @@ public sealed class MobileUiOptimizerTests
         Assert.That(second.changed, Is.False);
         Assert.That(second.idempotent, Is.EqualTo(1));
         Assert.That(second.visualContractPassed, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void ApplyAll_ReportsSafeStaticClassificationWithoutChangingOptimizedScene()
+    {
+        Scene previousActive = SceneManager.GetActiveScene();
+        Scene target = SceneManager.GetSceneByPath(MobileUiOptimizerWindow.TargetScenePath);
+        bool openedTarget = !target.IsValid() || !target.isLoaded;
+        if (openedTarget)
+        {
+            target = EditorSceneManager.OpenScene(
+                MobileUiOptimizerWindow.TargetScenePath,
+                OpenSceneMode.Additive);
+        }
+        string sceneHashBefore = HashFile(MobileUiOptimizerWindow.TargetScenePath);
+
+        try
+        {
+            EditorSceneManager.SetActiveScene(target);
+            MobileUiOptimizationResult result = MobileUiOptimizerWindow.ApplyAll();
+
+            Assert.That(result.staticEligible, Is.GreaterThan(0));
+            Assert.That(result.staticChanged, Is.Zero);
+            Assert.That(result.staticPolicyChanged, Is.Zero);
+            Assert.That(result.dynamicRootsSkipped, Is.GreaterThan(0));
+            Assert.That(
+                HashFile(MobileUiOptimizerWindow.TargetScenePath),
+                Is.EqualTo(sceneHashBefore));
+        }
+        finally
+        {
+            if (previousActive.IsValid() && previousActive.isLoaded)
+                EditorSceneManager.SetActiveScene(previousActive);
+            if (openedTarget && target.IsValid() && target.isLoaded)
+                EditorSceneManager.CloseScene(target, true);
+        }
     }
 
     private static Dictionary<string, int> LoadPipelineMsaa()

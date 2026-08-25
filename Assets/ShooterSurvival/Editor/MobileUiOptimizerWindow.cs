@@ -7,8 +7,10 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEditor.U2D;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.U2D;
 
 public enum MobileUiAtlasGroup
@@ -29,6 +31,10 @@ public sealed class MobileUiOptimizationResult
     public int spritesPacked;
     public bool changed;
     public int excludedCount;
+    public int staticEligible;
+    public int staticChanged;
+    public int staticPolicyChanged;
+    public int dynamicRootsSkipped;
 }
 
 public sealed class MobileUiOptimizerWindow : EditorWindow
@@ -40,12 +46,23 @@ public sealed class MobileUiOptimizerWindow : EditorWindow
     private const string ReportPath = "Library/MobileUiOptimizer/latest-report.json";
     private const string MenuPath =
         "Tools/Shooter Survival/Optimization/Mobile UI Optimizer";
-    private const string ButtonLabel = "UI 아틀라스 최적화 및 검증";
+    private const string ButtonLabel = "전체 모바일 최적화 및 검증";
     private const int AtlasMaxSize = 2048;
 
     private static readonly Regex SpriteGuidRegex = new Regex(
         @"m_Sprite:\s*\{[^\r\n}]*guid:\s*([0-9a-fA-F]{32})",
         RegexOptions.Compiled);
+
+    private static readonly string[] RuntimeSpritePaths =
+    {
+        "Assets/ShooterSurvival/Resources/WallBonusIcons/WallBonus_Attack.png",
+        "Assets/ShooterSurvival/Resources/WallBonusIcons/WallBonus_AttackSpeed.png",
+        "Assets/ShooterSurvival/Resources/WallBonusIcons/WallBonus_Boombar.png",
+        "Assets/ShooterSurvival/Resources/WallBonusIcons/WallBonus_Health.png",
+        "Assets/ShooterSurvival/Resources/WallBonusIcons/WallBonus_MissileAdd.png",
+        "Assets/ShooterSurvival/Resources/WallBonusIcons/WallBonus_MissileDuration.png",
+        "Assets/ShooterSurvival/Resources/WallBonusIcons/WallBonus_Tungtung.png"
+    };
 
     private static readonly AtlasDefinition[] AtlasDefinitions =
     {
@@ -71,10 +88,11 @@ public sealed class MobileUiOptimizerWindow : EditorWindow
         2301)]
     public static void RunFromMenu()
     {
-        MobileUiOptimizationResult result = Apply();
+        MobileUiOptimizationResult result = ApplyAll();
         Debug.Log(
             $"[MobileUiOptimizer] packed={result.spritesPacked}, " +
             $"atlases={result.atlasPages}, changed={result.changed}, " +
+            $"static={result.staticChanged}/{result.staticEligible}, " +
             $"idempotent={result.idempotent}, visual={result.visualContractPassed}");
     }
 
@@ -83,12 +101,12 @@ public sealed class MobileUiOptimizerWindow : EditorWindow
         EditorGUILayout.Space(10f);
         EditorGUILayout.LabelField("Mobile UI Optimizer", EditorStyles.boldLabel);
         EditorGUILayout.HelpBox(
-            "프로덕션 씬에서 사용하는 UI Sprite를 수집해 Android용 V2 Atlas를 갱신하고 검증합니다.",
+            "실제로 사용하는 UI Sprite만 Android용 V2 Atlas로 갱신하고, 움직이지 않는 안전한 환경 오브젝트를 Batching Static으로 분류합니다.",
             MessageType.Info);
         EditorGUILayout.Space(8f);
 
         if (GUILayout.Button(ButtonLabel, GUILayout.Height(42f)))
-            lastResult = Apply();
+            lastResult = ApplyAll();
 
         if (lastResult == null)
             return;
@@ -96,7 +114,36 @@ public sealed class MobileUiOptimizerWindow : EditorWindow
         EditorGUILayout.Space(8f);
         EditorGUILayout.LabelField(
             $"Sprites {lastResult.spritesPacked} / Atlases {lastResult.atlasPages} / " +
+            $"Static {lastResult.staticChanged + lastResult.staticPolicyChanged}/" +
+            $"{lastResult.staticEligible} / " +
             $"Changed {lastResult.changed}");
+    }
+
+    public static MobileUiOptimizationResult ApplyAll()
+    {
+        MobileUiOptimizationResult result = Apply();
+        if (EditorApplication.isPlayingOrWillChangePlaymode)
+            return result;
+
+        Scene scene = SceneManager.GetActiveScene();
+        if (!scene.IsValid() || !scene.isLoaded || scene.path != TargetScenePath)
+            return result;
+
+        NoryangjinMapOptimizationReport staticReport =
+            NoryangjinMapStaticOptimizer.OptimizeScene(scene, recordUndo: false);
+        result.staticEligible = staticReport.EligibleStaticRenderers;
+        result.staticChanged = staticReport.StaticRenderersChanged;
+        result.staticPolicyChanged = staticReport.StaticRendererPoliciesChanged;
+        result.dynamicRootsSkipped = staticReport.DynamicRootsSkipped;
+        if (staticReport.HasSceneChanges)
+        {
+            EditorSceneManager.MarkSceneDirty(scene);
+            result.changed = true;
+            result.idempotent = 0;
+        }
+
+        WriteReport(result);
+        return result;
     }
 
     public static MobileUiOptimizationResult Apply()
@@ -146,17 +193,25 @@ public sealed class MobileUiOptimizerWindow : EditorWindow
     {
         EnsureTargetSceneExists();
 
-        string[] dependencies = AssetDatabase.GetDependencies(TargetScenePath, true);
+        string sceneText = File.ReadAllText(TargetScenePath);
+        string[] referencedPaths = SpriteGuidRegex.Matches(sceneText)
+            .Cast<Match>()
+            .Select(match => AssetDatabase.GUIDToAssetPath(match.Groups[1].Value))
+            .Concat(RuntimeSpritePaths)
+            .Where(path => !string.IsNullOrEmpty(path))
+            .Distinct(StringComparer.Ordinal)
+            .OrderBy(path => path, StringComparer.Ordinal)
+            .ToArray();
         var candidates = new List<string>();
         int excludedCount = 0;
 
-        foreach (string dependency in dependencies.OrderBy(path => path, StringComparer.Ordinal))
+        foreach (string dependency in referencedPaths)
         {
             var importer = AssetImporter.GetAtPath(dependency) as TextureImporter;
             if (importer == null || importer.textureType != TextureImporterType.Sprite)
                 continue;
 
-            if (ShouldExclude(dependency, importer))
+            if (!IsProductionUiPath(dependency) || ShouldExclude(dependency, importer))
             {
                 excludedCount++;
                 continue;
@@ -170,6 +225,15 @@ public sealed class MobileUiOptimizerWindow : EditorWindow
 
         candidates.Sort(StringComparer.Ordinal);
         return new CandidateCollection(candidates, excludedCount);
+    }
+
+    public static bool IsProductionUiPath(string assetPath)
+    {
+        string normalized = assetPath.Replace('\\', '/').ToLowerInvariant();
+        return normalized.StartsWith("assets/jh/") ||
+               normalized.StartsWith("assets/shootersurvival/ui/") ||
+               normalized.StartsWith(
+                   "assets/shootersurvival/resources/wallbonusicons/");
     }
 
     public static bool IsExcludedPath(string assetPath)

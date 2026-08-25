@@ -36,10 +36,12 @@ that authored scenes, Sprite references, and rendering quality were not changed.
 
 ### Rescan production dependencies instead of maintaining a list
 
-`MobileUiOptimizerWindow` scans the saved production scene with
-`AssetDatabase.GetDependencies` on every click. It keeps exact individual
-Texture2D assets whose importer type is Sprite. Folder packables were rejected
-because they silently absorb unused UI-kit variants and unrelated future files.
+`MobileUiOptimizerWindow` reads exact serialized Sprite GUIDs from the saved
+production scene on every click and adds the seven icons that runtime code loads
+through `Resources.Load`. It keeps individual Texture2D assets whose importer
+type is Sprite. Broad dependency scans and folder packables were rejected
+because they absorb indirect assets, unused UI-kit variants, and unrelated
+future files.
 
 The tool groups compatible sources by co-usage:
 
@@ -84,6 +86,11 @@ The local report is written to
 deterministic classification, exact packable uniqueness, scene-hash preservation,
 unchanged URP/MSAA settings, Android settings, and second-run no-op behavior.
 
+The same primary button runs the existing safe map Static classifier and reports
+eligible, changed, and deliberately skipped dynamic roots. The retained Map 1
+audit found 458 eligible renderers, 0 new Static flags, 5 renderer policies
+corrected to no motion vectors, and 5 dynamic roots skipped.
+
 ### Treat Unity import and profiling boundaries as separate evidence
 
 An external `dotnet build` can pass before Unity has imported a newly added
@@ -104,9 +111,11 @@ The retained three-atlas configuration reduced draw calls from 67 to 58, a
 materials or render states.
 
 The tool remains useful after the initial win: newly referenced compatible
-Sprites are discovered on the next click, while ownership boundaries and
-idempotence prevent routine maintenance from rewriting scenes, prefabs, source
-Sprite importers, runtime UI scripts, or rendering assets.
+Sprites and newly placed component-free environment objects are discovered on
+the next click. It packed 59 actual UI Sprite sources while excluding indirect
+dependencies and unused Percent icon variants. Ownership boundaries and
+idempotence prevent routine maintenance from rewriting prefabs, source Sprite
+importers, runtime UI scripts, or rendering assets.
 
 Grouping by actual co-usage matters more than minimizing atlas count. A two-atlas
 experiment measured 57 draw calls, but the one-call difference did not exceed
@@ -133,7 +142,7 @@ Routine use:
 
 ```text
 1. Open Tools/Shooter Survival/Optimization/Mobile UI Optimizer.
-2. Press UI 아틀라스 최적화 및 검증.
+2. Press 전체 모바일 최적화 및 검증.
 3. Confirm the visual and missing-reference contracts passed.
 4. Run it again when verifying maintenance; changed must be false.
 5. Read Library/MobileUiOptimizer/latest-report.json for automation evidence.
@@ -147,7 +156,7 @@ Representative second-run report:
   "atlasPages": 3,
   "idempotent": 1,
   "visualContractPassed": 1,
-  "spritesPacked": 68,
+  "spritesPacked": 59,
   "changed": false
 }
 ```

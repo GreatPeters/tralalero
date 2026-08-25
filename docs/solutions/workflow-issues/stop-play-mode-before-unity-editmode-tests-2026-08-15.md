@@ -1,14 +1,15 @@
 ---
 title: Stop Play Mode Before Running Unity EditMode Tests
 date: 2026-08-15
+last_updated: 2026-08-23
 category: docs/solutions/workflow-issues
 module: Unity Test Harness
 problem_type: workflow_issue
 component: testing_framework
 severity: medium
 applies_when:
-  - "Running Unity EditMode tests through MCP Unity or the CLI Connector"
-  - "The Unity health endpoint reports playing, paused, or another non-EditMode state"
+  - "Running Unity EditMode tests through official Pipeline or another in-process editor command path"
+  - "The Unity editor state reports playing, paused, or another non-EditMode state"
   - "A previous test request timed out and later editor commands also stop responding"
 related_components:
   - "development_workflow"
@@ -19,10 +20,15 @@ tags:
   - "play-mode"
   - "test-runner"
   - "cli-connector"
-  - "mcp-unity"
+  - "unity-pipeline"
 ---
 
 # Stop Play Mode Before Running Unity EditMode Tests
+
+> Status: updated. The connector health sequences below describe the historical
+> direct HTTP workflow. Current Codex work uses official Unity CLI/Pipeline;
+> the retained `com.youngwoocho02.unity-cli-connector` is separate and is not a
+> Codex MCP fallback.
 
 ## Context
 
@@ -38,14 +44,21 @@ as well.
 
 ## Guidance
 
-Treat editor state as a required test preflight:
+Treat editor state as a required test preflight. For current Codex work:
 
-1. Query connector health before calling `run_tests`.
+1. Run `unity pipeline list`, then query state with
+   `unity command --project-path . editor_status`.
 2. If the state is `playing` or `paused`, stop Play Mode first.
-3. Poll until health explicitly reports Edit Mode and the connector is
-   responsive.
+3. Poll `editor_status` until it explicitly reports Edit Mode and the official
+   command path is responsive.
 4. Submit one exact filtered test request and wait for its final result before
    sending another editor command.
+
+Use `unity command --project-path . editor_stop` and
+`unity command --project-path . run_tests --mode editor --filter <exact-filter>`
+for steps 2 and 4. `unity status --project-path .` can report
+`STATUS_NO_INSTANCES` despite a working Pipeline command, so it is not the
+authoritative state or reachability check.
 
 Do not treat a timeout or a zero-test response as a pass. Inspect `Editor.log`
 for the play-mode exception, cleanup errors, and command-queue blockage before
@@ -77,6 +90,19 @@ result trustworthy.
 - Before retrying after a test request times out while Unity remains alive.
 
 ## Examples
+
+Current official sequence:
+
+```text
+unity pipeline list
+unity command --project-path . editor_status
+unity command --project-path . editor_stop
+unity command --project-path . editor_status
+unity command --project-path . run_tests --mode editor --filter <one exact test>
+wait for explicit pass or fail
+```
+
+Historical connector sequence:
 
 Healthy sequence:
 
@@ -112,3 +138,4 @@ play-mode InvalidOperationException   -> invalid preflight; stop and retry
 - [Protect Active Unity Scenes from Broad EditMode Test Runs](protect-active-unity-scenes-from-broad-editmode-test-runs-2026-07-18.md)
 - [Call Unity CLI Connector Commands with Params Payloads](call-unity-cli-connector-commands-with-params-payloads-2026-06-06.md)
 - [Bake Generated Prefab UI Previews and Isolate EditMode Instantiation](bake-generated-prefab-ui-previews-and-isolate-editmode-tests-2026-08-13.md)
+- [Adopt Official Unity CLI and Pipeline as the Codex Editor-Control Path](../tooling-decisions/adopt-official-unity-cli-pipeline-as-codex-editor-control-path-2026-08-23.md)

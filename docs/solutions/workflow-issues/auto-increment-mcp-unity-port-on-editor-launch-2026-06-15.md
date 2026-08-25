@@ -1,41 +1,56 @@
 ---
-title: Auto-Increment MCP Unity Port On Editor Launch
+title: "Retired: Auto-Increment MCP Unity Port On Editor Launch"
 date: 2026-06-15
+last_updated: 2026-08-23
 category: docs/solutions/workflow-issues
 module: Unity MCP connection workflow
 problem_type: workflow_issue
 component: tooling
 severity: medium
 applies_when:
-  - "MCP Unity repeatedly disconnects or reports Transport closed after Unity reloads"
-  - "Unity Editor or AssetImportWorker processes keep adjacent MCP ports occupied"
-  - "ProjectSettings/McpUnitySettings.json is the shared source of truth for the MCP bridge port"
-tags: [unity, mcp, websocket, port-conflict, editor-tooling]
+  - "Reading an MCP Unity port-collision incident from before the 2026-08-23 Pipeline migration"
+  - "Verifying that the removed CoderGamester listener is gone after its package was deleted"
+tags: [unity, mcp, websocket, port-conflict, editor-tooling, retired]
 ---
 
-# Auto-Increment MCP Unity Port On Editor Launch
+# Retired: Auto-Increment MCP Unity Port On Editor Launch
+
+> Status: superseded. The CoderGamester package,
+> `ProjectSettings/McpUnitySettings.json`, and the Codex `mcp-unity` entry were
+> removed on 2026-08-23. Do not reapply this port-allocation workaround.
 
 ## Context
 MCP Unity was repeatedly disconnecting, and Unity logs showed the server failing to start because configured ports were already occupied. In this project, the main Unity process and AssetImportWorker processes can hold nearby localhost ports at the same time, so manually changing from `8091` to `8092` can immediately collide.
 
 ## Guidance
-Keep `ProjectSettings/McpUnitySettings.json` as the source of truth, but choose the port before the MCP WebSocket server starts. The settings loader should:
+Use the official Unity CLI and `com.unity.pipeline` instead of allocating a
+project-owned WebSocket port:
 
-- Skip changes in `Application.isBatchMode` so AssetImportWorker processes do not advance the project setting.
-- Increment the saved port once per main Unity editor process.
-- Store a process marker under `Temp/` so script reloads in the same Unity process do not keep incrementing.
-- Probe localhost IPv4 and IPv6 before accepting a port.
-- If the requested `saved + 1` port is occupied, keep advancing until a free port is found.
+```powershell
+unity pipeline list
+unity command --project-path . list_open_scenes
+```
 
-The implementation belongs in `Packages/com.gamelovers.mcp-unity/Editor/UnityBridge/McpUnitySettings.cs`, because `McpUnityServer.StartServer()` reads `McpUnitySettings.Instance.Port` when constructing the WebSocket server.
+If the endpoint is temporarily unavailable, wait for package resolution,
+compilation, and domain reload. Check Safe Mode and compiler errors before
+changing project files. Do not restore the deleted package or settings file as
+a fallback.
+
+If CoderGamester was already loaded when its package was deleted, restart Unity
+once so the old AppDomain releases its listener. Confirm the formerly
+configured port is no longer listening, then verify recovery with
+`unity pipeline list` and the narrow command above. `unity status` may report
+`STATUS_NO_INSTANCES` despite a working command and is not authoritative here.
 
 ## Why This Matters
-The MCP Node bridge reads `ProjectSettings/McpUnitySettings.json`, so saving the selected port lets Codex reconnect without hardcoded defaults. Selecting the port at settings-load time also avoids the weaker pattern of starting the server, seeing a socket error, then trying to recover after clients have already disconnected.
+Pipeline discovers an authenticated per-editor endpoint and does not require a
+shared, versioned port. Removing the duplicate server eliminates the original
+port collision rather than moving it to another number.
 
 ## When to Apply
-- MCP Unity logs contain `Port ... is already in use`.
-- `netstat -ano` shows Unity or Unity worker processes listening on the configured port.
-- The current editor process should keep one stable port through script reloads, but the next Unity launch should move forward.
+- Do not apply this workaround to the current repository.
+- Use this document only when interpreting history from before the official
+  Pipeline migration.
 
 ## Examples
 Observed collision state:
@@ -54,15 +69,20 @@ After reload, the new settings loader logged:
 [MCP Unity] WebSocket server started successfully on localhost:8094.
 ```
 
-Verification:
+Current verification:
 
 ```powershell
-dotnet build McpUnity.Editor.csproj -nologo
-Get-Content ProjectSettings\McpUnitySettings.json
+Test-Path Packages\com.gamelovers.mcp-unity
+Test-Path ProjectSettings\McpUnitySettings.json
+unity pipeline list
+unity command --project-path . list_open_scenes
 ```
 
-Then send a direct WebSocket request to `ws://localhost:<Port>/McpUnity` using the saved port and confirm `get_scene_info` returns the active scene.
+Both path checks should be `False`, the former CoderGamester port should have no
+listener after the one-time Unity restart, and Pipeline should report one
+reachable server that completes the narrow command.
 
 ## Related
+- [Adopt Official Unity CLI and Pipeline as the Codex Editor-Control Path](../tooling-decisions/adopt-official-unity-cli-pipeline-as-codex-editor-control-path-2026-08-23.md)
 - [Create Unity Layout Scenes When Editor Execution Is Blocked](create-unity-layout-scene-when-editor-execution-is-blocked-2026-05-25.md)
 - [Call Unity CLI Connector Commands With Params Payloads](call-unity-cli-connector-commands-with-params-payloads-2026-06-06.md)

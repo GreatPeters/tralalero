@@ -11,9 +11,9 @@
 
 ## 플레이어 상태 HUD
 
-Forward 기능 연결 명령은 `PlayerStatusHUD`도 함께 생성하고 검증한다. HUD는 화면 왼쪽 위의 얇은 양피지 카드 두 장으로 구성되며, 위 카드는 현재/최대 체력과 게이지를, 아래 카드는 현재 공격력을 표시한다. 게임 시작 전에는 숨겨지고 시작 후 활성화되며, 체력·공격력 업그레이드와 피해를 실제 런타임 값으로 반영한다. HUD가 정상 구성된 경우에만 기존 플레이어 머리 위 체력 Canvas와 `ATT` 디버그 텍스트를 숨긴다.
+Forward 기능 연결 명령은 `PlayerStatusHUD`도 함께 생성하고 검증한다. HUD는 화면 왼쪽 위의 반투명 다크 글래스 카드 두 장으로 구성되며, 흰색 텍스트와 코랄 체력 게이지를 사용한다. 위 카드는 현재/최대 체력과 게이지를, 더 짧은 아래 카드는 현재 공격력을 표시한다. 게임 시작 전에는 숨겨지고 시작 후 활성화되며, 체력·공격력 업그레이드와 피해를 실제 런타임 값으로 반영한다. HUD가 정상 구성된 경우에만 기존 플레이어 머리 위 체력 Canvas와 `ATT` 디버그 텍스트를 숨긴다.
 
-HUD만 다시 만들 때는 Play Mode를 끄고 노량진 맵1 씬을 연 뒤 `Tools/Shooter Survival/UI/Apply Player Status HUD`를 실행한다. 이 명령은 기존 `PlayerStatusHUD` 루트만 교체하므로 다른 씬 오브젝트를 건드리지 않으며 반복 실행할 수 있다. 선택 디자인 원본은 `Assets/ShooterSurvival/UI/References/Editor/PlayerStatusHud_SlimCards_Reference.png`, 런타임 하트 아이콘은 `Assets/ShooterSurvival/UI/PlayerStatus/PlayerStatus_Heart.png`에 보존된다.
+HUD만 다시 만들 때는 Play Mode를 끄고 노량진 맵1 씬을 연 뒤 `Tools/Shooter Survival/UI/Apply Player Status HUD`를 실행한다. 이 명령은 기존 `PlayerStatusHUD` 루트만 교체하므로 다른 씬 오브젝트를 건드리지 않으며 반복 실행할 수 있다. 현재 다크 글래스 디자인의 실제 플레이 캡처는 `Assets/ShooterSurvival/UI/References/Editor/PlayerStatusHud_DarkGlass_Reference.png`, 이전 양피지 시안은 같은 폴더의 `PlayerStatusHud_SlimCards_Reference.png`, 런타임 하트 아이콘은 `Assets/ShooterSurvival/UI/PlayerStatus/PlayerStatus_Heart.png`에 보존된다.
 
 `Noryangjin_MapTool_Mode_2.unity`에는 복제 시점의 동일한 게임플레이 구성이 들어 있지만, 설치 명령 대상이나 Build Settings 항목은 아니다. 맵2는 설계도 구현을 검토하는 정적 씬으로 유지하고, 실제 런타임 시간·웨이브 계약이 확정되기 전에는 맵1용 설치 명령을 억지로 적용하지 않는다.
 

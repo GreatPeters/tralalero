@@ -9,8 +9,8 @@ Turn this Unity repo into a usable agent-first workspace by adding durable maps,
 - Added docs index and baseline operational docs.
 - Added `tools/validate-agent-harness.ps1`.
 - Added runtime combat harness and initial wave utility tests.
-- Added delayed MCP Unity restart retries after assembly reload and edit-mode re-entry.
-- Installed the official Unity CLI/Pipeline editor-control path, registered it in Codex as `unity`, and verified scene reads plus Play Mode enter/exit recovery while retaining the CoderGamester `mcp-unity` bridge as a fallback.
+- Installed the official Unity CLI/Pipeline editor-control path, registered it in Codex as `unity`, and verified scene reads plus Play Mode enter/exit recovery.
+- Retired the CoderGamester `mcp-unity` fallback, its embedded package, and its project-level port settings after the official Pipeline path proved stable.
 
 ## In Progress
 - Expand pure-logic extraction so more gameplay rules are testable without a scene.
@@ -22,4 +22,5 @@ Turn this Unity repo into a usable agent-first workspace by adding durable maps,
 
 ## Notes
 - The official Unity CLI discovers the authenticated Pipeline endpoint for this project; its localhost port is transient and must not be hardcoded.
-- `ProjectSettings/McpUnitySettings.json` remains authoritative only for the legacy CoderGamester fallback.
+- `com.unity.pipeline` is the only supported Codex editor-control package; the repository has no CoderGamester MCP Unity port configuration.
+- The separate `com.youngwoocho02.unity-cli-connector` package remains for pre-existing localhost HTTP workflows. It is not registered in Codex and was outside the CoderGamester removal scope.

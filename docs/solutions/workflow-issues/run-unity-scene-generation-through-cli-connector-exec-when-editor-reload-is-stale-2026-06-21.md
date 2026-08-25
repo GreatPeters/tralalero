@@ -1,22 +1,27 @@
 ---
 title: Run Unity Scene Generation Through CLI Connector Exec When Editor Reload Is Stale
 date: 2026-06-21
-last_updated: 2026-07-15
+last_updated: 2026-08-23
 category: docs/solutions/workflow-issues
 module: Unity scene generation workflow
 problem_type: workflow_issue
 component: tooling
 severity: medium
 applies_when:
-  - "MCP Unity commands time out or remain queued while the Unity editor is still open"
-  - "The configured MCP WebSocket port is unavailable or refuses direct requests"
+  - "The official Pipeline endpoint is temporarily unavailable while the Unity editor is still open"
   - "A newly added editor utility compiles with dotnet but is not yet loaded in Unity's current AppDomain"
   - "A scene can be generated safely from existing registered prefabs and Unity editor APIs"
-  - "A Unity menu path containing non-ASCII characters reaches the connector with question marks"
-tags: [unity, cli-connector, exec, scene-generation, mcp, noryangjin, powershell, unicode]
+  - "Maintaining a historical direct HTTP connector workflow that corrupts non-ASCII menu paths"
+tags: [unity, cli-connector, exec, scene-generation, unity-pipeline, noryangjin, powershell, unicode]
 ---
 
 # Run Unity Scene Generation Through CLI Connector Exec When Editor Reload Is Stale
+
+> Status: historical for Codex automation. The direct HTTP connector examples
+> document past recovery work. The package
+> `com.youngwoocho02.unity-cli-connector` remains installed for pre-existing
+> workflows, but it is not registered with Codex and was not the removed
+> CoderGamester MCP. Prefer official Unity CLI/Pipeline commands.
 
 ## Context
 
@@ -24,7 +29,24 @@ The Noryangjin map-tool concept layout needed to be generated inside the live ma
 
 ## Guidance
 
-Keep the checked-in editor utility as the durable path, but do not wait indefinitely for a stale Unity editor reload when the scene can be generated deterministically. First probe the Unity CLI Connector health endpoint and use the `/command` schema with `params`:
+Keep the checked-in editor utility as the durable path. First verify the
+supported Codex connection and give Unity a chance to load the new script:
+
+```powershell
+unity pipeline list
+unity command --project-path . list_open_scenes
+unity command --project-path . recompile
+unity command --project-path . recompile_status
+unity command --project-path . menu --path "<menu-path>"
+```
+
+Pipeline reachability plus a successful narrow command is authoritative.
+`unity status --project-path .` can report `STATUS_NO_INSTANCES` even while
+those commands work.
+
+The following direct `/health` and `/command` guidance is retained only for
+maintainers intentionally operating the separate legacy HTTP connector; it is
+not a Codex fallback:
 
 ```powershell
 Invoke-RestMethod -Uri "http://127.0.0.1:<connector-port>/health"
@@ -36,7 +58,12 @@ If `/health` responds, prefer narrow commands in this order:
 - `menu` for the checked-in menu item if Unity reports the item exists.
 - `exec` with a self-contained C# script when the menu item or new type is still unavailable.
 
-Do not assume that the first responsive port belongs to this editor. Probe the expected CLI Connector candidates and select the response whose project path matches the current workspace. The MCP WebSocket port in `ProjectSettings/McpUnitySettings.json` is a separate service and must not be reused as a hardcoded CLI Connector port.
+Do not assume that the first responsive connector port belongs to this editor.
+Probe the expected HTTP connector candidates and select the response whose
+project path matches the current workspace. Historically,
+`ProjectSettings/McpUnitySettings.json` belonged to the separate CoderGamester
+WebSocket; that settings file and bridge are now removed and must not be
+restored or reused.
 
 When a menu path contains Korean or other non-ASCII characters, keep the HTTP request body ASCII-only by encoding those characters as JSON `\uXXXX` escapes. This avoids losing the menu name at the PowerShell or console encoding boundary before the connector parses the JSON. For example:
 
@@ -52,13 +79,19 @@ Use an explicit generated-object prefix such as `Road_Concept`, `Prop_Concept`, 
 
 ## Why This Matters
 
-Unity can be in a split state where repository-side C# builds pass, but the open editor has not refreshed enough to expose the menu item or type. Direct scene YAML generation loses Unity serialization behavior, while waiting for MCP can leave the user blocked. CLI Connector `exec` keeps the work inside Unity's editor API without depending on the stale class load.
+Unity can be in a split state where repository-side C# builds pass, but the
+open editor has not refreshed enough to expose the menu item or type. Direct
+scene YAML generation loses Unity serialization behavior. The official CLI
+keeps current work inside Unity's editor API; the connector `exec` example
+preserves how the historical run bypassed a stale class load.
 
 ## When to Apply
 
 - `dotnet build Assembly-CSharp-Editor.csproj -nologo` passes, but Unity cannot find the new editor menu or type.
-- MCP Unity commands time out in the queue and direct WebSocket recovery fails.
-- Unity CLI Connector `/health` responds on a local port.
+- Official Pipeline commands remain unavailable after package resolution,
+  compilation, and domain reload checks.
+- A maintainer deliberately chooses the retained HTTP connector and its
+  `/health` response matches this workspace.
 - The operation can be expressed as an idempotent generated pass with clear object-name prefixes.
 - A valid menu item cannot be found because its non-ASCII path was corrupted before reaching Unity.
 
@@ -94,4 +127,5 @@ During the 2026-07-15 map-tool workspace expansion, a PowerShell request contain
 - [Call Unity CLI Connector commands with params payloads](call-unity-cli-connector-commands-with-params-payloads-2026-06-06.md)
 - [Create Unity Layout Scenes When Editor Execution Is Blocked](create-unity-layout-scene-when-editor-execution-is-blocked-2026-05-25.md)
 - [Auto-Increment MCP Unity Port On Editor Launch](auto-increment-mcp-unity-port-on-editor-launch-2026-06-15.md)
+- [Adopt Official Unity CLI and Pipeline as the Codex Editor-Control Path](../tooling-decisions/adopt-official-unity-cli-pipeline-as-codex-editor-control-path-2026-08-23.md)
 - [Verify MeshyAI workbook migrations with stable selectors](verify-meshyai-workbook-migrations-with-stable-selectors-2026-06-01.md)

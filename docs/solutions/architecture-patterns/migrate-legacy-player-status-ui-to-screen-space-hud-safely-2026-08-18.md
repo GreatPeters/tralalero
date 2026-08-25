@@ -1,6 +1,7 @@
 ---
 title: Migrate Legacy Player Status UI to a Screen-Space HUD Safely
 date: 2026-08-18
+last_updated: 2026-08-23
 category: docs/solutions/architecture-patterns
 module: Unity Player Status HUD
 problem_type: architecture_pattern
@@ -23,9 +24,10 @@ tags: [unity, player-hud, screen-space-ui, legacy-ui-migration, canvas-binding, 
 ## Context
 
 The Noryangjin gameplay scene replaced the player-child health Canvas and the
-top-level `ATT` text with a slim screen-space `PlayerStatusHUD`. The new HUD
-shows live current/max health, a health fill, and current attack while preserving
-legacy displays as a fallback for scenes that do not have the replacement.
+top-level `ATT` text with a compact screen-space `PlayerStatusHUD`. Its current
+dark-glass cards use high-contrast white type, a coral health fill, and a shorter
+attack card while preserving legacy displays as a fallback for scenes that do
+not have the replacement.
 
 The implementation and review exposed several failure modes that apply to any
 incremental Unity UI migration:
@@ -38,6 +40,8 @@ incremental Unity UI migration:
   to record serialized reference changes on existing objects.
 - A gameplay recovery path can blindly reactivate the legacy Canvas after the
   new HUD has become authoritative.
+- A preview-scene builder test and a Game View screenshot can both pass while
+  the saved authored scene still contains stale bindings or styling.
 
 ## Guidance
 
@@ -121,13 +125,54 @@ The rollback test starts with a player bound to one Canvas, builds the HUD on
 another Canvas, reverts the Undo group, and verifies that the original binding
 returns.
 
-### Verify generated raster assets before import
+### Verify the generated and saved UI artifacts
 
 The first heart edit baked a checkerboard into RGB pixels. A second background
 extraction produced real 32-bit alpha and was the only output copied into the
 project. Inspect alpha before import, configure the texture as a single Sprite,
 disable mipmaps for the small screen-space icon, and keep the selected mockup
 under an Editor-only reference path.
+
+Builder tests in a preview scene verify what the generator creates, but not what
+Unity persisted into the production scene. Add a focused EditMode contract test
+that loads the canonical scene additively, inspects only that scene's roots, and
+restores the previous active scene in `finally`. Close the target only when the
+test opened it.
+
+```csharp
+Scene previousActive = SceneManager.GetActiveScene();
+string path = NoryangjinForwardGameplayInstaller.TargetScenePath;
+Scene target = SceneManager.GetSceneByPath(path);
+bool openedTarget = !target.IsValid() || !target.isLoaded;
+
+try
+{
+    if (openedTarget)
+        target = EditorSceneManager.OpenScene(path, OpenSceneMode.Additive);
+
+    CanvasScript canvas = PlayerStatusHudBuilder.FindInScene<CanvasScript>(target);
+    PlayerStatusHud[] huds = target.GetRootGameObjects()
+        .SelectMany(root => root.GetComponentsInChildren<PlayerStatusHud>(true))
+        .ToArray();
+
+    Assert.That(huds, Has.Length.EqualTo(1));
+    Assert.That(canvas.HasPlayerStatusHud, Is.True);
+}
+finally
+{
+    if (previousActive.IsValid() && previousActive.isLoaded)
+        EditorSceneManager.SetActiveScene(previousActive);
+    if (openedTarget && target.IsValid() && target.isLoaded)
+        EditorSceneManager.CloseScene(target, true);
+}
+```
+
+Assert semantic presentation rather than the complete scene YAML: sliced dark
+panels, light text, dark track, coral fill, panel shadow, a narrower attack card,
+and absence of the removed rivets. Also verify the serialized
+`CanvasScript.playerStatusHud` reference points to the single configured HUD.
+This catches saved-scene drift without coupling the test to harmless file IDs or
+serialization ordering.
 
 Run Unity-generated project builds sequentially because both projects write to
 the shared `Temp/bin` output:
@@ -173,9 +218,13 @@ The focused verification contract covers:
 - stable menu path; and
 - Undo rollback of the player-to-Canvas binding.
 
-Play Mode verification additionally confirmed a real value transition to
-`75 / 100`, attack `78`, and fill `0.75`, followed by a Game View capture
-of the saved HUD.
+Play Mode verification additionally confirmed live values and produced the
+current actual-game capture at
+`Assets/ShooterSurvival/UI/References/Editor/PlayerStatusHud_DarkGlass_Reference.png`.
+The earlier `PlayerStatusHud_SlimCards_Reference.png` remains historical design
+evidence. The focused HUD suite now includes
+`SavedNoryangjinMap1_HasOneBoundModernDarkHud` and passes 12/12 tests, covering
+both generated preview-scene output and the serialized Map 1 contract.
 
 ## Related
 

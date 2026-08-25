@@ -1,7 +1,7 @@
 ---
 title: Protect Active Unity Scenes from Broad EditMode Test Runs
 date: 2026-07-18
-last_updated: 2026-08-05
+last_updated: 2026-08-23
 category: docs/solutions/workflow-issues
 module: Unity Noryangjin map tooling
 problem_type: workflow_issue
@@ -9,7 +9,7 @@ component: testing_framework
 severity: medium
 applies_when:
   - "Running Unity EditMode tests that place, delete, activate, or save map-tool objects"
-  - "The authored scene is open in the same editor instance used by MCP Unity tests"
+  - "The authored scene is open in the same editor instance used by an in-process Unity test command"
   - "A broad test filter times out before returning a final result"
 root_cause: test_isolation
 resolution_type: workflow_improvement
@@ -19,11 +19,15 @@ tags:
   - "test-isolation"
   - "active-scene"
   - "map-tool"
-  - "mcp-unity"
+  - "unity-pipeline"
   - "scene-safety"
 ---
 
 # Protect Active Unity Scenes from Broad EditMode Test Runs
+
+> Status: updated. The MCP timeout and JSON request examples below preserve the
+> historical CoderGamester/direct-connector incidents. The same scene-safety
+> rule applies to the current official `unity command run_tests` path.
 
 ## Context
 
@@ -41,6 +45,11 @@ Two tempting signals were insufficient:
 - `get_scene_info` reporting a clean scene meant the in-memory scene was saved, not that the saved asset still matched the repository baseline.
 
 ## Guidance
+
+For current Codex work, verify the supported path with `unity pipeline list`
+and a narrow read command, then run only the required test filter with
+`unity command --project-path . run_tests ...`. `unity status` is supplemental
+and may report `STATUS_NO_INSTANCES` despite a reachable Pipeline endpoint.
 
 ### Record the scene baseline before broad editor tests
 
@@ -91,9 +100,13 @@ If the scene must remain dirty, stop at compilation or another read-only verific
 
 If a run has already reached the modal save decision, preserve the authored work by having the user choose Cancel. Use Don't Save only when the user explicitly intends to discard those scene edits. Do not send blind keyboard input, terminate Unity, or restart the editor when the prompt cannot be observed reliably; those recovery attempts can discard the unsaved scene that the guardrail is meant to protect.
 
-### Treat connector timeout and editor completion as separate states
+### Treat command timeout and editor completion as separate states
 
-After a timeout, do not immediately start another test run. Check `Editor.log`, the Unity process state, and the active-scene title until the original run finishes and the authored scene is active again. Then retry only the narrow, idempotent test command.
+After a timeout, do not immediately start another test run. Check `Editor.log`,
+the Unity process state, and the active-scene title until the original run
+finishes and the authored scene is active again. Confirm Pipeline with
+`unity pipeline list` and a narrow successful command, then retry only the
+narrow, idempotent test command.
 
 ### Verify repository state after tests
 
@@ -115,7 +128,7 @@ Narrow filters reduce exposure, but real isolation comes from preview scenes, ex
 
 ## When to Apply
 
-- Verifying Unity editor tools through MCP Unity or another in-process test runner.
+- Verifying Unity editor tools through official Pipeline or another in-process test runner.
 - Running tests that instantiate prefabs or toggle map-tool work objects.
 - Testing builders that call `EditorSceneManager.SaveScene`.
 - Retrying after a test request times out while Unity remains responsive.
@@ -126,7 +139,8 @@ In the observed run, the broad fixture request timed out while Unity continued p
 
 The three exact regression tests each returned `1/1 passed`, and the final editor script compilation completed with zero errors and warnings. This was sufficient evidence for the selection-label and thumbnail changes without rerunning the mutation-heavy fixture.
 
-Also avoid this unattended request while a scene is dirty:
+The following historical direct-connector request should also be avoided while
+a scene is dirty:
 
 ```json
 {
@@ -141,10 +155,13 @@ Also avoid this unattended request while a scene is dirty:
 
 It may pass all tests while persisting the scene's existing in-memory edits to disk during Test Runner setup.
 
-In the later enemy-facing run, the safe fallback was to leave the dirty scene untouched, stop retrying MCP commands, compile both runtime and editor assemblies, and report the Unity test as pending rather than claiming a pass.
+In the later enemy-facing run, the safe fallback was to leave the dirty scene
+untouched, stop retrying editor commands, compile both runtime and editor
+assemblies, and report the Unity test as pending rather than claiming a pass.
 
 ## Related
 
 - [Generate Unity Map-Tool Sibling Scenes with Fail-Closed Verification](generate-unity-map-tool-sibling-scenes-fail-closed-2026-07-15.md)
 - [Create a Unity Layout Scene When Editor Execution Is Blocked](create-unity-layout-scene-when-editor-execution-is-blocked-2026-05-25.md)
 - [Read Unity Scene YAML Positions by Object Kind](../test-failures/read-unity-scene-yaml-positions-by-object-kind-2026-05-25.md)
+- [Adopt Official Unity CLI and Pipeline as the Codex Editor-Control Path](../tooling-decisions/adopt-official-unity-cli-pipeline-as-codex-editor-control-path-2026-08-23.md)

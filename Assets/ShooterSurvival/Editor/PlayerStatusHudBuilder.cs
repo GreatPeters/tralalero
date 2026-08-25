@@ -13,16 +13,16 @@ public static class PlayerStatusHudBuilder
     public const string HudRootName = "PlayerStatusHUD";
     public const string MenuPath = "Tools/Shooter Survival/UI/Apply Player Status HUD";
 
-    private const string PanelSpritePath = "Assets/JH/UI/Upgrade/메뉴이름.png";
     private const string HeartSpritePath =
         "Assets/ShooterSurvival/UI/PlayerStatus/PlayerStatus_Heart.png";
     private const string AttackSpritePath = "Assets/JH/UI/Upgrade/공격력.png";
     private const string FontPath = "Assets/JH/Font/쩡야공유/GmarketSansTTFBold SDF2.asset";
 
-    private static readonly Color32 TextColor = new(43, 28, 20, 255);
-    private static readonly Color32 TrackColor = new(64, 47, 31, 255);
-    private static readonly Color32 FillColor = new(74, 190, 20, 255);
-    private static readonly Color32 RivetColor = new(202, 145, 54, 255);
+    private static readonly Color32 PanelColor = new(27, 34, 41, 220);
+    private static readonly Color32 PanelShadowColor = new(5, 12, 18, 145);
+    private static readonly Color32 TextColor = new(241, 246, 250, 255);
+    private static readonly Color32 TrackColor = new(52, 61, 69, 255);
+    private static readonly Color32 FillColor = new(255, 91, 85, 255);
 
     [MenuItem(MenuPath, false, 2311)]
     public static void ApplyToOpenNoryangjinScene()
@@ -65,7 +65,7 @@ public static class PlayerStatusHudBuilder
             throw new InvalidOperationException("Failed to save the Player Status HUD scene changes.");
 
         Selection.activeGameObject = canvas.gameObject;
-        Debug.Log("[Player Status HUD] Applied the slim parchment status HUD.");
+        Debug.Log("[Player Status HUD] Applied the modern dark status HUD.");
     }
 
     public static PlayerStatusHud Build(CanvasScript canvas, PlayerScript player)
@@ -74,7 +74,6 @@ public static class PlayerStatusHudBuilder
             throw new ArgumentNullException(nameof(canvas));
 
         ConfigureHeartSpriteImporter();
-        Sprite panelSprite = LoadRequiredAsset<Sprite>(PanelSpritePath);
         Sprite heartSprite = LoadRequiredAsset<Sprite>(HeartSpritePath);
         Sprite attackSprite = LoadRequiredAsset<Sprite>(AttackSpritePath);
         TMP_FontAsset font = LoadRequiredAsset<TMP_FontAsset>(FontPath);
@@ -85,76 +84,72 @@ public static class PlayerStatusHudBuilder
 
         GameObject rootObject = CreateUiObject(HudRootName, canvas.transform);
         RectTransform root = rootObject.GetComponent<RectTransform>();
-        SetTopLeftRect(root, Vector2.zero, new Vector2(520f, 224f));
+        SetTopLeftRect(root, Vector2.zero, new Vector2(488f, 216f));
 
         PlayerStatusHud hud = Undo.AddComponent<PlayerStatusHud>(rootObject);
 
         RectTransform healthCard = CreatePanel(
             "HealthCard",
             root,
-            panelSprite,
-            Vector2.zero,
-            new Vector2(500f, 122f));
-        CreateRivets(healthCard);
+            new Vector2(18f, -18f),
+            new Vector2(452f, 112f));
 
         CreateImage(
             "HeartIcon",
             healthCard,
             heartSprite,
-            new Vector2(22f, -16f),
-            new Vector2(84f, 84f),
+            new Vector2(20f, -20f),
+            new Vector2(64f, 64f),
             true);
         CreateText(
             "HealthLabel",
             healthCard,
             font,
             "체력",
-            new Vector2(122f, -14f),
-            new Vector2(92f, 44f),
-            34f);
+            new Vector2(104f, -14f),
+            new Vector2(92f, 40f),
+            30f);
         TextMeshProUGUI healthValue = CreateText(
             "HealthValue",
             healthCard,
             font,
             "100 / 100",
-            new Vector2(218f, -14f),
-            new Vector2(252f, 44f),
-            34f);
+            new Vector2(206f, -14f),
+            new Vector2(220f, 40f),
+            32f);
         Image healthFill = CreateHealthBar(
             healthCard,
-            new Vector2(122f, -68f),
-            new Vector2(340f, 28f));
+            new Vector2(104f, -68f),
+            new Vector2(314f, 24f));
 
         RectTransform attackCard = CreatePanel(
             "AttackCard",
             root,
-            panelSprite,
-            new Vector2(40f, -132f),
-            new Vector2(390f, 88f));
-        CreateRivets(attackCard);
+            new Vector2(46f, -140f),
+            new Vector2(332f, 70f));
         CreateImage(
             "AttackIcon",
             attackCard,
             attackSprite,
-            new Vector2(14f, -10f),
-            new Vector2(68f, 68f),
+            new Vector2(16f, -11f),
+            new Vector2(48f, 48f),
             true);
         CreateText(
             "AttackLabel",
             attackCard,
             font,
             "공격력",
-            new Vector2(96f, -18f),
-            new Vector2(142f, 48f),
-            32f);
+            new Vector2(82f, -10f),
+            new Vector2(118f, 50f),
+            28f);
         TextMeshProUGUI attackValue = CreateText(
             "AttackValue",
             attackCard,
             font,
             "50",
-            new Vector2(248f, -18f),
-            new Vector2(105f, 48f),
-            34f);
+            new Vector2(224f, -10f),
+            new Vector2(78f, 50f),
+            30f);
 
         hud.Configure(healthValue, healthFill, attackValue);
         hud.SetHealth(100f, 100f);
@@ -177,12 +172,20 @@ public static class PlayerStatusHudBuilder
     private static RectTransform CreatePanel(
         string name,
         RectTransform parent,
-        Sprite sprite,
         Vector2 position,
         Vector2 size)
     {
-        Image image = CreateImage(name, parent, sprite, position, size, false);
+        Sprite panelSprite = AssetDatabase.GetBuiltinExtraResource<Sprite>(
+            "UI/Skin/UISprite.psd");
+        Image image = CreateImage(name, parent, panelSprite, position, size, false);
+        image.type = Image.Type.Sliced;
+        image.color = PanelColor;
         image.raycastTarget = false;
+
+        Shadow shadow = Undo.AddComponent<Shadow>(image.gameObject);
+        shadow.effectColor = PanelShadowColor;
+        shadow.effectDistance = new Vector2(0f, -4f);
+        shadow.useGraphicAlpha = true;
         return image.rectTransform;
     }
 
@@ -219,35 +222,6 @@ public static class PlayerStatusHudBuilder
         fill.fillAmount = 1f;
         fill.color = FillColor;
         return fill;
-    }
-
-    private static void CreateRivets(RectTransform panel)
-    {
-        Sprite rivetSprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/Knob.psd");
-        Vector2 panelSize = panel.sizeDelta;
-        Vector2[] positions =
-        {
-            new(10f, -10f),
-            new(panelSize.x - 26f, -10f),
-            new(10f, -(panelSize.y - 26f)),
-            new(panelSize.x - 26f, -(panelSize.y - 26f))
-        };
-
-        for (int i = 0; i < positions.Length; i++)
-        {
-            Image rivet = CreateImage(
-                $"Rivet_{i + 1}",
-                panel,
-                rivetSprite,
-                positions[i],
-                new Vector2(16f, 16f),
-                true);
-            rivet.color = RivetColor;
-            Shadow shadow = Undo.AddComponent<Shadow>(rivet.gameObject);
-            shadow.effectColor = new Color32(70, 43, 22, 190);
-            shadow.effectDistance = new Vector2(1.5f, -1.5f);
-            shadow.useGraphicAlpha = true;
-        }
     }
 
     private static Image CreateImage(

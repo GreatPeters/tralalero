@@ -2,7 +2,7 @@
 
 ## Trust Boundaries
 - Unity editor state is mutable and should be treated as an external runtime boundary.
-- MCP Unity can execute scene, asset, and editor operations. Treat it as privileged.
+- The official Unity CLI/Pipeline command surface can execute scene, asset, and editor operations. Treat it as privileged.
 - Local scripts and docs are authoritative only when committed and versioned.
 - The editable game-data workbook is an Editor-only developer input. Its RSA
   private signing key stays outside the project and version control.
@@ -10,13 +10,15 @@
 
 ## Current Assumptions
 - Work is performed on a local developer machine, not an untrusted shared editor host.
-- `ProjectSettings/McpUnitySettings.json` is the source of truth for MCP Unity connection settings.
+- The supported Codex path uses Unity CLI discovery of an authenticated per-editor Pipeline endpoint; it does not store a reusable Pipeline port in project files.
+- The separate `com.youngwoocho02.unity-cli-connector` package exposes a localhost HTTP command surface for pre-existing workflows. It is not a Codex MCP registration and remains a distinct legacy trust boundary.
 - Runtime debug harnesses are intended for editor or development builds, not production player builds.
 
 ## Guardrails
 - Do not hardcode ports or environment-sensitive settings in multiple places.
 - Prefer explicit recovery instructions over silent fallback behavior.
 - Keep privileged editor operations behind documented tools and menu entries where possible.
+- Do not restore the removed CoderGamester `mcp-unity` bridge or treat the retained HTTP connector as a Codex MCP fallback.
 - Never restore `Data.xlsx` under `Assets/StreamingAssets`; that would ship the raw enemy, upgrade, and character values.
 - Player builds consume only the encrypted, RSA-signed `Resources/GameData/Data.bytes` archive. Runtime loading verifies the signature before decryption and fails closed when bytes change.
 - Never store `GameDataSigningKey.json` anywhere under `Assets` or elsewhere in

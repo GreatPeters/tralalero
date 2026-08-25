@@ -3,14 +3,16 @@ using System.Reflection;
 using IndianOceanAssets.ShooterSurvival;
 using NUnit.Framework;
 using TMPro;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public sealed class PlayerStatusHudBuilderTests
 {
     [Test]
-    public void Build_CreatesOneSlimTwoCardHudAndIsIdempotent()
+    public void Build_CreatesOneModernDarkHudAndIsIdempotent()
     {
         Scene scene = EditorSceneManager.NewPreviewScene();
         try
@@ -35,6 +37,26 @@ public sealed class PlayerStatusHudBuilderTests
             Assert.That(root.Find("AttackCard"), Is.Not.Null);
             Assert.That(root.Find("HealthCard/HeartIcon"), Is.Not.Null);
             Assert.That(root.Find("AttackCard/AttackIcon"), Is.Not.Null);
+            Assert.That(root.Find("HealthCard/Rivet_1"), Is.Null);
+            Assert.That(root.Find("AttackCard/Rivet_1"), Is.Null);
+
+            RectTransform rootRect = (RectTransform)root;
+            RectTransform healthCard = (RectTransform)root.Find("HealthCard");
+            RectTransform attackCard = (RectTransform)root.Find("AttackCard");
+            Assert.That(rootRect.sizeDelta, Is.EqualTo(new Vector2(488f, 216f)));
+            Assert.That(healthCard.sizeDelta, Is.EqualTo(new Vector2(452f, 112f)));
+            Assert.That(attackCard.sizeDelta, Is.EqualTo(new Vector2(332f, 70f)));
+
+            Image healthPanel = healthCard.GetComponent<Image>();
+            Image attackPanel = attackCard.GetComponent<Image>();
+            Assert.That(healthPanel.type, Is.EqualTo(Image.Type.Sliced));
+            Assert.That(attackPanel.type, Is.EqualTo(Image.Type.Sliced));
+            Assert.That(healthPanel.color, Is.EqualTo((Color)new Color32(27, 34, 41, 220)));
+            Assert.That(attackPanel.color, Is.EqualTo((Color)new Color32(27, 34, 41, 220)));
+
+            Image healthFill = root.Find("HealthCard/HealthBarTrack/HealthFill")
+                .GetComponent<Image>();
+            Assert.That(healthFill.color, Is.EqualTo((Color)new Color32(255, 91, 85, 255)));
 
             string[] labels = root.GetComponentsInChildren<TextMeshProUGUI>(true)
                 .Select(text => text.text)
@@ -130,6 +152,85 @@ public sealed class PlayerStatusHudBuilderTests
         finally
         {
             EditorSceneManager.ClosePreviewScene(scene);
+        }
+    }
+
+    [Test]
+    public void SavedNoryangjinMap1_HasOneBoundModernDarkHud()
+    {
+        Scene previousActive = SceneManager.GetActiveScene();
+        string map1Path = NoryangjinForwardGameplayInstaller.TargetScenePath;
+        Scene map1 = SceneManager.GetSceneByPath(map1Path);
+        bool openedMap1 = !map1.IsValid() || !map1.isLoaded;
+
+        try
+        {
+            if (openedMap1)
+                map1 = EditorSceneManager.OpenScene(map1Path, OpenSceneMode.Additive);
+
+            CanvasScript[] canvases = map1.GetRootGameObjects()
+                .SelectMany(root => root.GetComponentsInChildren<CanvasScript>(true))
+                .ToArray();
+            PlayerStatusHud[] huds = map1.GetRootGameObjects()
+                .SelectMany(root => root.GetComponentsInChildren<PlayerStatusHud>(true))
+                .ToArray();
+
+            Assert.That(canvases, Has.Length.EqualTo(1));
+            Assert.That(huds, Has.Length.EqualTo(1));
+
+            CanvasScript canvas = canvases[0];
+            PlayerStatusHud hud = huds[0];
+            Assert.That(hud.name, Is.EqualTo(PlayerStatusHudBuilder.HudRootName));
+            Assert.That(hud.IsConfigured, Is.True);
+
+            SerializedProperty boundHud = new SerializedObject(canvas)
+                .FindProperty("playerStatusHud");
+            Assert.That(boundHud, Is.Not.Null);
+            Assert.That(boundHud.objectReferenceValue, Is.SameAs(hud));
+
+            Transform healthCardTransform = hud.transform.Find("HealthCard");
+            Transform attackCardTransform = hud.transform.Find("AttackCard");
+            Assert.That(healthCardTransform, Is.Not.Null);
+            Assert.That(attackCardTransform, Is.Not.Null);
+
+            RectTransform healthCard = (RectTransform)healthCardTransform;
+            RectTransform attackCard = (RectTransform)attackCardTransform;
+            Image healthPanel = healthCard.GetComponent<Image>();
+            Image attackPanel = attackCard.GetComponent<Image>();
+            Assert.That(healthPanel.type, Is.EqualTo(Image.Type.Sliced));
+            Assert.That(attackPanel.type, Is.EqualTo(Image.Type.Sliced));
+            Assert.That(healthPanel.color, Is.EqualTo((Color)new Color32(27, 34, 41, 220)));
+            Assert.That(attackPanel.color, Is.EqualTo((Color)new Color32(27, 34, 41, 220)));
+            Assert.That(attackCard.rect.width, Is.LessThan(healthCard.rect.width));
+
+            Shadow healthShadow = healthCard.GetComponent<Shadow>();
+            Assert.That(healthShadow, Is.Not.Null);
+            Assert.That(
+                healthShadow.effectColor,
+                Is.EqualTo((Color)new Color32(5, 12, 18, 145)));
+            Assert.That(healthShadow.effectDistance, Is.EqualTo(new Vector2(0f, -4f)));
+
+            Image healthTrack = healthCardTransform.Find("HealthBarTrack").GetComponent<Image>();
+            Image healthFill = healthTrack.transform.Find("HealthFill").GetComponent<Image>();
+            Assert.That(healthTrack.color, Is.EqualTo((Color)new Color32(52, 61, 69, 255)));
+            Assert.That(healthFill.color, Is.EqualTo((Color)new Color32(255, 91, 85, 255)));
+
+            TextMeshProUGUI[] text = hud.GetComponentsInChildren<TextMeshProUGUI>(true);
+            Assert.That(text, Is.Not.Empty);
+            Assert.That(
+                text.All(label => label.color == (Color)new Color32(241, 246, 250, 255)),
+                Is.True);
+            Assert.That(
+                hud.GetComponentsInChildren<Transform>(true)
+                    .Any(child => child.name.StartsWith("Rivet_")),
+                Is.False);
+        }
+        finally
+        {
+            if (previousActive.IsValid() && previousActive.isLoaded)
+                EditorSceneManager.SetActiveScene(previousActive);
+            if (openedMap1 && map1.IsValid() && map1.isLoaded)
+                EditorSceneManager.CloseScene(map1, true);
         }
     }
 }

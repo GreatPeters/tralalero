@@ -14,8 +14,7 @@ $requiredFiles = @(
     "docs/exec-plans/active/codex-harness-foundation.md",
     "Assets/ShooterSurvival/Scripts/Harness/CombatHarness.cs",
     "Assets/ShooterSurvival/Scripts/Wave/WaveHarnessUtility.cs",
-    "Assets/Tests/Editor/WaveHarnessUtilityTests.cs",
-    "ProjectSettings/McpUnitySettings.json"
+    "Assets/Tests/Editor/WaveHarnessUtilityTests.cs"
 )
 
 $missing = @()
@@ -64,19 +63,28 @@ if ($broadExclusions.Count -gt 0) {
     Write-Error "$secretScanningConfig must not contain wildcard exclusions."
 }
 
-$mcpSettings = Get-Content "ProjectSettings/McpUnitySettings.json" | ConvertFrom-Json
-if (-not $mcpSettings.Port) {
-    Write-Error "Legacy MCP Unity settings do not define a Port."
-}
-
 $packageManifest = Get-Content "Packages/manifest.json" | ConvertFrom-Json
 $pipelineVersion = $packageManifest.dependencies."com.unity.pipeline"
 if (-not $pipelineVersion) {
     Write-Error "Packages/manifest.json does not include the official com.unity.pipeline package."
 }
 
+$legacyPaths = @(
+    "Packages/com.gamelovers.mcp-unity",
+    "ProjectSettings/McpUnitySettings.json"
+)
+$presentLegacyPaths = @($legacyPaths | Where-Object { Test-Path $_ })
+if ($packageManifest.dependencies."com.gamelovers.mcp-unity") {
+    $presentLegacyPaths += "Packages/manifest.json dependency com.gamelovers.mcp-unity"
+}
+if ($presentLegacyPaths.Count -gt 0) {
+    Write-Error (
+        "Legacy MCP Unity must remain removed:`n - " +
+        ($presentLegacyPaths -join "`n - ")
+    )
+}
+
 Write-Output (
-    "Harness files OK. Unity Pipeline: {0}; legacy MCP Unity port: {1}" -f `
-        $pipelineVersion,
-        $mcpSettings.Port
+    "Harness files OK. Unity Pipeline: {0}; legacy MCP Unity repository artifacts: absent" -f `
+        $pipelineVersion
 )

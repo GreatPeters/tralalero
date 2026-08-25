@@ -38,11 +38,13 @@ Key commands:
 - `powershell -ExecutionPolicy Bypass -File tools/validate-agent-harness.ps1`
 
 Unity editor automation:
-- Use the official Unity CLI plus `com.unity.pipeline` as the primary editor-control path. The Codex MCP server name is `unity`.
-- Verify the live editor with `unity status --project-path .`, list tools with `unity list --project-path . --detail compact`, and invoke a tool with `unity command --project-path . <tool>`.
+- Use the official Unity CLI plus `com.unity.pipeline` as the editor-control path. The Codex MCP server name is `unity`.
+- Verify reachability with `unity pipeline list` plus a narrow successful command such as `unity command --project-path . list_open_scenes`. List tools with `unity list --project-path .` or inspect compact command details with `unity command --project-path . --detail compact`.
+- Treat `unity status --project-path .` as supplemental diagnostics. It can report `STATUS_NO_INSTANCES` while Pipeline commands still work; when signals disagree, a reachable entry from `unity pipeline list` plus a successful narrow `unity command` is authoritative.
 - Let the Unity CLI discover the authenticated per-editor Pipeline endpoint. Do not hardcode its transient localhost port in docs or scripts.
-- The embedded CoderGamester server remains a temporary fallback under the Codex MCP name `mcp-unity`. Only that legacy bridge uses `ProjectSettings/McpUnitySettings.json` and its Node bridge.
-- If the official connection is unavailable, run `unity pipeline list` and `unity status --project-path .`. If only the fallback fails after reload or Play Mode transitions, inspect Unity `Editor.log` for `[MCP Unity]` entries.
+- The repository does not ship the legacy CoderGamester `mcp-unity` package or `ProjectSettings/McpUnitySettings.json`. Do not restore that bridge as a fallback.
+- The pre-existing `com.youngwoocho02.unity-cli-connector` HTTP package is separate from CoderGamester, is not registered as a Codex MCP server, and is outside that removal. Do not treat it as the supported Codex editor-control path.
+- If the official connection is unavailable, run `unity pipeline list` and a narrow `unity command`; check Safe Mode and compiler errors before changing project files.
 
 Documentation rules:
 - Search `docs/solutions/` for documented fixes and workflow patterns when working in related areas; entries are organized by category with YAML frontmatter such as `module`, `problem_type`, and `tags`.

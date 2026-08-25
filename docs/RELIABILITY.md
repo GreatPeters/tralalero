@@ -2,20 +2,21 @@
 
 ## Known Failure Modes
 - The official Unity Pipeline endpoint can be temporarily unavailable while Package Manager resolves packages, scripts compile, or the domain reloads.
+- `unity status --project-path .` can return `STATUS_NO_INSTANCES` even while the project's Pipeline endpoint accepts commands. Status is a useful diagnostic signal, not the final reachability oracle.
+- Deleting an editor package does not unload code from an already-running Unity AppDomain. After removing an already-loaded CoderGamester package, its localhost listener can remain alive until Unity is restarted once.
 - Codex reads MCP configuration at session startup, so a newly registered `unity` server may require a new Codex session before its tools appear.
-- The legacy CoderGamester MCP Unity server can fail to restart cleanly after script reloads or Play Mode transitions. Port conflicts can leave it offline even when the editor is open, and Codex surfaces this as `Transport closed`.
 
 ## Recovery Notes
-- Treat the official `unity` MCP server as primary. Run `unity pipeline list` to confirm that `com.unity.pipeline` is installed and its server is reachable, then run `unity status --project-path .` to confirm the editor state is `ready`.
-- Use `unity command --project-path . list_open_scenes` as a narrow end-to-end read check. The Unity CLI discovers the authenticated editor endpoint; do not copy its transient port into project state.
+- Treat the official `unity` MCP server as the supported Codex path. Run `unity pipeline list`, then use `unity command --project-path . list_open_scenes` as a narrow end-to-end read check. Together, a reachable Pipeline entry and a successful narrow command are authoritative even if `unity status --project-path .` disagrees.
+- Use `unity status --project-path .` only as additional editor-state diagnostics. The Unity CLI discovers the authenticated Pipeline endpoint; do not copy its transient port into project state.
 - If the Pipeline package is missing or stale, run `unity pipeline install --project-path .` or `unity pipeline upgrade --project-path .`, then wait for package resolution and domain reload to finish.
-- `ProjectSettings/McpUnitySettings.json` belongs only to the legacy CoderGamester fallback. If its configured port is occupied, the Unity editor window may show `Server Offline` and `Port ... is already in use`; its Node bridge reads the same file on the next connection.
+- After deleting the already-loaded CoderGamester package, restart Unity once to unload its assemblies and release its listener. Verify that the formerly configured CoderGamester port is no longer listening, then rerun `unity pipeline list` and the narrow `list_open_scenes` command to prove Pipeline recovered.
 
 ## Current Mitigations
 - `Packages/manifest.json` pins the official `com.unity.pipeline` package, and the user-level Codex configuration registers the official server as `unity` with this project path.
 - The official Unity CLI uses per-instance discovery and remained reachable through verified Play Mode enter/exit transitions. Prefer `unity command` for direct, low-overhead editor operations when MCP indirection is unnecessary.
-- Delayed retry restart logic was added to `Packages/com.gamelovers.mcp-unity/Editor/UnityBridge/McpUnityServer.cs`.
-- MCP Unity now auto-increments `ProjectSettings/McpUnitySettings.json` `Port` once per main Unity editor process launch. It starts from the saved port + 1 and skips occupied ports before the WebSocket server starts; batch-mode AssetImportWorker processes do not change the setting.
+- The legacy CoderGamester package and project-level port settings were removed. Do not restore them alongside Pipeline.
+- The separate, pre-existing `com.youngwoocho02.unity-cli-connector` localhost HTTP package remains installed for older project workflows. It was not removed with CoderGamester and is not registered as a Codex MCP server.
 - Combat runtime harness bootstraps itself after scene load in editor or development contexts.
 
 ## Protected Game-Data Build
@@ -72,7 +73,6 @@
 
 ## Verification
 - Run `unity --version` and `unity pipeline list`.
-- Run `unity status --project-path .` and confirm one `ready` editor.
 - Run `unity command --project-path . list_open_scenes` and confirm the expected active scene.
-- For the legacy fallback only, check Unity `Editor.log` for `[MCP Unity] WebSocket server started successfully` and confirm the port in `ProjectSettings/McpUnitySettings.json`.
+- Optionally run `unity status --project-path .` for extra diagnostics; do not fail an otherwise successful reachability check only because it reports `STATUS_NO_INSTANCES`.
 - Use `tools/validate-agent-harness.ps1` to sanity-check repo-side harness prerequisites.

@@ -1442,22 +1442,125 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
-    public void ConvenienceControls_DoNotExposeCanvasVisibilityToggle()
+    public void SceneUiVisibilityControls_UseExplicitKoreanTabs()
     {
-        const BindingFlags flags =
-            BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
-
         Assert.That(
-            typeof(NoryangjinMapToolWindow).GetField("CanvasEnabledLabel", flags),
-            Is.Null);
-        Assert.That(
-            typeof(NoryangjinMapToolWindow).GetField("CanvasDisabledLabel", flags),
-            Is.Null);
+            NoryangjinMapToolWindow.SceneUiVisibilityTabLabels,
+            Is.EqualTo(new[] { "UI 활성화", "UI 비활성화" }));
+        Assert.That(NoryangjinMapToolWindow.SceneUiSectionTitle, Is.EqualTo("씬 UI 표시"));
+        Assert.That(NoryangjinMapToolWindow.SceneUiVisibilityHelp, Does.Contain("월드 UI"));
         Assert.That(
             typeof(NoryangjinMapToolWindow).GetMethod(
-                "SetSceneRootCanvasesActive",
-                flags),
-            Is.Null);
+                "DrawSceneUiVisibilityControls",
+                BindingFlags.Instance | BindingFlags.NonPublic),
+            Is.Not.Null);
+    }
+
+    [Test]
+    public void SceneUiVisibilityToggle_TargetsOnlyRootCanvases()
+    {
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        try
+        {
+            var rootCanvasObject = new GameObject("Canvas", typeof(Canvas));
+            var secondaryRootCanvasObject = new GameObject("OverlayCanvas", typeof(Canvas));
+            var rootWorldCanvasObject = new GameObject("RootWorldCanvas", typeof(Canvas));
+            var player = new GameObject("Player");
+            var worldCanvasObject = new GameObject("WorldCanvas", typeof(Canvas));
+            SceneManager.MoveGameObjectToScene(rootCanvasObject, previewScene);
+            SceneManager.MoveGameObjectToScene(secondaryRootCanvasObject, previewScene);
+            SceneManager.MoveGameObjectToScene(rootWorldCanvasObject, previewScene);
+            SceneManager.MoveGameObjectToScene(player, previewScene);
+            SceneManager.MoveGameObjectToScene(worldCanvasObject, previewScene);
+            rootWorldCanvasObject.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
+            worldCanvasObject.GetComponent<Canvas>().renderMode = RenderMode.WorldSpace;
+            worldCanvasObject.transform.SetParent(player.transform);
+
+            Assert.That(
+                NoryangjinMapToolWindow.GetSceneRootCanvasVisibilityTabIndex(
+                    previewScene,
+                    out int canvasCount),
+                Is.EqualTo(0));
+            Assert.That(canvasCount, Is.EqualTo(2));
+
+            secondaryRootCanvasObject.SetActive(false);
+            Assert.That(
+                NoryangjinMapToolWindow.GetSceneRootCanvasVisibilityTabIndex(
+                    previewScene,
+                    out _),
+                Is.EqualTo(-1),
+                "Mixed root-canvas visibility must leave both tabs actionable.");
+
+            bool disabled = NoryangjinMapToolWindow.SetSceneRootCanvasesActive(
+                previewScene,
+                active: false,
+                recordUndo: false);
+
+            Assert.That(disabled, Is.True);
+            Assert.That(rootCanvasObject.activeSelf, Is.False);
+            Assert.That(secondaryRootCanvasObject.activeSelf, Is.False);
+            Assert.That(rootWorldCanvasObject.activeSelf, Is.True);
+            Assert.That(worldCanvasObject.activeSelf, Is.True);
+            Assert.That(
+                NoryangjinMapToolWindow.GetSceneRootCanvasVisibilityTabIndex(
+                    previewScene,
+                    out _),
+                Is.EqualTo(1));
+
+            bool enabled = NoryangjinMapToolWindow.SetSceneRootCanvasesActive(
+                previewScene,
+                active: true,
+                recordUndo: false);
+
+            Assert.That(enabled, Is.True);
+            Assert.That(rootCanvasObject.activeSelf, Is.True);
+            Assert.That(secondaryRootCanvasObject.activeSelf, Is.True);
+            Assert.That(rootWorldCanvasObject.activeSelf, Is.True);
+            Assert.That(worldCanvasObject.activeSelf, Is.True);
+        }
+        finally
+        {
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
+    public void SceneUiVisibilityToggle_SupportsUndoAndRedoFromMixedState()
+    {
+        Undo.IncrementCurrentGroup();
+        int testUndoGroup = Undo.GetCurrentGroup();
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        var primaryCanvasObject = new GameObject("Canvas", typeof(Canvas));
+        var secondaryCanvasObject = new GameObject("OverlayCanvas", typeof(Canvas));
+        SceneManager.MoveGameObjectToScene(primaryCanvasObject, previewScene);
+        SceneManager.MoveGameObjectToScene(secondaryCanvasObject, previewScene);
+        secondaryCanvasObject.SetActive(false);
+
+        try
+        {
+            Assert.That(
+                NoryangjinMapToolWindow.SetSceneRootCanvasesActive(
+                    previewScene,
+                    active: false,
+                    recordUndo: true),
+                Is.True);
+            Assert.That(primaryCanvasObject.activeSelf, Is.False);
+            Assert.That(secondaryCanvasObject.activeSelf, Is.False);
+
+            Undo.FlushUndoRecordObjects();
+            Undo.PerformUndo();
+            Assert.That(primaryCanvasObject.activeSelf, Is.True);
+            Assert.That(secondaryCanvasObject.activeSelf, Is.False);
+
+            Undo.PerformRedo();
+            Assert.That(primaryCanvasObject.activeSelf, Is.False);
+            Assert.That(secondaryCanvasObject.activeSelf, Is.False);
+        }
+        finally
+        {
+            Undo.RevertAllDownToGroup(testUndoGroup);
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
     }
 
     [Test]

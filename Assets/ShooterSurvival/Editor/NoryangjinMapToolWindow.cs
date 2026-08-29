@@ -389,6 +389,12 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string GameDataSelectButtonLabel = "프로젝트에서 보기";
     internal const string GameDataBuildButtonLabel = "런타임 데이터 갱신";
     internal const string GameDataValidateButtonLabel = "보호 데이터 검증";
+    internal const string SceneUiSectionTitle = "씬 UI 표시";
+    internal static readonly string[] SceneUiVisibilityTabLabels =
+        { "UI 활성화", "UI 비활성화" };
+    internal const string SceneUiVisibilityHelp =
+        "씬 루트의 화면 UI(Canvas)만 표시하거나 숨깁니다. " +
+        "적, 보너스, 플레이어 아래의 월드 UI는 그대로 유지됩니다.";
     internal const string RefreshMapToolButtonLabel = "리프레시";
     internal const string DeleteAllPlacedObjectsButtonLabel = "모두 삭제";
     internal const string DeleteAllPlacedObjectsNoTargetsMessage = "삭제할 배치 오브젝트가 없습니다.";
@@ -646,6 +652,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     [SerializeField] private string selectedPalettePrefabPath;
 
     private Vector2 scroll;
+    private Vector2 convenienceScroll;
     private Vector2 paletteScroll;
     private List<PaletteItem> paletteItems;
     private NoryangjinMapToolPaletteDefaults paletteDefaults;
@@ -799,7 +806,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void DrawConvenienceControls()
     {
+        convenienceScroll = EditorGUILayout.BeginScrollView(convenienceScroll);
         EditorGUILayout.Space(8f);
+        DrawSceneUiVisibilityControls();
+        EditorGUILayout.Space(6f);
         using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
         {
             EditorGUILayout.LabelField("게임 데이터 (Excel)", EditorStyles.boldLabel);
@@ -843,6 +853,104 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                         : "닫기");
             }
         }
+
+        EditorGUILayout.EndScrollView();
+    }
+
+    private void DrawSceneUiVisibilityControls()
+    {
+        using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+        {
+            EditorGUILayout.LabelField(SceneUiSectionTitle, EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox(SceneUiVisibilityHelp, MessageType.Info);
+
+            Scene scene = SceneManager.GetActiveScene();
+            int selectedIndex = GetSceneRootCanvasVisibilityTabIndex(
+                scene,
+                out int canvasCount);
+            using (new EditorGUI.DisabledScope(canvasCount == 0))
+            {
+                int nextIndex = GUILayout.Toolbar(
+                    selectedIndex,
+                    SceneUiVisibilityTabLabels,
+                    GUILayout.Height(30f));
+                if (nextIndex >= 0 && nextIndex != selectedIndex)
+                    SetSceneRootCanvasesActive(scene, nextIndex == 0, recordUndo: true);
+            }
+
+            if (canvasCount == 0)
+                EditorGUILayout.HelpBox("이 씬에는 루트 화면 UI가 없습니다.", MessageType.None);
+            else
+                EditorGUILayout.LabelField($"대상: 루트 Canvas {canvasCount}개", EditorStyles.miniLabel);
+        }
+    }
+
+    internal static int GetSceneRootCanvasVisibilityTabIndex(
+        Scene scene,
+        out int canvasCount)
+    {
+        List<Canvas> canvases = GetSceneRootCanvases(scene);
+        canvasCount = canvases.Count;
+        if (canvasCount == 0)
+            return -1;
+
+        bool firstCanvasActive = canvases[0].gameObject.activeSelf;
+        foreach (Canvas canvas in canvases)
+        {
+            if (canvas.gameObject.activeSelf != firstCanvasActive)
+                return -1;
+        }
+
+        return firstCanvasActive ? 0 : 1;
+    }
+
+    internal static bool SetSceneRootCanvasesActive(
+        Scene scene,
+        bool active,
+        bool recordUndo)
+    {
+        if (!scene.IsValid() || !scene.isLoaded)
+            return false;
+
+        bool changed = false;
+        string undoName = active
+            ? "Enable Noryangjin Scene UI"
+            : "Disable Noryangjin Scene UI";
+        foreach (Canvas canvas in GetSceneRootCanvases(scene))
+        {
+            bool canvasChanged = SetGameObjectActive(
+                canvas.gameObject,
+                active,
+                undoName,
+                recordUndo);
+            if (canvasChanged && PrefabUtility.IsPartOfPrefabInstance(canvas.gameObject))
+                PrefabUtility.RecordPrefabInstancePropertyModifications(canvas.gameObject);
+            changed |= canvasChanged;
+        }
+
+        if (changed)
+        {
+            EditorSceneManager.MarkSceneDirty(scene);
+            SceneView.RepaintAll();
+        }
+
+        return changed;
+    }
+
+    private static List<Canvas> GetSceneRootCanvases(Scene scene)
+    {
+        var canvases = new List<Canvas>();
+        if (!scene.IsValid() || !scene.isLoaded)
+            return canvases;
+
+        foreach (GameObject root in scene.GetRootGameObjects())
+        {
+            Canvas canvas = root.GetComponent<Canvas>();
+            if (canvas != null && canvas.renderMode != RenderMode.WorldSpace)
+                canvases.Add(canvas);
+        }
+
+        return canvases;
     }
 
     private bool HandleUndoCommand(Event currentEvent)

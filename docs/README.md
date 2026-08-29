@@ -14,6 +14,7 @@ Available documents:
 - `noryangjin-enemy-movement.md`: per-enemy movement modes and player-trigger authoring for Forward/Noryangjin encounters.
 - `noryangjin-map2-authored-scene.md`: reconciled reference contract, authored-scene composition, and verification record for Noryangjin Map 2.
 - `noryangjin-mobile-optimization.md`: safe Static classification, low-poly water, Android texture budgets, camera overrides, and measured Map 1/2 results.
+- `noryangjin-stage1-maptool-expansion-plan.md`: current-scene-based Stage 1 route, enemy, gimmick, bonus, object, and map-tool UX expansion plan with four concept PNGs.
 - `mobile-ui-atlas-optimizer.md`: one-click Sprite Atlas V2 maintenance, exclusions, settings, validation contract, and measured UI batching results.
 - `player-character-defaults.md`: Player defaults, Excel precedence, and the absolute missile speed + duration model.
 - `game-data-workbook.md`: the Editor-only Excel source, map-tool shortcuts, protected runtime archive, build guard, and security boundary.
@@ -25,7 +26,7 @@ Available documents:
 
 Editor shortcuts:
 
-- The Noryangjin map tool's `편의` tab opens or locates the shared game-data Excel file and regenerates or validates its protected runtime archive. The same actions are available under `Tools/Data`.
+- The Noryangjin map tool's `편의` tab can activate or deactivate scene-root screen UI without hiding nested world-space UI. It also opens or locates the shared game-data Excel file and regenerates or validates its protected runtime archive. The same data actions are available under `Tools/Data`.
 - `Tools/Analytics/Firebase 대상 고정`: records the reviewed Firebase project ID, app ID, and Android package under `ProjectSettings` so later config swaps fail the build.
 - `Tools/Analytics/Firebase 설정 검증`: checks pinned SDK archive hashes, Android privacy defaults, the Android config, and the reviewed destination before a device build.
 - `Tools/Analytics/Firebase 연결 문서 열기`: opens the Firebase/BigQuery setup and query guide.

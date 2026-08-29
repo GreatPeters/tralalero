@@ -17,12 +17,30 @@ namespace IndianOceanAssets.ShooterSurvival
         private const float UniqueParticleSize = 1.3f;
         private const float UniqueParticleSpeed = 1.15f;
         private const float UniqueParticleCapacity = 1.75f;
+        private const float FocusNearDistance = 3.5f;
+        private const float FocusFarDistance = 8f;
+        private const float FocusResponseSpeed = 4f;
+        private const float FocusGlowScale = 0.12f;
+        private const float FocusEnergyScale = 0.08f;
+        private const float FocusIconScale = 0.07f;
         private static readonly int BaseColorId = Shader.PropertyToID("_BaseColor");
         private static readonly int ColorId = Shader.PropertyToID("_Color");
         private static readonly Color UniqueWorldPurple =
             new(1.65f, 0.35f, 3f, 1f);
         private static readonly Color UniqueUiPurple =
             new(0.76f, 0.24f, 1f, 1f);
+        private static readonly Color AttackWorldAmber =
+            new(1.9f, 0.58f, 0.045f, 1f);
+        private static readonly Color VitalityWorldTeal =
+            new(0.08f, 1.45f, 0.78f, 1f);
+        private static readonly Color UtilityWorldBlue =
+            new(0.08f, 0.85f, 1.8f, 1f);
+        private static readonly Color AttackUiAmber =
+            new(1f, 0.65f, 0.16f, 1f);
+        private static readonly Color VitalityUiTeal =
+            new(0.28f, 0.96f, 0.75f, 1f);
+        private static readonly Color UtilityUiBlue =
+            new(0.27f, 0.78f, 1f, 1f);
 
         [SerializeField] private Transform glowRoot;
         [SerializeField] private RectTransform iconRect;
@@ -37,6 +55,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private Vector3 glowBaseScale;
         private Vector2 iconBasePosition;
+        private Vector3 iconBaseScale;
         private Quaternion iconBaseRotation;
         private Vector2[] auraBasePositions;
         private Vector3[] auraBaseScales;
@@ -45,9 +64,15 @@ namespace IndianOceanAssets.ShooterSurvival
         private Color[] auraBaseColors;
         private Transform energyRoot;
         private Transform groundAura;
+        private Transform waterVortexInner;
+        private Transform warpCompass;
+        private Transform waterFoam;
         private ParticleSystem particles;
         private Vector3 energyBaseScale;
         private Vector3 groundAuraBaseScale;
+        private Quaternion waterVortexInnerBaseRotation;
+        private Quaternion warpCompassBaseRotation;
+        private Quaternion waterFoamBaseRotation;
         private ParticleSystem.MinMaxCurve particleBaseEmission;
         private ParticleSystem.MinMaxCurve particleBaseSpeed;
         private ParticleSystem.MinMaxCurve particleBaseSizeX;
@@ -58,6 +83,9 @@ namespace IndianOceanAssets.ShooterSurvival
         private MaterialPropertyBlock[] effectBasePropertyBlocks;
         private float[] effectBaseAlphas;
         private Rarity rarity;
+        private BuffType bonusType = BuffType.att_normmal;
+        private Transform playerRoot;
+        private float selectionFocus;
         private bool baselinesCached;
 
         public Rarity Rarity => rarity;
@@ -80,7 +108,7 @@ namespace IndianOceanAssets.ShooterSurvival
             RectTransform targetIconRect,
             params RectTransform[] targetIconAuraRects)
         {
-            rotationSpeed = aggressiveVfx ? 16f : -10f;
+            rotationSpeed = aggressiveVfx ? 28f : 22f;
             pulseAmount = aggressiveVfx ? 0.025f : 0.035f;
             pulseSpeed = aggressiveVfx ? 4.8f : 3.1f;
             iconBobDistance = 0.03f;
@@ -99,6 +127,22 @@ namespace IndianOceanAssets.ShooterSurvival
             rarity = grade;
             if (Application.isPlaying)
                 RefreshPresentation();
+        }
+
+        public void SetBonusType(BuffType type)
+        {
+            bonusType = type;
+            if (Application.isPlaying)
+                RefreshPresentation();
+        }
+
+        public static Color ResolveUiAccent(BuffType type)
+        {
+            return IsVitality(type)
+                ? VitalityUiTeal
+                : IsAttack(type)
+                    ? AttackUiAmber
+                    : UtilityUiBlue;
         }
 
         private void Awake()
@@ -128,21 +172,28 @@ namespace IndianOceanAssets.ShooterSurvival
                 iconSwayAngle * motionAmount;
             float glowScale = isUnique ? UniqueGlowScale : 1f;
             float auraScale = isUnique ? UniqueIconAuraScale : 1f;
+            float focus = UpdateSelectionFocus();
+            float focusGlowScale = 1f + focus * FocusGlowScale;
+            float focusEnergyScale = 1f + focus * FocusEnergyScale;
+            float focusIconScale = 1f + focus * FocusIconScale;
+            RotateWarpLayers(Time.deltaTime, motionSpeed);
 
             if (glowRoot != null)
             {
-                glowRoot.Rotate(
-                    0f,
-                    rotationSpeed * motionSpeed * Time.deltaTime,
-                    0f,
-                    Space.Self);
-                glowRoot.localScale = glowBaseScale * glowScale *
+                glowRoot.localScale = glowBaseScale * glowScale * focusGlowScale *
                     (1f + pulse * pulseAmount * motionAmount);
+            }
+
+            if (energyRoot != null)
+            {
+                float rarityScale = isUnique ? UniqueEnergyScale : 1f;
+                energyRoot.localScale = energyBaseScale * rarityScale * focusEnergyScale;
             }
 
             if (iconRect != null)
             {
                 iconRect.anchoredPosition = iconBasePosition + Vector2.up * bob;
+                iconRect.localScale = iconBaseScale * focusIconScale;
                 iconRect.localRotation = iconBaseRotation * Quaternion.Euler(0f, 0f, sway);
             }
 
@@ -159,8 +210,55 @@ namespace IndianOceanAssets.ShooterSurvival
                 aura.localRotation =
                     auraBaseRotations[index] * Quaternion.Euler(0f, 0f, sway * 0.7f);
                 float auraPulse = 1f + pulse * pulseAmount * (index == 0 ? 0.85f : 1f);
-                aura.localScale = auraBaseScales[index] * auraScale * auraPulse;
+                aura.localScale = auraBaseScales[index] * auraScale * auraPulse *
+                    focusIconScale;
             }
+        }
+
+        private void RotateWarpLayers(float deltaTime, float motionSpeed)
+        {
+            float rotationDelta = rotationSpeed * motionSpeed * deltaTime;
+            if (glowRoot != null)
+                glowRoot.Rotate(0f, rotationDelta, 0f, Space.Self);
+            if (waterVortexInner != null)
+                waterVortexInner.Rotate(0f, -rotationDelta * 2.25f, 0f, Space.Self);
+            if (warpCompass != null)
+                warpCompass.Rotate(0f, -rotationDelta * 1.35f, 0f, Space.Self);
+            if (waterFoam != null)
+                waterFoam.Rotate(0f, rotationDelta * 1.15f, 0f, Space.Self);
+        }
+
+        private float UpdateSelectionFocus()
+        {
+            if (!Application.isPlaying)
+                return 0f;
+
+            if (playerRoot == null)
+            {
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null)
+                    playerRoot = player.transform;
+            }
+
+            float targetFocus = 0f;
+            if (playerRoot != null)
+            {
+                Vector3 offset = playerRoot.position - transform.position;
+                offset.y = 0f;
+                targetFocus = 1f - Mathf.SmoothStep(
+                    0f,
+                    1f,
+                    Mathf.InverseLerp(
+                        FocusNearDistance,
+                        FocusFarDistance,
+                        offset.magnitude));
+            }
+
+            selectionFocus = Mathf.MoveTowards(
+                selectionFocus,
+                targetFocus,
+                FocusResponseSpeed * Time.deltaTime);
+            return selectionFocus;
         }
 
         private void CacheBaselines()
@@ -169,7 +267,12 @@ namespace IndianOceanAssets.ShooterSurvival
                 return;
 
             if (glowRoot != null)
+            {
                 glowBaseScale = glowRoot.localScale;
+                waterVortexInner = glowRoot.Find("WaterVortexInner");
+                warpCompass = glowRoot.Find("WarpCompass");
+                waterFoam = glowRoot.Find("WaterFoam");
+            }
 
             Transform visualRoot = glowRoot != null ? glowRoot.parent : null;
             energyRoot = visualRoot != null
@@ -184,6 +287,12 @@ namespace IndianOceanAssets.ShooterSurvival
                 energyBaseScale = energyRoot.localScale;
             if (groundAura != null)
                 groundAuraBaseScale = groundAura.localScale;
+            if (waterVortexInner != null)
+                waterVortexInnerBaseRotation = waterVortexInner.localRotation;
+            if (warpCompass != null)
+                warpCompassBaseRotation = warpCompass.localRotation;
+            if (waterFoam != null)
+                waterFoamBaseRotation = waterFoam.localRotation;
 
             if (particles != null)
             {
@@ -202,6 +311,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (iconRect != null)
             {
                 iconBasePosition = iconRect.anchoredPosition;
+                iconBaseScale = iconRect.localScale;
                 iconBaseRotation = iconRect.localRotation;
             }
 
@@ -237,6 +347,12 @@ namespace IndianOceanAssets.ShooterSurvival
                 energyRoot.localScale = energyBaseScale;
             if (groundAura != null)
                 groundAura.localScale = groundAuraBaseScale;
+            if (waterVortexInner != null)
+                waterVortexInner.localRotation = waterVortexInnerBaseRotation;
+            if (warpCompass != null)
+                warpCompass.localRotation = warpCompassBaseRotation;
+            if (waterFoam != null)
+                waterFoam.localRotation = waterFoamBaseRotation;
 
             RestoreParticleBaselines();
             RestoreEffectColorBaselines();
@@ -244,6 +360,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (iconRect != null)
             {
                 iconRect.anchoredPosition = iconBasePosition;
+                iconRect.localScale = iconBaseScale;
                 iconRect.localRotation = iconBaseRotation;
             }
 
@@ -266,7 +383,16 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ApplyRarityPresentation()
         {
-            if (rarity != Rarity.Unique)
+            bool isUnique = rarity == Rarity.Unique;
+            Color worldColor = isUnique
+                ? UniqueWorldPurple
+                : ResolveWorldAccent(bonusType);
+            Color uiColor = isUnique
+                ? UniqueUiPurple
+                : ResolveUiAccent(bonusType);
+            ApplyEffectColors(worldColor, uiColor);
+
+            if (!isUnique)
                 return;
 
             if (glowRoot != null)
@@ -285,8 +411,6 @@ namespace IndianOceanAssets.ShooterSurvival
                         aura.localScale = auraBaseScales[index] * UniqueIconAuraScale;
                 }
             }
-
-            ApplyUniqueEffectColors();
 
             if (particles == null)
                 return;
@@ -385,7 +509,7 @@ namespace IndianOceanAssets.ShooterSurvival
             }
         }
 
-        private void ApplyUniqueEffectColors()
+        private void ApplyEffectColors(Color worldColor, Color uiColor)
         {
             if (effectRenderers != null)
             {
@@ -398,10 +522,10 @@ namespace IndianOceanAssets.ShooterSurvival
 
                     propertyBlock.Clear();
                     effectRenderer.GetPropertyBlock(propertyBlock);
-                    Color purple = UniqueWorldPurple;
-                    purple.a = effectBaseAlphas[index];
-                    propertyBlock.SetColor(BaseColorId, purple);
-                    propertyBlock.SetColor(ColorId, purple);
+                    Color themedWorldColor = worldColor;
+                    themedWorldColor.a = effectBaseAlphas[index];
+                    propertyBlock.SetColor(BaseColorId, themedWorldColor);
+                    propertyBlock.SetColor(ColorId, themedWorldColor);
                     effectRenderer.SetPropertyBlock(propertyBlock);
                 }
             }
@@ -415,9 +539,9 @@ namespace IndianOceanAssets.ShooterSurvival
                 if (auraGraphic == null)
                     continue;
 
-                Color purple = UniqueUiPurple;
-                purple.a = auraBaseColors[index].a;
-                auraGraphic.color = purple;
+                Color themedUiColor = uiColor;
+                themedUiColor.a = auraBaseColors[index].a;
+                auraGraphic.color = themedUiColor;
             }
         }
 
@@ -451,6 +575,37 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (effectRenderer != null && !renderers.Contains(effectRenderer))
                 renderers.Add(effectRenderer);
+        }
+
+        private static Color ResolveWorldAccent(BuffType type)
+        {
+            return IsVitality(type)
+                ? VitalityWorldTeal
+                : IsAttack(type)
+                    ? AttackWorldAmber
+                    : UtilityWorldBlue;
+        }
+
+        private static bool IsAttack(BuffType type)
+        {
+            return type is
+                BuffType.att_normmal or
+                BuffType.attPer_normal or
+                BuffType.attackSpeed_normal or
+                BuffType.att_unique or
+                BuffType.attPer_unique or
+                BuffType.attackSpeed_unique or
+                BuffType.FireRateIncrease;
+        }
+
+        private static bool IsVitality(BuffType type)
+        {
+            return type is
+                BuffType.hp_normal or
+                BuffType.hpPer_normal or
+                BuffType.hp_unique or
+                BuffType.hpPer_unique or
+                BuffType.HealthBoost;
         }
 
         private static ParticleSystem.MinMaxCurve ScaleCurve(

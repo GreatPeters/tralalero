@@ -86,11 +86,13 @@ Each row supplies its rarity in `식별 Enum`, stat key in `항목`, value seman
 directly to the same altar grades; the Inspector's `Elite` label maps to the
 workbook's existing `Rare` rows.
 
-`별칭` becomes the runtime altar title, and `이름` becomes the visible stat label.
-If `별칭` is empty, the title falls back to the same row's `이름`, then its `항목`
-key; there is no code-owned alias table. Adding an unsupported stat does not
-silently turn it into a different bonus: the altar excludes that row and reports
-an error if a grade has no supported rows.
+`이름` becomes the visible compact badge label beneath the large formatted
+value. The UI has no separate `별칭` title; `별칭` remains workbook flavor copy
+and is still validated with the row. The label and value use independent
+auto-sizing so localized strings through `ATK SPEED` and values such as `+999`
+or `+11%` remain in their own lane. Adding an unsupported stat does not silently
+turn it into a different bonus: the altar excludes that row and reports an
+error if a grade has no supported rows.
 
 Ratio values multiply the workbook range by the player's original matching stat;
 percent values remain percentage points internally. The bonus-altar UI appends

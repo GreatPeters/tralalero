@@ -324,6 +324,35 @@ public sealed class NoryangjinGameplayIntegrationTests
 
         float targetYaw = PlayerScript.NormalizeWorldYaw(
             player.transform.eulerAngles.y + 90f);
+        MethodInfo shootBullet = typeof(WeaponScript).GetMethod(
+            "ShootBullet",
+            BindingFlags.Instance | BindingFlags.NonPublic);
+        Assert.That(shootBullet, Is.Not.Null);
+        int[] activeProjectileRootsBeforeShot =
+            Object.FindObjectsByType<BulletScript>(
+                    FindObjectsInactive.Exclude,
+                    FindObjectsSortMode.None)
+                .Where(projectile => projectile.gameObject.activeInHierarchy)
+                .Select(projectile => projectile.transform.root.GetInstanceID())
+                .Distinct()
+                .ToArray();
+        shootBullet.Invoke(weapon, null);
+        BulletScript turningProjectile =
+            Object.FindObjectsByType<BulletScript>(
+                    FindObjectsInactive.Exclude,
+                    FindObjectsSortMode.None)
+                .FirstOrDefault(
+                    projectile =>
+                        projectile.gameObject.activeInHierarchy &&
+                        !activeProjectileRootsBeforeShot.Contains(
+                            projectile.transform.root.GetInstanceID()));
+        Assert.That(
+            turningProjectile,
+            Is.Not.Null,
+            "The integration turn needs a newly rented player missile to follow.");
+        Vector3 projectileDirectionBeforeTurn =
+            (Vector3)projectileDirectionField.GetValue(turningProjectile);
+        Quaternion playerRotationBeforeTurn = player.transform.rotation;
         Vector3 turnStartPosition = player.transform.position;
         Rigidbody playerRigidbody = player.GetComponent<Rigidbody>();
         Assert.That(
@@ -335,6 +364,21 @@ public sealed class NoryangjinGameplayIntegrationTests
             Is.LessThan(0.001f));
 
         yield return new WaitForFixedUpdate();
+        Quaternion firstTurnDelta =
+            player.transform.rotation * Quaternion.Inverse(playerRotationBeforeTurn);
+        Vector3 expectedProjectileDirection =
+            firstTurnDelta * projectileDirectionBeforeTurn;
+        Vector3 actualProjectileDirection =
+            (Vector3)projectileDirectionField.GetValue(turningProjectile);
+        Assert.That(
+            Vector3.Angle(actualProjectileDirection, expectedProjectileDirection),
+            Is.LessThan(0.1f),
+            "A rented player missile must curve by the same incremental turn as its owner.");
+        Assert.That(
+            Vector3.Angle(
+                turningProjectile.transform.root.forward,
+                actualProjectileDirection),
+            Is.LessThan(0.1f));
         Assert.That(player.IsWorldYawTurnActive, Is.True);
         Assert.That(
             playerRigidbody.constraints.HasFlag(RigidbodyConstraints.FreezePositionX),

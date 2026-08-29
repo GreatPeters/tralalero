@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace IndianOceanAssets.ShooterSurvival
@@ -6,8 +7,11 @@ namespace IndianOceanAssets.ShooterSurvival
     {
         BulletPooler bulletPooler;
         Transform projectileRoot;
+        PlayerScript routeOwner;
         Vector3 direction;
         float elapsedDuration;
+
+        private static readonly HashSet<BulletScript> ActiveProjectiles = new();
 
         private const float FallbackMissileSpeed = 16f;
         private const float FallbackMissileDuration = 1f;
@@ -33,6 +37,19 @@ namespace IndianOceanAssets.ShooterSurvival
             upgradeDurationFlatBonus = 0f;
             upgradeDurationPercentBonus = 0f;
             runDurationPercentBonus = 0f;
+            ActiveProjectiles.Clear();
+        }
+
+        private void OnEnable()
+        {
+            ActiveProjectiles.Add(this);
+        }
+
+        private void OnDisable()
+        {
+            ActiveProjectiles.Remove(this);
+            routeOwner = null;
+            projectileRoot = null;
         }
 
         private void Start()
@@ -57,9 +74,38 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void SetDirection(Vector3 dir)
         {
+            SetDirection(dir, null);
+        }
+
+        public void SetDirection(Vector3 dir, PlayerScript owner)
+        {
             direction = dir;
             projectileRoot = transform.root;
+            routeOwner = owner;
             elapsedDuration = 0f;
+            ActiveProjectiles.Add(this);
+        }
+
+        internal static void ApplyRouteTurn(
+            PlayerScript owner,
+            Quaternion rotationDelta)
+        {
+            if (owner == null || Quaternion.Angle(Quaternion.identity, rotationDelta) <= 0.001f)
+                return;
+
+            foreach (BulletScript projectile in ActiveProjectiles)
+            {
+                if (projectile == null ||
+                    !projectile.isActiveAndEnabled ||
+                    projectile.routeOwner != owner)
+                {
+                    continue;
+                }
+
+                projectile.direction = rotationDelta * projectile.direction;
+                Transform movingTransform = projectile.GetProjectileTransform();
+                movingTransform.rotation = rotationDelta * movingTransform.rotation;
+            }
         }
 
         private static float GetSimulationDeltaTime()

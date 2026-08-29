@@ -388,20 +388,187 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
         Assert.That(wall, Is.Not.Null);
         Assert.That(wall.isRandom, Is.True);
         Assert.That(wall.wallType, Is.EqualTo(WallType.BuffWall));
-        Assert.That(wall.statValueTmp.text, Is.EqualTo("+?"));
+        Assert.That(wall.statValueTmp.text, Is.EqualTo("+11%"));
         Assert.That(
-            prefab.transform.Find("GFX/Canvas/Choice_Title")
-                .GetComponent<TMPro.TextMeshProUGUI>().text,
-            Is.EqualTo("운명의 제단"));
+            prefab.transform.Find("GFX/Canvas/Choice_Title"),
+            Is.Null,
+            "The data-first layout does not render a separate choice title.");
+
+        Assert.That(
+            prefab.transform.Find("ChoiceAltarVisual/ChoiceGateFrame"),
+            Is.Null,
+            "The altar must stay visually simple instead of becoming a stall-like gate.");
+
+        Assert.That(
+            prefab.transform.Find("GFX/Canvas/Choice_InfoBackplate"),
+            Is.Null,
+            "The compact choice copy should stay cardless and attach through proximity.");
+
+        RectTransform badge = prefab.transform
+            .Find("GFX/Canvas/Stat_Badge") as RectTransform;
+        RectTransform icon = prefab.transform
+            .Find("GFX/Canvas/Stat_Badge/Stat_Icon") as RectTransform;
+        Assert.That(badge, Is.Not.Null);
+        Assert.That(icon, Is.Not.Null);
+        Assert.That(icon.anchorMin.x, Is.EqualTo(0.055f).Within(0.001f));
+        Assert.That(icon.anchorMax.x, Is.EqualTo(0.28f).Within(0.001f));
+        Assert.That(wall.statBadgeImage, Is.Not.Null);
+        Assert.That(wall.statBadgeOutline, Is.Not.Null);
+        Assert.That(wall.statNameLoc.transform.parent, Is.EqualTo(badge));
+        Assert.That(wall.statValueTmp.rectTransform.parent, Is.EqualTo(badge.parent));
+        Assert.That(wall.statNameLoc.GetComponent<TMPro.TextMeshProUGUI>().enableAutoSizing, Is.True);
+        Assert.That(wall.statValueTmp.enableAutoSizing, Is.True);
     }
 
     [Test]
-    public void BonusChoiceMagicCircle_RemainsSparseAndTransparentAfterRegeneration()
+    public void BonusAltar_ChoiceCopyUsesNoCrossLaneBackgroundChrome()
     {
+        FeastOfFortuneWallSetup.BuildWallPrefabs();
+
+        string prefabPath = NoryangjinMapToolWindow.FeastOfFortuneBonusWallPrefabPaths[0];
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        Assert.That(prefab, Is.Not.Null);
+        Assert.That(
+            prefab.transform.Find("GFX/Canvas/Choice_TextBackplate"),
+            Is.Null,
+            "A wide backplate visually merges nearby left/right choices.");
+        Assert.That(
+            prefab.transform.Find("GFX/Canvas/Choice_AccentBar"),
+            Is.Null,
+            "A horizontal accent bar visually connects nearby choices.");
+    }
+
+    [Test]
+    public void BonusChoiceWaterVortex_ReplacesRuneGeometryWithLayeredWaterEffects()
+    {
+        FeastOfFortuneWallSetup.BuildWallPrefabs();
+
         const string texturePath =
-            "Assets/ShooterSurvival/Textures/Generated/BonusChoiceBoxes/BonusBox_MagicCircle.png";
+            "Assets/ShooterSurvival/Textures/Generated/BonusChoiceBoxes/BonusBox_WaterVortex.png";
         string absolutePath = Path.GetFullPath(texturePath);
         Assert.That(File.Exists(absolutePath), Is.True, texturePath);
+
+        string prefabPath = NoryangjinMapToolWindow.FeastOfFortuneBonusWallPrefabPaths[0];
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        Transform glow = prefab.transform.Find("ChoiceAltarVisual/GlowOrbit");
+        Assert.That(glow, Is.Not.Null);
+        Assert.That(glow.Find("WaterVortexOuter/Surface"), Is.Not.Null);
+        Assert.That(glow.Find("WaterVortexInner/Surface"), Is.Not.Null);
+        Assert.That(glow.Find("WarpCompass/Surface"), Is.Not.Null);
+        Assert.That(glow.Find("WaterFoam/Surface"), Is.Not.Null);
+        foreach (Transform child in glow)
+            Assert.That(child.name, Does.Not.StartWith("Rune"));
+
+        ParticleSystem droplets = prefab.transform
+            .Find("ChoiceAltarVisual/ChoiceParticles")
+            .GetComponent<ParticleSystem>();
+        Assert.That(droplets.shape.shapeType, Is.EqualTo(ParticleSystemShapeType.Circle));
+        Assert.That(droplets.velocityOverLifetime.enabled, Is.True);
+        Assert.That(droplets.trails.enabled, Is.False);
+        Assert.That(droplets.collision.enabled, Is.False);
+        Assert.That(droplets.lights.enabled, Is.False);
+        Assert.That(
+            AssetDatabase.LoadMainAssetAtPath(
+                "Assets/ShooterSurvival/Materials/Generated/BonusChoiceBoxes/BonusBox_AttackRuneCircle.mat"),
+            Is.Null);
+        Assert.That(
+            AssetDatabase.LoadMainAssetAtPath(
+                "Assets/ShooterSurvival/Textures/Generated/BonusChoiceBoxes/BonusBox_MagicCircle.png"),
+            Is.Null);
+        Assert.That(
+            AssetDatabase.LoadMainAssetAtPath(
+                "Assets/ShooterSurvival/Materials/Generated/BonusChoiceBoxes/BonusBox_AttackWarpCompass.mat"),
+            Is.Not.Null);
+        Assert.That(
+            File.Exists(Path.GetFullPath(
+                "Assets/ShooterSurvival/Textures/Generated/BonusChoiceBoxes/BonusBox_WarpCompass.png")),
+            Is.True);
+
+        Material[] portalMaterials =
+        {
+            AssetDatabase.LoadAssetAtPath<Material>(
+                "Assets/ShooterSurvival/Materials/Generated/BonusChoiceBoxes/BonusBox_AttackWaterVortex.mat"),
+            AssetDatabase.LoadAssetAtPath<Material>(
+                "Assets/ShooterSurvival/Materials/Generated/BonusChoiceBoxes/BonusBox_AttackWaterFoam.mat"),
+            AssetDatabase.LoadAssetAtPath<Material>(
+                "Assets/ShooterSurvival/Materials/Generated/BonusChoiceBoxes/BonusBox_AttackWarpCompass.mat"),
+            AssetDatabase.LoadAssetAtPath<Material>(
+                "Assets/ShooterSurvival/Materials/Generated/BonusChoiceBoxes/BonusBox_AttackWaterDroplets.mat")
+        };
+        Assert.That(portalMaterials, Has.None.Null);
+        Color authoredPortalColor = portalMaterials[0].GetColor("_BaseColor");
+        Vector3 authoredPortalHue = new Vector3(
+            authoredPortalColor.r,
+            authoredPortalColor.g,
+            authoredPortalColor.b).normalized;
+        foreach (Material portalMaterial in portalMaterials)
+        {
+            Color portalColor = portalMaterial.GetColor("_BaseColor");
+            Vector3 portalHue = new Vector3(
+                portalColor.r,
+                portalColor.g,
+                portalColor.b).normalized;
+            Assert.That(
+                Vector3.Angle(authoredPortalHue, portalHue),
+                Is.LessThan(0.1f),
+                $"{portalMaterial.name} must stay in the authored portal's single hue family.");
+        }
+
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        try
+        {
+            GameObject instance = PrefabUtility.InstantiatePrefab(
+                prefab,
+                previewScene) as GameObject;
+            BonusChoiceAltarVfx vfx = instance.GetComponent<BonusChoiceAltarVfx>();
+            Transform instanceGlow = instance.transform.Find("ChoiceAltarVisual/GlowOrbit");
+            Transform inner = instanceGlow.Find("WaterVortexInner");
+            Transform compass = instanceGlow.Find("WarpCompass");
+            Transform foam = instanceGlow.Find("WaterFoam");
+            Quaternion glowBaseRotation = instanceGlow.localRotation;
+            Quaternion innerBaseRotation = inner.localRotation;
+            Quaternion compassBaseRotation = compass.localRotation;
+            Quaternion foamBaseRotation = foam.localRotation;
+            typeof(BonusChoiceAltarVfx)
+                .GetMethod("CacheBaselines", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(vfx, null);
+            inner.localRotation *= Quaternion.Euler(0f, 48f, 0f);
+            compass.localRotation *= Quaternion.Euler(0f, 23f, 0f);
+            foam.localRotation *= Quaternion.Euler(0f, -31f, 0f);
+            typeof(BonusChoiceAltarVfx)
+                .GetMethod("OnEnable", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(vfx, null);
+            Assert.That(
+                Quaternion.Angle(inner.localRotation, innerBaseRotation),
+                Is.LessThan(0.001f));
+            Assert.That(
+                Quaternion.Angle(compass.localRotation, compassBaseRotation),
+                Is.LessThan(0.001f));
+            Assert.That(
+                Quaternion.Angle(foam.localRotation, foamBaseRotation),
+                Is.LessThan(0.001f));
+
+            typeof(BonusChoiceAltarVfx)
+                .GetMethod("RotateWarpLayers", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(vfx, new object[] { 1f, 1f });
+            Assert.That(
+                Mathf.DeltaAngle(glowBaseRotation.eulerAngles.y, instanceGlow.localEulerAngles.y),
+                Is.GreaterThan(10f));
+            Assert.That(
+                Mathf.DeltaAngle(innerBaseRotation.eulerAngles.y, inner.localEulerAngles.y),
+                Is.LessThan(-10f));
+            Assert.That(
+                Mathf.DeltaAngle(compassBaseRotation.eulerAngles.y, compass.localEulerAngles.y),
+                Is.LessThan(-10f));
+            Assert.That(
+                Mathf.DeltaAngle(foamBaseRotation.eulerAngles.y, foam.localEulerAngles.y),
+                Is.GreaterThan(10f));
+            Object.DestroyImmediate(instance);
+        }
+        finally
+        {
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
 
         Texture2D readableTexture = new Texture2D(
             2,
@@ -422,17 +589,27 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
             Assert.That(
                 readableTexture.GetPixel(0, 0).a,
                 Is.LessThan(0.1f),
-                "The transparent circle texture must not fill its corners.");
+                "The transparent vortex texture must not fill its corners.");
             Assert.That(
                 readableTexture.GetPixel(
                     readableTexture.width / 2,
                     readableTexture.height / 2).a,
-                Is.LessThan(0.1f),
-                "The middle of the magic circle must remain open.");
+                Is.LessThan(0.2f),
+                "The middle of the water vortex must remain visibly hollow.");
+            float outerVortexMaxAlpha = 0f;
+            for (int index = 0; index < 72; index++)
+            {
+                float angle = index * Mathf.PI * 2f / 72f;
+                outerVortexMaxAlpha = Mathf.Max(
+                    outerVortexMaxAlpha,
+                    readableTexture.GetPixelBilinear(
+                        0.5f + Mathf.Cos(angle) * 0.44f,
+                        0.5f + Mathf.Sin(angle) * 0.44f).a);
+            }
             Assert.That(
-                readableTexture.GetPixelBilinear(0.96f, 0.5f).a,
+                outerVortexMaxAlpha,
                 Is.GreaterThan(0.5f),
-                "The outer rune ring near normalized radius 0.92 must remain visible.");
+                "At least one bright spiral crest must reach the outer water ring.");
 
             Color32[] pixels = readableTexture.GetPixels32();
             int opaquePixelCount = 0;
@@ -445,58 +622,8 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
             float opaqueRatio = (float)opaquePixelCount / pixels.Length;
             Assert.That(
                 opaqueRatio,
-                Is.LessThan(0.35f),
-                $"Magic-circle alpha must stay sparse, but {opaqueRatio:P1} of pixels were opaque.");
-        }
-        finally
-        {
-            Object.DestroyImmediate(readableTexture);
-        }
-    }
-
-    [Test]
-    public void BonusChoiceEnergyMote_RemainsSoftAndSparseAfterRegeneration()
-    {
-        const string texturePath =
-            "Assets/ShooterSurvival/Textures/Generated/BonusChoiceBoxes/BonusBox_EnergyMote.png";
-        string absolutePath = Path.GetFullPath(texturePath);
-        Assert.That(File.Exists(absolutePath), Is.True, texturePath);
-
-        Texture2D readableTexture = new Texture2D(
-            2,
-            2,
-            TextureFormat.RGBA32,
-            false,
-            true);
-        try
-        {
-            bool loaded = ImageConversion.LoadImage(
-                readableTexture,
-                File.ReadAllBytes(absolutePath),
-                false);
-            Assert.That(loaded, Is.True, texturePath);
-            Assert.That(readableTexture.width, Is.EqualTo(64));
-            Assert.That(readableTexture.height, Is.EqualTo(64));
-            Assert.That(readableTexture.GetPixel(0, 0).a, Is.LessThan(0.02f));
-            Assert.That(
-                readableTexture.GetPixel(
-                    readableTexture.width / 2,
-                    readableTexture.height / 2).a,
-                Is.GreaterThan(0.8f));
-
-            Color32[] pixels = readableTexture.GetPixels32();
-            int brightPixelCount = 0;
-            foreach (Color32 pixel in pixels)
-            {
-                if (pixel.a >= 128)
-                    brightPixelCount++;
-            }
-
-            float brightRatio = (float)brightPixelCount / pixels.Length;
-            Assert.That(
-                brightRatio,
-                Is.InRange(0.01f, 0.22f),
-                $"The energy mote needs a compact bright core, but measured {brightRatio:P1}.");
+                Is.LessThan(0.48f),
+                $"Water-vortex alpha must stay broken and translucent, but {opaqueRatio:P1} of pixels were opaque.");
         }
         finally
         {
@@ -571,6 +698,115 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
         finally
         {
             Object.DestroyImmediate(root);
+        }
+    }
+
+    [Test]
+    public void BonusChoiceAltarVfx_UsesRolledStatFamilyForNormalTheme()
+    {
+        string prefabPath = NoryangjinMapToolWindow.BonusWallPrefabRoot +
+            "/Box_left.prefab";
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        try
+        {
+            GameObject instance = PrefabUtility.InstantiatePrefab(
+                prefab,
+                previewScene) as GameObject;
+            Assert.That(instance, Is.Not.Null);
+
+            BonusChoiceAltarVfx vfx = instance.GetComponent<BonusChoiceAltarVfx>();
+            Renderer glowRenderer = instance.transform
+                .Find("ChoiceAltarVisual/GlowOrbit")
+                .GetComponentInChildren<Renderer>(true);
+            WallScript wall = instance.GetComponentInChildren<WallScript>(true);
+            UnityEngine.UI.Outline badgeOutline = wall?.statBadgeOutline;
+            MethodInfo refreshPresentation = typeof(BonusChoiceAltarVfx).GetMethod(
+                "RefreshPresentation",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo updateStatUi = typeof(WallScript).GetMethod(
+                "UpdateStatUI",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            FieldInfo effectRenderersField = typeof(BonusChoiceAltarVfx).GetField(
+                "effectRenderers",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(vfx, Is.Not.Null);
+            Assert.That(wall, Is.Not.Null);
+            Assert.That(glowRenderer, Is.Not.Null);
+            Assert.That(badgeOutline, Is.Not.Null);
+            Assert.That(refreshPresentation, Is.Not.Null);
+            Assert.That(updateStatUi, Is.Not.Null);
+            Assert.That(effectRenderersField, Is.Not.Null);
+
+            vfx.SetRarity(Rarity.Normal);
+            vfx.SetBonusType(BuffType.hp_normal);
+            refreshPresentation.Invoke(vfx, null);
+            updateStatUi.Invoke(wall, new object[] { BuffType.hp_normal, 999f });
+
+            Renderer[] themedRenderers = effectRenderersField.GetValue(vfx) as Renderer[];
+            Assert.That(themedRenderers, Is.Not.Null.And.Not.Empty);
+
+            var block = new MaterialPropertyBlock();
+            glowRenderer.GetPropertyBlock(block);
+            Color vitalityWorld = block.GetColor("_BaseColor");
+            Assert.That(vitalityWorld.g, Is.GreaterThan(vitalityWorld.r));
+            Assert.That(vitalityWorld.g, Is.GreaterThan(vitalityWorld.b));
+            Assert.That(badgeOutline.effectColor.g, Is.GreaterThan(badgeOutline.effectColor.r));
+            Assert.That(badgeOutline.effectColor.g, Is.GreaterThan(badgeOutline.effectColor.b));
+            foreach (Renderer themedRenderer in themedRenderers)
+            {
+                block.Clear();
+                themedRenderer.GetPropertyBlock(block);
+                Color rendererColor = block.GetColor("_BaseColor");
+                Assert.That(rendererColor.r, Is.EqualTo(vitalityWorld.r).Within(0.0001f));
+                Assert.That(rendererColor.g, Is.EqualTo(vitalityWorld.g).Within(0.0001f));
+                Assert.That(rendererColor.b, Is.EqualTo(vitalityWorld.b).Within(0.0001f));
+            }
+
+            vfx.SetBonusType(BuffType.att_normmal);
+            refreshPresentation.Invoke(vfx, null);
+            updateStatUi.Invoke(wall, new object[] { BuffType.att_normmal, 11f });
+            block.Clear();
+            glowRenderer.GetPropertyBlock(block);
+            Color attackWorld = block.GetColor("_BaseColor");
+            Assert.That(block.isEmpty, Is.False);
+            Assert.That(attackWorld.r, Is.GreaterThan(attackWorld.g));
+            Assert.That(attackWorld.g, Is.GreaterThan(attackWorld.b));
+            Assert.That(badgeOutline.effectColor.r, Is.GreaterThan(badgeOutline.effectColor.g));
+            Assert.That(badgeOutline.effectColor.r, Is.GreaterThan(badgeOutline.effectColor.b));
+
+            foreach (Renderer themedRenderer in themedRenderers)
+            {
+                block.Clear();
+                themedRenderer.GetPropertyBlock(block);
+                Color rendererColor = block.GetColor("_BaseColor");
+                Assert.That(rendererColor.r, Is.EqualTo(attackWorld.r).Within(0.0001f));
+                Assert.That(rendererColor.g, Is.EqualTo(attackWorld.g).Within(0.0001f));
+                Assert.That(rendererColor.b, Is.EqualTo(attackWorld.b).Within(0.0001f));
+            }
+
+            vfx.SetBonusType(BuffType.missileDistance_normal);
+            refreshPresentation.Invoke(vfx, null);
+            block.Clear();
+            glowRenderer.GetPropertyBlock(block);
+            Color utilityWorld = block.GetColor("_BaseColor");
+            Assert.That(utilityWorld.b, Is.GreaterThan(utilityWorld.g));
+            Assert.That(utilityWorld.g, Is.GreaterThan(utilityWorld.r));
+            foreach (Renderer themedRenderer in themedRenderers)
+            {
+                block.Clear();
+                themedRenderer.GetPropertyBlock(block);
+                Color rendererColor = block.GetColor("_BaseColor");
+                Assert.That(rendererColor.r, Is.EqualTo(utilityWorld.r).Within(0.0001f));
+                Assert.That(rendererColor.g, Is.EqualTo(utilityWorld.g).Within(0.0001f));
+                Assert.That(rendererColor.b, Is.EqualTo(utilityWorld.b).Within(0.0001f));
+            }
+
+            Object.DestroyImmediate(instance);
+        }
+        finally
+        {
+            EditorSceneManager.ClosePreviewScene(previewScene);
         }
     }
 
@@ -783,20 +1019,33 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
             Assert.That(particles.emission.rateOverTime.constant, Is.EqualTo(7f));
             Assert.That(particles.main.startSizeY.constantMax, Is.EqualTo(0.22f));
             Assert.That(particles.main.maxParticles, Is.EqualTo(12));
+            Color normalEffectColor = default;
             for (int index = 0; index < effectRenderers.Length; index++)
             {
                 Renderer effectRenderer = effectRenderers[index];
                 propertyBlock.Clear();
                 effectRenderer.GetPropertyBlock(propertyBlock);
-                Assert.That(propertyBlock.isEmpty, Is.EqualTo(baseBlockEmpty[index]));
-                AssertColorApproximately(
-                    propertyBlock.GetColor("_BaseColor"),
-                    baseBlockColors[index]);
-                AssertColorApproximately(
-                    propertyBlock.GetColor("_Color"),
-                    baseLegacyColors[index]);
+                Assert.That(propertyBlock.isEmpty, Is.False);
+                Color rendererColor = propertyBlock.GetColor("_BaseColor");
+                Assert.That(rendererColor.r, Is.GreaterThan(rendererColor.g));
+                Assert.That(rendererColor.g, Is.GreaterThan(rendererColor.b));
+                Assert.That(
+                    rendererColor.a,
+                    Is.EqualTo(index == 0 ? glowOverrideColor.a : baseEffectColor.a));
+                if (index == 0)
+                {
+                    normalEffectColor = rendererColor;
+                }
+                else
+                {
+                    Assert.That(rendererColor.r, Is.EqualTo(normalEffectColor.r));
+                    Assert.That(rendererColor.g, Is.EqualTo(normalEffectColor.g));
+                    Assert.That(rendererColor.b, Is.EqualTo(normalEffectColor.b));
+                }
             }
-            Assert.That(auraGraphic.color, Is.EqualTo(baseAuraColor));
+            Color normalAuraColor = BonusChoiceAltarVfx.ResolveUiAccent(BuffType.att_normmal);
+            normalAuraColor.a = baseAuraColor.a;
+            Assert.That(auraGraphic.color, Is.EqualTo(normalAuraColor));
             AssertColorApproximately(
                 effectMaterial.GetColor("_BaseColor"),
                 sharedBaseColor);
@@ -930,14 +1179,13 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
     }
 
     [Test]
-    public void FeastOfFortuneStatLabels_FormSingleRowAboveLargeFloatingIcons()
+    public void FeastOfFortuneDataFirstLayout_FitsMaximumEnglishLabelAndValue()
     {
         string[] prefabPaths =
         {
             NoryangjinMapToolWindow.BonusWallPrefabRoot +
             "/Box_left.prefab"
         };
-        float[] iconWidths = new float[prefabPaths.Length];
         Scene previewScene = EditorSceneManager.NewPreviewScene();
         try
         {
@@ -951,30 +1199,36 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
 
                 RectTransform canvas =
                     instance.transform.Find("GFX/Canvas") as RectTransform;
+                RectTransform badge =
+                    instance.transform.Find("GFX/Canvas/Stat_Badge") as RectTransform;
                 RectTransform icon =
-                    instance.transform.Find("GFX/Canvas/Stat_Icon") as RectTransform;
+                    instance.transform.Find("GFX/Canvas/Stat_Badge/Stat_Icon") as RectTransform;
                 WallScript wall = instance.GetComponentInChildren<WallScript>(true);
                 TMPro.TextMeshProUGUI statName =
                     wall?.statNameLoc?.GetComponent<TMPro.TextMeshProUGUI>();
                 TMPro.TextMeshProUGUI statValue = wall?.statValueTmp;
-                RectTransform statRow =
-                    instance.transform.Find("GFX/Canvas/Stat_Row") as RectTransform;
                 Assert.That(canvas, Is.Not.Null, prefabPath);
+                Assert.That(badge, Is.Not.Null, prefabPath);
                 Assert.That(icon, Is.Not.Null, prefabPath);
                 Assert.That(statName, Is.Not.Null, prefabPath);
                 Assert.That(statValue, Is.Not.Null, prefabPath);
-                Assert.That(statRow, Is.Not.Null, prefabPath);
+                Assert.That(
+                    instance.transform.Find("GFX/Canvas/Stat_Row"),
+                    Is.Null,
+                    prefabPath);
 
-                const string expectedLabel = "\uACF5\uACA9\uB825";
+                const string expectedLabel = "ATK SPEED";
                 statName.GetComponent<UnityEngine.Localization.Components.LocalizeStringEvent>()
                     .enabled = false;
                 statName.text = expectedLabel;
-                LayoutRebuilder.ForceRebuildLayoutImmediate(statRow);
+                statValue.text = "+999";
+                LayoutRebuilder.ForceRebuildLayoutImmediate(badge);
                 Canvas.ForceUpdateCanvases();
                 statName.ForceMeshUpdate(true, true);
                 statValue.ForceMeshUpdate(true, true);
 
                 Rect iconBounds = GetRectBoundsInSpace(icon, canvas);
+                Rect badgeBounds = GetRectBoundsInSpace(badge, canvas);
                 Vector2 nameHorizontalBounds = GetVisibleTextHorizontalBoundsInSpace(
                     statName,
                     canvas);
@@ -992,55 +1246,42 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
                     Is.EqualTo(expectedLabel.Length),
                     prefabPath);
                 Assert.That(
+                    nameHorizontalBounds.x,
+                    Is.GreaterThanOrEqualTo(badgeBounds.xMin),
+                    $"English label must remain inside its badge: {prefabPath}");
+                Assert.That(
+                    nameHorizontalBounds.y,
+                    Is.LessThanOrEqualTo(badgeBounds.xMax),
+                    $"English label must remain inside its badge: {prefabPath}");
+                Assert.That(
                     nameVerticalBounds.x,
-                    Is.GreaterThan(iconBounds.center.y),
-                    $"The label row must sit over the floating item: {prefabPath}");
+                    Is.GreaterThanOrEqualTo(badgeBounds.yMin),
+                    prefabPath);
+                Assert.That(
+                    nameVerticalBounds.y,
+                    Is.LessThanOrEqualTo(badgeBounds.yMax),
+                    prefabPath);
+                Assert.That(
+                    iconBounds.xMax,
+                    Is.LessThan(nameHorizontalBounds.x),
+                    $"Badge icon and ATK SPEED label must not overlap: {prefabPath}");
                 Assert.That(
                     valueVerticalBounds.x,
-                    Is.GreaterThan(iconBounds.center.y),
-                    $"The value row must sit over the floating item: {prefabPath}");
+                    Is.GreaterThan(badgeBounds.yMax),
+                    $"Large value must sit above the compact badge: {prefabPath}");
                 Assert.That(
-                    Mathf.Abs(
-                        (nameVerticalBounds.x + nameVerticalBounds.y) * 0.5f -
-                        (valueVerticalBounds.x + valueVerticalBounds.y) * 0.5f),
-                    Is.LessThanOrEqualTo(0.01f),
-                    $"The title and value must read as one row: {prefabPath}");
+                    valueHorizontalBounds.x,
+                    Is.GreaterThanOrEqualTo(canvas.rect.xMin),
+                    prefabPath);
                 Assert.That(
-                    (nameHorizontalBounds.x + nameHorizontalBounds.y) * 0.5f,
-                    Is.LessThan((valueHorizontalBounds.x + valueHorizontalBounds.y) * 0.5f),
-                    $"The value must follow the localized stat title: {prefabPath}");
-                float combinedTextCenter =
-                    (Mathf.Min(nameHorizontalBounds.x, valueHorizontalBounds.x) +
-                     Mathf.Max(nameHorizontalBounds.y, valueHorizontalBounds.y)) * 0.5f;
-                Assert.That(
-                    Mathf.Abs(combinedTextCenter - iconBounds.center.x),
-                    Is.LessThanOrEqualTo(0.02f),
-                    $"The complete stat row must stay centered over the choice: {prefabPath}. " +
-                    $"rowCenter={combinedTextCenter:F4}, iconCenter={iconBounds.center.x:F4}");
-                iconWidths[index] = iconBounds.width;
-                Assert.That(
-                    iconBounds.width,
-                    Is.GreaterThanOrEqualTo(index == 0 ? 0.5f : 0.6f),
-                    $"Stat icon must remain readable at gameplay size: {prefabPath}");
-                Assert.That(
-                    Mathf.Abs(iconBounds.center.x),
-                    Is.LessThanOrEqualTo(0.01f),
-                    $"Stat icon must be centered over its label: {prefabPath}");
-                Assert.That(
-                    canvas.rect.xMax - valueHorizontalBounds.y,
-                    Is.GreaterThanOrEqualTo(0.02f),
-                    $"Stat value must remain inside its Canvas: {prefabPath}. " +
-                    $"textRight={valueHorizontalBounds.y:F4}, canvasRight={canvas.rect.xMax:F4}");
-                Assert.That(
-                    nameHorizontalBounds.x - canvas.rect.xMin,
-                    Is.GreaterThanOrEqualTo(0.02f),
-                    $"Stat title must remain inside its Canvas: {prefabPath}. " +
-                    $"textLeft={nameHorizontalBounds.x:F4}, canvasLeft={canvas.rect.xMin:F4}");
+                    valueHorizontalBounds.y,
+                    Is.LessThanOrEqualTo(canvas.rect.xMax),
+                    prefabPath);
+                Assert.That(statName.enableAutoSizing, Is.True, prefabPath);
+                Assert.That(statValue.enableAutoSizing, Is.True, prefabPath);
 
                 Object.DestroyImmediate(instance);
             }
-
-            Assert.That(iconWidths[0], Is.GreaterThanOrEqualTo(0.5f));
         }
         finally
         {

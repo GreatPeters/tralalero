@@ -1,13 +1,13 @@
 ---
 title: Prevent Nearby Bonus Altar Duplicates on Candidate Exhaustion
 date: 2026-08-17
-last_updated: 2026-08-17
+last_updated: 2026-08-29
 category: logic-errors
 module: Unity Noryangjin bonus altar
 problem_type: logic_error
 component: tooling
 symptoms:
-  - "Three or more nearby Elite altars could silently reuse one of the two Rare bonus stats."
+  - "Nearby altars could reuse a bonus stat after candidate fallback or a late OnEnable erased an already committed rolledStat."
   - "Candidate filtering repopulated the pool after exclusions removed every valid row."
   - "An invalid authored roll could leave stale title, stat, value, and collider state active."
   - "A UI integration test on an inactive root could silently exercise the legacy wall path."
@@ -23,7 +23,7 @@ tags:
   - "bonus-altar"
   - "candidate-exhaustion"
   - "duplicate-prevention"
-  - "prefab-testing"
+  - "lifecycle-state"
   - "excel-data"
   - "inactive-hierarchy"
 ---
@@ -36,6 +36,13 @@ Nearby altar uniqueness was implemented as a preference rather than a hard
 invariant. `BonusAltarRules.BuildCandidates` restored every supported row when
 the non-duplicate pool became empty, so three mutually nearby Elite altars
 could not honor the rule: the workbook contains only two `Rare` abilities.
+
+A second failure mode later broke the same invariant even when candidates were
+available. `WallScript` committed the selected stat, but a later
+`AuthoredBonusWall.OnEnable()` cleared `rolledStat`. The next nearby altar then
+observed an empty committed set and could choose the same stat. In the live
+scene, two altars only `3.38` units apart both displayed
+`missileDistance_normal` while both `RolledStat` values were empty.
 
 The same boundary also exposed a data-ownership problem. Altar aliases, visible
 stat names, value types, and random ranges belong to the `Data.xlsx` `보너스`
@@ -52,6 +59,9 @@ variant identity.
 
 - The first two Elite altars could roll `tungtungAdd` and `boombarAdd`, while a
   third nearby Elite altar silently received one of them again.
+- Two nearby Normal altars could both show the same bonus even though the
+  distance filter included them, because a late enable callback erased the
+  first altar's committed stat.
 - Normal and Unique were less likely to reveal the flaw because their pools
   contain six and seven supported stats.
 - Returning an empty list alone was insufficient: the legacy `buffType` path
@@ -75,6 +85,11 @@ return nonDuplicate.Count > 0 ? nonDuplicate : allSupported;
 
 Retry-based rerolling also cannot solve pool exhaustion. With two Elite stats,
 no number of retries can produce a third distinct result.
+
+Changing the proximity threshold or candidate filtering also could not fix the
+lifecycle variant. The existing exclusion works when `rolledStat` remains
+committed; the failure occurred after selection, when `OnEnable` deleted the
+state that `CollectNearbyRolledStats()` needed to read.
 
 Removing only that fallback was still incomplete. `InitWall()` continued into
 `SetStats()`, `SetWallSprite()`, and later `ApplyWallEffect()`. Without an
@@ -114,6 +129,28 @@ return candidates;
 active altars in the same scene. It compares XZ distance and uses the larger of
 the two serialized thresholds, so proximity is symmetric. A successful roll
 commits its stat immediately for the next altar to observe.
+
+The committed value must also survive later enable callbacks. `OnEnable()` now
+only synchronizes the authored grade and VFX state; `BeginRoll()` is the sole
+operation that clears the previous commitment:
+
+```csharp
+private void OnEnable()
+{
+    SyncWallAuthoringState();
+}
+
+public void BeginRoll()
+{
+    rolledStat = null;
+}
+```
+
+`LateOnEnable_DoesNotEraseCommittedStatBeforeNextRoll` fixes this state
+transition in place: `CommitRoll -> OnEnable` preserves the stat, and the next
+explicit `BeginRoll` clears it. The test failed before the fix and passed after
+it. A live Noryangjin run then produced distinct `hpPercent` and `attPercent`
+choices with both committed records populated.
 
 When no candidate remains, `WallScript` logs an error and fails closed. The
 authored altar calculates a zero value, clears and disables its visible text
@@ -226,14 +263,20 @@ requirements: the ability keeps its own alias/effect/value semantics, while the
 player sees one stable stat name. Runtime walls and generated previews cannot
 diverge because they consume the same display-key and icon resolvers.
 
-Unity initializes these objects sequentially on the main thread. Committing a
-stat only after its row and `BuffType` resolve successfully lets subsequent
-altars exclude real choices rather than partial or failed rolls.
+Unity runs these callbacks on the main thread, but that does not make parent
+and child enable ordering a safe state boundary. Keeping invalidation inside
+the explicit `BeginRoll()` transition means callback order cannot erase a
+successful commitment. Committing only after the row and `BuffType` resolve
+successfully still lets subsequent altars exclude real choices rather than
+partial or failed rolls.
 
 ## Prevention
 
 - Keep `AllNearbyStatsExhausted_ReturnsNoDuplicateCandidate`; it excludes both
   Rare stat keys and requires an empty result.
+- Keep `LateOnEnable_DoesNotEraseCommittedStatBeforeNextRoll`; committed stats
+  must survive lifecycle synchronization until `BeginRoll()` starts the next
+  selection transaction.
 - Keep workbook candidate-count tests (`Normal: 6`, `Rare: 2`, `Unique: 7`) so
   level design can see each grade's uniqueness capacity.
 - Keep workbook-row contract tests that require every supported row to provide
@@ -263,6 +306,7 @@ altars exclude real choices rather than partial or failed rolls.
 ## Related Issues
 
 - [Bake generated prefab UI previews and isolate EditMode tests](../workflow-issues/bake-generated-prefab-ui-previews-and-isolate-editmode-tests-2026-08-13.md)
+- [Restore authored bonus choice VFX baselines on re-enable](../ui-bugs/restore-authored-bonus-choice-vfx-baselines-on-reenable-2026-08-15.md)
 - [Isolate dedicated MeshyAI assets from generic repair](../workflow-issues/isolate-dedicated-meshyai-assets-from-generic-repair-2026-08-09.md)
 - [Resolve a selected prefab child to its map-tool placement root](resolve-selected-prefab-child-to-map-tool-placement-root-2026-06-08.md)
 - [Atomically reload enemy stats and reset pooled runtime state](../integration-issues/atomic-enemy-stat-workbook-reload-and-pool-safe-reset-2026-08-02.md)

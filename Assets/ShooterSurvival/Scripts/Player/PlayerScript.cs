@@ -634,6 +634,10 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ApplyWorldYawRotation(Quaternion rotation)
         {
+            Quaternion currentRotation =
+                playerRigidbody != null ? playerRigidbody.rotation : transform.rotation;
+            Quaternion rotationDelta = rotation * Quaternion.Inverse(currentRotation);
+
             if (playerRigidbody != null)
             {
                 playerRigidbody.MoveRotation(rotation);
@@ -644,6 +648,8 @@ namespace IndianOceanAssets.ShooterSurvival
             {
                 transform.rotation = rotation;
             }
+
+            BulletScript.ApplyRouteTurn(this, rotationDelta);
         }
 
         private void CaptureWorldYawTurnConstraints()

@@ -32,12 +32,8 @@ public static class FeastOfFortuneWallSetup
         MaterialFolder + "/BonusBox_BeveledBox.asset";
     private const string ChoiceTextMaterialPath =
         MaterialFolder + "/BonusBox_ChoiceText.mat";
-    private const string RunePrefabFolder =
-        "Assets/polyperfect/Poly Universal Pack/Prefabs/Primeval/Runes";
     private const string UniversalAlbedoPath =
         "Assets/polyperfect/Poly Universal Pack/Textures/Universal/Universal_A_Alb.png";
-    private const string CircleGroundTexturePath =
-        "Assets/SrRubfish_VFX_02/Textures/Shared/FX_TX_CircleGround_Buff_01.png";
     private const string VerticalGlowTexturePath =
         "Assets/SrRubfish_VFX_02/Textures/Shared/FX_TX_VerticalGlow_01.png";
     private const string VerticalImpactTexturePath =
@@ -47,32 +43,29 @@ public static class FeastOfFortuneWallSetup
     internal const float StatCanvasScale = 0.06f;
     internal const float StatCanvasHorizontalScale = 0.06f;
     internal const float StatCanvasWidth = 1.2f;
-    internal const float StatNameFontSize = 0.085f;
-    internal const float StatValueFontSize = StatNameFontSize;
-    internal const float StatRowSpacing = 0.048f;
-    internal const float StatIconLeftAnchor = 0.27f;
-    internal const float StatIconRightAnchor = 0.73f;
-    internal const float StatIconBottomAnchor = 0.394f;
-    internal const float StatIconTopAnchor = 0.946f;
-    internal const float StatNameBottomAnchor = 0.94f;
-    internal const float StatNameTopAnchor = 1.02f;
-    internal const float StatValueBottomAnchor = 0.94f;
-    internal const float StatValueTopAnchor = 1.02f;
-    internal const float ChoiceTitleFontSize = 0.12f;
-    internal const float ChoiceTitleBottomAnchor = 1.04f;
-    internal const float ChoiceTitleTopAnchor = 1.2f;
-    internal const float ChoiceTextBackplateLeftAnchor = 0.055f;
-    internal const float ChoiceTextBackplateRightAnchor = 0.945f;
-    internal const float ChoiceTextBackplateBottomAnchor = 0.915f;
-    internal const float ChoiceTextBackplateTopAnchor = 1.22f;
-    internal const float ChoiceTextBackplateAlpha = 0.58f;
+    internal const float StatNameFontSize = 0.13f;
+    internal const float StatNameMinFontSize = 0.045f;
+    internal const float StatValueFontSize = 0.3f;
+    internal const float StatValueMinFontSize = 0.16f;
+    internal const float StatBadgeLeftAnchor = 0.27f;
+    internal const float StatBadgeRightAnchor = 0.73f;
+    internal const float StatBadgeBottomAnchor = 0.56f;
+    internal const float StatBadgeTopAnchor = 0.74f;
+    internal const float StatValueBottomAnchor = 0.78f;
+    internal const float StatValueTopAnchor = 1f;
+    private const float StatRowSpacing = 0.048f;
+    private const float StatNameBottomAnchor = 0.87f;
+    private const float StatNameTopAnchor = 0.96f;
+    private const float ChoiceTitleFontSize = 0.105f;
+    private const float ChoiceTitleBottomAnchor = 0.97f;
+    private const float ChoiceTitleTopAnchor = 1.11f;
     internal const float AltarVisualScale = 1f;
     internal const float AltarHorizontalScale = 0.75f;
     private const float PedestalWidth = 0.95f;
     private const float PedestalHeight = 0.61f;
     private const float PedestalDepth = 0.68f;
-    private const float RuneCircleHeight = PedestalHeight + 0.015f;
-    private const float RuneCircleDiameter = 1.04f;
+    private const float WaterSurfaceHeight = PedestalHeight + 0.015f;
+    private const float WaterVortexDiameter = 1.08f;
     private static readonly string[] BonusIconFileNames =
     {
         "WallBonus_Attack.png",
@@ -103,9 +96,9 @@ public static class FeastOfFortuneWallSetup
         public Material Edge;
         public Material Panel;
         public Material WearDecal;
-        public Material GlyphGlow;
-        public Material RingGlow;
-        public Material ArcUnderglow;
+        public Material WaterVortex;
+        public Material WaterFoam;
+        public Material WarpCompass;
         public Material GroundAura;
         public Material Beam;
         public Material IconHalo;
@@ -118,8 +111,9 @@ public static class FeastOfFortuneWallSetup
     private enum EffectTextureShape
     {
         SoftAura,
-        EnergyMote,
-        MagicCircle,
+        WaterVortex,
+        WaterFoam,
+        WarpCompass,
         WearCracks
     }
 
@@ -135,7 +129,6 @@ public static class FeastOfFortuneWallSetup
             ConfigureBonusIcon(BonusIconResourceFolder + "/" + iconFileName);
 
         Texture2D universalAlbedo = LoadTexture(UniversalAlbedoPath);
-        Texture2D circleTexture = LoadTexture(CircleGroundTexturePath);
         Texture2D verticalGlowTexture = LoadTexture(VerticalGlowTexturePath);
         Texture2D verticalImpactTexture = LoadTexture(VerticalImpactTexturePath);
         Texture2D glowAddTexture = LoadTexture(GlowAddTexturePath);
@@ -143,14 +136,18 @@ public static class FeastOfFortuneWallSetup
             "BonusBox_SoftAura",
             GeneratedTextureFolder + "/BonusBox_SoftAura.png",
             EffectTextureShape.SoftAura);
-        Texture2D magicCircleTexture = CreateOrUpdateEffectTexture(
-            "BonusBox_MagicCircle",
-            GeneratedTextureFolder + "/BonusBox_MagicCircle.png",
-            EffectTextureShape.MagicCircle);
-        Texture2D energyMoteTexture = CreateOrUpdateEffectTexture(
-            "BonusBox_EnergyMote",
-            GeneratedTextureFolder + "/BonusBox_EnergyMote.png",
-            EffectTextureShape.EnergyMote);
+        Texture2D waterVortexTexture = CreateOrUpdateEffectTexture(
+            "BonusBox_WaterVortex",
+            GeneratedTextureFolder + "/BonusBox_WaterVortex.png",
+            EffectTextureShape.WaterVortex);
+        Texture2D waterFoamTexture = CreateOrUpdateEffectTexture(
+            "BonusBox_WaterFoam",
+            GeneratedTextureFolder + "/BonusBox_WaterFoam.png",
+            EffectTextureShape.WaterFoam);
+        Texture2D warpCompassTexture = CreateOrUpdateEffectTexture(
+            "BonusBox_WarpCompass",
+            GeneratedTextureFolder + "/BonusBox_WarpCompass.png",
+            EffectTextureShape.WarpCompass);
         Texture2D wearCracksTexture = CreateOrUpdateEffectTexture(
             "BonusBox_WearCracks",
             GeneratedTextureFolder + "/BonusBox_WearCracks.png",
@@ -163,14 +160,14 @@ public static class FeastOfFortuneWallSetup
             new Color(0.92f, 0.31f, 0.055f, 1f),
             new Color(2.3f, 0.75f, 0.04f, 0.78f),
             universalAlbedo,
-            circleTexture,
-            magicCircleTexture,
+            waterVortexTexture,
+            waterFoamTexture,
+            warpCompassTexture,
             softAuraTexture,
             verticalGlowTexture,
             verticalImpactTexture,
             glowAddTexture,
             LoadBonusIcon(BuffType.att_normmal).texture,
-            energyMoteTexture,
             wearCracksTexture);
         EnsureOutlineRendererFeatures(
             attackMaterials.Body,
@@ -181,6 +178,7 @@ public static class FeastOfFortuneWallSetup
         string altarPrefab = BuildWallPrefab(
             attackMaterials,
             beveledBoxMesh);
+        RemoveLegacyRuneAssets();
         AssetDatabase.SaveAssets();
         WriteReport(altarPrefab);
 
@@ -270,6 +268,64 @@ public static class FeastOfFortuneWallSetup
             $"and normalized {normalized} canonical instance(s).");
     }
 
+    [MenuItem("Tools/Shooter Survival/Bonus Choice Boxes/Refresh Open Scene Altar Instances", false, 2322)]
+    public static void RefreshOpenSceneAltarInstances()
+    {
+        if (EditorApplication.isPlayingOrWillChangePlaymode)
+            throw new InvalidOperationException("Exit play mode before refreshing bonus altars.");
+
+        UnityEngine.SceneManagement.Scene scene =
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        GameObject canonicalPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(LeftPrefabPath);
+        if (!scene.IsValid() || !scene.isLoaded || canonicalPrefab == null)
+            throw new InvalidOperationException(
+                "A loaded scene and the canonical bonus altar prefab are required.");
+
+        var targets = new List<AuthoredBonusWall>();
+        foreach (AuthoredBonusWall altar in
+                 UnityEngine.Object.FindObjectsByType<AuthoredBonusWall>(
+                     FindObjectsInactive.Include,
+                     FindObjectsSortMode.None))
+        {
+            if (altar.gameObject.scene != scene)
+                continue;
+
+            targets.Add(altar);
+        }
+
+        foreach (AuthoredBonusWall altar in targets)
+        {
+            Transform oldTransform = altar.transform;
+            Transform parent = oldTransform.parent;
+            int siblingIndex = oldTransform.GetSiblingIndex();
+            Vector3 localPosition = oldTransform.localPosition;
+            Quaternion localRotation = oldTransform.localRotation;
+            Vector3 localScale = oldTransform.localScale;
+            string instanceName = altar.gameObject.name;
+            Rarity rarity = altar.Rarity;
+
+            GameObject replacement = PrefabUtility.InstantiatePrefab(
+                canonicalPrefab,
+                parent) as GameObject;
+            if (replacement == null)
+                throw new InvalidOperationException("Could not refresh the canonical bonus altar.");
+
+            replacement.transform.SetSiblingIndex(siblingIndex);
+            replacement.transform.localPosition = localPosition;
+            replacement.transform.localRotation = localRotation;
+            replacement.transform.localScale = localScale;
+            replacement.name = instanceName;
+            replacement.GetComponent<AuthoredBonusWall>().Configure(rarity);
+            NoryangjinMapToolWindow.ConfigureBonusWallInstance(replacement);
+            Undo.RegisterCreatedObjectUndo(replacement, "Refresh Bonus Altar");
+            Undo.DestroyObjectImmediate(altar.gameObject);
+        }
+
+        if (targets.Count > 0)
+            EditorSceneManager.MarkSceneDirty(scene);
+        Debug.Log($"[BonusChoiceBoxes] Refreshed {targets.Count} canonical altar instance(s).");
+    }
+
     private static bool NeedsCanonicalAltarNormalization(
         AuthoredBonusWall altar,
         string normalizedName)
@@ -303,7 +359,7 @@ public static class FeastOfFortuneWallSetup
             : "Bonus_Altar";
     }
 
-    [MenuItem("Tools/Shooter Survival/Bonus Choice Boxes/Capture Gameplay Preview", false, 2322)]
+    [MenuItem("Tools/Shooter Survival/Bonus Choice Boxes/Capture Gameplay Preview", false, 2323)]
     public static void CaptureGameplayPreview()
     {
         if (EditorApplication.isPlayingOrWillChangePlaymode)
@@ -359,11 +415,29 @@ public static class FeastOfFortuneWallSetup
 
         List<Transform> billboardTransforms = new();
         List<Quaternion> billboardRotations = new();
+        List<WallStatCanvasBillboard> billboardComponents = new();
+        List<bool> billboardEnabledStates = new();
         ParticleSystem[] particles = new ParticleSystem[choiceRoots.Length];
         bool[] autoRandomSeed = new bool[choiceRoots.Length];
         uint[] randomSeeds = new uint[choiceRoots.Length];
         int[] particleCounts = new int[choiceRoots.Length];
         string[] particleScreenBounds = new string[choiceRoots.Length];
+        WallScript[] previewWalls = new WallScript[choiceRoots.Length];
+        TMPro.TextMeshProUGUI[] previewLabels =
+            new TMPro.TextMeshProUGUI[choiceRoots.Length];
+        string[] originalLabels = new string[choiceRoots.Length];
+        string[] originalValues = new string[choiceRoots.Length];
+        Sprite[] originalIcons = new Sprite[choiceRoots.Length];
+        Color[] originalValueColors = new Color[choiceRoots.Length];
+        Color[] originalOutlineColors = new Color[choiceRoots.Length];
+        bool[] originalLocalizationEnabled = new bool[choiceRoots.Length];
+        BuffType[] originalBonusTypes = new BuffType[choiceRoots.Length];
+        BonusChoiceAltarVfx[] previewVfx = new BonusChoiceAltarVfx[choiceRoots.Length];
+        System.Reflection.MethodInfo refreshPresentation =
+            typeof(BonusChoiceAltarVfx).GetMethod(
+                "RefreshPresentation",
+                System.Reflection.BindingFlags.Instance |
+                System.Reflection.BindingFlags.NonPublic);
         RenderTexture renderTexture = null;
         RenderTexture previousActive = RenderTexture.active;
         Texture2D screenshot = null;
@@ -376,6 +450,54 @@ public static class FeastOfFortuneWallSetup
                     throw new InvalidOperationException(
                         $"Choice Canvas was not found: {choiceRoots[index].name}");
 
+                previewWalls[index] = choiceRoots[index]
+                    .GetComponentInChildren<WallScript>(true);
+                WallScript wall = previewWalls[index];
+                if (wall == null || wall.statNameLoc == null || wall.statValueTmp == null)
+                    throw new InvalidOperationException(
+                        $"Choice UI references were not found: {choiceRoots[index].name}");
+
+                previewLabels[index] =
+                    wall.statNameLoc.GetComponent<TMPro.TextMeshProUGUI>();
+                originalLabels[index] = previewLabels[index].text;
+                originalValues[index] = wall.statValueTmp.text;
+                originalValueColors[index] = wall.statValueTmp.color;
+                originalLocalizationEnabled[index] = wall.statNameLoc.enabled;
+                originalBonusTypes[index] = wall.buffType;
+                if (wall.statIconImage != null)
+                    originalIcons[index] = wall.statIconImage.sprite;
+                if (wall.statBadgeOutline != null)
+                    originalOutlineColors[index] = wall.statBadgeOutline.effectColor;
+
+                BuffType previewType = index == 0
+                    ? BuffType.hp_normal
+                    : BuffType.attackSpeed_normal;
+                Color previewAccent = BonusChoiceAltarVfx.ResolveUiAccent(previewType);
+                wall.statNameLoc.enabled = false;
+                previewLabels[index].enabled = true;
+                previewLabels[index].text = index == 0 ? "HEALTH" : "ATK SPEED";
+                wall.statValueTmp.enabled = true;
+                wall.statValueTmp.text = index == 0 ? "+999" : "+11%";
+                wall.statValueTmp.color = previewAccent;
+                if (wall.statIconImage != null)
+                    wall.statIconImage.sprite = LoadBonusIcon(previewType);
+                if (wall.statBadgeImage != null)
+                    wall.statBadgeImage.enabled = true;
+                if (wall.statBadgeOutline != null)
+                {
+                    previewAccent.a = 0.9f;
+                    wall.statBadgeOutline.enabled = true;
+                    wall.statBadgeOutline.effectColor = previewAccent;
+                }
+
+                previewVfx[index] = choiceRoots[index]
+                    .GetComponent<BonusChoiceAltarVfx>();
+                if (previewVfx[index] != null && refreshPresentation != null)
+                {
+                    previewVfx[index].SetBonusType(previewType);
+                    refreshPresentation.Invoke(previewVfx[index], null);
+                }
+
                 WallStatCanvasBillboard[] billboards = choiceRoots[index]
                     .GetComponentsInChildren<WallStatCanvasBillboard>(true);
                 if (billboards.Length == 0)
@@ -386,11 +508,16 @@ public static class FeastOfFortuneWallSetup
                 {
                     billboardTransforms.Add(billboard.transform);
                     billboardRotations.Add(billboard.transform.rotation);
+                    billboardComponents.Add(billboard);
+                    billboardEnabledStates.Add(billboard.enabled);
                     billboard.FaceCamera(previewCamera);
+                    billboard.enabled = false;
                 }
-                RectTransform statRow = canvas.Find("Stat_Row") as RectTransform;
-                if (statRow != null)
-                    LayoutRebuilder.ForceRebuildLayoutImmediate(statRow);
+                RectTransform statBadge = canvas.Find("Stat_Badge") as RectTransform;
+                if (statBadge != null)
+                    LayoutRebuilder.ForceRebuildLayoutImmediate(statBadge);
+                previewLabels[index].ForceMeshUpdate(true, true);
+                wall.statValueTmp.ForceMeshUpdate(true, true);
 
                 particles[index] = choiceRoots[index].transform
                     .Find("ChoiceAltarVisual/ChoiceParticles")
@@ -452,12 +579,35 @@ public static class FeastOfFortuneWallSetup
 
             for (int index = 0; index < billboardTransforms.Count; index++)
             {
+                if (billboardComponents[index] != null)
+                    billboardComponents[index].enabled = billboardEnabledStates[index];
                 if (billboardTransforms[index] != null)
                     billboardTransforms[index].rotation = billboardRotations[index];
             }
 
             for (int index = 0; index < choiceRoots.Length; index++)
             {
+                WallScript wall = previewWalls[index];
+                if (wall != null)
+                {
+                    wall.statNameLoc.enabled = false;
+                    previewLabels[index].text = originalLabels[index];
+                    wall.statValueTmp.text = originalValues[index];
+                    wall.statValueTmp.color = originalValueColors[index];
+                    if (wall.statIconImage != null)
+                        wall.statIconImage.sprite = originalIcons[index];
+                    if (wall.statBadgeOutline != null)
+                        wall.statBadgeOutline.effectColor = originalOutlineColors[index];
+                    wall.statNameLoc.enabled = originalLocalizationEnabled[index];
+                    if (wall.statNameLoc.enabled)
+                        wall.statNameLoc.RefreshString();
+                }
+                if (previewVfx[index] != null && refreshPresentation != null)
+                {
+                    previewVfx[index].SetBonusType(originalBonusTypes[index]);
+                    refreshPresentation.Invoke(previewVfx[index], null);
+                }
+
                 if (particles[index] == null)
                     continue;
 
@@ -536,16 +686,12 @@ public static class FeastOfFortuneWallSetup
     {
         RequireAsset(TemplatePrefabPath);
         RequireAsset(UniversalAlbedoPath);
-        RequireAsset(CircleGroundTexturePath);
         RequireAsset(VerticalGlowTexturePath);
         RequireAsset(VerticalImpactTexturePath);
         RequireAsset(GlowAddTexturePath);
 
         foreach (string iconFileName in BonusIconFileNames)
             RequireAsset(BonusIconResourceFolder + "/" + iconFileName);
-
-        for (char rune = 'A'; rune <= 'I'; rune++)
-            RequireAsset($"{RunePrefabFolder}/Rune_{rune}.prefab");
 
         foreach (string rendererDataPath in RendererDataPaths)
             RequireAsset(rendererDataPath);
@@ -555,6 +701,24 @@ public static class FeastOfFortuneWallSetup
 
         if (Shader.Find(UnlitShaderName) == null)
             throw new InvalidOperationException($"Could not find required shader: {UnlitShaderName}");
+    }
+
+    private static void RemoveLegacyRuneAssets()
+    {
+        string[] obsoleteAssetPaths =
+        {
+            MaterialFolder + "/BonusBox_AttackGlow.mat",
+            MaterialFolder + "/BonusBox_AttackArcUnderglow.mat",
+            MaterialFolder + "/BonusBox_AttackRuneCircle.mat",
+            MaterialFolder + "/BonusBox_AttackParticles.mat",
+            GeneratedTextureFolder + "/BonusBox_MagicCircle.png",
+            GeneratedTextureFolder + "/BonusBox_EnergyMote.png"
+        };
+        foreach (string assetPath in obsoleteAssetPaths)
+        {
+            if (AssetDatabase.LoadMainAssetAtPath(assetPath) != null)
+                AssetDatabase.DeleteAsset(assetPath);
+        }
     }
 
     private static void MigrateLegacyPrefab(string legacyPath, string currentPath)
@@ -602,20 +766,27 @@ public static class FeastOfFortuneWallSetup
         Color accentColor,
         Color glowColor,
         Texture2D universalAlbedo,
-        Texture2D circleTexture,
-        Texture2D magicCircleTexture,
+        Texture2D waterVortexTexture,
+        Texture2D waterFoamTexture,
+        Texture2D warpCompassTexture,
         Texture2D softAuraTexture,
         Texture2D verticalGlowTexture,
         Texture2D verticalImpactTexture,
         Texture2D glowAddTexture,
         Texture2D iconTexture,
-        Texture2D particleTexture,
         Texture2D wearCracksTexture)
     {
         string prefix = "BonusBox_" + variant;
-        Color glyphColor = new Color(glowColor.r, glowColor.g, glowColor.b, 0.36f);
-        Color ringColor = new Color(glowColor.r, glowColor.g, glowColor.b, 0.44f);
-        Color arcColor = new Color(glowColor.r, glowColor.g, glowColor.b, 0.12f);
+        Color waterColor = new(
+            glowColor.r * 0.82f,
+            glowColor.g * 0.82f,
+            glowColor.b * 0.82f,
+            0.58f);
+        Color foamColor = new(
+            glowColor.r * 1.08f,
+            glowColor.g * 1.08f,
+            glowColor.b * 1.08f,
+            0.78f);
         Color auraColor = new Color(glowColor.r, glowColor.g, glowColor.b, 0.3f);
         Color beamColor = new Color(
             glowColor.r,
@@ -673,23 +844,24 @@ public static class FeastOfFortuneWallSetup
                 wearColor,
                 additive: false,
                 texture: wearCracksTexture),
-            GlyphGlow = CreateOrUpdateGlowMaterial(
-                prefix + "Glow",
-                MaterialFolder + "/" + prefix + "Glow.mat",
-                glyphColor,
-                additive: true),
-            RingGlow = CreateOrUpdateGlowMaterial(
-                prefix + "RuneCircle",
-                MaterialFolder + "/" + prefix + "RuneCircle.mat",
-                ringColor,
+            WaterVortex = CreateOrUpdateGlowMaterial(
+                prefix + "WaterVortex",
+                MaterialFolder + "/" + prefix + "WaterVortex.mat",
+                waterColor,
                 additive: true,
-                texture: magicCircleTexture),
-            ArcUnderglow = CreateOrUpdateGlowMaterial(
-                prefix + "ArcUnderglow",
-                MaterialFolder + "/" + prefix + "ArcUnderglow.mat",
-                arcColor,
+                texture: waterVortexTexture),
+            WaterFoam = CreateOrUpdateGlowMaterial(
+                prefix + "WaterFoam",
+                MaterialFolder + "/" + prefix + "WaterFoam.mat",
+                foamColor,
                 additive: true,
-                texture: circleTexture),
+                texture: waterFoamTexture),
+            WarpCompass = CreateOrUpdateGlowMaterial(
+                prefix + "WarpCompass",
+                MaterialFolder + "/" + prefix + "WarpCompass.mat",
+                new Color(glowColor.r, glowColor.g, glowColor.b, 0.72f),
+                additive: true,
+                texture: warpCompassTexture),
             GroundAura = CreateOrUpdateGlowMaterial(
                 prefix + "GroundAura",
                 MaterialFolder + "/" + prefix + "GroundAura.mat",
@@ -735,13 +907,11 @@ public static class FeastOfFortuneWallSetup
                 additive: true,
                 texture: iconTexture),
             Particles = CreateOrUpdateGlowMaterial(
-                prefix + "Particles",
-                MaterialFolder + "/" + prefix + "Particles.mat",
+                prefix + "WaterDroplets",
+                MaterialFolder + "/" + prefix + "WaterDroplets.mat",
                 particleColor,
                 additive: true,
-                texture: variant == "Attack"
-                    ? verticalImpactTexture
-                    : particleTexture)
+                texture: softAuraTexture)
         };
     }
 
@@ -758,7 +928,9 @@ public static class FeastOfFortuneWallSetup
     {
         int size = shape switch
         {
-            EffectTextureShape.MagicCircle => 256,
+            EffectTextureShape.WaterVortex or
+                EffectTextureShape.WaterFoam or
+                EffectTextureShape.WarpCompass => 256,
             EffectTextureShape.WearCracks => 128,
             _ => 64
         };
@@ -818,26 +990,12 @@ public static class FeastOfFortuneWallSetup
                 float radius = Mathf.Sqrt(x * x + y * y);
                 return Mathf.Pow(Mathf.Clamp01(1f - radius), 2.2f);
             }
-            case EffectTextureShape.EnergyMote:
-            {
-                float radius = Mathf.Sqrt(x * x + y * y);
-                float softCore = Mathf.Pow(
-                    Mathf.Clamp01(1f - radius / 0.62f),
-                    1.2f);
-                float verticalRay =
-                    Mathf.Pow(Mathf.Clamp01(1f - Mathf.Abs(x) / 0.14f), 1.8f) *
-                    Mathf.Pow(Mathf.Clamp01(1f - Mathf.Abs(y) / 0.95f), 0.7f) *
-                    0.9f;
-                float horizontalRay =
-                    Mathf.Pow(Mathf.Clamp01(1f - Mathf.Abs(y) / 0.15f), 1.8f) *
-                    Mathf.Pow(Mathf.Clamp01(1f - Mathf.Abs(x) / 0.7f), 0.85f) *
-                    0.68f;
-                return Mathf.Clamp01(Mathf.Max(
-                    softCore,
-                    Mathf.Max(verticalRay, horizontalRay)));
-            }
-            case EffectTextureShape.MagicCircle:
-                return MagicCircleAlpha(x, y);
+            case EffectTextureShape.WaterVortex:
+                return WaterVortexAlpha(x, y);
+            case EffectTextureShape.WaterFoam:
+                return WaterFoamAlpha(x, y);
+            case EffectTextureShape.WarpCompass:
+                return WarpCompassAlpha(x, y);
             case EffectTextureShape.WearCracks:
                 return WearCracksAlpha(x, y);
             default:
@@ -853,38 +1011,69 @@ public static class FeastOfFortuneWallSetup
             Mathf.InverseLerp(-feather, feather, signedDistance));
     }
 
-    private static float MagicCircleAlpha(float x, float y)
+    private static float WaterVortexAlpha(float x, float y)
     {
         float radius = Mathf.Sqrt(x * x + y * y);
-        float alpha = Mathf.Max(
-            RingAlpha(radius, 0.92f, 0.009f),
-            Mathf.Max(
-                RingAlpha(radius, 0.72f, 0.008f),
-                RingAlpha(radius, 0.53f, 0.007f)));
+        if (radius < 0.12f || radius > 1f)
+            return 0f;
 
-        const int tickCount = 24;
         float angle = Mathf.Atan2(y, x);
-        float sectorAngle = Mathf.PI * 2f / tickCount;
-        float wrappedAngle = Mathf.Repeat(angle + sectorAngle * 0.5f, sectorAngle) -
-                             sectorAngle * 0.5f;
-        float tangentialDistance = Mathf.Abs(wrappedAngle) * radius;
-        int sectorIndex = Mathf.FloorToInt((angle + Mathf.PI) / sectorAngle);
-        float tickOuterRadius = sectorIndex % 2 == 0 ? 0.885f : 0.85f;
-        float angularMask = 1f - SmoothThreshold(0.008f, 0.018f, tangentialDistance);
-        float radialMask = RangeAlpha(radius, 0.775f, tickOuterRadius, 0.009f);
-        alpha = Mathf.Max(alpha, angularMask * radialMask);
+        float radialMask = RangeAlpha(radius, 0.14f, 0.97f, 0.035f);
+        float spiralWave = 0.5f + 0.5f * Mathf.Cos(angle * 3f - radius * 17.5f);
+        float spiral = SmoothThreshold(0.68f, 0.94f, spiralWave) *
+                       radialMask * Mathf.Lerp(0.5f, 1f, radius);
+        float ripples = Mathf.Max(
+            RingAlpha(radius, 0.32f, 0.018f),
+            Mathf.Max(
+                RingAlpha(radius, 0.57f, 0.018f),
+                RingAlpha(radius, 0.84f, 0.02f))) * 0.42f;
+        float hollowRim = RingAlpha(radius, 0.18f, 0.016f) * 0.65f;
+        return Mathf.Clamp01(Mathf.Max(spiral * 0.82f, Mathf.Max(ripples, hollowRim)));
+    }
 
-        for (int index = 0; index < 4; index++)
-        {
-            float cardinalAngle = index * Mathf.PI * 0.5f;
-            float centerX = Mathf.Cos(cardinalAngle) * 0.625f;
-            float centerY = Mathf.Sin(cardinalAngle) * 0.625f;
-            float diamondDistance =
-                0.057f - (Mathf.Abs(x - centerX) + Mathf.Abs(y - centerY));
-            alpha = Mathf.Max(alpha, SoftShapeAlpha(diamondDistance, 0.01f));
-        }
+    private static float WaterFoamAlpha(float x, float y)
+    {
+        float radius = Mathf.Sqrt(x * x + y * y);
+        if (radius < 0.28f || radius > 1f)
+            return 0f;
 
-        return alpha;
+        float angle = Mathf.Atan2(y, x);
+        float noise = Mathf.Sin(angle * 11f + radius * 31f) * 0.62f +
+                      Mathf.Sin(angle * 7f - radius * 19f) * 0.38f;
+        float brokenFoam = SmoothThreshold(0.18f, 0.72f, noise);
+        float outerBand = RangeAlpha(radius, 0.62f, 0.97f, 0.035f);
+        float innerCurlWave = 0.5f + 0.5f * Mathf.Cos(angle * 2f - radius * 14f);
+        float innerCurl = SmoothThreshold(0.78f, 0.96f, innerCurlWave) *
+                          RangeAlpha(radius, 0.3f, 0.72f, 0.04f) * 0.62f;
+        float rim = RingAlpha(radius, 0.82f, 0.028f) *
+                    Mathf.Lerp(0.25f, 0.75f, Mathf.Clamp01(noise * 0.5f + 0.5f));
+        return Mathf.Clamp01(Mathf.Max(outerBand * brokenFoam, Mathf.Max(innerCurl, rim)));
+    }
+
+    private static float WarpCompassAlpha(float x, float y)
+    {
+        float radius = Mathf.Sqrt(x * x + y * y);
+        if (radius < 0.18f || radius > 1f)
+            return 0f;
+
+        float angle = Mathf.Atan2(y, x);
+        float rings = Mathf.Max(
+            RingAlpha(radius, 0.34f, 0.012f),
+            Mathf.Max(
+                RingAlpha(radius, 0.62f, 0.012f),
+                RingAlpha(radius, 0.89f, 0.014f)));
+        float tickWave = Mathf.Abs(Mathf.Cos(angle * 12f));
+        float ticks = SmoothThreshold(0.88f, 0.98f, tickWave) *
+                      RangeAlpha(radius, 0.76f, 0.98f, 0.025f);
+        float cardinalWave = Mathf.Max(
+            Mathf.Abs(Mathf.Cos(angle * 2f)),
+            Mathf.Abs(Mathf.Sin(angle * 2f)));
+        float cardinalTicks = SmoothThreshold(0.985f, 0.999f, cardinalWave) *
+                              RangeAlpha(radius, 0.42f, 0.86f, 0.02f) * 0.8f;
+        float spokes = Mathf.Max(
+            SegmentStroke(new Vector2(x, y), new Vector2(-0.78f, 0f), new Vector2(0.78f, 0f), 0.007f),
+            SegmentStroke(new Vector2(x, y), new Vector2(0f, -0.78f), new Vector2(0f, 0.78f), 0.007f)) * 0.55f;
+        return Mathf.Clamp01(Mathf.Max(rings * 0.82f, Mathf.Max(ticks, Mathf.Max(cardinalTicks, spokes))));
     }
 
     private static float RingAlpha(float radius, float ringRadius, float halfWidth)
@@ -1293,13 +1482,13 @@ public static class FeastOfFortuneWallSetup
                 false,
                 0f);
 
-            wall.buffType = BuffType.att_normmal;
+            wall.buffType = BuffType.attackSpeed_normal;
             bool statLocalizationWasEnabled =
-                ConfigureStatLocalization(wall, BuffType.att_normmal);
+                ConfigureStatLocalization(wall, BuffType.attackSpeed_normal);
             RectTransform[] iconAuras = ConfigureStatIcon(
                 root,
                 wall,
-                BuffType.att_normmal,
+                BuffType.attackSpeed_normal,
                 0f);
             ConfigureStatValuePreview(wall);
             ConfigureStatTypography(wall);
@@ -1310,7 +1499,7 @@ public static class FeastOfFortuneWallSetup
             altarVfx.Configure(
                 false,
                 glowRoot,
-                wall.statIconImage.rectTransform,
+                null,
                 iconAuras);
 
             AuthoredBonusWall authoredBonus = root.GetComponent<AuthoredBonusWall>();
@@ -1318,8 +1507,8 @@ public static class FeastOfFortuneWallSetup
                 authoredBonus = root.AddComponent<AuthoredBonusWall>();
             authoredBonus.Configure(Rarity.Normal);
 
-            ConfigureStatLabelPreview(wall, BuffType.att_normmal);
-            RebuildStatRowLayout(wall);
+            ConfigureStatLabelPreview(wall, BuffType.attackSpeed_normal);
+            RebuildDataFirstLayout(wall);
             GameObject saved = PrefabUtility.SaveAsPrefabAsset(
                 root,
                 LeftPrefabPath,
@@ -1502,8 +1691,8 @@ public static class FeastOfFortuneWallSetup
         CreateQuadPiece(
             visual.transform,
             "GroundAura",
-            new Vector3(0f, RuneCircleHeight - 0.012f, 0f),
-            new Vector2(RuneCircleDiameter * 1.45f, RuneCircleDiameter * 1.45f),
+            new Vector3(0f, WaterSurfaceHeight - 0.012f, 0f),
+            new Vector2(WaterVortexDiameter * 1.45f, WaterVortexDiameter * 1.45f),
             Quaternion.Euler(90f, 0f, 0f),
             materials.GroundAura);
 
@@ -1511,7 +1700,7 @@ public static class FeastOfFortuneWallSetup
         energyBillboard.transform.SetParent(visual.transform, false);
         energyBillboard.transform.localPosition = new Vector3(
             0f,
-            RuneCircleHeight + RuneCircleDiameter * 0.47f,
+            WaterSurfaceHeight + WaterVortexDiameter * 0.47f,
             -0.035f);
         energyBillboard.AddComponent<WallStatCanvasBillboard>();
 
@@ -1520,8 +1709,8 @@ public static class FeastOfFortuneWallSetup
             "IconEnergyHalo",
             new Vector3(0f, -0.02f, -0.001f),
             new Vector2(
-                RuneCircleDiameter * 1.28f,
-                RuneCircleDiameter * 0.84f),
+                WaterVortexDiameter * 1.28f,
+                WaterVortexDiameter * 0.84f),
             Quaternion.identity,
             materials.IconHalo);
         iconHalo.GetComponent<MeshRenderer>().sortingOrder = 0;
@@ -1531,8 +1720,8 @@ public static class FeastOfFortuneWallSetup
             "VerticalBeam",
             Vector3.zero,
             new Vector2(
-                RuneCircleDiameter * 1.1f,
-                RuneCircleDiameter * 0.95f),
+                WaterVortexDiameter * 1.1f,
+                WaterVortexDiameter * 0.95f),
             Quaternion.identity,
             materials.Beam);
         centralBeam.GetComponent<MeshRenderer>().sortingOrder = 0;
@@ -1542,21 +1731,21 @@ public static class FeastOfFortuneWallSetup
             "IconEnergyCore",
             new Vector3(0f, -0.035f, 0.001f),
             new Vector2(
-                RuneCircleDiameter * 0.5f,
-                RuneCircleDiameter * 0.85f),
+                WaterVortexDiameter * 0.5f,
+                WaterVortexDiameter * 0.85f),
             Quaternion.identity,
             materials.IconCore);
         energyCore.GetComponent<MeshRenderer>().sortingOrder = 1;
 
-        float veilSideOffset = RuneCircleDiameter * 0.22f;
+        float veilSideOffset = WaterVortexDiameter * 0.22f;
         float veilTilt = aggressiveVfx ? 9f : 7f;
         GameObject leftVeil = CreateQuadPiece(
             energyBillboard.transform,
             "IconEnergyVeilLeft",
             new Vector3(-veilSideOffset, -0.015f, 0.001f),
             new Vector2(
-                RuneCircleDiameter * (aggressiveVfx ? 0.42f : 0.38f),
-                RuneCircleDiameter * 0.93f),
+                WaterVortexDiameter * (aggressiveVfx ? 0.42f : 0.38f),
+                WaterVortexDiameter * 0.93f),
             Quaternion.Euler(0f, 0f, -veilTilt),
             materials.IconVeil);
         GameObject rightVeil = CreateQuadPiece(
@@ -1564,8 +1753,8 @@ public static class FeastOfFortuneWallSetup
             "IconEnergyVeilRight",
             new Vector3(veilSideOffset, 0.015f, 0.002f),
             new Vector2(
-                RuneCircleDiameter * (aggressiveVfx ? 0.42f : 0.38f),
-                RuneCircleDiameter * 0.93f),
+                WaterVortexDiameter * (aggressiveVfx ? 0.42f : 0.38f),
+                WaterVortexDiameter * 0.93f),
             Quaternion.Euler(0f, 0f, veilTilt),
             materials.IconVeil);
         leftVeil.GetComponent<MeshRenderer>().sortingOrder = 2;
@@ -1573,53 +1762,36 @@ public static class FeastOfFortuneWallSetup
 
         GameObject glowRoot = new GameObject("GlowOrbit");
         glowRoot.transform.SetParent(visual.transform, false);
-        glowRoot.transform.localPosition = new Vector3(0f, RuneCircleHeight, 0f);
+        glowRoot.transform.localPosition = new Vector3(0f, WaterSurfaceHeight, 0f);
 
-        CreateQuadPiece(
+        CreateWaterVortexLayer(
             glowRoot.transform,
-            "RuneArcUnderglow",
-            new Vector3(0f, 0.001f, 0f),
-            new Vector2(RuneCircleDiameter * 1.05f, RuneCircleDiameter * 1.05f),
-            Quaternion.Euler(90f, 0f, 18f),
-            materials.ArcUnderglow);
-        CreateQuadPiece(
+            "WaterVortexOuter",
+            0.001f,
+            WaterVortexDiameter * 1.08f,
+            0f,
+            materials.WaterVortex);
+        CreateWaterVortexLayer(
             glowRoot.transform,
-            "RuneCircleOuter",
-            new Vector3(0f, 0.002f, 0f),
-            new Vector2(RuneCircleDiameter, RuneCircleDiameter),
-            Quaternion.Euler(90f, 0f, 0f),
-            materials.RingGlow);
-        CreateQuadPiece(
+            "WaterVortexInner",
+            0.005f,
+            WaterVortexDiameter * 0.76f,
+            37f,
+            materials.WaterVortex);
+        CreateWaterVortexLayer(
             glowRoot.transform,
-            "RuneCircleInner",
-            new Vector3(0f, 0.006f, 0f),
-            new Vector2(RuneCircleDiameter * 0.78f, RuneCircleDiameter * 0.78f),
-            Quaternion.Euler(90f, 0f, 105f),
-            materials.RingGlow);
-
-        float runeRadius = RuneCircleDiameter * 0.39f;
-        for (int index = 0; index < 9; index++)
-        {
-            char runeLetter = (char)('A' + index);
-            float angle = index * 40f;
-            float radians = angle * Mathf.Deg2Rad;
-            Mesh runeMesh = LoadPrefabMesh($"{RunePrefabFolder}/Rune_{runeLetter}.prefab");
-            float sourceSize = Mathf.Max(
-                runeMesh.bounds.size.x,
-                Mathf.Max(runeMesh.bounds.size.y, runeMesh.bounds.size.z));
-            float runeScale = 0.1f / sourceSize;
-            CreateMeshPiece(
-                glowRoot.transform,
-                $"Rune_{runeLetter}",
-                runeMesh,
-                new Vector3(
-                    Mathf.Cos(radians) * runeRadius,
-                    0.012f,
-                    Mathf.Sin(radians) * runeRadius),
-                Vector3.one * runeScale,
-                Quaternion.Euler(90f, -angle - 90f, 0f),
-                materials.GlyphGlow);
-        }
+            "WarpCompass",
+            0.008f,
+            WaterVortexDiameter * 1.18f,
+            11f,
+            materials.WarpCompass);
+        CreateWaterVortexLayer(
+            glowRoot.transform,
+            "WaterFoam",
+            0.011f,
+            WaterVortexDiameter * 1.13f,
+            19f,
+            materials.WaterFoam);
 
         CreateParticleEffect(
             visual.transform,
@@ -1628,16 +1800,26 @@ public static class FeastOfFortuneWallSetup
         return glowRoot.transform;
     }
 
-    private static Mesh LoadPrefabMesh(string prefabPath)
+    private static Transform CreateWaterVortexLayer(
+        Transform parent,
+        string name,
+        float height,
+        float diameter,
+        float yaw,
+        Material material)
     {
-        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-        MeshFilter meshFilter = prefab != null
-            ? prefab.GetComponentInChildren<MeshFilter>(true)
-            : null;
-        if (meshFilter == null || meshFilter.sharedMesh == null)
-            throw new InvalidOperationException($"Prefab has no reusable mesh: {prefabPath}");
-
-        return meshFilter.sharedMesh;
+        GameObject layer = new GameObject(name);
+        layer.transform.SetParent(parent, false);
+        layer.transform.localPosition = new Vector3(0f, height, 0f);
+        layer.transform.localRotation = Quaternion.Euler(0f, yaw, 0f);
+        CreateQuadPiece(
+            layer.transform,
+            "Surface",
+            Vector3.zero,
+            new Vector2(diameter, diameter),
+            Quaternion.Euler(90f, 0f, 0f),
+            material);
+        return layer.transform;
     }
 
     private static GameObject CreateMeshPiece(
@@ -1694,7 +1876,7 @@ public static class FeastOfFortuneWallSetup
     {
         GameObject effectObject = new GameObject("ChoiceParticles", typeof(ParticleSystem));
         effectObject.transform.SetParent(parent, false);
-        effectObject.transform.localPosition = new Vector3(0f, RuneCircleHeight + 0.02f, 0f);
+        effectObject.transform.localPosition = new Vector3(0f, WaterSurfaceHeight + 0.015f, 0f);
         effectObject.transform.localRotation = Quaternion.Euler(-90f, 0f, 0f);
 
         ParticleSystem particles = effectObject.GetComponent<ParticleSystem>();
@@ -1703,31 +1885,37 @@ public static class FeastOfFortuneWallSetup
         main.playOnAwake = true;
         main.simulationSpace = ParticleSystemSimulationSpace.Local;
         main.startLifetime = aggressiveVfx
-            ? new ParticleSystem.MinMaxCurve(0.85f, 1.25f)
-            : new ParticleSystem.MinMaxCurve(1.5f, 2.2f);
+            ? new ParticleSystem.MinMaxCurve(0.55f, 0.95f)
+            : new ParticleSystem.MinMaxCurve(0.75f, 1.2f);
         main.startSpeed = aggressiveVfx
-            ? new ParticleSystem.MinMaxCurve(0.65f, 0.95f)
-            : new ParticleSystem.MinMaxCurve(0.32f, 0.5f);
+            ? new ParticleSystem.MinMaxCurve(0.42f, 0.72f)
+            : new ParticleSystem.MinMaxCurve(0.24f, 0.48f);
         main.startSize3D = true;
         main.startSizeX = aggressiveVfx
-            ? new ParticleSystem.MinMaxCurve(0.1f, 0.18f)
-            : new ParticleSystem.MinMaxCurve(0.09f, 0.13f);
+            ? new ParticleSystem.MinMaxCurve(0.055f, 0.095f)
+            : new ParticleSystem.MinMaxCurve(0.04f, 0.075f);
         main.startSizeY = aggressiveVfx
-            ? new ParticleSystem.MinMaxCurve(0.22f, 0.38f)
-            : new ParticleSystem.MinMaxCurve(0.15f, 0.22f);
+            ? new ParticleSystem.MinMaxCurve(0.11f, 0.19f)
+            : new ParticleSystem.MinMaxCurve(0.08f, 0.15f);
         main.startSizeZ = main.startSizeX;
         main.startRotation = new ParticleSystem.MinMaxCurve(-0.28f, 0.28f);
         main.startColor = Color.white;
-        main.maxParticles = aggressiveVfx ? 16 : 12;
+        main.maxParticles = aggressiveVfx ? 28 : 20;
 
         ParticleSystem.EmissionModule emission = particles.emission;
-        emission.rateOverTime = aggressiveVfx ? 11f : 7f;
+        emission.rateOverTime = aggressiveVfx ? 19f : 13f;
 
         ParticleSystem.ShapeModule shape = particles.shape;
-        shape.shapeType = ParticleSystemShapeType.Cone;
-        shape.angle = aggressiveVfx ? 14f : 17f;
-        shape.radius = RuneCircleDiameter * (aggressiveVfx ? 0.35f : 0.38f);
-        shape.radiusThickness = aggressiveVfx ? 0.58f : 0.72f;
+        shape.shapeType = ParticleSystemShapeType.Circle;
+        shape.radius = WaterVortexDiameter * (aggressiveVfx ? 0.4f : 0.43f);
+        shape.radiusThickness = aggressiveVfx ? 0.58f : 0.48f;
+        shape.arcMode = ParticleSystemShapeMultiModeValue.Random;
+
+        ParticleSystem.VelocityOverLifetimeModule velocity = particles.velocityOverLifetime;
+        velocity.enabled = true;
+        velocity.space = ParticleSystemSimulationSpace.Local;
+        velocity.orbitalZ = aggressiveVfx ? 1.75f : 1.15f;
+        velocity.radial = aggressiveVfx ? -0.3f : -0.2f;
 
         ParticleSystem.ColorOverLifetimeModule colorOverLifetime =
             particles.colorOverLifetime;
@@ -1760,9 +1948,9 @@ public static class FeastOfFortuneWallSetup
         sizeOverLifetime.size = new ParticleSystem.MinMaxCurve(
             1f,
             new AnimationCurve(
-                new Keyframe(0f, 0.65f),
+                new Keyframe(0f, 0.45f),
                 new Keyframe(0.2f, 1f),
-                new Keyframe(1f, aggressiveVfx ? 0.3f : 0.5f)));
+                new Keyframe(1f, aggressiveVfx ? 0.18f : 0.28f)));
 
         ParticleSystem.TrailModule trails = particles.trails;
         trails.enabled = false;
@@ -1834,211 +2022,159 @@ public static class FeastOfFortuneWallSetup
         if (canvas.GetComponent<WallStatCanvasBillboard>() == null)
             canvas.gameObject.AddComponent<WallStatCanvasBillboard>();
 
-        Transform existingIcon = canvas.Find("Stat_Icon");
-        GameObject iconObject = existingIcon != null
-            ? existingIcon.gameObject
-            : new GameObject("Stat_Icon", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
-        iconObject.layer = canvas.gameObject.layer;
-        RectTransform iconTransform = iconObject.GetComponent<RectTransform>();
-        iconTransform.SetParent(canvas, false);
-        bool isAttack = buffType is BuffType.att_normmal or BuffType.att_unique;
-        float iconLeftAnchor = isAttack ? StatIconLeftAnchor : 0.245f;
-        float iconRightAnchor = isAttack ? StatIconRightAnchor : 0.755f;
-        float iconBottomAnchor = isAttack ? StatIconBottomAnchor : 0.364f;
-        float iconTopAnchor = isAttack ? StatIconTopAnchor : 0.976f;
-        iconTransform.anchorMin = new Vector2(iconLeftAnchor, iconBottomAnchor);
-        iconTransform.anchorMax = new Vector2(iconRightAnchor, iconTopAnchor);
-        iconTransform.anchoredPosition = Vector2.zero;
-        iconTransform.sizeDelta = Vector2.zero;
-        iconTransform.localScale = Vector3.one;
-
-        Image image = iconObject.GetComponent<Image>();
-        Sprite iconSprite = LoadBonusIcon(buffType);
-        Texture2D softAuraTexture = LoadTexture(
-            GeneratedTextureFolder + "/BonusBox_SoftAura.png");
-        image.sprite = iconSprite;
-        image.color = Color.white;
-        image.material = null;
-        image.preserveAspect = true;
-        image.raycastTarget = false;
-        wall.statIconImage = image;
-
-        Canvas iconCanvas = iconObject.GetComponent<Canvas>();
-        if (iconCanvas == null)
-            iconCanvas = iconObject.AddComponent<Canvas>();
-        iconCanvas.overrideSorting = true;
-        iconCanvas.sortingLayerID = choiceCanvas.sortingLayerID;
-        iconCanvas.sortingOrder = StatIconSortingOrder;
-
-        foreach (Shadow effect in iconObject.GetComponents<Shadow>())
-            UnityEngine.Object.DestroyImmediate(effect);
-
-        Color iconGlow = isAttack
-            ? new Color(1f, 0.48f, 0.03f, 0.9f)
-            : new Color(0.02f, 0.9f, 1f, 0.85f);
-
-        float iconCenterY = (iconBottomAnchor + iconTopAnchor) * 0.5f;
-        float iconAnchorWidth = iconRightAnchor - iconLeftAnchor;
-        float iconAnchorHeight = iconTopAnchor - iconBottomAnchor;
-        Vector2 outerHalfSize = new(
-            iconAnchorWidth * 0.775f,
-            iconAnchorHeight * 0.52f);
-        Vector2 innerHalfSize = new(
-            iconAnchorWidth * 0.65f,
-            iconAnchorHeight * 0.5f);
-        RectTransform outerAura = CreateOrConfigureIconAura(
-            canvas,
-            "Stat_Icon_AuraOuter",
-            softAuraTexture,
-            new Vector2(0.5f - outerHalfSize.x, iconCenterY - outerHalfSize.y),
-            new Vector2(0.5f + outerHalfSize.x, iconCenterY + outerHalfSize.y),
-            new Color(iconGlow.r, iconGlow.g, iconGlow.b, 0.12f));
-        RectTransform innerAura = CreateOrConfigureIconAura(
-            canvas,
-            "Stat_Icon_AuraInner",
-            softAuraTexture,
-            new Vector2(0.5f - innerHalfSize.x, iconCenterY - innerHalfSize.y),
-            new Vector2(0.5f + innerHalfSize.x, iconCenterY + innerHalfSize.y),
-            new Color(iconGlow.r, iconGlow.g, iconGlow.b, 0.25f));
-        RectTransform textBackplate = CreateOrConfigureChoiceTextBackplate(canvas);
-        outerAura.SetSiblingIndex(iconTransform.GetSiblingIndex());
-        innerAura.SetSiblingIndex(iconTransform.GetSiblingIndex());
-        textBackplate.SetSiblingIndex(iconTransform.GetSiblingIndex());
-        iconTransform.SetAsLastSibling();
-
         RectTransform statText = wall.statNameLoc != null
             ? wall.statNameLoc.GetComponent<RectTransform>()
             : null;
         RectTransform valueText = wall.statValueTmp != null
             ? wall.statValueTmp.rectTransform
             : null;
-        ConfigureStatRow(canvasTransform, statText, valueText);
-
-        TMPro.TextMeshProUGUI statTemplate =
-            statText != null ? statText.GetComponent<TMPro.TextMeshProUGUI>() : null;
-        CreateOrConfigureChoiceTitle(canvas, isAttack, statTemplate);
-
-        return new[] { innerAura, outerAura };
-    }
-
-    private static RectTransform CreateOrConfigureChoiceTextBackplate(Transform canvas)
-    {
-        const string objectName = "Choice_TextBackplate";
-        Transform existing = canvas.Find(objectName);
-        GameObject plateObject = existing != null
-            ? existing.gameObject
-            : new GameObject(
-                objectName,
-                typeof(RectTransform),
-                typeof(CanvasRenderer),
-                typeof(Image));
-        plateObject.layer = canvas.gameObject.layer;
-
-        RectTransform plateTransform = plateObject.GetComponent<RectTransform>();
-        plateTransform.SetParent(canvas, false);
-        plateTransform.anchorMin = new Vector2(
-            ChoiceTextBackplateLeftAnchor,
-            ChoiceTextBackplateBottomAnchor);
-        plateTransform.anchorMax = new Vector2(
-            ChoiceTextBackplateRightAnchor,
-            ChoiceTextBackplateTopAnchor);
-        plateTransform.pivot = new Vector2(0.5f, 0.5f);
-        plateTransform.anchoredPosition = Vector2.zero;
-        plateTransform.sizeDelta = Vector2.zero;
-        plateTransform.localScale = Vector3.one;
-        plateTransform.localRotation = Quaternion.identity;
-
-        RawImage legacyRawImage = plateObject.GetComponent<RawImage>();
-        if (legacyRawImage != null)
-            UnityEngine.Object.DestroyImmediate(legacyRawImage);
-        foreach (Shadow effect in plateObject.GetComponents<Shadow>())
-            UnityEngine.Object.DestroyImmediate(effect);
-
-        Image plateImage = plateObject.GetComponent<Image>();
-        if (plateImage == null)
-            plateImage = plateObject.AddComponent<Image>();
-        Sprite roundedSprite = AssetDatabase.GetBuiltinExtraResource<Sprite>(
-            "UI/Skin/UISprite.psd");
-        plateImage.sprite = roundedSprite;
-        plateImage.type = roundedSprite != null ? Image.Type.Sliced : Image.Type.Simple;
-        plateImage.color = new Color(
-            0.015f,
-            0.025f,
-            0.04f,
-            ChoiceTextBackplateAlpha);
-        plateImage.material = null;
-        plateImage.raycastTarget = false;
-        return plateTransform;
-    }
-
-    private static void ConfigureStatRow(
-        RectTransform canvas,
-        RectTransform statText,
-        RectTransform valueText)
-    {
+        Transform existingIcon = wall.statIconImage != null
+            ? wall.statIconImage.transform
+            : canvas.Find("Stat_Icon");
         if (statText == null || valueText == null)
             throw new InvalidOperationException("Wall template stat text was not found.");
 
-        Transform existingRow = canvas.Find("Stat_Row");
-        GameObject rowObject = existingRow != null
-            ? existingRow.gameObject
-            : new GameObject("Stat_Row", typeof(RectTransform));
-        rowObject.layer = canvas.gameObject.layer;
+        statText.SetParent(canvas, false);
+        valueText.SetParent(canvas, false);
+        if (existingIcon != null)
+            existingIcon.SetParent(canvas, false);
 
-        RectTransform row = rowObject.GetComponent<RectTransform>();
-        row.SetParent(canvas, false);
-        row.anchorMin = new Vector2(0f, StatNameBottomAnchor);
-        row.anchorMax = new Vector2(1f, StatNameTopAnchor);
-        row.pivot = new Vector2(0.5f, 0.5f);
-        row.anchoredPosition = Vector2.zero;
-        row.sizeDelta = Vector2.zero;
-        row.localScale = Vector3.one;
-        row.localRotation = Quaternion.identity;
+        RemoveChoiceBackgroundChrome(canvas);
+        RemoveGeneratedCanvasChild(canvas, "Stat_Row");
+        RemoveGeneratedCanvasChild(canvas, "Choice_Title");
+        RemoveGeneratedCanvasChild(canvas, "Stat_Icon_AuraOuter");
+        RemoveGeneratedCanvasChild(canvas, "Stat_Icon_AuraInner");
 
-        HorizontalLayoutGroup layout = rowObject.GetComponent<HorizontalLayoutGroup>();
-        if (layout == null)
-            layout = rowObject.AddComponent<HorizontalLayoutGroup>();
-        layout.padding = new RectOffset();
-        layout.childAlignment = TextAnchor.MiddleCenter;
-        layout.spacing = StatRowSpacing;
-        layout.childControlWidth = true;
-        layout.childControlHeight = true;
-        layout.childForceExpandWidth = false;
-        layout.childForceExpandHeight = false;
-        layout.childScaleWidth = false;
-        layout.childScaleHeight = false;
-        layout.reverseArrangement = false;
+        bool isAttack = buffType is
+            BuffType.att_normmal or
+            BuffType.att_unique or
+            BuffType.attPer_normal or
+            BuffType.attPer_unique or
+            BuffType.attackSpeed_normal or
+            BuffType.attackSpeed_unique;
+        Color accent = isAttack
+            ? new Color(1f, 0.48f, 0.03f, 0.9f)
+            : new Color(0.02f, 0.9f, 1f, 0.85f);
 
-        ConfigureStatRowChild(statText, row, 0);
-        ConfigureStatRowChild(valueText, row, 1);
-        row.SetAsLastSibling();
+        Transform existingBadge = canvas.Find("Stat_Badge");
+        GameObject badgeObject = existingBadge != null
+            ? existingBadge.gameObject
+            : new GameObject(
+                "Stat_Badge",
+                typeof(RectTransform),
+                typeof(CanvasRenderer),
+                typeof(Image));
+        badgeObject.layer = canvas.gameObject.layer;
+        RectTransform badge = badgeObject.GetComponent<RectTransform>();
+        badge.SetParent(canvas, false);
+        badge.anchorMin = new Vector2(StatBadgeLeftAnchor, StatBadgeBottomAnchor);
+        badge.anchorMax = new Vector2(StatBadgeRightAnchor, StatBadgeTopAnchor);
+        badge.anchoredPosition = Vector2.zero;
+        badge.sizeDelta = Vector2.zero;
+        badge.localScale = Vector3.one;
+
+        Image badgeImage = badgeObject.GetComponent<Image>();
+        badgeImage.sprite = null;
+        badgeImage.type = Image.Type.Simple;
+        badgeImage.color = new Color(0.008f, 0.014f, 0.024f, 0.97f);
+        badgeImage.raycastTarget = false;
+        foreach (Shadow effect in badgeObject.GetComponents<Shadow>())
+            UnityEngine.Object.DestroyImmediate(effect);
+        var badgeOutline = badgeObject.AddComponent<UnityEngine.UI.Outline>();
+        badgeOutline.effectColor = new Color(accent.r, accent.g, accent.b, 0.9f);
+        badgeOutline.effectDistance = new Vector2(0.01f, 0.01f);
+        badgeOutline.useGraphicAlpha = false;
+        wall.statBadgeImage = badgeImage;
+        wall.statBadgeOutline = badgeOutline;
+
+        GameObject iconObject = existingIcon != null
+            ? existingIcon.gameObject
+            : new GameObject(
+                "Stat_Icon",
+                typeof(RectTransform),
+                typeof(CanvasRenderer),
+                typeof(Image));
+        iconObject.layer = canvas.gameObject.layer;
+        RectTransform iconTransform = iconObject.GetComponent<RectTransform>();
+        iconTransform.SetParent(badge, false);
+        iconTransform.anchorMin = new Vector2(0.055f, 0.18f);
+        iconTransform.anchorMax = new Vector2(0.28f, 0.82f);
+        iconTransform.anchoredPosition = Vector2.zero;
+        iconTransform.sizeDelta = Vector2.zero;
+        iconTransform.localScale = Vector3.one;
+
+        Image image = iconObject.GetComponent<Image>();
+        image.sprite = LoadBonusIcon(buffType);
+        image.color = Color.white;
+        image.material = null;
+        image.preserveAspect = true;
+        image.raycastTarget = false;
+        wall.statIconImage = image;
+        foreach (Shadow effect in iconObject.GetComponents<Shadow>())
+            UnityEngine.Object.DestroyImmediate(effect);
+
+        statText.SetParent(badge, false);
+        statText.anchorMin = new Vector2(0.3f, 0.08f);
+        statText.anchorMax = new Vector2(0.95f, 0.92f);
+        statText.anchoredPosition3D = new Vector3(0f, 0f, -0.01f);
+        statText.sizeDelta = Vector2.zero;
+        statText.localScale = Vector3.one;
+        statText.localRotation = Quaternion.identity;
+        Canvas statTextCanvas = statText.GetComponent<Canvas>();
+        if (statTextCanvas != null)
+            UnityEngine.Object.DestroyImmediate(statTextCanvas);
+
+        valueText.SetParent(canvas, false);
+        valueText.anchorMin = new Vector2(0.05f, StatValueBottomAnchor);
+        valueText.anchorMax = new Vector2(0.95f, StatValueTopAnchor);
+        valueText.pivot = new Vector2(0.5f, 0.5f);
+        valueText.anchoredPosition3D = new Vector3(0f, 0f, -0.02f);
+        valueText.sizeDelta = Vector2.zero;
+        valueText.localScale = Vector3.one;
+        valueText.localRotation = Quaternion.identity;
+        Canvas valueTextCanvas = valueText.GetComponent<Canvas>();
+        if (valueTextCanvas != null)
+            UnityEngine.Object.DestroyImmediate(valueTextCanvas);
+        badge.SetAsLastSibling();
+        valueText.SetAsLastSibling();
+
+        return Array.Empty<RectTransform>();
     }
 
-    private static void ConfigureStatRowChild(
-        RectTransform child,
-        RectTransform row,
-        int siblingIndex)
+    private static void RemoveGeneratedCanvasChild(Transform canvas, string childName)
     {
-        child.SetParent(row, false);
-        child.anchorMin = new Vector2(0.5f, 0.5f);
-        child.anchorMax = new Vector2(0.5f, 0.5f);
-        child.pivot = new Vector2(0.5f, 0.5f);
-        child.anchoredPosition = Vector2.zero;
-        child.sizeDelta = Vector2.zero;
-        child.localScale = Vector3.one;
-        child.localRotation = Quaternion.identity;
-        child.SetSiblingIndex(siblingIndex);
+        Transform child = canvas.Find(childName);
+        if (child != null)
+            UnityEngine.Object.DestroyImmediate(child.gameObject);
     }
 
-    private static void RebuildStatRowLayout(WallScript wall)
+    private static void RemoveChoiceBackgroundChrome(Transform canvas)
     {
-        RectTransform statRow = wall.statValueTmp != null
-            ? wall.statValueTmp.rectTransform.parent as RectTransform
+        string[] obsoleteObjectNames =
+        {
+            "Choice_TextBackplate",
+            "Choice_AccentBar",
+            "Choice_TitleBackplate",
+            "Choice_InfoBackplate"
+        };
+        foreach (string objectName in obsoleteObjectNames)
+        {
+            Transform existing = canvas.Find(objectName);
+            if (existing != null)
+                UnityEngine.Object.DestroyImmediate(existing.gameObject);
+        }
+    }
+
+    private static void RebuildDataFirstLayout(WallScript wall)
+    {
+        RectTransform badge = wall.statNameLoc != null
+            ? wall.statNameLoc.transform.parent as RectTransform
             : null;
-        if (statRow == null || statRow.name != "Stat_Row")
-            throw new InvalidOperationException("The centered stat row was not configured.");
+        if (badge == null || badge.name != "Stat_Badge")
+            throw new InvalidOperationException("The data-first stat badge was not configured.");
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate(statRow);
+        LayoutRebuilder.ForceRebuildLayoutImmediate(badge);
+        Canvas.ForceUpdateCanvases();
     }
 
     private static void CreateOrConfigureChoiceTitle(
@@ -2071,7 +2207,7 @@ public static class FeastOfFortuneWallSetup
         title.font = template.font;
         Material titleMaterial = CreateOrUpdateChoiceTextMaterial(template.font);
         SetFloatIfPresent(titleMaterial, "_OutlineWidth", 0.28f);
-        title.text = "운명의 제단";
+        title.text = "공격력 강화";
         title.color = new Color32(255, 253, 247, 255);
         title.enableAutoSizing = false;
         title.fontSize = ChoiceTitleFontSize;
@@ -2173,8 +2309,9 @@ public static class FeastOfFortuneWallSetup
         {
             statText.text = buffType switch
             {
-                BuffType.att_normmal or BuffType.att_unique => "공격력",
-                BuffType.hp_normal or BuffType.hp_unique => "체력",
+                BuffType.att_normmal or BuffType.att_unique => "ATTACK",
+                BuffType.attackSpeed_normal or BuffType.attackSpeed_unique => "ATK SPEED",
+                BuffType.hp_normal or BuffType.hp_unique => "HEALTH",
                 _ => statText.text
             };
         }
@@ -2185,7 +2322,7 @@ public static class FeastOfFortuneWallSetup
         if (wall.statValueTmp == null)
             return;
 
-        wall.statValueTmp.text = "+?";
+        wall.statValueTmp.text = "+11%";
     }
 
     private static void ConfigureStatTypography(WallScript wall)
@@ -2197,23 +2334,27 @@ public static class FeastOfFortuneWallSetup
         if (statName == null || wall.statValueTmp == null)
             throw new InvalidOperationException("Wall template stat text was not found.");
 
-        statName.enableAutoSizing = false;
+        statName.enableAutoSizing = true;
+        statName.fontSizeMin = StatNameMinFontSize;
+        statName.fontSizeMax = StatNameFontSize;
         statName.fontSize = StatNameFontSize;
         statName.horizontalAlignment = TMPro.HorizontalAlignmentOptions.Center;
         statName.verticalAlignment = TMPro.VerticalAlignmentOptions.Middle;
         statName.fontStyle = TMPro.FontStyles.Bold;
         statName.textWrappingMode = TMPro.TextWrappingModes.NoWrap;
-        statName.overflowMode = TMPro.TextOverflowModes.Overflow;
+        statName.overflowMode = TMPro.TextOverflowModes.Truncate;
         statName.color = new Color32(232, 237, 241, 255);
         statName.outlineWidth = 0.28f;
         statName.outlineColor = Color.black;
-        wall.statValueTmp.enableAutoSizing = false;
+        wall.statValueTmp.enableAutoSizing = true;
+        wall.statValueTmp.fontSizeMin = StatValueMinFontSize;
+        wall.statValueTmp.fontSizeMax = StatValueFontSize;
         wall.statValueTmp.fontSize = StatValueFontSize;
         wall.statValueTmp.horizontalAlignment = TMPro.HorizontalAlignmentOptions.Center;
         wall.statValueTmp.verticalAlignment = TMPro.VerticalAlignmentOptions.Middle;
         wall.statValueTmp.fontStyle = TMPro.FontStyles.Bold;
         wall.statValueTmp.textWrappingMode = TMPro.TextWrappingModes.NoWrap;
-        wall.statValueTmp.overflowMode = TMPro.TextOverflowModes.Overflow;
+        wall.statValueTmp.overflowMode = TMPro.TextOverflowModes.Truncate;
         wall.statValueTmp.color = wall.buffType is BuffType.att_normmal or BuffType.att_unique
             ? new Color32(255, 208, 112, 255)
             : new Color32(131, 242, 229, 255);
@@ -2293,25 +2434,28 @@ public static class FeastOfFortuneWallSetup
             "NearbyDuplicateStatsBlocked: True\n" +
             $"PedestalMesh: {BeveledBoxMeshPath}\n" +
             $"PedestalDimensions: {PedestalWidth} x {PedestalHeight} x {PedestalDepth}\n" +
-            $"MagicCircleTexture: {GeneratedTextureFolder}/BonusBox_MagicCircle.png\n" +
+            $"WaterVortexTexture: {GeneratedTextureFolder}/BonusBox_WaterVortex.png\n" +
+            $"WaterFoamTexture: {GeneratedTextureFolder}/BonusBox_WaterFoam.png\n" +
+            $"WarpCompassTexture: {GeneratedTextureFolder}/BonusBox_WarpCompass.png\n" +
             $"EnergyMoteTexture: {GeneratedTextureFolder}/BonusBox_EnergyMote.png\n" +
             $"WearCracksTexture: {GeneratedTextureFolder}/BonusBox_WearCracks.png\n" +
-            $"ArcUnderglowTexture: {CircleGroundTexturePath}\n" +
             "CompactBeveledTierAltar: True\n" +
             "RecessedFramedFrontPanel: True\n" +
             $"AltarHorizontalScale: {AltarHorizontalScale}\n" +
             "PresentationOffset: Centered\n" +
-            "ChoiceTitle: 운명의 제단 (runtime alias after roll)\n" +
-            "ChoiceTitleHorizontalScale: 0.78\n" +
-            "ChoiceTextSmokedBackplate: True\n" +
+            "DataFirstValueAndBadge: True\n" +
+            "MaximumPreviewLabel: ATK SPEED\n" +
+            "ChoiceTextBackgroundChrome: False\n" +
             "ChoiceTextUnderlay: True\n" +
             "StaticSemanticMotes: False\n" +
-            "SingleSemanticHeroIcon: True\n" +
+            "CompactBadgeIcon: True\n" +
             "SingleReusableAltar: True\n" +
-            "RuneMeshesAThroughI: True\n" +
-            "LayeredIconAura: True\n" +
+            "RuneMeshesAThroughI: False\n" +
+            "LayeredWaterVortex: True\n" +
+            "RotatingWarpCompass: True\n" +
+            "LayeredIconAura: False\n" +
             "AnimatedGlowOrbit: True\n" +
-            "SparseAbstractEnergyParticles: True\n" +
+            "RisingWaterDroplets: True\n" +
             "ReferenceScaleIconPlume: True\n" +
             "ForegroundStatCanvasSortingOrder: " + StatCanvasSortingOrder + "\n" +
             "ForegroundIconSortingOrder: " + StatIconSortingOrder + "\n" +

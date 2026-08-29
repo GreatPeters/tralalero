@@ -353,6 +353,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string TurnSpotPrefabPath = "Assets/ShooterSurvival/Prefabs/Gameplay/Noryangjin_TurnSpot.prefab";
     internal const string EnemyMovementTriggerPrefabPath =
         "Assets/ShooterSurvival/Prefabs/Gameplay/Noryangjin_EnemyMovementTrigger.prefab";
+    internal const string ObstaclePaletteConfigPath =
+        "Assets/ShooterSurvival/Prefabs/Obstacle/ObstaclePrefabs.asset";
     private const string RootName = "Noryangjin_MapTool";
     private const string RoadParentName = "Roads";
     private const string PropParentName = "Props";
@@ -608,7 +610,15 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         ["Pier Pillars Fantasy"] = "오르막기둥",
         ["Noryangjin TurnSpot"] = TurnSpotPaletteItemLabel,
         ["Noryangjin Enemy Movement Trigger"] =
-            EnemyMovementTriggerPaletteItemLabel
+            EnemyMovementTriggerPaletteItemLabel,
+        ["Hole"] = "구멍",
+        ["Oils"] = "기름",
+        ["Ship"] = "배",
+        ["Lights"] = "조명",
+        ["Boats"] = "보트",
+        ["Dolphins"] = "돌고래",
+        ["Buckets"] = "양동이",
+        ["Seagulls"] = "갈매기"
     };
 
     [SerializeField] private Vector3 origin = Vector3.zero;
@@ -5794,7 +5804,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         if (target == null)
             return false;
 
-        bool isGimmick = target.GetComponent<NoryangjinTurnSpot>() != null;
+        string prefabPath = GetPrefabAssetPathForPlacedObject(target);
+        bool isGimmick =
+            target.GetComponent<NoryangjinTurnSpot>() != null ||
+            IsObstaclePalettePrefabPath(prefabPath);
         NoryangjinMapToolPlacementLayer layer = GetPlacedObjectLayer(target);
         bool isEnemyContent = layer == NoryangjinMapToolPlacementLayer.Enemy;
         bool isBonusContent = layer == NoryangjinMapToolPlacementLayer.Bonus;
@@ -7139,7 +7152,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     {
         string normalizedPath = prefabPath.Replace('\\', '/');
         if (IsEnemyPalettePrefabPath(normalizedPath) ||
-            IsBonusWallPalettePrefabPath(normalizedPath))
+            IsBonusWallPalettePrefabPath(normalizedPath) ||
+            IsObstaclePalettePrefabPath(normalizedPath))
             return true;
 
         foreach (string palettePrefabRoot in PalettePrefabRoots)
@@ -7149,6 +7163,55 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         }
 
         return false;
+    }
+
+    internal static bool IsObstaclePalettePrefabPath(string prefabPath)
+    {
+        if (string.IsNullOrEmpty(prefabPath))
+            return false;
+
+        string normalizedPath = prefabPath.Replace('\\', '/');
+        foreach (string obstaclePath in FindObstaclePalettePrefabPaths())
+        {
+            if (string.Equals(
+                    normalizedPath,
+                    obstaclePath,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    internal static string[] FindObstaclePalettePrefabPaths()
+    {
+        ObstaclePrefabs obstacleConfig =
+            AssetDatabase.LoadAssetAtPath<ObstaclePrefabs>(ObstaclePaletteConfigPath);
+        if (obstacleConfig == null || obstacleConfig.obstaclePrefabs == null)
+            return Array.Empty<string>();
+
+        var paths = new List<string>();
+        foreach (ObstacleTypePrefab entry in obstacleConfig.obstaclePrefabs)
+        {
+            if (entry == null ||
+                entry.pattern == ObstaclePattern.None ||
+                entry.prefab == null)
+            {
+                continue;
+            }
+
+            string prefabPath = AssetDatabase.GetAssetPath(entry.prefab);
+            if (string.IsNullOrEmpty(prefabPath))
+                continue;
+
+            string normalizedPath = prefabPath.Replace('\\', '/');
+            if (!paths.Contains(normalizedPath))
+                paths.Add(normalizedPath);
+        }
+
+        return paths.ToArray();
     }
 
     internal static bool IsBonusWallPalettePrefabPath(string prefabPath)
@@ -7800,6 +7863,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             ClearSelectionPaletteItemSortOrder,
             NoryangjinMapToolPaletteSection.Common));
         AddTurnSpotPaletteItem(paletteItems);
+        AddObstaclePaletteItems(paletteItems);
         AddEnemyMovementTriggerPaletteItem(paletteItems);
         AddEnemyPaletteItems(paletteItems);
         AddBonusWallPaletteItems(paletteItems);
@@ -7870,6 +7934,26 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             NoryangjinMapToolPaletteCategory.Prop,
             TurnSpotPaletteItemSortOrder,
             NoryangjinMapToolPaletteSection.Gimmick));
+    }
+
+    private void AddObstaclePaletteItems(List<PaletteItem> items)
+    {
+        string[] prefabPaths = FindObstaclePalettePrefabPaths();
+        for (int i = 0; i < prefabPaths.Length; i++)
+        {
+            string prefabPath = prefabPaths[i];
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+            if (prefab == null || HasPaletteItem(items, prefabPath))
+                continue;
+
+            items.Add(new PaletteItem(
+                BuildPaletteDisplayLabel(prefabPath),
+                prefabPath,
+                prefab,
+                NoryangjinMapToolPaletteCategory.Prop,
+                10 + i,
+                NoryangjinMapToolPaletteSection.Gimmick));
+        }
     }
 
     private static void AddEnemyMovementTriggerPaletteItem(

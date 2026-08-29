@@ -190,7 +190,7 @@ public sealed class BonusAltarRulesTests
     }
 
     [Test]
-    public void ValidAuthoredRoll_ShowsWorkbookAliasNameAndValue()
+    public void ValidAuthoredRoll_ShowsCompactStrengtheningTitleNameAndValue()
     {
         GameObject altar = new("Valid Authored Altar");
         try
@@ -223,7 +223,10 @@ public sealed class BonusAltarRulesTests
                 wall.CurrentBonusDisplayValue,
                 row.valueType);
             BonusRow expectedNameRow = BonusTables.ResolveDisplayRow(row);
-            Assert.That(title.text, Is.EqualTo(BonusAltarRules.ResolveAlias(row)));
+            Assert.That(
+                title.text,
+                Is.EqualTo(
+                    BonusAltarRules.ResolveDisplayName(expectedNameRow) + " 강화"));
             Assert.That(
                 statName.text,
                 Is.EqualTo(BonusAltarRules.ResolveDisplayName(expectedNameRow)));
@@ -397,6 +400,33 @@ public sealed class BonusAltarRulesTests
             Object.DestroyImmediate(leftObject);
             Object.DestroyImmediate(closeObject);
             Object.DestroyImmediate(farObject);
+        }
+    }
+
+    [Test]
+    public void LateOnEnable_DoesNotEraseCommittedStatBeforeNextRoll()
+    {
+        GameObject altarObject = new("Enabled Altar");
+        try
+        {
+            AuthoredBonusWall altar = altarObject.AddComponent<AuthoredBonusWall>();
+            altar.CommitRoll("missileDistance");
+            MethodInfo onEnable = typeof(AuthoredBonusWall).GetMethod(
+                "OnEnable",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(onEnable, Is.Not.Null);
+
+            onEnable.Invoke(altar, null);
+
+            Assert.That(altar.RolledStat, Is.EqualTo("missileDistance"));
+
+            altar.BeginRoll();
+
+            Assert.That(altar.RolledStat, Is.Null);
+        }
+        finally
+        {
+            Object.DestroyImmediate(altarObject);
         }
     }
 

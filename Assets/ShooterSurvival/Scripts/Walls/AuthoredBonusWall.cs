@@ -62,7 +62,6 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void OnEnable()
         {
-            rolledStat = null;
             SyncWallAuthoringState();
         }
 

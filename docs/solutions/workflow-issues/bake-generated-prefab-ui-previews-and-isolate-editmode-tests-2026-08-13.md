@@ -1,7 +1,7 @@
 ---
 title: Bake Generated Prefab UI Previews and Isolate EditMode Instantiation
 date: 2026-08-13
-last_updated: 2026-08-17
+last_updated: 2026-08-28
 category: docs/solutions/workflow-issues
 module: Unity Feast bonus wall prefab generation
 problem_type: workflow_issue
@@ -10,7 +10,7 @@ severity: medium
 applies_when:
   - "Generating Unity prefabs whose editor-visible UI, materials, textures, or VFX references must be correct before runtime"
   - "A prefab's production parent rotation or scale differs from its isolated preview"
-  - "A builder generates procedural textures or TextMeshPro material assets"
+  - "A builder generates or replaces procedural textures, materials, or VFX hierarchies"
   - "EditMode tests instantiate prefabs while an authored scene may already be dirty"
   - "A generated object is disabled and reactivated during gameplay"
 symptoms:
@@ -83,6 +83,43 @@ Do not depend on runtime initialization to make an asset readable in the
 Project window, Inspector, map tool, or Scene view. When checking a localized
 table entry, resolve its numeric key through the shared table data instead of
 assuming `TableEntryReference.Key` is populated.
+
+### Retire superseded generated assets after the replacement prefab is saved
+
+Replacing generated VFX is not complete when the new hierarchy renders. The
+previous procedural textures, materials, and generation branches remain valid
+Unity assets until the builder deletes them. Save the replacement prefab first,
+then remove only the exact generated paths that the new prefab no longer uses:
+
+```csharp
+string altarPrefab = BuildWallPrefab(materials, beveledBoxMesh);
+RemoveLegacyRuneAssets();
+AssetDatabase.SaveAssets();
+
+private static void RemoveLegacyRuneAssets()
+{
+    string[] obsoleteAssetPaths =
+    {
+        MaterialFolder + "/BonusBox_AttackGlow.mat",
+        MaterialFolder + "/BonusBox_AttackRuneCircle.mat",
+        MaterialFolder + "/BonusBox_AttackParticles.mat",
+        GeneratedTextureFolder + "/BonusBox_MagicCircle.png",
+        GeneratedTextureFolder + "/BonusBox_EnergyMote.png"
+    };
+
+    foreach (string assetPath in obsoleteAssetPaths)
+    {
+        if (AssetDatabase.LoadMainAssetAtPath(assetPath) != null)
+            AssetDatabase.DeleteAsset(assetPath);
+    }
+}
+```
+
+The explicit catalog keeps cleanup narrow and reviewable. Do not delete an
+entire generated directory or infer deletion from filename globs. A prefab
+contract test should assert both sides of the replacement: the new water-vortex
+layers and textures exist, while the old rune material and magic-circle texture
+do not.
 
 ### Assign persistent TMP materials after component setters
 
@@ -262,6 +299,8 @@ This layered contract prevents several false positives:
 - active objects whose pickup collider was never rearmed;
 - Undo-tracked test children resurrected as authored-scene root objects;
 - isolated renders that do not survive the real scene composition.
+- replacement builders that create the new VFX but leave obsolete generated
+  materials, textures, and dead generation code in the project.
 
 ## When to Apply
 
@@ -273,11 +312,12 @@ This layered contract prevents several false positives:
 
 ## Examples
 
-For the final Feast choices, the saved left prefab contains attack icon,
-`+6`, orange rune/flame effects, and a local `+0.10` outward offset. The right
-contains health icon, `+40`, cyan rune/heart effects, and local `-0.10`.
-The actual yaw-180 Noryangjin capture confirmed that those offsets become
-outward world movement and that both choices remain readable together.
+The current canonical `Box_left` altar replaces the old rune-circle stack with
+procedural `WaterVortexOuter`, `WaterVortexInner`, and `WaterFoam` layers plus
+lightweight circular water droplets. Its builder deletes the superseded rune
+materials and `BonusBox_MagicCircle.png` only after saving the replacement
+prefab. The actual Noryangjin capture confirms that two nearby water vortices
+remain readable together at the mobile Game-view resolution.
 
 The verification stack covered:
 
@@ -293,6 +333,7 @@ The verification stack covered:
 
 - [Keep world-space wall stat UI camera-facing on turning routes](../ui-bugs/keep-world-space-wall-stat-ui-camera-facing-on-turning-routes-2026-08-13.md)
 - [Restore authored bonus choice VFX baselines on re-enable](../ui-bugs/restore-authored-bonus-choice-vfx-baselines-on-reenable-2026-08-15.md)
+- [Avoid cross-lane chrome on adjacent world-space bonus choices](../ui-bugs/avoid-cross-lane-chrome-on-adjacent-world-space-bonus-choices-2026-08-28.md)
 - [Protect active Unity scenes from broad EditMode test runs](protect-active-unity-scenes-from-broad-editmode-test-runs-2026-07-18.md)
 - [Preserve prefab root transforms in Noryangjin map tool placement](../logic-errors/preserve-prefab-transform-in-noryangjin-map-tool-placement-2026-06-02.md)
 - [Verify Unity material keywords after bulk outline conversions](verify-unity-material-keywords-after-bulk-outline-conversions-2026-07-02.md)

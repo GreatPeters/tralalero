@@ -310,6 +310,117 @@ public sealed class NoryangjinTurnSpotTests
     }
 
     [Test]
+    public void ImmediateWorldRotation_TurnsOnlyOwnedInFlightMissiles()
+    {
+        var playerObject = new GameObject("Missile Turn Player");
+        var ownedProjectileObject = new GameObject("Owned In-Flight Missile");
+        var otherProjectileObject = new GameObject("Other In-Flight Missile");
+        try
+        {
+            playerObject.tag = "Player";
+            playerObject.AddComponent<Rigidbody>();
+            PlayerScript player = playerObject.AddComponent<PlayerScript>();
+            player.currentHealth = 100f;
+            TimeManager.isGameRunning = true;
+
+            BulletScript ownedProjectile =
+                ownedProjectileObject.AddComponent<BulletScript>();
+            BulletScript otherProjectile =
+                otherProjectileObject.AddComponent<BulletScript>();
+            FieldInfo elapsedDuration = typeof(BulletScript).GetField(
+                "elapsedDuration",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            FieldInfo direction = typeof(BulletScript).GetField(
+                "direction",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(elapsedDuration, Is.Not.Null);
+            Assert.That(direction, Is.Not.Null);
+
+            ownedProjectile.SetDirection(Vector3.forward, player);
+            otherProjectile.SetDirection(Vector3.forward);
+            elapsedDuration.SetValue(ownedProjectile, 0.4f);
+
+            Assert.That(
+                player.RequestWorldRotation(0f, 90f, 0f, playerObject),
+                Is.True);
+
+            Assert.That(
+                Vector3.Angle((Vector3)direction.GetValue(ownedProjectile), Vector3.right),
+                Is.LessThan(0.01f));
+            Assert.That(
+                Vector3.Angle(ownedProjectileObject.transform.forward, Vector3.right),
+                Is.LessThan(0.01f));
+            Assert.That(
+                Vector3.Angle((Vector3)direction.GetValue(otherProjectile), Vector3.forward),
+                Is.LessThan(0.01f));
+            Assert.That(
+                (float)elapsedDuration.GetValue(ownedProjectile),
+                Is.EqualTo(0.4f));
+        }
+        finally
+        {
+            Object.DestroyImmediate(otherProjectileObject);
+            Object.DestroyImmediate(ownedProjectileObject);
+            Object.DestroyImmediate(playerObject);
+        }
+    }
+
+    [Test]
+    public void TimedWorldRotation_CurvesOwnedMissileByEachTurnStep()
+    {
+        var playerObject = new GameObject("Timed Missile Turn Player");
+        var projectileObject = new GameObject("Timed In-Flight Missile");
+        try
+        {
+            playerObject.tag = "Player";
+            playerObject.AddComponent<Rigidbody>();
+            PlayerScript player = playerObject.AddComponent<PlayerScript>();
+            player.currentHealth = 100f;
+            TimeManager.isGameRunning = true;
+            TimeManager.timeFactor = 1f;
+
+            BulletScript projectile = projectileObject.AddComponent<BulletScript>();
+            MethodInfo updateTurn = typeof(PlayerScript).GetMethod(
+                "UpdateWorldYawTurn",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            FieldInfo direction = typeof(BulletScript).GetField(
+                "direction",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(updateTurn, Is.Not.Null);
+            Assert.That(direction, Is.Not.Null);
+
+            projectile.SetDirection(Vector3.forward, player);
+            Assert.That(
+                player.RequestWorldRotation(
+                    0f,
+                    90f,
+                    Time.fixedDeltaTime * 2f,
+                    playerObject),
+                Is.True);
+
+            updateTurn.Invoke(player, null);
+
+            Vector3 halfwayDirection = Quaternion.Euler(0f, 45f, 0f) * Vector3.forward;
+            Assert.That(
+                Vector3.Angle(
+                    (Vector3)direction.GetValue(projectile),
+                    halfwayDirection),
+                Is.LessThan(0.01f));
+
+            updateTurn.Invoke(player, null);
+
+            Assert.That(
+                Vector3.Angle((Vector3)direction.GetValue(projectile), Vector3.right),
+                Is.LessThan(0.01f));
+        }
+        finally
+        {
+            Object.DestroyImmediate(projectileObject);
+            Object.DestroyImmediate(playerObject);
+        }
+    }
+
+    [Test]
     public void ImmediateWorldRotation_RebasesLateralRangeAtTurnSpotCenter()
     {
         var turnSpotObject = new GameObject("Lane Center Turn Spot");

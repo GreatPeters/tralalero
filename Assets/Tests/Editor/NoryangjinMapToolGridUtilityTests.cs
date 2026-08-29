@@ -694,6 +694,115 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void ConfiguredObstaclePrefabs_AppearOnceInGimmickPalette()
+    {
+        ObstaclePrefabs obstacleConfig =
+            AssetDatabase.LoadAssetAtPath<ObstaclePrefabs>(
+                NoryangjinMapToolWindow.ObstaclePaletteConfigPath);
+        Assert.That(obstacleConfig, Is.Not.Null);
+        Assert.That(obstacleConfig.obstaclePrefabs, Is.Not.Null);
+
+        var expectedPaths = new List<string>();
+        foreach (ObstacleTypePrefab entry in obstacleConfig.obstaclePrefabs)
+        {
+            if (entry == null ||
+                entry.pattern == ObstaclePattern.None ||
+                entry.prefab == null)
+            {
+                continue;
+            }
+
+            string path = AssetDatabase.GetAssetPath(entry.prefab);
+            if (!string.IsNullOrEmpty(path) && !expectedPaths.Contains(path))
+                expectedPaths.Add(path);
+        }
+        Assert.That(expectedPaths, Is.Not.Empty);
+
+        MethodInfo getPaletteItems = typeof(NoryangjinMapToolWindow).GetMethod(
+            "GetPaletteItems",
+            BindingFlags.Instance | BindingFlags.NonPublic);
+        Assert.That(getPaletteItems, Is.Not.Null);
+        var counts = new Dictionary<string, int>();
+        var sections = new Dictionary<string, NoryangjinMapToolPaletteSection>();
+        var labels = new Dictionary<string, string>();
+        NoryangjinMapToolWindow window =
+            ScriptableObject.CreateInstance<NoryangjinMapToolWindow>();
+        try
+        {
+            foreach (object paletteItem in (IEnumerable)getPaletteItems.Invoke(window, null))
+            {
+                System.Type itemType = paletteItem.GetType();
+                string prefabPath =
+                    (string)itemType.GetProperty("PrefabPath").GetValue(paletteItem);
+                if (!expectedPaths.Contains(prefabPath))
+                    continue;
+
+                counts[prefabPath] = counts.TryGetValue(prefabPath, out int count)
+                    ? count + 1
+                    : 1;
+                sections[prefabPath] =
+                    (NoryangjinMapToolPaletteSection)itemType
+                        .GetProperty("Section")
+                        .GetValue(paletteItem);
+                labels[prefabPath] =
+                    (string)itemType.GetProperty("Label").GetValue(paletteItem);
+            }
+        }
+        finally
+        {
+            Object.DestroyImmediate(window);
+        }
+
+        foreach (string expectedPath in expectedPaths)
+        {
+            Assert.That(counts, Contains.Key(expectedPath), expectedPath);
+            Assert.That(counts[expectedPath], Is.EqualTo(1), expectedPath);
+            Assert.That(labels[expectedPath], Is.Not.Empty, expectedPath);
+            Assert.That(labels[expectedPath].Length, Is.LessThanOrEqualTo(8), expectedPath);
+            Assert.That(
+                NoryangjinMapToolWindow.IsSelectablePalettePrefabPath(expectedPath),
+                Is.True,
+                expectedPath);
+            Assert.That(
+                sections[expectedPath],
+                Is.EqualTo(NoryangjinMapToolPaletteSection.Gimmick),
+                expectedPath);
+        }
+
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        try
+        {
+            foreach (string expectedPath in expectedPaths)
+            {
+                GameObject prefab =
+                    AssetDatabase.LoadAssetAtPath<GameObject>(expectedPath);
+                Assert.That(prefab, Is.Not.Null, expectedPath);
+                GameObject instance = PrefabUtility.InstantiatePrefab(
+                    prefab,
+                    previewScene) as GameObject;
+                Assert.That(instance, Is.Not.Null, expectedPath);
+                Assert.That(
+                    NoryangjinMapToolWindow.IsPlacedObjectOwnedByContentTab(
+                        instance,
+                        NoryangjinMapToolContentTab.Gimmick),
+                    Is.True,
+                    expectedPath);
+                Assert.That(
+                    NoryangjinMapToolWindow.IsPlacedObjectOwnedByContentTab(
+                        instance,
+                        NoryangjinMapToolContentTab.Object),
+                    Is.False,
+                    expectedPath);
+                Object.DestroyImmediate(instance);
+            }
+        }
+        finally
+        {
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
     public void KnownRoadPrefabs_HaveUsableNonZeroPrefabRootScale()
     {
         foreach (string prefabPath in GetKnownRoadPiecePathsByLabel().Values)

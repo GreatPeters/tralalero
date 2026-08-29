@@ -1,7 +1,7 @@
 ---
 title: Run Unity-generated dotnet builds sequentially
 date: 2026-07-28
-last_updated: 2026-08-03
+last_updated: 2026-08-29
 category: workflow-issues
 module: Unity generated C# build verification
 problem_type: workflow_issue
@@ -23,11 +23,17 @@ tags:
 
 ## Context
 
-The runtime and editor Unity project files look like independent build targets, so it is tempting to launch both `dotnet build` commands in parallel. Unity generates them with shared dependencies and output under `Temp/bin` and `Temp/obj`, however. Concurrent builds can race while writing `Assembly-CSharp.dll` and fail with:
+The runtime and editor Unity project files look like independent build targets, so it is tempting to launch both `dotnet build` commands in parallel. Unity generates them with shared dependencies and output under `Temp/bin` and `Temp/obj`, however. Concurrent builds can race while writing `Assembly-CSharp.dll`, a shared package dependency, or an MSBuild cache file and fail with diagnostics such as:
 
 ```text
 error CS2012: Cannot open 'Temp/obj/Assembly-CSharp/Assembly-CSharp.dll'
 for writing because it is being used by another process.
+
+error CS2012: Cannot open 'Temp/obj/UnityCliConnector.Editor/UnityCliConnector.Editor.dll'
+for writing because it is being used by another process.
+
+error MSB3491: Could not write lines to
+'Temp/obj/Unity.RenderPipelines.Universal.Runtime/*.cache'.
 ```
 
 The failure is transient and does not indicate a C# compilation error.
@@ -56,7 +62,8 @@ Do not place these commands in the same parallel tool batch. If a parallel attem
 
 - Both Unity-generated project files are validated in one workflow.
 - Multiple checks share the workspace's `Temp/bin` or `Temp/obj` paths.
-- A build reports `CS2012` for `Assembly-CSharp.dll` while another build is still active.
+- A build reports `CS2012` or `MSB3491` for anything under `Temp/obj` while
+  another build is still active.
 
 ## Examples
 
@@ -83,6 +90,14 @@ It recurred again while verifying selection-driven enemy-trigger mapping on
 completed both projects with zero warnings and zero errors. This confirms that
 the lock is an orchestration failure even when the codebase itself compiles
 cleanly.
+
+The same orchestration error recurred during the Bonus Wall visual pass on
+2026-08-29, but the locked outputs belonged to shared dependencies rather than
+`Assembly-CSharp`: `UnityCliConnector.Editor.dll`, `Polyperfect.Universal.dll`,
+`FlatKit.Utils.Editor.dll`, and a Universal Render Pipeline cache. After both
+parallel commands exited, the runtime and Editor builds passed immediately when
+run one after the other. The diagnostic path can therefore vary; the reliable
+signal is concurrent writers beneath the same Unity `Temp/obj` tree.
 
 ## Related
 

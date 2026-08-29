@@ -27,6 +27,8 @@ namespace IndianOceanAssets.ShooterSurvival
         public string tableName = "AllTexts";   // 占십곤옙 占쏙옙占쏙옙 占쏙옙占싱븝옙 占싱몌옙
 
         public Image statIconImage;
+        public Image statBadgeImage;
+        public Outline statBadgeOutline;
 
         [Header("Type Params")]
         public WallType wallType;               // Type of wall (Buff or Nerf)
@@ -383,6 +385,8 @@ namespace IndianOceanAssets.ShooterSurvival
                 currSprite.sprite = selectedSprite;
             UpdateStatIcon();
             UpdateStatUI(buffType, displayBonusValue);
+            GetComponentInParent<BonusChoiceAltarVfx>(true)
+                ?.SetBonusType(buffType);
         }
 
         private void DisableInvalidAuthoredPresentation()
@@ -408,6 +412,11 @@ namespace IndianOceanAssets.ShooterSurvival
                 text.text = string.Empty;
                 text.enabled = false;
             }
+
+            if (statBadgeImage != null)
+                statBadgeImage.enabled = false;
+            if (statBadgeOutline != null)
+                statBadgeOutline.enabled = false;
 
             Collider trigger = GetComponent<Collider>();
             if (trigger != null)
@@ -650,11 +659,24 @@ namespace IndianOceanAssets.ShooterSurvival
             string formattedValue = BonusAltarRules.FormatDisplayValue(
                 value,
                 bonusValueType);
+            string choiceTitle = ResolveChoiceTitle();
 
             if (statValueTmp != null)
             {
                 statValueTmp.enabled = true;
                 statValueTmp.text = formattedValue;
+                if (GetComponentInParent<BonusChoiceAltarVfx>(true) != null)
+                    statValueTmp.color = BonusChoiceAltarVfx.ResolveUiAccent(bt);
+            }
+
+            if (statBadgeImage != null)
+                statBadgeImage.enabled = true;
+            if (statBadgeOutline != null)
+            {
+                Color accent = BonusChoiceAltarVfx.ResolveUiAccent(bt);
+                accent.a = 0.9f;
+                statBadgeOutline.enabled = true;
+                statBadgeOutline.effectColor = accent;
             }
 
             var texts = GetComponentsInChildren<TextMeshProUGUI>(true);
@@ -667,12 +689,25 @@ namespace IndianOceanAssets.ShooterSurvival
                 }
                 else if (text != null &&
                          text.gameObject.name == "Choice_Title" &&
-                         !string.IsNullOrEmpty(bonusAlias))
+                         !string.IsNullOrEmpty(choiceTitle))
                 {
                     text.enabled = true;
-                    text.text = bonusAlias;
+                    text.text = choiceTitle;
                 }
             }
+        }
+
+        private string ResolveChoiceTitle()
+        {
+            if (hasSelectedBonusRow)
+            {
+                string displayName = BonusAltarRules.ResolveDisplayName(
+                    selectedDisplayRow);
+                if (!string.IsNullOrWhiteSpace(displayName))
+                    return displayName + " 강화";
+            }
+
+            return bonusAlias;
         }
 
         private void UpdateStatName(BuffType bt)

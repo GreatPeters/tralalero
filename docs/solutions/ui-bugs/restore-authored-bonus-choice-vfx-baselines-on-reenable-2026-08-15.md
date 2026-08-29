@@ -1,7 +1,7 @@
 ---
 title: Restore Authored Bonus Choice VFX Baselines on Re-enable
 date: 2026-08-15
-last_updated: 2026-08-17
+last_updated: 2026-08-29
 category: ui-bugs
 module: Shooter Survival bonus choice boxes
 problem_type: ui_bug
@@ -10,7 +10,7 @@ symptoms:
   - "Re-enabling a bonus-choice altar compounded the glow pulse into its authored scale."
   - "The stat icon resumed bobbing around its last animated position instead of its authored anchored position."
   - "Applying Unique-grade presentation during editor authoring could persist multiplied Transform and particle values as new baselines."
-  - "Repeated Unique presentation could compound enlargement instead of remaining idempotent."
+  - "Attack portals mixed amber beams and runes with cyan water, foam, and droplets."
   - "Returning a Unique altar to Normal or Rare could leave purple renderer overrides active when its authored MaterialPropertyBlock was empty."
 root_cause: logic_error
 resolution_type: code_fix
@@ -46,6 +46,11 @@ world effects use per-renderer `MaterialPropertyBlock`s so shared materials stay
 unchanged, while UI icon auras use `Graphic.color`. Both paths must restore the
 exact state that existed before the tint, including an authored absence of any
 renderer property block.
+
+Normal and Elite stat-family themes extend the same requirement. Every visible
+effect layer must use one RGB family for the rolled stat. The authored attack
+prefab could not be treated as a special baseline because its compass and beam
+were amber while its water, foam, and droplets were hardcoded cyan.
 
 ## Symptoms
 
@@ -93,6 +98,12 @@ to removing a renderer override:
 ```csharp
 effectRenderer.SetPropertyBlock(emptyBlock); // does not reliably clear override state
 ```
+
+Skipping the attack runtime tint preserved the old property-block restoration
+contract but broke the visual contract. The exception assumed every authored
+attack effect already used amber. The later layered-water pass added cyan
+`WaterVortex`, `WaterFoam`, and `WaterDroplets` materials, so only the attack
+family displayed two unrelated colors at once.
 
 The first restoration test also compared `Color` structs exactly. Unity's
 property-block round trip can introduce insignificant floating-point channel
@@ -163,8 +174,45 @@ private void RefreshPresentation()
 `AuthoredBonusWall` still forwards the selected grade in both editor and
 runtime contexts. Outside Play Mode this updates only the VFX component's
 logical rarity. At runtime `RefreshPresentation` first restores every authored
-value, then applies the Unique multipliers exactly once. Normal and Rare use
-the restored baseline unchanged.
+value, then applies the Unique multipliers exactly once.
+
+The rolled `BuffType` now selects the Normal/Elite family theme for every
+renderer, including attack. The refresh first restores authored alphas and
+unrelated properties, then writes one family RGB through property blocks:
+
+```csharp
+bool isUnique = rarity == Rarity.Unique;
+Color worldColor = isUnique
+    ? UniqueWorldPurple
+    : ResolveWorldAccent(bonusType);
+Color uiColor = isUnique
+    ? UniqueUiPurple
+    : ResolveUiAccent(bonusType);
+
+ApplyEffectColors(worldColor, uiColor);
+```
+
+The prefab generator follows the same rule before runtime. Water, foam, and
+droplet colors are scalar intensity variants of `glowColor`, so brightness can
+differ without changing hue:
+
+```csharp
+Color waterColor = new(
+    glowColor.r * 0.82f,
+    glowColor.g * 0.82f,
+    glowColor.b * 0.82f,
+    0.58f);
+Color foamColor = new(
+    glowColor.r * 1.08f,
+    glowColor.g * 1.08f,
+    glowColor.b * 1.08f,
+    0.78f);
+```
+
+`WallScript` applies the same UI accent to the displayed value and forwards the
+rolled type to `BonusChoiceAltarVfx`. The VFX component owns the icon-aura
+colors, so the floating icon and value change as one state while gameplay
+values remain owned by `WallScript`.
 
 The regression test starts with known authored values, configures the component, writes representative animated values, invokes `OnEnable` through reflection, and asserts that both targets return to the authored values.
 
@@ -188,10 +236,15 @@ effectRenderer.SetPropertyBlock(
 The focused test snapshots the glow ring, energy plume, ground aura, front
 sigil, particle renderer, UI aura, and both shared-material color properties.
 It proves that edit-mode rarity selection changes no visuals, Unique applies
-purple without changing shared materials or alpha, and Rare restores the
-original property blocks and UI color. Color channels are compared with a
-small epsilon; block emptiness and cached contents remain exact behavioral
-assertions.
+purple without changing shared materials or alpha, and Rare returns transforms
+and particles to baseline while applying the normal stat-family tint. Color
+channels are compared with a small epsilon.
+
+`BonusChoiceAltarVfx_UsesRolledStatFamilyForNormalTheme` separately proves that
+vitality, attack, and utility produce green-, red-, and blue-dominant themes.
+For each state, every cached effect renderer must have identical RGB channels;
+only alpha may differ. The generated-material test also compares normalized RGB
+vectors for water, foam, compass, and droplets.
 
 ## Why This Works
 
@@ -206,6 +259,11 @@ Using `null` for an empty renderer baseline restores the semantic state "no
 override exists." Restoring a non-empty cached block preserves unrelated
 per-instance properties as well as any authored color alpha. The purple tint is
 therefore an isolated runtime overlay rather than a material or prefab edit.
+
+Applying the chosen RGB to every effect renderer makes the visual contract
+explicit. Authored materials still provide textures, blend modes, and alpha,
+while the runtime property block owns stat-family hue. No effect layer can keep
+an unrelated cyan or amber tint simply because it came from the prefab.
 
 ## Prevention
 
@@ -224,6 +282,13 @@ therefore an isolated runtime overlay rather than a material or prefab edit.
   empty block object.
 - Preserve each renderer and UI aura's baseline alpha when replacing RGB, and
   use per-channel tolerance for floating-point color assertions.
+- Do not exempt an authored theme from runtime tinting unless every generated
+  layer is contract-tested to use the same hue. Prefer one uniform path.
+- Compare normalized RGB vectors for generated materials so intensity variants
+  cannot silently introduce a second hue.
+- Keep the world-effect, icon-aura, and value-text theme derived from the same
+  rolled `BuffType`; otherwise one choice can present conflicting color
+  semantics.
 - Add a same-instance reactivation test for pooled or repeatedly enabled visual components.
 - Assert both world/local transform values and UI `RectTransform` values when an effect spans 3D and canvas elements.
 - In EditMode tests, invoke private lifecycle logic through reflection when ordinary activation does not run the component; do not use `SendMessage` for Unity lifecycle names.

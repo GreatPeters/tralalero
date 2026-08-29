@@ -172,7 +172,8 @@ namespace IndianOceanAssets.ShooterSurvival
                         bullet.transform.parent = null;
                         bullet.transform.position = spawnPosition;
                         bullet.transform.rotation = BuildProjectileRotation(direction);
-                        bullet.GetComponentInChildren<BulletScript>().SetDirection(direction); //:contentReference[oaicite:2]{index=2}:contentReference[oaicite:3]{index=3}
+                        bullet.GetComponentInChildren<BulletScript>()
+                            .SetDirection(direction, playerScript);
                     }
                 }
             }

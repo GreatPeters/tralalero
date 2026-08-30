@@ -20,10 +20,6 @@ public static class ForwardEnemyMovementSetup
         "Assets/JH/Model/Prefab/Enemy_YllowMan.prefab"
     };
 
-    [MenuItem(
-        "Tools/맵 제작 도구/노량진 맵 제작/게임플레이/적 이동 기능 연결",
-        false,
-        2311)]
     public static void Configure()
     {
         int changedPrefabCount = 0;

@@ -1,7 +1,7 @@
 ---
 title: Keep Unity Map Production Menu Workflows and Automation Paths in Sync
 date: 2026-07-27
-last_updated: 2026-07-27
+last_updated: 2026-08-30
 category: docs/solutions/workflow-issues
 module: Unity map production editor menu workflow
 problem_type: workflow_issue
@@ -9,9 +9,11 @@ component: tooling
 severity: medium
 applies_when:
   - "Reorganizing Unity MenuItem paths for a user-facing workflow"
-  - "Adding or moving Tools/맵 제작 도구 commands or folder shortcuts"
+  - "Adding, removing, or hiding Tools/맵 제작 도구 commands or folder shortcuts"
+  - "Keeping internal Unity recovery APIs after removing their MenuItem registration"
+  - "Simplifying editor convenience controls that rely on automatic import or build hooks"
   - "Changing menu paths referenced by CLI automation or operational guides"
-tags: [unity, map-production, editor-menu, menuitem, automation, regression-tests, documentation]
+tags: [unity, map-production, editor-menu, menuitem, automation, regression-tests, documentation, data-workbook]
 ---
 
 # Keep Unity Map Production Menu Workflows and Automation Paths in Sync
@@ -22,37 +24,54 @@ The map-production menu mixed map authoring, generated-scene builders, repair ut
 
 A successful editor build did not reveal two gaps found during review: there was no regression test for the complete menu topology, and several CLI examples still invoked retired paths.
 
-The same contract applies when adding a command rather than renaming one. The
-Forward enemy movement work added
-`Tools/맵 제작 도구/노량진 맵 제작/게임플레이/적 이동 기능 연결`; its code
-compiled and ran, but the exact-set menu test also had to gain that path before
-the workflow was complete.
+The same contract applies when adding or removing a command. In August 2026 the
+authoring surface was deliberately reduced to two entries: `자료 위치 안내` and
+`맵툴 열기`. Scene creation, Forward installation, enemy repair, optimization,
+and maintenance methods remained callable internal APIs, but their `MenuItem`
+attributes were removed.
+
+That pruning also simplified the map tool's `편의` tab to one workbook action,
+`Data.xlsx 열기`. This was safe because workbook imports still reload editor
+tables automatically and `GameDataBuildPreprocessor` still generates and
+validates the protected archive before player builds. Review caught two kinds
+of documentation drift that compilation could not: the Forward guide still
+read like an installation command was visible, and the optimization guide
+initially implied the Map1-only UI optimizer also covered Map2.
 
 ## Guidance
 
 Treat a Unity `MenuItem` path as an operational interface rather than a display-only label.
 
-- Group commands by workflow. The current groups are `자료`, `노량진 맵 제작`, `자동 생성`, and `유지보수`.
+- Keep the visible map-production surface intentional. The current complete set is `Tools/맵 제작 도구/자료/자료 위치 안내` and `Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기`.
+- Remove UI registration at the attribute boundary. If automation or recovery still needs the operation, remove `[MenuItem]` but retain the underlying `public static` method.
 - When adding, removing, or moving a command, update every documentation, CLI, and MCP consumer in the same change.
-- Update `MapProductionToolMenuTests` in the same patch as every new
-  map-production `MenuItem`; an exact-set assertion intentionally treats an
-  unregistered new command as a regression.
+- Update `MapProductionToolMenuTests` in the same patch as every menu-surface change. An exact-set assertion intentionally treats both a missing intended command and an unexpected additional command as regressions.
 - Lock the complete command surface with an EditMode test that reflects over the editor assembly's static methods, extracts `MenuItem` constructor arguments, and compares the full `Tools/맵 제작 도구/` path set.
-- Pin operationally important folder targets separately. The Noryangjin map-plan shortcut targets `outputs/chapter_campaign_reference_orthogonal_20min`.
+- For immediate-mode editor UI, keep a separate exact contract for action labels. The map-tool workbook area should expose only `Data.xlsx 열기`; manual archive generation and validation remain diagnostic `Tools/Data` commands.
+- Document automatic replacements before removing manual controls. Import hooks own editor refresh; build preprocessors own player-build archive generation and validation.
+- Keep an agent invocation convention for hidden methods. After checking scene, dirty-state, and Play Mode preconditions, agents can invoke a documented static method with `unity command eval "<Type.Method>();" --project-path .`.
+- State scope boundaries explicitly. `MobileUiOptimizerWindow` applies the scene-static pass to Map1; Map2 automation activates Map2 and invokes `NoryangjinMapStaticOptimizer.OptimizeCurrentScene()` through Pipeline.
 - Keep external JSON requests ASCII-only when menu paths contain Korean or other non-ASCII text.
 
 ## Why This Matters
 
-Menu paths are used by people, recovery playbooks, and automation. Renaming a path can leave the command fully functional in Unity while breaking every external caller that still uses the old string. Compilation only proves that attributes and methods are valid C#; it does not prove that the intended menu surface is complete or that its consumers agree on the current paths.
+Menu paths are used by people, recovery playbooks, and automation. Renaming a path can leave the command fully functional in Unity while breaking every external caller that still uses the old string. Conversely, deleting a method merely because its menu item is unwanted can remove a valid recovery capability. Compilation only proves that the remaining C# is valid; it does not prove that the intended menu surface, hidden automation surface, documentation, and replacement workflows agree.
+
+The same distinction applies to workbook buttons. Removing manual refresh and
+validation controls is safe only while automatic import reload and build-time
+archive protection remain verified. A stale guide can effectively resurrect a
+retired workflow by telling users or agents to look for an obsolete command.
 
 Non-ASCII names introduce another boundary: a literal Korean command passed through PowerShell or a console may arrive as `???`. JSON `\uXXXX` escaping avoids that transport corruption.
 
 ## When to Apply
 
 - A Unity editor command is renamed or moved into a submenu.
+- A routine author menu is being reduced while recovery and automation methods must remain callable.
 - A shortcut opens a design, output, preview, or generated-image directory.
 - CLI Connector or MCP automation invokes commands by menu path.
-- Destructive or rarely used commands are moved under a maintenance group.
+- Destructive or rarely used commands are removed from the visible menu.
+- Manual editor controls are replaced by import hooks or build preprocessors.
 - Korean or other non-ASCII text appears in an externally invoked menu path.
 
 ## Examples
@@ -71,41 +90,50 @@ return typeof(DesignReferenceWindow).Assembly
     .ToArray();
 ```
 
-For a new command, update the attribute and the expected topology together:
+For a hidden recovery API, remove the attribute without deleting the method:
 
 ```csharp
-[MenuItem(
-    "Tools/맵 제작 도구/노량진 맵 제작/게임플레이/적 이동 기능 연결",
-    false,
-    2311)]
 public static void Configure()
 {
-    // Idempotent prefab setup.
+    // Idempotent prefab repair remains callable by tests and Pipeline.
 }
 
 string[] expected =
 {
-    "Tools/맵 제작 도구/노량진 맵 제작/게임플레이/적 이동 기능 연결",
-    // Existing production commands...
+    "Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기",
+    "Tools/맵 제작 도구/자료/자료 위치 안내"
 };
 ```
 
-For an external CLI call, encode the current Korean path:
+The workbook convenience action can use a separate exact label contract:
 
-```json
-{"command":"menu","params":{"menu_path":"Tools/\uB9F5 \uC81C\uC791 \uB3C4\uAD6C/\uB178\uB7C9\uC9C4 \uB9F5 \uC81C\uC791/\uB9F5\uD234 \uC52C \uC5F4\uAE30 \uB610\uB294 \uC0DD\uC131"}}
+```csharp
+CollectionAssert.AreEquivalent(
+    new[] { "Data.xlsx 열기" },
+    gameDataButtonLabels);
+```
+
+For an internal automation call, avoid the retired menu path entirely:
+
+```powershell
+unity command eval "ForwardEnemyMovementSetup.Configure();" --project-path .
 ```
 
 Verification for this change consisted of:
 
 ```text
+dotnet build Assembly-CSharp.csproj -nologo
 dotnet build Assembly-CSharp-Editor.csproj -nologo
-Unity EditMode filter MapProductionToolMenuTests -> 2/2 passed
+powershell -ExecutionPolicy Bypass -File tools/validate-agent-harness.ps1
+static map-production MenuItem count -> 2
 ```
 
-The Forward enemy movement addition repeated the check by directly invoking
-`MapProductionToolMenus_AreGroupedByUserWorkflow`; it passed after the new path
-was added to the expected set.
+The narrow Unity EditMode invocation produced no verdict because the authored
+Noryangjin scene was already dirty and the Pipeline test request timed out. Do
+not save or rewrite a user's authored scene merely to make verification run.
+Record that check as inconclusive, retain the completed compiler/static checks,
+and rerun the two narrow fixtures after the user has safely resolved the dirty
+scene.
 
 Also search the repository for retired path fragments before finishing. A historical explanation may retain an old path when it is explicitly labeled as historical, but live invocation examples must use the current path.
 
@@ -113,4 +141,6 @@ Also search the repository for retired path fragments before finishing. A histor
 
 - [Run Unity Scene Generation Through CLI Connector Exec When Editor Reload Is Stale](run-unity-scene-generation-through-cli-connector-exec-when-editor-reload-is-stale-2026-06-21.md)
 - [Call Unity CLI Connector Commands With Params Payloads](call-unity-cli-connector-commands-with-params-payloads-2026-06-06.md)
+- [Protect active Unity scenes from broad EditMode test runs](protect-active-unity-scenes-from-broad-editmode-test-runs-2026-07-18.md)
+- [Verify Unity API removals with a full Assets search and build](verify-unity-api-removals-with-full-assets-search-and-build-2026-08-04.md)
 - [Update Map-Tool Road Definitions With Scene Road Replacements](../logic-errors/update-map-tool-road-definitions-with-scene-road-replacements-2026-06-15.md)

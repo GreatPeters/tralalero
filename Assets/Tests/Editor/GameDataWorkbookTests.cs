@@ -138,20 +138,20 @@ public class GameDataWorkbookTests
     }
 
     [Test]
-    public void MapToolConvenienceTab_ExposesExcelWorkflow()
+    public void MapToolConvenienceTab_ExposesOnlyDataWorkbookOpenAction()
     {
-        Assert.That(
-            NoryangjinMapToolWindow.GameDataOpenButtonLabel,
-            Is.EqualTo("Excel \uC5F4\uAE30"));
-        Assert.That(
-            NoryangjinMapToolWindow.GameDataSelectButtonLabel,
-            Is.EqualTo("\uD504\uB85C\uC81D\uD2B8\uC5D0\uC11C \uBCF4\uAE30"));
-        Assert.That(
-            NoryangjinMapToolWindow.GameDataBuildButtonLabel,
-            Is.EqualTo("\uB7F0\uD0C0\uC784 \uB370\uC774\uD130 \uAC31\uC2E0"));
-        Assert.That(
-            NoryangjinMapToolWindow.GameDataValidateButtonLabel,
-            Is.EqualTo("\uBCF4\uD638 \uB370\uC774\uD130 \uAC80\uC99D"));
+        string[] gameDataButtonLabels = typeof(NoryangjinMapToolWindow)
+            .GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)
+            .Where(field =>
+                field.IsLiteral &&
+                field.Name.StartsWith("GameData", StringComparison.Ordinal) &&
+                field.Name.EndsWith("ButtonLabel", StringComparison.Ordinal))
+            .Select(field => field.GetRawConstantValue() as string)
+            .ToArray();
+
+        CollectionAssert.AreEquivalent(
+            new[] { "Data.xlsx \uC5F4\uAE30" },
+            gameDataButtonLabels);
     }
 
     [TestCase(GameDataWorkbook.EditorSourceAssetPath, true)]

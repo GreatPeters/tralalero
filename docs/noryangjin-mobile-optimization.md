@@ -73,21 +73,19 @@ Android 전용 임포트 제한이 적용된다.
 
 ## 실행 방법
 
-현재 열려 있는 노량진 씬만 최적화하려면 다음 메뉴를 실행한다.
+맵 제작 메뉴에는 모바일 최적화 명령을 노출하지 않는다. 일반 작업은
+`Tools/Shooter Survival/Optimization/Mobile UI Optimizer`를 사용한다. 이
+도구가 UI 아틀라스와 함께 맵1의 안전한 static 분류를 적용하고 검증한다.
+맵2의 static 분류는 이 UI 도구의 대상이 아니다.
 
-`Tools/맵 제작 도구/노량진 맵 제작/최적화/현재 씬 모바일 최적화`
-
-이 명령은 Undo를 기록하고 씬을 Dirty 상태로 남기므로 결과를 확인한 뒤
-직접 저장한다.
-
-맵1과 맵2를 함께 최적화하고 저장하려면 다음 메뉴를 실행한다.
-
-`Tools/맵 제작 도구/노량진 맵 제작/최적화/맵 1·2 모바일 최적화`
-
-이 명령은 두 씬 중 하나라도 저장되지 않은 변경을 갖고 있으면 작업을
-중단한다. 먼저 사용자 편집을 저장하거나 취소한 뒤 다시 실행해야 한다.
-두 명령은 반복 실행해도 같은 상태를 유지하도록 작성되어 있다. 맵툴로
-새 환경 프리팹을 배치하거나 복제할 때도 같은 안전 분류가 적용된다.
+`NoryangjinMapStaticOptimizer.OptimizeCurrentScene`과
+`OptimizeAllNoryangjinScenes`는 자동화와 복구를 위한 내부 API로 유지된다.
+맵2를 최적화해야 하는 자동화는 맵2를 활성 씬으로 연 뒤 Unity Pipeline의
+`eval`로 `NoryangjinMapStaticOptimizer.OptimizeCurrentScene()`을 호출한다.
+현재 씬 API는 Undo를 기록하고 씬을 Dirty 상태로 남기므로 결과를 확인한
+뒤 직접 저장한다. 전체 씬 API는 대상 씬 중 하나라도 저장되지 않은
+변경을 가지고 있으면 중단한다. 두 API는 반복 실행해도 같은 상태를
+유지하도록 작성되어 있다.
 
 ## 검증
 
@@ -96,8 +94,8 @@ Unity EditMode에서 다음 필터를 실행한다.
 - `NoryangjinMapStaticOptimizerTests`: 정적/동적 분류, 기존 정적 플래그
   보존, 반복 실행, 카메라 복사 차단, 원본 수면 프리팹 보존, 텍스처
   예산과 두 실제 씬 계약을 검사한다.
-- `MapProductionToolMenuTests`: 두 최적화 메뉴가 제작 도구 표면에
-  유지되는지 검사한다.
+- `MapProductionToolMenuTests`: 제작 도구 표면에 `자료 위치 안내`와
+  `맵툴 열기`만 남아 있는지 검사한다.
 
 2026-07-30 검증 결과는 최적화 테스트 `11/11`, 맵 씬 보호 테스트
 `2/2`, 메뉴 테스트 `2/2` 통과다. 전체 EditMode는 `395/401`로,

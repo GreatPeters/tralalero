@@ -18,7 +18,6 @@ public static class NoryangjinForwardGameplayInstaller
     internal const string OriginalProjectileMuzzleName = "ProjectileMuzzle";
     internal const float OriginalProjectileMuzzleForwardOffset = 0.35f;
 
-    [MenuItem("Tools/맵 제작 도구/노량진 맵 제작/게임플레이/Forward 기능 연결", false, 2310)]
     public static void InstallIntoOpenNoryangjinScene()
     {
         if (EditorApplication.isPlayingOrWillChangePlaymode)

@@ -14,11 +14,6 @@ public static class NoryangjinMapStaticOptimizer
 {
     internal const string Map2ScenePath =
         "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_2.unity";
-    internal const string OptimizeCurrentSceneMenuPath =
-        "Tools/맵 제작 도구/노량진 맵 제작/최적화/현재 씬 모바일 최적화";
-    internal const string OptimizeAllScenesMenuPath =
-        "Tools/맵 제작 도구/노량진 맵 제작/최적화/맵 1·2 모바일 최적화";
-
     internal const string LowPolyOceanMeshPath =
         "Assets/ShooterSurvival/Meshes/Generated/Noryangjin_OceanWater_LowPoly.asset";
     internal const string LowPolyWaterTileMeshPath =
@@ -60,7 +55,6 @@ public static class NoryangjinMapStaticOptimizer
         OriginPostName
     };
 
-    [MenuItem(OptimizeCurrentSceneMenuPath, false, 2320)]
     public static void OptimizeCurrentScene()
     {
         if (EditorApplication.isPlayingOrWillChangePlaymode)
@@ -91,7 +85,6 @@ public static class NoryangjinMapStaticOptimizer
             savedScenes: false));
     }
 
-    [MenuItem(OptimizeAllScenesMenuPath, false, 2321)]
     public static void OptimizeAllNoryangjinScenes()
     {
         if (EditorApplication.isPlayingOrWillChangePlaymode)

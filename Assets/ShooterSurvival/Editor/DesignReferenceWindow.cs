@@ -30,25 +30,21 @@ public sealed class DesignReferenceWindow : EditorWindow
         window.Show();
     }
 
-    [MenuItem("Tools/맵 제작 도구/자료/에셋 설계도 폴더", false, 2201)]
     public static void OpenDesignFolder()
     {
         OpenFolder(DesignFolderRelativePath);
     }
 
-    [MenuItem("Tools/맵 제작 도구/자료/노량진 맵 설계도 및 미리보기 폴더", false, 2202)]
     public static void OpenNoryangjinMapPlanFolder()
     {
         OpenFolder(NoryangjinMapPlanFolderRelativePath);
     }
 
-    [MenuItem("Tools/맵 제작 도구/자료/Meshy 이미지 폴더", false, 2203)]
     public static void OpenMeshyImagesFolder()
     {
         OpenFolder(MeshyImagesFolderRelativePath);
     }
 
-    [MenuItem("Tools/맵 제작 도구/자료/Codex 생성 이미지 폴더", false, 2204)]
     public static void OpenCodexGeneratedImagesFolder()
     {
         OpenAbsoluteFolder(CodexGeneratedImagesFolderPath);

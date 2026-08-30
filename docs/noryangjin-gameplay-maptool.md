@@ -1,21 +1,23 @@
 # 노량진 게임플레이 및 회전 스팟 작업 가이드
 
-## Forward 기능 연결
+## Forward 구성 확인
 
 1. Unity에서 `Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode.unity`를 연다.
-2. Play Mode가 꺼진 상태에서 `Tools/맵 제작 도구/노량진 맵 제작/게임플레이/Forward 기능 연결`을 실행한다.
-3. 설치가 끝나면 `Noryangjin_Player` 아래에 기존 `Original` 캐릭터가 유지되는지 확인한다. `Original`을 분리하거나 Forward에서 복제된 숨김 비주얼을 다시 켜지 않는다.
+2. `Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기`로 맵툴을 연다.
+3. 씬을 연 뒤 `Noryangjin_Player` 아래에 기존 `Original` 캐릭터가 유지되는지 확인한다. `Original`을 분리하거나 Forward에서 복제된 숨김 비주얼을 다시 켜지 않는다.
 4. Build Settings에서 `Noryangjin_MapTool_Mode`가 활성화된 index `0`, `Forward March Mode`가 활성화된 index `1`인지 확인한다.
 
-이 명령은 Forward 씬에 실제로 설정된 플레이어·무기 리그, 시작 전 UI와 상점 UI, Managers, EventSystem, 업그레이드 서비스를 노량진 씬에 연결한다. 노량진 맵의 캐릭터 외형과 카메라는 유지하며, 실행에 필요한 동작과 UI만 Forward 구성에 맞춘다.
+Forward 설치기는 이미 구성된 씬의 내부 복구 API로 유지되며 맵 제작 메뉴에는 노출하지 않는다.
+
+내부 설치기는 Forward 씬에 실제로 설정된 플레이어·무기 리그, 시작 전 UI와 상점 UI, Managers, EventSystem, 업그레이드 서비스를 노량진 씬에 연결한다. 노량진 맵의 캐릭터 외형과 카메라는 유지하며, 실행에 필요한 동작과 UI만 Forward 구성에 맞춘다.
 
 ## 플레이어 상태 HUD
 
-Forward 기능 연결 명령은 `PlayerStatusHUD`도 함께 생성하고 검증한다. HUD는 화면 왼쪽 위의 반투명 다크 글래스 카드 두 장으로 구성되며, 흰색 텍스트와 코랄 체력 게이지를 사용한다. 위 카드는 현재/최대 체력과 게이지를, 더 짧은 아래 카드는 현재 공격력을 표시한다. 게임 시작 전에는 숨겨지고 시작 후 활성화되며, 체력·공격력 업그레이드와 피해를 실제 런타임 값으로 반영한다. HUD가 정상 구성된 경우에만 기존 플레이어 머리 위 체력 Canvas와 `ATT` 디버그 텍스트를 숨긴다.
+내부 Forward 설치기는 `PlayerStatusHUD`도 함께 생성하고 검증한다. HUD는 화면 왼쪽 위의 반투명 다크 글래스 카드 두 장으로 구성되며, 흰색 텍스트와 코랄 체력 게이지를 사용한다. 위 카드는 현재/최대 체력과 게이지를, 더 짧은 아래 카드는 현재 공격력을 표시한다. 게임 시작 전에는 숨겨지고 시작 후 활성화되며, 체력·공격력 업그레이드와 피해를 실제 런타임 값으로 반영한다. HUD가 정상 구성된 경우에만 기존 플레이어 머리 위 체력 Canvas와 `ATT` 디버그 텍스트를 숨긴다.
 
 HUD만 다시 만들 때는 Play Mode를 끄고 노량진 맵1 씬을 연 뒤 `Tools/Shooter Survival/UI/Apply Player Status HUD`를 실행한다. 이 명령은 기존 `PlayerStatusHUD` 루트만 교체하므로 다른 씬 오브젝트를 건드리지 않으며 반복 실행할 수 있다. 현재 다크 글래스 디자인의 실제 플레이 캡처는 `Assets/ShooterSurvival/UI/References/Editor/PlayerStatusHud_DarkGlass_Reference.png`, 이전 양피지 시안은 같은 폴더의 `PlayerStatusHud_SlimCards_Reference.png`, 런타임 하트 아이콘은 `Assets/ShooterSurvival/UI/PlayerStatus/PlayerStatus_Heart.png`에 보존된다.
 
-`Noryangjin_MapTool_Mode_2.unity`에는 복제 시점의 동일한 게임플레이 구성이 들어 있지만, 설치 명령 대상이나 Build Settings 항목은 아니다. 맵2는 설계도 구현을 검토하는 정적 씬으로 유지하고, 실제 런타임 시간·웨이브 계약이 확정되기 전에는 맵1용 설치 명령을 억지로 적용하지 않는다.
+`Noryangjin_MapTool_Mode_2.unity`에는 복제 시점의 동일한 게임플레이 구성이 들어 있지만, 내부 설치기 대상이나 Build Settings 항목은 아니다. 맵2는 설계도 구현을 검토하는 정적 씬으로 유지하고, 실제 런타임 시간·웨이브 계약이 확정되기 전에는 맵1용 설치기를 억지로 적용하지 않는다.
 
 ## 전진 이동 속도
 

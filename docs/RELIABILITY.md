@@ -27,7 +27,7 @@
 - Archive publication is atomic. Missing or modified protected data raises `GameDataIntegrityException`; the monster-stat formula fallback does not absorb that integrity failure.
 - Editor imports validate one complete workbook snapshot before any live cache or scene object is refreshed. A malformed optional `몬스터 성장` sheet therefore cannot leave player defaults and enemy stats on different workbook revisions.
 - Stage reset may scan inactive enemies so pooled objects receive current stats, but it re-enables only enemies that were already active. Never force inactive `EnemyPooler` descendants active without dequeuing them through the pool.
-- If Play Mode reflects a workbook edit but the protected archive is stale, use the Noryangjin map tool's `편의` tab and click `런타임 데이터 갱신`, then `보호 데이터 검증`. The same actions are under `Tools/Data`.
+- Saving `Data.xlsx` reloads editor gameplay tables automatically; the map tool intentionally exposes only `Data.xlsx 열기`. Player builds regenerate and validate the protected archive automatically. Use the manual `Tools/Data` commands only to diagnose protected-data output outside the normal build flow.
 
 ## Firebase Analytics Delivery
 
@@ -47,7 +47,7 @@
 
 ## Noryangjin Scene Gameplay Composition
 
-- Run `Tools/맵 제작 도구/노량진 맵 제작/게임플레이/Forward 기능 연결` only while `Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode.unity` is the active scene and Play Mode is stopped. The installer rejects any other target.
+- The authored Noryangjin scene already contains its Forward gameplay composition. `NoryangjinForwardGameplayInstaller.InstallIntoOpenNoryangjinScene` remains an internal recovery API rather than a user-facing map-production menu command; it rejects any target other than the stopped `Noryangjin_MapTool_Mode` scene.
 - The installer temporarily opens `Forward March Mode` and clones its configured scene instances. This preserves serialized references that can be lost when rebuilding the player, UI, or services from unrelated bare prefabs.
 - The map scene's `Original` must remain the visible character under `Noryangjin_Player`; the cloned Forward renderers should remain disabled.
 - `TimeManager`, `SettingsManager`, and `BulletPooler` are scene-local dependencies. A partial or duplicate Managers setup is unsafe because singleton ownership and stale cross-scene references can conflict; the installer validates the complete set instead of silently creating a second partial set. Do not make the entire Managers root persistent across scene loads.

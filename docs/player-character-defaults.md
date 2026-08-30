@@ -11,9 +11,10 @@ Select the player root that owns `PlayerScript`. All authored base values are gr
 
 `Use Excel Character Defaults` is enabled by default. When enabled, a valid value in `Assets/ShooterSurvival/GameData/Editor/Data.xlsx` overrides the matching Inspector value. A missing or invalid Excel value falls back to the Inspector. Disable the toggle to use the Inspector values for every character default.
 
-Open the workbook from the Noryangjin map tool's `편의` tab. After editing,
-click `런타임 데이터 갱신`; player builds use the generated protected archive
-instead of shipping the raw workbook.
+Open the workbook with `Data.xlsx 열기` from the Noryangjin map tool's `편의`
+tab. Saving the workbook reloads editor values automatically. Player builds
+generate and validate the protected archive automatically instead of shipping
+the raw workbook.
 
 ## Excel Mapping
 

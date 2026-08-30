@@ -15,10 +15,10 @@ There is no runtime loader that reads a raw file from `StreamingAssets`.
 
 ## Editing Workflow
 
-1. Open `Data.xlsx` from the Noryangjin map tool or the `Tools/Data` menu.
+1. Open `Data.xlsx` from the Noryangjin map tool's `편의` tab or the `Tools/Data` menu.
 2. Edit and save the workbook, then wait for Excel to finish writing it.
-3. Regenerate the protected runtime data from `Tools/Data`.
-4. Run the protected-data validation command from the same menu.
+3. Unity validates the imported workbook and reloads editor gameplay tables automatically.
+4. A player build regenerates and validates the protected runtime archive automatically. The manual `Tools/Data` commands remain available for build-data diagnosis, not normal map authoring.
 
 When Unity imports a saved `Data.xlsx`, `GameDataWorkbookAssetPostprocessor`
 first validates a complete workbook snapshot, then reloads environment,
@@ -74,9 +74,10 @@ fallback. If the growth sheet exists but contains a missing chapter/tier,
 duplicate row, or malformed value, validation fails instead of silently using
 legacy data.
 
-The automatic editor reload does not replace the protected runtime archive
-step. Regenerate `Data.bytes` before testing a built application; a player build
-also regenerates it through the build preprocessor when needed.
+The automatic editor reload does not replace the protected runtime archive.
+Before a player build, the build preprocessor regenerates `Data.bytes` when
+needed and validates it. Use the manual `Tools/Data` archive commands only when
+diagnosing protected-data output outside the normal build flow.
 
 ## Bonus Altars
 

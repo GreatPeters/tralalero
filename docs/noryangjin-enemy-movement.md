@@ -89,8 +89,8 @@ is intentionally hidden from the normal Inspector.
 `Enemy_YllowMan` carry the controller with `가만히` as the safe prefab default.
 Scene instances may override that setting independently.
 
-Run
-`Tools/맵 제작 도구/노량진 맵 제작/게임플레이/적 이동 기능 연결`
-to restore missing default components or recreate
+`ForwardEnemyMovementSetup.Configure` remains an internal repair API for
+restoring missing default components or recreating
 `Assets/ShooterSurvival/Prefabs/Gameplay/Noryangjin_EnemyMovementTrigger.prefab`.
-The command edits prefab assets only and does not save the open scene.
+It is not exposed in the map-production menu. The method edits prefab assets
+only and does not save the open scene.

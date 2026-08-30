@@ -385,10 +385,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string MapToolDisabledLabel = "OFF";
     internal const string MapToolDisabledHelp = "노량진 맵툴 비적용 상태입니다. ON으로 바꾸면 그리드, 프리뷰, 설치가 다시 적용됩니다.";
     internal static readonly string[] PrimaryTabLabels = { "맵툴", "편의" };
-    internal const string GameDataOpenButtonLabel = "Excel 열기";
-    internal const string GameDataSelectButtonLabel = "프로젝트에서 보기";
-    internal const string GameDataBuildButtonLabel = "런타임 데이터 갱신";
-    internal const string GameDataValidateButtonLabel = "보호 데이터 검증";
+    internal const string GameDataOpenButtonLabel = "Data.xlsx 열기";
     internal const string SceneUiSectionTitle = "씬 UI 표시";
     internal static readonly string[] SceneUiVisibilityTabLabels =
         { "UI 활성화", "UI 비활성화" };
@@ -694,7 +691,6 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         window.Show();
     }
 
-    [MenuItem("Tools/맵 제작 도구/노량진 맵 제작/맵툴 씬 열기 또는 생성", false, 2306)]
     public static void OpenOrCreateMapToolScene()
     {
         if (!EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
@@ -827,46 +823,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         EditorGUILayout.Space(6f);
         using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
         {
-            EditorGUILayout.LabelField("게임 데이터 (Excel)", EditorStyles.boldLabel);
-            EditorGUILayout.HelpBox(
-                "적 스탯, 업그레이드, 스킨, 보너스, 패턴, 캐릭터 기본값의 원본입니다. " +
-                "수정 후 런타임 데이터를 갱신하세요.",
-                MessageType.Info);
+            EditorGUILayout.LabelField("게임 데이터", EditorStyles.boldLabel);
 
             if (GUILayout.Button(GameDataOpenButtonLabel, GUILayout.Height(30f)))
                 GameDataWorkbookEditor.OpenSourceWorkbook();
-
-            using (new EditorGUILayout.HorizontalScope())
-            {
-                if (GUILayout.Button(GameDataSelectButtonLabel))
-                    GameDataWorkbookEditor.SelectSourceWorkbook();
-
-                if (GUILayout.Button(GameDataBuildButtonLabel))
-                {
-                    try
-                    {
-                        GameDataWorkbookEditor.EnsureRuntimeArchiveCurrent(
-                            logResult: true);
-                    }
-                    catch (Exception exception)
-                    {
-                        Debug.LogException(exception);
-                    }
-                }
-            }
-
-            if (GUILayout.Button(GameDataValidateButtonLabel))
-            {
-                GameDataRuntimeArchiveStatus status =
-                    GameDataWorkbookEditor.GetRuntimeArchiveStatus(
-                        out string detail);
-                EditorUtility.DisplayDialog(
-                    "게임 데이터",
-                    detail,
-                    status == GameDataRuntimeArchiveStatus.Current
-                        ? "확인"
-                        : "닫기");
-            }
         }
 
         EditorGUILayout.EndScrollView();

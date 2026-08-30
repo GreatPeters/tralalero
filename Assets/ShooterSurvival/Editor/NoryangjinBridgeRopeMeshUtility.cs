@@ -17,7 +17,6 @@ public static class NoryangjinBridgeRopeMeshUtility
     private const string TargetBridgeName = "Road_Bridge_X+384_Z+11";
     private const string ReportPath = "Temp/NoryangjinBridgeRopeMeshReport.txt";
 
-    [MenuItem("Tools/맵 제작 도구/유지보수/다리 끝 로프 없는 복사본 생성", false, 2315)]
     public static void CreateBridgeCopyWithoutEndDropRopes()
     {
         Mesh source = AssetDatabase.LoadAllAssetsAtPath(SourceMeshPath)
@@ -56,7 +55,6 @@ public static class NoryangjinBridgeRopeMeshUtility
         Debug.Log($"[MeshyAI] Created bridge copy without end drop ropes. Removed {removedTriangles} triangles.");
     }
 
-    [MenuItem("Tools/맵 제작 도구/유지보수/노량진 다리를 끝 로프 없는 복사본으로 교체", false, 2316)]
     public static void ReplaceNoryangjinBridgeWithTrimmedCopy()
     {
         CreateBridgeCopyWithoutEndDropRopes();

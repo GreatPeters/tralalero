@@ -395,6 +395,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string SceneUiVisibilityHelp =
         "씬 루트의 화면 UI(Canvas)만 표시하거나 숨깁니다. " +
         "적, 보너스, 플레이어 아래의 월드 UI는 그대로 유지됩니다.";
+    internal const string WorkGridExtentSectionTitle = "작업 그리드 범위";
+    internal const string WorkGridExtentHelp =
+        "탑뷰 작업 그리드의 표시 반경을 늘리거나 줄입니다. " +
+        "셀 크기, 배치 좌표, 씬 오브젝트는 변경하지 않습니다.";
     internal const string RefreshMapToolButtonLabel = "리프레시";
     internal const string DeleteAllPlacedObjectsButtonLabel = "모두 삭제";
     internal const string DeleteAllPlacedObjectsNoTargetsMessage = "삭제할 배치 오브젝트가 없습니다.";
@@ -451,6 +455,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const float WorkSubGridOverlayLineWidthPixels = 1f;
     private const float TopSceneViewForwardDotThreshold = 0.98f;
     internal const int WorkGridExtent = 300;
+    internal const int MinWorkGridExtent = 50;
+    internal const int MaxWorkGridExtent = 1200;
+    internal const int WorkGridLargeExtentWarningThreshold = 600;
+    internal static readonly int[] WorkGridExtentPresets = { 300, 600, 900, 1200 };
     internal const int WorkGridSubdivisionsPerCell = 5;
     internal const bool DefaultShowWorkSubGrid = false;
     internal static readonly bool DrawPlacementValidityFillAsGuiOverlay = true;
@@ -639,6 +647,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     [SerializeField] private bool advanceAfterRoad = true;
     [SerializeField] private bool showSceneGrid = DefaultShowSceneGrid;
     [SerializeField] private bool showWorkSubGrid = DefaultShowWorkSubGrid;
+    [SerializeField] private int workGridExtent = WorkGridExtent;
     [SerializeField] private bool showGridLabels = true;
     [SerializeField] private bool showCursor = true;
     [SerializeField] private int gridHalfExtent = 10;
@@ -726,6 +735,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     {
         titleContent = new GUIContent(KoreanWindowTitle);
         cellSize = MigrateCellSizeDefault(cellSize);
+        workGridExtent = NormalizeWorkGridExtent(workGridExtent);
         showSceneGrid = DefaultShowSceneGrid;
         ApplyMapToolWorkObjectsActiveState(mapToolEnabled);
         ApplyMapToolSceneViewProjection(mapToolEnabled);
@@ -810,6 +820,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         EditorGUILayout.Space(8f);
         DrawSceneUiVisibilityControls();
         EditorGUILayout.Space(6f);
+        DrawWorkGridExtentControls();
+        EditorGUILayout.Space(6f);
         using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
         {
             EditorGUILayout.LabelField("게임 데이터 (Excel)", EditorStyles.boldLabel);
@@ -883,6 +895,65 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             else
                 EditorGUILayout.LabelField($"대상: 루트 Canvas {canvasCount}개", EditorStyles.miniLabel);
         }
+    }
+
+    private void DrawWorkGridExtentControls()
+    {
+        using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+        {
+            EditorGUILayout.LabelField(WorkGridExtentSectionTitle, EditorStyles.boldLabel);
+            EditorGUILayout.HelpBox(WorkGridExtentHelp, MessageType.Info);
+
+            EditorGUI.BeginChangeCheck();
+            int nextExtent = EditorGUILayout.DelayedIntField(
+                "반경(칸)",
+                NormalizeWorkGridExtent(workGridExtent));
+            if (EditorGUI.EndChangeCheck())
+                SetWorkGridExtent(nextExtent);
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                foreach (int preset in WorkGridExtentPresets)
+                {
+                    if (GUILayout.Button(preset.ToString(), GUILayout.Height(24f)))
+                        SetWorkGridExtent(preset);
+                }
+            }
+
+            int normalizedExtent = NormalizeWorkGridExtent(workGridExtent);
+            int totalCells = normalizedExtent * 2 + 1;
+            float worldSpan = BuildWorkGridSpan(DefaultCellSize, normalizedExtent);
+            EditorGUILayout.LabelField(
+                $"{-normalizedExtent} ~ +{normalizedExtent} / 한 변 {totalCells}칸 / 약 {worldSpan:0.#}m",
+                EditorStyles.miniLabel);
+
+            if (showWorkSubGrid && normalizedExtent >= WorkGridLargeExtentWarningThreshold)
+            {
+                EditorGUILayout.HelpBox(
+                    "큰 범위에서 서브 그리드를 함께 표시하면 SceneView가 느려질 수 있습니다.",
+                    MessageType.Warning);
+            }
+        }
+    }
+
+    private void SetWorkGridExtent(int extent)
+    {
+        int normalizedExtent = NormalizeWorkGridExtent(extent);
+        if (normalizedExtent == workGridExtent)
+            return;
+
+        Undo.RecordObject(this, "Resize Noryangjin Work Grid");
+        workGridExtent = normalizedExtent;
+        SceneView.RepaintAll();
+        Repaint();
+    }
+
+    internal static int NormalizeWorkGridExtent(int extent)
+    {
+        if (extent <= 0)
+            return WorkGridExtent;
+
+        return Mathf.Clamp(extent, MinWorkGridExtent, MaxWorkGridExtent);
     }
 
     internal static int GetSceneRootCanvasVisibilityTabIndex(
@@ -2878,12 +2949,13 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         if (!ShouldDrawStableTopViewWorkGridOverlay(DrawTopViewWorkGridOverlay, isTopSceneView, sceneViewOrthographic, sceneViewRotation))
             return;
 
-        float min = BuildWorkGridBoundaryOffset(-WorkGridExtent, normalizedCellSize);
-        float max = BuildWorkGridBoundaryOffset(WorkGridExtent + 1, normalizedCellSize);
+        int extent = NormalizeWorkGridExtent(workGridExtent);
+        float min = BuildWorkGridBoundaryOffset(-extent, normalizedCellSize);
+        float max = BuildWorkGridBoundaryOffset(extent + 1, normalizedCellSize);
         Handles.zTest = CompareFunction.Always;
         Handles.color = new Color(0.08f, 0.75f, 0.9f, 0.92f);
 
-        for (int i = -WorkGridExtent; i <= WorkGridExtent + 1; i++)
+        for (int i = -extent; i <= extent + 1; i++)
         {
             float offset = BuildWorkGridBoundaryOffset(i, normalizedCellSize);
             float y = BuildSceneGridOverlayHeight(placementHeight);
@@ -2901,7 +2973,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return;
 
         Handles.color = new Color(0.18f, 0.58f, 0.68f, 0.68f);
-        for (int cell = -WorkGridExtent; cell <= WorkGridExtent; cell++)
+        for (int cell = -extent; cell <= extent; cell++)
         {
             for (int subdivision = 1; subdivision < WorkGridSubdivisionsPerCell; subdivision++)
             {
@@ -7802,8 +7874,13 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     internal static float BuildWorkGridSpan(float currentCellSize)
     {
+        return BuildWorkGridSpan(currentCellSize, WorkGridExtent);
+    }
+
+    internal static float BuildWorkGridSpan(float currentCellSize, int extent)
+    {
         float normalizedCellSize = NoryangjinMapToolGridUtility.NormalizeCellSize(currentCellSize);
-        return normalizedCellSize * (WorkGridExtent * 2f + 1f);
+        return normalizedCellSize * (NormalizeWorkGridExtent(extent) * 2f + 1f);
     }
 
     internal static float BuildWorkGridFloorSize(float currentCellSize)

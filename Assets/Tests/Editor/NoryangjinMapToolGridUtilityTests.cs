@@ -2116,12 +2116,34 @@ public sealed class NoryangjinMapToolGridUtilityTests
     [Test]
     public void WorkGridLines_AreVisibleInExactTopView()
     {
-        Assert.That(NoryangjinMapToolWindow.WorkGridExtent, Is.EqualTo(200));
+        Assert.That(NoryangjinMapToolWindow.WorkGridExtent, Is.EqualTo(300));
         Assert.That(
             NoryangjinMapToolWindow.BuildWorkGridSpan(NoryangjinMapToolWindow.DefaultCellSize),
-            Is.EqualTo(NoryangjinMapToolWindow.DefaultCellSize * 401f).Within(0.001f));
+            Is.EqualTo(NoryangjinMapToolWindow.DefaultCellSize * 601f).Within(0.001f));
         Assert.That(NoryangjinMapToolWindow.WorkGridLineY, Is.GreaterThanOrEqualTo(0.035f));
         Assert.That(NoryangjinMapToolWindow.WorkGridLineWidth, Is.GreaterThanOrEqualTo(0.045f));
+    }
+
+    [Test]
+    public void WorkGridExtentControls_ClampAndOfferLargerPresets()
+    {
+        Assert.That(
+            NoryangjinMapToolWindow.WorkGridExtentPresets,
+            Is.EqualTo(new[] { 300, 600, 900, 1200 }));
+        Assert.That(
+            NoryangjinMapToolWindow.NormalizeWorkGridExtent(0),
+            Is.EqualTo(NoryangjinMapToolWindow.WorkGridExtent));
+        Assert.That(
+            NoryangjinMapToolWindow.NormalizeWorkGridExtent(1),
+            Is.EqualTo(NoryangjinMapToolWindow.MinWorkGridExtent));
+        Assert.That(
+            NoryangjinMapToolWindow.NormalizeWorkGridExtent(5000),
+            Is.EqualTo(NoryangjinMapToolWindow.MaxWorkGridExtent));
+        Assert.That(
+            NoryangjinMapToolWindow.BuildWorkGridSpan(
+                NoryangjinMapToolWindow.DefaultCellSize,
+                600),
+            Is.EqualTo(NoryangjinMapToolWindow.DefaultCellSize * 1201f).Within(0.001f));
     }
 
     [Test]

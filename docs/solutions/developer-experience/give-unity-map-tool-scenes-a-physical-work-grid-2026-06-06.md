@@ -1,7 +1,7 @@
 ---
 title: Give Unity map tool scenes a physical work grid
 date: 2026-06-06
-last_updated: 2026-07-15
+last_updated: 2026-08-30
 category: docs/solutions/developer-experience
 module: Unity Noryangjin map tooling
 problem_type: developer_experience
@@ -30,7 +30,7 @@ Editor placement scenes should include a non-gameplay physical work surface:
 
 In `NoryangjinMapToolWindow`, `OpenOrCreateMapToolScene()` re-applies scene defaults for existing scenes without replacing their current SceneView framing. Newly created tool scenes receive the initial automatic framing. `SetupMapToolSceneDefaults()` creates `MapTool_Work_Floor`, `MapTool_Work_Grid`, and `MapTool_Origin_Post`, while placed-object collection still only accepts objects whose names encode grid coordinates.
 
-Keep the placement cell size stable when authors need more layout room. Expand `WorkGridExtent` instead so snapping, prefab scale, and existing object coordinates do not change. The Noryangjin workspace now covers `-200..+200` main cells on each axis (401 by 401 cells) while retaining the `1.125` main-cell size.
+Keep the placement cell size stable when authors need more layout room. Expand the work-grid display radius instead so snapping, prefab scale, and existing object coordinates do not change. The Noryangjin map tool defaults to `-300..+300` main cells on each axis (601 by 601 cells) while retaining the `1.125` main-cell size. Authors can change the top-view overlay radius to `50..1200` from `편의 > 작업 그리드 범위`; this repaints only the Editor overlay and does not rewrite the authored scene.
 
 Refresh actions and existing-scene opens should restore the map-tool guide objects without moving an already-authored `MapTool_Camera` or replacing the author's current SceneView framing. Scene creation may assign an initial camera transform and SceneView preset; subsequent repair paths preserve them.
 

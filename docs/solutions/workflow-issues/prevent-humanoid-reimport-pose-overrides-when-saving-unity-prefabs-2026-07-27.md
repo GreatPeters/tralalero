@@ -17,8 +17,9 @@ tags: [unity, humanoid, animator, prefabutility, fbx, meshyai, serialization, id
 
 ## Context
 
-Five Forward enemy prefabs needed Humanoid Avatars, one shared
-`Idle`/`Attack`/`Die` controller, and per-character override controllers.
+Five Forward enemy prefabs originally needed Humanoid Avatars, one shared
+controller, and per-character override controllers. The current controller has
+`idle`, `attack_loop`, `walk`, `run`, `die`, and `attack_once` states.
 The editor utility correctly changed each Animator, but its first
 `PrefabUtility.SaveAsPrefabAsset` pass also serialized unrelated changes:
 
@@ -127,8 +128,8 @@ Verification should cover all three layers:
 1. Each imported animation clip reports `isHumanMotion`.
 2. Each prefab Animator owns a valid Humanoid Avatar and its expected override
    controller.
-3. A preview-scene Animator can enter `Idle`, `Attack`, and `Die`, and a second
-   setup run changes no files.
+3. A preview-scene Animator can enter all six current states,
+   `attack_once` returns to `idle`, and a second setup run changes no files.
 
 ## Related
 

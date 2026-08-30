@@ -25,7 +25,7 @@ public static class ForwardEnemyMovementSetup
         int changedPrefabCount = 0;
         foreach (string prefabPath in EnemyPrefabPaths)
         {
-            if (EnsureMovementController(prefabPath))
+            if (EnsureEventController(prefabPath))
                 changedPrefabCount++;
         }
 
@@ -39,12 +39,14 @@ public static class ForwardEnemyMovementSetup
             $"{changedPrefabCount}; trigger prefab changed: {changedTriggerPrefab}.");
     }
 
-    private static bool EnsureMovementController(string prefabPath)
+    private static bool EnsureEventController(string prefabPath)
     {
         GameObject prefabRoot = PrefabUtility.LoadPrefabContents(prefabPath);
         try
         {
-            if (prefabRoot.GetComponent<EnemyMovementController>() != null)
+            EnemyEventController controller =
+                prefabRoot.GetComponent<EnemyEventController>();
+            if (controller != null)
                 return false;
 
             GameObject[] nestedPrefabRoots = prefabRoot
@@ -59,7 +61,7 @@ public static class ForwardEnemyMovementSetup
                      Array.Empty<PropertyModification>())
                     .Select(GetModificationKey)));
 
-            prefabRoot.AddComponent<EnemyMovementController>();
+            prefabRoot.AddComponent<EnemyEventController>();
             RemoveNewHumanoidPoseOverrides(
                 nestedPrefabRoots,
                 originalModificationKeys);
@@ -86,12 +88,12 @@ public static class ForwardEnemyMovementSetup
         var triggerObject = new GameObject("Noryangjin Enemy Movement Trigger");
         try
         {
-            EnemyMovementActivationTrigger trigger =
-                triggerObject.AddComponent<EnemyMovementActivationTrigger>();
+            EnemyEventActivationSpot trigger =
+                triggerObject.AddComponent<EnemyEventActivationSpot>();
             BoxCollider collider = trigger.GetComponent<BoxCollider>();
-            collider.isTrigger = true;
-            collider.center = new Vector3(0f, 1f, 0f);
-            collider.size = new Vector3(4f, 2f, 0.8f);
+            EnemyEventActivationSpot.ConfigureCollider(
+                collider,
+                applyDefaultShape: true);
 
             if (PrefabUtility.SaveAsPrefabAsset(
                     triggerObject,
@@ -117,12 +119,12 @@ public static class ForwardEnemyMovementSetup
         {
             bool changed = false;
             bool needsDefaultColliderShape = false;
-            EnemyMovementActivationTrigger trigger =
-                prefabRoot.GetComponent<EnemyMovementActivationTrigger>();
+            EnemyEventActivationSpot trigger =
+                prefabRoot.GetComponent<EnemyEventActivationSpot>();
             if (trigger == null)
             {
                 trigger =
-                    prefabRoot.AddComponent<EnemyMovementActivationTrigger>();
+                    prefabRoot.AddComponent<EnemyEventActivationSpot>();
                 changed = true;
                 needsDefaultColliderShape = true;
             }
@@ -135,18 +137,15 @@ public static class ForwardEnemyMovementSetup
                 needsDefaultColliderShape = true;
             }
 
-            if (!collider.isTrigger)
-            {
-                collider.isTrigger = true;
-                changed = true;
-            }
+            bool colliderWasTrigger = collider.isTrigger;
 
-            if (needsDefaultColliderShape || collider.size == Vector3.zero)
-            {
-                collider.center = new Vector3(0f, 1f, 0f);
-                collider.size = new Vector3(4f, 2f, 0.8f);
+            bool applyDefaultShape =
+                needsDefaultColliderShape || collider.size == Vector3.zero;
+            EnemyEventActivationSpot.ConfigureCollider(
+                collider,
+                applyDefaultShape);
+            if (!colliderWasTrigger || applyDefaultShape)
                 changed = true;
-            }
 
             if (!changed)
                 return false;
@@ -206,5 +205,6 @@ public static class ForwardEnemyMovementSetup
                    "m_LocalEulerAnglesHint.",
                    StringComparison.Ordinal);
     }
+
 }
 #endif

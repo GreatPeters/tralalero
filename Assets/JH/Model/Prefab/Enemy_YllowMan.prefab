@@ -189,11 +189,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54e1bdd9773bf9b41a6fd63b8d57548f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IndianOceanAssets.ShooterSurvival.EnemyMovementController
-  movementMode: 0
+  eventMode: 0
   moveSpeed: 2
-  sideToSideDistance: 2
-  entranceSide: -1
-  entranceDistance: 3
+  moveAnimation: 0
+  targetPoint: {fileID: 0}
+  arrivalDistance: 0.05
 --- !u!1 &5373966266097683866
 GameObject:
   m_ObjectHideFlags: 0

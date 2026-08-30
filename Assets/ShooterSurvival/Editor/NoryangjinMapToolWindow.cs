@@ -286,6 +286,7 @@ public static class NoryangjinMapToolGridUtility
     }
 }
 
+[InitializeOnLoad]
 public sealed class NoryangjinMapToolWindow : EditorWindow
 {
     private readonly struct RendererBoundsCacheEntry
@@ -308,7 +309,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private readonly struct EnemyConnectionLabelCacheEntry
     {
         public EnemyConnectionLabelCacheEntry(
-            EnemyMovementController target,
+            EnemyEventController target,
             int index,
             string targetName,
             string label)
@@ -319,7 +320,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             Label = label;
         }
 
-        public EnemyMovementController Target { get; }
+        public EnemyEventController Target { get; }
         public int Index { get; }
         public string TargetName { get; }
         public string Label { get; }
@@ -425,18 +426,6 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         "플레이어 경로가 없을 때만 아래 Y값을 사용하며, 배치 후 수동 회전할 수 있습니다.";
     internal static readonly string[] EnemyPalettePrefabPaths =
         BuildEnemyPalettePrefabPaths();
-    private static readonly string[] EnemyMovementModeLabels =
-    {
-        "가만히",
-        "좌우 이동",
-        "트리거 후 전진",
-        "트리거 후 옆 등장"
-    };
-    private static readonly string[] EnemyEntranceSideLabels =
-    {
-        "왼쪽",
-        "오른쪽"
-    };
     internal const int RoadPaletteItemSortOrder = 2;
     internal const int BuiltinBackgroundPaletteItemSortOrder = 3;
     internal const NoryangjinMapToolJoystickCenterAction JoystickCenterAction = NoryangjinMapToolJoystickCenterAction.PlaceSelectedIcon;
@@ -506,6 +495,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string SelectedObjectMoveJoystickSectionLabel = "한 칸 이동";
     internal const string SelectedObjectAbsoluteRotationSectionLabel = "Y 회전";
     internal const string SelectedObjectMoveJoystickCenterLabel = "스냅";
+    internal const double SelectedObjectMoveHoldDelaySeconds = 2d;
+    internal const double SelectedObjectMoveRepeatIntervalSeconds = 0.25d;
     internal const string ContinuationButtonLabel = "이어 복붙";
     internal static readonly string[] ContinuationDirectionLabels = { "북", "동", "남", "서" };
     internal const string CopyPlacedObjectButtonLabel = "복사하기";
@@ -672,12 +663,23 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private Vector2Int coarsePlacementSnapAnchor;
     private int lastPlacedObjectInstanceId;
     private int copiedPlacedObjectInstanceId;
-    private EnemyMovementActivationTrigger enemyAssignmentTrigger;
-    private EnemyMovementController hoveredEnemyAssignmentTarget;
+    private EnemyEventActivationSpot enemyAssignmentTrigger;
+    private EnemyEventController hoveredEnemyAssignmentTarget;
     private readonly Dictionary<int, RendererBoundsCacheEntry> sceneRendererBoundsCache = new();
     private readonly Dictionary<int, EnemyConnectionLabelCacheEntry> enemyConnectionLabelCache = new();
-    private readonly HashSet<EnemyMovementController> uniqueEnemyMovementTargets = new();
+    private readonly HashSet<EnemyEventController> uniqueEnemyMovementTargets = new();
     private readonly List<Renderer> rendererBoundsBuffer = new();
+    private string heldMoveControlId;
+    private double heldMoveNextTriggerTime;
+    private bool heldMoveBlockedUntilNextMouseDown;
+    private static readonly Dictionary<int, EnemyPlacementTransformState>
+        TrackedEnemyPlacementStates = new();
+
+    static NoryangjinMapToolWindow()
+    {
+        Undo.undoRedoPerformed -= RefreshTrackedEnemyPlacementsAfterUndoRedo;
+        Undo.undoRedoPerformed += RefreshTrackedEnemyPlacementsAfterUndoRedo;
+    }
 
     [MenuItem("Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기", false, 2305)]
     public static void Open()
@@ -758,6 +760,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         StopEnemyAssignmentMode();
         DestroyPlacementPreview();
         DestroyPlacementPreviewMaterials();
+        ResetHeldMove();
+        heldMoveBlockedUntilNextMouseDown = true;
     }
 
     private void OnMapToolSelectionChanged()
@@ -768,10 +772,24 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void OnGUI()
     {
-        if (HandleUndoCommand(Event.current))
+        Event currentEvent = Event.current;
+        bool heldMoveInputBoundary =
+            currentEvent.rawType == EventType.MouseDown ||
+            currentEvent.rawType == EventType.MouseUp ||
+            currentEvent.type == EventType.MouseLeaveWindow;
+        heldMoveBlockedUntilNextMouseDown = UpdateHeldMoveBlockState(
+            heldMoveBlockedUntilNextMouseDown,
+            currentEvent.rawType,
+            currentEvent.type);
+        if (heldMoveInputBoundary)
+        {
+            ResetHeldMove();
+        }
+
+        if (HandleUndoCommand(currentEvent))
             return;
 
-        if (TryHandleEnemyAssignmentCancel(Event.current))
+        if (TryHandleEnemyAssignmentCancel(currentEvent))
             return;
 
         DrawPrimaryTabs();
@@ -1521,16 +1539,16 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 drewBehaviorSettings = true;
             }
 
-            EnemyMovementController movement =
-                target.GetComponent<EnemyMovementController>();
+            EnemyEventController movement =
+                target.GetComponent<EnemyEventController>();
             if (movement != null)
             {
                 DrawSelectedEnemyMovementSettings(movement);
                 drewBehaviorSettings = true;
             }
 
-            EnemyMovementActivationTrigger movementTrigger =
-                target.GetComponent<EnemyMovementActivationTrigger>();
+            EnemyEventActivationSpot movementTrigger =
+                target.GetComponent<EnemyEventActivationSpot>();
             if (movementTrigger != null)
             {
                 DrawSelectedEnemyMovementTriggerSettings(movementTrigger);
@@ -1769,62 +1787,27 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     }
 
     private void DrawSelectedEnemyMovementSettings(
-        EnemyMovementController movement)
+        EnemyEventController movement)
     {
         if (movement == null)
             return;
 
-        GUILayout.Label("적 이동 동작", EditorStyles.miniBoldLabel);
-        EditorGUI.BeginChangeCheck();
-        EnemyMovementMode mode = (EnemyMovementMode)EditorGUILayout.Popup(
-            "동작",
-            (int)movement.MovementMode,
-            EnemyMovementModeLabels);
-        float speed = movement.MoveSpeed;
-        float sideDistance = movement.SideToSideDistance;
-        EnemyEntranceSide entranceSide = movement.EntranceSide;
-        float entranceDistance = movement.EntranceDistance;
-
-        if (mode != EnemyMovementMode.StayStill)
-            speed = EditorGUILayout.DelayedFloatField("속도", speed);
-
-        if (mode == EnemyMovementMode.MoveSideToSide)
+        GUILayout.Label("적 이벤트", EditorStyles.miniBoldLabel);
+        var serializedMovement = new SerializedObject(movement);
+        EnemyEventAuthoring.DrawSettings(serializedMovement);
+        if (serializedMovement.ApplyModifiedProperties())
         {
-            sideDistance = EditorGUILayout.DelayedFloatField(
-                "좌우 거리",
-                sideDistance);
+            PrefabUtility.RecordPrefabInstancePropertyModifications(movement);
+            EditorUtility.SetDirty(movement);
+            if (movement.gameObject.scene.IsValid())
+                EditorSceneManager.MarkSceneDirty(movement.gameObject.scene);
+            SceneView.RepaintAll();
         }
-        else if (mode == EnemyMovementMode.EnterFromSideOnTrigger)
-        {
-            int entranceSideIndex = EditorGUILayout.Popup(
-                "등장 방향",
-                entranceSide == EnemyEntranceSide.Left ? 0 : 1,
-                EnemyEntranceSideLabels);
-            entranceSide = entranceSideIndex == 0
-                ? EnemyEntranceSide.Left
-                : EnemyEntranceSide.Right;
-            entranceDistance = EditorGUILayout.DelayedFloatField(
-                "등장 거리",
-                entranceDistance);
-        }
+        EnemyEventAuthoring.DrawTargetActions(movement);
 
-        if (EditorGUI.EndChangeCheck())
-        {
-            ApplyEnemyMovementSettings(
-                movement,
-                mode,
-                speed,
-                sideDistance,
-                entranceSide,
-                entranceDistance);
-        }
-
-        if (EnemyMovementController.RequiresTrigger(mode))
-        {
-            GUILayout.Label(
-                "적 발동 스팟을 선택한 뒤 씬에서 이 적을 클릭해 연결해야 시작됩니다.",
-                EditorStyles.wordWrappedMiniLabel);
-        }
+        GUILayout.Label(
+            "적 발동 스팟을 선택한 뒤 씬에서 이 적을 클릭해 연결하면 시작됩니다.",
+            EditorStyles.wordWrappedMiniLabel);
 
         PlayerScript routeStart = FindScenePlayerRouteStart(movement.gameObject.scene);
         using (new EditorGUI.DisabledScope(
@@ -1835,33 +1818,6 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             if (GUILayout.Button(AlignSelectedEnemyToRouteButtonLabel, GUILayout.Height(24f)))
                 AlignEnemyToRoute(movement.gameObject, routeStart);
         }
-    }
-
-    internal static void ApplyEnemyMovementSettings(
-        EnemyMovementController movement,
-        EnemyMovementMode mode,
-        float speed,
-        float sideDistance,
-        EnemyEntranceSide entranceSide,
-        float entranceDistance)
-    {
-        if (movement == null)
-            return;
-
-        const string undoName = "Edit Enemy Movement";
-        Undo.RecordObject(movement, undoName);
-        movement.MovementMode = mode;
-        movement.MoveSpeed = speed;
-        movement.SideToSideDistance = sideDistance;
-        movement.EntranceSide = entranceSide;
-        movement.EntranceDistance = entranceDistance;
-        PrefabUtility.RecordPrefabInstancePropertyModifications(movement);
-        EditorUtility.SetDirty(movement);
-
-        if (movement.gameObject.scene.IsValid())
-            EditorSceneManager.MarkSceneDirty(movement.gameObject.scene);
-
-        SceneView.RepaintAll();
     }
 
     private void AlignEnemyToRoute(GameObject enemyRoot, PlayerScript routeStart)
@@ -1957,7 +1913,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     {
         return enemyRoot != null &&
                routeStart != null &&
-               enemyRoot.GetComponentInChildren<EnemyMovementController>(true) != null;
+               enemyRoot.GetComponentInChildren<EnemyEventController>(true) != null;
     }
 
     internal static List<GameObject> CollectEnemyRouteAlignmentTargets(
@@ -1979,7 +1935,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             if ((combinedHideFlags & HideFlags.DontSave) != 0)
                 continue;
 
-            if (child.GetComponentInChildren<EnemyMovementController>(true) != null)
+            if (child.GetComponentInChildren<EnemyEventController>(true) != null)
                 targets.Add(child.gameObject);
         }
 
@@ -2007,22 +1963,14 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     }
 
     private void DrawSelectedEnemyMovementTriggerSettings(
-        EnemyMovementActivationTrigger trigger)
+        EnemyEventActivationSpot trigger)
     {
         if (trigger == null)
             return;
 
-        GUILayout.Label("적 이동 발동", EditorStyles.miniBoldLabel);
-        var serializedTrigger = new SerializedObject(trigger);
-        serializedTrigger.Update();
-        SerializedProperty oneShot = serializedTrigger.FindProperty("oneShot");
-        EditorGUILayout.PropertyField(
-            oneShot,
-            new GUIContent("한 번만 발동"));
-        if (serializedTrigger.ApplyModifiedProperties())
-            SceneView.RepaintAll();
+        GUILayout.Label("적 이벤트 발동", EditorStyles.miniBoldLabel);
 
-        List<EnemyMovementController> assignedTargets =
+        List<EnemyEventController> assignedTargets =
             NormalizeEnemyMovementTargets(trigger.Targets);
         int assignedCount = assignedTargets.Count;
         GUILayout.Label($"연결된 적: {assignedCount}명", EditorStyles.miniBoldLabel);
@@ -2033,21 +1981,13 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 : "스팟을 선택한 뒤 씬에서 적을 클릭하면 자동으로 연결됩니다.",
             MessageType.Info);
 
-        int inactiveTargetCount = CountTargetsWithoutTriggerMovement(assignedTargets);
-        if (inactiveTargetCount > 0)
-        {
-            EditorGUILayout.HelpBox(
-                $"{inactiveTargetCount}명은 '트리거 후 전진/옆 등장' 동작이 아니라서 실제로 발동되지 않습니다.",
-                MessageType.Warning);
-        }
-
         GUILayout.Label(
-            "플레이어가 이 영역에 들어오면 연결한 적의 전진/옆 등장을 시작합니다.",
+            "이 스팟은 적 연결만 담당합니다. 공격·발사·이동 방식은 각 적의 Enemy Event Controller에서 선택합니다.",
             EditorStyles.wordWrappedMiniLabel);
     }
 
     private void StartEnemyAssignmentMode(
-        EnemyMovementActivationTrigger trigger)
+        EnemyEventActivationSpot trigger)
     {
         if (trigger == null)
             return;
@@ -2087,7 +2027,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     }
 
     private bool IsEnemyAssignmentModeActiveFor(
-        EnemyMovementActivationTrigger trigger)
+        EnemyEventActivationSpot trigger)
     {
         return trigger != null &&
                enemyAssignmentTrigger == trigger &&
@@ -2098,7 +2038,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                copiedPlacedObjectInstanceId == 0;
     }
 
-    private EnemyMovementActivationTrigger ResolveActiveEnemyAssignmentTrigger()
+    private EnemyEventActivationSpot ResolveActiveEnemyAssignmentTrigger()
     {
         bool canUseSelectedTrigger =
             mapToolEnabled &&
@@ -2109,7 +2049,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return null;
         }
 
-        EnemyMovementActivationTrigger selectedTrigger =
+        EnemyEventActivationSpot selectedTrigger =
             ResolveEnemyMovementAssignmentTriggerFromSelection(
                 Selection.activeGameObject);
         if (selectedTrigger == null)
@@ -2126,7 +2066,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             : null;
     }
 
-    internal static EnemyMovementActivationTrigger
+    internal static EnemyEventActivationSpot
         ResolveEnemyMovementAssignmentTriggerFromSelection(
             GameObject selectedObject)
     {
@@ -2135,21 +2075,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             selectedObject,
             mapToolRoot);
         return placedObject != null
-            ? placedObject.GetComponent<EnemyMovementActivationTrigger>()
+            ? placedObject.GetComponent<EnemyEventActivationSpot>()
             : null;
-    }
-
-    private static int CountTargetsWithoutTriggerMovement(
-        IReadOnlyList<EnemyMovementController> targets)
-    {
-        int inactiveTargetCount = 0;
-        foreach (EnemyMovementController target in targets)
-        {
-            if (!target.RequiresPlayerTrigger)
-                inactiveTargetCount++;
-        }
-
-        return inactiveTargetCount;
     }
 
     private void DrawRotationQuickButtons(GameObject target)
@@ -2271,7 +2198,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         {
             GUILayout.FlexibleSpace();
             GUILayout.Space(buttonWidth);
-            if (GUILayout.Button("위", GUILayout.Width(buttonWidth), GUILayout.Height(buttonHeight)))
+            if (DrawHeldMoveButton("up", "위", buttonWidth, buttonHeight))
                 MoveSelectedObjectByGridStep(target, 0, 1);
             GUILayout.Space(buttonWidth);
             GUILayout.FlexibleSpace();
@@ -2280,11 +2207,11 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         using (new EditorGUILayout.HorizontalScope())
         {
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("왼쪽", GUILayout.Width(buttonWidth), GUILayout.Height(buttonHeight)))
+            if (DrawHeldMoveButton("left", "왼쪽", buttonWidth, buttonHeight))
                 MoveSelectedObjectByGridStep(target, -1, 0);
             if (GUILayout.Button(SelectedObjectMoveJoystickCenterLabel, GUILayout.Width(buttonWidth), GUILayout.Height(buttonHeight)))
                 SnapSelectionToGrid();
-            if (GUILayout.Button("오른쪽", GUILayout.Width(buttonWidth), GUILayout.Height(buttonHeight)))
+            if (DrawHeldMoveButton("right", "오른쪽", buttonWidth, buttonHeight))
                 MoveSelectedObjectByGridStep(target, 1, 0);
             GUILayout.FlexibleSpace();
         }
@@ -2293,7 +2220,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         {
             GUILayout.FlexibleSpace();
             GUILayout.Space(buttonWidth);
-            if (GUILayout.Button("아래", GUILayout.Width(buttonWidth), GUILayout.Height(buttonHeight)))
+            if (DrawHeldMoveButton("down", "아래", buttonWidth, buttonHeight))
                 MoveSelectedObjectByGridStep(target, 0, -1);
             GUILayout.Space(buttonWidth);
             GUILayout.FlexibleSpace();
@@ -2321,6 +2248,34 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 RotateSelectedObjectY(target, 90f);
             GUILayout.FlexibleSpace();
         }
+    }
+
+    private bool DrawHeldMoveButton(
+        string controlId,
+        string label,
+        float width,
+        float height)
+    {
+        bool held = GUILayout.RepeatButton(
+            label,
+            GUILayout.Width(width),
+            GUILayout.Height(height));
+        bool trigger = ShouldTriggerHeldMove(
+            ref heldMoveControlId,
+            ref heldMoveNextTriggerTime,
+            controlId,
+            EditorApplication.timeSinceStartup,
+            held,
+            heldMoveBlockedUntilNextMouseDown);
+        if (held && !heldMoveBlockedUntilNextMouseDown)
+            Repaint();
+        return trigger;
+    }
+
+    private void ResetHeldMove()
+    {
+        heldMoveControlId = null;
+        heldMoveNextTriggerTime = 0d;
     }
 
     private static Vector3 DrawRotationFields(Vector3 euler)
@@ -2843,7 +2798,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return;
 
         float normalizedCellSize = NoryangjinMapToolGridUtility.NormalizeCellSize(cellSize);
-        EnemyMovementActivationTrigger activeAssignmentTrigger =
+        EnemyEventActivationSpot activeAssignmentTrigger =
             ResolveActiveEnemyAssignmentTrigger();
         GameObject assignmentMapToolRoot = activeAssignmentTrigger != null
             ? ResolveMapToolRootFromSelection(activeAssignmentTrigger.gameObject)
@@ -3137,7 +3092,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private List<KeyValuePair<GameObject, Rect>> BuildEnemyPlacedObjectHeightLabelRects(
         GUIStyle labelStyle,
         GameObject mapToolRoot,
-        EnemyMovementActivationTrigger activeTrigger)
+        EnemyEventActivationSpot activeTrigger)
     {
         var labels = new List<KeyValuePair<GameObject, Rect>>();
         Transform enemyParent = mapToolRoot != null
@@ -3212,7 +3167,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return;
 
         float placementGridCellSize = BuildPlacementSnapCellSize(normalizedCellSize, false);
-        foreach (Vector2Int cell in GetPlacedObjectDisplayedFootprintCells(selectedObject, anchor, placementGridCellSize))
+        foreach (Vector2Int cell in GetPlacedObjectSelectionFootprintCells(selectedObject, anchor, placementGridCellSize))
             DrawSceneGridCellFill(cell.x, cell.y, placementGridCellSize, NoryangjinMapToolSceneGridCellState.Selected);
     }
 
@@ -3397,7 +3352,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private void HandleSceneEnemyAssignment(
         SceneView sceneView,
         float normalizedCellSize,
-        EnemyMovementActivationTrigger trigger,
+        EnemyEventActivationSpot trigger,
         IReadOnlyList<KeyValuePair<GameObject, Rect>> heightLabels,
         GameObject mapToolRoot)
     {
@@ -3413,7 +3368,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
         if (currentEvent.type == EventType.MouseMove)
         {
-            EnemyMovementController previousTarget = hoveredEnemyAssignmentTarget;
+            EnemyEventController previousTarget = hoveredEnemyAssignmentTarget;
             int previousGridX = gridX;
             int previousGridZ = gridZ;
             hoveredEnemyAssignmentTarget = FindEnemyAssignmentTargetAtMouse(
@@ -3435,7 +3390,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         if (!ShouldHandleEnemyAssignmentSceneEvent(currentEvent))
             return;
 
-        EnemyMovementController target = FindEnemyAssignmentTargetAtMouse(
+        EnemyEventController target = FindEnemyAssignmentTargetAtMouse(
             currentEvent.mousePosition,
             normalizedCellSize,
             heightLabels,
@@ -3453,7 +3408,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         }
         else
         {
-            ShowNotification(new GUIContent("EnemyMovementController가 있는 적을 클릭하세요"));
+            ShowNotification(new GUIContent("EnemyEventController가 있는 적을 클릭하세요"));
         }
 
         currentEvent.Use();
@@ -3461,7 +3416,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         Repaint();
     }
 
-    private EnemyMovementController FindEnemyAssignmentTargetAtMouse(
+    private EnemyEventController FindEnemyAssignmentTargetAtMouse(
         Vector2 mousePosition,
         float normalizedCellSize,
         IReadOnlyList<KeyValuePair<GameObject, Rect>> heightLabels,
@@ -3569,7 +3524,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return true;
     }
 
-    internal static EnemyMovementController ResolveEnemyMovementAssignmentTarget(
+    internal static EnemyEventController ResolveEnemyMovementAssignmentTarget(
         GameObject pickedObject,
         GameObject mapToolRoot)
     {
@@ -3583,15 +3538,15 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return null;
         }
 
-        return placedObject.GetComponent<EnemyMovementController>();
+        return placedObject.GetComponent<EnemyEventController>();
     }
 
-    internal static EnemyMovementController[] BuildToggledEnemyMovementTargets(
-        EnemyMovementController[] existingTargets,
-        EnemyMovementController target,
+    internal static EnemyEventController[] BuildToggledEnemyMovementTargets(
+        EnemyEventController[] existingTargets,
+        EnemyEventController target,
         out bool added)
     {
-        List<EnemyMovementController> normalizedTargets =
+        List<EnemyEventController> normalizedTargets =
             NormalizeEnemyMovementTargets(existingTargets);
         bool wasAssigned = target != null && normalizedTargets.Remove(target);
         added = target != null && !wasAssigned;
@@ -3602,15 +3557,15 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     }
 
     internal static bool ToggleEnemyMovementTargetAssignment(
-        EnemyMovementActivationTrigger trigger,
-        EnemyMovementController target)
+        EnemyEventActivationSpot trigger,
+        EnemyEventController target)
     {
         if (trigger == null)
             throw new ArgumentNullException(nameof(trigger));
         if (target == null)
             throw new ArgumentNullException(nameof(target));
 
-        EnemyMovementController[] nextTargets =
+        EnemyEventController[] nextTargets =
             BuildToggledEnemyMovementTargets(
                 trigger.Targets,
                 target,
@@ -4147,8 +4102,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return;
 
         GameObject selected = ResolveSelectedPlacedObject(Selection.activeGameObject);
-        EnemyMovementActivationTrigger trigger = selected != null
-            ? selected.GetComponent<EnemyMovementActivationTrigger>()
+        EnemyEventActivationSpot trigger = selected != null
+            ? selected.GetComponent<EnemyEventActivationSpot>()
             : null;
         if (trigger == null)
             return;
@@ -4168,14 +4123,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 fontSize = labelFontSize,
                 normal = { textColor = new Color(1f, 0.45f, 0.05f, 1f) }
             };
-            var inactiveTargetLabelStyle = new GUIStyle(EditorStyles.miniBoldLabel)
-            {
-                fontSize = labelFontSize,
-                normal = { textColor = new Color(1f, 0.85f, 0.1f, 1f) }
-            };
             int connectionIndex = 0;
-            foreach (EnemyMovementController target in
-                     trigger.Targets ?? Array.Empty<EnemyMovementController>())
+            foreach (EnemyEventController target in
+                     trigger.Targets ?? Array.Empty<EnemyEventController>())
             {
                 if (target == null || !uniqueEnemyMovementTargets.Add(target))
                     continue;
@@ -4192,9 +4142,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                     connectionLabel,
                     normalizedCellSize,
                     assignmentModeActive,
-                    target.RequiresPlayerTrigger
-                        ? activeTargetLabelStyle
-                        : inactiveTargetLabelStyle);
+                    activeTargetLabelStyle);
             }
 
             if (assignmentModeActive && hoveredEnemyAssignmentTarget != null)
@@ -4217,7 +4165,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private static void DrawEnemyMovementTriggerConnection(
         Vector3 start,
-        EnemyMovementController target,
+        EnemyEventController target,
         Bounds targetBounds,
         string connectionLabel,
         float normalizedCellSize,
@@ -4226,10 +4174,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     {
         Vector3 end = BuildEnemyMovementTargetConnectionPoint(targetBounds);
         Vector3 direction = end - start;
-        Color connectionColor = target.RequiresPlayerTrigger
-            ? new Color(1f, 0.45f, 0.05f, 1f)
-            : new Color(1f, 0.85f, 0.1f, 1f);
-        Handles.color = connectionColor;
+        Handles.color = new Color(1f, 0.45f, 0.05f, 1f);
         Handles.DrawAAPolyLine(
             assignmentModeActive ? 5f : 3f,
             start,
@@ -4258,7 +4203,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     }
 
     private string GetEnemyMovementConnectionLabel(
-        EnemyMovementController target,
+        EnemyEventController target,
         int connectionIndex)
     {
         int instanceId = target.GetInstanceID();
@@ -4288,8 +4233,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void DrawEnemyAssignmentHover(
         Vector3 start,
-        EnemyMovementActivationTrigger trigger,
-        EnemyMovementController target,
+        EnemyEventActivationSpot trigger,
+        EnemyEventController target,
         float normalizedCellSize)
     {
         bool alreadyAssigned = IsEnemyMovementTargetAssigned(
@@ -4319,7 +4264,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     }
 
     private static Vector3 BuildEnemyMovementTriggerConnectionPoint(
-        EnemyMovementActivationTrigger trigger)
+        EnemyEventActivationSpot trigger)
     {
         if (trigger == null)
             return Vector3.zero;
@@ -4342,14 +4287,14 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     }
 
     private static bool IsEnemyMovementTargetAssigned(
-        EnemyMovementController[] targets,
-        EnemyMovementController target)
+        EnemyEventController[] targets,
+        EnemyEventController target)
     {
         if (target == null)
             return false;
 
-        foreach (EnemyMovementController existingTarget in
-                 targets ?? Array.Empty<EnemyMovementController>())
+        foreach (EnemyEventController existingTarget in
+                 targets ?? Array.Empty<EnemyEventController>())
         {
             if (existingTarget == target)
                 return true;
@@ -4358,13 +4303,13 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return false;
     }
 
-    private static List<EnemyMovementController> NormalizeEnemyMovementTargets(
-        EnemyMovementController[] targets)
+    private static List<EnemyEventController> NormalizeEnemyMovementTargets(
+        EnemyEventController[] targets)
     {
-        var normalizedTargets = new List<EnemyMovementController>();
-        var seenTargets = new HashSet<EnemyMovementController>();
-        foreach (EnemyMovementController target in
-                 targets ?? Array.Empty<EnemyMovementController>())
+        var normalizedTargets = new List<EnemyEventController>();
+        var seenTargets = new HashSet<EnemyEventController>();
+        foreach (EnemyEventController target in
+                 targets ?? Array.Empty<EnemyEventController>())
         {
             if (target != null && seenTargets.Add(target))
                 normalizedTargets.Add(target);
@@ -5050,9 +4995,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         Vector2Int anchor,
         float normalizedCellSize)
     {
-        EnemyMovementActivationTrigger movementTrigger =
+        EnemyEventActivationSpot movementTrigger =
             target != null
-                ? target.GetComponent<EnemyMovementActivationTrigger>()
+                ? target.GetComponent<EnemyEventActivationSpot>()
                 : null;
         if (movementTrigger != null)
         {
@@ -5524,9 +5469,16 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return;
 
         Undo.RecordObject(target.transform, "Move Map Tool Object Height");
-        Vector3 position = target.transform.position;
+        Vector3 previousPosition = target.transform.position;
+        Quaternion previousRotation = target.transform.rotation;
+        Vector3 position = previousPosition;
         position.y = MoveHeightByStep(position.y, deltaY);
         target.transform.position = position;
+        NotifyEnemyPlacementChanged(
+            target,
+            previousPosition,
+            previousRotation,
+            rotationChanged: false);
         EditorUtility.SetDirty(target);
         SceneView.RepaintAll();
         Repaint();
@@ -5576,12 +5528,19 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return;
 
         Undo.RecordObject(target.transform, "Move Map Tool Object Offset");
+        Vector3 previousPosition = target.transform.position;
+        Quaternion previousRotation = target.transform.rotation;
         target.transform.position = BuildPlacedObjectPositionWithOffset(
             origin,
             anchor,
             BuildPlacementSnapCellSize(cellSize, false),
             placementHeight,
             offset);
+        NotifyEnemyPlacementChanged(
+            target,
+            previousPosition,
+            previousRotation,
+            rotationChanged: false);
         EditorUtility.SetDirty(target);
         SceneView.RepaintAll();
         Repaint();
@@ -5596,11 +5555,18 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         Undo.RecordObject(target, "Move Map Tool Object By Grid Step");
         Undo.RecordObject(target.transform, "Move Map Tool Object By Grid Step");
         target.name = movedName;
+        Vector3 previousPosition = target.transform.position;
+        Quaternion previousRotation = target.transform.rotation;
         target.transform.position = MoveObjectPositionByGridStep(
             target.transform.position,
             offsetX,
             offsetZ,
             BuildPlacementSnapCellSize(cellSize, false));
+        NotifyEnemyPlacementChanged(
+            target,
+            previousPosition,
+            previousRotation,
+            rotationChanged: false);
         PrefabUtility.RecordPrefabInstancePropertyModifications(target);
         PrefabUtility.RecordPrefabInstancePropertyModifications(target.transform);
         EditorUtility.SetDirty(target);
@@ -5688,7 +5654,14 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return false;
 
         Undo.RecordObject(target.transform, "Rotate Map Tool Object");
+        Vector3 previousPosition = target.transform.position;
+        Quaternion previousRotation = target.transform.rotation;
         target.transform.rotation = rotation;
+        NotifyEnemyPlacementChanged(
+            target,
+            previousPosition,
+            previousRotation,
+            rotationChanged: true);
         PrefabUtility.RecordPrefabInstancePropertyModifications(target.transform);
         EditorUtility.SetDirty(target);
         EditorUtility.SetDirty(target.transform);
@@ -6063,11 +6036,18 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         foreach (GameObject selected in Selection.gameObjects)
         {
             Undo.RecordObject(selected.transform, "Snap Selection To Grid");
+            Vector3 previousPosition = selected.transform.position;
+            Quaternion previousRotation = selected.transform.rotation;
             selected.transform.position = NoryangjinMapToolGridUtility.SnapToGrid(
                 selected.transform.position,
                 origin,
                 BuildPlacementSnapCellSize(cellSize, false),
                 placementHeight);
+            NotifyEnemyPlacementChanged(
+                selected,
+                previousPosition,
+                previousRotation,
+                rotationChanged: false);
             EditorUtility.SetDirty(selected);
         }
 
@@ -6975,6 +6955,165 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return currentOffset + step;
     }
 
+    internal static bool ShouldTriggerHeldMove(
+        ref string activeControlId,
+        ref double nextTriggerTime,
+        string controlId,
+        double currentTime,
+        bool held,
+        bool blockedUntilNextMouseDown)
+    {
+        if (!held || blockedUntilNextMouseDown || string.IsNullOrEmpty(controlId))
+            return false;
+
+        if (!string.Equals(activeControlId, controlId, StringComparison.Ordinal))
+        {
+            activeControlId = controlId;
+            nextTriggerTime = currentTime + SelectedObjectMoveHoldDelaySeconds;
+            return true;
+        }
+
+        if (currentTime < nextTriggerTime)
+            return false;
+
+        nextTriggerTime = currentTime + SelectedObjectMoveRepeatIntervalSeconds;
+        return true;
+    }
+
+    internal static bool UpdateHeldMoveBlockState(
+        bool blockedUntilNextMouseDown,
+        EventType rawEventType,
+        EventType eventType)
+    {
+        if (rawEventType == EventType.MouseDown)
+            return false;
+
+        if (rawEventType == EventType.MouseUp ||
+            eventType == EventType.MouseLeaveWindow)
+        {
+            return true;
+        }
+
+        return blockedUntilNextMouseDown;
+    }
+
+    private static void NotifyEnemyPlacementChanged(
+        GameObject target,
+        Vector3 previousPosition,
+        Quaternion previousRotation,
+        bool rotationChanged)
+    {
+        EnemyEventController movement =
+            target != null
+                ? target.GetComponent<EnemyEventController>()
+                : null;
+        if (movement != null)
+        {
+            movement.RefreshPlacementAfterAuthoringChange(
+                previousPosition,
+                rotationChanged);
+            int instanceId = target.GetInstanceID();
+            if (!TrackedEnemyPlacementStates.TryGetValue(
+                    instanceId,
+                    out EnemyPlacementTransformState state))
+            {
+                state = new EnemyPlacementTransformState();
+                TrackedEnemyPlacementStates.Add(instanceId, state);
+            }
+
+            state.RecordPlacementUndo();
+            state.SetLastSynchronized(
+                target.transform.position,
+                target.transform.rotation);
+        }
+    }
+
+    internal static void RefreshTrackedEnemyPlacementsAfterUndoRedo()
+    {
+        var trackedStates = new List<KeyValuePair<int, EnemyPlacementTransformState>>(
+            TrackedEnemyPlacementStates);
+        foreach (KeyValuePair<int, EnemyPlacementTransformState> pair in trackedStates)
+        {
+            GameObject target =
+                EditorUtility.InstanceIDToObject(pair.Key) as GameObject;
+            EnemyEventController movement =
+                target != null
+                    ? target.GetComponent<EnemyEventController>()
+                    : null;
+            if (movement == null)
+            {
+                pair.Value.Dispose();
+                TrackedEnemyPlacementStates.Remove(pair.Key);
+                continue;
+            }
+
+            if (!pair.Value.WasPlacementUndoOrRedoPerformed())
+                continue;
+
+            bool rotationChanged = Quaternion.Angle(
+                target.transform.rotation,
+                pair.Value.LastRotation) > 0.001f;
+            movement.RefreshPlacementAfterAuthoringChange(
+                pair.Value.LastPosition,
+                rotationChanged);
+            pair.Value.SetLastSynchronized(
+                target.transform.position,
+                target.transform.rotation);
+        }
+    }
+
+    private sealed class EnemyPlacementTransformState
+    {
+        private readonly EnemyPlacementUndoRevision undoRevision;
+        private int lastSynchronizedRevision;
+
+        public EnemyPlacementTransformState()
+        {
+            undoRevision = ScriptableObject.CreateInstance<EnemyPlacementUndoRevision>();
+            undoRevision.hideFlags = HideFlags.HideAndDontSave;
+        }
+
+        public Vector3 LastPosition { get; private set; }
+        public Quaternion LastRotation { get; private set; }
+
+        public void RecordPlacementUndo()
+        {
+            Undo.RecordObject(undoRevision, "Refresh Enemy Placement");
+            undoRevision.Increment();
+            lastSynchronizedRevision = undoRevision.Revision;
+        }
+
+        public bool WasPlacementUndoOrRedoPerformed()
+        {
+            return undoRevision != null &&
+                   undoRevision.Revision != lastSynchronizedRevision;
+        }
+
+        public void SetLastSynchronized(
+            Vector3 position,
+            Quaternion rotation)
+        {
+            LastPosition = position;
+            LastRotation = rotation;
+            lastSynchronizedRevision = undoRevision.Revision;
+        }
+
+        public void Dispose()
+        {
+            if (undoRevision != null)
+                DestroyImmediate(undoRevision);
+        }
+    }
+
+    private sealed class EnemyPlacementUndoRevision : ScriptableObject
+    {
+        [SerializeField] private int revision;
+
+        public int Revision => revision;
+
+        public void Increment() => revision++;
+    }
+
     internal static Vector3 MoveObjectPositionByGridStep(
         Vector3 currentPosition,
         int offsetX,
@@ -7221,8 +7360,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             ? turnSpot.GetComponent<BoxCollider>()
             : null;
         return trigger != null
-            ? BuildBoundsFootprintCells(
-                trigger.bounds,
+            ? BuildBoxColliderFootprintCells(
+                trigger,
                 currentOrigin,
                 currentCellSize)
             : new List<Vector2Int>();
@@ -7230,7 +7369,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     internal static List<Vector2Int>
         BuildEnemyMovementTriggerSelectionFootprintCells(
-            EnemyMovementActivationTrigger movementTrigger,
+            EnemyEventActivationSpot movementTrigger,
             Vector3 currentOrigin,
             float currentCellSize)
     {
@@ -7238,11 +7377,36 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             ? movementTrigger.GetComponent<BoxCollider>()
             : null;
         return trigger != null
-            ? BuildBoundsFootprintCells(
-                trigger.bounds,
+            ? BuildBoxColliderFootprintCells(
+                trigger,
                 currentOrigin,
                 currentCellSize)
             : new List<Vector2Int>();
+    }
+
+    internal static List<Vector2Int> BuildBoxColliderFootprintCells(
+        BoxCollider trigger,
+        Vector3 currentOrigin,
+        float currentCellSize)
+    {
+        if (trigger == null)
+            return new List<Vector2Int>();
+
+        Vector3 halfSize = trigger.size * 0.5f;
+        Vector3 center = trigger.center;
+        Vector3 firstCorner = trigger.transform.TransformPoint(
+            center + new Vector3(-halfSize.x, 0f, -halfSize.z));
+        var worldBounds = new Bounds(firstCorner, Vector3.zero);
+        worldBounds.Encapsulate(trigger.transform.TransformPoint(
+            center + new Vector3(-halfSize.x, 0f, halfSize.z)));
+        worldBounds.Encapsulate(trigger.transform.TransformPoint(
+            center + new Vector3(halfSize.x, 0f, halfSize.z)));
+        worldBounds.Encapsulate(trigger.transform.TransformPoint(
+            center + new Vector3(halfSize.x, 0f, -halfSize.z)));
+        return BuildBoundsFootprintCells(
+            worldBounds,
+            currentOrigin,
+            currentCellSize);
     }
 
     internal static string BuildFootprintLabel(Vector2Int footprint)
@@ -7703,7 +7867,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return target != null &&
                (GetPlacedObjectLayer(target) ==
                 NoryangjinMapToolPlacementLayer.Enemy ||
-                target.GetComponent<EnemyMovementActivationTrigger>() != null);
+                target.GetComponent<EnemyEventActivationSpot>() != null);
     }
 
     internal static bool ShouldAppendActiveTriggerHeightLabel(

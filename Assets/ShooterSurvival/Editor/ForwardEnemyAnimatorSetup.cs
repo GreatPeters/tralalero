@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using IndianOceanAssets.ShooterSurvival;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -17,12 +18,24 @@ public static class ForwardEnemyAnimatorSetup
         SharedRoot + "/ForwardEnemyShared.controller";
     internal const string IdleTemplatePath =
         SharedRoot + "/ForwardEnemy_Idle.anim";
-    internal const string AttackTemplatePath =
-        SharedRoot + "/ForwardEnemy_Attack.anim";
+    internal const string AttackLoopTemplatePath =
+        SharedRoot + "/ForwardEnemy_AttackLoop.anim";
+    internal const string WalkTemplatePath =
+        SharedRoot + "/ForwardEnemy_Walk.anim";
+    internal const string RunTemplatePath =
+        SharedRoot + "/ForwardEnemy_Run.anim";
     internal const string DieTemplatePath =
         SharedRoot + "/ForwardEnemy_Die.anim";
+    internal const string AttackOnceTemplatePath =
+        SharedRoot + "/ForwardEnemy_AttackOnce.anim";
     internal const string OverridesRoot =
         SharedRoot + "/Overrides";
+    internal const string CommonLocomotionClipPath =
+        SharedRoot + "/ForwardEnemy_Locomotion.anim";
+    internal const string ExternalLocomotionModelPath =
+        "Assets/ThirdParty/Quaternius/UniversalAnimationLibrary/UAL1_Standard.fbx";
+    internal const string ExternalWalkClipName = "Armature|Walk_Loop";
+    internal const string ExternalRunClipName = "Armature|Sprint_Loop";
 
     private static readonly EnemyDefinition[] Enemies =
     {
@@ -86,6 +99,7 @@ public static class ForwardEnemyAnimatorSetup
             enemy.AttackModelPath,
             enemy.DieModelPath
         })
+        .Append(ExternalLocomotionModelPath)
         .Distinct()
         .ToArray();
 
@@ -97,12 +111,27 @@ public static class ForwardEnemyAnimatorSetup
         EnsureFolder(OverridesRoot);
 
         AnimationClip idleTemplate = GetOrCreateTemplateClip(IdleTemplatePath);
-        AnimationClip attackTemplate = GetOrCreateTemplateClip(AttackTemplatePath);
+        AnimationClip attackLoopTemplate =
+            GetOrCreateTemplateClip(AttackLoopTemplatePath);
+        AnimationClip walkTemplate = GetOrCreateTemplateClip(WalkTemplatePath);
+        AnimationClip runTemplate = GetOrCreateTemplateClip(RunTemplatePath);
         AnimationClip dieTemplate = GetOrCreateTemplateClip(DieTemplatePath);
+        AnimationClip attackOnceTemplate =
+            GetOrCreateTemplateClip(AttackOnceTemplatePath);
+        ValidatePreservedLocomotionClip();
+        AnimationClip walkClip = LoadClip(
+            ExternalLocomotionModelPath,
+            ExternalWalkClipName);
+        AnimationClip runClip = LoadClip(
+            ExternalLocomotionModelPath,
+            ExternalRunClipName);
         AnimatorController sharedController = ConfigureSharedController(
             idleTemplate,
-            attackTemplate,
-            dieTemplate);
+            attackLoopTemplate,
+            walkTemplate,
+            runTemplate,
+            dieTemplate,
+            attackOnceTemplate);
 
         foreach (EnemyDefinition enemy in Enemies)
         {
@@ -110,23 +139,28 @@ public static class ForwardEnemyAnimatorSetup
             AnimationClip attackClip = LoadClip(enemy.AttackModelPath, enemy.AttackClipName);
             AnimationClip dieClip = LoadClip(enemy.DieModelPath, enemy.DieClipName);
             Avatar avatar = LoadValidHumanoidAvatar(enemy.AvatarModelPath);
+            var animationOverrides =
+                new Dictionary<AnimationClip, AnimationClip>
+                {
+                    [idleTemplate] = idleClip,
+                    [attackLoopTemplate] = attackClip,
+                    [walkTemplate] = walkClip,
+                    [runTemplate] = runClip,
+                    [dieTemplate] = dieClip,
+                    [attackOnceTemplate] = attackClip
+                };
             AnimatorOverrideController overrideController = ConfigureOverrideController(
                 enemy,
                 sharedController,
-                idleTemplate,
-                idleClip,
-                attackTemplate,
-                attackClip,
-                dieTemplate,
-                dieClip);
+                animationOverrides);
 
             ConfigurePrefab(enemy.PrefabPath, avatar, overrideController);
         }
 
         AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
         Debug.Log(
-            "[Forward Enemy Animator] Configured one shared Idle/Attack/Die controller, " +
+            "[Forward Enemy Animator] Configured shared idle/attack_loop/walk/run/" +
+            "die/attack_once states with Quaternius walk/run locomotion, " +
             "five Humanoid avatars, and five character override controllers.");
     }
 
@@ -141,19 +175,86 @@ public static class ForwardEnemyAnimatorSetup
             bool requiresReimport =
                 importer.animationType != ModelImporterAnimationType.Human ||
                 importer.avatarSetup != ModelImporterAvatarSetup.CreateFromThisModel;
+            ModelImporterClipAnimation[] clipAnimations = importer.clipAnimations;
+            if (clipAnimations.Length == 0)
+                clipAnimations = importer.defaultClipAnimations;
+
+            bool clipSettingsChanged = false;
+            HashSet<string> loopingIdleClipNames = Enemies
+                .Where(enemy => string.Equals(
+                    enemy.IdleModelPath,
+                    modelPath,
+                    StringComparison.Ordinal))
+                .Select(enemy => enemy.IdleClipName)
+                .ToHashSet(StringComparer.Ordinal);
+            foreach (ModelImporterClipAnimation clip in clipAnimations)
+            {
+                if (!loopingIdleClipNames.Contains(clip.name) || clip.loopTime)
+                    continue;
+
+                clip.loopTime = true;
+                clipSettingsChanged = true;
+            }
+
+            if (string.Equals(
+                    modelPath,
+                    ExternalLocomotionModelPath,
+                    StringComparison.Ordinal))
+            {
+                ModelImporterClipAnimation[] selectedLocomotionClips =
+                    clipAnimations
+                        .Where(clip =>
+                            string.Equals(
+                                clip.name,
+                                ExternalWalkClipName,
+                                StringComparison.Ordinal) ||
+                            string.Equals(
+                                clip.name,
+                                ExternalRunClipName,
+                                StringComparison.Ordinal))
+                        .ToArray();
+                if (selectedLocomotionClips.Length != 2)
+                {
+                    throw new InvalidOperationException(
+                        "Quaternius source must contain the selected walk and run clips.");
+                }
+
+                bool selectionChanged =
+                    clipAnimations.Length != selectedLocomotionClips.Length ||
+                    !clipAnimations.Select(clip => clip.name).SequenceEqual(
+                        selectedLocomotionClips.Select(clip => clip.name));
+                clipAnimations = selectedLocomotionClips;
+                clipSettingsChanged |= selectionChanged;
+
+                foreach (ModelImporterClipAnimation clip in clipAnimations)
+                {
+                    if (clip.loopTime)
+                        continue;
+
+                    clip.loopTime = true;
+                    clipSettingsChanged = true;
+                }
+            }
+
+            requiresReimport |= clipSettingsChanged;
             if (!requiresReimport)
                 continue;
 
             importer.animationType = ModelImporterAnimationType.Human;
             importer.avatarSetup = ModelImporterAvatarSetup.CreateFromThisModel;
+            if (clipSettingsChanged)
+                importer.clipAnimations = clipAnimations;
             importer.SaveAndReimport();
         }
     }
 
     private static AnimatorController ConfigureSharedController(
         AnimationClip idleTemplate,
-        AnimationClip attackTemplate,
-        AnimationClip dieTemplate)
+        AnimationClip attackLoopTemplate,
+        AnimationClip walkTemplate,
+        AnimationClip runTemplate,
+        AnimationClip dieTemplate,
+        AnimationClip attackOnceTemplate)
     {
         AnimatorController controller =
             AssetDatabase.LoadAssetAtPath<AnimatorController>(SharedControllerPath);
@@ -165,8 +266,11 @@ public static class ForwardEnemyAnimatorSetup
         else if (SharedControllerMatchesContract(
                      controller,
                      idleTemplate,
-                     attackTemplate,
-                     dieTemplate))
+                     attackLoopTemplate,
+                     walkTemplate,
+                     runTemplate,
+                     dieTemplate,
+                     attackOnceTemplate))
         {
             return controller;
         }
@@ -176,9 +280,6 @@ public static class ForwardEnemyAnimatorSetup
 
         while (controller.parameters.Length > 0)
             controller.RemoveParameter(controller.parameters.Length - 1);
-
-        controller.AddParameter("act", AnimatorControllerParameterType.Trigger);
-        controller.AddParameter("die", AnimatorControllerParameterType.Trigger);
 
         AnimatorControllerLayer layer = controller.layers[0];
         layer.name = "Base Layer";
@@ -195,30 +296,45 @@ public static class ForwardEnemyAnimatorSetup
         foreach (ChildAnimatorStateMachine childStateMachine in stateMachine.stateMachines)
             stateMachine.RemoveStateMachine(childStateMachine.stateMachine);
 
-        AnimatorState idle = stateMachine.AddState("Idle", new Vector3(300f, 100f));
-        AnimatorState attack = stateMachine.AddState("Attack", new Vector3(520f, 100f));
-        AnimatorState die = stateMachine.AddState("Die", new Vector3(520f, -20f));
+        AnimatorState idle = stateMachine.AddState(
+            ForwardEnemyAnimationContract.Idle,
+            new Vector3(280f, 60f));
+        AnimatorState attackLoop =
+            stateMachine.AddState(
+                ForwardEnemyAnimationContract.AttackLoop,
+                new Vector3(500f, 0f));
+        AnimatorState walk = stateMachine.AddState(
+            ForwardEnemyAnimationContract.Walk,
+            new Vector3(500f, 80f));
+        AnimatorState run = stateMachine.AddState(
+            ForwardEnemyAnimationContract.Run,
+            new Vector3(500f, 160f));
+        AnimatorState die = stateMachine.AddState(
+            ForwardEnemyAnimationContract.Die,
+            new Vector3(720f, 0f));
+        AnimatorState attackOnce =
+            stateMachine.AddState(
+                ForwardEnemyAnimationContract.AttackOnce,
+                new Vector3(720f, 100f));
         idle.motion = idleTemplate;
-        attack.motion = attackTemplate;
+        attackLoop.motion = attackLoopTemplate;
+        walk.motion = walkTemplate;
+        walk.speed = 1f;
+        run.motion = runTemplate;
         die.motion = dieTemplate;
+        attackOnce.motion = attackOnceTemplate;
         stateMachine.defaultState = idle;
 
-        AnimatorStateTransition attackTransition = idle.AddTransition(attack);
-        attackTransition.hasExitTime = false;
-        attackTransition.duration = 0.05f;
-        attackTransition.AddCondition(AnimatorConditionMode.If, 0f, "act");
+        AnimatorStateTransition attackLoopTransition =
+            attackLoop.AddTransition(attackLoop);
+        attackLoopTransition.hasExitTime = true;
+        attackLoopTransition.exitTime = 1f;
+        attackLoopTransition.duration = 0f;
 
-        AnimatorStateTransition idleTransition = attack.AddTransition(idle);
+        AnimatorStateTransition idleTransition = attackOnce.AddTransition(idle);
         idleTransition.hasExitTime = true;
         idleTransition.exitTime = 1f;
         idleTransition.duration = 0.05f;
-
-        AnimatorStateTransition dieTransition =
-            stateMachine.AddAnyStateTransition(die);
-        dieTransition.hasExitTime = false;
-        dieTransition.duration = 0.05f;
-        dieTransition.canTransitionToSelf = false;
-        dieTransition.AddCondition(AnimatorConditionMode.If, 0f, "die");
 
         EditorUtility.SetDirty(controller);
         return controller;
@@ -227,43 +343,66 @@ public static class ForwardEnemyAnimatorSetup
     private static bool SharedControllerMatchesContract(
         AnimatorController controller,
         AnimationClip idleTemplate,
-        AnimationClip attackTemplate,
-        AnimationClip dieTemplate)
+        AnimationClip attackLoopTemplate,
+        AnimationClip walkTemplate,
+        AnimationClip runTemplate,
+        AnimationClip dieTemplate,
+        AnimationClip attackOnceTemplate)
     {
         if (controller.layers.Length != 1 ||
-            controller.parameters.Length != 2 ||
-            controller.parameters.Any(parameter =>
-                parameter.type != AnimatorControllerParameterType.Trigger) ||
-            !controller.parameters.Select(parameter => parameter.name)
-                .OrderBy(name => name)
-                .SequenceEqual(new[] { "act", "die" }))
+            controller.parameters.Length != 0)
         {
             return false;
         }
 
         AnimatorStateMachine stateMachine = controller.layers[0].stateMachine;
-        if (stateMachine.states.Length != 3)
+        if (stateMachine.states.Length != 6 ||
+            stateMachine.anyStateTransitions.Length != 0 ||
+            stateMachine.entryTransitions.Length != 0)
+        {
             return false;
+        }
 
         Dictionary<string, AnimatorState> states = stateMachine.states
             .ToDictionary(childState => childState.state.name, childState => childState.state);
-        if (!states.TryGetValue("Idle", out AnimatorState idle) ||
-            !states.TryGetValue("Attack", out AnimatorState attack) ||
-            !states.TryGetValue("Die", out AnimatorState die) ||
+        if (!states.TryGetValue(
+                ForwardEnemyAnimationContract.Idle,
+                out AnimatorState idle) ||
+            !states.TryGetValue(
+                ForwardEnemyAnimationContract.AttackLoop,
+                out AnimatorState attackLoop) ||
+            !states.TryGetValue(
+                ForwardEnemyAnimationContract.Walk,
+                out AnimatorState walk) ||
+            !states.TryGetValue(
+                ForwardEnemyAnimationContract.Run,
+                out AnimatorState run) ||
+            !states.TryGetValue(
+                ForwardEnemyAnimationContract.Die,
+                out AnimatorState die) ||
+            !states.TryGetValue(
+                ForwardEnemyAnimationContract.AttackOnce,
+                out AnimatorState attackOnce) ||
             idle.motion != idleTemplate ||
-            attack.motion != attackTemplate ||
+            attackLoop.motion != attackLoopTemplate ||
+            walk.motion != walkTemplate ||
+            !Mathf.Approximately(walk.speed, 1f) ||
+            run.motion != runTemplate ||
             die.motion != dieTemplate ||
+            attackOnce.motion != attackOnceTemplate ||
             stateMachine.defaultState != idle ||
-            idle.transitions.Length != 1 ||
-            idle.transitions[0].destinationState != attack ||
-            !HasOnlyCondition(idle.transitions[0], "act") ||
-            attack.transitions.Length != 1 ||
-            attack.transitions[0].destinationState != idle ||
-            !attack.transitions[0].hasExitTime ||
+            idle.transitions.Length != 0 ||
+            attackLoop.transitions.Length != 1 ||
+            attackLoop.transitions[0].destinationState != attackLoop ||
+            !attackLoop.transitions[0].hasExitTime ||
+            !Mathf.Approximately(attackLoop.transitions[0].exitTime, 1f) ||
+            walk.transitions.Length != 0 ||
+            run.transitions.Length != 0 ||
             die.transitions.Length != 0 ||
-            stateMachine.anyStateTransitions.Length != 1 ||
-            stateMachine.anyStateTransitions[0].destinationState != die ||
-            !HasOnlyCondition(stateMachine.anyStateTransitions[0], "die"))
+            attackOnce.transitions.Length != 1 ||
+            attackOnce.transitions[0].destinationState != idle ||
+            !attackOnce.transitions[0].hasExitTime ||
+            !Mathf.Approximately(attackOnce.transitions[0].exitTime, 1f))
         {
             return false;
         }
@@ -271,26 +410,10 @@ public static class ForwardEnemyAnimatorSetup
         return true;
     }
 
-    private static bool HasOnlyCondition(
-        AnimatorStateTransition transition,
-        string parameterName)
-    {
-        return transition.conditions.Length == 1 &&
-               string.Equals(
-                   transition.conditions[0].parameter,
-                   parameterName,
-                   StringComparison.Ordinal);
-    }
-
     private static AnimatorOverrideController ConfigureOverrideController(
         EnemyDefinition enemy,
         AnimatorController sharedController,
-        AnimationClip idleTemplate,
-        AnimationClip idleClip,
-        AnimationClip attackTemplate,
-        AnimationClip attackClip,
-        AnimationClip dieTemplate,
-        AnimationClip dieClip)
+        IReadOnlyDictionary<AnimationClip, AnimationClip> animationOverrides)
     {
         string overridePath =
             $"{OverridesRoot}/{enemy.AssetName}.overrideController";
@@ -310,6 +433,9 @@ public static class ForwardEnemyAnimatorSetup
             controllerChanged = true;
         }
 
+        bool staleEntriesRemoved =
+            RemoveMissingOverrideEntries(overrideController);
+
         var overrides =
             new List<KeyValuePair<AnimationClip, AnimationClip>>(
                 overrideController.overridesCount);
@@ -319,16 +445,13 @@ public static class ForwardEnemyAnimatorSetup
         for (int index = 0; index < overrides.Count; index++)
         {
             AnimationClip original = overrides[index].Key;
-            AnimationClip replacement;
-            if (original == idleTemplate)
-                replacement = idleClip;
-            else if (original == attackTemplate)
-                replacement = attackClip;
-            else if (original == dieTemplate)
-                replacement = dieClip;
-            else
+            if (!animationOverrides.TryGetValue(
+                    original,
+                    out AnimationClip replacement))
+            {
                 throw new InvalidOperationException(
                     $"Unexpected shared animation slot '{original.name}'.");
+            }
 
             if (overrides[index].Value == replacement)
                 continue;
@@ -340,9 +463,38 @@ public static class ForwardEnemyAnimatorSetup
 
         if (overridesChanged)
             overrideController.ApplyOverrides(overrides);
-        if (controllerChanged || overridesChanged)
+        if (controllerChanged || overridesChanged || staleEntriesRemoved)
             EditorUtility.SetDirty(overrideController);
         return overrideController;
+    }
+
+    private static bool RemoveMissingOverrideEntries(
+        AnimatorOverrideController overrideController)
+    {
+        var serializedController = new SerializedObject(overrideController);
+        SerializedProperty clips = serializedController.FindProperty("m_Clips");
+        if (clips == null || !clips.isArray)
+            return false;
+
+        bool removed = false;
+        for (int index = clips.arraySize - 1; index >= 0; index--)
+        {
+            SerializedProperty originalClip = clips
+                .GetArrayElementAtIndex(index)
+                .FindPropertyRelative("m_OriginalClip");
+            if (originalClip != null &&
+                originalClip.objectReferenceValue != null)
+            {
+                continue;
+            }
+
+            clips.DeleteArrayElementAtIndex(index);
+            removed = true;
+        }
+
+        if (removed)
+            serializedController.ApplyModifiedPropertiesWithoutUndo();
+        return removed;
     }
 
     private static void ConfigurePrefab(
@@ -473,6 +625,18 @@ public static class ForwardEnemyAnimatorSetup
                 $"Animation clip '{clipName}' is not Humanoid motion: {modelPath}");
 
         return clip;
+    }
+
+    private static void ValidatePreservedLocomotionClip()
+    {
+        AnimationClip clip =
+            AssetDatabase.LoadAssetAtPath<AnimationClip>(
+                CommonLocomotionClipPath);
+        if (clip == null || !clip.isHumanMotion || !clip.isLooping)
+        {
+            throw new InvalidOperationException(
+                "Missing looping Humanoid ForwardEnemy_Locomotion.anim asset.");
+        }
     }
 
     private static Avatar LoadValidHumanoidAvatar(string modelPath)

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using IndianOceanAssets.ShooterSurvival;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -29,6 +30,189 @@ public sealed class NoryangjinGameplayIntegrationTests
 
         if (Application.isPlaying)
             yield return new ExitPlayMode();
+    }
+
+    [UnityTest]
+    public IEnumerator TriggeredFire_ReleasesProjectileThroughRuntimeCoroutine()
+    {
+        yield return new EnterPlayMode();
+
+        var playerObject = new GameObject("Triggered Fire Player");
+        PlayerScript player = playerObject.AddComponent<PlayerScript>();
+        var enemy = new GameObject("Triggered Fire Enemy");
+        var projectile = new GameObject("Triggered Fire Projectile");
+        projectile.transform.SetParent(enemy.transform, false);
+        projectile.AddComponent<SimpleProjectile>();
+        var animatorObject = new GameObject("Triggered Fire Animator");
+        animatorObject.transform.SetParent(enemy.transform, false);
+        Animator animator = animatorObject.AddComponent<Animator>();
+        EnemyEventController movement =
+            enemy.AddComponent<EnemyEventController>();
+        movement.EventMode = EnemyEventMode.Shoot;
+        EnemyScript_space combat = enemy.AddComponent<EnemyScript_space>();
+        SetPrivateField(combat, "heldProjectile", projectile.transform);
+        SetPrivateField(combat, "playerScript", player);
+        SetPrivateField(combat, "enemyAnimator", animator);
+        SetPrivateField(combat, "projectileParent", enemy.transform);
+        SetPrivateField(combat, "projectileLocalPosition", Vector3.zero);
+        SetPrivateField(combat, "projectileLocalRotation", Quaternion.identity);
+        SetPrivateField(combat, "projectileLocalScale", Vector3.one);
+        SetPrivateField(combat, "throwReleaseDelay", 0.15f);
+
+        TimeManager.isGameRunning = true;
+        Assert.That(movement.ActivateFromSpot(), Is.True);
+        Assert.That(movement.ActivateFromSpot(), Is.False);
+        TimeManager.isGameRunning = false;
+        TimeManager.timeFactor = 0f;
+        yield return new WaitForSeconds(0.25f);
+        Assert.That(projectile.transform.parent, Is.SameAs(enemy.transform));
+
+        TimeManager.timeFactor = 1f;
+        TimeManager.isGameRunning = true;
+        for (int frame = 0; frame < 30 && projectile.transform.parent != null; frame++)
+            yield return null;
+
+        Assert.That(projectile.transform.parent, Is.Null);
+        Rigidbody projectileBody = projectile.GetComponent<Rigidbody>();
+        Assert.That(projectileBody, Is.Not.Null);
+        Assert.That(projectileBody.linearVelocity.sqrMagnitude, Is.GreaterThan(0f));
+
+        enemy.SetActive(false);
+        enemy.SetActive(true);
+        yield return null;
+        Assert.That(projectile.transform.parent, Is.SameAs(enemy.transform));
+        Assert.That(projectileBody.isKinematic, Is.True);
+        Assert.That(movement.ActivateFromSpot(), Is.True);
+        for (int frame = 0; frame < 30 && projectile.transform.parent != null; frame++)
+            yield return null;
+        Assert.That(projectile.transform.parent, Is.Null);
+
+        TimeManager.isGameRunning = false;
+        Object.Destroy(enemy);
+        Object.Destroy(playerObject);
+        Object.Destroy(projectile);
+        yield return null;
+        yield return new ExitPlayMode();
+    }
+
+    private static void SetPrivateField<T>(
+        EnemyScript_space enemy,
+        string fieldName,
+        T value)
+    {
+        const BindingFlags privateInstance =
+            BindingFlags.Instance | BindingFlags.NonPublic;
+        FieldInfo field = typeof(EnemyScript_space).GetField(
+            fieldName,
+            privateInstance);
+        Assert.That(field, Is.Not.Null, fieldName);
+        field.SetValue(enemy, value);
+    }
+
+    [UnityTest]
+    public IEnumerator ActivationSpot_PlayerRootPhysicsStartsLinkedEnemy()
+    {
+        yield return new EnterPlayMode();
+
+        var enemy = new GameObject("Physics Trigger Enemy");
+        EnemyEventController controller =
+            enemy.AddComponent<EnemyEventController>();
+        controller.EventMode = EnemyEventMode.AttackLoop;
+
+        var spotObject = new GameObject("Physics Event Spot");
+        EnemyEventActivationSpot spot =
+            spotObject.AddComponent<EnemyEventActivationSpot>();
+        spot.Targets = new[] { controller };
+
+        var playerObject = new GameObject("Physics Trigger Player");
+        playerObject.tag = "Player";
+        playerObject.transform.position = Vector3.left * 5f;
+        playerObject.AddComponent<PlayerScript>();
+        playerObject.AddComponent<BoxCollider>();
+        Rigidbody playerBody = playerObject.AddComponent<Rigidbody>();
+        playerBody.useGravity = false;
+        playerBody.isKinematic = true;
+
+        TimeManager.timeFactor = 1f;
+        TimeManager.isGameRunning = true;
+        yield return new WaitForFixedUpdate();
+        playerBody.position = spotObject.transform.position;
+        yield return new WaitForFixedUpdate();
+        yield return new WaitForFixedUpdate();
+
+        Assert.That(
+            controller.RuntimeState,
+            Is.EqualTo(EnemyEventRuntimeState.Attacking));
+        Assert.That(spotObject.GetComponent<BoxCollider>().enabled, Is.False);
+
+        TimeManager.isGameRunning = false;
+        Object.Destroy(enemy);
+        Object.Destroy(spotObject);
+        Object.Destroy(playerObject);
+        yield return null;
+        yield return new ExitPlayMode();
+    }
+
+    [UnityTest]
+    public IEnumerator Patrol_WaitsForRealAttackOnceBeforeReturning()
+    {
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+            "Assets/JH/Model/Prefab/Enemy_Guard.prefab");
+        Assert.That(prefab, Is.Not.Null);
+        yield return new EnterPlayMode();
+
+        var playerObject = new GameObject("Patrol Test Player");
+        playerObject.transform.position = Vector3.forward * 4f;
+        playerObject.AddComponent<PlayerScript>();
+        GameObject enemy = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+        var target = new GameObject("Patrol Test Target");
+        target.transform.position = Vector3.right;
+        EnemyEventController controller = enemy.GetComponent<EnemyEventController>();
+        Animator animator = enemy.GetComponentInChildren<Animator>();
+        Assert.That(controller, Is.Not.Null);
+        Assert.That(animator, Is.Not.Null);
+        controller.EventMode = EnemyEventMode.PatrolBetweenStartAndTarget;
+        controller.TargetPoint = target.transform;
+        controller.MoveSpeed = 50f;
+        animator.speed = 5f;
+
+        TimeManager.timeFactor = 1f;
+        TimeManager.isGameRunning = true;
+        Assert.That(controller.ActivateFromSpot(), Is.True);
+
+        int attackFrames = 120;
+        while (animator.GetCurrentAnimatorStateInfo(0).shortNameHash !=
+                   Animator.StringToHash(ForwardEnemyAnimationContract.AttackOnce) &&
+               attackFrames-- > 0)
+        {
+            yield return null;
+        }
+
+        Assert.That(
+            animator.GetCurrentAnimatorStateInfo(0).shortNameHash,
+            Is.EqualTo(Animator.StringToHash(
+                ForwardEnemyAnimationContract.AttackOnce)));
+        Assert.That(
+            controller.RuntimeState,
+            Is.EqualTo(EnemyEventRuntimeState.PatrolAttack));
+
+        int returnFrames = 300;
+        while (controller.RuntimeState != EnemyEventRuntimeState.MovingToStart &&
+               returnFrames-- > 0)
+        {
+            yield return null;
+        }
+
+        Assert.That(
+            controller.RuntimeState,
+            Is.EqualTo(EnemyEventRuntimeState.MovingToStart));
+
+        TimeManager.isGameRunning = false;
+        Object.Destroy(enemy);
+        Object.Destroy(target);
+        Object.Destroy(playerObject);
+        yield return null;
+        yield return new ExitPlayMode();
     }
 
     [UnityTest]

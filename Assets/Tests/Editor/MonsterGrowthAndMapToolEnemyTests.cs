@@ -1847,12 +1847,12 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
             triggerObject.transform.SetParent(enemies.transform);
             triggerVisual.transform.SetParent(triggerObject.transform);
 
-            EnemyMovementController enemyMovement =
-                enemy.AddComponent<EnemyMovementController>();
-            prop.AddComponent<EnemyMovementController>();
-            EnemyMovementActivationTrigger trigger =
-                triggerObject.AddComponent<EnemyMovementActivationTrigger>();
-            outsideEnemy.AddComponent<EnemyMovementController>();
+            EnemyEventController enemyMovement =
+                enemy.AddComponent<EnemyEventController>();
+            prop.AddComponent<EnemyEventController>();
+            EnemyEventActivationSpot trigger =
+                triggerObject.AddComponent<EnemyEventActivationSpot>();
+            outsideEnemy.AddComponent<EnemyEventController>();
 
             Assert.That(
                 NoryangjinMapToolWindow.ResolveEnemyMovementAssignmentTarget(
@@ -1910,7 +1910,7 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
             enemy.transform.SetParent(enemyParent.transform);
             triggerSpot.transform.SetParent(propParent.transform);
             prop.transform.SetParent(propParent.transform);
-            triggerSpot.AddComponent<EnemyMovementActivationTrigger>();
+            triggerSpot.AddComponent<EnemyEventActivationSpot>();
 
             Assert.That(
                 NoryangjinMapToolWindow.EnemyPlacedObjectHeightLabelColor,
@@ -1955,14 +1955,14 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
             GameObject firstObject = CreatePreviewObject(previewScene, "FirstEnemy");
             GameObject secondObject = CreatePreviewObject(previewScene, "SecondEnemy");
             GameObject thirdObject = CreatePreviewObject(previewScene, "ThirdEnemy");
-            EnemyMovementController first =
-                firstObject.AddComponent<EnemyMovementController>();
-            EnemyMovementController second =
-                secondObject.AddComponent<EnemyMovementController>();
-            EnemyMovementController third =
-                thirdObject.AddComponent<EnemyMovementController>();
+            EnemyEventController first =
+                firstObject.AddComponent<EnemyEventController>();
+            EnemyEventController second =
+                secondObject.AddComponent<EnemyEventController>();
+            EnemyEventController third =
+                thirdObject.AddComponent<EnemyEventController>();
 
-            EnemyMovementController[] addedTargets =
+            EnemyEventController[] addedTargets =
                 NoryangjinMapToolWindow.BuildToggledEnemyMovementTargets(
                     new[] { first, null, first, second },
                     third,
@@ -1971,7 +1971,7 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
             Assert.That(added, Is.True);
             Assert.That(addedTargets, Is.EqualTo(new[] { first, second, third }));
 
-            EnemyMovementController[] removedTargets =
+            EnemyEventController[] removedTargets =
                 NoryangjinMapToolWindow.BuildToggledEnemyMovementTargets(
                     addedTargets,
                     first,
@@ -2001,10 +2001,10 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
             GameObject enemyObject = CreatePreviewObject(
                 previewScene,
                 "Enemy_Guard_X+00_Z+01");
-            EnemyMovementActivationTrigger trigger =
-                triggerObject.AddComponent<EnemyMovementActivationTrigger>();
-            EnemyMovementController enemy =
-                enemyObject.AddComponent<EnemyMovementController>();
+            EnemyEventActivationSpot trigger =
+                triggerObject.AddComponent<EnemyEventActivationSpot>();
+            EnemyEventController enemy =
+                enemyObject.AddComponent<EnemyEventController>();
 
             Assert.That(
                 NoryangjinMapToolWindow.ToggleEnemyMovementTargetAssignment(
@@ -2107,7 +2107,7 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
     [Test]
     public void ActivationTrigger_TargetsStaySerializedButHiddenFromInspector()
     {
-        FieldInfo targetsField = typeof(EnemyMovementActivationTrigger).GetField(
+        FieldInfo targetsField = typeof(EnemyEventActivationSpot).GetField(
             "targets",
             BindingFlags.Instance | BindingFlags.NonPublic);
 
@@ -2150,12 +2150,12 @@ public sealed class MonsterGrowthAndMapToolEnemyTests
             secondObject.transform.SetParent(enemies.transform);
             enemyObject.transform.SetParent(enemies.transform);
 
-            EnemyMovementActivationTrigger first =
-                firstObject.AddComponent<EnemyMovementActivationTrigger>();
-            EnemyMovementActivationTrigger second =
-                secondObject.AddComponent<EnemyMovementActivationTrigger>();
-            EnemyMovementController enemy =
-                enemyObject.AddComponent<EnemyMovementController>();
+            EnemyEventActivationSpot first =
+                firstObject.AddComponent<EnemyEventActivationSpot>();
+            EnemyEventActivationSpot second =
+                secondObject.AddComponent<EnemyEventActivationSpot>();
+            EnemyEventController enemy =
+                enemyObject.AddComponent<EnemyEventController>();
 
             FieldInfo contentTabField = typeof(NoryangjinMapToolWindow).GetField(
                 "selectedContentTab",

@@ -1,7 +1,7 @@
 ---
 title: Select map-tool visuals by their authoritative geometry
 date: 2026-07-26
-last_updated: 2026-07-26
+last_updated: 2026-08-30
 category: docs/solutions/ui-bugs
 module: Unity Noryangjin map tooling
 problem_type: ui_bug
@@ -12,10 +12,11 @@ symptoms:
   - "The target-yaw editor did not appear because the intended turn spot was not selected."
   - "A large ocean backdrop displayed `Y -3.00`, but clicking visible water outside its manual 1x1 placement footprint selected nothing."
   - "The selection result was null even though the cursor world position was inside the ocean renderer bounds."
+  - "A selected enemy movement trigger kept a 5x1 blue footprint after a 90-degree rotation instead of changing to 1x5."
 root_cause: logic_error
 resolution_type: code_fix
 severity: medium
-tags: [unity-editor, noryangjin, map-tool, scene-view, selection, collider, renderer-bounds, water-backdrop]
+tags: [unity-editor, noryangjin, map-tool, scene-view, selection, collider, renderer-bounds, water-backdrop, rotation]
 ---
 
 # Select map-tool visuals by their authoritative geometry
@@ -33,6 +34,12 @@ The same mismatch later appeared in the tiled
 covered a large area, while its authored placement footprint remained `1x1`.
 Selection reused that small placement footprint, so clicking visible water
 outside the anchor area returned no object.
+
+A third form appeared when rotating the now-renamed `EnemyEventActivationSpot`. The blue
+selected footprint initially used the generic displayed footprint, and the
+first correction still read `BoxCollider.bounds`. In Edit Mode that
+physics-backed world bound remained stale in the same call stack as the
+rotation change, so a `5x1` trigger continued to draw as `5x1` at 90 degrees.
 
 ## Symptoms
 
@@ -81,6 +88,12 @@ one fine cell, so a `> 25` assertion failed for the setup rather than the
 selection fix. Applying `BuildPalettePlacementScale` and the saved yaw made the
 test instance match the authored scene placement.
 
+Routing the blue overlay through the trigger-specific selection helper was
+necessary but not sufficient for rotated triggers. That helper still passed
+`trigger.bounds` to the grid conversion, and direct verification remained
+`5x1 -> 5x1`. Calling `Physics.SyncTransforms` would couple a deterministic
+editor visualization to global physics state, so it was not used as the fix.
+
 ## Solution
 
 Keep the normal displayed-footprint behavior for ordinary objects and use the
@@ -100,8 +113,9 @@ List<Vector2Int> selectionCells = turnSpot != null
         normalizedCellSize);
 ```
 
-The helper converts the same world-space collider bounds used by the visible
-trigger into grid cells:
+The helper converts the collider's current local geometry into grid cells.
+It transforms the four local XZ corners directly, so rotation and scale are
+visible immediately without waiting for physics synchronization:
 
 ```csharp
 internal static List<Vector2Int> BuildTurnSpotSelectionFootprintCells(
@@ -113,13 +127,20 @@ internal static List<Vector2Int> BuildTurnSpotSelectionFootprintCells(
         ? turnSpot.GetComponent<BoxCollider>()
         : null;
     return trigger != null
-        ? BuildBoundsFootprintCells(
-            trigger.bounds,
+        ? BuildBoxColliderFootprintCells(
+            trigger,
             currentOrigin,
             currentCellSize)
         : new List<Vector2Int>();
 }
 ```
+
+`BuildBoxColliderFootprintCells` applies `TransformPoint` to all four local
+horizontal corners and encapsulates those world points before calling the
+existing grid conversion. Both turn spots and enemy movement triggers use the
+same helper. The blue overlay also calls
+`GetPlacedObjectSelectionFootprintCells`, not the generic displayed-footprint
+path, so drawing and selection share one authoritative geometry policy.
 
 Keep the ocean's `1x1` manual footprint for placement and occupancy, but give
 selection its own prefab-specific geometry policy:
@@ -157,6 +178,10 @@ instantiates the real ocean prefab in a preview scene, applies its saved
 placement scale and yaw, verifies that its manual footprint is still `1x1`,
 and asserts that the selection cells equal the full renderer-bounds cells.
 
+`EnemyMovementTriggerSelectionFootprint_RotatesWithCollider` mutates the
+trigger rotation and reads the footprint immediately, without yielding an
+editor frame. It asserts the exact axis spans change from `5x1` to `1x5`.
+
 The editor project build passed with zero warnings and errors. The new exact
 Unity EditMode test passed, as did four focused selection and bounds tests.
 The previously failing live cursor cell `(163, -4)` then resolved to
@@ -168,9 +193,10 @@ label, scale, and color expectations outside this selection path.
 ## Why This Works
 
 Hit testing and editor visualization now share the same geometry source for
-turn spots: `BoxCollider.bounds`. Every grid cell represented by the pink
-trigger footprint can select the turn spot, while rendered roads and props
-retain their existing selection rules.
+turn spots and enemy movement triggers: the transformed local `BoxCollider`
+corners. Every grid cell represented by a trigger footprint can select it,
+and a rotation updates the blue overlay in the same editor operation, while
+rendered roads and props retain their existing selection rules.
 
 The ocean backdrop now follows the same principle using `Renderer.bounds`.
 Its manual `1x1` footprint remains authoritative for placement occupancy, but
@@ -186,6 +212,11 @@ palette footprint badge.
 - Keep component-specific geometry rules scoped to that component instead of
   changing shared renderer-bound behavior globally.
 - Test multi-cell selection footprints for rendererless triggers and markers.
+- For Edit Mode geometry that must update immediately after a transform
+  mutation, transform collider-local corners instead of reading cached
+  `Collider.bounds` or forcing global physics synchronization.
+- For asymmetric rotated footprints, assert exact axis spans such as
+  `5x1 -> 1x5`; total cell count alone cannot detect a missing rotation.
 - Distinguish singleton backdrops from repeated grid-managed background
   prefabs before changing selection behavior.
 - Do not assume a placement or occupancy footprint is also the correct
@@ -200,3 +231,4 @@ palette footprint badge.
 - [Continue map-tool layouts by selected renderer bounds](../design-patterns/continue-map-tool-layouts-by-selected-renderer-bounds-2026-07-19.md)
 - [Prefer prefab placement previews over SceneView line grids](../developer-experience/prefer-prefab-placement-previews-over-sceneview-line-grids-2026-06-06.md)
 - [Restore consumed turn spots on in-place restart](../integration-issues/restore-consumed-turn-spots-on-in-place-run-restart-2026-07-25.md)
+- [Protect active Unity scenes from broad EditMode test runs](../workflow-issues/protect-active-unity-scenes-from-broad-editmode-test-runs-2026-07-18.md)

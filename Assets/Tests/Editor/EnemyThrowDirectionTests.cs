@@ -110,7 +110,7 @@ public sealed class EnemyThrowDirectionTests
     }
 
     [Test]
-    public void FacePlayer_RotatesOnlyTheVisualRootTowardThePlayer()
+    public void AttackFacing_SnapsVisualToRouteOrthogonalPlayerDirection()
     {
         var playerObject = new GameObject("Facing Target Player");
         var enemyObject = new GameObject("Facing Enemy Root");
@@ -124,27 +124,20 @@ public sealed class EnemyThrowDirectionTests
 
             enemyObject.transform.position = new Vector3(1f, 0f, 2f);
             enemyObject.transform.rotation = Quaternion.Euler(0f, 35f, 0f);
-            playerObject.transform.position = new Vector3(4f, 8f, 6f);
+            playerObject.transform.position = new Vector3(8f, 8f, 4f);
             Quaternion originalRootRotation = enemyObject.transform.rotation;
 
-            EnemyScript_space enemy = enemyObject.AddComponent<EnemyScript_space>();
-            typeof(EnemyScript_space).GetField(
-                "enemyAnimator",
-                InstanceMemberFlags)?.SetValue(enemy, animator);
-            typeof(EnemyScript_space).GetField(
-                "playerScript",
-                InstanceMemberFlags)?.SetValue(enemy, player);
-            MethodInfo facePlayer = typeof(EnemyScript_space).GetMethod(
-                "FacePlayer",
-                InstanceMemberFlags);
+            EnemyEventController controller =
+                enemyObject.AddComponent<EnemyEventController>();
+            controller.EventMode = EnemyEventMode.AttackLoop;
+            Assert.That(controller.ActivateFromSpot(), Is.True);
 
-            Assert.That(facePlayer, Is.Not.Null);
-            facePlayer.Invoke(enemy, null);
-
-            Vector3 expectedDirection = playerObject.transform.position - enemyObject.transform.position;
-            expectedDirection.y = 0f;
+            Vector3 expected = EnemyEventController.ResolveOrthogonalFacingDirection(
+                player.transform.position - enemyObject.transform.position,
+                enemyObject.transform.forward,
+                enemyObject.transform.right);
             Assert.That(
-                Vector3.Angle(visualObject.transform.forward, expectedDirection),
+                Vector3.Angle(visualObject.transform.forward, expected),
                 Is.LessThan(0.01f));
             Assert.That(
                 Quaternion.Angle(enemyObject.transform.rotation, originalRootRotation),

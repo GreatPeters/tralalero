@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using IndianOceanAssets.ShooterSurvival;
 using NUnit.Framework;
@@ -2412,7 +2413,7 @@ public sealed class NoryangjinMapToolGridUtilityTests
             var directEnemy = new GameObject("Enemy_Direct_X+00_Z+00");
             SceneManager.MoveGameObjectToScene(directEnemy, previewScene);
             directEnemy.transform.SetParent(enemies.transform, false);
-            directEnemy.AddComponent<EnemyMovementController>();
+            directEnemy.AddComponent<EnemyEventController>();
 
             var nestedEnemyRoot = new GameObject("Enemy_Nested_X+01_Z+00");
             SceneManager.MoveGameObjectToScene(nestedEnemyRoot, previewScene);
@@ -2420,12 +2421,12 @@ public sealed class NoryangjinMapToolGridUtilityTests
             var nestedController = new GameObject("Movement Controller");
             SceneManager.MoveGameObjectToScene(nestedController, previewScene);
             nestedController.transform.SetParent(nestedEnemyRoot.transform, false);
-            nestedController.AddComponent<EnemyMovementController>();
+            nestedController.AddComponent<EnemyEventController>();
 
             var outsideEnemy = new GameObject("Enemy_Outside_X+02_Z+00");
             SceneManager.MoveGameObjectToScene(outsideEnemy, previewScene);
             outsideEnemy.transform.SetParent(mapToolRoot.transform, false);
-            outsideEnemy.AddComponent<EnemyMovementController>();
+            outsideEnemy.AddComponent<EnemyEventController>();
 
             List<GameObject> targets =
                 NoryangjinMapToolWindow.CollectEnemyRouteAlignmentTargets(mapToolRoot);
@@ -2500,6 +2501,185 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void SelectedObjectMoveJoystick_ClicksOnceThenRepeatsAfterTwoSecondHold()
+    {
+        string activeControl = null;
+        double nextTriggerTime = 0d;
+
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldTriggerHeldMove(
+                ref activeControl,
+                ref nextTriggerTime,
+                "left",
+                10d,
+                held: true,
+                blockedUntilNextMouseDown: false),
+            Is.True);
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldTriggerHeldMove(
+                ref activeControl,
+                ref nextTriggerTime,
+                "left",
+                11.99d,
+                held: true,
+                blockedUntilNextMouseDown: false),
+            Is.False);
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldTriggerHeldMove(
+                ref activeControl,
+                ref nextTriggerTime,
+                "left",
+                12d,
+                held: true,
+                blockedUntilNextMouseDown: false),
+            Is.True);
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldTriggerHeldMove(
+                ref activeControl,
+                ref nextTriggerTime,
+                "left",
+                12.24d,
+                held: true,
+                blockedUntilNextMouseDown: false),
+            Is.False);
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldTriggerHeldMove(
+                ref activeControl,
+                ref nextTriggerTime,
+                "left",
+                12.25d,
+                held: true,
+                blockedUntilNextMouseDown: false),
+            Is.True);
+    }
+
+    [Test]
+    public void SelectedObjectMoveJoystick_MouseUpNeverStartsAnotherStep()
+    {
+        string activeControl = null;
+        double nextTriggerTime = 0d;
+        bool blockedUntilNextMouseDown = false;
+
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldTriggerHeldMove(
+                ref activeControl,
+                ref nextTriggerTime,
+                "left",
+                10d,
+                held: true,
+                blockedUntilNextMouseDown),
+            Is.True);
+
+        blockedUntilNextMouseDown =
+            NoryangjinMapToolWindow.UpdateHeldMoveBlockState(
+                blockedUntilNextMouseDown,
+                EventType.MouseUp,
+                EventType.MouseUp);
+        activeControl = null;
+        nextTriggerTime = 0d;
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldTriggerHeldMove(
+                ref activeControl,
+                ref nextTriggerTime,
+                "left",
+                10.1d,
+                held: true,
+                blockedUntilNextMouseDown),
+            Is.False);
+        Assert.That(activeControl, Is.Null);
+
+        blockedUntilNextMouseDown =
+            NoryangjinMapToolWindow.UpdateHeldMoveBlockState(
+                blockedUntilNextMouseDown,
+                EventType.Repaint,
+                EventType.Repaint);
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldTriggerHeldMove(
+                ref activeControl,
+                ref nextTriggerTime,
+                "left",
+                10.2d,
+                held: true,
+                blockedUntilNextMouseDown),
+            Is.False,
+            "해제 직후 Repaint가 새 한 칸 이동으로 재시작되면 안 됩니다.");
+
+        blockedUntilNextMouseDown =
+            NoryangjinMapToolWindow.UpdateHeldMoveBlockState(
+                blockedUntilNextMouseDown,
+                EventType.MouseDown,
+                EventType.MouseDown);
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldTriggerHeldMove(
+                ref activeControl,
+                ref nextTriggerTime,
+                "left",
+                11d,
+                held: true,
+                blockedUntilNextMouseDown),
+            Is.True,
+            "다음 실제 누름에서는 다시 한 칸 이동해야 합니다.");
+    }
+
+    [Test]
+    public void SelectedObjectMoveJoystick_FirstHeldRepaintStartsOneStep()
+    {
+        string activeControl = null;
+        double nextTriggerTime = 0d;
+        bool blockedUntilNextMouseDown =
+            NoryangjinMapToolWindow.UpdateHeldMoveBlockState(
+                blockedUntilNextMouseDown: false,
+                EventType.Repaint,
+                EventType.Repaint);
+
+        Assert.That(
+            NoryangjinMapToolWindow.ShouldTriggerHeldMove(
+                ref activeControl,
+                ref nextTriggerTime,
+                "left",
+                10d,
+                held: true,
+                blockedUntilNextMouseDown),
+            Is.True);
+        Assert.That(activeControl, Is.EqualTo("left"));
+    }
+
+    [Test]
+    public void EnemyMovementTriggerSelectionFootprint_RotatesWithCollider()
+    {
+        var triggerObject = new GameObject("Enemy Movement Trigger Footprint");
+        try
+        {
+            EnemyEventActivationSpot movementTrigger =
+                triggerObject.AddComponent<EnemyEventActivationSpot>();
+            BoxCollider collider = triggerObject.GetComponent<BoxCollider>();
+            collider.center = new Vector3(0f, 1f, 0f);
+            collider.size = new Vector3(4f, 2f, 0.8f);
+
+            List<Vector2Int> unrotated =
+                NoryangjinMapToolWindow.BuildEnemyMovementTriggerSelectionFootprintCells(
+                    movementTrigger,
+                    Vector3.zero,
+                    1f);
+            triggerObject.transform.rotation = Quaternion.Euler(0f, 90f, 0f);
+            List<Vector2Int> rotated =
+                NoryangjinMapToolWindow.BuildEnemyMovementTriggerSelectionFootprintCells(
+                    movementTrigger,
+                    Vector3.zero,
+                    1f);
+
+            Assert.That(unrotated.Select(cell => cell.x).Distinct().Count(), Is.EqualTo(5));
+            Assert.That(unrotated.Select(cell => cell.y).Distinct().Count(), Is.EqualTo(1));
+            Assert.That(rotated.Select(cell => cell.x).Distinct().Count(), Is.EqualTo(1));
+            Assert.That(rotated.Select(cell => cell.y).Distinct().Count(), Is.EqualTo(5));
+        }
+        finally
+        {
+            Object.DestroyImmediate(triggerObject);
+        }
+    }
+
+    [Test]
     public void SelectedObjectMoveJoystick_MovesMapToolGridAnchorNameWithPosition()
     {
         Assert.That(
@@ -2511,6 +2691,111 @@ public sealed class NoryangjinMapToolGridUtilityTests
         Assert.That(
             NoryangjinMapToolWindow.MoveMapToolPlacedObjectNameByGridStep("Renamed Prop", 1, 0),
             Is.EqualTo("Renamed Prop"));
+    }
+
+    [Test]
+    public void SelectedObjectMoveJoystick_UndoRedoKeepsInitializedEnemyAnchorInSync()
+    {
+        var enemy = new GameObject("Enemy_Guard_X+00_Z+00");
+        NoryangjinMapToolWindow window =
+            ScriptableObject.CreateInstance<NoryangjinMapToolWindow>();
+        GameObject unrelated = null;
+        try
+        {
+            enemy.transform.position = new Vector3(5f, 0f, 7f);
+            EnemyEventController movement =
+                enemy.AddComponent<EnemyEventController>();
+            MethodInfo initialize = typeof(EnemyEventController).GetMethod(
+                "EnsureInitialized",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            FieldInfo anchorField = typeof(EnemyEventController).GetField(
+                "startPosition",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo move = typeof(NoryangjinMapToolWindow).GetMethod(
+                "MoveSelectedObjectByGridStep",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(initialize, Is.Not.Null);
+            Assert.That(anchorField, Is.Not.Null);
+            Assert.That(move, Is.Not.Null);
+            initialize.Invoke(movement, null);
+            Vector3 originalAnchor = (Vector3)anchorField.GetValue(movement);
+
+            move.Invoke(window, new object[] { enemy, 1, 0 });
+            Vector3 movedAnchor = (Vector3)anchorField.GetValue(movement);
+            Assert.That(movedAnchor, Is.Not.EqualTo(originalAnchor));
+            Object.DestroyImmediate(window);
+            window = null;
+
+            Undo.PerformUndo();
+            Assert.That(
+                (Vector3)anchorField.GetValue(movement),
+                Is.EqualTo(originalAnchor)
+                    .Using(Vector3ComparerWithEqualsOperator.Instance));
+
+            Undo.PerformRedo();
+            Assert.That(
+                (Vector3)anchorField.GetValue(movement),
+                Is.EqualTo(movedAnchor)
+                    .Using(Vector3ComparerWithEqualsOperator.Instance));
+
+            enemy.transform.position = originalAnchor;
+            unrelated = new GameObject("Unrelated Undo Target");
+            Undo.RecordObject(unrelated.transform, "Unrelated Undo");
+            unrelated.transform.position = Vector3.one;
+            Undo.PerformUndo();
+            Assert.That(
+                (Vector3)anchorField.GetValue(movement),
+                Is.EqualTo(movedAnchor)
+                    .Using(Vector3ComparerWithEqualsOperator.Instance));
+        }
+        finally
+        {
+            if (unrelated != null)
+                Object.DestroyImmediate(unrelated);
+            Object.DestroyImmediate(window);
+            Object.DestroyImmediate(enemy);
+        }
+    }
+
+    [Test]
+    public void SelectedObjectRotation_UndoRedoKeepsTriggeredForwardAxisInSync()
+    {
+        var enemy = new GameObject("Enemy_Guard_X+00_Z+00");
+        try
+        {
+            EnemyEventController movement =
+                enemy.AddComponent<EnemyEventController>();
+            MethodInfo initialize = typeof(EnemyEventController).GetMethod(
+                "EnsureInitialized",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            FieldInfo routeForwardField = typeof(EnemyEventController).GetField(
+                "routeForward",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.That(initialize, Is.Not.Null);
+            Assert.That(routeForwardField, Is.Not.Null);
+            initialize.Invoke(movement, null);
+
+            Assert.That(
+                NoryangjinMapToolWindow.ApplySelectedObjectRotationToTarget(
+                    enemy,
+                    new Vector3(0f, 90f, 0f)),
+                Is.True);
+            Undo.PerformUndo();
+            Assert.That(
+                (Vector3)routeForwardField.GetValue(movement),
+                Is.EqualTo(Vector3.forward)
+                    .Using(Vector3ComparerWithEqualsOperator.Instance));
+
+            Undo.PerformRedo();
+            Assert.That(
+                (Vector3)routeForwardField.GetValue(movement),
+                Is.EqualTo(Vector3.right)
+                    .Using(Vector3ComparerWithEqualsOperator.Instance));
+        }
+        finally
+        {
+            Object.DestroyImmediate(enemy);
+        }
     }
 
     [Test]

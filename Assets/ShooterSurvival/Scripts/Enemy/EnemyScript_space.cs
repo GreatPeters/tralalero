@@ -32,6 +32,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private Transform hitPosition;
         private PlayerScript playerScript;
         private Animator enemyAnimator;
+        private EnemyEventController eventController;
         private AudioSource audioSource;
         private TextMeshProUGUI healthText;
 
@@ -49,6 +50,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             audioSource = GetComponent<AudioSource>();
             enemyAnimator = GetComponentInChildren<Animator>();
+            eventController = GetComponent<EnemyEventController>();
             healthText = GetComponentInChildren<TextMeshProUGUI>(true);
 
             if (heldProjectile == null)
@@ -70,6 +72,7 @@ namespace IndianOceanAssets.ShooterSurvival
             {
                 enemyAnimator.Rebind();
                 enemyAnimator.Update(0f);
+                eventController?.SnapToRouteDirection();
             }
 
             Collider enemyCollider = GetComponent<Collider>();
@@ -92,15 +95,12 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void Update()
         {
-            bool isGameRunning = TimeManager.isGameRunning;
-            if (enemyAnimator.enabled != isGameRunning)
-                enemyAnimator.enabled = isGameRunning;
-
-            if (!isGameRunning ||
+            if (!TimeManager.isGameRunning ||
                 isDead)
                 return;
 
-            FacePlayer();
+            if (eventController != null)
+                return;
 
             if (hasThrown || heldProjectile == null || playerScript == null)
                 return;
@@ -111,21 +111,6 @@ namespace IndianOceanAssets.ShooterSurvival
             float throwRangeSqr = throwRange * throwRange;
             if ((releasePosition - playerScript.transform.position).sqrMagnitude <= throwRangeSqr)
                 BeginThrow();
-        }
-
-        private void FacePlayer()
-        {
-            if (enemyAnimator == null || playerScript == null)
-                return;
-
-            Vector3 direction =
-                playerScript.transform.position - enemyAnimator.transform.position;
-            direction.y = 0f;
-            if (direction.sqrMagnitude <= DirectionEpsilonSqr)
-                return;
-
-            enemyAnimator.transform.rotation =
-                Quaternion.LookRotation(direction, Vector3.up);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -233,7 +218,10 @@ namespace IndianOceanAssets.ShooterSurvival
             if (enemyCollider != null)
                 enemyCollider.enabled = false;
 
-            enemyAnimator.SetTrigger("die");
+            if (eventController != null)
+                eventController.PlayDie();
+            else
+                enemyAnimator.Play(ForwardEnemyAnimationContract.Die, 0, 0f);
             StartCoroutine(DeathFlow());
 
             if (rewardPlayerScore)
@@ -323,14 +311,51 @@ namespace IndianOceanAssets.ShooterSurvival
         private void BeginThrow()
         {
             hasThrown = true;
-            enemyAnimator.SetTrigger("act");
-            StartCoroutine(ReleaseProjectileAfterDelay());
+            if (eventController != null)
+                eventController.PlayAttackOnce();
+            else
+                enemyAnimator.Play(
+                    ForwardEnemyAnimationContract.AttackOnce,
+                    0,
+                    0f);
+            if (Application.isPlaying)
+                StartCoroutine(ReleaseProjectileAfterDelay());
+        }
+
+        public bool TryBeginTriggeredFire()
+        {
+            if (!CanBeginThrow())
+                return false;
+
+            BeginThrow();
+            return true;
+        }
+
+        private bool CanBeginThrow()
+        {
+            return !isDead &&
+                   !hasThrown &&
+                   heldProjectile != null &&
+                   playerScript != null &&
+                   enemyAnimator != null;
         }
 
         private IEnumerator ReleaseProjectileAfterDelay()
         {
-            yield return new WaitForSeconds(throwReleaseDelay);
-            if (isDead || heldProjectile == null)
+            float remainingDelay = Mathf.Max(0f, throwReleaseDelay);
+            while (remainingDelay > 0f)
+            {
+                yield return null;
+                if (isDead || heldProjectile == null)
+                    yield break;
+                if (!TimeManager.isGameRunning)
+                    continue;
+
+                remainingDelay -=
+                    Time.deltaTime * Mathf.Max(0f, TimeManager.timeFactor);
+            }
+
+            if (isDead || heldProjectile == null || !TimeManager.isGameRunning)
                 yield break;
 
             Transform releaseTransform = throwPoint != null ? throwPoint : transform;

@@ -1,96 +1,133 @@
-# Noryangjin Enemy Movement Authoring
+# Noryangjin Enemy Event Authoring
 
-The five Forward enemy prefabs support per-instance movement settings in the
-Noryangjin map tool and in the normal Unity Inspector. Trigger-to-enemy mapping
-is authored only by selecting objects in the map tool.
+The five Forward enemy prefabs use one `EnemyEventController` per enemy. The
+activation spot stores only links; every attack, shot, movement target, and
+animation choice belongs to the enemy itself.
 
-Open the map tool and select `적군`. The palette contains
+Open the Noryangjin map tool and select `적군`. The palette contains
 `Enemy_YllowMan`, `Enemy_Guard`, `Enemy_OldMan`, `Enemy_FatMan`, and
-`Enemy_Woman`; placed instances are grouped under `Noryangjin_MapTool/Enemies`.
-Enemy occupancy is separate from scenery, so an enemy can share a map cell with
-an object while two enemies cannot occupy the same enemy cell. `적 발동 스팟`
-uses the same enemy-tab ownership, while `회전 스팟` belongs to `기믹`; selection
-and deletion follow the active tab so an overlapping road is not removed by
-mistake.
+`Enemy_Woman`. Placed instances live under `Noryangjin_MapTool/Enemies`.
 
-The fixed Forward prefab identity decides its tier: YllowMan, Guard, and OldMan
-are Normal, FatMan is Elite, and Woman is Boss. Per-chapter damage and health
-come from the tier growth values documented in `game-data-workbook.md`, not
-from a scene-instance tier override or an enemy-specific weight. Player-route
-order determines only each enemy's interpolation point between the chapter's
-initial and final values.
+## Which event to choose
 
-## Combat component scope
-
-`EnemyScript_space` belongs only to these five Forward prefabs and is not the
-general pooled-enemy component. Its Inspector exposes one `Enemy Data` asset,
-the bonus wall, and optional held-projectile settings. Runtime health, damage,
-and tier are supplied by `ChapterEnemyStatController`, so they are not authored
-per placed enemy. The old `Space/EnemyTypeWalker`, `Rusher`, and `Tank` prefabs
-do not carry this component; other game modes continue to use `EnemyScript`.
-
-## Movement modes
-
-| Map-tool label | Runtime mode | Starts |
+| Map-tool / Inspector label | Runtime mode | Result after the player enters the linked spot |
 | --- | --- | --- |
-| `가만히` | `StayStill` | Immediately; the controller adds no movement |
-| `좌우 이동` | `MoveSideToSide` | Immediately |
-| `트리거 후 전진` | `MoveForwardOnTrigger` | When a linked player trigger is entered |
-| `트리거 후 옆 등장` | `EnterFromSideOnTrigger` | When a linked player trigger is entered |
+| `공격 반복` | `AttackLoop` | Faces the player on the closest route-aligned 90-degree axis and keeps playing `attack_loop` |
+| `공격 한 번` | `AttackOnce` | Faces the player, plays `attack_once` once, then returns to continuously looping `idle` |
+| `발사` | `Shoot` | Faces the player and fires the configured held projectile once with `attack_once` |
+| `지정 위치 이동 후 공격` | `MoveToTargetThenAttack` | Moves to one target, then faces the player orthogonally and starts `attack_loop` |
+| `시작점 ↔ 지정 위치 왕복` | `PatrolBetweenStartAndTarget` | Repeats between the authored start and one target, playing `attack_once` at both endpoints |
 
-Forward and right are the enemy instance's horizontal local axes. When one of
-the five Forward enemies is placed from the enemy palette, the map tool
-automatically points the root forward along the player's nearest route section.
-The player start transform defines the first direction and each turn spot
-defines the next direction, so the preview and final placement also follow
-bends in the route. Copy placement preserves the source instance rotation so a
-manual special-encounter direction can be reused. If no player route exists,
-the palette Y value is kept as the fallback. A placed enemy can still be rotated
-manually for a special encounter.
+Use `발사` for a ranged enemy with a held projectile. FatMan and Guard are the
+canonical projectile-ready prefabs. For an enemy that does not shoot, choose
+`공격 반복`, `공격 한 번`, or one of the two movement modes; a non-projectile enemy does not
+need any shooting checkbox or spot-side option.
 
-At runtime the authored root rotation remains the movement frame, while only
-the Animator visual root turns horizontally toward the current player position.
-This lets enemies visibly track the player after route bends and lateral movement
-without changing forward or side-to-side movement directions.
+Every event waits for a linked activation spot. The prefab default is
+`공격 반복`, but the enemy remains in `idle` until a spot activates it.
 
-Use `선택 적을 플레이어 진행 방향으로 정렬` to repair one selected enemy, or
-`모든 적을 플레이어 진행 방향으로 정렬` at the top of the enemy tab to update
-all existing Forward enemies in one undoable operation. The placed position is
-the center of side-to-side motion and the destination of a side entrance.
+## One target for both movement modes
 
-## Triggered movement workflow
+Both movement modes expose one `이동 목표` Transform. Assign an existing scene
+Transform, or press `이동 목표 만들기` in the normal Inspector or the map-tool
+selected-enemy card. The button creates one independent marker four units in
+front of the enemy. Select the enemy to drag that marker with the Scene handle.
+
+The target must not be a child of the moving enemy. If the target is missing or
+invalid, the enemy rejects activation and the spot remains available instead
+of silently consuming the encounter. A zero movement speed is also rejected
+unless the enemy is already at the target. If a valid target is destroyed after
+movement begins, the enemy cancels movement, returns to `idle`, and logs one
+warning instead of throwing every frame.
+
+Choose `없음`, `걷기`, or `달리기` for the movement animation. `없음` keeps
+the continuously looping `idle` state while the Transform moves. While moving,
+only the Animator visual root faces the actual travel direction. At an attack point the
+visual snaps to whichever of the enemy's authored forward, back, right, or left
+route axes best faces the player. It never takes a diagonal attack facing, and
+the prefab root rotation remains unchanged.
+
+Selecting an enemy always shows `이동 목표`, `이동 속도`, `이동 애니메이션`,
+and `도착 판정 거리` in both the Inspector and the map-tool selection panel.
+Stationary attack events preserve these values without using them; switching to
+a movement event applies the visible settings immediately.
+
+## Activation spot workflow
 
 1. Place and select a Forward enemy.
-2. In `적 이동 동작`, choose `트리거 후 전진` or `트리거 후 옆 등장`.
-3. Configure speed and, for a side entrance, left/right side and entrance
-   distance.
-4. Place `적 발동 스팟` from the map-tool palette at the point the player
-   should cross.
-5. Select the trigger, then click each enemy that should be linked. One trigger
-   can target several enemies; clicking a linked enemy again removes it.
-6. Leave `한 번만 발동` enabled for the normal one-shot encounter behavior.
+2. In `적 이벤트`, choose one of the five modes.
+3. For a movement mode, set speed, `없음/걷기/달리기`, and the single movement target.
+4. Place `적 발동 스팟` where the player should cross.
+5. Select the spot, then click each enemy to connect or disconnect it.
+6. Press `Esc` to leave connection mode.
 
-The trigger accepts only the player's root collider, so weapon and visual child
-colliders do not activate it twice. A successful one-shot trigger is restored
-when the next run starts.
+The spot Inspector intentionally has no `한 번만 발동`, `oneShot`, or
+`on shot` field. It only shows the connection count and SceneView assignment
+guidance. A successful activation disables the spot collider for that run; run
+reset enables it again. Only the player's root collider can activate it, so
+weapon and visual child colliders cannot fire the same spot twice.
 
-Selecting a placed enemy activation spot automatically enables SceneView
-assignment. Click an enemy to add it to that spot; click the same enemy again
-to remove it. The selected spot stays fixed while assigning, and orange
-connection lines plus numbered enemy labels show the current mapping. Press
-`Esc` to clear the spot selection and return to the selection tool.
-Alt/right/middle mouse input remains available for SceneView camera navigation,
-and every add/remove operation supports Unity Undo. The serialized target list
-is intentionally hidden from the normal Inspector.
+Shoot release delay advances only while `TimeManager.isGameRunning` and the
+custom time factor are positive. Pausing or stopping gameplay therefore holds
+the projectile instead of releasing it in the background.
 
-## Defaults and repair
+One spot can connect several enemies with different modes. For example, a
+single spot can start Guard in `발사`, Woman in `공격 반복`, and OldMan in
+`지정 위치 이동 후 공격` at the same time.
 
-`Enemy_FatMan`, `Enemy_Guard`, `Enemy_OldMan`, `Enemy_Woman`, and
-`Enemy_YllowMan` carry the controller with `가만히` as the safe prefab default.
-Scene instances may override that setting independently.
+## Shared animation contract
 
-`ForwardEnemyMovementSetup.Configure` remains an internal repair API for
-restoring missing default components or recreating
+All five prefabs use the shared Humanoid controller at
+`Assets/JH/Model/Animatior/ForwardEnemyShared/ForwardEnemyShared.controller`.
+It contains exactly these states:
+
+- `idle`
+- `attack_loop`
+- `walk`
+- `run`
+- `die`
+- `attack_once`
+
+`attack_once` returns to `idle` after one cycle. Every assigned idle clip is
+imported with looping enabled, so the `idle` state repeats continuously without
+an idle-to-idle transition. Each enemy override controller
+keeps its previous idle, attack, and death clips. Only the two missing
+locomotion slots use the CC0 Quaternius Universal Animation Library:
+`Armature|Walk_Loop` for `walk` and `Armature|Sprint_Loop` for `run`, both at
+their authored speed. The source FBX, license, and download/hash record live
+under `Assets/ThirdParty/Quaternius/UniversalAnimationLibrary/`. The previous
+`ForwardEnemy_Locomotion.anim` asset is retained but no longer assigned.
+
+Rebuild or repair the animation assets with
+`Tools/Shooter Survival/Forward Enemy/Build Shared Animator Setup`. The method
+edits prefab and animation assets only and must not save the open scene.
+
+Agents use the same authoring contract through official Unity CLI commands:
+create and position a target GameObject, set `eventMode`, `moveSpeed`,
+`moveAnimation`, and `targetPoint` through serialized-field commands, and
+resize the activation spot's `targets` array to assign object references.
+Internal UI helpers are not CLI commands. Asset repair remains callable with
+`unity command eval "ForwardEnemyMovementSetup.Configure();" --project-path .`
+and `unity command eval "ForwardEnemyAnimatorSetup.Configure();" --project-path .`.
+
+## Placement, reset, and repair
+
+Automatic route alignment still points a newly placed enemy root along the
+player's nearest authored route section. Map-tool position, height, snap, and
+rotation changes update the initialized controller's cached start and route
+axes, including Undo/Redo. A run reset returns a moving enemy to that authored
+start and restores `idle`.
+
+Legacy serialized mode integers migrate deterministically: old stay/side/
+forward/fire values already align with attack-loop/patrol/move/shoot, and the
+retired side-entrance value `3` normalizes to `MoveToTargetThenAttack`. The
+source-level C# type rename is intentional; Unity scene and prefab references
+remain intact through the preserved MonoScript GUIDs and `MovedFrom` metadata.
+
+`ForwardEnemyMovementSetup.Configure` remains the internal repair entry point
+for the five controller components and
 `Assets/ShooterSurvival/Prefabs/Gameplay/Noryangjin_EnemyMovementTrigger.prefab`.
-It is not exposed in the map-production menu. The method edits prefab assets
-only and does not save the open scene.
+Despite the legacy utility and prefab filenames, the runtime components shown
+in the Inspector are `Enemy Event Controller` and
+`Enemy Event Activation Spot`. The repair operation does not save the open
+scene.

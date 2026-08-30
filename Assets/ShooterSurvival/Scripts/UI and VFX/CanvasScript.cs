@@ -94,8 +94,8 @@ namespace IndianOceanAssets.ShooterSurvival
             else
             {
                 NoryangjinTurnSpot.ResetAllForNewRun();
-                EnemyMovementController.ResetAllForNewRun();
-                EnemyMovementActivationTrigger.ResetAllForNewRun();
+                EnemyEventController.ResetAllForNewRun();
+                EnemyEventActivationSpot.ResetAllForNewRun();
                 TimeManager.timeFactor = 1;
                 TimeManager.isGameRunning = true;
             }

@@ -182,8 +182,8 @@ namespace IndianOceanAssets.ShooterSurvival
             // ??UI ?�리�?게임 ?�작
             ShowTapUI(false);
             NoryangjinTurnSpot.ResetAllForNewRun();
-            EnemyMovementController.ResetAllForNewRun();
-            EnemyMovementActivationTrigger.ResetAllForNewRun();
+            EnemyEventController.ResetAllForNewRun();
+            EnemyEventActivationSpot.ResetAllForNewRun();
             SetGameRunning(true);
             ApplyUpgradeExtraHelps();
         }

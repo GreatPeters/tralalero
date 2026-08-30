@@ -24,7 +24,7 @@ A generated Noryangjin map-tool layout initially used route coordinates from `Z 
 
 Treat the map tool grid bounds as part of the generation contract. Keep generated route and set-dressing coordinates inside the visible authoring range unless the tool explicitly expands the work grid. For the Noryangjin concept pass, the generated route was compacted to 14 nodes and the generated coordinate range was verified at `X -19..19`, `Z -18..22`.
 
-Read the default limit from `NoryangjinMapToolWindow.WorkGridExtent` instead of copying a historical bound into generators. As of 2026-08-30 the default top-view authoring range is `-300..+300` main cells on both axes. Authors may expand only the displayed top-view overlay to `50..1200` through `편의 > 작업 그리드 범위`; generators still need explicit route-bound validation because that editor preference is not a scene-content contract.
+Read the default limit from `NoryangjinMapToolWindow.WorkGridExtent` instead of copying a historical bound into generators. As of 2026-08-30 the default top-view authoring range is `-300..+300` main cells on both axes. Authors may set the displayed X and Z top-view radii independently to `50..1200` through `편의 > 작업 그리드 범위`; generators still need explicit route-bound validation because those editor preferences are not a scene-content contract.
 
 Frame the camera from the route bounds instead of fixed coordinates. After creating the route, build bounds from the route nodes, expand by a practical side margin for facades and harbor props, then set the map-tool camera from that center.
 

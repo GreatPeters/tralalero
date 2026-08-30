@@ -26,7 +26,7 @@ Available documents:
 
 Editor shortcuts:
 
-- The Noryangjin map tool's `편의` tab can activate or deactivate scene-root screen UI without hiding nested world-space UI. Its `작업 그리드 범위` control also changes the top-view overlay radius from the default 300 up to 1200 cells without moving scene objects or changing placement coordinates. The tab also opens or locates the shared game-data Excel file and regenerates or validates its protected runtime archive. The same data actions are available under `Tools/Data`.
+- The Noryangjin map tool's `편의` tab can activate or deactivate scene-root screen UI without hiding nested world-space UI. Its `작업 그리드 범위` control also changes the horizontal X and vertical Z top-view radii independently from the default 300 up to 1200 cells without moving scene objects or changing placement coordinates. The tab also opens or locates the shared game-data Excel file and regenerates or validates its protected runtime archive. The same data actions are available under `Tools/Data`.
 - `Tools/Analytics/Firebase 대상 고정`: records the reviewed Firebase project ID, app ID, and Android package under `ProjectSettings` so later config swaps fail the build.
 - `Tools/Analytics/Firebase 설정 검증`: checks pinned SDK archive hashes, Android privacy defaults, the Android config, and the reviewed destination before a device build.
 - `Tools/Analytics/Firebase 연결 문서 열기`: opens the Firebase/BigQuery setup and query guide.

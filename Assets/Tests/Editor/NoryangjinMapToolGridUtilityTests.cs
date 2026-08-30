@@ -2125,7 +2125,7 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
-    public void WorkGridExtentControls_ClampAndOfferLargerPresets()
+    public void WorkGridExtentControls_ClampAndSupportIndependentAxes()
     {
         Assert.That(
             NoryangjinMapToolWindow.WorkGridExtentPresets,
@@ -2144,6 +2144,13 @@ public sealed class NoryangjinMapToolGridUtilityTests
                 NoryangjinMapToolWindow.DefaultCellSize,
                 600),
             Is.EqualTo(NoryangjinMapToolWindow.DefaultCellSize * 1201f).Within(0.001f));
+        Assert.That(
+            NoryangjinMapToolWindow.BuildWorkGridSpan(
+                NoryangjinMapToolWindow.DefaultCellSize,
+                900),
+            Is.EqualTo(NoryangjinMapToolWindow.DefaultCellSize * 1801f).Within(0.001f));
+        Assert.That(NoryangjinMapToolWindow.WorkGridExtentHelp, Does.Contain("가로(X)"));
+        Assert.That(NoryangjinMapToolWindow.WorkGridExtentHelp, Does.Contain("세로(Z)"));
     }
 
     [Test]

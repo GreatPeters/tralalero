@@ -397,7 +397,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         "적, 보너스, 플레이어 아래의 월드 UI는 그대로 유지됩니다.";
     internal const string WorkGridExtentSectionTitle = "작업 그리드 범위";
     internal const string WorkGridExtentHelp =
-        "탑뷰 작업 그리드의 표시 반경을 늘리거나 줄입니다. " +
+        "탑뷰 작업 그리드의 가로(X)와 세로(Z) 표시 반경을 각각 조절합니다. " +
         "셀 크기, 배치 좌표, 씬 오브젝트는 변경하지 않습니다.";
     internal const string RefreshMapToolButtonLabel = "리프레시";
     internal const string DeleteAllPlacedObjectsButtonLabel = "모두 삭제";
@@ -648,6 +648,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     [SerializeField] private bool showSceneGrid = DefaultShowSceneGrid;
     [SerializeField] private bool showWorkSubGrid = DefaultShowWorkSubGrid;
     [SerializeField] private int workGridExtent = WorkGridExtent;
+    [SerializeField] private int workGridExtentX = WorkGridExtent;
+    [SerializeField] private int workGridExtentZ = WorkGridExtent;
+    [SerializeField] private bool workGridExtentAxesInitialized;
     [SerializeField] private bool showGridLabels = true;
     [SerializeField] private bool showCursor = true;
     [SerializeField] private int gridHalfExtent = 10;
@@ -735,7 +738,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     {
         titleContent = new GUIContent(KoreanWindowTitle);
         cellSize = MigrateCellSizeDefault(cellSize);
-        workGridExtent = NormalizeWorkGridExtent(workGridExtent);
+        InitializeWorkGridExtents();
         showSceneGrid = DefaultShowSceneGrid;
         ApplyMapToolWorkObjectsActiveState(mapToolEnabled);
         ApplyMapToolSceneViewProjection(mapToolEnabled);
@@ -905,29 +908,39 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             EditorGUILayout.HelpBox(WorkGridExtentHelp, MessageType.Info);
 
             EditorGUI.BeginChangeCheck();
-            int nextExtent = EditorGUILayout.DelayedIntField(
-                "반경(칸)",
-                NormalizeWorkGridExtent(workGridExtent));
+            int nextExtentX = EditorGUILayout.DelayedIntField(
+                "가로 X 반경(칸)",
+                NormalizeWorkGridExtent(workGridExtentX));
+            int nextExtentZ = EditorGUILayout.DelayedIntField(
+                "세로 Z 반경(칸)",
+                NormalizeWorkGridExtent(workGridExtentZ));
             if (EditorGUI.EndChangeCheck())
-                SetWorkGridExtent(nextExtent);
+                SetWorkGridExtents(nextExtentX, nextExtentZ);
 
             using (new EditorGUILayout.HorizontalScope())
             {
                 foreach (int preset in WorkGridExtentPresets)
                 {
                     if (GUILayout.Button(preset.ToString(), GUILayout.Height(24f)))
-                        SetWorkGridExtent(preset);
+                        SetWorkGridExtents(preset, preset);
                 }
             }
 
-            int normalizedExtent = NormalizeWorkGridExtent(workGridExtent);
-            int totalCells = normalizedExtent * 2 + 1;
-            float worldSpan = BuildWorkGridSpan(DefaultCellSize, normalizedExtent);
+            int normalizedExtentX = NormalizeWorkGridExtent(workGridExtentX);
+            int normalizedExtentZ = NormalizeWorkGridExtent(workGridExtentZ);
+            int totalCellsX = normalizedExtentX * 2 + 1;
+            int totalCellsZ = normalizedExtentZ * 2 + 1;
+            float worldSpanX = BuildWorkGridSpan(DefaultCellSize, normalizedExtentX);
+            float worldSpanZ = BuildWorkGridSpan(DefaultCellSize, normalizedExtentZ);
             EditorGUILayout.LabelField(
-                $"{-normalizedExtent} ~ +{normalizedExtent} / 한 변 {totalCells}칸 / 약 {worldSpan:0.#}m",
+                $"X {-normalizedExtentX}~+{normalizedExtentX} / Z {-normalizedExtentZ}~+{normalizedExtentZ}",
+                EditorStyles.miniLabel);
+            EditorGUILayout.LabelField(
+                $"{totalCellsX} × {totalCellsZ}칸 / 약 {worldSpanX:0.#}m × {worldSpanZ:0.#}m",
                 EditorStyles.miniLabel);
 
-            if (showWorkSubGrid && normalizedExtent >= WorkGridLargeExtentWarningThreshold)
+            if (showWorkSubGrid &&
+                Mathf.Max(normalizedExtentX, normalizedExtentZ) >= WorkGridLargeExtentWarningThreshold)
             {
                 EditorGUILayout.HelpBox(
                     "큰 범위에서 서브 그리드를 함께 표시하면 SceneView가 느려질 수 있습니다.",
@@ -936,14 +949,32 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         }
     }
 
-    private void SetWorkGridExtent(int extent)
+    private void InitializeWorkGridExtents()
     {
-        int normalizedExtent = NormalizeWorkGridExtent(extent);
-        if (normalizedExtent == workGridExtent)
+        if (!workGridExtentAxesInitialized)
+        {
+            int legacyExtent = NormalizeWorkGridExtent(workGridExtent);
+            workGridExtentX = legacyExtent;
+            workGridExtentZ = legacyExtent;
+            workGridExtentAxesInitialized = true;
+            return;
+        }
+
+        workGridExtentX = NormalizeWorkGridExtent(workGridExtentX);
+        workGridExtentZ = NormalizeWorkGridExtent(workGridExtentZ);
+    }
+
+    private void SetWorkGridExtents(int extentX, int extentZ)
+    {
+        int normalizedExtentX = NormalizeWorkGridExtent(extentX);
+        int normalizedExtentZ = NormalizeWorkGridExtent(extentZ);
+        if (normalizedExtentX == workGridExtentX && normalizedExtentZ == workGridExtentZ)
             return;
 
         Undo.RecordObject(this, "Resize Noryangjin Work Grid");
-        workGridExtent = normalizedExtent;
+        workGridExtentX = normalizedExtentX;
+        workGridExtentZ = normalizedExtentZ;
+        workGridExtentAxesInitialized = true;
         SceneView.RepaintAll();
         Repaint();
     }
@@ -2949,44 +2980,62 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         if (!ShouldDrawStableTopViewWorkGridOverlay(DrawTopViewWorkGridOverlay, isTopSceneView, sceneViewOrthographic, sceneViewRotation))
             return;
 
-        int extent = NormalizeWorkGridExtent(workGridExtent);
-        float min = BuildWorkGridBoundaryOffset(-extent, normalizedCellSize);
-        float max = BuildWorkGridBoundaryOffset(extent + 1, normalizedCellSize);
+        int extentX = NormalizeWorkGridExtent(workGridExtentX);
+        int extentZ = NormalizeWorkGridExtent(workGridExtentZ);
+        float minX = BuildWorkGridBoundaryOffset(-extentX, normalizedCellSize);
+        float maxX = BuildWorkGridBoundaryOffset(extentX + 1, normalizedCellSize);
+        float minZ = BuildWorkGridBoundaryOffset(-extentZ, normalizedCellSize);
+        float maxZ = BuildWorkGridBoundaryOffset(extentZ + 1, normalizedCellSize);
         Handles.zTest = CompareFunction.Always;
         Handles.color = new Color(0.08f, 0.75f, 0.9f, 0.92f);
 
-        for (int i = -extent; i <= extent + 1; i++)
+        for (int x = -extentX; x <= extentX + 1; x++)
         {
-            float offset = BuildWorkGridBoundaryOffset(i, normalizedCellSize);
+            float offset = BuildWorkGridBoundaryOffset(x, normalizedCellSize);
             float y = BuildSceneGridOverlayHeight(placementHeight);
             Handles.DrawAAPolyLine(
                 WorkGridOverlayLineWidthPixels,
-                new Vector3(offset, y, min),
-                new Vector3(offset, y, max));
+                new Vector3(offset, y, minZ),
+                new Vector3(offset, y, maxZ));
+        }
+
+        for (int z = -extentZ; z <= extentZ + 1; z++)
+        {
+            float offset = BuildWorkGridBoundaryOffset(z, normalizedCellSize);
+            float y = BuildSceneGridOverlayHeight(placementHeight);
             Handles.DrawAAPolyLine(
                 WorkGridOverlayLineWidthPixels,
-                new Vector3(min, y, offset),
-                new Vector3(max, y, offset));
+                new Vector3(minX, y, offset),
+                new Vector3(maxX, y, offset));
         }
 
         if (!drawSubGrid)
             return;
 
         Handles.color = new Color(0.18f, 0.58f, 0.68f, 0.68f);
-        for (int cell = -extent; cell <= extent; cell++)
+        for (int cellX = -extentX; cellX <= extentX; cellX++)
         {
             for (int subdivision = 1; subdivision < WorkGridSubdivisionsPerCell; subdivision++)
             {
-                float offset = BuildWorkGridSubdivisionOffset(cell, subdivision, normalizedCellSize);
+                float offset = BuildWorkGridSubdivisionOffset(cellX, subdivision, normalizedCellSize);
                 float y = BuildSceneGridOverlayHeight(placementHeight);
                 Handles.DrawAAPolyLine(
                     WorkSubGridOverlayLineWidthPixels,
-                    new Vector3(offset, y, min),
-                    new Vector3(offset, y, max));
+                    new Vector3(offset, y, minZ),
+                    new Vector3(offset, y, maxZ));
+            }
+        }
+
+        for (int cellZ = -extentZ; cellZ <= extentZ; cellZ++)
+        {
+            for (int subdivision = 1; subdivision < WorkGridSubdivisionsPerCell; subdivision++)
+            {
+                float offset = BuildWorkGridSubdivisionOffset(cellZ, subdivision, normalizedCellSize);
+                float y = BuildSceneGridOverlayHeight(placementHeight);
                 Handles.DrawAAPolyLine(
                     WorkSubGridOverlayLineWidthPixels,
-                    new Vector3(min, y, offset),
-                    new Vector3(max, y, offset));
+                    new Vector3(minX, y, offset),
+                    new Vector3(maxX, y, offset));
             }
         }
     }

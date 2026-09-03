@@ -61,6 +61,13 @@
 - Keep Map 2 out of Build Settings until its runtime contract is decided. The current Forward installer intentionally accepts Map 1 only.
 - The player moves at the constant `playerSpeed` value1 of 8 units/second with no acceleration. The approximately 1,582-unit reference geometry therefore takes about 198 seconds before turn pauses. Treat the reference workbook's five-chapter wave timing as an unimplemented requirement, not validated runtime behavior.
 
+## Noryangjin SR18 Static-Scene Integrity
+
+- `Noryangjin_MapTool_Mode_SR18.unity` is an independent build-excluded roads-only sibling. It must not replace or mutate Map 1 or the existing Map 2.
+- `NoryangjinSr18SceneTests` validates the 51-road copied prefix, 179-road extension, 15 turn spots, three height-separated crossings, consecutive road seams, empty authored-content roots and Build Settings exclusion.
+- The elevated spans are authoring geometry only. Current player movement freezes Y, so do not advertise SR18 as playable or add it to Build Settings until height-following, camera clearance and projectile behavior are implemented and tested.
+- The map-tool work-grid `600` preset is EditorWindow overlay state rather than scene state; authors must select it when editing the full SR18 bounds.
+
 ## Noryangjin Bonus Altar Data Failures
 
 - An authored altar has no valid roll when its selected grade has no runtime-supported row in the `보너스` sheet, or when nearby-altars exclusion consumes every candidate for that grade.

@@ -1,0 +1,4575 @@
+{
+  "schemaVersion": 1,
+  "name": "SR18 Lighthouse Infinity Unity placement contract",
+  "source": {
+    "scenePath": "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode.unity",
+    "sha256": "D3CFFE380E022ED0D45F9A251581861B2066960D48D54F5897181038F81C1315",
+    "roadCount": 51,
+    "turnSpotCount": 5,
+    "endpointRoadName": "Road_Basic_X+538_Z-197",
+    "endpointWorld": [
+      127.549927,
+      0,
+      -33.0250931
+    ],
+    "pitch": 11.25,
+    "baseRoadScale": [
+      2.2,
+      4,
+      2.24
+    ]
+  },
+  "target": {
+    "scenePath": "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_SR18.unity",
+    "buildSettingsIncluded": false,
+    "totalRoadCount": 230,
+    "totalTurnSpotCount": 15,
+    "extensionRoadCount": 179,
+    "extensionTurnSpotCount": 10,
+    "routeSpec": "S27,W17,N24,E26,N12,E9,N13,E10,S6,W17,N18",
+    "finalDirection": "N",
+    "upperIntervals": [
+      {
+        "start": 70,
+        "endExclusive": 88
+      },
+      {
+        "start": 151,
+        "endExclusive": 157
+      }
+    ],
+    "elevatedDeckY": 30,
+    "slopeRootY": 6.5,
+    "slopeScaleY": 24.3,
+    "slopeScaleZ": 4.94,
+    "bounds": {
+      "minX": -63.700073,
+      "maxX": 442.549927,
+      "minZ": -336.7750931,
+      "maxZ": 349.4749069
+    },
+    "crossings": [
+      {
+        "kind": "new-new",
+        "lowerRoadIndex": 3,
+        "upperRoadIndex": 85,
+        "abstract": [
+          0,
+          -3
+        ],
+        "world": [
+          127.549927,
+          -66.7750931
+        ]
+      },
+      {
+        "kind": "source-new",
+        "lowerSourceRoadName": "Road_Basic_X-63_Z-347",
+        "upperRoadIndex": 73,
+        "abstract": [
+          -12,
+          -3
+        ],
+        "world": [
+          -7.450073,
+          -66.7750931
+        ]
+      },
+      {
+        "kind": "new-new",
+        "lowerRoadIndex": 122,
+        "upperRoadIndex": 154,
+        "abstract": [
+          18,
+          16
+        ],
+        "world": [
+          330.049927,
+          146.9749069
+        ]
+      }
+    ],
+    "newRoadMix": {
+      "Basic": 165,
+      "Uphill": 2,
+      "Downhill": 2,
+      "RightTurn": 8,
+      "LeftTurn": 2
+    }
+  },
+  "roads": [
+    {
+      "index": 1,
+      "leg": 1,
+      "stepInLeg": 1,
+      "direction": "S",
+      "abstract": [
+        0,
+        -1
+      ],
+      "world": [
+        127.549927,
+        0,
+        -44.2750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 2,
+      "leg": 1,
+      "stepInLeg": 2,
+      "direction": "S",
+      "abstract": [
+        0,
+        -2
+      ],
+      "world": [
+        127.549927,
+        0,
+        -55.5250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 3,
+      "leg": 1,
+      "stepInLeg": 3,
+      "direction": "S",
+      "abstract": [
+        0,
+        -3
+      ],
+      "world": [
+        127.549927,
+        0,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 4,
+      "leg": 1,
+      "stepInLeg": 4,
+      "direction": "S",
+      "abstract": [
+        0,
+        -4
+      ],
+      "world": [
+        127.549927,
+        0,
+        -78.02509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 5,
+      "leg": 1,
+      "stepInLeg": 5,
+      "direction": "S",
+      "abstract": [
+        0,
+        -5
+      ],
+      "world": [
+        127.549927,
+        0,
+        -89.27509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 6,
+      "leg": 1,
+      "stepInLeg": 6,
+      "direction": "S",
+      "abstract": [
+        0,
+        -6
+      ],
+      "world": [
+        127.549927,
+        0,
+        -100.52509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 7,
+      "leg": 1,
+      "stepInLeg": 7,
+      "direction": "S",
+      "abstract": [
+        0,
+        -7
+      ],
+      "world": [
+        127.549927,
+        0,
+        -111.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 8,
+      "leg": 1,
+      "stepInLeg": 8,
+      "direction": "S",
+      "abstract": [
+        0,
+        -8
+      ],
+      "world": [
+        127.549927,
+        0,
+        -123.02509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 9,
+      "leg": 1,
+      "stepInLeg": 9,
+      "direction": "S",
+      "abstract": [
+        0,
+        -9
+      ],
+      "world": [
+        127.549927,
+        0,
+        -134.2750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 10,
+      "leg": 1,
+      "stepInLeg": 10,
+      "direction": "S",
+      "abstract": [
+        0,
+        -10
+      ],
+      "world": [
+        127.549927,
+        0,
+        -145.5250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 11,
+      "leg": 1,
+      "stepInLeg": 11,
+      "direction": "S",
+      "abstract": [
+        0,
+        -11
+      ],
+      "world": [
+        127.549927,
+        0,
+        -156.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 12,
+      "leg": 1,
+      "stepInLeg": 12,
+      "direction": "S",
+      "abstract": [
+        0,
+        -12
+      ],
+      "world": [
+        127.549927,
+        0,
+        -168.0250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 13,
+      "leg": 1,
+      "stepInLeg": 13,
+      "direction": "S",
+      "abstract": [
+        0,
+        -13
+      ],
+      "world": [
+        127.549927,
+        0,
+        -179.2750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 14,
+      "leg": 1,
+      "stepInLeg": 14,
+      "direction": "S",
+      "abstract": [
+        0,
+        -14
+      ],
+      "world": [
+        127.549927,
+        0,
+        -190.5250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 15,
+      "leg": 1,
+      "stepInLeg": 15,
+      "direction": "S",
+      "abstract": [
+        0,
+        -15
+      ],
+      "world": [
+        127.549927,
+        0,
+        -201.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 16,
+      "leg": 1,
+      "stepInLeg": 16,
+      "direction": "S",
+      "abstract": [
+        0,
+        -16
+      ],
+      "world": [
+        127.549927,
+        0,
+        -213.0250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 17,
+      "leg": 1,
+      "stepInLeg": 17,
+      "direction": "S",
+      "abstract": [
+        0,
+        -17
+      ],
+      "world": [
+        127.549927,
+        0,
+        -224.2750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 18,
+      "leg": 1,
+      "stepInLeg": 18,
+      "direction": "S",
+      "abstract": [
+        0,
+        -18
+      ],
+      "world": [
+        127.549927,
+        0,
+        -235.5250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 19,
+      "leg": 1,
+      "stepInLeg": 19,
+      "direction": "S",
+      "abstract": [
+        0,
+        -19
+      ],
+      "world": [
+        127.549927,
+        0,
+        -246.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 20,
+      "leg": 1,
+      "stepInLeg": 20,
+      "direction": "S",
+      "abstract": [
+        0,
+        -20
+      ],
+      "world": [
+        127.549927,
+        0,
+        -258.0250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 21,
+      "leg": 1,
+      "stepInLeg": 21,
+      "direction": "S",
+      "abstract": [
+        0,
+        -21
+      ],
+      "world": [
+        127.549927,
+        0,
+        -269.2750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 22,
+      "leg": 1,
+      "stepInLeg": 22,
+      "direction": "S",
+      "abstract": [
+        0,
+        -22
+      ],
+      "world": [
+        127.549927,
+        0,
+        -280.5250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 23,
+      "leg": 1,
+      "stepInLeg": 23,
+      "direction": "S",
+      "abstract": [
+        0,
+        -23
+      ],
+      "world": [
+        127.549927,
+        0,
+        -291.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 24,
+      "leg": 1,
+      "stepInLeg": 24,
+      "direction": "S",
+      "abstract": [
+        0,
+        -24
+      ],
+      "world": [
+        127.549927,
+        0,
+        -303.0250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 25,
+      "leg": 1,
+      "stepInLeg": 25,
+      "direction": "S",
+      "abstract": [
+        0,
+        -25
+      ],
+      "world": [
+        127.549927,
+        0,
+        -314.2750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 26,
+      "leg": 1,
+      "stepInLeg": 26,
+      "direction": "S",
+      "abstract": [
+        0,
+        -26
+      ],
+      "world": [
+        127.549927,
+        0,
+        -325.5250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 27,
+      "leg": 1,
+      "stepInLeg": 27,
+      "direction": "S",
+      "abstract": [
+        0,
+        -27
+      ],
+      "world": [
+        127.549927,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 28,
+      "leg": 2,
+      "stepInLeg": 1,
+      "direction": "W",
+      "abstract": [
+        -1,
+        -27
+      ],
+      "world": [
+        116.299927,
+        0,
+        -336.7750931
+      ],
+      "kind": "RightTurn",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 29,
+      "leg": 2,
+      "stepInLeg": 2,
+      "direction": "W",
+      "abstract": [
+        -2,
+        -27
+      ],
+      "world": [
+        105.049927,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 30,
+      "leg": 2,
+      "stepInLeg": 3,
+      "direction": "W",
+      "abstract": [
+        -3,
+        -27
+      ],
+      "world": [
+        93.799927,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 31,
+      "leg": 2,
+      "stepInLeg": 4,
+      "direction": "W",
+      "abstract": [
+        -4,
+        -27
+      ],
+      "world": [
+        82.549927,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 32,
+      "leg": 2,
+      "stepInLeg": 5,
+      "direction": "W",
+      "abstract": [
+        -5,
+        -27
+      ],
+      "world": [
+        71.299927,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 33,
+      "leg": 2,
+      "stepInLeg": 6,
+      "direction": "W",
+      "abstract": [
+        -6,
+        -27
+      ],
+      "world": [
+        60.049927,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 34,
+      "leg": 2,
+      "stepInLeg": 7,
+      "direction": "W",
+      "abstract": [
+        -7,
+        -27
+      ],
+      "world": [
+        48.799927,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 35,
+      "leg": 2,
+      "stepInLeg": 8,
+      "direction": "W",
+      "abstract": [
+        -8,
+        -27
+      ],
+      "world": [
+        37.549927,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 36,
+      "leg": 2,
+      "stepInLeg": 9,
+      "direction": "W",
+      "abstract": [
+        -9,
+        -27
+      ],
+      "world": [
+        26.299926999999997,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 37,
+      "leg": 2,
+      "stepInLeg": 10,
+      "direction": "W",
+      "abstract": [
+        -10,
+        -27
+      ],
+      "world": [
+        15.049926999999997,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 38,
+      "leg": 2,
+      "stepInLeg": 11,
+      "direction": "W",
+      "abstract": [
+        -11,
+        -27
+      ],
+      "world": [
+        3.7999269999999967,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 39,
+      "leg": 2,
+      "stepInLeg": 12,
+      "direction": "W",
+      "abstract": [
+        -12,
+        -27
+      ],
+      "world": [
+        -7.450073000000003,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 40,
+      "leg": 2,
+      "stepInLeg": 13,
+      "direction": "W",
+      "abstract": [
+        -13,
+        -27
+      ],
+      "world": [
+        -18.700073000000003,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 41,
+      "leg": 2,
+      "stepInLeg": 14,
+      "direction": "W",
+      "abstract": [
+        -14,
+        -27
+      ],
+      "world": [
+        -29.950073000000003,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 42,
+      "leg": 2,
+      "stepInLeg": 15,
+      "direction": "W",
+      "abstract": [
+        -15,
+        -27
+      ],
+      "world": [
+        -41.200073,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 43,
+      "leg": 2,
+      "stepInLeg": 16,
+      "direction": "W",
+      "abstract": [
+        -16,
+        -27
+      ],
+      "world": [
+        -52.450073,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 44,
+      "leg": 2,
+      "stepInLeg": 17,
+      "direction": "W",
+      "abstract": [
+        -17,
+        -27
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -336.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 45,
+      "leg": 3,
+      "stepInLeg": 1,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -26
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -325.5250931
+      ],
+      "kind": "RightTurn",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 46,
+      "leg": 3,
+      "stepInLeg": 2,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -25
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -314.2750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 47,
+      "leg": 3,
+      "stepInLeg": 3,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -24
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -303.0250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 48,
+      "leg": 3,
+      "stepInLeg": 4,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -23
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -291.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 49,
+      "leg": 3,
+      "stepInLeg": 5,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -22
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -280.5250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 50,
+      "leg": 3,
+      "stepInLeg": 6,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -21
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -269.2750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 51,
+      "leg": 3,
+      "stepInLeg": 7,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -20
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -258.0250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 52,
+      "leg": 3,
+      "stepInLeg": 8,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -19
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -246.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 53,
+      "leg": 3,
+      "stepInLeg": 9,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -18
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -235.5250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 54,
+      "leg": 3,
+      "stepInLeg": 10,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -17
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -224.2750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 55,
+      "leg": 3,
+      "stepInLeg": 11,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -16
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -213.0250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 56,
+      "leg": 3,
+      "stepInLeg": 12,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -15
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -201.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 57,
+      "leg": 3,
+      "stepInLeg": 13,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -14
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -190.5250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 58,
+      "leg": 3,
+      "stepInLeg": 14,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -13
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -179.2750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 59,
+      "leg": 3,
+      "stepInLeg": 15,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -12
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -168.0250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 60,
+      "leg": 3,
+      "stepInLeg": 16,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -11
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -156.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 61,
+      "leg": 3,
+      "stepInLeg": 17,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -10
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -145.5250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 62,
+      "leg": 3,
+      "stepInLeg": 18,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -9
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -134.2750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 63,
+      "leg": 3,
+      "stepInLeg": 19,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -8
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -123.02509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 64,
+      "leg": 3,
+      "stepInLeg": 20,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -7
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -111.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 65,
+      "leg": 3,
+      "stepInLeg": 21,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -6
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -100.52509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 66,
+      "leg": 3,
+      "stepInLeg": 22,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -5
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -89.27509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 67,
+      "leg": 3,
+      "stepInLeg": 23,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -4
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -78.02509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 68,
+      "leg": 3,
+      "stepInLeg": 24,
+      "direction": "N",
+      "abstract": [
+        -17,
+        -3
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 69,
+      "leg": 4,
+      "stepInLeg": 1,
+      "direction": "E",
+      "abstract": [
+        -16,
+        -3
+      ],
+      "world": [
+        -52.450073,
+        0,
+        -66.77509309999999
+      ],
+      "kind": "RightTurn",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 70,
+      "leg": 4,
+      "stepInLeg": 2,
+      "direction": "E",
+      "abstract": [
+        -15,
+        -3
+      ],
+      "world": [
+        -41.200073,
+        6.5,
+        -66.77509309999999
+      ],
+      "kind": "Uphill",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        24.3,
+        4.94
+      ],
+      "elevated": true
+    },
+    {
+      "index": 71,
+      "leg": 4,
+      "stepInLeg": 3,
+      "direction": "E",
+      "abstract": [
+        -14,
+        -3
+      ],
+      "world": [
+        -29.950073000000003,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 72,
+      "leg": 4,
+      "stepInLeg": 4,
+      "direction": "E",
+      "abstract": [
+        -13,
+        -3
+      ],
+      "world": [
+        -18.700073000000003,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 73,
+      "leg": 4,
+      "stepInLeg": 5,
+      "direction": "E",
+      "abstract": [
+        -12,
+        -3
+      ],
+      "world": [
+        -7.450073000000003,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 74,
+      "leg": 4,
+      "stepInLeg": 6,
+      "direction": "E",
+      "abstract": [
+        -11,
+        -3
+      ],
+      "world": [
+        3.7999269999999967,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 75,
+      "leg": 4,
+      "stepInLeg": 7,
+      "direction": "E",
+      "abstract": [
+        -10,
+        -3
+      ],
+      "world": [
+        15.049926999999997,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 76,
+      "leg": 4,
+      "stepInLeg": 8,
+      "direction": "E",
+      "abstract": [
+        -9,
+        -3
+      ],
+      "world": [
+        26.299926999999997,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 77,
+      "leg": 4,
+      "stepInLeg": 9,
+      "direction": "E",
+      "abstract": [
+        -8,
+        -3
+      ],
+      "world": [
+        37.549927,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 78,
+      "leg": 4,
+      "stepInLeg": 10,
+      "direction": "E",
+      "abstract": [
+        -7,
+        -3
+      ],
+      "world": [
+        48.799927,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 79,
+      "leg": 4,
+      "stepInLeg": 11,
+      "direction": "E",
+      "abstract": [
+        -6,
+        -3
+      ],
+      "world": [
+        60.049927,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 80,
+      "leg": 4,
+      "stepInLeg": 12,
+      "direction": "E",
+      "abstract": [
+        -5,
+        -3
+      ],
+      "world": [
+        71.299927,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 81,
+      "leg": 4,
+      "stepInLeg": 13,
+      "direction": "E",
+      "abstract": [
+        -4,
+        -3
+      ],
+      "world": [
+        82.549927,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 82,
+      "leg": 4,
+      "stepInLeg": 14,
+      "direction": "E",
+      "abstract": [
+        -3,
+        -3
+      ],
+      "world": [
+        93.799927,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 83,
+      "leg": 4,
+      "stepInLeg": 15,
+      "direction": "E",
+      "abstract": [
+        -2,
+        -3
+      ],
+      "world": [
+        105.049927,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 84,
+      "leg": 4,
+      "stepInLeg": 16,
+      "direction": "E",
+      "abstract": [
+        -1,
+        -3
+      ],
+      "world": [
+        116.299927,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 85,
+      "leg": 4,
+      "stepInLeg": 17,
+      "direction": "E",
+      "abstract": [
+        0,
+        -3
+      ],
+      "world": [
+        127.549927,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 86,
+      "leg": 4,
+      "stepInLeg": 18,
+      "direction": "E",
+      "abstract": [
+        1,
+        -3
+      ],
+      "world": [
+        138.799927,
+        30,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 87,
+      "leg": 4,
+      "stepInLeg": 19,
+      "direction": "E",
+      "abstract": [
+        2,
+        -3
+      ],
+      "world": [
+        150.049927,
+        6.5,
+        -66.77509309999999
+      ],
+      "kind": "Downhill",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy_Downhill.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        24.3,
+        4.94
+      ],
+      "elevated": true
+    },
+    {
+      "index": 88,
+      "leg": 4,
+      "stepInLeg": 20,
+      "direction": "E",
+      "abstract": [
+        3,
+        -3
+      ],
+      "world": [
+        161.299927,
+        0,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 89,
+      "leg": 4,
+      "stepInLeg": 21,
+      "direction": "E",
+      "abstract": [
+        4,
+        -3
+      ],
+      "world": [
+        172.549927,
+        0,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 90,
+      "leg": 4,
+      "stepInLeg": 22,
+      "direction": "E",
+      "abstract": [
+        5,
+        -3
+      ],
+      "world": [
+        183.799927,
+        0,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 91,
+      "leg": 4,
+      "stepInLeg": 23,
+      "direction": "E",
+      "abstract": [
+        6,
+        -3
+      ],
+      "world": [
+        195.049927,
+        0,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 92,
+      "leg": 4,
+      "stepInLeg": 24,
+      "direction": "E",
+      "abstract": [
+        7,
+        -3
+      ],
+      "world": [
+        206.299927,
+        0,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 93,
+      "leg": 4,
+      "stepInLeg": 25,
+      "direction": "E",
+      "abstract": [
+        8,
+        -3
+      ],
+      "world": [
+        217.549927,
+        0,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 94,
+      "leg": 4,
+      "stepInLeg": 26,
+      "direction": "E",
+      "abstract": [
+        9,
+        -3
+      ],
+      "world": [
+        228.799927,
+        0,
+        -66.77509309999999
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 95,
+      "leg": 5,
+      "stepInLeg": 1,
+      "direction": "N",
+      "abstract": [
+        9,
+        -2
+      ],
+      "world": [
+        228.799927,
+        0,
+        -55.5250931
+      ],
+      "kind": "LeftTurn",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_LeftTurn.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 96,
+      "leg": 5,
+      "stepInLeg": 2,
+      "direction": "N",
+      "abstract": [
+        9,
+        -1
+      ],
+      "world": [
+        228.799927,
+        0,
+        -44.2750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 97,
+      "leg": 5,
+      "stepInLeg": 3,
+      "direction": "N",
+      "abstract": [
+        9,
+        0
+      ],
+      "world": [
+        228.799927,
+        0,
+        -33.0250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 98,
+      "leg": 5,
+      "stepInLeg": 4,
+      "direction": "N",
+      "abstract": [
+        9,
+        1
+      ],
+      "world": [
+        228.799927,
+        0,
+        -21.7750931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 99,
+      "leg": 5,
+      "stepInLeg": 5,
+      "direction": "N",
+      "abstract": [
+        9,
+        2
+      ],
+      "world": [
+        228.799927,
+        0,
+        -10.5250931
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 100,
+      "leg": 5,
+      "stepInLeg": 6,
+      "direction": "N",
+      "abstract": [
+        9,
+        3
+      ],
+      "world": [
+        228.799927,
+        0,
+        0.7249069000000006
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 101,
+      "leg": 5,
+      "stepInLeg": 7,
+      "direction": "N",
+      "abstract": [
+        9,
+        4
+      ],
+      "world": [
+        228.799927,
+        0,
+        11.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 102,
+      "leg": 5,
+      "stepInLeg": 8,
+      "direction": "N",
+      "abstract": [
+        9,
+        5
+      ],
+      "world": [
+        228.799927,
+        0,
+        23.2249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 103,
+      "leg": 5,
+      "stepInLeg": 9,
+      "direction": "N",
+      "abstract": [
+        9,
+        6
+      ],
+      "world": [
+        228.799927,
+        0,
+        34.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 104,
+      "leg": 5,
+      "stepInLeg": 10,
+      "direction": "N",
+      "abstract": [
+        9,
+        7
+      ],
+      "world": [
+        228.799927,
+        0,
+        45.7249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 105,
+      "leg": 5,
+      "stepInLeg": 11,
+      "direction": "N",
+      "abstract": [
+        9,
+        8
+      ],
+      "world": [
+        228.799927,
+        0,
+        56.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 106,
+      "leg": 5,
+      "stepInLeg": 12,
+      "direction": "N",
+      "abstract": [
+        9,
+        9
+      ],
+      "world": [
+        228.799927,
+        0,
+        68.22490690000001
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 107,
+      "leg": 6,
+      "stepInLeg": 1,
+      "direction": "E",
+      "abstract": [
+        10,
+        9
+      ],
+      "world": [
+        240.049927,
+        0,
+        68.22490690000001
+      ],
+      "kind": "RightTurn",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 108,
+      "leg": 6,
+      "stepInLeg": 2,
+      "direction": "E",
+      "abstract": [
+        11,
+        9
+      ],
+      "world": [
+        251.299927,
+        0,
+        68.22490690000001
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 109,
+      "leg": 6,
+      "stepInLeg": 3,
+      "direction": "E",
+      "abstract": [
+        12,
+        9
+      ],
+      "world": [
+        262.549927,
+        0,
+        68.22490690000001
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 110,
+      "leg": 6,
+      "stepInLeg": 4,
+      "direction": "E",
+      "abstract": [
+        13,
+        9
+      ],
+      "world": [
+        273.799927,
+        0,
+        68.22490690000001
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 111,
+      "leg": 6,
+      "stepInLeg": 5,
+      "direction": "E",
+      "abstract": [
+        14,
+        9
+      ],
+      "world": [
+        285.049927,
+        0,
+        68.22490690000001
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 112,
+      "leg": 6,
+      "stepInLeg": 6,
+      "direction": "E",
+      "abstract": [
+        15,
+        9
+      ],
+      "world": [
+        296.299927,
+        0,
+        68.22490690000001
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 113,
+      "leg": 6,
+      "stepInLeg": 7,
+      "direction": "E",
+      "abstract": [
+        16,
+        9
+      ],
+      "world": [
+        307.549927,
+        0,
+        68.22490690000001
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 114,
+      "leg": 6,
+      "stepInLeg": 8,
+      "direction": "E",
+      "abstract": [
+        17,
+        9
+      ],
+      "world": [
+        318.799927,
+        0,
+        68.22490690000001
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 115,
+      "leg": 6,
+      "stepInLeg": 9,
+      "direction": "E",
+      "abstract": [
+        18,
+        9
+      ],
+      "world": [
+        330.049927,
+        0,
+        68.22490690000001
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 116,
+      "leg": 7,
+      "stepInLeg": 1,
+      "direction": "N",
+      "abstract": [
+        18,
+        10
+      ],
+      "world": [
+        330.049927,
+        0,
+        79.47490690000001
+      ],
+      "kind": "LeftTurn",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_LeftTurn.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 117,
+      "leg": 7,
+      "stepInLeg": 2,
+      "direction": "N",
+      "abstract": [
+        18,
+        11
+      ],
+      "world": [
+        330.049927,
+        0,
+        90.72490690000001
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 118,
+      "leg": 7,
+      "stepInLeg": 3,
+      "direction": "N",
+      "abstract": [
+        18,
+        12
+      ],
+      "world": [
+        330.049927,
+        0,
+        101.97490690000001
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 119,
+      "leg": 7,
+      "stepInLeg": 4,
+      "direction": "N",
+      "abstract": [
+        18,
+        13
+      ],
+      "world": [
+        330.049927,
+        0,
+        113.22490690000001
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 120,
+      "leg": 7,
+      "stepInLeg": 5,
+      "direction": "N",
+      "abstract": [
+        18,
+        14
+      ],
+      "world": [
+        330.049927,
+        0,
+        124.47490690000001
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 121,
+      "leg": 7,
+      "stepInLeg": 6,
+      "direction": "N",
+      "abstract": [
+        18,
+        15
+      ],
+      "world": [
+        330.049927,
+        0,
+        135.7249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 122,
+      "leg": 7,
+      "stepInLeg": 7,
+      "direction": "N",
+      "abstract": [
+        18,
+        16
+      ],
+      "world": [
+        330.049927,
+        0,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 123,
+      "leg": 7,
+      "stepInLeg": 8,
+      "direction": "N",
+      "abstract": [
+        18,
+        17
+      ],
+      "world": [
+        330.049927,
+        0,
+        158.2249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 124,
+      "leg": 7,
+      "stepInLeg": 9,
+      "direction": "N",
+      "abstract": [
+        18,
+        18
+      ],
+      "world": [
+        330.049927,
+        0,
+        169.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 125,
+      "leg": 7,
+      "stepInLeg": 10,
+      "direction": "N",
+      "abstract": [
+        18,
+        19
+      ],
+      "world": [
+        330.049927,
+        0,
+        180.7249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 126,
+      "leg": 7,
+      "stepInLeg": 11,
+      "direction": "N",
+      "abstract": [
+        18,
+        20
+      ],
+      "world": [
+        330.049927,
+        0,
+        191.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 127,
+      "leg": 7,
+      "stepInLeg": 12,
+      "direction": "N",
+      "abstract": [
+        18,
+        21
+      ],
+      "world": [
+        330.049927,
+        0,
+        203.2249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 128,
+      "leg": 7,
+      "stepInLeg": 13,
+      "direction": "N",
+      "abstract": [
+        18,
+        22
+      ],
+      "world": [
+        330.049927,
+        0,
+        214.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 129,
+      "leg": 8,
+      "stepInLeg": 1,
+      "direction": "E",
+      "abstract": [
+        19,
+        22
+      ],
+      "world": [
+        341.299927,
+        0,
+        214.4749069
+      ],
+      "kind": "RightTurn",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 130,
+      "leg": 8,
+      "stepInLeg": 2,
+      "direction": "E",
+      "abstract": [
+        20,
+        22
+      ],
+      "world": [
+        352.549927,
+        0,
+        214.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 131,
+      "leg": 8,
+      "stepInLeg": 3,
+      "direction": "E",
+      "abstract": [
+        21,
+        22
+      ],
+      "world": [
+        363.799927,
+        0,
+        214.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 132,
+      "leg": 8,
+      "stepInLeg": 4,
+      "direction": "E",
+      "abstract": [
+        22,
+        22
+      ],
+      "world": [
+        375.049927,
+        0,
+        214.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 133,
+      "leg": 8,
+      "stepInLeg": 5,
+      "direction": "E",
+      "abstract": [
+        23,
+        22
+      ],
+      "world": [
+        386.299927,
+        0,
+        214.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 134,
+      "leg": 8,
+      "stepInLeg": 6,
+      "direction": "E",
+      "abstract": [
+        24,
+        22
+      ],
+      "world": [
+        397.549927,
+        0,
+        214.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 135,
+      "leg": 8,
+      "stepInLeg": 7,
+      "direction": "E",
+      "abstract": [
+        25,
+        22
+      ],
+      "world": [
+        408.799927,
+        0,
+        214.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 136,
+      "leg": 8,
+      "stepInLeg": 8,
+      "direction": "E",
+      "abstract": [
+        26,
+        22
+      ],
+      "world": [
+        420.049927,
+        0,
+        214.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 137,
+      "leg": 8,
+      "stepInLeg": 9,
+      "direction": "E",
+      "abstract": [
+        27,
+        22
+      ],
+      "world": [
+        431.299927,
+        0,
+        214.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 138,
+      "leg": 8,
+      "stepInLeg": 10,
+      "direction": "E",
+      "abstract": [
+        28,
+        22
+      ],
+      "world": [
+        442.549927,
+        0,
+        214.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 90,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 139,
+      "leg": 9,
+      "stepInLeg": 1,
+      "direction": "S",
+      "abstract": [
+        28,
+        21
+      ],
+      "world": [
+        442.549927,
+        0,
+        203.2249069
+      ],
+      "kind": "RightTurn",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 140,
+      "leg": 9,
+      "stepInLeg": 2,
+      "direction": "S",
+      "abstract": [
+        28,
+        20
+      ],
+      "world": [
+        442.549927,
+        0,
+        191.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 141,
+      "leg": 9,
+      "stepInLeg": 3,
+      "direction": "S",
+      "abstract": [
+        28,
+        19
+      ],
+      "world": [
+        442.549927,
+        0,
+        180.7249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 142,
+      "leg": 9,
+      "stepInLeg": 4,
+      "direction": "S",
+      "abstract": [
+        28,
+        18
+      ],
+      "world": [
+        442.549927,
+        0,
+        169.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 143,
+      "leg": 9,
+      "stepInLeg": 5,
+      "direction": "S",
+      "abstract": [
+        28,
+        17
+      ],
+      "world": [
+        442.549927,
+        0,
+        158.2249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 144,
+      "leg": 9,
+      "stepInLeg": 6,
+      "direction": "S",
+      "abstract": [
+        28,
+        16
+      ],
+      "world": [
+        442.549927,
+        0,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 180,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 145,
+      "leg": 10,
+      "stepInLeg": 1,
+      "direction": "W",
+      "abstract": [
+        27,
+        16
+      ],
+      "world": [
+        431.299927,
+        0,
+        146.9749069
+      ],
+      "kind": "RightTurn",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 146,
+      "leg": 10,
+      "stepInLeg": 2,
+      "direction": "W",
+      "abstract": [
+        26,
+        16
+      ],
+      "world": [
+        420.049927,
+        0,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 147,
+      "leg": 10,
+      "stepInLeg": 3,
+      "direction": "W",
+      "abstract": [
+        25,
+        16
+      ],
+      "world": [
+        408.799927,
+        0,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 148,
+      "leg": 10,
+      "stepInLeg": 4,
+      "direction": "W",
+      "abstract": [
+        24,
+        16
+      ],
+      "world": [
+        397.549927,
+        0,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 149,
+      "leg": 10,
+      "stepInLeg": 5,
+      "direction": "W",
+      "abstract": [
+        23,
+        16
+      ],
+      "world": [
+        386.299927,
+        0,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 150,
+      "leg": 10,
+      "stepInLeg": 6,
+      "direction": "W",
+      "abstract": [
+        22,
+        16
+      ],
+      "world": [
+        375.049927,
+        0,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 151,
+      "leg": 10,
+      "stepInLeg": 7,
+      "direction": "W",
+      "abstract": [
+        21,
+        16
+      ],
+      "world": [
+        363.799927,
+        6.5,
+        146.9749069
+      ],
+      "kind": "Uphill",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        24.3,
+        4.94
+      ],
+      "elevated": true
+    },
+    {
+      "index": 152,
+      "leg": 10,
+      "stepInLeg": 8,
+      "direction": "W",
+      "abstract": [
+        20,
+        16
+      ],
+      "world": [
+        352.549927,
+        30,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 153,
+      "leg": 10,
+      "stepInLeg": 9,
+      "direction": "W",
+      "abstract": [
+        19,
+        16
+      ],
+      "world": [
+        341.299927,
+        30,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 154,
+      "leg": 10,
+      "stepInLeg": 10,
+      "direction": "W",
+      "abstract": [
+        18,
+        16
+      ],
+      "world": [
+        330.049927,
+        30,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 155,
+      "leg": 10,
+      "stepInLeg": 11,
+      "direction": "W",
+      "abstract": [
+        17,
+        16
+      ],
+      "world": [
+        318.799927,
+        30,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": true
+    },
+    {
+      "index": 156,
+      "leg": 10,
+      "stepInLeg": 12,
+      "direction": "W",
+      "abstract": [
+        16,
+        16
+      ],
+      "world": [
+        307.549927,
+        6.5,
+        146.9749069
+      ],
+      "kind": "Downhill",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy_Downhill.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        24.3,
+        4.94
+      ],
+      "elevated": true
+    },
+    {
+      "index": 157,
+      "leg": 10,
+      "stepInLeg": 13,
+      "direction": "W",
+      "abstract": [
+        15,
+        16
+      ],
+      "world": [
+        296.299927,
+        0,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 158,
+      "leg": 10,
+      "stepInLeg": 14,
+      "direction": "W",
+      "abstract": [
+        14,
+        16
+      ],
+      "world": [
+        285.049927,
+        0,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 159,
+      "leg": 10,
+      "stepInLeg": 15,
+      "direction": "W",
+      "abstract": [
+        13,
+        16
+      ],
+      "world": [
+        273.799927,
+        0,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 160,
+      "leg": 10,
+      "stepInLeg": 16,
+      "direction": "W",
+      "abstract": [
+        12,
+        16
+      ],
+      "world": [
+        262.549927,
+        0,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 161,
+      "leg": 10,
+      "stepInLeg": 17,
+      "direction": "W",
+      "abstract": [
+        11,
+        16
+      ],
+      "world": [
+        251.299927,
+        0,
+        146.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 270,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 162,
+      "leg": 11,
+      "stepInLeg": 1,
+      "direction": "N",
+      "abstract": [
+        11,
+        17
+      ],
+      "world": [
+        251.299927,
+        0,
+        158.2249069
+      ],
+      "kind": "RightTurn",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 163,
+      "leg": 11,
+      "stepInLeg": 2,
+      "direction": "N",
+      "abstract": [
+        11,
+        18
+      ],
+      "world": [
+        251.299927,
+        0,
+        169.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 164,
+      "leg": 11,
+      "stepInLeg": 3,
+      "direction": "N",
+      "abstract": [
+        11,
+        19
+      ],
+      "world": [
+        251.299927,
+        0,
+        180.7249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 165,
+      "leg": 11,
+      "stepInLeg": 4,
+      "direction": "N",
+      "abstract": [
+        11,
+        20
+      ],
+      "world": [
+        251.299927,
+        0,
+        191.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 166,
+      "leg": 11,
+      "stepInLeg": 5,
+      "direction": "N",
+      "abstract": [
+        11,
+        21
+      ],
+      "world": [
+        251.299927,
+        0,
+        203.2249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 167,
+      "leg": 11,
+      "stepInLeg": 6,
+      "direction": "N",
+      "abstract": [
+        11,
+        22
+      ],
+      "world": [
+        251.299927,
+        0,
+        214.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 168,
+      "leg": 11,
+      "stepInLeg": 7,
+      "direction": "N",
+      "abstract": [
+        11,
+        23
+      ],
+      "world": [
+        251.299927,
+        0,
+        225.7249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 169,
+      "leg": 11,
+      "stepInLeg": 8,
+      "direction": "N",
+      "abstract": [
+        11,
+        24
+      ],
+      "world": [
+        251.299927,
+        0,
+        236.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 170,
+      "leg": 11,
+      "stepInLeg": 9,
+      "direction": "N",
+      "abstract": [
+        11,
+        25
+      ],
+      "world": [
+        251.299927,
+        0,
+        248.2249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 171,
+      "leg": 11,
+      "stepInLeg": 10,
+      "direction": "N",
+      "abstract": [
+        11,
+        26
+      ],
+      "world": [
+        251.299927,
+        0,
+        259.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 172,
+      "leg": 11,
+      "stepInLeg": 11,
+      "direction": "N",
+      "abstract": [
+        11,
+        27
+      ],
+      "world": [
+        251.299927,
+        0,
+        270.7249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 173,
+      "leg": 11,
+      "stepInLeg": 12,
+      "direction": "N",
+      "abstract": [
+        11,
+        28
+      ],
+      "world": [
+        251.299927,
+        0,
+        281.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 174,
+      "leg": 11,
+      "stepInLeg": 13,
+      "direction": "N",
+      "abstract": [
+        11,
+        29
+      ],
+      "world": [
+        251.299927,
+        0,
+        293.2249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 175,
+      "leg": 11,
+      "stepInLeg": 14,
+      "direction": "N",
+      "abstract": [
+        11,
+        30
+      ],
+      "world": [
+        251.299927,
+        0,
+        304.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 176,
+      "leg": 11,
+      "stepInLeg": 15,
+      "direction": "N",
+      "abstract": [
+        11,
+        31
+      ],
+      "world": [
+        251.299927,
+        0,
+        315.7249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 177,
+      "leg": 11,
+      "stepInLeg": 16,
+      "direction": "N",
+      "abstract": [
+        11,
+        32
+      ],
+      "world": [
+        251.299927,
+        0,
+        326.9749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 178,
+      "leg": 11,
+      "stepInLeg": 17,
+      "direction": "N",
+      "abstract": [
+        11,
+        33
+      ],
+      "world": [
+        251.299927,
+        0,
+        338.2249069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    },
+    {
+      "index": 179,
+      "leg": 11,
+      "stepInLeg": 18,
+      "direction": "N",
+      "abstract": [
+        11,
+        34
+      ],
+      "world": [
+        251.299927,
+        0,
+        349.4749069
+      ],
+      "kind": "Basic",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "yaw": 0,
+      "scale": [
+        2.2,
+        4,
+        2.24
+      ],
+      "elevated": false
+    }
+  ],
+  "turnSpots": [
+    {
+      "ordinal": 1,
+      "roadIndex": 28,
+      "grid": [
+        0,
+        -27
+      ],
+      "world": [
+        127.549927,
+        0,
+        -336.7750931
+      ],
+      "triggerYaw": 180,
+      "targetYaw": 270,
+      "targetX": 0,
+      "duration": 0.5
+    },
+    {
+      "ordinal": 2,
+      "roadIndex": 45,
+      "grid": [
+        -17,
+        -27
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -336.7750931
+      ],
+      "triggerYaw": 270,
+      "targetYaw": 0,
+      "targetX": 0,
+      "duration": 0.5
+    },
+    {
+      "ordinal": 3,
+      "roadIndex": 69,
+      "grid": [
+        -17,
+        -3
+      ],
+      "world": [
+        -63.700073,
+        0,
+        -66.77509309999999
+      ],
+      "triggerYaw": 0,
+      "targetYaw": 90,
+      "targetX": 0,
+      "duration": 0.5
+    },
+    {
+      "ordinal": 4,
+      "roadIndex": 95,
+      "grid": [
+        9,
+        -3
+      ],
+      "world": [
+        228.799927,
+        0,
+        -66.77509309999999
+      ],
+      "triggerYaw": 90,
+      "targetYaw": 0,
+      "targetX": 0,
+      "duration": 0.5
+    },
+    {
+      "ordinal": 5,
+      "roadIndex": 107,
+      "grid": [
+        9,
+        9
+      ],
+      "world": [
+        228.799927,
+        0,
+        68.22490690000001
+      ],
+      "triggerYaw": 0,
+      "targetYaw": 90,
+      "targetX": 0,
+      "duration": 0.5
+    },
+    {
+      "ordinal": 6,
+      "roadIndex": 116,
+      "grid": [
+        18,
+        9
+      ],
+      "world": [
+        330.049927,
+        0,
+        68.22490690000001
+      ],
+      "triggerYaw": 90,
+      "targetYaw": 0,
+      "targetX": 0,
+      "duration": 0.5
+    },
+    {
+      "ordinal": 7,
+      "roadIndex": 129,
+      "grid": [
+        18,
+        22
+      ],
+      "world": [
+        330.049927,
+        0,
+        214.4749069
+      ],
+      "triggerYaw": 0,
+      "targetYaw": 90,
+      "targetX": 0,
+      "duration": 0.5
+    },
+    {
+      "ordinal": 8,
+      "roadIndex": 139,
+      "grid": [
+        28,
+        22
+      ],
+      "world": [
+        442.549927,
+        0,
+        214.4749069
+      ],
+      "triggerYaw": 90,
+      "targetYaw": 180,
+      "targetX": 0,
+      "duration": 0.5
+    },
+    {
+      "ordinal": 9,
+      "roadIndex": 145,
+      "grid": [
+        28,
+        16
+      ],
+      "world": [
+        442.549927,
+        0,
+        146.9749069
+      ],
+      "triggerYaw": 180,
+      "targetYaw": 270,
+      "targetX": 0,
+      "duration": 0.5
+    },
+    {
+      "ordinal": 10,
+      "roadIndex": 162,
+      "grid": [
+        11,
+        16
+      ],
+      "world": [
+        251.299927,
+        0,
+        146.9749069
+      ],
+      "triggerYaw": 270,
+      "targetYaw": 0,
+      "targetX": 0,
+      "duration": 0.5
+    }
+  ],
+  "notes": [
+    "All extension road roots use the SR18 abstract lattice and one 11.25-unit pitch.",
+    "Upper spans are authoring geometry; current PlayerScript cannot traverse Y-changing roads.",
+    "Slope instances are vertically stretched for the static authoring preview and require visual review."
+  ]
+}

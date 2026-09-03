@@ -21,7 +21,7 @@
 
 - 엔진: Unity `6000.2.6f1`
 - 렌더링: Universal Render Pipeline `17.2.0`
-- 편집기 자동화: `com.unity.pipeline 0.5.0-exp.1`
+- 편집기 자동화: `com.unity.pipeline 0.6.0-exp.1`
 - 데이터: Editor 전용 `Data.xlsx` → 서명·암호화된 `Resources/GameData/Data.bytes`
 - 분석: Firebase App/Analytics `13.14.0`과 로컬 대기열·라운드 체크포인트
 - 테스트: `Assets/Tests/Editor`의 EditMode 중심 검증
@@ -83,6 +83,7 @@
 
 - `Noryangjin_MapTool_Mode`: 현재 유일한 활성 Build 씬이며 맵툴과 런타임을 함께 담당한다.
 - `Noryangjin_MapTool_Mode_2`: 150개 도로·511개 소품의 정적 확장 참고 씬이다. Build Settings에는 없다.
+- `Noryangjin_MapTool_Mode_SR18`: 맵1의 51개 도로를 보존하고 등대 인피니티 179개를 추가한 총 230개 도로·15개 회전 스팟의 길 전용 정적 씬이다. 장식·적·기믹·보너스는 비어 있고 Build Settings에는 없다.
 - `Stage02_Highway_AutoDraft`: 고속도로 자동 초안 씬은 존재하지만 런타임 스테이지로 연결되지 않았다.
 - `Forward March Mode`: 소스 프로젝트에는 존재하지만 현재 Build Settings에는 등록되지 않았다.
 - 예전 문서의 Build Settings 목록보다 실제 `EditorBuildSettings.asset`을 우선한다.
@@ -100,7 +101,7 @@
 - 런 상태가 `GameManager`, `CanvasScript`, `TimeManager`에 나뉘어 있어 스테이지 전환·부활 로직 추가 시 중복 상태가 생길 수 있다.
 - `GameManager`는 기본적으로 10 stage × 10 chapter 인덱스 순환을 사용해 현재의 `노량진 → 고속도로` 제품 용어와 맞지 않는다.
 - 노량진 맵툴 씬이 제작 도구와 실제 부팅 씬을 겸하므로 dirty 씬 보호가 중요하다.
-- Map 2와 Highway 초안은 존재하지만 둘 다 현재 제품의 스테이지 2 계약을 만족한다고 볼 수 없다.
+- Map 2, SR18 길 전용 씬과 Highway 초안은 존재하지만 모두 현재 제품의 스테이지 2 런타임 계약을 만족한다고 볼 수 없다. 특히 SR18의 고가 구간은 현재 Y축 고정 플레이어로 주행할 수 없다.
 - 스킨·업그레이드·몬스터 수치는 `Data.xlsx`가 원본이므로 PlayerPrefs와 Inspector가 별도 권위가 되지 않게 해야 한다.
 - Firebase 이벤트의 `stage`가 제품 스테이지와 TurnSpot 진행 단계를 혼용하지 않도록 계약을 정리해야 한다.
 

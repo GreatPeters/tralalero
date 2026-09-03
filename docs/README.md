@@ -28,6 +28,7 @@ Available documents:
 - `upgrade-shoe-workshop.md`: reference-driven shoe-workshop presentation for the existing nine permanent upgrades, including rebuild and sorting contracts.
 - `Assets/ThirdParty/Quaternius/UniversalAnimationLibrary/SOURCE.md`: source URL, CC0 license, archive hash, and retained Unity FBX record for Forward enemy walk/run locomotion.
 - `noryangjin-map2-authored-scene.md`: reconciled reference contract, authored-scene composition, and verification record for Noryangjin Map 2.
+- `noryangjin-sr18-roads-scene.md`: roads-only SR18 Lighthouse Infinity sibling with 230 roads, 15 turn spots, three elevated crossings, and manual-authoring guidance.
 - `noryangjin-mobile-optimization.md`: safe Static classification, low-poly water, Android texture budgets, camera overrides, and measured Map 1/2 results.
 - `noryangjin-stage1-maptool-expansion-plan.md`: legacy Stage 1 enemy, gimmick, bonus, object, and map-tool UX ideas with four concept PNGs; its earlier route-length target is superseded by the current map plan and balance document.
 - `mobile-ui-atlas-optimizer.md`: one-click Sprite Atlas V2 maintenance, exclusions, settings, validation contract, and measured UI batching results.
@@ -50,6 +51,7 @@ Editor shortcuts:
 - `Tools/맵 제작 도구/자료/자료 위치 안내`: opens the consolidated reference-location window. Individual folder shortcuts are not exposed as separate menu commands.
 - `Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기`: opens the Noryangjin map-tool palette.
 - `Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_2.unity` is the baked Map 2 implementation of `outputs/chapter_campaign_reference_orthogonal_20min`. It is edited with the normal map-tool workflow and has no regeneration command.
+- `Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_SR18.unity` is the build-excluded roads-only Lighthouse Infinity sibling. Open it directly, then use the normal map-tool palette and select the `600` work-grid overlay preset before adding objects.
 
 Internal recovery APIs are deliberately not registered as map-production `MenuItem`s. Agents may invoke a documented static method through `unity command eval "<Type.Method>();" --project-path .` only after checking that method's scene and Play Mode preconditions. Examples include `NoryangjinForwardGameplayInstaller.InstallIntoOpenNoryangjinScene`, `ForwardEnemyMovementSetup.Configure`, and the two `NoryangjinMapStaticOptimizer` methods.
 

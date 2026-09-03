@@ -1,7 +1,7 @@
 ---
 title: Run Unity-generated dotnet builds sequentially
 date: 2026-07-28
-last_updated: 2026-08-29
+last_updated: 2026-09-04
 category: workflow-issues
 module: Unity generated C# build verification
 problem_type: workflow_issue
@@ -98,6 +98,13 @@ The same orchestration error recurred during the Bonus Wall visual pass on
 parallel commands exited, the runtime and Editor builds passed immediately when
 run one after the other. The diagnostic path can therefore vary; the reliable
 signal is concurrent writers beneath the same Unity `Temp/obj` tree.
+
+The same contention recurred during SR18 Lighthouse Infinity road-map
+verification on 2026-09-04: running the runtime and Editor project builds in
+parallel collided on shared Unity `Temp` outputs. After both attempts exited,
+rerunning `Assembly-CSharp.csproj` and then `Assembly-CSharp-Editor.csproj`
+sequentially completed both with zero warnings and zero errors, again confirming
+an orchestration failure rather than a source-code regression.
 
 ## Related
 

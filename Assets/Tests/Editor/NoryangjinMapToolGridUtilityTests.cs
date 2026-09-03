@@ -1030,10 +1030,19 @@ public sealed class NoryangjinMapToolGridUtilityTests
     [Test]
     public void MapToolScenePath_IsSeparateEditorOnlyToolScene()
     {
+        const string sr18ScenePath =
+            "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_SR18.unity";
+
         Assert.That(
             NoryangjinMapToolWindow.MapToolScenePath,
             Is.EqualTo("Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode.unity"));
         Assert.That(NoryangjinMapToolWindow.IsMapToolScenePath(NoryangjinMapToolWindow.MapToolScenePath), Is.True);
+        Assert.That(NoryangjinMapToolWindow.IsMapToolScenePath(NoryangjinMapToolWindow.MapToolScene2Path), Is.True);
+        Assert.That(
+            NoryangjinMapToolWindow.ResolveMapToolScenePathToOpen(NoryangjinMapToolWindow.MapToolScene2Path),
+            Is.EqualTo(NoryangjinMapToolWindow.MapToolScene2Path));
+        Assert.That(NoryangjinMapToolWindow.IsMapToolScenePath(sr18ScenePath), Is.True);
+        Assert.That(NoryangjinMapToolWindow.ResolveMapToolScenePathToOpen(sr18ScenePath), Is.EqualTo(sr18ScenePath));
         Assert.That(NoryangjinMapToolWindow.IsMapToolScenePath("Assets/ShooterSurvival/Scenes/Generated/Stage01_Noryangjin_AutoDraft.unity"), Is.False);
     }
 

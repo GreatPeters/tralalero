@@ -62,6 +62,12 @@
 > 이 경로는 입체 기획안이다. Unity 복제 작업 씬에서 다리 하부 여유, 오르막·내리막 연결, 카메라 가림과 투사체 충돌 레이어를 검증한 뒤 실제 배치로 확정한다.
 
 [SUPER-RADICAL-08 4096×4096 정확 도면](map-concepts/noryangjin-expansion-2026-09-02/reference/routes/super-radical-08-schematic-4096.png)
+
+### 2.4 SR18 등대 인피니티 길 전용 구현
+
+`map2` 브랜치에는 [SR18 등대 인피니티](map-concepts/noryangjin-expansion-2026-09-02/reference/routes/super-radical-18-schematic-4096.png)를 기준으로 한 별도 정적 제작 씬 `Noryangjin_MapTool_Mode_SR18.unity`가 있다. 맵1의 51개 길을 보존하고 신규 179개를 더한 총 230개이며, 현재 씬은 사용자가 오브젝트를 배치하기 전의 길과 회전 스팟만 담는다.
+
+첫 번째 8자와 등대 고리의 세 교차는 두 구간을 Y=30의 상부 데크로 올려 구분했다. 다만 현재 플레이어는 Y 이동을 하지 못하므로 이는 맵 제작용 입체 배치이며 런타임 완주 계약이 아니다. 자세한 수량과 작업 방법은 [SR18 길 전용 씬 문서](docs/noryangjin-sr18-roads-scene.md)를 따른다.
 ## 3. 노량진 구역 구성
 
 | 구역 | 진행률 감각 | 공간과 분위기 | 플레이 목적 | 주력 콘텐츠 |
@@ -230,4 +236,5 @@
 - [노량진 SUPER RADICAL 입체 교차 경로 30안](map-concepts/noryangjin-expansion-2026-09-02/README.md): 기존 길·신규 길을 입체 교차하는 30안과 도로 종류별 수량을 포함한 4096 제작 도면
 - [노량진 맵툴 사용 문서](docs/noryangjin-gameplay-maptool.md): 실제 에디터 조작과 경로 제작 절차
 - [노량진 맵 2 참고 씬](docs/noryangjin-map2-authored-scene.md): 기존 확장 참고 자료
+- [노량진 SR18 등대 인피니티 길 전용 씬](docs/noryangjin-sr18-roads-scene.md): 230개 길, 15개 회전 스팟, 세 입체 교차와 후속 오브젝트 배치 방법
 - [이전 스테이지 1 확장 아이디어](docs/noryangjin-stage1-maptool-expansion-plan.md): 적·오브젝트·UX 아이디어 아카이브

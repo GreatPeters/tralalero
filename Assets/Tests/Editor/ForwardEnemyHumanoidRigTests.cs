@@ -57,8 +57,13 @@ public sealed class ForwardEnemyHumanoidRigTests
         },
         new object[]
         {
-            "Assets/JH/Model/Prefab/Enemy_YllowMan.prefab",
-            "Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_YllowMan.overrideController"
+            "Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab",
+            "Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_YllowMan_Net.overrideController"
+        },
+        new object[]
+        {
+            "Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab",
+            "Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_YllowMan_Sword.overrideController"
         }
     };
 
@@ -106,15 +111,112 @@ public sealed class ForwardEnemyHumanoidRigTests
         },
         new object[]
         {
-            "Assets/JH/Model/Prefab/Enemy_YllowMan.prefab",
+            "Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab",
             "Assets/JH/Model/Enemy/YellowMan_Web/Web_Skin/Bearded_Builder_in_Ye_0811162114_texture@Fishing Idle.fbx",
             "bearman act",
             "Assets/JH/Model/Enemy/YellowMan_Web/Web_Skin/Bearded_Builder_in_Ye_0811162114_texture@Fishing Idle.fbx",
             "bearman act",
             "Assets/JH/Model/Enemy/YellowMan_Web/Die_NoSkin/Bearded_Builder_in_Ye_0811162114_texture@Flying Back Death.fbx",
             "bearman die"
+        },
+        new object[]
+        {
+            "Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab",
+            "Assets/JH/Model/Enemy/YellowMan_Web/Web_Skin/Bearded_Builder_in_Ye_0811162114_texture@Fishing Idle.fbx",
+            "bearman act",
+            "Assets/JH/Model/Enemy/Woman_Boss/휘두르기_스킨/Baker_in_Apron_0815171726_texture@Stable Sword Outward Slash.fbx",
+            "Woman Act",
+            "Assets/JH/Model/Enemy/YellowMan_Web/Die_NoSkin/Bearded_Builder_in_Ye_0811162114_texture@Flying Back Death.fbx",
+            "bearman die"
         }
     };
+
+    [Test]
+    public void YellowManVariants_KeepNetAndSwordLoadoutsWithRunDefault()
+    {
+        GameObject net = AssetDatabase.LoadAssetAtPath<GameObject>(
+            YellowManVariantSetup.NetPrefabPath);
+        GameObject sword = AssetDatabase.LoadAssetAtPath<GameObject>(
+            YellowManVariantSetup.SwordPrefabPath);
+
+        Assert.That(net, Is.Not.Null);
+        Assert.That(sword, Is.Not.Null);
+        Assert.That(
+            AssetDatabase.LoadAssetAtPath<GameObject>(
+                YellowManVariantSetup.LegacyPrefabPath),
+            Is.Null);
+        Assert.That(
+            AssetDatabase.AssetPathToGUID(YellowManVariantSetup.NetPrefabPath),
+            Is.EqualTo("f6739e661ef968a43804e875e31938aa"),
+            "The renamed net prefab must preserve every existing scene reference.");
+        Assert.That(
+            net.GetComponentsInChildren<Transform>(true)
+                .Any(child => child.name == YellowManVariantSetup.NetPropName),
+            Is.True);
+        Assert.That(
+            net.GetComponentsInChildren<Transform>(true)
+                .Any(child => child.name == YellowManVariantSetup.SwordPropName),
+            Is.False);
+        Assert.That(
+            sword.GetComponentsInChildren<Transform>(true)
+                .Any(child => child.name == YellowManVariantSetup.NetPropName),
+            Is.False);
+        Assert.That(
+            sword.GetComponentsInChildren<Transform>(true)
+                .Any(child => child.name == YellowManVariantSetup.SwordPropName),
+            Is.True);
+
+        EnemyEventController swordController =
+            sword.GetComponent<EnemyEventController>();
+        Assert.That(swordController, Is.Not.Null);
+        Assert.That(swordController.MoveAnimation, Is.EqualTo(EnemyMoveAnimation.Run));
+        Assert.That(swordController.MoveSpeed, Is.EqualTo(4f).Within(0.001f));
+
+        GameObject woman = AssetDatabase.LoadAssetAtPath<GameObject>(
+            YellowManVariantSetup.WomanPrefabPath);
+        Transform womanSword = woman.GetComponentsInChildren<Transform>(true)
+            .Single(child => child.name == YellowManVariantSetup.SwordPropName);
+        Transform yellowSword = sword.GetComponentsInChildren<Transform>(true)
+            .Single(child => child.name == YellowManVariantSetup.SwordPropName);
+        Assert.That(yellowSword.parent.name, Is.EqualTo("mixamorig:RightHand"));
+        Assert.That(
+            Vector3.Distance(yellowSword.localPosition, womanSword.localPosition),
+            Is.LessThan(0.0001f));
+        Assert.That(
+            Quaternion.Angle(yellowSword.localRotation, womanSword.localRotation),
+            Is.EqualTo(0f).Within(0.001f));
+        Assert.That(
+            Vector3.Distance(yellowSword.localScale, womanSword.localScale),
+            Is.LessThan(0.0001f));
+        Assert.That(
+            yellowSword.GetComponent<MeshFilter>().sharedMesh,
+            Is.SameAs(womanSword.GetComponent<MeshFilter>().sharedMesh));
+        Assert.That(
+            yellowSword.GetComponent<MeshRenderer>().sharedMaterials,
+            Is.EqualTo(womanSword.GetComponent<MeshRenderer>().sharedMaterials));
+    }
+
+    [Test]
+    public void ForwardEnemyCatalog_ExposesBothNamedYellowManVariants()
+    {
+        Assert.That(ForwardEnemyArchetypeCatalog.Definitions, Has.Length.EqualTo(6));
+        Assert.That(
+            ForwardEnemyArchetypeCatalog.Definitions.Any(definition =>
+                definition.PrefabPath == YellowManVariantSetup.NetPrefabPath &&
+                definition.KoreanLabel == "옐로우맨_그물"),
+            Is.True);
+        Assert.That(
+            ForwardEnemyArchetypeCatalog.Definitions.Any(definition =>
+                definition.PrefabPath == YellowManVariantSetup.SwordPrefabPath &&
+                definition.KoreanLabel == "옐로우맨_칼"),
+            Is.True);
+        Assert.That(
+            ForwardEnemyTierResolver.ResolveOrFallback(
+                "Enemy_Enemy_YllowMan_X+00_Z+00",
+                EnemyTier.Boss),
+            Is.EqualTo(EnemyTier.Normal),
+            "Legacy placed Yellow Man names must remain Normal after the prefab rename.");
+    }
 
     [TestCaseSource(nameof(HumanoidModelPaths))]
     public void ForwardEnemyModel_ImportsAsValidHumanoid(string modelPath)
@@ -160,7 +262,7 @@ public sealed class ForwardEnemyHumanoidRigTests
         const string sourcePath =
             "Assets/ThirdParty/Quaternius/UniversalAnimationLibrary/SOURCE.md";
         Assert.That(
-            AssetDatabase.LoadAssetAtPath<DefaultAsset>(sourcePath),
+            AssetDatabase.LoadMainAssetAtPath(sourcePath),
             Is.Not.Null);
         string source = System.IO.File.ReadAllText(
             System.IO.Path.GetFullPath(sourcePath));

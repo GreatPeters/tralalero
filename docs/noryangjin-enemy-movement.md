@@ -1,12 +1,18 @@
 # Noryangjin Enemy Event Authoring
 
-The five Forward enemy prefabs use one `EnemyEventController` per enemy. The
+The six Forward enemy prefabs use one `EnemyEventController` per enemy. The
 activation spot stores only links; every attack, shot, movement target, and
 animation choice belongs to the enemy itself.
 
 Open the Noryangjin map tool and select `적군`. The palette contains
-`Enemy_YllowMan`, `Enemy_Guard`, `Enemy_OldMan`, `Enemy_FatMan`, and
-`Enemy_Woman`. Placed instances live under `Noryangjin_MapTool/Enemies`.
+`옐로우맨_그물`, `옐로우맨_칼`, Guard, OldMan, FatMan, and Woman. Placed
+instances live under `Noryangjin_MapTool/Enemies`.
+
+`옐로우맨_그물` is the renamed original Yellow Man and preserves its held
+waffle-grid/net prop. `옐로우맨_칼` uses the exact Woman boss sword mesh and
+materials, retargets the Woman slash for both attack states, and keeps the
+Yellow Man idle/death clips. Its authored movement defaults are `달리기` and
+speed `4`, ready for rusher encounters without forcing a movement event mode.
 
 ## Which event to choose
 
@@ -77,7 +83,7 @@ single spot can start Guard in `발사`, Woman in `공격 반복`, and OldMan in
 
 ## Shared animation contract
 
-All five prefabs use the shared Humanoid controller at
+All six prefabs use the shared Humanoid controller at
 `Assets/JH/Model/Animatior/ForwardEnemyShared/ForwardEnemyShared.controller`.
 It contains exactly these states:
 
@@ -101,14 +107,23 @@ under `Assets/ThirdParty/Quaternius/UniversalAnimationLibrary/`. The previous
 Rebuild or repair the animation assets with
 `Tools/Shooter Survival/Forward Enemy/Build Shared Animator Setup`. The method
 edits prefab and animation assets only and must not save the open scene.
+Create or repair both Yellow Man variants first with
+`Tools/Shooter Survival/Forward Enemy/Build Yellow Man Variants`; the operation
+preserves the original prefab GUID when renaming it to the net variant.
 
 Agents use the same authoring contract through official Unity CLI commands:
 create and position a target GameObject, set `eventMode`, `moveSpeed`,
 `moveAnimation`, and `targetPoint` through serialized-field commands, and
 resize the activation spot's `targets` array to assign object references.
 Internal UI helpers are not CLI commands. Asset repair remains callable with
+`unity command eval "YellowManVariantSetup.Configure();" --project-path .`,
 `unity command eval "ForwardEnemyMovementSetup.Configure();" --project-path .`
 and `unity command eval "ForwardEnemyAnimatorSetup.Configure();" --project-path .`.
+
+Run these repair commands outside Play Mode. `YellowManVariantSetup` edits
+prefab, override-controller, and palette assets and can rename loaded net
+instances, so resolve unrelated dirty-scene work before invocation. Verify the
+result with the focused Yellow Man tests in `ForwardEnemyHumanoidRigTests`.
 
 ## Placement, reset, and repair
 
@@ -125,7 +140,7 @@ source-level C# type rename is intentional; Unity scene and prefab references
 remain intact through the preserved MonoScript GUIDs and `MovedFrom` metadata.
 
 `ForwardEnemyMovementSetup.Configure` remains the internal repair entry point
-for the five controller components and
+for the six controller components and
 `Assets/ShooterSurvival/Prefabs/Gameplay/Noryangjin_EnemyMovementTrigger.prefab`.
 Despite the legacy utility and prefab filenames, the runtime components shown
 in the Inspector are `Enemy Event Controller` and

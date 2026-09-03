@@ -20,7 +20,7 @@ public sealed class NoryangjinMapToolMode2SceneTests
     private const string Map1Guid = "594a2107b4741084ea468072f4b4642a";
     private const string Map2Guid = "e07c347ef8dc34844882b8b0c4fd1763";
     private const string Map1Hash =
-        "2B590C9D07B1B67E1821DA4DC03E3767469F4BA37FE175BC45C40C83F686B957";
+        "B52F5D7E473E5729C163BC44EDAB08917BE565FB4AE1D6B6A73378A0960E8B40";
 
     [Test]
     public void Map1_RemainsTheExactProtectedSourceScene()

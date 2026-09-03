@@ -622,6 +622,95 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
+    public void MapInformationSnapshot_CountsRoadAndObjectTypesFromDirectPlacementRoots()
+    {
+        Scene previewScene = EditorSceneManager.NewPreviewScene();
+        try
+        {
+            var root = new GameObject("Noryangjin_MapTool");
+            SceneManager.MoveGameObjectToScene(root, previewScene);
+            var roads = new GameObject("Roads");
+            roads.transform.SetParent(root.transform);
+            var props = new GameObject("Props");
+            props.transform.SetParent(root.transform);
+
+            NoryangjinMapToolInformationSnapshot emptySnapshot =
+                NoryangjinMapToolWindow.BuildMapInformationSnapshot(
+                    root.transform,
+                    previewScene.handle,
+                    previewScene.name,
+                    NoryangjinMapToolWindow.BuildPaletteLabel);
+            Assert.That(emptySnapshot.RoadTotal, Is.Zero);
+            Assert.That(emptySnapshot.RoadTypes, Has.Length.EqualTo(6));
+            Assert.That(emptySnapshot.RoadTypes.All(row => row.Count == 0), Is.True);
+            Assert.That(emptySnapshot.ObjectTotal, Is.Zero);
+            Assert.That(emptySnapshot.ObjectTypes, Is.Empty);
+
+            Dictionary<string, string> roadPaths = GetKnownRoadPiecePathsByLabel();
+            foreach (string roadPath in roadPaths.Values)
+            {
+                GameObject roadPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(roadPath);
+                Assert.That(roadPrefab, Is.Not.Null, roadPath);
+                Assert.That(
+                    PrefabUtility.InstantiatePrefab(roadPrefab, roads.transform),
+                    Is.Not.Null,
+                    roadPath);
+            }
+
+            GameObject seagullPerchPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+                NoryangjinMapToolWindow.SeagullPerchPrefabPath);
+            GameObject cleatPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(
+                NoryangjinMapToolWindow.DockMetalCleatPrefabPath);
+            Assert.That(seagullPerchPrefab, Is.Not.Null);
+            Assert.That(cleatPrefab, Is.Not.Null);
+            var firstPerch = PrefabUtility.InstantiatePrefab(
+                seagullPerchPrefab,
+                props.transform) as GameObject;
+            Assert.That(firstPerch, Is.Not.Null);
+            new GameObject("Nested Detail").transform.SetParent(firstPerch.transform);
+            Assert.That(
+                PrefabUtility.InstantiatePrefab(seagullPerchPrefab, props.transform),
+                Is.Not.Null);
+            Assert.That(
+                PrefabUtility.InstantiatePrefab(cleatPrefab, props.transform),
+                Is.Not.Null);
+
+            NoryangjinMapToolInformationSnapshot snapshot =
+                NoryangjinMapToolWindow.BuildMapInformationSnapshot(
+                    root.transform,
+                    previewScene.handle,
+                    previewScene.name,
+                    NoryangjinMapToolWindow.BuildPaletteLabel);
+
+            Assert.That(snapshot.SceneHandle, Is.EqualTo(previewScene.handle));
+            Assert.That(snapshot.RoadTotal, Is.EqualTo(6));
+            Assert.That(
+                snapshot.RoadTypes.Select(row => row.Label),
+                Is.EqualTo(NoryangjinMapToolWindow.InformationRoadTypeLabels));
+            Dictionary<string, int> roadCounts = snapshot.RoadTypes.ToDictionary(
+                row => row.Label,
+                row => row.Count);
+            Assert.That(roadCounts["기본길"], Is.EqualTo(1));
+            Assert.That(roadCounts["우회전길"], Is.EqualTo(1));
+            Assert.That(roadCounts["내리막길"], Is.EqualTo(1));
+            Assert.That(roadCounts["다리"], Is.EqualTo(1));
+            Assert.That(roadCounts["오르막길"], Is.EqualTo(1));
+            Assert.That(roadCounts["좌회전길"], Is.EqualTo(1));
+
+            Assert.That(snapshot.ObjectTotal, Is.EqualTo(3));
+            Assert.That(snapshot.ObjectTypes, Has.Length.EqualTo(2));
+            Assert.That(snapshot.ObjectTypes[0].Label, Is.EqualTo("갈매기횃대"));
+            Assert.That(snapshot.ObjectTypes[0].Count, Is.EqualTo(2));
+            Assert.That(snapshot.ObjectTypes[1].Label, Is.EqualTo("금속계선주"));
+            Assert.That(snapshot.ObjectTypes[1].Count, Is.EqualTo(1));
+        }
+        finally
+        {
+            EditorSceneManager.ClosePreviewScene(previewScene);
+        }
+    }
+
+    [Test]
     public void DownhillRoadPiece_UsesSeparatePrefabAsset()
     {
         Dictionary<string, string> roadPaths = GetKnownRoadPiecePathsByLabel();
@@ -1440,6 +1529,25 @@ public sealed class NoryangjinMapToolGridUtilityTests
             Is.EqualTo(new[] { "맵툴", "편의" }));
         Assert.That((int)NoryangjinMapToolTab.MapTool, Is.EqualTo(0));
         Assert.That((int)NoryangjinMapToolTab.Convenience, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void ContentTabs_PlaceInformationImmediatelyAfterBonus()
+    {
+        Assert.That(
+            NoryangjinMapToolWindow.ContentTabLabels,
+            Is.EqualTo(new[] { "오브젝트", "적군", "기믹", "보너스", "정보" }));
+        Assert.That((int)NoryangjinMapToolContentTab.Information, Is.EqualTo(4));
+        Assert.That(
+            NoryangjinMapToolWindow.IsPaletteSectionVisible(
+                NoryangjinMapToolContentTab.Information,
+                NoryangjinMapToolPaletteSection.Common),
+            Is.False);
+        Assert.That(
+            NoryangjinMapToolWindow.IsPaletteSectionVisible(
+                NoryangjinMapToolContentTab.Information,
+                NoryangjinMapToolPaletteSection.Object),
+            Is.False);
     }
 
     [Test]
@@ -2341,12 +2449,12 @@ public sealed class NoryangjinMapToolGridUtilityTests
     }
 
     [Test]
-    public void AutomaticEnemyRouteAlignment_RequiresOneOfFiveEnemyPrefabsAndRouteStart()
+    public void AutomaticEnemyRouteAlignment_RequiresOneOfSixEnemyPrefabsAndRouteStart()
     {
         var routeStart = new GameObject("Route Start");
         try
         {
-            Assert.That(NoryangjinMapToolWindow.EnemyPalettePrefabPaths, Has.Length.EqualTo(5));
+            Assert.That(NoryangjinMapToolWindow.EnemyPalettePrefabPaths, Has.Length.EqualTo(6));
             foreach (string prefabPath in NoryangjinMapToolWindow.EnemyPalettePrefabPaths)
             {
                 Assert.That(

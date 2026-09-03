@@ -59,7 +59,7 @@
 - `Noryangjin_MapTool_Mode_2.unity` is a baked authored scene. The former Stage01 draft, concept-layout, and Map 2 regeneration commands were removed; do not make opening the project or using the map tool rebuild this scene.
 - `NoryangjinMapToolMode2SceneTests` protects Map 1 by GUID and SHA-256, checks the copied gameplay roots and prefix, and validates Map 2 route counts, turn spots, market clearance, water margin, and highway contact.
 - Keep Map 2 out of Build Settings until its runtime contract is decided. The current Forward installer intentionally accepts Map 1 only.
-- The player moves at the constant `playerSpeed` value1 of 6 units/second with no acceleration. The approximately 1,582-unit reference geometry therefore takes about 264 seconds before turn pauses. Treat the reference workbook's five-chapter wave timing as an unimplemented requirement, not validated runtime behavior.
+- The player moves at the constant `playerSpeed` value1 of 8 units/second with no acceleration. The approximately 1,582-unit reference geometry therefore takes about 198 seconds before turn pauses. Treat the reference workbook's five-chapter wave timing as an unimplemented requirement, not validated runtime behavior.
 
 ## Noryangjin Bonus Altar Data Failures
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEngine;
 
 public sealed class MapProductionToolMenuTests
 {
@@ -16,11 +17,37 @@ public sealed class MapProductionToolMenuTests
     {
         string[] expected =
         {
+            "Tools/맵 제작 도구/문서/개발 문서 열기",
+            "Tools/맵 제작 도구/문서/기획서 열기",
+            "Tools/맵 제작 도구/문서/맵 기획서 열기",
+            "Tools/맵 제작 도구/문서/밸런스 문서 열기",
             "Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기",
             "Tools/맵 제작 도구/자료/자료 위치 안내"
         };
 
         CollectionAssert.AreEquivalent(expected, FindMapProductionToolMenuPaths());
+    }
+
+    [TestCase("GameDesignDocumentRelativePath", "GAME_DESIGN_OVERVIEW.md")]
+    [TestCase("BalanceDocumentRelativePath", "BALANCE_OVERVIEW.md")]
+    [TestCase("DevelopmentDocumentRelativePath", "DEVELOPMENT_OVERVIEW.md")]
+    [TestCase("MapDesignDocumentRelativePath", "MAP_DESIGN_OVERVIEW.md")]
+    public void DocumentMenus_TargetRootDocuments(
+        string fieldName,
+        string expectedRelativePath)
+    {
+        FieldInfo field = typeof(DesignReferenceWindow).GetField(
+            fieldName,
+            BindingFlags.NonPublic | BindingFlags.Static);
+
+        Assert.That(field, Is.Not.Null);
+        Assert.That(field.GetRawConstantValue(), Is.EqualTo(expectedRelativePath));
+
+        string projectRoot = Path.GetDirectoryName(Application.dataPath);
+        Assert.That(
+            File.Exists(Path.Combine(projectRoot, expectedRelativePath)),
+            Is.True,
+            $"Canonical document is missing: {expectedRelativePath}");
     }
 
     [Test]

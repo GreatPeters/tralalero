@@ -1,0 +1,255 @@
+<div id="noryangjin-route-options">
+  <h2>현재 노량진 맵에서 이어지는 20개 길</h2>
+
+  <section class="card selected-route" aria-live="polite">
+    <div>
+      <strong id="nro-selected-title"></strong>
+      <span class="text-muted" id="nro-selected-metrics"></span>
+    </div>
+    <div id="nro-selected-spec" class="text-small tabular-nums"></div>
+    <div id="nro-selected-description"></div>
+    <div class="text-muted" id="nro-selected-downside"></div>
+    <svg id="nro-selected-svg" viewBox="0 0 680 240" role="img" aria-label="선택한 길의 전체 탑뷰"></svg>
+  </section>
+
+  <div class="viz-grid" id="nro-route-grid" aria-label="길 후보 20개"></div>
+
+  <div class="viz-row text-small" aria-label="범례">
+    <span><span class="nro-line-swatch nro-current-swatch"></span>현재 51모듈</span>
+    <span><span class="nro-line-swatch nro-extension-swatch"></span>추가 길</span>
+    <span>● 시작</span>
+    <span>◆ 종점</span>
+  </div>
+</div>
+
+<style>
+  #noryangjin-route-options {
+    color: var(--foreground);
+  }
+
+  #noryangjin-route-options .selected-route {
+    margin-bottom: 1rem;
+  }
+
+  #noryangjin-route-options .selected-route > div + div {
+    margin-top: 0.35rem;
+  }
+
+  #noryangjin-route-options .selected-route > div {
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  #noryangjin-route-options .selected-route strong {
+    margin-right: 0.75rem;
+  }
+
+  #noryangjin-route-options svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  #noryangjin-route-options .route-identifier {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+
+  #noryangjin-route-options .nro-current-route {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  #noryangjin-route-options .nro-extension-route {
+    fill: none;
+    stroke: var(--viz-series-1);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  #noryangjin-route-options .nro-start-mark {
+    fill: var(--foreground);
+  }
+
+  #noryangjin-route-options .nro-junction-mark {
+    fill: var(--background);
+    stroke: var(--viz-series-1);
+    stroke-width: 3;
+  }
+
+  #noryangjin-route-options .nro-end-mark {
+    fill: var(--viz-series-1);
+  }
+
+  #noryangjin-route-options .nro-line-swatch {
+    display: inline-block;
+    width: 1.5rem;
+    height: 0.2rem;
+    margin-right: 0.3rem;
+    vertical-align: middle;
+  }
+
+  #noryangjin-route-options .nro-current-swatch {
+    background: var(--border);
+  }
+
+  #noryangjin-route-options .nro-extension-swatch {
+    background: var(--viz-series-1);
+  }
+
+  @media (max-width: 480px) {
+    #noryangjin-route-options #nro-route-grid {
+      grid-template-columns: 1fr;
+    }
+
+    #noryangjin-route-options .route-option {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+</style>
+
+<script>
+(() => {
+  const root = document.getElementById('noryangjin-route-options');
+  const grid = document.getElementById('nro-route-grid');
+  const selectedTitle = document.getElementById('nro-selected-title');
+  const selectedMetrics = document.getElementById('nro-selected-metrics');
+  const selectedSpec = document.getElementById('nro-selected-spec');
+  const selectedDescription = document.getElementById('nro-selected-description');
+  const selectedDownside = document.getElementById('nro-selected-downside');
+  const selectedSvg = document.getElementById('nro-selected-svg');
+  const pitch = 11.25;
+  const current = [[27,-115],[-11,-115],[-11,-7],[192,-7],[192,54],[128,54],[128,-33]];
+  const start = [128,-33];
+  const routes = [
+    { rank:1, title:'외항 방파제 두 팔', spec:'S24,E26,S10,W18,S16', modules:94, turns:4, seconds:270, complexity:'중간', description:'항구 정체성과 가장 잘 맞는 큰 두 팔 실루엣. 적은 코너로 4분 30초를 확보한다.', downside:'단점: 동쪽 수면·방파제 배경을 넓게 제작해야 한다.' },
+    { rank:2, title:'초장거리 컨테이너 방파제', spec:'S14,E34,S18,W14,S18', modules:98, turns:4, seconds:278, complexity:'중간', description:'34모듈짜리 대표 직선 하나를 네 개의 전투·휴식 비트로 나눈다.', downside:'단점: 한 직선 안의 랜드마크와 전투 변화가 약하면 가장 빨리 지루해진다.' },
+    { rank:3, title:'전투와 휴식의 테라스', spec:'S12,W6,S14,E14,S16,W8,S12', modules:82, turns:6, seconds:248, complexity:'중간', description:'남향 전투 레인과 횡방향 저위협 테라스를 번갈아 배치한다.', downside:'단점: 상위 두 안보다 회전이 두 번 많다.' },
+    { rank:4, title:'거신발 성역 우회로', spec:'S16,W10,S12,E20,N8,E8,S18', modules:92, turns:6, seconds:267, complexity:'높음', description:'거대한 신발 성역이나 가브릴레오 석상을 세 방향에서 보며 통과한다.', downside:'단점: 강한 전용 랜드마크와 세밀한 시야 설계가 필요하다.' },
+    { rank:5, title:'첫 49초 활주로', spec:'S26,E16,N8,E18,S18,W12', modules:98, turns:5, seconds:278, complexity:'중상', description:'추가 구간의 첫 26모듈을 하나의 긴 장면으로 만들어 새 정체성을 즉시 선언한다.', downside:'단점: 첫 직선 안에서 최소 세 번의 상태 변화가 필요하다.' },
+    { rank:6, title:'숨겨진 종착항 접근로', spec:'S22,E12,S14,E12,N8,E18,S20', modules:106, turns:6, seconds:293, complexity:'높음', description:'창고 모서리로 종착지를 숨긴 뒤 마지막 두 직선에서 연속 공개한다.', downside:'단점: 선택안 중 동쪽 제작 범위가 가장 넓다.' },
+    { rank:7, title:'최장 낙하와 의식적 상승', spec:'S42,W18,N12,W18,S18', modules:108, turns:4, seconds:297, complexity:'높음', description:'42모듈 전투 낙하 뒤 조용한 의식 상승으로 분위기를 뒤집는다.', downside:'단점: 79초짜리 대표 직선을 유지하는 제작 비용이 크다.' },
+    { rank:8, title:'랜드마크 삼중 활주로', spec:'S26,E20,S12,W14,S15,E8', modules:95, turns:5, seconds:272, complexity:'중상', description:'하나의 길 밖 랜드마크를 원경·측면·근경으로 재사용한다.', downside:'단점: 평행 레인 사이의 시각·전투 분리가 필요하다.' },
+    { rank:9, title:'순례 행렬과 참배 마당', spec:'S12,E8,S10,E8,S12,W12,S8', modules:70, turns:6, seconds:225, complexity:'중간', description:'문·고사상·참배 마당으로 저주 서사와 진행 단계를 연결한다.', downside:'단점: 의식 이미지가 반복되면 특별함이 빨리 약해진다.' },
+    { rank:10, title:'가짜 역주행 전망대', spec:'S24,E18,N6,E12,S15', modules:75, turns:4, seconds:235, complexity:'중간', description:'재방문 없이 짧게 북상해 지나온 거리와 다음 목적지를 동시에 보여준다.', downside:'단점: 북향 구간이 후퇴나 지름길처럼 읽히면 안 된다.' },
+    { rank:11, title:'빈 공간 심해 축', spec:'S34,W8,S12,E10', modules:64, turns:3, seconds:214, complexity:'낮음', description:'별도 휴식 방 없이 긴 직선 중간의 무스폰 공백을 휴식으로 사용한다.', downside:'단점: 조명·오디오가 약하면 단순히 비어 보인다.' },
+    { rank:12, title:'압축 병풍 도시', spec:'S12,W14,S12,E20,S12,W18,S10', modules:98, turns:6, seconds:278, complexity:'중간', description:'병풍처럼 접힌 실루엣으로 긴 시간을 비교적 좁은 제작 범위에 담는다.', downside:'단점: 각 접힘의 배경·조명 차이가 분명해야 한다.' },
+    { rank:13, title:'서쪽 제작 경계 레일', spec:'S22,W20,S16,E12,S14', modules:84, turns:4, seconds:252, complexity:'낮음', description:'음수 좌표와 서쪽 확장 도구를 검증하기 좋은 단순한 계단형 기준안이다.', downside:'단점: 최종안보다는 제작 검증안으로서 가치가 더 크다.' },
+    { rank:14, title:'금지된 북쪽 전망대', spec:'S12,E10,N24,E8,S28,W10,S10', modules:102, turns:6, seconds:285, complexity:'높음', description:'현재 맵 동쪽 밖에서 크게 북상해 전체 이동 거리를 한 번에 보여준다.', downside:'단점: 큰 북향 반전이 전진감을 약화시킬 수 있다.' },
+    { rank:15, title:'외항 관문 우회로', spec:'S12,E18,N8,E22,S20,W12,S10', modules:102, turns:6, seconds:285, complexity:'높음', description:'비대칭 동쪽 우회로로 외항으로 넘어가는 공간 전환을 강하게 만든다.', downside:'단점: x 범위가 약 578유닛까지 넓어진다.' },
+    { rank:16, title:'지도 밖 서쪽 뒷면', spec:'S14,W18,N8,W12,S20,E24,S8', modules:104, turns:6, seconds:289, complexity:'높음', description:'현재 스카이라인을 반대쪽 실루엣으로 재사용해 새 지역처럼 보이게 한다.', downside:'단점: 기존 장식의 뒷면 품질을 보강해야 할 수 있다.' },
+    { rank:17, title:'네 막의 행군', spec:'S14,E8,S10,W12,S12,E16,S8,W6', modules:86, turns:7, seconds:255, complexity:'중간', description:'네 전투 막과 네 개의 횡방향 휴식대를 명확히 나눈다.', downside:'단점: 7회 회전은 피로 상한에 가깝다.' },
+    { rank:18, title:'짧은 완주형 3분 38초', spec:'S14,E8,S10,W12,S8,E8,S6', modules:66, turns:6, seconds:218, complexity:'중간', description:'5개의 짧고 분명한 막을 가진 3분대 하한 비교안이다.', downside:'단점: 5분 상한의 감각을 검증하기에는 짧다.' },
+    { rank:19, title:'턴 세금 없는 3막 직선', spec:'S28,E12,S8,W7', modules:55, turns:3, seconds:197, complexity:'낮음', description:'최소 회전으로 장거리 달리기와 3막 구성을 시험한다.', downside:'단점: 총 길이와 구역 수가 비교적 작다.' },
+    { rank:20, title:'바늘 낙하선', spec:'S28,W6,S6,E6', modules:46, turns:3, seconds:180, complexity:'낮음', description:'가장 작은 범위에서 순수한 직선 전진감을 시험하는 A/B 기준안이다.', downside:'단점: 최종 맵보다는 비교 기준으로 적합하다.' }
+  ];
+
+  function pointsFor(spec) {
+    const points = [start.slice()];
+    let x = start[0];
+    let z = start[1];
+    for (const leg of spec.split(',')) {
+      const dir = leg[0];
+      const count = Number(leg.slice(1));
+      if (dir === 'S') z -= count * pitch;
+      if (dir === 'N') z += count * pitch;
+      if (dir === 'E') x += count * pitch;
+      if (dir === 'W') x -= count * pitch;
+      points.push([x, z]);
+    }
+    return points;
+  }
+
+  function allPoints(route) {
+    return current.concat(pointsFor(route.spec).slice(1));
+  }
+
+  function projector(route, width, height, padding) {
+    const points = allPoints(route);
+    const xs = points.map(p => p[0]);
+    const zs = points.map(p => p[1]);
+    const minX = Math.min(...xs);
+    const maxX = Math.max(...xs);
+    const minZ = Math.min(...zs);
+    const maxZ = Math.max(...zs);
+    const spanX = Math.max(1, maxX - minX);
+    const spanZ = Math.max(1, maxZ - minZ);
+    const scale = Math.min((width - padding * 2) / spanX, (height - padding * 2) / spanZ);
+    const usedW = spanX * scale;
+    const usedH = spanZ * scale;
+    const offsetX = (width - usedW) / 2;
+    const offsetY = (height - usedH) / 2;
+    return ([x, z]) => [offsetX + (x - minX) * scale, offsetY + (maxZ - z) * scale];
+  }
+
+  function pathData(points, project) {
+    return points.map((point, index) => {
+      const [x, y] = project(point);
+      return `${index === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(' ');
+  }
+
+  function svgMarkup(route, width, height, detail) {
+    const project = projector(route, width, height, detail ? 18 : 12);
+    const extension = pointsFor(route.spec);
+    const [startX, startY] = project(current[0]);
+    const [junctionX, junctionY] = project(start);
+    const [endX, endY] = project(extension[extension.length - 1]);
+    const diamond = `${endX},${endY - 5} ${endX + 5},${endY} ${endX},${endY + 5} ${endX - 5},${endY}`;
+    return `
+      <title>${route.title} 탑뷰</title>
+      <desc>현재 경로 뒤에 ${route.spec} 방향으로 ${route.modules}개 모듈을 추가한 길</desc>
+      <path class="nro-current-route" d="${pathData(current, project)}"></path>
+      <path class="nro-extension-route" d="${pathData(extension, project)}"></path>
+      <circle class="nro-start-mark" cx="${startX}" cy="${startY}" r="4"></circle>
+      <circle class="nro-junction-mark" cx="${junctionX}" cy="${junctionY}" r="5"></circle>
+      <polygon class="nro-end-mark" points="${diamond}"></polygon>`;
+  }
+
+  function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    return `${minutes}:${String(seconds % 60).padStart(2, '0')}`;
+  }
+
+  function selectRoute(route, button) {
+    root.querySelectorAll('.route-option').forEach(candidate => {
+      candidate.setAttribute('aria-pressed', String(candidate === button));
+    });
+    selectedTitle.textContent = `#${route.rank} ${route.title}`;
+    selectedMetrics.textContent = `${formatTime(route.seconds)} · 추가 ${route.modules}모듈 · 새 회전 ${route.turns}회 · 복잡도 ${route.complexity}`;
+    selectedSpec.textContent = route.spec;
+    selectedDescription.textContent = route.description;
+    selectedDownside.textContent = route.downside;
+    selectedSvg.innerHTML = svgMarkup(route, 680, 240, true);
+  }
+
+  for (const route of routes) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'btn viz-tile route-option';
+    button.setAttribute('aria-pressed', String(route.rank === 1));
+    button.setAttribute('aria-label', `#${route.rank} ${route.title}, 총 ${formatTime(route.seconds)}, 추가 ${route.modules}모듈, 회전 ${route.turns}회`);
+    button.innerHTML = `
+      <span class="route-identifier">#${route.rank} ${route.title}</span>
+      <svg viewBox="0 0 220 150" role="img" aria-hidden="true">${svgMarkup(route, 220, 150, false)}</svg>`;
+    button.addEventListener('click', () => selectRoute(route, button));
+    grid.appendChild(button);
+  }
+
+  selectRoute(routes[0], grid.firstElementChild);
+  requestAnimationFrame(() => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+    window.scrollTo(0, 0);
+  });
+})();
+</script>

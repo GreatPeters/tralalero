@@ -17,7 +17,8 @@ public static class ForwardEnemyMovementSetup
         "Assets/JH/Model/Prefab/Enemy_Guard.prefab",
         "Assets/JH/Model/Prefab/Enemy_OldMan.prefab",
         "Assets/JH/Model/Prefab/Enemy_Woman.prefab",
-        "Assets/JH/Model/Prefab/Enemy_YllowMan.prefab"
+        "Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab",
+        "Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab"
     };
 
     public static void Configure()

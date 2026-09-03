@@ -31,6 +31,9 @@ public class UpgradeUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI descriptionText;
     [SerializeField] private TextMeshProUGUI priceText;
     [SerializeField] private Image iconImage;
+    [SerializeField] private Image priceCurrencyImage;
+    [SerializeField] private Sprite coinPriceSprite;
+    [SerializeField] private Sprite jewelPriceSprite;
     [SerializeField] private GameObject dimb;
     [SerializeField] private Button buyButton;
 
@@ -127,6 +130,7 @@ public class UpgradeUI : MonoBehaviour
         if (!UpgradeTables.TryGet(upgradeId, level + 1, out var next))
         {
             ApplyIcon(currentRow);
+            ApplyPriceCurrency(currentRow.priceType);
             ApplyMaxTexts(useCardV2Layout, currentRow);
 
             if (descriptionText != null)
@@ -143,6 +147,7 @@ public class UpgradeUI : MonoBehaviour
         }
 
         ApplyIcon(next);
+        ApplyPriceCurrency(next.priceType);
 
         float currentValue = 0f;
         if (UpgradeStatManager.S != null)
@@ -455,7 +460,7 @@ public class UpgradeUI : MonoBehaviour
 
     void BindIconByHint()
     {
-        if (iconImage != null)
+        if (iconImage != null && priceCurrencyImage != null)
             return;
 
         var images = GetComponentsInChildren<Image>(true);
@@ -465,11 +470,18 @@ public class UpgradeUI : MonoBehaviour
                 continue;
 
             string hint = NormalizeHint(image.gameObject.name);
-            if (!MatchesAny(hint, "icon", "thumb", "sprite"))
+            if (priceCurrencyImage == null &&
+                MatchesAny(hint, "coin", "currency", "priceicon"))
+            {
+                priceCurrencyImage = image;
                 continue;
+            }
 
-            iconImage = image;
-            return;
+            if (iconImage == null &&
+                MatchesAny(hint, "icon", "thumb", "sprite"))
+            {
+                iconImage = image;
+            }
         }
     }
 
@@ -507,6 +519,18 @@ public class UpgradeUI : MonoBehaviour
             iconImage.sprite = sprite;
             return;
         }
+    }
+
+    void ApplyPriceCurrency(PriceType priceType)
+    {
+        if (priceCurrencyImage == null)
+            return;
+
+        Sprite sprite = priceType == PriceType.Jewel
+            ? jewelPriceSprite
+            : coinPriceSprite;
+        if (sprite != null)
+            priceCurrencyImage.sprite = sprite;
     }
 
     void CachePriceNormalColor()

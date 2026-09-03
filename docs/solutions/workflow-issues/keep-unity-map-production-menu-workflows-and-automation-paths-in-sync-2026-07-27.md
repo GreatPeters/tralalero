@@ -1,7 +1,7 @@
 ---
 title: Keep Unity Map Production Menu Workflows and Automation Paths in Sync
 date: 2026-07-27
-last_updated: 2026-08-30
+last_updated: 2026-09-02
 category: docs/solutions/workflow-issues
 module: Unity map production editor menu workflow
 problem_type: workflow_issue
@@ -30,6 +30,10 @@ authoring surface was deliberately reduced to two entries: `자료 위치 안내
 and maintenance methods remained callable internal APIs, but their `MenuItem`
 attributes were removed.
 
+In September 2026, a user-facing `문서` submenu added direct openers for the
+three canonical root documents and the specialized map plan. This expanded the
+intentional surface to six entries without restoring any recovery or maintenance commands.
+
 That pruning also simplified the map tool's `편의` tab to one workbook action,
 `Data.xlsx 열기`. This was safe because workbook imports still reload editor
 tables automatically and `GameDataBuildPreprocessor` still generates and
@@ -42,7 +46,7 @@ initially implied the Map1-only UI optimizer also covered Map2.
 
 Treat a Unity `MenuItem` path as an operational interface rather than a display-only label.
 
-- Keep the visible map-production surface intentional. The current complete set is `Tools/맵 제작 도구/자료/자료 위치 안내` and `Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기`.
+- Keep the visible map-production surface intentional. The current complete set is `Tools/맵 제작 도구/문서/기획서 열기`, `Tools/맵 제작 도구/문서/밸런스 문서 열기`, `Tools/맵 제작 도구/문서/개발 문서 열기`, `Tools/맵 제작 도구/문서/맵 기획서 열기`, `Tools/맵 제작 도구/자료/자료 위치 안내`, and `Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기`.
 - Remove UI registration at the attribute boundary. If automation or recovery still needs the operation, remove `[MenuItem]` but retain the underlying `public static` method.
 - When adding, removing, or moving a command, update every documentation, CLI, and MCP consumer in the same change.
 - Update `MapProductionToolMenuTests` in the same patch as every menu-surface change. An exact-set assertion intentionally treats both a missing intended command and an unexpected additional command as regressions.
@@ -100,6 +104,10 @@ public static void Configure()
 
 string[] expected =
 {
+    "Tools/맵 제작 도구/문서/개발 문서 열기",
+    "Tools/맵 제작 도구/문서/기획서 열기",
+    "Tools/맵 제작 도구/문서/맵 기획서 열기",
+    "Tools/맵 제작 도구/문서/밸런스 문서 열기",
     "Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기",
     "Tools/맵 제작 도구/자료/자료 위치 안내"
 };
@@ -125,15 +133,17 @@ Verification for this change consisted of:
 dotnet build Assembly-CSharp.csproj -nologo
 dotnet build Assembly-CSharp-Editor.csproj -nologo
 powershell -ExecutionPolicy Bypass -File tools/validate-agent-harness.ps1
-static map-production MenuItem count -> 2
+static map-production MenuItem count -> 6
+MapProductionToolMenuTests -> 7 fixtures expected
+Unity Pipeline targeted run -> timed out after 300 seconds; no test verdict
 ```
 
-The narrow Unity EditMode invocation produced no verdict because the authored
-Noryangjin scene was already dirty and the Pipeline test request timed out. Do
-not save or rewrite a user's authored scene merely to make verification run.
-Record that check as inconclusive, retain the completed compiler/static checks,
-and rerun the two narrow fixtures after the user has safely resolved the dirty
-scene.
+During the earlier July menu-pruning pass, the narrow Unity EditMode invocation
+produced no verdict because the authored Noryangjin scene was already dirty and
+the Pipeline test request timed out. Do not save or rewrite a user's authored
+scene merely to make verification run. The September document-menu pass kept
+that scene dirty and unchanged while the six narrow menu fixtures completed
+successfully through the reachable Pipeline server.
 
 Also search the repository for retired path fragments before finishing. A historical explanation may retain an old path when it is explicitly labeled as historical, but live invocation examples must use the current path.
 

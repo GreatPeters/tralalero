@@ -30,7 +30,8 @@ public static class ForwardEnemyArchetypeCatalog
 
     public static readonly ForwardEnemyArchetypeDefinition[] Definitions =
     {
-        new("Enemy_YllowMan", PrefabRoot + "/Enemy_YllowMan.prefab", "옐로우맨", EnemyTier.Normal),
+        new("Enemy_YllowMan_Net", PrefabRoot + "/Enemy_YllowMan_Net.prefab", "옐로우맨_그물", EnemyTier.Normal),
+        new("Enemy_YllowMan_Sword", PrefabRoot + "/Enemy_YllowMan_Sword.prefab", "옐로우맨_칼", EnemyTier.Normal),
         new("Enemy_Guard", PrefabRoot + "/Enemy_Guard.prefab", "가드", EnemyTier.Normal),
         new("Enemy_OldMan", PrefabRoot + "/Enemy_OldMan.prefab", "노인", EnemyTier.Normal),
         new("Enemy_FatMan", PrefabRoot + "/Enemy_FatMan.prefab", "뚱보", EnemyTier.Elite),
@@ -57,6 +58,15 @@ public static class ForwardEnemyTierResolver
                 tier = definition.Tier;
                 return true;
             }
+        }
+
+        if (!string.IsNullOrEmpty(identity) &&
+            identity.IndexOf(
+                "Enemy_YllowMan",
+                System.StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            tier = EnemyTier.Normal;
+            return true;
         }
 
         tier = EnemyTier.Normal;

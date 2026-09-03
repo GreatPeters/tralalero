@@ -501,7 +501,7 @@ MonoBehaviour:
     useManualFootprint: 1
     manualFootprint: {x: 6, y: 2}
     bonusWallRarity: 0
-  - prefabPath: Assets/JH/Model/Prefab/Enemy_YllowMan.prefab
+  - prefabPath: Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab
     scale: {x: 2.25, y: 2.25, z: 2.25}
     positionOffset: {x: 0, y: 0}
     yawOffset: -90
@@ -797,6 +797,14 @@ MonoBehaviour:
     useManualFootprint: 0
     manualFootprint: {x: 1, y: 1}
     bonusWallRarity: 0
+  - prefabPath: Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab
+    scale: {x: 2.25, y: 2.25, z: 2.25}
+    positionOffset: {x: 0, y: 0}
+    yawOffset: -90
+    heightOffset: 0
+    useManualFootprint: 0
+    manualFootprint: {x: 1, y: 1}
+    bonusWallRarity: 0
   labelEntries:
   - prefabPath: Assets/ShooterSurvival/Prefabs/MeshyAI/Stage01_Noryangjin/048_STAGE01_NRY_ROAD_040_Noryangjin_modular_right_90_timber_road_module/048_STAGE01_NRY_ROAD_040_Noryangjin_modular_right_90_timber_road_module.prefab
     displayName: "\uC88C\uD68C\uC804\uAE38"
@@ -824,3 +832,7 @@ MonoBehaviour:
     displayName: "\uC6B4\uBA85\uC758 \uC81C\uB2E8"
   - prefabPath: Assets/ShooterSurvival/Prefabs/Walls/New/Box_Right.prefab
     displayName: "\uCCB4\uB825 \uC81C\uB2E8"
+  - prefabPath: Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab
+    displayName: "\uC610\uB85C\uC6B0\uB9E8_\uADF8\uBB3C"
+  - prefabPath: Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab
+    displayName: "\uC610\uB85C\uC6B0\uB9E8_\uCE7C"

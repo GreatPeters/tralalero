@@ -45,7 +45,46 @@ public enum NoryangjinMapToolContentTab
     Object = 0,
     Enemy = 1,
     Gimmick = 2,
-    Bonus = 3
+    Bonus = 3,
+    Information = 4
+}
+
+internal readonly struct NoryangjinMapToolTypeCount
+{
+    public NoryangjinMapToolTypeCount(string label, int count)
+    {
+        Label = label;
+        Count = count;
+    }
+
+    public string Label { get; }
+    public int Count { get; }
+}
+
+internal sealed class NoryangjinMapToolInformationSnapshot
+{
+    public NoryangjinMapToolInformationSnapshot(
+        int sceneHandle,
+        string sceneName,
+        NoryangjinMapToolTypeCount[] roadTypes,
+        int roadTotal,
+        NoryangjinMapToolTypeCount[] objectTypes,
+        int objectTotal)
+    {
+        SceneHandle = sceneHandle;
+        SceneName = sceneName;
+        RoadTypes = roadTypes ?? Array.Empty<NoryangjinMapToolTypeCount>();
+        RoadTotal = roadTotal;
+        ObjectTypes = objectTypes ?? Array.Empty<NoryangjinMapToolTypeCount>();
+        ObjectTotal = objectTotal;
+    }
+
+    public int SceneHandle { get; }
+    public string SceneName { get; }
+    public NoryangjinMapToolTypeCount[] RoadTypes { get; }
+    public int RoadTotal { get; }
+    public NoryangjinMapToolTypeCount[] ObjectTypes { get; }
+    public int ObjectTotal { get; }
 }
 
 internal enum NoryangjinMapToolPaletteSection
@@ -377,7 +416,13 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string PositionMoveSectionTitle = "설치 조정";
     internal const string ObjectSectionTitle = "오브젝트";
     internal static readonly string[] ContentTabLabels =
-        { "오브젝트", "적군", "기믹", "보너스" };
+        { "오브젝트", "적군", "기믹", "보너스", "정보" };
+    internal const string InformationSectionTitle = "현재 배치 정보";
+    internal const string InformationRoadSectionTitle = "길";
+    internal const string InformationObjectSectionTitle = "오브젝트";
+    internal const string InformationRefreshButtonLabel = "새로고침";
+    internal static readonly string[] InformationRoadTypeLabels =
+        { "기본길", "내리막길", "다리", "오르막길", "우회전길", "좌회전길" };
     internal const string PlacementAngleSectionTitle = "설치 각도";
     internal const string PlacementAnglePaletteHint = "선택 프리팹의 다음 배치 각도";
     internal const string PlacementAnglePlacedObjectHint = "선택 오브젝트에 바로 적용";
@@ -656,6 +701,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     private Vector2 paletteScroll;
     private List<PaletteItem> paletteItems;
     private NoryangjinMapToolPaletteDefaults paletteDefaults;
+    private NoryangjinMapToolInformationSnapshot informationSnapshot;
     private GameObject placementPreviewInstance;
     private string placementPreviewPrefabPath;
     private List<Material> placementPreviewMaterials = new();
@@ -1297,8 +1343,12 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void DrawPaletteControls()
     {
-        DrawPositionMoveSection();
-        EditorGUILayout.Space(6f);
+        if (selectedContentTab != NoryangjinMapToolContentTab.Information)
+        {
+            DrawPositionMoveSection();
+            EditorGUILayout.Space(6f);
+        }
+
         DrawObjectSection();
     }
 
@@ -1410,16 +1460,28 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         {
             using (new EditorGUILayout.HorizontalScope())
             {
-                EditorGUILayout.LabelField(ObjectSectionTitle, EditorStyles.boldLabel);
+                string sectionTitle = selectedContentTab == NoryangjinMapToolContentTab.Information
+                    ? InformationSectionTitle
+                    : ObjectSectionTitle;
+                EditorGUILayout.LabelField(sectionTitle, EditorStyles.boldLabel);
                 GUILayout.FlexibleSpace();
-                Color oldBackgroundColor = GUI.backgroundColor;
-                GUI.backgroundColor = new Color(1f, 0.38f, 0.32f, 1f);
-                if (GUILayout.Button(DeleteAllPlacedObjectsButtonLabel, GUILayout.Width(82f), GUILayout.Height(22f)))
-                    DeleteAllPlacedObjects();
-                GUI.backgroundColor = oldBackgroundColor;
+                if (selectedContentTab != NoryangjinMapToolContentTab.Information)
+                {
+                    Color oldBackgroundColor = GUI.backgroundColor;
+                    GUI.backgroundColor = new Color(1f, 0.38f, 0.32f, 1f);
+                    if (GUILayout.Button(DeleteAllPlacedObjectsButtonLabel, GUILayout.Width(82f), GUILayout.Height(22f)))
+                        DeleteAllPlacedObjects();
+                    GUI.backgroundColor = oldBackgroundColor;
+                }
             }
 
             DrawContentTabToolbar();
+            if (selectedContentTab == NoryangjinMapToolContentTab.Information)
+            {
+                DrawMapInformation();
+                return;
+            }
+
             if (selectedContentTab == NoryangjinMapToolContentTab.Enemy)
                 DrawAlignAllEnemiesToRouteControl();
             if (selectedContentTab == NoryangjinMapToolContentTab.Object)
@@ -1448,6 +1510,77 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         CancelCopiedObjectPasteMode();
         DestroyPlacementPreview();
         SceneView.RepaintAll();
+    }
+
+    private void DrawMapInformation()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        if (informationSnapshot == null || informationSnapshot.SceneHandle != scene.handle)
+            informationSnapshot = BuildMapInformationSnapshot(scene);
+
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField(
+                string.IsNullOrEmpty(informationSnapshot.SceneName)
+                    ? "열린 씬 없음"
+                    : $"씬: {informationSnapshot.SceneName}",
+                EditorStyles.miniBoldLabel);
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button(InformationRefreshButtonLabel, GUILayout.Width(78f), GUILayout.Height(22f)))
+                informationSnapshot = BuildMapInformationSnapshot(scene);
+        }
+
+        EditorGUILayout.HelpBox(
+            "현재 열린 씬의 Roads와 Props 바로 아래에 배치된 항목을 집계합니다. " +
+            "길의 계단 기둥 같은 자식 오브젝트는 중복으로 세지 않습니다.",
+            MessageType.Info);
+
+        DrawInformationGroup(
+            InformationRoadSectionTitle,
+            informationSnapshot.RoadTypes,
+            "길 총합",
+            informationSnapshot.RoadTotal);
+        EditorGUILayout.Space(6f);
+        DrawInformationGroup(
+            InformationObjectSectionTitle,
+            informationSnapshot.ObjectTypes,
+            "오브젝트 총합",
+            informationSnapshot.ObjectTotal);
+    }
+
+    private static void DrawInformationGroup(
+        string title,
+        IReadOnlyList<NoryangjinMapToolTypeCount> rows,
+        string totalLabel,
+        int total)
+    {
+        using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+        {
+            EditorGUILayout.LabelField(title, EditorStyles.boldLabel);
+            if (rows.Count == 0)
+            {
+                EditorGUILayout.LabelField("배치된 항목이 없습니다.", EditorStyles.miniLabel);
+            }
+            else
+            {
+                foreach (NoryangjinMapToolTypeCount row in rows)
+                    DrawInformationCountRow(row.Label, row.Count, false);
+            }
+
+            EditorGUILayout.Space(3f);
+            DrawInformationCountRow(totalLabel, total, true);
+        }
+    }
+
+    private static void DrawInformationCountRow(string label, int count, bool emphasize)
+    {
+        GUIStyle style = emphasize ? EditorStyles.boldLabel : EditorStyles.label;
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            EditorGUILayout.LabelField(label, style);
+            GUILayout.FlexibleSpace();
+            EditorGUILayout.LabelField($"{count}개", style, GUILayout.Width(64f));
+        }
     }
 
     private void DrawAlignAllEnemiesToRouteControl()
@@ -2526,6 +2659,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         GetPaletteDefaults().SetCustomLabel(prefabPath, NormalizePaletteDisplayName(displayName));
         SavePaletteDefaults();
         paletteItems = null;
+        informationSnapshot = null;
         Repaint();
     }
 
@@ -2557,6 +2691,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         NoryangjinMapToolContentTab contentTab,
         NoryangjinMapToolPaletteSection section)
     {
+        if (contentTab == NoryangjinMapToolContentTab.Information)
+            return false;
+
         if (section == NoryangjinMapToolPaletteSection.Common)
             return true;
 
@@ -5407,6 +5544,171 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(target);
     }
 
+    private NoryangjinMapToolInformationSnapshot BuildMapInformationSnapshot(Scene scene)
+    {
+        Transform mapToolRoot = null;
+        if (scene.IsValid() && scene.isLoaded)
+        {
+            foreach (GameObject root in scene.GetRootGameObjects())
+            {
+                if (!string.Equals(root.name, RootName, StringComparison.Ordinal))
+                    continue;
+
+                mapToolRoot = root.transform;
+                break;
+            }
+        }
+
+        return BuildMapInformationSnapshot(
+            mapToolRoot,
+            scene.handle,
+            scene.IsValid() ? scene.name : string.Empty,
+            BuildPaletteDisplayLabel);
+    }
+
+    internal static NoryangjinMapToolInformationSnapshot BuildMapInformationSnapshot(
+        Transform mapToolRoot,
+        int sceneHandle,
+        string sceneName,
+        Func<string, string> objectLabelResolver)
+    {
+        Transform roadParent = mapToolRoot != null
+            ? mapToolRoot.Find(RoadParentName)
+            : null;
+        Transform objectParent = mapToolRoot != null
+            ? mapToolRoot.Find(PropParentName)
+            : null;
+
+        Dictionary<string, int> countedRoads = CountDirectPlacementTypes(
+            roadParent,
+            target => ResolveRoadInformationLabel(GetPrefabAssetPathForPlacedObject(target)));
+        var roadRows = new List<NoryangjinMapToolTypeCount>();
+        int roadTotal = 0;
+        foreach (string label in InformationRoadTypeLabels)
+        {
+            int count = countedRoads.TryGetValue(label, out int value) ? value : 0;
+            roadRows.Add(new NoryangjinMapToolTypeCount(label, count));
+            roadTotal += count;
+            countedRoads.Remove(label);
+        }
+
+        foreach (NoryangjinMapToolTypeCount row in BuildSortedTypeCounts(countedRoads))
+        {
+            roadRows.Add(row);
+            roadTotal += row.Count;
+        }
+
+        Dictionary<string, int> countedObjects = CountDirectPlacementTypes(
+            objectParent,
+            target => ResolvePlacedObjectInformationLabel(
+                GetPrefabAssetPathForPlacedObject(target),
+                target.name,
+                objectLabelResolver));
+        NoryangjinMapToolTypeCount[] objectRows = BuildSortedTypeCounts(countedObjects);
+        int objectTotal = 0;
+        foreach (NoryangjinMapToolTypeCount row in objectRows)
+            objectTotal += row.Count;
+
+        return new NoryangjinMapToolInformationSnapshot(
+            sceneHandle,
+            sceneName,
+            roadRows.ToArray(),
+            roadTotal,
+            objectRows,
+            objectTotal);
+    }
+
+    internal static Dictionary<string, int> CountDirectPlacementTypes(
+        Transform parent,
+        Func<GameObject, string> typeResolver)
+    {
+        var counts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        if (parent == null || typeResolver == null)
+            return counts;
+
+        foreach (Transform child in parent)
+        {
+            if ((child.gameObject.hideFlags & HideFlags.DontSaveInEditor) != 0)
+                continue;
+
+            string label = typeResolver(child.gameObject);
+            if (string.IsNullOrWhiteSpace(label))
+                label = "기타 오브젝트";
+
+            counts[label] = counts.TryGetValue(label, out int count)
+                ? count + 1
+                : 1;
+        }
+
+        return counts;
+    }
+
+    internal static string ResolveRoadInformationLabel(string prefabPath)
+    {
+        if (!string.IsNullOrEmpty(prefabPath))
+        {
+            string normalizedPath = prefabPath.Replace('\\', '/');
+            foreach (RoadPiece roadPiece in RoadPieces)
+            {
+                if (string.Equals(
+                        normalizedPath,
+                        roadPiece.PrefabPath,
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    return roadPiece.KoreanLabel;
+                }
+            }
+        }
+
+        return "기타 길";
+    }
+
+    internal static string ResolvePlacedObjectInformationLabel(
+        string prefabPath,
+        string objectName,
+        Func<string, string> labelResolver)
+    {
+        if (!string.IsNullOrEmpty(prefabPath))
+        {
+            string label = labelResolver != null
+                ? labelResolver(prefabPath)
+                : BuildPaletteLabel(prefabPath);
+            if (!string.IsNullOrWhiteSpace(label))
+                return label;
+        }
+
+        string fallback = objectName ?? string.Empty;
+        int coordinateSuffix = fallback.LastIndexOf("_X", StringComparison.Ordinal);
+        int zSuffix = fallback.LastIndexOf("_Z", StringComparison.Ordinal);
+        if (coordinateSuffix > 0 && zSuffix > coordinateSuffix)
+            fallback = fallback.Substring(0, coordinateSuffix);
+        if (fallback.StartsWith("Prop_", StringComparison.OrdinalIgnoreCase))
+            fallback = fallback.Substring("Prop_".Length);
+
+        fallback = fallback.Replace('_', ' ').Trim();
+        return string.IsNullOrEmpty(fallback) ? "기타 오브젝트" : fallback;
+    }
+
+    private static NoryangjinMapToolTypeCount[] BuildSortedTypeCounts(
+        Dictionary<string, int> counts)
+    {
+        var rows = new List<NoryangjinMapToolTypeCount>();
+        if (counts != null)
+        {
+            foreach (KeyValuePair<string, int> pair in counts)
+                rows.Add(new NoryangjinMapToolTypeCount(pair.Key, pair.Value));
+        }
+
+        rows.Sort((left, right) =>
+        {
+            int countComparison = right.Count.CompareTo(left.Count);
+            return countComparison != 0
+                ? countComparison
+                : string.Compare(left.Label, right.Label, StringComparison.OrdinalIgnoreCase);
+        });
+        return rows.ToArray();
+    }
+
     private static bool TryGetPlacedObjectPrefabBaseRotation(GameObject target, out Quaternion prefabBaseRotation)
     {
         prefabBaseRotation = Quaternion.identity;
@@ -5978,6 +6280,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             NoryangjinMapToolContentTab.Enemy => isEnemyContent,
             NoryangjinMapToolContentTab.Gimmick => isGimmick,
             NoryangjinMapToolContentTab.Bonus => isBonusContent,
+            NoryangjinMapToolContentTab.Information => false,
             _ => !isEnemyContent && !isGimmick && !isBonusContent
         };
     }
@@ -6008,6 +6311,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
     private void ClearSceneRenderCaches()
     {
+        informationSnapshot = null;
         sceneRendererBoundsCache.Clear();
         enemyConnectionLabelCache.Clear();
         uniqueEnemyMovementTargets.Clear();

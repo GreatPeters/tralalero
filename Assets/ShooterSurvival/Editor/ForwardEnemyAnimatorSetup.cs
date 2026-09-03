@@ -80,13 +80,23 @@ public static class ForwardEnemyAnimatorSetup
             "Assets/JH/Model/Enemy/Woman_Boss/죽기_노스킨/Baker_in_Apron_0815171726_texture@Sword And Shield Death.fbx",
             "Woman Die"),
         new EnemyDefinition(
-            "Enemy_YllowMan",
-            "Assets/JH/Model/Prefab/Enemy_YllowMan.prefab",
+            "Enemy_YllowMan_Net",
+            "Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab",
             "Assets/JH/Model/Enemy/YellowMan_Web/Web_Skin/Bearded_Builder_in_Ye_0811162114_texture@Fishing Idle.fbx",
             "Assets/JH/Model/Enemy/YellowMan_Web/Web_Skin/Bearded_Builder_in_Ye_0811162114_texture@Fishing Idle.fbx",
             "bearman act",
             "Assets/JH/Model/Enemy/YellowMan_Web/Web_Skin/Bearded_Builder_in_Ye_0811162114_texture@Fishing Idle.fbx",
             "bearman act",
+            "Assets/JH/Model/Enemy/YellowMan_Web/Die_NoSkin/Bearded_Builder_in_Ye_0811162114_texture@Flying Back Death.fbx",
+            "bearman die"),
+        new EnemyDefinition(
+            "Enemy_YllowMan_Sword",
+            "Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab",
+            "Assets/JH/Model/Enemy/YellowMan_Web/Web_Skin/Bearded_Builder_in_Ye_0811162114_texture@Fishing Idle.fbx",
+            "Assets/JH/Model/Enemy/YellowMan_Web/Web_Skin/Bearded_Builder_in_Ye_0811162114_texture@Fishing Idle.fbx",
+            "bearman act",
+            "Assets/JH/Model/Enemy/Woman_Boss/휘두르기_스킨/Baker_in_Apron_0815171726_texture@Stable Sword Outward Slash.fbx",
+            "Woman Act",
             "Assets/JH/Model/Enemy/YellowMan_Web/Die_NoSkin/Bearded_Builder_in_Ye_0811162114_texture@Flying Back Death.fbx",
             "bearman die")
     };
@@ -161,7 +171,7 @@ public static class ForwardEnemyAnimatorSetup
         Debug.Log(
             "[Forward Enemy Animator] Configured shared idle/attack_loop/walk/run/" +
             "die/attack_once states with Quaternius walk/run locomotion, " +
-            "five Humanoid avatars, and five character override controllers.");
+            "six Humanoid prefabs and six character override controllers.");
     }
 
     private static void EnsureHumanoidImports()

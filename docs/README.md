@@ -4,6 +4,19 @@ This directory is the repo-local record for agent work.
 
 Use it as a map, not a dump.
 
+Canonical project documents:
+
+- `../GAME_DESIGN_OVERVIEW.md`: 기획서. 세계관, 캐릭터의 목적, 핵심 루프, 플레이 감정과 콘텐츠 방향을 관리한다.
+- `../BALANCE_OVERVIEW.md`: 밸런스 문서. 조정 가능한 수치, 목표 체감, 조정 근거와 검증 결과를 관리한다.
+- `../DEVELOPMENT_OVERVIEW.md`: 개발 문서. 구현 구조, 개발 상태, 제작 절차와 상세 기술 문서의 진입점을 관리한다.
+
+새로운 내용은 성격에 맞는 기준 문서에 먼저 기록하고, 상세 구현이나 운영 절차가 길어지면 가까운 `docs/` 하위 문서로 분리한다.
+
+Specialized planning document:
+
+- `../MAP_DESIGN_OVERVIEW.md`: 맵 기획서. 길, 구역, 전투 비트, 기믹·보너스 배치와 맵 제작 규칙을 관리한다.
+- `../map-concepts/noryangjin-expansion-2026-09-02/README.md`: 현재 51모듈에서 총 230모듈로 확장하며 기존·신규 길을 2~5번 입체 교차하는 SUPER RADICAL 30안과 도로 종류별 수량을 비교한다.
+
 Available documents:
 
 - `QUALITY_SCORE.md`: current quality assessment and next leverage points.
@@ -12,10 +25,11 @@ Available documents:
 - `solutions/`: reusable fixes, workflow notes, and scene-generation patterns discovered during agent work.
 - `noryangjin-gameplay-maptool.md`: Forward gameplay installation and route-turn authoring guide for the Noryangjin map-tool scene.
 - `noryangjin-enemy-movement.md`: simple per-enemy event modes, one-target movement, shared animation states, and activation-spot linking for Forward/Noryangjin encounters.
+- `upgrade-shoe-workshop.md`: reference-driven shoe-workshop presentation for the existing nine permanent upgrades, including rebuild and sorting contracts.
 - `Assets/ThirdParty/Quaternius/UniversalAnimationLibrary/SOURCE.md`: source URL, CC0 license, archive hash, and retained Unity FBX record for Forward enemy walk/run locomotion.
 - `noryangjin-map2-authored-scene.md`: reconciled reference contract, authored-scene composition, and verification record for Noryangjin Map 2.
 - `noryangjin-mobile-optimization.md`: safe Static classification, low-poly water, Android texture budgets, camera overrides, and measured Map 1/2 results.
-- `noryangjin-stage1-maptool-expansion-plan.md`: current-scene-based Stage 1 route, enemy, gimmick, bonus, object, and map-tool UX expansion plan with four concept PNGs.
+- `noryangjin-stage1-maptool-expansion-plan.md`: legacy Stage 1 enemy, gimmick, bonus, object, and map-tool UX ideas with four concept PNGs; its earlier route-length target is superseded by the current map plan and balance document.
 - `mobile-ui-atlas-optimizer.md`: one-click Sprite Atlas V2 maintenance, exclusions, settings, validation contract, and measured UI batching results.
 - `player-character-defaults.md`: Player defaults, Excel precedence, and the absolute missile speed + duration model.
 - `game-data-workbook.md`: the Editor-only Excel source, map-tool shortcuts, protected runtime archive, build guard, and security boundary.
@@ -28,6 +42,7 @@ Available documents:
 
 Editor shortcuts:
 
+- `Tools/맵 제작 도구/문서/기획서 열기`, `밸런스 문서 열기`, `개발 문서 열기`, `맵 기획서 열기`: opens the three canonical root documents and the specialized map plan with the operating system's default Markdown app.
 - The Noryangjin map tool's `편의` tab can activate or deactivate scene-root screen UI without hiding nested world-space UI. Its `작업 그리드 범위` control also changes the horizontal X and vertical Z top-view radii independently from the default 300 up to 1200 cells without moving scene objects or changing placement coordinates. The same tab exposes only `Data.xlsx 열기`; saving the workbook reloads editor data automatically, and player builds generate and validate the protected runtime archive automatically.
 - `Tools/Analytics/Firebase 대상 고정`: records the reviewed Firebase project ID, app ID, and Android package under `ProjectSettings` so later config swaps fail the build.
 - `Tools/Analytics/Firebase 설정 검증`: checks pinned SDK archive hashes, Android privacy defaults, the Android config, and the reviewed destination before a device build.

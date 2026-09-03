@@ -1,0 +1,2385 @@
+﻿[
+    {
+        "id":  "super-radical-01",
+        "group":  "super-radical",
+        "name":  "Black-Route Overpass Knot",
+        "spec":  "S24,E8,N19,W25,N18,W13,N10,W26,N20,W6,N10",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  10,
+        "totalTurns":  15,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "crosses above the preserved route and folds north",
+        "highwayDirection":  "N",
+        "roadMix":  {
+                        "basic":  151,
+                        "bridge":  18,
+                        "uphill":  0,
+                        "downhill":  0,
+                        "rightTurn":  4,
+                        "leftTurn":  6
+                    },
+        "crossings":  {
+                          "total":  2,
+                          "self":  1,
+                          "overCurrent":  1,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -5,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  3
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -12,
+                                             "z":  -5,
+                                             "lowerSegment":  "current:1",
+                                             "upperSegment":  3
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  56,
+                             "endModule":  74,
+                             "crossingCount":  2,
+                             "segmentIndex":  3
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S24,E8,N19",
+                      "zone4":  "W25,N18,W13,N10,W26",
+                      "zone5":  "N20,W6,N10",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-01-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-02",
+        "group":  "super-radical",
+        "name":  "Sacred-Altar Sky Braid",
+        "spec":  "S24,E6,N22,W13,N17,W7,N23,W22,N8,W11,N17,E9",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  11,
+        "totalTurns":  16,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "braids around the altar district before an east exit",
+        "highwayDirection":  "E",
+        "roadMix":  {
+                        "basic":  160,
+                        "bridge":  6,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  5,
+                        "leftTurn":  6
+                    },
+        "crossings":  {
+                          "total":  2,
+                          "self":  1,
+                          "overCurrent":  1,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -2,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  3
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -7,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  4
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  55,
+                             "endModule":  61,
+                             "crossingCount":  1,
+                             "segmentIndex":  3
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  67,
+                             "endModule":  72,
+                             "crossingCount":  1,
+                             "segmentIndex":  4
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S24,E6,N22,W13",
+                      "zone4":  "N17,W7,N23,W22",
+                      "zone5":  "N8,W11,N17,E9",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-02-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-03",
+        "group":  "super-radical",
+        "name":  "Auction Roof Clover",
+        "spec":  "S25,E19,N8,W14,N6,W9,N10,W21,N16,E7,N22,W22",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  11,
+        "totalTurns":  16,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "clover-shaped auction roofs linked by an overpass",
+        "highwayDirection":  "W",
+        "roadMix":  {
+                        "basic":  161,
+                        "bridge":  5,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  4,
+                        "leftTurn":  7
+                    },
+        "crossings":  {
+                          "total":  2,
+                          "self":  1,
+                          "overCurrent":  1,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -11,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  5
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -12,
+                                             "z":  -1,
+                                             "lowerSegment":  "current:1",
+                                             "upperSegment":  7
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  74,
+                             "endModule":  79,
+                             "crossingCount":  1,
+                             "segmentIndex":  5
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  96,
+                             "endModule":  102,
+                             "crossingCount":  1,
+                             "segmentIndex":  7
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S25,E19,N8,W14",
+                      "zone4":  "N6,W9,N10,W21",
+                      "zone5":  "N16,E7,N22,W22",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-03-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-04",
+        "group":  "super-radical",
+        "name":  "Triple Harbor Braid",
+        "spec":  "S24,E18,S9,E8,N11,W6,N13,W26,N22,W19,N23",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  10,
+        "totalTurns":  15,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "three harbor chambers tied by a central crossing",
+        "highwayDirection":  "N",
+        "roadMix":  {
+                        "basic":  161,
+                        "bridge":  6,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  4,
+                        "leftTurn":  6
+                    },
+        "crossings":  {
+                          "total":  2,
+                          "self":  1,
+                          "overCurrent":  1,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -9,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  7
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -6,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  8
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  106,
+                             "endModule":  112,
+                             "crossingCount":  1,
+                             "segmentIndex":  7
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  123,
+                             "endModule":  129,
+                             "crossingCount":  1,
+                             "segmentIndex":  8
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S24,E18,S9",
+                      "zone4":  "E8,N11,W6,N13,W26",
+                      "zone5":  "N22,W19,N23",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-04-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-05",
+        "group":  "super-radical",
+        "name":  "Old Market Skyhook",
+        "spec":  "S25,W6,N17,E10,N20,W17,N10,W9,N10,E6,N6,W24,N7,W12",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  13,
+        "totalTurns":  18,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "returns above the old market before hooking west",
+        "highwayDirection":  "W",
+        "roadMix":  {
+                        "basic":  159,
+                        "bridge":  5,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  7,
+                        "leftTurn":  6
+                    },
+        "crossings":  {
+                          "total":  3,
+                          "self":  1,
+                          "overCurrent":  2,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -8,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  3
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  4,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  4
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  4,
+                                             "z":  8,
+                                             "lowerSegment":  "current:4",
+                                             "upperSegment":  4
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  51,
+                             "endModule":  56,
+                             "crossingCount":  1,
+                             "segmentIndex":  3
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  65,
+                             "endModule":  76,
+                             "crossingCount":  2,
+                             "segmentIndex":  4
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S25,W6,N17,E10",
+                      "zone4":  "N20,W17,N10,W9,N10,E6",
+                      "zone5":  "N6,W24,N7,W12",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-05-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-06",
+        "group":  "super-radical",
+        "name":  "Twin Gantry Knot",
+        "spec":  "S26,E13,N7,W8,N7,W14,N20,W8,N6,W18,N14,W6,N6,E13,S7,E6",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  15,
+        "totalTurns":  20,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "threads two gantries and exits east",
+        "highwayDirection":  "E",
+        "roadMix":  {
+                        "basic":  156,
+                        "bridge":  6,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  7,
+                        "leftTurn":  8
+                    },
+        "crossings":  {
+                          "total":  3,
+                          "self":  1,
+                          "overCurrent":  2,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -12,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  5
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -9,
+                                             "z":  -7,
+                                             "lowerSegment":  "current:0",
+                                             "upperSegment":  6
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -9,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  6
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  63,
+                             "endModule":  69,
+                             "crossingCount":  1,
+                             "segmentIndex":  5
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  77,
+                             "endModule":  92,
+                             "crossingCount":  2,
+                             "segmentIndex":  6
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S26,E13,N7,W8,N7",
+                      "zone4":  "W14,N20,W8,N6,W18,N14",
+                      "zone5":  "W6,N6,E13,S7,E6",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-06-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-07",
+        "group":  "super-radical",
+        "name":  "Northbound Coil Stack",
+        "spec":  "S31,W6,N6,E17,N20,W6,N18,E6,S11,E9,N10,E9,N12,E18",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  13,
+        "totalTurns":  18,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "stacks open coils on a northbound spine",
+        "highwayDirection":  "E",
+        "roadMix":  {
+                        "basic":  158,
+                        "bridge":  6,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  8,
+                        "leftTurn":  5
+                    },
+        "crossings":  {
+                          "total":  3,
+                          "self":  1,
+                          "overCurrent":  2,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -25,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  3
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  5,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  6
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  5,
+                                             "z":  8,
+                                             "lowerSegment":  "current:4",
+                                             "upperSegment":  6
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  46,
+                             "endModule":  52,
+                             "crossingCount":  1,
+                             "segmentIndex":  3
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  90,
+                             "endModule":  102,
+                             "crossingCount":  2,
+                             "segmentIndex":  6
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S31,W6,N6,E17",
+                      "zone4":  "N20,W6,N18,E6,S11,E9",
+                      "zone5":  "N10,E9,N12,E18",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-07-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-08",
+        "group":  "super-radical",
+        "name":  "Five-Gate Clover",
+        "spec":  "S25,W22,N15,W6,N12,E13,N6,E7,S10,E12,N18,E17,N6,E10",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  13,
+        "totalTurns":  18,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "crosses three preserved lanes and one new loop",
+        "highwayDirection":  "E",
+        "roadMix":  {
+                        "basic":  148,
+                        "bridge":  16,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  8,
+                        "leftTurn":  5
+                    },
+        "crossings":  {
+                          "total":  4,
+                          "self":  1,
+                          "overCurrent":  3,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -2,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  9
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -8,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  8
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  4,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  10
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  4,
+                                             "z":  8,
+                                             "lowerSegment":  "current:4",
+                                             "upperSegment":  10
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  109,
+                             "endModule":  114,
+                             "crossingCount":  1,
+                             "segmentIndex":  8
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  121,
+                             "endModule":  126,
+                             "crossingCount":  1,
+                             "segmentIndex":  9
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  130,
+                             "endModule":  141,
+                             "crossingCount":  2,
+                             "segmentIndex":  10
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S25,W22,N15,W6",
+                      "zone4":  "N12,E13,N6,E7,S10,E12",
+                      "zone5":  "N18,E17,N6,E10",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-08-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-09",
+        "group":  "super-radical",
+        "name":  "Cargo Mobius Frame",
+        "spec":  "S26,W19,N11,E6,N6,E8,N16,E24,S13,W6,N24,E20",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  11,
+        "totalTurns":  16,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "turns a cargo frame inside out before the east ramp",
+        "highwayDirection":  "E",
+        "roadMix":  {
+                        "basic":  154,
+                        "bridge":  12,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  9,
+                        "leftTurn":  2
+                    },
+        "crossings":  {
+                          "total":  4,
+                          "self":  1,
+                          "overCurrent":  3,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  13,
+                                             "z":  7,
+                                             "lowerSegment":  7,
+                                             "upperSegment":  10
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -5,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  6
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  6,
+                                             "z":  7,
+                                             "lowerSegment":  "current:3",
+                                             "upperSegment":  7
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  0,
+                                             "z":  7,
+                                             "lowerSegment":  "current:5",
+                                             "upperSegment":  7
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  84,
+                             "endModule":  90,
+                             "crossingCount":  1,
+                             "segmentIndex":  6
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  94,
+                             "endModule":  106,
+                             "crossingCount":  2,
+                             "segmentIndex":  7
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  145,
+                             "endModule":  151,
+                             "crossingCount":  1,
+                             "segmentIndex":  10
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S26,W19,N11,E6",
+                      "zone4":  "N6,E8,N16,E24",
+                      "zone5":  "S13,W6,N24,E20",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-09-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-10",
+        "group":  "super-radical",
+        "name":  "Crane-Top Labyrinth",
+        "spec":  "S25,E16,N15,E9,N11,W6,N11,W14,S14,W10,N8,W10,N8,W6,N10,E6",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  15,
+        "totalTurns":  20,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "climbs into a dense crane-top labyrinth",
+        "highwayDirection":  "E",
+        "roadMix":  {
+                        "basic":  148,
+                        "bridge":  14,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  7,
+                        "leftTurn":  8
+                    },
+        "crossings":  {
+                          "total":  4,
+                          "self":  1,
+                          "overCurrent":  3,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -2,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  9
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  5,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  8
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  5,
+                                             "z":  8,
+                                             "lowerSegment":  "current:4",
+                                             "upperSegment":  8
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -5,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  10
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  109,
+                             "endModule":  119,
+                             "crossingCount":  2,
+                             "segmentIndex":  8
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  123,
+                             "endModule":  129,
+                             "crossingCount":  1,
+                             "segmentIndex":  9
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  133,
+                             "endModule":  137,
+                             "crossingCount":  1,
+                             "segmentIndex":  10
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S25,E16,N15,E9,N11",
+                      "zone4":  "W6,N11,W14,S14,W10,N8",
+                      "zone5":  "W10,N8,W6,N10,E6",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-10-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-11",
+        "group":  "super-radical",
+        "name":  "Figure-Eight Fishery",
+        "spec":  "S30,E18,S6,E6,S6,E14,S8,E16,S6,E18,S6,E12,S6,W7,N10,W10",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  15,
+        "totalTurns":  20,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "runs a broad figure eight across fishery basins",
+        "highwayDirection":  "W",
+        "roadMix":  {
+                        "basic":  157,
+                        "bridge":  5,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  8,
+                        "leftTurn":  7
+                    },
+        "crossings":  {
+                          "total":  2,
+                          "self":  2,
+                          "overCurrent":  0,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  72,
+                                             "z":  -58,
+                                             "lowerSegment":  10,
+                                             "upperSegment":  15
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  77,
+                                             "z":  -62,
+                                             "lowerSegment":  11,
+                                             "upperSegment":  14
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  162,
+                             "endModule":  167,
+                             "crossingCount":  1,
+                             "segmentIndex":  14
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  171,
+                             "endModule":  177,
+                             "crossingCount":  1,
+                             "segmentIndex":  15
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S30,E18,S6,E6,S6",
+                      "zone4":  "E14,S8,E16,S6,E18,S6",
+                      "zone5":  "E12,S6,W7,N10,W10",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-11-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-12",
+        "group":  "super-radical",
+        "name":  "Broken Double Spiral",
+        "spec":  "S32,W7,N10,W6,S6,E20,S6,E9,S15,E19,S15,E25,S9",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  12,
+        "totalTurns":  17,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "two broken spirals share crossing decks",
+        "highwayDirection":  "S",
+        "roadMix":  {
+                        "basic":  154,
+                        "bridge":  13,
+                        "uphill":  0,
+                        "downhill":  0,
+                        "rightTurn":  6,
+                        "leftTurn":  6
+                    },
+        "crossings":  {
+                          "total":  2,
+                          "self":  2,
+                          "overCurrent":  0,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -28,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  5
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -7,
+                                             "z":  -28,
+                                             "lowerSegment":  2,
+                                             "upperSegment":  5
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  64,
+                             "endModule":  77,
+                             "crossingCount":  2,
+                             "segmentIndex":  5
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S32,W7,N10,W6",
+                      "zone4":  "S6,E20,S6,E9,S15",
+                      "zone5":  "E19,S15,E25,S9",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-12-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-13",
+        "group":  "super-radical",
+        "name":  "Undertow Sea Knot",
+        "spec":  "S24,E10,S6,W6,N10,W13,S6,W6,S7,W6,S14,W16,S22,W18,N8,W7",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  15,
+        "totalTurns":  20,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "tight sea knot pulled toward the west breakwater",
+        "highwayDirection":  "W",
+        "roadMix":  {
+                        "basic":  157,
+                        "bridge":  5,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  8,
+                        "leftTurn":  7
+                    },
+        "crossings":  {
+                          "total":  2,
+                          "self":  2,
+                          "overCurrent":  0,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -20,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  5
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  4,
+                                             "z":  -24,
+                                             "lowerSegment":  1,
+                                             "upperSegment":  4
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  49,
+                             "endModule":  54,
+                             "crossingCount":  1,
+                             "segmentIndex":  4
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  58,
+                             "endModule":  63,
+                             "crossingCount":  1,
+                             "segmentIndex":  5
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S24,E10,S6,W6,N10",
+                      "zone4":  "W13,S6,W6,S7,W6,S14",
+                      "zone5":  "W16,S22,W18,N8,W7",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-13-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-14",
+        "group":  "super-radical",
+        "name":  "Pier Serpent Cross",
+        "spec":  "S27,E13,S16,E20,S11,E6,S13,E6,S6,E13,S6,W11,S6,E6,N19",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  14,
+        "totalTurns":  19,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "serpentine piers cross twice before rising north",
+        "highwayDirection":  "N",
+        "roadMix":  {
+                        "basic":  153,
+                        "bridge":  12,
+                        "uphill":  0,
+                        "downhill":  0,
+                        "rightTurn":  6,
+                        "leftTurn":  8
+                    },
+        "crossings":  {
+                          "total":  2,
+                          "self":  2,
+                          "overCurrent":  0,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  53,
+                                             "z":  -73,
+                                             "lowerSegment":  9,
+                                             "upperSegment":  14
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  53,
+                                             "z":  -79,
+                                             "lowerSegment":  11,
+                                             "upperSegment":  14
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  163,
+                             "endModule":  175,
+                             "crossingCount":  2,
+                             "segmentIndex":  14
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S27,E13,S16,E20,S11",
+                      "zone4":  "E6,S13,E6,S6,E13",
+                      "zone5":  "S6,W11,S6,E6,N19",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-14-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-15",
+        "group":  "super-radical",
+        "name":  "Elevator Bridge Weave",
+        "spec":  "S26,W6,N6,E13,S15,E6,S13,E8,S8,E12,S12,E8,S17,W6,N9,E14",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  15,
+        "totalTurns":  20,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "alternates lift bridges and descending decks",
+        "highwayDirection":  "E",
+        "roadMix":  {
+                        "basic":  156,
+                        "bridge":  6,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  11,
+                        "leftTurn":  4
+                    },
+        "crossings":  {
+                          "total":  2,
+                          "self":  2,
+                          "overCurrent":  0,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -20,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  3
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  41,
+                                             "z":  -76,
+                                             "lowerSegment":  12,
+                                             "upperSegment":  15
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  41,
+                             "endModule":  47,
+                             "crossingCount":  1,
+                             "segmentIndex":  3
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  168,
+                             "endModule":  174,
+                             "crossingCount":  1,
+                             "segmentIndex":  15
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S26,W6,N6,E13,S15",
+                      "zone4":  "E6,S13,E8,S8,E12,S12",
+                      "zone5":  "E8,S17,W6,N9,E14",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-15-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-16",
+        "group":  "super-radical",
+        "name":  "Four-Basin Overpass",
+        "spec":  "S24,E11,S6,W6,N13,W9,N14,W17,N15,W13,N16,E6,N14,E15",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  13,
+        "totalTurns":  18,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "four nested basins use two overpasses and one old-route cross",
+        "highwayDirection":  "E",
+        "roadMix":  {
+                        "basic":  152,
+                        "bridge":  12,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  8,
+                        "leftTurn":  5
+                    },
+        "crossings":  {
+                          "total":  3,
+                          "self":  2,
+                          "overCurrent":  1,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -17,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  5
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  5,
+                                             "z":  -24,
+                                             "lowerSegment":  1,
+                                             "upperSegment":  4
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -12,
+                                             "z":  -3,
+                                             "lowerSegment":  "current:1",
+                                             "upperSegment":  7
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  50,
+                             "endModule":  56,
+                             "crossingCount":  1,
+                             "segmentIndex":  4
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  62,
+                             "endModule":  67,
+                             "crossingCount":  1,
+                             "segmentIndex":  5
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  88,
+                             "endModule":  94,
+                             "crossingCount":  1,
+                             "segmentIndex":  7
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S24,E11,S6,W6",
+                      "zone4":  "N13,W9,N14,W17,N15,W13",
+                      "zone5":  "N16,E6,N14,E15",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-16-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-17",
+        "group":  "super-radical",
+        "name":  "Container Cloverleaf",
+        "spec":  "S27,E25,N21,E8,S7,W24,N8,W13,N19,W13,N14",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  10,
+        "totalTurns":  15,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "large container cloverleaf with a north highway handoff",
+        "highwayDirection":  "N",
+        "roadMix":  {
+                        "basic":  155,
+                        "bridge":  12,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  6,
+                        "leftTurn":  4
+                    },
+        "crossings":  {
+                          "total":  3,
+                          "self":  2,
+                          "overCurrent":  1,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -5,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  7
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  25,
+                                             "z":  -13,
+                                             "lowerSegment":  2,
+                                             "upperSegment":  5
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -4,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  8
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  93,
+                             "endModule":  99,
+                             "crossingCount":  1,
+                             "segmentIndex":  5
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  126,
+                             "endModule":  131,
+                             "crossingCount":  1,
+                             "segmentIndex":  7
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  137,
+                             "endModule":  143,
+                             "crossingCount":  1,
+                             "segmentIndex":  8
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S27,E25,N21",
+                      "zone4":  "E8,S7,W24,N8,W13",
+                      "zone5":  "N19,W13,N14",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-17-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-18",
+        "group":  "super-radical",
+        "name":  "Lighthouse Infinity",
+        "spec":  "S27,W17,N24,E26,N12,E9,N13,E10,S6,W17,N18",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  10,
+        "totalTurns":  15,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "infinity-shaped lighthouse route with three level changes",
+        "highwayDirection":  "N",
+        "roadMix":  {
+                        "basic":  149,
+                        "bridge":  18,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  8,
+                        "leftTurn":  2
+                    },
+        "crossings":  {
+                          "total":  3,
+                          "self":  2,
+                          "overCurrent":  1,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -3,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  3
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  18,
+                                             "z":  16,
+                                             "lowerSegment":  6,
+                                             "upperSegment":  9
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -12,
+                                             "z":  -3,
+                                             "lowerSegment":  "current:1",
+                                             "upperSegment":  3
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  70,
+                             "endModule":  88,
+                             "crossingCount":  2,
+                             "segmentIndex":  3
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  151,
+                             "endModule":  157,
+                             "crossingCount":  1,
+                             "segmentIndex":  9
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S27,W17,N24",
+                      "zone4":  "E26,N12,E9,N13,E10",
+                      "zone5":  "S6,W17,N18",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-18-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-19",
+        "group":  "super-radical",
+        "name":  "Triple-Deck Scissors",
+        "spec":  "S25,E17,S13,W13,N23,W13,N26,W10,N11,W8,S20",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  10,
+        "totalTurns":  15,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "three decks cut across the harbor like open scissors",
+        "highwayDirection":  "S",
+        "roadMix":  {
+                        "basic":  146,
+                        "bridge":  21,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  5,
+                        "leftTurn":  5
+                    },
+        "crossings":  {
+                          "total":  4,
+                          "self":  2,
+                          "overCurrent":  2,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -15,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  5
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  4,
+                                             "z":  -25,
+                                             "lowerSegment":  1,
+                                             "upperSegment":  4
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -9,
+                                             "z":  -7,
+                                             "lowerSegment":  "current:0",
+                                             "upperSegment":  6
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -9,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  6
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  78,
+                             "endModule":  84,
+                             "crossingCount":  1,
+                             "segmentIndex":  4
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  93,
+                             "endModule":  98,
+                             "crossingCount":  1,
+                             "segmentIndex":  5
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  109,
+                             "endModule":  124,
+                             "crossingCount":  2,
+                             "segmentIndex":  6
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S25,E17,S13",
+                      "zone4":  "W13,N23,W13,N26,W10",
+                      "zone5":  "N11,W8,S20",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-19-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-20",
+        "group":  "super-radical",
+        "name":  "Twin-Island Figure Eight",
+        "spec":  "S24,W6,N18,E17,N21,W6,S17,E24,N16,E6,N9,E15",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  11,
+        "totalTurns":  16,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "two island loops meet at a protected crossing",
+        "highwayDirection":  "E",
+        "roadMix":  {
+                        "basic":  154,
+                        "bridge":  12,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  5,
+                        "leftTurn":  6
+                    },
+        "crossings":  {
+                          "total":  4,
+                          "self":  2,
+                          "overCurrent":  2,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -6,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  3
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  11,
+                                             "z":  -2,
+                                             "lowerSegment":  4,
+                                             "upperSegment":  7
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  5,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  6
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  5,
+                                             "z":  8,
+                                             "lowerSegment":  "current:4",
+                                             "upperSegment":  6
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  51,
+                             "endModule":  57,
+                             "crossingCount":  1,
+                             "segmentIndex":  3
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  96,
+                             "endModule":  107,
+                             "crossingCount":  2,
+                             "segmentIndex":  6
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  112,
+                             "endModule":  118,
+                             "crossingCount":  1,
+                             "segmentIndex":  7
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S24,W6,N18,E17",
+                      "zone4":  "N21,W6,S17,E24",
+                      "zone5":  "N16,E6,N9,E15",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-20-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-21",
+        "group":  "super-radical",
+        "name":  "Harbor Circuit Breaker",
+        "spec":  "S26,W14,S9,E12,N13,W6,S8,E19,S24,E22,S6,E20",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  11,
+        "totalTurns":  16,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "three self-crossings break a wide harbor circuit",
+        "highwayDirection":  "E",
+        "roadMix":  {
+                        "basic":  155,
+                        "bridge":  11,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  3,
+                        "leftTurn":  8
+                    },
+        "crossings":  {
+                          "total":  3,
+                          "self":  3,
+                          "overCurrent":  0,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  -2,
+                                             "z":  -26,
+                                             "lowerSegment":  1,
+                                             "upperSegment":  4
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -8,
+                                             "z":  -26,
+                                             "lowerSegment":  1,
+                                             "upperSegment":  6
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -2,
+                                             "z":  -30,
+                                             "lowerSegment":  4,
+                                             "upperSegment":  7
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  67,
+                             "endModule":  72,
+                             "crossingCount":  1,
+                             "segmentIndex":  4
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  82,
+                             "endModule":  86,
+                             "crossingCount":  1,
+                             "segmentIndex":  6
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  91,
+                             "endModule":  97,
+                             "crossingCount":  1,
+                             "segmentIndex":  7
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S26,W14,S9,E12",
+                      "zone4":  "N13,W6,S8,E19",
+                      "zone5":  "S24,E22,S6,E20",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-21-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-22",
+        "group":  "super-radical",
+        "name":  "Eastbound Mobius Dock",
+        "spec":  "S30,E16,S6,E18,S10,E15,S6,W6,N10,E15,S8,W19,S14,E6",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  13,
+        "totalTurns":  18,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "mobius-like dock folds toward an east exit",
+        "highwayDirection":  "E",
+        "roadMix":  {
+                        "basic":  159,
+                        "bridge":  5,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  8,
+                        "leftTurn":  5
+                    },
+        "crossings":  {
+                          "total":  3,
+                          "self":  3,
+                          "overCurrent":  0,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  43,
+                                             "z":  -46,
+                                             "lowerSegment":  5,
+                                             "upperSegment":  8
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  49,
+                                             "z":  -50,
+                                             "lowerSegment":  6,
+                                             "upperSegment":  11
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  43,
+                                             "z":  -50,
+                                             "lowerSegment":  8,
+                                             "upperSegment":  11
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  110,
+                             "endModule":  115,
+                             "crossingCount":  1,
+                             "segmentIndex":  8
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  146,
+                             "endModule":  157,
+                             "crossingCount":  2,
+                             "segmentIndex":  11
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S30,E16,S6,E18",
+                      "zone4":  "S10,E15,S6,W6,N10,E15",
+                      "zone5":  "S8,W19,S14,E6",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-22-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-23",
+        "group":  "super-radical",
+        "name":  "West Stormwall Knot",
+        "spec":  "S24,W20,S10,W6,S6,W15,N10,W6,S14,E10,N10,W18,S18,W12",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  13,
+        "totalTurns":  18,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "stormwall knot crosses itself three times",
+        "highwayDirection":  "W",
+        "roadMix":  {
+                        "basic":  159,
+                        "bridge":  5,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  5,
+                        "leftTurn":  8
+                    },
+        "crossings":  {
+                          "total":  3,
+                          "self":  3,
+                          "overCurrent":  0,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  -37,
+                                             "z":  -40,
+                                             "lowerSegment":  5,
+                                             "upperSegment":  10
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -41,
+                                             "z":  -34,
+                                             "lowerSegment":  6,
+                                             "upperSegment":  11
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -47,
+                                             "z":  -34,
+                                             "lowerSegment":  8,
+                                             "upperSegment":  11
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  123,
+                             "endModule":  128,
+                             "crossingCount":  1,
+                             "segmentIndex":  10
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  133,
+                             "endModule":  144,
+                             "crossingCount":  2,
+                             "segmentIndex":  11
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S24,W20,S10,W6",
+                      "zone4":  "S6,W15,N10,W6,S14,E10",
+                      "zone5":  "N10,W18,S18,W12",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-23-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-24",
+        "group":  "super-radical",
+        "name":  "Drydock Switchmaze",
+        "spec":  "S24,E6,N10,W17,S17,W10,S8,W11,S14,E6,N6,W11,S15,W7,N6,E11",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  15,
+        "totalTurns":  20,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "switchback maze with three protected overpasses",
+        "highwayDirection":  "E",
+        "roadMix":  {
+                        "basic":  151,
+                        "bridge":  11,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  5,
+                        "leftTurn":  10
+                    },
+        "crossings":  {
+                          "total":  3,
+                          "self":  3,
+                          "overCurrent":  0,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -14,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  3
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -32,
+                                             "z":  -47,
+                                             "lowerSegment":  8,
+                                             "upperSegment":  11
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -37,
+                                             "z":  -56,
+                                             "lowerSegment":  12,
+                                             "upperSegment":  15
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  43,
+                             "endModule":  49,
+                             "crossingCount":  1,
+                             "segmentIndex":  3
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  132,
+                             "endModule":  138,
+                             "crossingCount":  1,
+                             "segmentIndex":  11
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  172,
+                             "endModule":  177,
+                             "crossingCount":  1,
+                             "segmentIndex":  15
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S24,E6,N10,W17,S17",
+                      "zone4":  "W10,S8,W11,S14,E6,N6",
+                      "zone5":  "W11,S15,W7,N6,E11",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-24-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-25",
+        "group":  "super-radical",
+        "name":  "Crane Yard Infinity",
+        "spec":  "S29,E18,N6,W12,N15,W10,N18,W18,N13,W6,S6,E14,S14",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  12,
+        "totalTurns":  17,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "crane yards form an asymmetric infinity path",
+        "highwayDirection":  "S",
+        "roadMix":  {
+                        "basic":  152,
+                        "bridge":  11,
+                        "uphill":  2,
+                        "downhill":  2,
+                        "rightTurn":  4,
+                        "leftTurn":  8
+                    },
+        "crossings":  {
+                          "total":  4,
+                          "self":  3,
+                          "overCurrent":  1,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -8,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  5
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -14,
+                                             "z":  10,
+                                             "lowerSegment":  7,
+                                             "upperSegment":  12
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -22,
+                                             "z":  17,
+                                             "lowerSegment":  8,
+                                             "upperSegment":  11
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -4,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  6
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  83,
+                             "endModule":  88,
+                             "crossingCount":  1,
+                             "segmentIndex":  5
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  97,
+                             "endModule":  103,
+                             "crossingCount":  1,
+                             "segmentIndex":  6
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  154,
+                             "endModule":  160,
+                             "crossingCount":  1,
+                             "segmentIndex":  11
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  169,
+                             "endModule":  175,
+                             "crossingCount":  1,
+                             "segmentIndex":  12
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S29,E18,N6,W12",
+                      "zone4":  "N15,W10,N18,W18,N13",
+                      "zone5":  "W6,S6,E14,S14",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-25-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-26",
+        "group":  "super-radical",
+        "name":  "Tidegate Clover",
+        "spec":  "S29,W24,S6,E15,N22,E15,N6,W12,N17,E6,N7,E14,N6",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  12,
+        "totalTurns":  17,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "four-cross tidegate clover ending north",
+        "highwayDirection":  "N",
+        "roadMix":  {
+                        "basic":  151,
+                        "bridge":  12,
+                        "uphill":  2,
+                        "downhill":  2,
+                        "rightTurn":  5,
+                        "leftTurn":  7
+                    },
+        "crossings":  {
+                          "total":  4,
+                          "self":  3,
+                          "overCurrent":  1,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -13,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  5
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -7,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  7
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -9,
+                                             "z":  -29,
+                                             "lowerSegment":  1,
+                                             "upperSegment":  4
+                                         },
+                                         {
+                                             "kind":  "preserved",
+                                             "x":  -6,
+                                             "z":  2,
+                                             "lowerSegment":  "current:2",
+                                             "upperSegment":  8
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  77,
+                             "endModule":  83,
+                             "crossingCount":  1,
+                             "segmentIndex":  4
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  102,
+                             "endModule":  108,
+                             "crossingCount":  1,
+                             "segmentIndex":  5
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  120,
+                             "endModule":  126,
+                             "crossingCount":  1,
+                             "segmentIndex":  7
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  135,
+                             "endModule":  141,
+                             "crossingCount":  1,
+                             "segmentIndex":  8
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S29,W24,S6,E15",
+                      "zone4":  "N22,E15,N6,W12,N17",
+                      "zone5":  "E6,N7,E14,N6",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-26-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-27",
+        "group":  "super-radical",
+        "name":  "Quad-Cross Flyover",
+        "spec":  "S28,E6,N6,W17,N6,E15,S17,E17,S17,E6,S16,E6,N6,E16",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  13,
+        "totalTurns":  18,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "four self-crossings on alternating flyover levels",
+        "highwayDirection":  "E",
+        "roadMix":  {
+                        "basic":  146,
+                        "bridge":  18,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  6,
+                        "leftTurn":  7
+                    },
+        "crossings":  {
+                          "total":  4,
+                          "self":  4,
+                          "overCurrent":  0,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -22,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  3
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -16,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  5
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  4,
+                                             "z":  -28,
+                                             "lowerSegment":  1,
+                                             "upperSegment":  6
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  4,
+                                             "z":  -22,
+                                             "lowerSegment":  3,
+                                             "upperSegment":  6
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  43,
+                             "endModule":  49,
+                             "crossingCount":  1,
+                             "segmentIndex":  3
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  71,
+                             "endModule":  76,
+                             "crossingCount":  1,
+                             "segmentIndex":  5
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  81,
+                             "endModule":  93,
+                             "crossingCount":  2,
+                             "segmentIndex":  6
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S28,E6,N6,W17",
+                      "zone4":  "N6,E15,S17,E17,S17,E6",
+                      "zone5":  "S16,E6,N6,E16",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-27-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-28",
+        "group":  "super-radical",
+        "name":  "Impossible Wharf Braid",
+        "spec":  "S29,W6,S6,W11,S7,W6,S18,W18,N6,E6,S19,E7,N17,W23",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  13,
+        "totalTurns":  18,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "impossible-looking wharf braid with four crossings",
+        "highwayDirection":  "W",
+        "roadMix":  {
+                        "basic":  146,
+                        "bridge":  18,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  7,
+                        "leftTurn":  6
+                    },
+        "crossings":  {
+                          "total":  4,
+                          "self":  4,
+                          "overCurrent":  0,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  -35,
+                                             "z":  -60,
+                                             "lowerSegment":  7,
+                                             "upperSegment":  10
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -28,
+                                             "z":  -60,
+                                             "lowerSegment":  7,
+                                             "upperSegment":  12
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -41,
+                                             "z":  -56,
+                                             "lowerSegment":  8,
+                                             "upperSegment":  13
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -35,
+                                             "z":  -56,
+                                             "lowerSegment":  10,
+                                             "upperSegment":  13
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  116,
+                             "endModule":  122,
+                             "crossingCount":  1,
+                             "segmentIndex":  10
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  149,
+                             "endModule":  154,
+                             "crossingCount":  1,
+                             "segmentIndex":  12
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  160,
+                             "endModule":  172,
+                             "crossingCount":  2,
+                             "segmentIndex":  13
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S29,W6,S6,W11",
+                      "zone4":  "S7,W6,S18,W18,N6,E6",
+                      "zone5":  "S19,E7,N17,W23",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-28-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-29",
+        "group":  "super-radical",
+        "name":  "Five-Cross Sea Knot",
+        "spec":  "S24,W7,S12,W15,S6,E14,S6,W6,N17,W6,S18,W20,S9,E6,N13",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  14,
+        "totalTurns":  19,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "five-cross sea knot packed into one outer harbor",
+        "highwayDirection":  "N",
+        "roadMix":  {
+                        "basic":  146,
+                        "bridge":  17,
+                        "uphill":  1,
+                        "downhill":  1,
+                        "rightTurn":  6,
+                        "leftTurn":  8
+                    },
+        "crossings":  {
+                          "total":  5,
+                          "self":  5,
+                          "overCurrent":  0,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  -14,
+                                             "z":  -36,
+                                             "lowerSegment":  3,
+                                             "upperSegment":  8
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -20,
+                                             "z":  -36,
+                                             "lowerSegment":  3,
+                                             "upperSegment":  10
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -14,
+                                             "z":  -42,
+                                             "lowerSegment":  5,
+                                             "upperSegment":  8
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -20,
+                                             "z":  -42,
+                                             "lowerSegment":  5,
+                                             "upperSegment":  10
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  -34,
+                                             "z":  -49,
+                                             "lowerSegment":  11,
+                                             "upperSegment":  14
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  93,
+                             "endModule":  105,
+                             "crossingCount":  2,
+                             "segmentIndex":  8
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  115,
+                             "endModule":  127,
+                             "crossingCount":  2,
+                             "segmentIndex":  10
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  172,
+                             "endModule":  177,
+                             "crossingCount":  1,
+                             "segmentIndex":  14
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S24,W7,S12,W15,S6",
+                      "zone4":  "E14,S6,W6,N17,W6",
+                      "zone5":  "S18,W20,S9,E6,N13",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-29-schematic-4096.png"
+    },
+    {
+        "id":  "super-radical-30",
+        "group":  "super-radical",
+        "name":  "Final Interchange Chaos",
+        "spec":  "S29,E6,N6,W15,N6,E13,S20,E6,S11,E14,N12,E6,N8,E6,S6,W15",
+        "addedModules":  179,
+        "totalModules":  230,
+        "addedTurns":  15,
+        "totalTurns":  20,
+        "seconds":  298.1481,
+        "timingBasis":  "17.5 seconds per 13.5 road modules; turn pauses excluded",
+        "concept":  "five-cross interchange chaos before the west highway",
+        "highwayDirection":  "W",
+        "roadMix":  {
+                        "basic":  142,
+                        "bridge":  18,
+                        "uphill":  2,
+                        "downhill":  2,
+                        "rightTurn":  8,
+                        "leftTurn":  7
+                    },
+        "crossings":  {
+                          "total":  5,
+                          "self":  5,
+                          "overCurrent":  0,
+                          "points":  [
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -23,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  3
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  0,
+                                             "z":  -17,
+                                             "lowerSegment":  0,
+                                             "upperSegment":  5
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  4,
+                                             "z":  -29,
+                                             "lowerSegment":  1,
+                                             "upperSegment":  6
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  4,
+                                             "z":  -23,
+                                             "lowerSegment":  3,
+                                             "upperSegment":  6
+                                         },
+                                         {
+                                             "kind":  "self",
+                                             "x":  30,
+                                             "z":  -34,
+                                             "lowerSegment":  12,
+                                             "upperSegment":  15
+                                         }
+                                     ]
+                      },
+        "features":  [
+                         {
+                             "type":  "bridge",
+                             "startModule":  44,
+                             "endModule":  50,
+                             "crossingCount":  1,
+                             "segmentIndex":  3
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  68,
+                             "endModule":  73,
+                             "crossingCount":  1,
+                             "segmentIndex":  5
+                         },
+                         {
+                             "type":  "bridge",
+                             "startModule":  78,
+                             "endModule":  90,
+                             "crossingCount":  2,
+                             "segmentIndex":  6
+                         },
+                         {
+                             "type":  "elevated",
+                             "startModule":  167,
+                             "endModule":  173,
+                             "crossingCount":  1,
+                             "segmentIndex":  15
+                         }
+                     ],
+        "zones":  {
+                      "zone1And2":  "preserved current route",
+                      "zone3":  "current entry + S29,E6,N6,W15,N6",
+                      "zone4":  "E13,S20,E6,S11,E14,N12",
+                      "zone5":  "E6,N8,E6,S6,W15",
+                      "startAnchor":  "sacred altar + illegal shoe modifier at preserved stage start",
+                      "highwayPreview":  "short ramp at final endpoint"
+                  },
+        "schematic":  "reference/routes/super-radical-30-schematic-4096.png"
+    }
+]

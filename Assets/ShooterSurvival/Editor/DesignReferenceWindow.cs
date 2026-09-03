@@ -11,6 +11,10 @@ public sealed class DesignReferenceWindow : EditorWindow
     private const string NoryangjinMapPlanFolderRelativePath =
         "outputs/chapter_campaign_reference_orthogonal_20min";
     private const string MeshyImagesFolderRelativePath = "output/meshy_images";
+    private const string GameDesignDocumentRelativePath = "GAME_DESIGN_OVERVIEW.md";
+    private const string BalanceDocumentRelativePath = "BALANCE_OVERVIEW.md";
+    private const string DevelopmentDocumentRelativePath = "DEVELOPMENT_OVERVIEW.md";
+    private const string MapDesignDocumentRelativePath = "MAP_DESIGN_OVERVIEW.md";
     private const string CodexGeneratedImagesFolderRelativeToUserHome =
         ".codex/generated_images/019f22f4-e2cc-73b1-8fdf-68dd8b36147a";
 
@@ -28,6 +32,30 @@ public sealed class DesignReferenceWindow : EditorWindow
         window.titleContent = new GUIContent(WindowTitle);
         window.minSize = new Vector2(540f, 300f);
         window.Show();
+    }
+
+    [MenuItem("Tools/맵 제작 도구/문서/기획서 열기", false, 2100)]
+    public static void OpenGameDesignDocument()
+    {
+        OpenDocument(GameDesignDocumentRelativePath);
+    }
+
+    [MenuItem("Tools/맵 제작 도구/문서/밸런스 문서 열기", false, 2101)]
+    public static void OpenBalanceDocument()
+    {
+        OpenDocument(BalanceDocumentRelativePath);
+    }
+
+    [MenuItem("Tools/맵 제작 도구/문서/개발 문서 열기", false, 2102)]
+    public static void OpenDevelopmentDocument()
+    {
+        OpenDocument(DevelopmentDocumentRelativePath);
+    }
+
+    [MenuItem("Tools/맵 제작 도구/문서/맵 기획서 열기", false, 2103)]
+    public static void OpenMapDesignDocument()
+    {
+        OpenDocument(MapDesignDocumentRelativePath);
     }
 
     public static void OpenDesignFolder()
@@ -96,6 +124,18 @@ public sealed class DesignReferenceWindow : EditorWindow
     private static void OpenFolder(string relativePath)
     {
         OpenAbsoluteFolder(GetProjectPath(relativePath));
+    }
+
+    private static void OpenDocument(string relativePath)
+    {
+        string absolutePath = GetProjectPath(relativePath);
+        if (!File.Exists(absolutePath))
+        {
+            ShowMissingPath(absolutePath);
+            return;
+        }
+
+        EditorUtility.OpenWithDefaultApp(absolutePath);
     }
 
     private static void OpenAbsoluteFolder(string absolutePath)

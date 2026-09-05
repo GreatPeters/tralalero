@@ -8,6 +8,8 @@ deepened: 2026-09-04
 
 # feat: Build the SR18 Lighthouse Infinity roads-only scene
 
+> 2026-09-05 correction: the initial AABB-only seam checks accepted disconnected plank surfaces. The implementation now uses centered deck meshes, measured plank ends, full-width corner joins, a Y=12 deck with three modules per ramp, and 24,702 actual-surface samples. The route shape and 230-road count remain; the original Y=30/single-module slope assumptions below are historical. Current geometry is documented in `docs/noryangjin-sr18-roads-scene.md` and placement schemaVersion 2.
+
 ## Summary
 
 Create a new build-excluded `Noryangjin_MapTool_Mode_SR18.unity` sibling from the current 51-road Noryangjin map, append the exact 179-placement Lighthouse Infinity route, and retain required runtime/map-tool infrastructure while removing decorative and encounter placements except route-driving turn spots. Build and validate the height-separated crossing decks in a temporary scene before publishing the static SR18 scene.

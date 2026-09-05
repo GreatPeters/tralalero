@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "name": "SR18 Lighthouse Infinity Unity placement contract",
   "source": {
     "scenePath": "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode.unity",
@@ -31,22 +31,19 @@
     "upperIntervals": [
       {
         "start": 70,
-        "endExclusive": 88
+        "endExclusive": 90
       },
       {
         "start": 151,
-        "endExclusive": 157
+        "endExclusive": 159
       }
     ],
-    "elevatedDeckY": 30,
-    "slopeRootY": 6.5,
-    "slopeScaleY": 24.3,
-    "slopeScaleZ": 4.94,
+    "elevatedDeckY": 12,
     "bounds": {
-      "minX": -63.700073,
-      "maxX": 442.549927,
-      "minZ": -336.7750931,
-      "maxZ": 349.4749069
+      "minX": -67.00008,
+      "maxX": 439.249939,
+      "minZ": -347.7510962,
+      "maxZ": 338.4989038
     },
     "crossings": [
       {
@@ -58,8 +55,8 @@
           -3
         ],
         "world": [
-          127.549927,
-          -66.7750931
+          124.249924,
+          -77.75108999999999
         ]
       },
       {
@@ -71,8 +68,8 @@
           -3
         ],
         "world": [
-          -7.450073,
-          -66.7750931
+          -10.750076000000007,
+          -77.75108999999999
         ]
       },
       {
@@ -84,17 +81,38 @@
           16
         ],
         "world": [
-          330.049927,
-          146.9749069
+          326.74992399999996,
+          135.99891000000002
         ]
       }
     ],
     "newRoadMix": {
-      "Basic": 165,
-      "Uphill": 2,
-      "Downhill": 2,
+      "Basic": 157,
+      "Uphill": 6,
+      "Downhill": 6,
       "RightTurn": 8,
       "LeftTurn": 2
+    },
+    "routeOriginWorld": [
+      124.249924,
+      0,
+      -44.00109
+    ],
+    "geometryCorrection": {
+      "date": "2026-09-05",
+      "sourceDeckExitLocal": [
+        -1.5,
+        0,
+        -4.9
+      ],
+      "rampModulesPerTransition": 3,
+      "risePerRampModule": 4,
+      "cornerBackExtension": 3.3,
+      "seamOverlap": 0.24,
+      "shortSupportMinimumLocalY": -0.5,
+      "conceptIntervalEndExtension": 2,
+      "sourceDeckLength": 4.95,
+      "cornerApproachTrim": 3.3
     }
   },
   "roads": [
@@ -108,9 +126,9 @@
         -1
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -44.2750931
+        -55.25109
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -120,7 +138,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 2,
@@ -132,9 +153,9 @@
         -2
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -55.5250931
+        -66.50109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -144,7 +165,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 3,
@@ -156,9 +180,9 @@
         -3
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -66.77509309999999
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -168,7 +192,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 4,
@@ -180,9 +207,9 @@
         -4
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -78.02509309999999
+        -89.00109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -192,7 +219,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 5,
@@ -204,9 +234,9 @@
         -5
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -89.27509309999999
+        -100.25109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -216,7 +246,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 6,
@@ -228,9 +261,9 @@
         -6
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -100.52509309999999
+        -111.50109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -240,7 +273,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 7,
@@ -252,9 +288,9 @@
         -7
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -111.77509309999999
+        -122.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -264,7 +300,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 8,
@@ -276,9 +315,9 @@
         -8
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -123.02509309999999
+        -134.0010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -288,7 +327,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 9,
@@ -300,9 +342,9 @@
         -9
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -134.2750931
+        -145.2510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -312,7 +354,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 10,
@@ -324,9 +369,9 @@
         -10
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -145.5250931
+        -156.5010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -336,7 +381,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 11,
@@ -348,9 +396,9 @@
         -11
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -156.7750931
+        -167.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -360,7 +408,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 12,
@@ -372,9 +423,9 @@
         -12
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -168.0250931
+        -179.0010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -384,7 +435,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 13,
@@ -396,9 +450,9 @@
         -13
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -179.2750931
+        -190.2510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -408,7 +462,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 14,
@@ -420,9 +477,9 @@
         -14
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -190.5250931
+        -201.5010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -432,7 +489,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 15,
@@ -444,9 +504,9 @@
         -15
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -201.7750931
+        -212.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -456,7 +516,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 16,
@@ -468,9 +531,9 @@
         -16
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -213.0250931
+        -224.0010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -480,7 +543,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 17,
@@ -492,9 +558,9 @@
         -17
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -224.2750931
+        -235.2510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -504,7 +570,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 18,
@@ -516,9 +585,9 @@
         -18
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -235.5250931
+        -246.5010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -528,7 +597,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 19,
@@ -540,9 +612,9 @@
         -19
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -246.7750931
+        -257.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -552,7 +624,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 20,
@@ -564,9 +639,9 @@
         -20
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -258.0250931
+        -269.0010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -576,7 +651,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 21,
@@ -588,9 +666,9 @@
         -21
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -269.2750931
+        -280.2510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -600,7 +678,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 22,
@@ -612,9 +693,9 @@
         -22
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -280.5250931
+        -291.5010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -624,7 +705,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 23,
@@ -636,9 +720,9 @@
         -23
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -291.7750931
+        -302.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -648,7 +732,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 24,
@@ -660,9 +747,9 @@
         -24
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -303.0250931
+        -314.0010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -672,7 +759,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 25,
@@ -684,9 +774,9 @@
         -25
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -314.2750931
+        -325.2510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -696,7 +786,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 26,
@@ -708,9 +801,9 @@
         -26
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -325.5250931
+        -336.5010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -720,7 +813,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 27,
@@ -732,9 +828,9 @@
         -27
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -744,7 +840,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Corner_Approach.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 28,
@@ -756,9 +855,9 @@
         -27
       ],
       "world": [
-        116.299927,
+        112.999924,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "RightTurn",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
@@ -768,7 +867,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Full_Width_Corner.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 29,
@@ -780,9 +882,9 @@
         -27
       ],
       "world": [
-        105.049927,
+        101.749924,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -792,7 +894,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 30,
@@ -804,9 +909,9 @@
         -27
       ],
       "world": [
-        93.799927,
+        90.49992,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -816,7 +921,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 31,
@@ -828,9 +936,9 @@
         -27
       ],
       "world": [
-        82.549927,
+        79.24992,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -840,7 +948,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 32,
@@ -852,9 +963,9 @@
         -27
       ],
       "world": [
-        71.299927,
+        67.99992,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -864,7 +975,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 33,
@@ -876,9 +990,9 @@
         -27
       ],
       "world": [
-        60.049927,
+        56.7499237,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -888,7 +1002,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 34,
@@ -900,9 +1017,9 @@
         -27
       ],
       "world": [
-        48.799927,
+        45.4999237,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -912,7 +1029,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 35,
@@ -924,9 +1044,9 @@
         -27
       ],
       "world": [
-        37.549927,
+        34.2499237,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -936,7 +1056,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 36,
@@ -948,9 +1071,9 @@
         -27
       ],
       "world": [
-        26.299926999999997,
+        22.9999237,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -960,7 +1083,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 37,
@@ -972,9 +1098,9 @@
         -27
       ],
       "world": [
-        15.049926999999997,
+        11.7499237,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -984,7 +1110,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 38,
@@ -996,9 +1125,9 @@
         -27
       ],
       "world": [
-        3.7999269999999967,
+        0.4999237,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1008,7 +1137,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 39,
@@ -1020,9 +1152,9 @@
         -27
       ],
       "world": [
-        -7.450073000000003,
+        -10.7500763,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1032,7 +1164,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 40,
@@ -1044,9 +1179,9 @@
         -27
       ],
       "world": [
-        -18.700073000000003,
+        -22.0000763,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1056,7 +1191,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 41,
@@ -1068,9 +1206,9 @@
         -27
       ],
       "world": [
-        -29.950073000000003,
+        -33.2500763,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1080,7 +1218,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 42,
@@ -1092,9 +1233,9 @@
         -27
       ],
       "world": [
-        -41.200073,
+        -44.5000763,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1104,7 +1245,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 43,
@@ -1116,9 +1260,9 @@
         -27
       ],
       "world": [
-        -52.450073,
+        -55.7500763,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1128,7 +1272,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 44,
@@ -1140,9 +1287,9 @@
         -27
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -336.7750931
+        -347.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1152,7 +1299,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Corner_Approach.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 45,
@@ -1164,9 +1314,9 @@
         -26
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -325.5250931
+        -336.5010962
       ],
       "kind": "RightTurn",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
@@ -1176,7 +1326,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Full_Width_Corner.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 46,
@@ -1188,9 +1341,9 @@
         -25
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -314.2750931
+        -325.2510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1200,7 +1353,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 47,
@@ -1212,9 +1368,9 @@
         -24
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -303.0250931
+        -314.0010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1224,7 +1380,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 48,
@@ -1236,9 +1395,9 @@
         -23
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -291.7750931
+        -302.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1248,7 +1407,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 49,
@@ -1260,9 +1422,9 @@
         -22
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -280.5250931
+        -291.5010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1272,7 +1434,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 50,
@@ -1284,9 +1449,9 @@
         -21
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -269.2750931
+        -280.2510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1296,7 +1461,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 51,
@@ -1308,9 +1476,9 @@
         -20
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -258.0250931
+        -269.0010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1320,7 +1488,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 52,
@@ -1332,9 +1503,9 @@
         -19
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -246.7750931
+        -257.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1344,7 +1515,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 53,
@@ -1356,9 +1530,9 @@
         -18
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -235.5250931
+        -246.5010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1368,7 +1542,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 54,
@@ -1380,9 +1557,9 @@
         -17
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -224.2750931
+        -235.2510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1392,7 +1569,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 55,
@@ -1404,9 +1584,9 @@
         -16
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -213.0250931
+        -224.0010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1416,7 +1596,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 56,
@@ -1428,9 +1611,9 @@
         -15
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -201.7750931
+        -212.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1440,7 +1623,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 57,
@@ -1452,9 +1638,9 @@
         -14
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -190.5250931
+        -201.5010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1464,7 +1650,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 58,
@@ -1476,9 +1665,9 @@
         -13
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -179.2750931
+        -190.2510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1488,7 +1677,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 59,
@@ -1500,9 +1692,9 @@
         -12
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -168.0250931
+        -179.0010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1512,7 +1704,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 60,
@@ -1524,9 +1719,9 @@
         -11
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -156.7750931
+        -167.7510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1536,7 +1731,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 61,
@@ -1548,9 +1746,9 @@
         -10
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -145.5250931
+        -156.5010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1560,7 +1758,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 62,
@@ -1572,9 +1773,9 @@
         -9
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -134.2750931
+        -145.2510962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1584,7 +1785,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 63,
@@ -1596,9 +1800,9 @@
         -8
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -123.02509309999999
+        -134.0010962
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1608,7 +1812,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 64,
@@ -1620,9 +1827,9 @@
         -7
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -111.77509309999999
+        -122.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1632,7 +1839,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 65,
@@ -1644,9 +1854,9 @@
         -6
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -100.52509309999999
+        -111.50109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1656,7 +1866,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 66,
@@ -1668,9 +1881,9 @@
         -5
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -89.27509309999999
+        -100.25109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1680,7 +1893,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 67,
@@ -1692,9 +1908,9 @@
         -4
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -78.02509309999999
+        -89.00109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1704,7 +1920,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 68,
@@ -1716,9 +1935,9 @@
         -3
       ],
       "world": [
-        -63.700073,
+        -67.00008,
         0,
-        -66.77509309999999
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1728,7 +1947,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Corner_Approach.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 69,
@@ -1740,9 +1962,9 @@
         -3
       ],
       "world": [
-        -52.450073,
+        -55.7500763,
         0,
-        -66.77509309999999
+        -77.75109619999999
       ],
       "kind": "RightTurn",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
@@ -1752,7 +1974,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Full_Width_Corner.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 70,
@@ -1764,19 +1989,22 @@
         -3
       ],
       "world": [
-        -41.200073,
-        6.5,
-        -66.77509309999999
+        -44.5000763,
+        4,
+        -77.75109619999999
       ],
       "kind": "Uphill",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy.prefab",
       "yaw": 90,
       "scale": [
         2.2,
-        24.3,
-        4.94
+        4,
+        2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Rising_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 4
     },
     {
       "index": 71,
@@ -1788,19 +2016,22 @@
         -3
       ],
       "world": [
-        -29.950073000000003,
-        30,
-        -66.77509309999999
+        -33.2500763,
+        8,
+        -77.75109619999999
       ],
-      "kind": "Basic",
-      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "kind": "Uphill",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy.prefab",
       "yaw": 90,
       "scale": [
         2.2,
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Rising_Deck.asset",
+      "deckStartY": 4,
+      "deckEndY": 8
     },
     {
       "index": 72,
@@ -1812,19 +2043,22 @@
         -3
       ],
       "world": [
-        -18.700073000000003,
-        30,
-        -66.77509309999999
+        -22.0000763,
+        12,
+        -77.75109619999999
       ],
-      "kind": "Basic",
-      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "kind": "Uphill",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy.prefab",
       "yaw": 90,
       "scale": [
         2.2,
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Rising_Deck.asset",
+      "deckStartY": 8,
+      "deckEndY": 12
     },
     {
       "index": 73,
@@ -1836,9 +2070,9 @@
         -3
       ],
       "world": [
-        -7.450073000000003,
-        30,
-        -66.77509309999999
+        -10.7500763,
+        12,
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1848,7 +2082,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 74,
@@ -1860,9 +2097,9 @@
         -3
       ],
       "world": [
-        3.7999269999999967,
-        30,
-        -66.77509309999999
+        0.4999237,
+        12,
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1872,7 +2109,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 75,
@@ -1884,9 +2124,9 @@
         -3
       ],
       "world": [
-        15.049926999999997,
-        30,
-        -66.77509309999999
+        11.7499237,
+        12,
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1896,7 +2136,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 76,
@@ -1908,9 +2151,9 @@
         -3
       ],
       "world": [
-        26.299926999999997,
-        30,
-        -66.77509309999999
+        22.9999237,
+        12,
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1920,7 +2163,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 77,
@@ -1932,9 +2178,9 @@
         -3
       ],
       "world": [
-        37.549927,
-        30,
-        -66.77509309999999
+        34.2499237,
+        12,
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1944,7 +2190,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 78,
@@ -1956,9 +2205,9 @@
         -3
       ],
       "world": [
-        48.799927,
-        30,
-        -66.77509309999999
+        45.4999237,
+        12,
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1968,7 +2217,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 79,
@@ -1980,9 +2232,9 @@
         -3
       ],
       "world": [
-        60.049927,
-        30,
-        -66.77509309999999
+        56.7499237,
+        12,
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -1992,7 +2244,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 80,
@@ -2004,9 +2259,9 @@
         -3
       ],
       "world": [
-        71.299927,
-        30,
-        -66.77509309999999
+        67.99992,
+        12,
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2016,7 +2271,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 81,
@@ -2028,9 +2286,9 @@
         -3
       ],
       "world": [
-        82.549927,
-        30,
-        -66.77509309999999
+        79.24992,
+        12,
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2040,7 +2298,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 82,
@@ -2052,9 +2313,9 @@
         -3
       ],
       "world": [
-        93.799927,
-        30,
-        -66.77509309999999
+        90.49992,
+        12,
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2064,7 +2325,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 83,
@@ -2076,9 +2340,9 @@
         -3
       ],
       "world": [
-        105.049927,
-        30,
-        -66.77509309999999
+        101.749924,
+        12,
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2088,7 +2352,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 84,
@@ -2100,9 +2367,9 @@
         -3
       ],
       "world": [
-        116.299927,
-        30,
-        -66.77509309999999
+        112.999924,
+        12,
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2112,7 +2379,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 85,
@@ -2124,9 +2394,9 @@
         -3
       ],
       "world": [
-        127.549927,
-        30,
-        -66.77509309999999
+        124.249924,
+        12,
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2136,7 +2406,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 86,
@@ -2148,9 +2421,9 @@
         -3
       ],
       "world": [
-        138.799927,
-        30,
-        -66.77509309999999
+        135.499924,
+        12,
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2160,7 +2433,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 87,
@@ -2172,19 +2448,22 @@
         -3
       ],
       "world": [
-        150.049927,
-        6.5,
-        -66.77509309999999
+        146.749924,
+        8,
+        -77.75109619999999
       ],
       "kind": "Downhill",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy_Downhill.prefab",
       "yaw": 90,
       "scale": [
         2.2,
-        24.3,
-        4.94
+        4,
+        2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Falling_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 8
     },
     {
       "index": 88,
@@ -2196,19 +2475,22 @@
         -3
       ],
       "world": [
-        161.299927,
-        0,
-        -66.77509309999999
+        157.999924,
+        4,
+        -77.75109619999999
       ],
-      "kind": "Basic",
-      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "kind": "Downhill",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy_Downhill.prefab",
       "yaw": 90,
       "scale": [
         2.2,
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Falling_Deck.asset",
+      "deckStartY": 8,
+      "deckEndY": 4
     },
     {
       "index": 89,
@@ -2220,19 +2502,22 @@
         -3
       ],
       "world": [
-        172.549927,
+        169.249924,
         0,
-        -66.77509309999999
+        -77.75109619999999
       ],
-      "kind": "Basic",
-      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "kind": "Downhill",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy_Downhill.prefab",
       "yaw": 90,
       "scale": [
         2.2,
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Falling_Deck.asset",
+      "deckStartY": 4,
+      "deckEndY": 0
     },
     {
       "index": 90,
@@ -2244,9 +2529,9 @@
         -3
       ],
       "world": [
-        183.799927,
+        180.499924,
         0,
-        -66.77509309999999
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2256,7 +2541,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 91,
@@ -2268,9 +2556,9 @@
         -3
       ],
       "world": [
-        195.049927,
+        191.749924,
         0,
-        -66.77509309999999
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2280,7 +2568,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 92,
@@ -2292,9 +2583,9 @@
         -3
       ],
       "world": [
-        206.299927,
+        202.999924,
         0,
-        -66.77509309999999
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2304,7 +2595,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 93,
@@ -2316,9 +2610,9 @@
         -3
       ],
       "world": [
-        217.549927,
+        214.249924,
         0,
-        -66.77509309999999
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2328,7 +2622,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 94,
@@ -2340,9 +2637,9 @@
         -3
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        -66.77509309999999
+        -77.75109619999999
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2352,7 +2649,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Corner_Approach.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 95,
@@ -2364,9 +2664,9 @@
         -2
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        -55.5250931
+        -66.50109619999999
       ],
       "kind": "LeftTurn",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_LeftTurn.prefab",
@@ -2376,7 +2676,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Full_Width_Corner.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 96,
@@ -2388,9 +2691,9 @@
         -1
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        -44.2750931
+        -55.25109
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2400,7 +2703,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 97,
@@ -2412,9 +2718,9 @@
         0
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        -33.0250931
+        -44.00109
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2424,7 +2730,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 98,
@@ -2436,9 +2745,9 @@
         1
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        -21.7750931
+        -32.75109
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2448,7 +2757,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 99,
@@ -2460,9 +2772,9 @@
         2
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        -10.5250931
+        -21.501089999999994
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2472,7 +2784,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 100,
@@ -2484,9 +2799,9 @@
         3
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        0.7249069000000006
+        -10.251089999999994
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2496,7 +2811,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 101,
@@ -2508,9 +2826,9 @@
         4
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        11.9749069
+        0.9989099580000055
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2520,7 +2838,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 102,
@@ -2532,9 +2853,9 @@
         5
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        23.2249069
+        12.248910000000006
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2544,7 +2865,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 103,
@@ -2556,9 +2880,9 @@
         6
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        34.4749069
+        23.498910000000006
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2568,7 +2892,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 104,
@@ -2580,9 +2907,9 @@
         7
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        45.7249069
+        34.74891
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2592,7 +2919,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 105,
@@ -2604,9 +2934,9 @@
         8
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        56.9749069
+        45.99891
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2616,7 +2946,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 106,
@@ -2628,9 +2961,9 @@
         9
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        68.22490690000001
+        57.24891
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2640,7 +2973,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Corner_Approach.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 107,
@@ -2652,9 +2988,9 @@
         9
       ],
       "world": [
-        240.049927,
+        236.749924,
         0,
-        68.22490690000001
+        57.24891
       ],
       "kind": "RightTurn",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
@@ -2664,7 +3000,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Full_Width_Corner.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 108,
@@ -2676,9 +3015,9 @@
         9
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        68.22490690000001
+        57.24891
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2688,7 +3027,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 109,
@@ -2700,9 +3042,9 @@
         9
       ],
       "world": [
-        262.549927,
+        259.249939,
         0,
-        68.22490690000001
+        57.24891
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2712,7 +3054,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 110,
@@ -2724,9 +3069,9 @@
         9
       ],
       "world": [
-        273.799927,
+        270.499939,
         0,
-        68.22490690000001
+        57.24891
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2736,7 +3081,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 111,
@@ -2748,9 +3096,9 @@
         9
       ],
       "world": [
-        285.049927,
+        281.749939,
         0,
-        68.22490690000001
+        57.24891
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2760,7 +3108,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 112,
@@ -2772,9 +3123,9 @@
         9
       ],
       "world": [
-        296.299927,
+        292.999939,
         0,
-        68.22490690000001
+        57.24891
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2784,7 +3135,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 113,
@@ -2796,9 +3150,9 @@
         9
       ],
       "world": [
-        307.549927,
+        304.249939,
         0,
-        68.22490690000001
+        57.24891
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2808,7 +3162,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 114,
@@ -2820,9 +3177,9 @@
         9
       ],
       "world": [
-        318.799927,
+        315.499939,
         0,
-        68.22490690000001
+        57.24891
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2832,7 +3189,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 115,
@@ -2844,9 +3204,9 @@
         9
       ],
       "world": [
-        330.049927,
+        326.749939,
         0,
-        68.22490690000001
+        57.24891
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2856,7 +3216,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Corner_Approach.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 116,
@@ -2868,9 +3231,9 @@
         10
       ],
       "world": [
-        330.049927,
+        326.749939,
         0,
-        79.47490690000001
+        68.49890380000001
       ],
       "kind": "LeftTurn",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_LeftTurn.prefab",
@@ -2880,7 +3243,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Full_Width_Corner.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 117,
@@ -2892,9 +3258,9 @@
         11
       ],
       "world": [
-        330.049927,
+        326.749939,
         0,
-        90.72490690000001
+        79.74890380000001
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2904,7 +3270,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 118,
@@ -2916,9 +3285,9 @@
         12
       ],
       "world": [
-        330.049927,
+        326.749939,
         0,
-        101.97490690000001
+        90.99890380000001
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2928,7 +3297,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 119,
@@ -2940,9 +3312,9 @@
         13
       ],
       "world": [
-        330.049927,
+        326.749939,
         0,
-        113.22490690000001
+        102.24890380000001
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2952,7 +3324,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 120,
@@ -2964,9 +3339,9 @@
         14
       ],
       "world": [
-        330.049927,
+        326.749939,
         0,
-        124.47490690000001
+        113.49890380000001
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -2976,7 +3351,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 121,
@@ -2988,9 +3366,9 @@
         15
       ],
       "world": [
-        330.049927,
+        326.749939,
         0,
-        135.7249069
+        124.74890380000001
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3000,7 +3378,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 122,
@@ -3012,9 +3393,9 @@
         16
       ],
       "world": [
-        330.049927,
+        326.749939,
         0,
-        146.9749069
+        135.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3024,7 +3405,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 123,
@@ -3036,9 +3420,9 @@
         17
       ],
       "world": [
-        330.049927,
+        326.749939,
         0,
-        158.2249069
+        147.2489038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3048,7 +3432,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 124,
@@ -3060,9 +3447,9 @@
         18
       ],
       "world": [
-        330.049927,
+        326.749939,
         0,
-        169.4749069
+        158.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3072,7 +3459,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 125,
@@ -3084,9 +3474,9 @@
         19
       ],
       "world": [
-        330.049927,
+        326.749939,
         0,
-        180.7249069
+        169.7489038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3096,7 +3486,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 126,
@@ -3108,9 +3501,9 @@
         20
       ],
       "world": [
-        330.049927,
+        326.749939,
         0,
-        191.9749069
+        180.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3120,7 +3513,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 127,
@@ -3132,9 +3528,9 @@
         21
       ],
       "world": [
-        330.049927,
+        326.749939,
         0,
-        203.2249069
+        192.2489038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3144,7 +3540,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 128,
@@ -3156,9 +3555,9 @@
         22
       ],
       "world": [
-        330.049927,
+        326.749939,
         0,
-        214.4749069
+        203.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3168,7 +3567,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Corner_Approach.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 129,
@@ -3180,9 +3582,9 @@
         22
       ],
       "world": [
-        341.299927,
+        337.999939,
         0,
-        214.4749069
+        203.4989038
       ],
       "kind": "RightTurn",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
@@ -3192,7 +3594,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Full_Width_Corner.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 130,
@@ -3204,9 +3609,9 @@
         22
       ],
       "world": [
-        352.549927,
+        349.249939,
         0,
-        214.4749069
+        203.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3216,7 +3621,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 131,
@@ -3228,9 +3636,9 @@
         22
       ],
       "world": [
-        363.799927,
+        360.499939,
         0,
-        214.4749069
+        203.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3240,7 +3648,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 132,
@@ -3252,9 +3663,9 @@
         22
       ],
       "world": [
-        375.049927,
+        371.749939,
         0,
-        214.4749069
+        203.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3264,7 +3675,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 133,
@@ -3276,9 +3690,9 @@
         22
       ],
       "world": [
-        386.299927,
+        382.999939,
         0,
-        214.4749069
+        203.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3288,7 +3702,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 134,
@@ -3300,9 +3717,9 @@
         22
       ],
       "world": [
-        397.549927,
+        394.249939,
         0,
-        214.4749069
+        203.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3312,7 +3729,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 135,
@@ -3324,9 +3744,9 @@
         22
       ],
       "world": [
-        408.799927,
+        405.499939,
         0,
-        214.4749069
+        203.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3336,7 +3756,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 136,
@@ -3348,9 +3771,9 @@
         22
       ],
       "world": [
-        420.049927,
+        416.749939,
         0,
-        214.4749069
+        203.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3360,7 +3783,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 137,
@@ -3372,9 +3798,9 @@
         22
       ],
       "world": [
-        431.299927,
+        427.999939,
         0,
-        214.4749069
+        203.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3384,7 +3810,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 138,
@@ -3396,9 +3825,9 @@
         22
       ],
       "world": [
-        442.549927,
+        439.249939,
         0,
-        214.4749069
+        203.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3408,7 +3837,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Corner_Approach.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 139,
@@ -3420,9 +3852,9 @@
         21
       ],
       "world": [
-        442.549927,
+        439.249939,
         0,
-        203.2249069
+        192.2489038
       ],
       "kind": "RightTurn",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
@@ -3432,7 +3864,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Full_Width_Corner.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 140,
@@ -3444,9 +3879,9 @@
         20
       ],
       "world": [
-        442.549927,
+        439.249939,
         0,
-        191.9749069
+        180.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3456,7 +3891,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 141,
@@ -3468,9 +3906,9 @@
         19
       ],
       "world": [
-        442.549927,
+        439.249939,
         0,
-        180.7249069
+        169.7489038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3480,7 +3918,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 142,
@@ -3492,9 +3933,9 @@
         18
       ],
       "world": [
-        442.549927,
+        439.249939,
         0,
-        169.4749069
+        158.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3504,7 +3945,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 143,
@@ -3516,9 +3960,9 @@
         17
       ],
       "world": [
-        442.549927,
+        439.249939,
         0,
-        158.2249069
+        147.2489038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3528,7 +3972,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 144,
@@ -3540,9 +3987,9 @@
         16
       ],
       "world": [
-        442.549927,
+        439.249939,
         0,
-        146.9749069
+        135.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3552,7 +3999,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Corner_Approach.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 145,
@@ -3564,9 +4014,9 @@
         16
       ],
       "world": [
-        431.299927,
+        427.999939,
         0,
-        146.9749069
+        135.9989038
       ],
       "kind": "RightTurn",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
@@ -3576,7 +4026,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Full_Width_Corner.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 146,
@@ -3588,9 +4041,9 @@
         16
       ],
       "world": [
-        420.049927,
+        416.749939,
         0,
-        146.9749069
+        135.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3600,7 +4053,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 147,
@@ -3612,9 +4068,9 @@
         16
       ],
       "world": [
-        408.799927,
+        405.499939,
         0,
-        146.9749069
+        135.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3624,7 +4080,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 148,
@@ -3636,9 +4095,9 @@
         16
       ],
       "world": [
-        397.549927,
+        394.249939,
         0,
-        146.9749069
+        135.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3648,7 +4107,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 149,
@@ -3660,9 +4122,9 @@
         16
       ],
       "world": [
-        386.299927,
+        382.999939,
         0,
-        146.9749069
+        135.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3672,7 +4134,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 150,
@@ -3684,9 +4149,9 @@
         16
       ],
       "world": [
-        375.049927,
+        371.749939,
         0,
-        146.9749069
+        135.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3696,7 +4161,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 151,
@@ -3708,19 +4176,22 @@
         16
       ],
       "world": [
-        363.799927,
-        6.5,
-        146.9749069
+        360.499939,
+        4,
+        135.9989038
       ],
       "kind": "Uphill",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy.prefab",
       "yaw": 270,
       "scale": [
         2.2,
-        24.3,
-        4.94
+        4,
+        2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Rising_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 4
     },
     {
       "index": 152,
@@ -3732,19 +4203,22 @@
         16
       ],
       "world": [
-        352.549927,
-        30,
-        146.9749069
+        349.249939,
+        8,
+        135.9989038
       ],
-      "kind": "Basic",
-      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "kind": "Uphill",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy.prefab",
       "yaw": 270,
       "scale": [
         2.2,
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Rising_Deck.asset",
+      "deckStartY": 4,
+      "deckEndY": 8
     },
     {
       "index": 153,
@@ -3756,19 +4230,22 @@
         16
       ],
       "world": [
-        341.299927,
-        30,
-        146.9749069
+        337.999939,
+        12,
+        135.9989038
       ],
-      "kind": "Basic",
-      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "kind": "Uphill",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy.prefab",
       "yaw": 270,
       "scale": [
         2.2,
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Rising_Deck.asset",
+      "deckStartY": 8,
+      "deckEndY": 12
     },
     {
       "index": 154,
@@ -3780,9 +4257,9 @@
         16
       ],
       "world": [
-        330.049927,
-        30,
-        146.9749069
+        326.749939,
+        12,
+        135.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3792,7 +4269,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 155,
@@ -3804,9 +4284,9 @@
         16
       ],
       "world": [
-        318.799927,
-        30,
-        146.9749069
+        315.499939,
+        12,
+        135.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3816,7 +4296,10 @@
         4,
         2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Clearance_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 12
     },
     {
       "index": 156,
@@ -3828,19 +4311,22 @@
         16
       ],
       "world": [
-        307.549927,
-        6.5,
-        146.9749069
+        304.249939,
+        8,
+        135.9989038
       ],
       "kind": "Downhill",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy_Downhill.prefab",
       "yaw": 270,
       "scale": [
         2.2,
-        24.3,
-        4.94
+        4,
+        2.24
       ],
-      "elevated": true
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Falling_Deck.asset",
+      "deckStartY": 12,
+      "deckEndY": 8
     },
     {
       "index": 157,
@@ -3852,19 +4338,22 @@
         16
       ],
       "world": [
-        296.299927,
-        0,
-        146.9749069
+        292.999939,
+        4,
+        135.9989038
       ],
-      "kind": "Basic",
-      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "kind": "Downhill",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy_Downhill.prefab",
       "yaw": 270,
       "scale": [
         2.2,
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Falling_Deck.asset",
+      "deckStartY": 8,
+      "deckEndY": 4
     },
     {
       "index": 158,
@@ -3876,19 +4365,22 @@
         16
       ],
       "world": [
-        285.049927,
+        281.749939,
         0,
-        146.9749069
+        135.9989038
       ],
-      "kind": "Basic",
-      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
+      "kind": "Downhill",
+      "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Rope_Stairs_Fantasy_Downhill.prefab",
       "yaw": 270,
       "scale": [
         2.2,
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": true,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Falling_Deck.asset",
+      "deckStartY": 4,
+      "deckEndY": 0
     },
     {
       "index": 159,
@@ -3900,9 +4392,9 @@
         16
       ],
       "world": [
-        273.799927,
+        270.499939,
         0,
-        146.9749069
+        135.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3912,7 +4404,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 160,
@@ -3924,9 +4419,9 @@
         16
       ],
       "world": [
-        262.549927,
+        259.249939,
         0,
-        146.9749069
+        135.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3936,7 +4431,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 161,
@@ -3948,9 +4446,9 @@
         16
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        146.9749069
+        135.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -3960,7 +4458,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Corner_Approach.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 162,
@@ -3972,9 +4473,9 @@
         17
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        158.2249069
+        147.2489038
       ],
       "kind": "RightTurn",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy_RightTurn.prefab",
@@ -3984,7 +4485,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Full_Width_Corner.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 163,
@@ -3996,9 +4500,9 @@
         18
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        169.4749069
+        158.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4008,7 +4512,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 164,
@@ -4020,9 +4527,9 @@
         19
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        180.7249069
+        169.7489038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4032,7 +4539,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 165,
@@ -4044,9 +4554,9 @@
         20
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        191.9749069
+        180.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4056,7 +4566,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 166,
@@ -4068,9 +4581,9 @@
         21
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        203.2249069
+        192.2489038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4080,7 +4593,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 167,
@@ -4092,9 +4608,9 @@
         22
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        214.4749069
+        203.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4104,7 +4620,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 168,
@@ -4116,9 +4635,9 @@
         23
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        225.7249069
+        214.7489038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4128,7 +4647,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 169,
@@ -4140,9 +4662,9 @@
         24
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        236.9749069
+        225.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4152,7 +4674,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 170,
@@ -4164,9 +4689,9 @@
         25
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        248.2249069
+        237.2489038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4176,7 +4701,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 171,
@@ -4188,9 +4716,9 @@
         26
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        259.4749069
+        248.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4200,7 +4728,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 172,
@@ -4212,9 +4743,9 @@
         27
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        270.7249069
+        259.7489038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4224,7 +4755,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 173,
@@ -4236,9 +4770,9 @@
         28
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        281.9749069
+        270.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4248,7 +4782,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 174,
@@ -4260,9 +4797,9 @@
         29
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        293.2249069
+        282.2489038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4272,7 +4809,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 175,
@@ -4284,9 +4824,9 @@
         30
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        304.4749069
+        293.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4296,7 +4836,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 176,
@@ -4308,9 +4851,9 @@
         31
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        315.7249069
+        304.7489038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4320,7 +4863,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 177,
@@ -4332,9 +4878,9 @@
         32
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        326.9749069
+        315.9989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4344,7 +4890,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 178,
@@ -4356,9 +4905,9 @@
         33
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        338.2249069
+        327.2489038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4368,7 +4917,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     },
     {
       "index": 179,
@@ -4380,9 +4932,9 @@
         34
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        349.4749069
+        338.4989038
       ],
       "kind": "Basic",
       "prefabPath": "Assets/polyperfect/Poly Universal Pack/Prefabs/Fantasy/Docks Fantasy/Pier_Long_Fantasy.prefab",
@@ -4392,7 +4944,10 @@
         4,
         2.24
       ],
-      "elevated": false
+      "elevated": false,
+      "surfaceMeshPath": "Assets/ShooterSurvival/Models/Generated/SR18RoadDecks/SR18_Centered_Deck.asset",
+      "deckStartY": 0,
+      "deckEndY": 0
     }
   ],
   "turnSpots": [
@@ -4404,9 +4959,9 @@
         -27
       ],
       "world": [
-        127.549927,
+        124.249924,
         0,
-        -336.7750931
+        -347.75109000000003
       ],
       "triggerYaw": 180,
       "targetYaw": 270,
@@ -4421,9 +4976,9 @@
         -27
       ],
       "world": [
-        -63.700073,
+        -67.000076,
         0,
-        -336.7750931
+        -347.75109000000003
       ],
       "triggerYaw": 270,
       "targetYaw": 0,
@@ -4438,9 +4993,9 @@
         -3
       ],
       "world": [
-        -63.700073,
+        -67.000076,
         0,
-        -66.77509309999999
+        -77.75108999999999
       ],
       "triggerYaw": 0,
       "targetYaw": 90,
@@ -4455,9 +5010,9 @@
         -3
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        -66.77509309999999
+        -77.75108999999999
       ],
       "triggerYaw": 90,
       "targetYaw": 0,
@@ -4472,9 +5027,9 @@
         9
       ],
       "world": [
-        228.799927,
+        225.499924,
         0,
-        68.22490690000001
+        57.24891
       ],
       "triggerYaw": 0,
       "targetYaw": 90,
@@ -4489,9 +5044,9 @@
         9
       ],
       "world": [
-        330.049927,
+        326.74992399999996,
         0,
-        68.22490690000001
+        57.24891
       ],
       "triggerYaw": 90,
       "targetYaw": 0,
@@ -4506,9 +5061,9 @@
         22
       ],
       "world": [
-        330.049927,
+        326.74992399999996,
         0,
-        214.4749069
+        203.49891000000002
       ],
       "triggerYaw": 0,
       "targetYaw": 90,
@@ -4523,9 +5078,9 @@
         22
       ],
       "world": [
-        442.549927,
+        439.24992399999996,
         0,
-        214.4749069
+        203.49891000000002
       ],
       "triggerYaw": 90,
       "targetYaw": 180,
@@ -4540,9 +5095,9 @@
         16
       ],
       "world": [
-        442.549927,
+        439.24992399999996,
         0,
-        146.9749069
+        135.99891000000002
       ],
       "triggerYaw": 180,
       "targetYaw": 270,
@@ -4557,9 +5112,9 @@
         16
       ],
       "world": [
-        251.299927,
+        247.999924,
         0,
-        146.9749069
+        135.99891000000002
       ],
       "triggerYaw": 270,
       "targetYaw": 0,

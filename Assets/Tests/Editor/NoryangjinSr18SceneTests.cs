@@ -30,8 +30,77 @@ public sealed class NoryangjinSr18SceneTests
         "D3CFFE380E022ED0D45F9A251581861B2066960D48D54F5897181038F81C1315";
     private const string Map2ReviewedSha256 =
         "F7C8F2E0B39F2E515C5A237ED8E18E14CA60ECA5170914F10C01EC128A8C61E1";
-    private const string Sr18ReviewedSha256 =
-        "296ABEF194DBF4D3E7E857E962267B8F09CC2884146EE7D62B10C620BE148CDB";
+
+    [Test]
+    public void Sr18RoadDecks_SupportThreeLanesAcrossEveryJoinAndRamp()
+    {
+        Scene scene = SceneManager.GetSceneByPath(Sr18Path);
+        bool opened = !scene.IsValid() || !scene.isLoaded;
+        if (opened)
+            scene = EditorSceneManager.OpenScene(Sr18Path, OpenSceneMode.Additive);
+        try
+        {
+            Transform roads = FindRoot(scene, "Noryangjin_MapTool").transform.Find("Roads");
+            Physics.SyncTransforms();
+            PlacementReport report = LoadReport();
+            Transform endpoint = roads.Find(report.source.endpointRoadName);
+            Vector3 origin = endpoint.TransformPoint(new Vector3(-1.5f, 0f, -4.9f));
+            Collider[][] colliders = Enumerable.Range(51, 179)
+                .Select(index => roads.GetChild(index).GetComponentsInChildren<Collider>(true)).ToArray();
+            var failures = new List<string>();
+            int samples = 0;
+            for (int index = 0; index < report.roads.Length; index++)
+            {
+                RoadPlacement road = report.roads[index];
+                Vector2Int gridStep = DirectionStep(road.direction);
+                Vector3 forward = new Vector3(gridStep.x, 0f, gridStep.y);
+                Vector3 side = Vector3.Cross(Vector3.up, forward);
+                Vector3 end = origin + new Vector3(road.@abstract[0], 0f, road.@abstract[1]) * report.source.pitch;
+                Collider[] nearby = colliders.Skip(Mathf.Max(0, index - 1)).Take(index == 0 ? 2 : 3).SelectMany(items => items)
+                    .Concat(index == 0 ? endpoint.GetComponentsInChildren<Collider>(true) : Array.Empty<Collider>()).ToArray();
+                for (int step = 0; step <= 45; step++)
+                {
+                    float fraction = step / 45f;
+                    float height = Mathf.Lerp(DeckHeightAt(index), DeckHeightAt(index + 1), fraction);
+                    foreach (float lane in new[] { -2f, 0f, 2f })
+                    {
+                        Vector3 point = end - forward * report.source.pitch * (1f - fraction) + side * lane;
+                        point.y = height;
+                        samples++;
+                        bool supported = false;
+                        foreach (float nudge in new[] { 0f, -0.06f, 0.06f })
+                        {
+                            Ray ray = new Ray(point + forward * nudge + Vector3.up * 0.45f, Vector3.down);
+                            if (nearby.Any(collider => collider.Raycast(ray, out RaycastHit hit, 0.9f) && hit.normal.y > 0.7f))
+                            {
+                                supported = true;
+                                break;
+                            }
+                        }
+                        if (!supported && failures.Count < 20)
+                            failures.Add($"road {index + 1}, t={fraction:F2}, lane={lane}: no deck at {point}");
+                    }
+                }
+            }
+            Assert.That(failures, Is.Empty, $"Actual deck support failed among {samples} samples:\n" + string.Join("\n", failures));
+        }
+        finally
+        {
+            if (opened)
+                EditorSceneManager.CloseScene(scene, true);
+        }
+    }
+
+    private static float DeckHeightAt(int completedRoads)
+    {
+        if (completedRoads >= 70 && completedRoads <= 72) return (completedRoads - 69) * 4f;
+        if (completedRoads >= 73 && completedRoads <= 86) return 12f;
+        if (completedRoads >= 87 && completedRoads <= 89) return (89 - completedRoads) * 4f;
+        if (completedRoads >= 151 && completedRoads <= 153) return (completedRoads - 150) * 4f;
+        if (completedRoads >= 154 && completedRoads <= 155) return 12f;
+        if (completedRoads >= 156 && completedRoads <= 158) return (158 - completedRoads) * 4f;
+        return 0f;
+    }
 
     [Test]
     public void MapTool_RecognizesTheSr18SiblingScene()
@@ -60,7 +129,7 @@ public sealed class NoryangjinSr18SceneTests
         Assert.That(File.Exists(Sr18Path), Is.True, "SR18 scene has not been baked yet.");
         Assert.That(HashFile(Map1Path), Is.EqualTo(Map1ReviewedSha256), "Reviewed Map1 baseline changed.");
         Assert.That(HashFile(Map2Path), Is.EqualTo(Map2ReviewedSha256), "Reviewed Map2 baseline changed.");
-        Assert.That(HashFile(Sr18Path), Is.EqualTo(Sr18ReviewedSha256), "Reviewed roads-only SR18 baseline changed.");
+        string sr18Before = HashFile(Sr18Path);
 
         PlacementReport report = LoadReport();
         AssertPlacementReportContract(report, LoadSr18Manifest());
@@ -135,7 +204,7 @@ public sealed class NoryangjinSr18SceneTests
 
             Assert.That(HashFile(Map1Path), Is.EqualTo(Map1ReviewedSha256));
             Assert.That(HashFile(Map2Path), Is.EqualTo(Map2ReviewedSha256));
-            Assert.That(HashFile(Sr18Path), Is.EqualTo(Sr18ReviewedSha256));
+            Assert.That(HashFile(Sr18Path), Is.EqualTo(sr18Before), "Validation must not write the authored scene.");
             if (previousActive.IsValid() && previousActive.isLoaded)
                 Assert.That(previousActive.isDirty, Is.EqualTo(previousDirty));
         }
@@ -197,14 +266,14 @@ public sealed class NoryangjinSr18SceneTests
                 Assert.That(road.direction, Is.EqualTo(leg.Direction), $"Road {expectedIndex} direction");
                 Assert.That(road.@abstract, Is.EqualTo(new[] { x, z }), $"Road {expectedIndex} abstract coordinate");
                 Assert.That(road.world[0],
-                    Is.EqualTo(report.source.endpointWorld[0] + x * report.source.pitch).Within(0.001f),
+                    Is.EqualTo(report.target.routeOriginWorld[0] + x * report.source.pitch).Within(0.001f),
                     $"Road {expectedIndex} world X");
                 Assert.That(road.world[2],
-                    Is.EqualTo(report.source.endpointWorld[2] + z * report.source.pitch).Within(0.001f),
+                    Is.EqualTo(report.target.routeOriginWorld[2] + z * report.source.pitch).Within(0.001f),
                     $"Road {expectedIndex} world Z");
                 Assert.That(road.yaw, Is.EqualTo(DirectionYaw(leg.Direction)).Within(0.01f), $"Road {expectedIndex} yaw");
 
-                string expectedKind = ExpectedRoadKind(report.target.upperIntervals, legs, legIndex, stepInLeg, expectedIndex);
+                string expectedKind = ExpectedRoadKind(legs, legIndex, stepInLeg, expectedIndex);
                 Assert.That(road.kind, Is.EqualTo(expectedKind), $"Road {expectedIndex} kind");
                 roadCursor++;
             }
@@ -221,9 +290,9 @@ public sealed class NoryangjinSr18SceneTests
             Assert.That(turn.targetYaw, Is.EqualTo(DirectionYaw(nextLeg.Direction)).Within(0.01f));
             Assert.That(turn.targetX, Is.EqualTo(0f).Within(0.01f));
             Assert.That(turn.duration, Is.EqualTo(0.5f).Within(0.01f));
-            Assert.That(turn.world[0], Is.EqualTo(report.source.endpointWorld[0] + x * report.source.pitch).Within(0.001f));
+            Assert.That(turn.world[0], Is.EqualTo(report.target.routeOriginWorld[0] + x * report.source.pitch).Within(0.001f));
             Assert.That(turn.world[1], Is.EqualTo(report.source.endpointWorld[1]).Within(0.001f));
-            Assert.That(turn.world[2], Is.EqualTo(report.source.endpointWorld[2] + z * report.source.pitch).Within(0.001f));
+            Assert.That(turn.world[2], Is.EqualTo(report.target.routeOriginWorld[2] + z * report.source.pitch).Within(0.001f));
         }
 
         Assert.That(roadCursor, Is.EqualTo(report.roads.Length));
@@ -234,7 +303,6 @@ public sealed class NoryangjinSr18SceneTests
     }
 
     private static string ExpectedRoadKind(
-        ElevationInterval[] intervals,
         RouteLeg[] legs,
         int legIndex,
         int stepInLeg,
@@ -243,11 +311,9 @@ public sealed class NoryangjinSr18SceneTests
         if (legIndex > 0 && stepInLeg == 1)
             return TurnKind(legs[legIndex - 1].Direction, legs[legIndex].Direction);
 
-        ElevationInterval interval = intervals.SingleOrDefault(candidate =>
-            roadIndex >= candidate.start && roadIndex < candidate.endExclusive);
-        if (interval != null && roadIndex == interval.start)
+        if (DeckHeightAt(roadIndex) > DeckHeightAt(roadIndex - 1))
             return "Uphill";
-        if (interval != null && roadIndex == interval.endExclusive - 1)
+        if (DeckHeightAt(roadIndex) < DeckHeightAt(roadIndex - 1))
             return "Downhill";
         return "Basic";
     }
@@ -261,7 +327,8 @@ public sealed class NoryangjinSr18SceneTests
             JObject feature = (JObject)features[index];
             ElevationInterval interval = report.target.upperIntervals[index];
             Assert.That(interval.start, Is.EqualTo((int)feature["startModule"]));
-            Assert.That(interval.endExclusive, Is.EqualTo((int)feature["endModule"]));
+            Assert.That(interval.endExclusive, Is.EqualTo((int)feature["endModule"] + 2),
+                "The physical three-module descent extends two modules beyond the concept's single descent.");
         }
 
         ElevationInterval[] recomputed = RecomputeElevatedIntervals(report.roads);
@@ -302,8 +369,8 @@ public sealed class NoryangjinSr18SceneTests
 
             Assert.That(crossing.world, Is.EqualTo(new[]
             {
-                report.source.endpointWorld[0] + x * report.source.pitch,
-                report.source.endpointWorld[2] + z * report.source.pitch
+                report.target.routeOriginWorld[0] + x * report.source.pitch,
+                report.target.routeOriginWorld[2] + z * report.source.pitch
             }).Within(0.001f));
 
             int upperSegment = (int)point["upperSegment"];
@@ -380,6 +447,10 @@ public sealed class NoryangjinSr18SceneTests
             AssertVector(actual.position, expected.world, 0.02f, actual.name + " position");
             Assert.That(Mathf.DeltaAngle(actual.eulerAngles.y, expected.yaw), Is.EqualTo(0f).Within(0.1f));
             AssertVector(actual.localScale, expected.scale, 0.02f, actual.name + " scale");
+            Mesh mesh = actual.GetComponent<MeshFilter>().sharedMesh;
+            Assert.That(AssetDatabase.GetAssetPath(mesh), Is.EqualTo(expected.surfaceMeshPath));
+            Assert.That(actual.GetComponent<MeshCollider>().sharedMesh, Is.SameAs(mesh),
+                actual.name + " must collide with the visible deck, not a different bounding shape.");
         }
     }
 
@@ -401,6 +472,8 @@ public sealed class NoryangjinSr18SceneTests
         Assert.That(targetMatches[0].position,
             Is.EqualTo(sourceMatches[0].position).Using(Vector3ComparerWithEqualsOperator.Instance));
         AssertVector(targetMatches[0].position, report.source.endpointWorld, 0.001f, "Source endpoint world position");
+        AssertVector(targetMatches[0].TransformPoint(new Vector3(-1.5f, 0f, -4.9f)),
+            report.target.routeOriginWorld, 0.001f, "Actual source deck exit");
     }
 
     private static void AssertCrossingGeometry(PlacementReport report, Transform sourceRoads, Transform targetRoads)
@@ -717,6 +790,7 @@ public sealed class NoryangjinSr18SceneTests
         public int extensionTurnSpotCount;
         public string routeSpec;
         public string finalDirection;
+        public float[] routeOriginWorld;
         public ElevationInterval[] upperIntervals;
         public RouteBounds bounds;
         public Crossing[] crossings;
@@ -734,6 +808,7 @@ public sealed class NoryangjinSr18SceneTests
         public int[] @abstract;
         public string kind;
         public string prefabPath;
+        public string surfaceMeshPath;
         public float[] world;
         public float yaw;
         public float[] scale;

@@ -63,6 +63,8 @@
 
 ## Noryangjin SR18 Static-Scene Integrity
 
+- Renderer AABB contact is not proof of deck continuity: support posts extend beyond the walkable plank ends. The SR18 surface test samples 24,702 points across three lanes and requires upward-facing collider surfaces near the expected deck height; every corrected road uses the same mesh for rendering and collision. Preserve this test when editing the geometry.
+
 - `Noryangjin_MapTool_Mode_SR18.unity` is an independent build-excluded roads-only sibling. It must not replace or mutate Map 1 or the existing Map 2.
 - `NoryangjinSr18SceneTests` validates the 51-road copied prefix, 179-road extension, 15 turn spots, three height-separated crossings, consecutive road seams, empty authored-content roots and Build Settings exclusion.
 - The elevated spans are authoring geometry only. Current player movement freezes Y, so do not advertise SR18 as playable or add it to Build Settings until height-following, camera clearance and projectile behavior are implemented and tested.

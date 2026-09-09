@@ -1,5 +1,5 @@
 ---
-status: ready-for-publication
+status: completed
 date: 2026-09-10
 ---
 
@@ -7,7 +7,7 @@ date: 2026-09-10
 
 Finish the user's eight-part request on map2, retaining existing work and publishing the completed source/assets/data to Git.
 
-Implementation and verification are complete. Final step: commit and push the reviewed project changes on map2, preserving the local backups/caches. No Highway automatic transition or completed Highway map is claimed.
+Implementation, verification and publication are complete. Commit `61ac16c0` was pushed to `origin/map2` with 65 LFS objects (189 MB). Local backups/caches are preserved. This completion record follows that implementation commit. No Highway automatic transition or completed Highway map is claimed.
 
 Completed: 9999/fast-lateral controls; five documented long runs including boosted clears and a normal-stat level-3 clear; late-ramp E23 placement fix; current/max HP and helper-percentage fixes; workbook balance/control/catalog sheets; reachable reference-art upgrade UI; 12-item part shop with purchase/equip/reload verification; five Highway concept PNGs grounded in 29 available source models and existing road prefabs. Rollback of customization was unnecessary.
 

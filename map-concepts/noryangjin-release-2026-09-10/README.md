@@ -1,5 +1,7 @@
 # Noryangjin release work — 2026-09-10
 
+Published implementation: `61ac16c0` on `origin/map2`. The following documentation commit records completion and removes the stale active copy of the already-completed contact-pairs plan. Local backups and excluded dependency caches remain available.
+
 ## Progress
 
 - Applied the workbook balance controls and 12 cosmetic entries. Artifact Tool authored the workbook; a targeted XML graft preserved unrelated original parts. `verify-noryangjin-release-data.mjs` reimported the saved source with zero formula errors; the protected runtime archive matches it.

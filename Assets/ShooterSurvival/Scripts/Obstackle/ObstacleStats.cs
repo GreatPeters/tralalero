@@ -23,6 +23,13 @@ public class ObstacleStats : MonoBehaviour
     Vector3 _bucketStartLocalPos;
     Quaternion _bucketStartLocalRot;
     bool _bucketSaved;
+    PlayerScript bucketBlockedPlayer;
+
+    void ReleaseBucketShootBlock()
+    {
+        if (bucketBlockedPlayer != null) bucketBlockedPlayer.SetBucketShootBlock(this, false);
+        bucketBlockedPlayer = null;
+    }
 
 
     //열기구 관련
@@ -161,8 +168,10 @@ public class ObstacleStats : MonoBehaviour
 
     void OnDisable()
     {
+        ReleaseBucketShootBlock();
         StopAllCoroutines();
         DOTween.Kill(gameObject);
+        if (obstaclePattern == ObstaclePattern.Light) DOTween.Kill(transform);
         _jumpSeq?.Kill();
     }
     void OnDestroy() { _jumpSeq?.Kill(); }
@@ -175,7 +184,12 @@ public class ObstacleStats : MonoBehaviour
     bool _savedStart;
 
     bool _lampFallen;
+    [Header("Light")]
+    [Tooltip("끄면 자동 사격으로 무력화되지 않는 고정 피해 장애물입니다.")]
+    public bool canBeShotDown = true;
     Vector3 _hinge;          // 바닥 힌지 (Bounds로 자동 계산)
+    Collider[] lampColliders;
+    bool[] lampColliderEnabled;
 
     public ObstaclePattern obstaclePattern;
     public float value = 10f;                 // 플레이어에게 적용할 기본 수치(피해량, 감속값 등)
@@ -380,7 +394,7 @@ public class ObstacleStats : MonoBehaviour
         // Light: 미사일이 닿으면 → 쓰러지기만 (데미지는 안 줌)
         if (obstaclePattern == ObstaclePattern.Light && other.CompareTag("BulletTag"))
         {
-            ToppleLampOnly();
+            if (canBeShotDown) ToppleLampOnly();
             return;
         }
 
@@ -393,11 +407,14 @@ public class ObstacleStats : MonoBehaviour
         {
             case ObstaclePattern.Hole:
                 Debug.Log("홀이다!!!!");
-                quaternion toRot = Quaternion.Euler(110f, playerScript.transform.root.rotation.eulerAngles.y, playerScript.transform.root.rotation.eulerAngles.z);
-                playerScript.transform.root.DORotateQuaternion(toRot, 1f);
-
                 // 체력 감소
                 playerScript.currentHealth = Mathf.Max(0, playerScript.currentHealth - value);
+                if (playerScript.currentHealth <= 0f)
+                {
+                    quaternion toRot = Quaternion.Euler(110f, playerScript.transform.root.rotation.eulerAngles.y, playerScript.transform.root.rotation.eulerAngles.z);
+                    playerScript.transform.root.DORotateQuaternion(toRot, 1f);
+                }
+                else playerScript.UpdateHealth(); // A survivable broken plank must not reverse the route frame.
 
                 // 2) X축만 110°로 부드럽게 꺾기 (0.18초), 1초 유지, 원복 안 함
                 //StartCoroutine(TiltXOnly110(playerScript, tweenTime: 0.18f, holdSeconds: 1.0f, restore: false));               
@@ -434,6 +451,7 @@ public class ObstacleStats : MonoBehaviour
                 }
 
             case ObstaclePattern.Light:
+                if (_lampFallen) return; // A contact already queued before disarming is harmless.
                 // 체력 감소
                 playerScript.currentHealth = Mathf.Max(0, playerScript.currentHealth - value);
                 break;
@@ -511,12 +529,16 @@ public class ObstacleStats : MonoBehaviour
         rb.useGravity = false;
 
         // 머리에 씌우기 + 발사 금지
+        Vector3 worldScale = bucket.lossyScale;
         bucket.SetParent(player.transform, worldPositionStays: false);
+        Vector3 parentScale = player.transform.lossyScale;
+        bucket.localScale = new Vector3(worldScale.x / parentScale.x, worldScale.y / parentScale.y, worldScale.z / parentScale.z);
         bucket.localPosition = bucketHeadOffset;
         // 보기 좋게 약간 기울여 씌우는 각도 (원하면 identity로)
         bucket.localRotation = Quaternion.Euler(12.37f, 180f, 0f);
 
-        player.canShoot = false;
+        bucketBlockedPlayer = player;
+        player.SetBucketShootBlock(this, true);
 
         // 유지
         yield return new WaitForSeconds(bucketAttachSeconds);
@@ -536,7 +558,7 @@ public class ObstacleStats : MonoBehaviour
         rb.AddForce(bucketDetachImpulse, ForceMode.Impulse);
 
         // 발사 복구
-        player.canShoot = true;
+        ReleaseBucketShootBlock();
 
         if (destroyAfterDetach)
         {
@@ -626,6 +648,15 @@ public class ObstacleStats : MonoBehaviour
             }
         }
 
+        // Read the original bounds before disabling physics, then disarm before moving.
+        lampColliders = GetComponents<Collider>();
+        lampColliderEnabled = new bool[lampColliders.Length];
+        for (int i = 0; i < lampColliders.Length; i++)
+        {
+            lampColliderEnabled[i] = lampColliders[i].enabled;
+            lampColliders[i].enabled = false;
+        }
+
         // DOTween: 우측으로만 자연스럽게 쓰러짐 (transform.forward 축으로 롤)
         float target = 88f, prev = 0f;
         DOVirtual.Float(0f, target, 0.5f, a =>
@@ -634,13 +665,22 @@ public class ObstacleStats : MonoBehaviour
             // 오른쪽으로 넘어짐. 반대면 부호를 +delta로 바꿔줘.
             transform.RotateAround(_hinge, transform.forward, -delta);
         })
-        .SetEase(Ease.InOutQuad);
+        .SetEase(Ease.InOutQuad)
+        .SetTarget(transform);
     }
 
     void ResetLampTransform()
     {
         // 진행 중인 넘어짐 트윈 끊기
         DOTween.Kill(transform);
+
+        if (lampColliders != null)
+        {
+            for (int i = 0; i < lampColliders.Length; i++)
+                if (lampColliders[i] != null) lampColliders[i].enabled = lampColliderEnabled[i];
+            lampColliders = null;
+            lampColliderEnabled = null;
+        }
 
         // 상태/힌지 리셋
         _lampFallen = false;
@@ -762,6 +802,7 @@ public class ObstacleStats : MonoBehaviour
 
     void InitBucket()
     {
+        ReleaseBucketShootBlock();
         if (bucket == null)
         {
             var col = GetComponentInChildren<Collider>(true);
@@ -781,14 +822,17 @@ public class ObstacleStats : MonoBehaviour
         var rb = bucket.GetComponent<Rigidbody>();
         if (rb)
         {
+            if (!rb.isKinematic)
+            {
+#if UNITY_6000_0_OR_NEWER
+                rb.linearVelocity = Vector3.zero;
+#else
+                rb.velocity = Vector3.zero;
+#endif
+                rb.angularVelocity = Vector3.zero;
+            }
             rb.isKinematic = true;
             rb.useGravity = false;
-#if UNITY_6000_0_OR_NEWER
-            rb.linearVelocity = Vector3.zero;
-#else
-        rb.velocity = Vector3.zero;
-#endif
-            rb.angularVelocity = Vector3.zero;
         }
 
         var c = bucket.GetComponent<Collider>();

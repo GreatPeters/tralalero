@@ -45,6 +45,25 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private float lastDisplayedHealth = float.NaN;
         private Collider[] enemySearchBuffer;
+        private NoryangjinHelperRouteFollower routeFollower;
+
+        public void ConfigureOwner(PlayerScript owner)
+        {
+            playerScript = owner;
+            playerTransform = owner != null ? owner.transform : null;
+            if (helpType == HelpType.Tungtungtung && owner != null && owner.GetComponent<NoryangjinRoadHeightFollower>() != null)
+            {
+                routeFollower = GetComponent<NoryangjinHelperRouteFollower>();
+                if (routeFollower == null) routeFollower = gameObject.AddComponent<NoryangjinHelperRouteFollower>();
+                routeFollower.Configure(owner);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (playerScript != null)
+                playerScript.extraHelpWeaponScript?.Remove(GetComponentInChildren<WeaponScript>());
+        }
 
         [System.NonSerialized] public int spawnIndex;
         [System.NonSerialized] public HelpType helpType;
@@ -61,7 +80,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void Start()
         {
-            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            GameObject playerObject = playerScript != null ? playerScript.gameObject : GameObject.FindGameObjectWithTag("Player");
             if (playerObject == null)
             {
                 enabled = false;
@@ -70,6 +89,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             playerTransform = playerObject.transform;
             playerScript = playerObject.GetComponent<PlayerScript>();
+            ConfigureOwner(playerScript);
             foreach (Animator candidate in GetComponentsInChildren<Animator>(true))
             {
                 if (candidate.runtimeAnimatorController == null)
@@ -98,6 +118,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (helpType == HelpType.Tungtungtung)
             {
                 float value = UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.TUNGTUNGTUNG);
+                if (value <= 0f) return; // A bonus helper still works before the permanent upgrade is purchased.
                 var vt = UpgradeStatManager.S.GetValueType(UpgradeStatManager.UpgradeType.TUNGTUNGTUNG);
                 currentHealth = vt == ValueType.Percent
                     ? playerScript.currentHealth * (value / 100f)
@@ -106,6 +127,7 @@ namespace IndianOceanAssets.ShooterSurvival
             else if (helpType == HelpType.Boombardino)
             {
                 float value = UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.BOOMBAR);
+                if (value <= 0f) return;
                 var vt = UpgradeStatManager.S.GetValueType(UpgradeStatManager.UpgradeType.BOOMBAR);
 
                 var weapon = GetComponentInChildren<WeaponScript>();
@@ -121,6 +143,14 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void Update()
         {
+            if (playerScript == null || playerScript.currentHealth <= 0f)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            if (EH_animator != null) EH_animator.enabled = TimeManager.isGameRunning;
+            if (!TimeManager.isGameRunning)
+                return;
             if (!isDead && currentHealth <= 0f)
             {
                 isDead = true;
@@ -176,7 +206,7 @@ namespace IndianOceanAssets.ShooterSurvival
                     playerTransform.right * offset.x +
                     playerTransform.forward * offset.z;
                 targetPosition = playerTransform.position + routeOffset;
-                targetPosition.y = 2f;
+                targetPosition.y = playerTransform.position.y + 2f;
 
                 Vector3 routeForward = Vector3.ProjectOnPlane(
                     playerTransform.forward,
@@ -261,6 +291,11 @@ namespace IndianOceanAssets.ShooterSurvival
                 : followSpeed;
 
             float step = Mathf.Max(0f, baseSpeed) * Time.deltaTime * tf;
+            if (routeFollower != null)
+            {
+                routeFollower.Advance(step);
+                return; // Never chase across water, a crossing deck or an unvisited corner.
+            }
 
             // 타겟: playerScript.nearestEnemy 우선, 없으면 주변에서 탐색
             Transform target = (playerScript != null && playerScript.nearestEnemy != null)

@@ -19,6 +19,15 @@ namespace IndianOceanAssets.ShooterSurvival
         [Tooltip("플레이어가 도착할 절대 월드 Y 회전값입니다.")]
         [SerializeField] private float targetYawDegrees;
 
+        [Tooltip("경사 진입/이탈에서 멈추지 않고 X 자세만 전환합니다. 플레이어의 도로 높이 추종이 필요합니다.")]
+        [SerializeField] private bool slopeTransition;
+
+        public bool IsSlopeTransition
+        {
+            get => slopeTransition;
+            set => slopeTransition = value;
+        }
+
         [Tooltip("이동과 좌우 입력을 멈추고 회전하는 시간입니다.")]
         [Min(0f)]
         [SerializeField] private float turnDurationSeconds = DefaultTurnDurationSeconds;
@@ -28,6 +37,8 @@ namespace IndianOceanAssets.ShooterSurvival
             get => targetXDegrees;
             set => targetXDegrees = value;
         }
+
+        public bool IsConsumedThisRun => ConsumedTurnSpots.Contains(this);
 
         public float TargetYawDegrees
         {
@@ -101,12 +112,13 @@ namespace IndianOceanAssets.ShooterSurvival
 
         internal bool TryActivate(PlayerScript player)
         {
-            bool accepted = player != null &&
-                            player.RequestWorldRotation(
+            bool accepted = player != null && (slopeTransition
+                ? player.RequestSlopePitch(targetXDegrees, targetYawDegrees, turnDurationSeconds)
+                : player.RequestWorldRotation(
                                 targetXDegrees,
                                 targetYawDegrees,
                                 turnDurationSeconds,
-                                this);
+                                this));
             if (accepted)
             {
                 ConsumedTurnSpots.Add(this);
@@ -157,7 +169,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             foreach (NoryangjinTurnSpot turnSpot in GetRouteSpots(scene))
             {
-                if (turnSpot == null)
+                if (turnSpot == null || turnSpot.IsSlopeTransition)
                     continue;
 
                 HideFlags combinedHideFlags =

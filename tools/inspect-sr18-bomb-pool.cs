@@ -1,0 +1,5 @@
+var pool=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.BulletPooler>();
+var flags=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;
+var q=(System.Collections.Generic.Queue<GameObject>)pool.GetType().GetField("poolBomb",flags).GetValue(pool);
+var prefab=(GameObject)pool.GetType().GetField("bulletPrefab_bomb",flags).GetValue(pool);
+return new{prefabPath=UnityEditor.AssetDatabase.GetAssetPath(prefab),poolSize=pool.GetType().GetField("poolSize",flags).GetValue(pool),prefabComponents=prefab.GetComponentsInChildren<MonoBehaviour>(true).Where(c=>c!=null).Select(c=>new{c.name,type=c.GetType().FullName,c.gameObject.activeSelf}).ToArray(),count=q.Count,next=q.Take(4).Select(g=>new{g.name,g.activeSelf,scripts=g.GetComponentsInChildren<IndianOceanAssets.ShooterSurvival.BulletScript>(true).Select(s=>new{name=s.name,s.gameObject.activeSelf,s.enabled}).ToArray(),components=g.GetComponentsInChildren<MonoBehaviour>(true).Where(c=>c!=null).Select(c=>c.GetType().Name).ToArray()}).ToArray()};

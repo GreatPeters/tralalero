@@ -164,7 +164,6 @@ namespace IndianOceanAssets.ShooterSurvival
                     GameObject bullet = bulletPooler.Get(bulletKind, transform);
                     if (bullet != null)
                     {
-                        TotalProjectilesSpawned++;
                         LastProjectileSpawnPosition = spawnPosition;
                         LastVisibleMouthPositionAtSpawn = visiblePlayerMouth != null
                             ? visiblePlayerMouth.position
@@ -174,6 +173,7 @@ namespace IndianOceanAssets.ShooterSurvival
                         bullet.transform.rotation = BuildProjectileRotation(direction);
                         bullet.GetComponentInChildren<BulletScript>()
                             .SetDirection(direction, playerScript);
+                        TotalProjectilesSpawned++; // Count a successfully initialized shot, not just a rental.
                     }
                 }
             }

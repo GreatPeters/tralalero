@@ -250,7 +250,8 @@ namespace IndianOceanAssets.ShooterSurvival
             if (currentScore != previousScore)
             {
                 playerScoreText.text = currentScore.ToString();
-                scorePopAnimator.SetTrigger("ScoreInc");
+                if (scorePopAnimator != null && scorePopAnimator.runtimeAnimatorController != null && scorePopAnimator.isActiveAndEnabled)
+                    scorePopAnimator.SetTrigger("ScoreInc");
                 previousScore = currentScore;
             }
         }

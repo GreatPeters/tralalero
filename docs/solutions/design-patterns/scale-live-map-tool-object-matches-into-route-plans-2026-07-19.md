@@ -20,7 +20,7 @@ tags:
   - route-design
   - visual-regression
 date: 2026-07-19
-last_updated: 2026-07-20
+last_updated: 2026-09-06
 ---
 
 # Scale Live Map-Tool Object Matches Into Route Plans
@@ -63,6 +63,58 @@ The live hierarchy contained 21 road modules and 170 directly placed objects acr
 26. Verify rotated coverage axes and preview warm-up. The ocean prefab carries a baked `X=-90` rotation, so its local Y scale controls a world-Z footprint. Size the coverage grid from final renderer bounds, including the copied route, generated main path, both `+` arms, and a highway coverage endpoint, with a 70-unit exterior margin. In a fresh batch editor, render one warm-up frame before reading the first URP preview or the top image can contain cyan/magenta fallback materials.
 
 ## Why This Matters
+
+### Inventory-first concept images
+
+The SR18 set-dressing request on 2026-09-05 initially produced attractive AI concept images containing invented buildings, cranes, and giant seafood architecture. The user correctly rejected them as an implementation plan: a generated picture is not an available Unity model.
+
+When the project already supplies an asset vocabulary, inspect the map-tool registry and palette scale/rotation overrides before proposing styles. Use only verified prefab paths in an executable layout proposal. Vary shop density, side selection, empty intervals, and prop clusters instead of silently adding a new modeling requirement.
+
+Inventory alone is insufficient when the user says to reference the props already placed in the map. The follow-up SR18 review rejected the palette-only drafts too: they repeated isolated kiosks and invented protruding wooden pads while the actual map used six facing shops on continuous gray market ground. Inspect and capture the source `Props` hierarchy before planning. Preserve existing instance scale, yaw, child setup, group spacing, ground contact, and foreground/background roles; prefab defaults do not preserve that authored composition. In the observed Map1, 454 of 530 Props were water and 33 were ground, so the total did not imply hundreds of foreground props. The corrected instance-based evidence and ten variants are under `map-concepts/sr18-authored-props-2026-09-05/`.
+
+Do not turn a reference scene's current count into a density limit. The user subsequently clarified that SR18 should have very many shops; the six existing shops were an appearance/composition reference, not a request for a sparse harbor. The first dense replacement contained 417 shops and six interior market rows. That layout was also rejected after application: high density did not authorize covering the existing timber roads or inventing a second set of interior streets. Current artifacts are under `map-concepts/sr18-roadside-market-2026-09-05/`; the 417-shop folder is historical.
+
+### A placement picture is not a larger flow table
+
+The 2026-09-06 full-stage enemy/BonusWall review exposed a presentation mismatch. Replacing a dense flow diagram with four pages of larger text cards still failed the user's request to see a picture. When the requested decision is spatial placement, show recognizable enemies and BonusWall objects on the actual route, with sparse direction arrows. Keep exact counts and chronology in the companion data; do not make the picture another index of E/F identifiers.
+
+Generated illustration is not placement evidence. The first illustrated candidate moved SR18's inward-facing start stub to the bottom edge, added a connector, and misplaced label leaders despite a supplied route reference. Treat the route blueprint as a geometry reference distinct from the asset/style reference; explicitly constrain the ordered route points, start, finish, travel directions and overpasses. Compare the resulting picture with those invariants. If correspondence is not exact, label it as an approximate concept instead of claiming an unchanged map, verified transforms or implemented content. For an implementation-accurate image, use the actual Unity preview scene and prefabs.
+
+The planning source remains `map-concepts/sr18-full-enemy-bonus-flow-2026-09-06/full-flow-final.json`; illustration prompts and retained candidates are separate from it. This presentation task does not authorize scene or balance changes. Both generated candidates were ultimately replaced by `tools/render-sr18-full-placement-preview.cs`, which clones the real route and props into a preview scene and uses the six existing enemy prefabs and existing BonusWall prefab. Capture one full-route view plus overlapping early/late crops, and disclose the 2.5x presentation scale. The 69 enemy and 14 fixed-wall instances are concept placements, not a runtime placement verification.
+
+Check source state after preview cleanup in a separate editor call, not only before `finally`. This capture reported an unchanged source inside the script, but the subsequent query found the source dirty. A retained `SaveScene(..., saveAsCopy: true)` copy differed from the initially clean disk scene in exactly one Canvas active flag. Only that flag was restored, and dirtiness was cleared only after another retained copy was byte-identical to the original disk scene; the original scene was never saved. Do not generalize this into clearing arbitrary dirty scenes or resetting user edits. The comparison and guarded one-off recovery scripts are retained beside the rendering script. Emit large PNG previews one at a time: returning three 16–19 MB PNGs in one tool response exceeded the IPC frame limit.
+
+### Applying combat to the actual SR18 scene
+
+Only the subsequent explicit application request authorized writing the authored scene. `tools/apply-sr18-encounters.cs` uses the normal palette scales (2.25 for regular enemies, 2.5 for Woman, approximately 3 for altars), not the illustration's extra 2.5x factor. Existing Enemies/Bonuses must be empty; an existing report or target root stops reruns. A Unity save-as-copy backup precedes edits, existing road/prop components and GameObjects are compared separately, and validation failures undo only the new installation before any save. Do not compare a Transform JSON value with a GameObject JSON value merely because the dictionary key is a GameObject; that caused a false preservation failure during development.
+
+Reject authored ramp roots when placing stationary encounters, but do not identify a flat timber road by demanding every triangle normal have `normal.y > .98`. A rough basic plank at `(-10.8, -70.57)` had a valid floor near Y=0 and normal Y=.963; the over-strict check incorrectly reported no deck. The corrected probe excludes `_Uphill`/`_Downhill` roots, restricts expected height to the intended deck, tolerates upward-facing rough triangles (`>.7`) and samples small plank-gap offsets. This preserves the actual route rather than moving roads to satisfy a faulty test.
+
+The applied scene has 69 enemies, 14 fixed walls, 31 activation spots and 27 independent movement targets. Six staggered groups use two spots; every enemy has exactly one activation link. The two upper-deck groups and triggers remain around Y=12, with the following bonus on the returned lower flat. Validate counts, normal scale, source prefab links, map-authored bonus preservation markers, root collider overlaps and both sides of bonus pairs. The scene suite passed 11 tests; a real Play Mode root-collider callback probe verified activation, duplicate rejection, movement and reset without kills or coin collection. These checks do not prove complete physical traversal or final balance. See `map-concepts/sr18-encounters-applied-2026-09-06/README.md` for the backup, manifest and actual screenshots.
+
+### Applying the approved dense layout
+
+After explicit application approval, preserve the live dirty target with `EditorSceneManager.SaveScene(scene, temporaryPath, true)` before editing; retain a recovery copy outside imported assets. Copy source instances with `PrefabUtility.InstantiatePrefab` plus `GetPropertyModifications` / `SetPropertyModifications`, then apply their measured world transforms. Fail closed on structural overrides or non-persistent object references unless the copy path supports them. Exclude rendererless source triggers rather than duplicating already authored turn spots or importing cross-scene enemy links. Stage in a preview scene, check the approved positions, corridor clearance, overlaps and unchanged road signatures, then transfer with Undo and save only the exact target scene.
+
+Preview-only outline suppression does not survive scene reload. If the approved appearance requires it in the authored scene, use dedicated persistent material variants and retain the original shared materials unchanged. SR18 uses 13 variants under `Assets/ShooterSurvival/Materials/Generated/SR18DenseMarket/`, connected prefab placements and one optimized water backdrop, not hundreds of copied water tiles.
+
+Ground support needs a model-specific footing, not the full visual AABB. An initial 0.2-unit inset included shop awnings and demanded 219 support tiles; the same rule also rejected the original correctly placed shops. Inspection showed a 0.7-unit inset matches the bodies of these three unchanged storefront models. Only two additional tiles were needed. Removing the 217 task-created excess tiles preserved the approved quay silhouette; the final ground count is `33 + 351 - 3 + 2 = 383`. Remeasure this inset if the assets or scales change, and keep this support test separate from runner-lane clearance.
+
+The initial saved SR18 result had 417 shops, 383 ground tiles, 846 direct Props roots including 15 turn spots, and one water backdrop. Its four focused tests passed, but that did not prove the layout respected the user's road. Treat this as a failed validation contract, not a successful final result.
+
+### Road preservation is visual, not only geometric
+
+The user then showed the character running on a partly covered timber path. The generator checked shop overlap and shop footing but never prohibited ground from covering roads; 252 ground Renderer bounds overlapped road bounds on XZ. Copying exact approved coordinates merely reproduced that mistake. Filling a loop with independent market rows also created a new visual route even though no gameplay branches were added.
+
+The corrected `tools/rebuild-sr18-roadside-market.cs` merges collinear flat modules from their actual rendered bounds, then places inward-facing shops at a 12.1-unit pitch on both outer edges. Each shop gets a narrow 9 × 12.2 quay. Reject both shop and ground bounds that overlap any existing timber road, including adjacent legs and crossings. Keep corners and ramps open, retain the original 230 roads and 15 turn spots, and remove unrelated interior rows. The resulting 306 shops and 306 quays support complete storefront bounds, so the previous 0.7-unit footing inset is unnecessary.
+
+`Sr18Market_LeavesTheExistingTimberRoadsVisible` independently checks zero shop/quay road overlap and rejects placement centers farther than 6 units from the nearest road boundary. It failed before the correction and passes afterward; all five SR18 tests, the Editor build and the harness check pass. Counts and serialized placement reports remain useful, but cannot replace these geometric intent checks. Revalidate or intentionally revise the baseline when the user later edits the layout.
+
+Inspect the full map, the originally reported location, and the character's authored camera view. A generic Pipeline `screenshot game` returned success with a blank sky in this editor state; it was not usable evidence. A temporary camera copied from `MapTool_Camera`, with the target scene and scene-culling mask explicitly set, captured the actual saved composition without changing the user's camera. The result and recovery backup are linked from the roadside layout README. Static captures still do not validate runtime traversal or camera behavior throughout the stage.
+
+For the corrected SR18 comparison, clone the current 230 roads and existing prefab instances into a temporary `NewPreviewScene`, render ten full-layout/close-up boards, and close that scene in `finally`. Preserve the user's dirty source scene. Record every proposed building/prop's prefab path and transform alongside the image. Use per-preview `MaterialPropertyBlock` overrides to suppress distance-exaggerated outlines without writing shared material assets. The artifacts and renderer recipe are under `map-concepts/sr18-existing-assets-2026-09-05/` and `tools/render-sr18-existing-asset-concepts.cs`.
+
+Mark older imaginative images as non-executable references and withdraw recommendations that rely on unavailable assets. If new models are desired later, identify them as a separate modeling/texture/optimization task before treating them as ready content.
 
 Route length and prop density are related but not interchangeable. Background surfaces cover space, while foreground props establish rhythm, landmarks, and encounter readability. Scaling both with the same multiplier produces visual noise and an inflated production budget.
 

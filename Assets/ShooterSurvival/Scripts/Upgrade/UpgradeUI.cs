@@ -252,7 +252,7 @@ public class UpgradeUI : MonoBehaviour
     bool HasEnoughMoney(UpgradeRow row)
     {
         if (MoneyScript.S == null)
-            return true;
+            return false;
 
         return row.priceType switch
         {
@@ -296,7 +296,7 @@ public class UpgradeUI : MonoBehaviour
     bool Pay(UpgradeRow row)
     {
         if (MoneyScript.S == null)
-            return true;
+            return false;
 
         return row.priceType switch
         {

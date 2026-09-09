@@ -24,6 +24,50 @@ public sealed class PlayerCharacterDefaultsTests
     }
 
     [Test]
+    public void ReloadCharacterDefaults_RefreshesFullHealthWithTheNewMaximum()
+    {
+        var go = new GameObject("Health Reload Test");
+        try
+        {
+            var player = go.AddComponent<PlayerScript>();
+            SetField(player, "useExcelCharacterDefaults", false);
+            player.originalHealth = 50;
+            InvokeAwake(player);
+            player.currentHealth = player.MaxHealth;
+            SetField(player, "useExcelCharacterDefaults", true);
+            // Preserve the resolved old maximum so editing the Inspector fallback cannot alter the old ratio.
+            SetField(player, "maxHealthWithUpgrades", 50f);
+            player.ReloadCharacterDefaults();
+            Assert.That(player.MaxHealth, Is.EqualTo(100));
+            Assert.That(player.currentHealth, Is.EqualTo(100));
+        }
+        finally { Object.DestroyImmediate(go); }
+    }
+
+    [Test]
+    public void ReloadCharacterDefaults_PreservesDamageAndDoesNotReviveDeadPlayers()
+    {
+        var go = new GameObject("Damaged Health Reload Test");
+        try
+        {
+            var player = go.AddComponent<PlayerScript>();
+            SetField(player, "useExcelCharacterDefaults", false);
+            player.originalHealth = 100;
+            InvokeAwake(player);
+            player.currentHealth = 50;
+            SetField(player, "maxHealthWithUpgrades", 100f);
+            player.originalHealth = 200;
+            player.ReloadCharacterDefaults();
+            Assert.That(player.MaxHealth, Is.EqualTo(200));
+            Assert.That(player.currentHealth, Is.EqualTo(100));
+            player.currentHealth = 0;
+            player.ReloadCharacterDefaults();
+            Assert.That(player.currentHealth, Is.Zero);
+        }
+        finally { Object.DestroyImmediate(go); }
+    }
+
+    [Test]
     public void Awake_ExcelMode_UsesAbsoluteMissileSpeedAndDuration()
     {
         var gameObject = new GameObject("Excel Character Defaults Test");

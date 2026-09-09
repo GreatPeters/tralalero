@@ -17,6 +17,13 @@ internal static class EnemyEventAuthoring
             serializedController.FindProperty("eventMode");
         EditorGUILayout.PropertyField(eventMode, new GUIContent("이벤트"));
         EnemyEventMode mode = (EnemyEventMode)eventMode.intValue;
+        if (mode == EnemyEventMode.AmbushMoveThenShoot)
+        {
+            EditorGUILayout.HelpBox("먼 진입점에서 대기 → Walk로 길 중앙 진입 → 준비 후 한 번 사격합니다. 팝인을 피하려면 대기 중 숨김을 끄고, 진입점과 목표를 같은 높이의 길 위에 두세요.", MessageType.Info);
+            EditorGUILayout.PropertyField(serializedController.FindProperty("hideWhileWaiting"), new GUIContent("대기 중 숨김"));
+            EditorGUILayout.PropertyField(serializedController.FindProperty("ambushEntrySide"), new GUIContent("매복 진입 좌우 거리"));
+        }
+        EditorGUILayout.PropertyField(serializedController.FindProperty("modelForwardYaw"), new GUIContent("모델 정면 보정 Y"));
 
         EditorGUILayout.Space(3f);
         EditorGUILayout.LabelField("이동 설정", EditorStyles.miniBoldLabel);
@@ -26,6 +33,7 @@ internal static class EnemyEventAuthoring
         EditorGUILayout.PropertyField(
             serializedController.FindProperty("moveSpeed"),
             new GUIContent("이동 속도"));
+        EditorGUILayout.PropertyField(serializedController.FindProperty("patrolAcrossRoad"), new GUIContent("좌우 왕복 (왕복 이벤트)"));
         EditorGUILayout.PropertyField(
             serializedController.FindProperty("moveAnimation"),
             new GUIContent("이동 애니메이션"));

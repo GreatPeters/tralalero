@@ -1,0 +1,2 @@
+var c=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.CanvasScript>();
+return new{sameObject=c.gameOverUI==c.youWinUI,win=c.youWinUI.name,gameOver=c.gameOverUI.name,gameOverActive=c.gameOverUI.activeInHierarchy,winTexts=c.youWinUI.GetComponentsInChildren<TMPro.TMP_Text>(true).Select(t=>new{t.name,t.text,font=t.font.name}).ToArray(),legacyTexts=c.youWinUI.GetComponentsInChildren<UnityEngine.UI.Text>(true).Select(t=>new{t.name,t.text}).ToArray()};

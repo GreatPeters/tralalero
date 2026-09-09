@@ -11,6 +11,8 @@ namespace IndianOceanAssets.ShooterSurvival
             BonusAltarRules.DefaultNearbyDistance;
 
         private string rolledStat;
+        [SerializeField] private BonusWallChoicePair choicePair;
+        public BonusWallChoicePair ChoicePair { get => choicePair; set => choicePair = value; }
 
         public Rarity Rarity => rarity;
         public float NearbyDistance => nearbyDistance;

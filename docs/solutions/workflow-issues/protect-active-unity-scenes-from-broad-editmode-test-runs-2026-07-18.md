@@ -1,7 +1,7 @@
 ---
 title: Protect Active Unity Scenes from Broad EditMode Test Runs
 date: 2026-07-18
-last_updated: 2026-08-23
+last_updated: 2026-09-07
 category: docs/solutions/workflow-issues
 module: Unity Noryangjin map tooling
 problem_type: workflow_issue
@@ -160,6 +160,16 @@ untouched, stop retrying editor commands, compile both runtime and editor
 assemblies, and report the Unity test as pending rather than claiming a pass.
 
 ## Related
+
+### SR18 follow-up, 2026-09-07
+
+A saved encounter migration and an initial 11/11 scene test pass did not guarantee a later test invocation was safe. After preview rendering, reopening and additional script imports, a later rerun reached the native **Scene(s) Have Been Modified** modal. Pipeline discovery still reported a reachable server, but scene/eval calls timed out. The accessibility tree confirmed the blocking save choice. The correct stop point was to retain the saved migration, compile both assemblies, record the pending verification and ask the user to cancel without choosing Save or Don't Save.
+
+Recheck live dirtiness immediately before each test invocation, not only before the first migration. Avoid chaining test runs and `editor_play` without checking each result. Follow-up established two independent causes: six GridLayoutGroup-driven RectTransforms had correct live values but serialized driven fields as zero (normal Unity behavior); the Bucket prefab root was actually inactive, explaining zero bounds in both EditMode and PlayMode. Analytic dimensions alone missed that activation bug.
+
+After retaining snapshots and verifying only those driven fields differed, save the canonical scene and move to an isolated empty test scene in the same Editor command. This avoids a save-dialog race against live authoring. Activate the nine authored bucket roots, assert activeInHierarchy as well as geometry, and verify registered colliders in Play Mode. The completed run passed SR18 and enemy fixtures plus all 24 runtime hazard-collider checks; no model resizing was needed.
+
+Evidence and resume procedure: [SR18 latest elements verification](../../../map-concepts/sr18-latest-elements-applied-2026-09-07/verification.md). This updates the existing high-overlap workflow record rather than creating a duplicate solution document.
 
 - [Generate Unity Map-Tool Sibling Scenes with Fail-Closed Verification](generate-unity-map-tool-sibling-scenes-fail-closed-2026-07-15.md)
 - [Create a Unity Layout Scene When Editor Execution Is Blocked](create-unity-layout-scene-when-editor-execution-is-blocked-2026-05-25.md)

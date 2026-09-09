@@ -47,6 +47,74 @@ public sealed class EnemyEventControllerTests
         Assert.That((int)EnemyMoveAnimation.Walk, Is.Zero);
         Assert.That((int)EnemyMoveAnimation.Run, Is.EqualTo(1));
         Assert.That((int)EnemyEventMode.AttackOnce, Is.EqualTo(5));
+        Assert.That((int)EnemyEventMode.AmbushMoveThenShoot, Is.EqualTo(6));
+    }
+
+    [Test]
+    public void Ambush_RevealsMovesThenRequestsOneShot()
+    {
+        var player = CreateObject("Ambush Player").AddComponent<PlayerScript>();
+        var enemy = CreateObject("Ambush Enemy");
+        var body = enemy.AddComponent<BoxCollider>();
+        var visual = CreateObject("Ambush Visual"); visual.transform.SetParent(enemy.transform);
+        var renderer = visual.AddComponent<MeshRenderer>();
+        var canvas = CreateObject("Health").AddComponent<Canvas>(); canvas.transform.SetParent(enemy.transform);
+        var controller = enemy.AddComponent<EnemyEventController>();
+        var combat = enemy.AddComponent<EnemyScript_space>();
+        var projectile = CreateObject("Projectile"); projectile.transform.SetParent(enemy.transform);
+        SetPrivate(combat, "heldProjectile", projectile.transform);
+        SetPrivate(combat, "playerScript", player);
+        SetPrivate(combat, "enemyAnimator", visual.AddComponent<Animator>());
+        controller.EventMode = EnemyEventMode.AmbushMoveThenShoot;
+        controller.TargetPoint = CreateObject("Target").transform;
+        controller.TargetPoint.position = Vector3.forward * 2;
+        controller.MoveSpeed = 4;
+        typeof(EnemyEventController).GetMethod("SetAmbushHidden", PrivateInstance).Invoke(controller, new object[] { true });
+        Assert.That(body.enabled, Is.False);
+        Assert.That(renderer.forceRenderingOff, Is.True);
+        Assert.That(canvas.enabled, Is.False);
+        Assert.That(controller.ActivateFromSpot(), Is.True);
+        Assert.That(controller.IsAmbushHidden, Is.False);
+        Assert.That(body.enabled && canvas.enabled && !renderer.forceRenderingOff, Is.True);
+        Advance(controller, .25f);
+        Assert.That(controller.RuntimeState, Is.EqualTo(EnemyEventRuntimeState.MovingToTarget));
+        Assert.That(combat.CanBeginTriggeredFire, Is.True, "Must not fire during emergence");
+        Advance(controller, .25f);
+        Assert.That(controller.RuntimeState, Is.EqualTo(EnemyEventRuntimeState.Attacking));
+        Assert.That(combat.CanBeginTriggeredFire, Is.False, "Shot is requested only on arrival");
+        Assert.That(controller.ActivateFromSpot(), Is.False);
+        controller.PlayDie(); Advance(controller, 10);
+        Assert.That(controller.RuntimeState, Is.EqualTo(EnemyEventRuntimeState.Dead));
+    }
+
+    [Test]
+    public void Ambush_InvalidTargetOrMissingProjectileDoesNotConsumeActivation()
+    {
+        var enemy = CreateObject("Invalid Ambush");
+        var controller = enemy.AddComponent<EnemyEventController>();
+        controller.EventMode = EnemyEventMode.AmbushMoveThenShoot;
+        Assert.That(controller.ActivateFromSpot(), Is.False);
+        controller.TargetPoint = CreateObject("Target").transform;
+        controller.TargetPoint.position = Vector3.forward * 2;
+        Assert.That(controller.ActivateFromSpot(), Is.False);
+        Assert.That(controller.RuntimeState, Is.EqualTo(EnemyEventRuntimeState.Waiting));
+        controller.OnAfterDeserialize();
+        Assert.That(controller.EventMode, Is.EqualTo(EnemyEventMode.AmbushMoveThenShoot));
+    }
+
+    [Test]
+    public void Ambush_HideRestorePreservesDisabledChildren()
+    {
+        var enemy = CreateObject("Hidden Ambush");
+        var body = enemy.AddComponent<BoxCollider>(); body.enabled = false;
+        var renderer = enemy.AddComponent<MeshRenderer>(); renderer.forceRenderingOff = true;
+        var controller = enemy.AddComponent<EnemyEventController>();
+        var hide = typeof(EnemyEventController).GetMethod("SetAmbushHidden", PrivateInstance);
+        hide.Invoke(controller, new object[] { true });
+        hide.Invoke(controller, new object[] { true });
+        hide.Invoke(controller, new object[] { false });
+        Assert.That(body.enabled, Is.False);
+        Assert.That(renderer.forceRenderingOff, Is.True);
     }
 
     [Test]
@@ -288,7 +356,9 @@ public sealed class EnemyEventControllerTests
         enemy.transform.position = new Vector3(9f, 0f, 9f);
 
         enemy.SetActive(false);
+        InvokePrivate(controller, "OnDisable", null); // EditMode preview scenes do not run MonoBehaviour lifecycle callbacks.
         enemy.SetActive(true);
+        InvokePrivate(controller, "OnEnable", null);
 
         Assert.That(
             enemy.transform.position,
@@ -455,6 +525,7 @@ public sealed class EnemyEventControllerTests
 
     private static void Initialize(EnemyEventController controller)
     {
+        InvokePrivate(controller, "OnEnable", null);
         InvokePrivate(controller, "EnsureInitialized", null);
     }
 

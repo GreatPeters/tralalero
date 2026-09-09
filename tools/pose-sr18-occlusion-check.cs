@@ -1,0 +1,12 @@
+if(!UnityEditor.EditorApplication.isPlaying)throw new System.Exception("Play required");
+var p=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.PlayerScript>();
+var cam=Camera.main;var effect=cam.GetComponent<IndianOceanAssets.ShooterSurvival.NoryangjinCameraOcclusion>();
+var offset=Quaternion.Inverse(p.transform.rotation)*(cam.transform.position-p.transform.position);
+var rotation=Quaternion.Inverse(p.transform.rotation)*cam.transform.rotation;
+p.enabled=false;foreach(var w in p.GetComponentsInChildren<IndianOceanAssets.ShooterSurvival.WeaponScript>(true))w.enabled=false;
+p.transform.SetPositionAndRotation(new Vector3(-10.83f,.16f,-61.2f),Quaternion.identity);
+if(!cam.transform.IsChildOf(p.transform))cam.transform.SetPositionAndRotation(p.transform.position+offset,rotation);
+effect.enabled=false;
+string folder="tmp/image-previews/sr18-runtime-fixes-2026-09-10/"+System.DateTime.Now.ToString("HHmmss");System.IO.Directory.CreateDirectory(folder);
+UnityEditor.SessionState.SetString("SR18.OcclusionCheck.Folder",folder);
+return new{folder,hidden=effect.HiddenCount};

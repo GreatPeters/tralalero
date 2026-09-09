@@ -10,6 +10,7 @@ namespace IndianOceanAssets.ShooterSurvival
         PlayerScript routeOwner;
         Vector3 direction;
         float elapsedDuration;
+        bool returnedToPool;
 
         private static readonly HashSet<BulletScript> ActiveProjectiles = new();
 
@@ -42,11 +43,13 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void OnEnable()
         {
+            returnedToPool = false;
             ActiveProjectiles.Add(this);
         }
 
         private void OnDisable()
         {
+            returnedToPool = true;
             ActiveProjectiles.Remove(this);
             routeOwner = null;
             projectileRoot = null;
@@ -59,6 +62,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void FixedUpdate()
         {
+            if (returnedToPool) return;
             float remainingDuration = Mathf.Max(0f, CurrentMissileDuration - elapsedDuration);
             float deltaSeconds = Mathf.Min(GetSimulationDeltaTime(), remainingDuration);
             Transform movingTransform = GetProjectileTransform();
@@ -83,6 +87,7 @@ namespace IndianOceanAssets.ShooterSurvival
             projectileRoot = transform.root;
             routeOwner = owner;
             elapsedDuration = 0f;
+            returnedToPool = false;
             ActiveProjectiles.Add(this);
         }
 
@@ -140,6 +145,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ReturnToPool()
         {
+            if (returnedToPool) return;
+            returnedToPool = true; // Claim before SetActive(false) invokes OnDisable.
             bulletPooler.ReturnObjectToPool_Bullet(GetProjectileTransform().gameObject);
         }
 

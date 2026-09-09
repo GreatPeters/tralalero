@@ -29,6 +29,9 @@ namespace IndianOceanAssets.ShooterSurvival
         [InspectorName("지정 위치 이동 후 공격")]
         MoveToTargetThenAttack = 2,
 
+        [InspectorName("전방 매복 등장 후 사격")]
+        AmbushMoveThenShoot = 6,
+
         [InspectorName("시작점과 지정 위치 왕복")]
         PatrolBetweenStartAndTarget = 1
     }
@@ -62,6 +65,7 @@ namespace IndianOceanAssets.ShooterSurvival
         sourceClassName: "EnemyMovementController")]
     [AddComponentMenu("Shooter Survival/Enemy Event Controller")]
     [DisallowMultipleComponent]
+    [DefaultExecutionOrder(50)] // Hide ambushers after combat has restored its colliders.
     public sealed class EnemyEventController : MonoBehaviour, ISerializationCallbackReceiver
     {
         private const float DirectionEpsilonSqr = 0.000001f;
@@ -91,6 +95,8 @@ namespace IndianOceanAssets.ShooterSurvival
         [Tooltip("이동 이벤트에서 사용하는 초당 이동 거리입니다.")]
         [Min(0f)]
         [SerializeField] private float moveSpeed = 2f;
+        [SerializeField] private bool patrolAcrossRoad;
+        public bool PatrolAcrossRoad { get => patrolAcrossRoad; set => patrolAcrossRoad = value; }
 
         [InspectorName("이동 애니메이션")]
         [Tooltip("지정 위치로 이동할 때 재생할 애니메이션입니다.")]
@@ -99,6 +105,15 @@ namespace IndianOceanAssets.ShooterSurvival
         [InspectorName("이동 목표")]
         [Tooltip("이동 후 공격과 왕복 이동이 사용할 목표 위치입니다. 적 자신의 자식은 목표로 사용할 수 없습니다.")]
         [SerializeField] private Transform targetPoint;
+
+        [Tooltip("끄면 먼 진입점에서 실제 모델이 대기하고 걸어옵니다. 가까이에서 렌더러를 켜는 팝인을 방지합니다.")]
+        [SerializeField] private bool hideWhileWaiting = true;
+        [SerializeField, Range(-2f, 2f)] private float ambushEntrySide;
+        [Tooltip("메시 자체의 정면 보정. 배치용 180도 회전과 구분합니다.")]
+        [SerializeField] private float modelForwardYaw;
+
+        public bool HideWhileWaiting { get => hideWhileWaiting; set => hideWhileWaiting = value; }
+        public float AmbushEntrySide { get => ambushEntrySide; set => ambushEntrySide = Mathf.Clamp(value, -2f, 2f); }
 
         [InspectorName("도착 판정 거리")]
         [Min(0.001f)]
@@ -116,6 +131,12 @@ namespace IndianOceanAssets.ShooterSurvival
         private Animator enemyAnimator;
         private EnemyScript_space combat;
         private PlayerScript player;
+        private readonly Dictionary<Renderer, bool> hiddenRenderers = new();
+        private readonly Dictionary<Collider, bool> hiddenColliders = new();
+        private readonly Dictionary<Canvas, bool> hiddenCanvases = new();
+        private bool ambushHidden;
+
+        public bool IsAmbushHidden => ambushHidden;
 
         public EnemyEventMode EventMode
         {
@@ -164,11 +185,14 @@ namespace IndianOceanAssets.ShooterSurvival
                 ResetForNewRun();
             else
                 PrepareForPlacementCapture();
+            if (Application.isPlaying)
+                SetAmbushHidden(hideWhileWaiting && eventMode == EnemyEventMode.AmbushMoveThenShoot);
             ActiveControllers.Add(this);
         }
 
         private void OnDisable()
         {
+            SetAmbushHidden(false);
             ActiveControllers.Remove(this);
         }
 
@@ -211,6 +235,13 @@ namespace IndianOceanAssets.ShooterSurvival
             AdvanceEvent(scaledDeltaTime);
         }
 
+        private void LateUpdate()
+        {
+            if (TimeManager.isGameRunning &&
+                (RuntimeState == EnemyEventRuntimeState.Attacking || RuntimeState == EnemyEventRuntimeState.PatrolAttack))
+                FacePlayerExactly();
+        }
+
         public bool ActivateFromSpot()
         {
             ResolveRuntimeReferences();
@@ -221,16 +252,19 @@ namespace IndianOceanAssets.ShooterSurvival
             if (RuntimeState != EnemyEventRuntimeState.Waiting)
                 return false;
 
+            if (!isActiveAndEnabled)
+                return false;
+
             switch (eventMode)
             {
                 case EnemyEventMode.AttackLoop:
-                    FacePlayerOrthogonally();
+                    FacePlayerExactly();
                     PlayAttackLoop();
                     RuntimeState = EnemyEventRuntimeState.Attacking;
                     return true;
 
                 case EnemyEventMode.AttackOnce:
-                    FacePlayerOrthogonally();
+                    FacePlayerExactly();
                     PlayAttackOnce();
                     RuntimeState = EnemyEventRuntimeState.Attacking;
                     return true;
@@ -239,15 +273,20 @@ namespace IndianOceanAssets.ShooterSurvival
                     if (combat == null || !combat.TryBeginTriggeredFire())
                         return false;
 
-                    FacePlayerOrthogonally();
+                    FacePlayerExactly();
                     RuntimeState = EnemyEventRuntimeState.Attacking;
                     return true;
 
                 case EnemyEventMode.MoveToTargetThenAttack:
                 case EnemyEventMode.PatrolBetweenStartAndTarget:
+                case EnemyEventMode.AmbushMoveThenShoot:
                     if (!CanStartMovementEvent())
                         return false;
+                    if (eventMode == EnemyEventMode.AmbushMoveThenShoot &&
+                        (combat == null || !combat.CanBeginTriggeredFire))
+                        return false;
 
+                    SetAmbushHidden(false);
                     RuntimeState = EnemyEventRuntimeState.MovingToTarget;
                     PlayLocomotion();
                     return true;
@@ -260,6 +299,7 @@ namespace IndianOceanAssets.ShooterSurvival
         public static bool RequiresTarget(EnemyEventMode mode)
         {
             return mode == EnemyEventMode.MoveToTargetThenAttack ||
+                   mode == EnemyEventMode.AmbushMoveThenShoot ||
                    mode == EnemyEventMode.PatrolBetweenStartAndTarget;
         }
 
@@ -306,7 +346,7 @@ namespace IndianOceanAssets.ShooterSurvival
             Vector3 direction = initialized
                 ? routeForward
                 : HorizontalDirection(transform.forward, Vector3.forward);
-            FaceDirection(direction);
+            FaceDirection(direction, preservePlacementRotation: true);
         }
 
         private void ResolveRuntimeReferences()
@@ -345,7 +385,9 @@ namespace IndianOceanAssets.ShooterSurvival
             routeRight = HorizontalDirection(transform.right, Vector3.right);
             initialized = true;
             PlayIdle();
-            FaceDirection(routeForward);
+            FaceDirection(routeForward, preservePlacementRotation: true);
+            if (Application.isPlaying)
+                SetAmbushHidden(hideWhileWaiting && eventMode == EnemyEventMode.AmbushMoveThenShoot);
         }
 
         private void AdvanceEvent(float deltaTime)
@@ -397,7 +439,16 @@ namespace IndianOceanAssets.ShooterSurvival
             }
 
             transform.position = destination;
-            FacePlayerOrthogonally();
+            FacePlayerExactly();
+            if (eventMode == EnemyEventMode.AmbushMoveThenShoot)
+            {
+                // The existing throw animation/release delay supplies the readable wind-up.
+                bool fired = combat != null && combat.TryBeginTriggeredFire();
+                if (!fired)
+                    PlayIdle();
+                RuntimeState = EnemyEventRuntimeState.Attacking;
+                return;
+            }
             if (eventMode == EnemyEventMode.MoveToTargetThenAttack)
             {
                 PlayAttackLoop();
@@ -474,7 +525,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 this);
         }
 
-        private void FacePlayerOrthogonally()
+        private void FacePlayerExactly()
         {
             if (player == null)
                 player = FindFirstObjectByType<PlayerScript>();
@@ -482,10 +533,7 @@ namespace IndianOceanAssets.ShooterSurvival
             Vector3 toPlayer = player != null
                 ? player.transform.position - transform.position
                 : routeForward;
-            FaceDirection(ResolveOrthogonalFacingDirection(
-                toPlayer,
-                routeForward,
-                routeRight));
+            FaceDirection(toPlayer);
         }
 
         public static Vector3 ResolveOrthogonalFacingDirection(
@@ -504,7 +552,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 : horizontalRight * (rightDot < 0f ? -1f : 1f);
         }
 
-        private void FaceDirection(Vector3 direction)
+        private void FaceDirection(Vector3 direction, bool preservePlacementRotation = false)
         {
             if (enemyAnimator == null)
                 return;
@@ -515,7 +563,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             Quaternion targetRotation =
                 Quaternion.LookRotation(horizontal.normalized, Vector3.up) *
-                visualRotationOffset;
+                (preservePlacementRotation ? visualRotationOffset : Quaternion.Euler(0f, modelForwardYaw, 0f));
             if (Quaternion.Angle(
                     enemyAnimator.transform.rotation,
                     targetRotation) <= 0.01f)
@@ -569,22 +617,62 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ResetForNewRun()
         {
+            SetAmbushHidden(false);
+            if (Application.isPlaying && eventMode == EnemyEventMode.AmbushMoveThenShoot)
+                combat?.ResetTriggeredFireForNewRun();
             RuntimeState = EnemyEventRuntimeState.Waiting;
             patrolAttackStateObserved = false;
             patrolAttackFallbackRemaining = 0f;
             patrolReturningToStart = false;
+            if (Application.isPlaying)
+                SetAmbushHidden(hideWhileWaiting && eventMode == EnemyEventMode.AmbushMoveThenShoot);
 
             if (!initialized)
                 return;
 
             transform.position = startPosition;
             PlayIdle();
-            FaceDirection(routeForward);
+            FaceDirection(routeForward, preservePlacementRotation: true);
         }
 
         private bool IsQueuedPoolObject()
         {
             return GetComponentInParent<EnemyPooler>(includeInactive: true) != null;
+        }
+
+        private void SetAmbushHidden(bool hidden)
+        {
+            if (hidden == ambushHidden)
+                return;
+            ambushHidden = hidden;
+            if (hidden)
+            {
+                foreach (Renderer item in GetComponentsInChildren<Renderer>(true))
+                {
+                    hiddenRenderers[item] = item.forceRenderingOff;
+                    item.forceRenderingOff = true;
+                }
+                foreach (Collider item in GetComponentsInChildren<Collider>(true))
+                {
+                    hiddenColliders[item] = item.enabled;
+                    item.enabled = false;
+                }
+                foreach (Canvas item in GetComponentsInChildren<Canvas>(true))
+                {
+                    hiddenCanvases[item] = item.enabled;
+                    item.enabled = false;
+                }
+                return;
+            }
+            foreach (var pair in hiddenRenderers)
+                if (pair.Key != null) pair.Key.forceRenderingOff = pair.Value;
+            foreach (var pair in hiddenColliders)
+                if (pair.Key != null) pair.Key.enabled = pair.Value;
+            foreach (var pair in hiddenCanvases)
+                if (pair.Key != null) pair.Key.enabled = pair.Value;
+            hiddenRenderers.Clear();
+            hiddenColliders.Clear();
+            hiddenCanvases.Clear();
         }
 
         private void NormalizeSerializedEventMode()
@@ -598,6 +686,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (eventMode != EnemyEventMode.AttackLoop &&
                 eventMode != EnemyEventMode.AttackOnce &&
                 eventMode != EnemyEventMode.Shoot &&
+                eventMode != EnemyEventMode.AmbushMoveThenShoot &&
                 eventMode != EnemyEventMode.MoveToTargetThenAttack &&
                 eventMode != EnemyEventMode.PatrolBetweenStartAndTarget)
             {

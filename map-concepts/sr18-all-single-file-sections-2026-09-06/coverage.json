@@ -1,0 +1,499 @@
+{
+  "status": "Diagram proposal only; Unity scene unchanged",
+  "section_count": 16,
+  "prior_example_sections": [
+    "S06",
+    "S08",
+    "S16"
+  ],
+  "all_previous_examples_retained": true,
+  "station_count": 32,
+  "counts": {
+    "enemy": 12,
+    "bonus": 10,
+    "object": 10
+  },
+  "min_route_gap": 64.0,
+  "sections": [
+    {
+      "id": "S01",
+      "title": "입구 서행",
+      "length": 37.891708475258845,
+      "events": [
+        {
+          "kind": "enemy",
+          "distance": 20,
+          "world_xz": [
+            7.090902664634378,
+            -114.91998481489159
+          ],
+          "section": "S01",
+          "route_distance": 20
+        }
+      ],
+      "slope_zones": []
+    },
+    {
+      "id": "S02",
+      "title": "시작 상점가 북행",
+      "length": 107.55023535183454,
+      "events": [
+        {
+          "kind": "bonus",
+          "distance": 62,
+          "world_xz": [
+            -10.6702924508741,
+            -52.750135674400845
+          ],
+          "section": "S02",
+          "route_distance": 99.89170847525884
+        }
+      ],
+      "slope_zones": []
+    },
+    {
+      "id": "S03",
+      "title": "첫 가로 상가",
+      "length": 202.27499999999998,
+      "events": [
+        {
+          "kind": "object",
+          "distance": 35,
+          "world_xz": [
+            24.425,
+            -7.2
+          ],
+          "section": "S03",
+          "route_distance": 180.44194382709338
+        },
+        {
+          "kind": "enemy",
+          "distance": 105,
+          "world_xz": [
+            94.425,
+            -7.2
+          ],
+          "section": "S03",
+          "route_distance": 250.44194382709338
+        },
+        {
+          "kind": "bonus",
+          "distance": 175,
+          "world_xz": [
+            164.425,
+            -7.2
+          ],
+          "section": "S03",
+          "route_distance": 320.4419438270934
+        }
+      ],
+      "slope_zones": []
+    },
+    {
+      "id": "S04",
+      "title": "짧은 북행 통로",
+      "length": 60.7499954,
+      "events": [
+        {
+          "kind": "object",
+          "distance": 38,
+          "world_xz": [
+            191.7,
+            30.8
+          ],
+          "section": "S04",
+          "route_distance": 385.71694382709336
+        }
+      ],
+      "slope_zones": []
+    },
+    {
+      "id": "S05",
+      "title": "상단 연결길",
+      "length": 67.27500500000042,
+      "events": [
+        {
+          "kind": "enemy",
+          "distance": 42,
+          "world_xz": [
+            149.70000000000024,
+            53.54999065529578
+          ],
+          "section": "S05",
+          "route_distance": 450.46693922709335
+        }
+      ],
+      "slope_zones": []
+    },
+    {
+      "id": "S06",
+      "title": "큰 루프 하행",
+      "length": 401.3011259881018,
+      "events": [
+        {
+          "kind": "bonus",
+          "distance": 40,
+          "world_xz": [
+            124.40754466271834,
+            13.549991606428563
+          ],
+          "section": "S06",
+          "route_distance": 515.7419442270938
+        },
+        {
+          "kind": "object",
+          "distance": 105,
+          "world_xz": [
+            124.37918786463565,
+            -51.450002208125
+          ],
+          "section": "S06",
+          "route_distance": 580.7419442270938
+        },
+        {
+          "kind": "enemy",
+          "distance": 183.5499878,
+          "world_xz": [
+            124.34491977012115,
+            -129.99998253325205
+          ],
+          "section": "S06",
+          "route_distance": 659.2919320270937
+        },
+        {
+          "kind": "bonus",
+          "distance": 253.5499878,
+          "world_xz": [
+            124.31438167987827,
+            -199.99997587200207
+          ],
+          "section": "S06",
+          "route_distance": 729.2919320270937
+        },
+        {
+          "kind": "object",
+          "distance": 323.5499878,
+          "world_xz": [
+            124.28384358963537,
+            -269.99996921075206
+          ],
+          "section": "S06",
+          "route_distance": 799.2919320270937
+        }
+      ],
+      "slope_zones": []
+    },
+    {
+      "id": "S07",
+      "title": "큰 루프 아랫길",
+      "length": 191.250004,
+      "events": [
+        {
+          "kind": "enemy",
+          "distance": 25,
+          "world_xz": [
+            99.249924,
+            -347.7511
+          ],
+          "section": "S07",
+          "route_distance": 902.0430702151955
+        },
+        {
+          "kind": "object",
+          "distance": 95,
+          "world_xz": [
+            29.249923999999993,
+            -347.7511
+          ],
+          "section": "S07",
+          "route_distance": 972.0430702151955
+        },
+        {
+          "kind": "bonus",
+          "distance": 165,
+          "world_xz": [
+            -40.75007600000001,
+            -347.7511
+          ],
+          "section": "S07",
+          "route_distance": 1042.0430702151955
+        }
+      ],
+      "slope_zones": []
+    },
+    {
+      "id": "S08",
+      "title": "큰 루프 북행",
+      "length": 270.0,
+      "events": [
+        {
+          "kind": "object",
+          "distance": 62.75110000000001,
+          "world_xz": [
+            -67.00008,
+            -285.0
+          ],
+          "section": "S08",
+          "route_distance": 1131.0441742151954
+        },
+        {
+          "kind": "enemy",
+          "distance": 132.7511,
+          "world_xz": [
+            -67.00008,
+            -215.0
+          ],
+          "section": "S08",
+          "route_distance": 1201.0441742151954
+        },
+        {
+          "kind": "bonus",
+          "distance": 202.7511,
+          "world_xz": [
+            -67.00008,
+            -145.0
+          ],
+          "section": "S08",
+          "route_distance": 1271.0441742151954
+        }
+      ],
+      "slope_zones": []
+    },
+    {
+      "id": "S09",
+      "title": "첫 고가",
+      "length": 292.500004,
+      "events": [
+        {
+          "kind": "enemy",
+          "distance": 90,
+          "world_xz": [
+            22.999920000000017,
+            -77.7511
+          ],
+          "section": "S09",
+          "route_distance": 1428.2930742151955
+        },
+        {
+          "kind": "enemy",
+          "distance": 160,
+          "world_xz": [
+            92.99992,
+            -77.7511
+          ],
+          "section": "S09",
+          "route_distance": 1498.2930742151955
+        },
+        {
+          "kind": "bonus",
+          "distance": 270,
+          "world_xz": [
+            202.99992,
+            -77.7511
+          ],
+          "section": "S09",
+          "route_distance": 1608.2930742151955
+        }
+      ],
+      "slope_zones": [
+        [
+          11.250003699999994,
+          45.00000369999999,
+          "오르막 · 비움"
+        ],
+        [
+          45.00000369999999,
+          202.500004,
+          "상부 평지"
+        ],
+        [
+          202.500004,
+          236.250004,
+          "내리막 · 비움"
+        ]
+      ]
+    },
+    {
+      "id": "S10",
+      "title": "중반 북행",
+      "length": 135.00001,
+      "events": [
+        {
+          "kind": "enemy",
+          "distance": 65,
+          "world_xz": [
+            225.499924,
+            -12.751099999999994
+          ],
+          "section": "S10",
+          "route_distance": 1695.7930782151955
+        }
+      ],
+      "slope_zones": []
+    },
+    {
+      "id": "S11",
+      "title": "중반 가로 상가",
+      "length": 101.25001499999999,
+      "events": [
+        {
+          "kind": "object",
+          "distance": 48,
+          "world_xz": [
+            273.49992399999996,
+            57.24891
+          ],
+          "section": "S11",
+          "route_distance": 1813.7930882151954
+        }
+      ],
+      "slope_zones": []
+    },
+    {
+      "id": "S12",
+      "title": "상단 고리 진입",
+      "length": 146.24999,
+      "events": [
+        {
+          "kind": "bonus",
+          "distance": 35,
+          "world_xz": [
+            326.749939,
+            92.24891
+          ],
+          "section": "S12",
+          "route_distance": 1902.0431032151955
+        },
+        {
+          "kind": "enemy",
+          "distance": 105,
+          "world_xz": [
+            326.749939,
+            162.24891
+          ],
+          "section": "S12",
+          "route_distance": 1972.0431032151955
+        }
+      ],
+      "slope_zones": []
+    },
+    {
+      "id": "S13",
+      "title": "고리 윗변",
+      "length": 112.5,
+      "events": [
+        {
+          "kind": "object",
+          "distance": 35,
+          "world_xz": [
+            361.749939,
+            203.4989
+          ],
+          "section": "S13",
+          "route_distance": 2048.2930932151958
+        },
+        {
+          "kind": "bonus",
+          "distance": 99,
+          "world_xz": [
+            425.749939,
+            203.4989
+          ],
+          "section": "S13",
+          "route_distance": 2112.2930932151958
+        }
+      ],
+      "slope_zones": []
+    },
+    {
+      "id": "S14",
+      "title": "고리 짧은 하행",
+      "length": 67.5,
+      "events": [
+        {
+          "kind": "object",
+          "distance": 51,
+          "world_xz": [
+            439.249939,
+            152.4989
+          ],
+          "section": "S14",
+          "route_distance": 2176.7930932151958
+        }
+      ],
+      "slope_zones": []
+    },
+    {
+      "id": "S15",
+      "title": "두 번째 고가",
+      "length": 191.250015,
+      "events": [
+        {
+          "kind": "enemy",
+          "distance": 48,
+          "world_xz": [
+            391.249939,
+            135.9989
+          ],
+          "section": "S15",
+          "route_distance": 2241.2930932151958
+        }
+      ],
+      "slope_zones": [
+        [
+          67.5,
+          101.25,
+          "오르막 · 비움"
+        ],
+        [
+          101.25,
+          123.75,
+          "상부 평지"
+        ],
+        [
+          123.75,
+          157.5,
+          "내리막 · 비움"
+        ]
+      ]
+    },
+    {
+      "id": "S16",
+      "title": "마지막 출구길",
+      "length": 202.5000038,
+      "events": [
+        {
+          "kind": "bonus",
+          "distance": 33.00110000000001,
+          "world_xz": [
+            247.999924,
+            169.0
+          ],
+          "section": "S16",
+          "route_distance": 2417.544208215196
+        },
+        {
+          "kind": "enemy",
+          "distance": 97.00110000000001,
+          "world_xz": [
+            247.999924,
+            233.0
+          ],
+          "section": "S16",
+          "route_distance": 2481.544208215196
+        },
+        {
+          "kind": "object",
+          "distance": 161.0011,
+          "world_xz": [
+            247.999924,
+            297.0
+          ],
+          "section": "S16",
+          "route_distance": 2545.544208215196
+        }
+      ],
+      "slope_zones": []
+    }
+  ]
+}

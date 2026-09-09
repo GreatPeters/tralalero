@@ -68,14 +68,14 @@ public class MoneyScript : MonoBehaviour
 
     public bool SpendCoin(int amount)
     {
-        if (coin < amount) return false;
+        if (amount < 0 || coin < amount) return false;
         Coin -= amount;
         return true;
     }
 
     public bool SpendJewel(int amount)
     {
-        if (jewel < amount) return false;
+        if (amount < 0 || jewel < amount) return false;
         Jewel -= amount;
         return true;
     }

@@ -1,0 +1,16 @@
+if(!UnityEditor.EditorApplication.isPlaying)throw new Exception("Play required");
+var p=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.PlayerScript>();
+var canvas=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.CanvasScript>();
+var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();var map=scene.GetRootGameObjects().Single(g=>g.name=="Noryangjin_MapTool").transform;
+bool won=IndianOceanAssets.ShooterSurvival.CanvasScript.isGameOver&&!IndianOceanAssets.ShooterSurvival.TimeManager.isGameRunning&&canvas.youWinUI.activeInHierarchy&&p.currentHealth>0;
+if(!won)throw new Exception("Win screen not active yet");
+if(p.transform.position.z>338.5f)throw new Exception("Player crossed the end of the road");
+var pool=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.BulletPooler>();var flags=System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance;
+var reverse=(System.Collections.Generic.Dictionary<GameObject,IndianOceanAssets.ShooterSurvival.BulletKind>)pool.GetType().GetField("reverse",flags).GetValue(pool);
+int broken=reverse.Count(k=>k.Key!=null&&k.Key.GetComponentInChildren<IndianOceanAssets.ShooterSurvival.BulletScript>(true)==null);
+if(broken!=0)throw new Exception("Corrupt projectile roots");
+var result=new{passed=true,won,position=p.transform.position.ToString("F3"),gameTime=Time.time,brokenProjectiles=broken,successfulShots=UnityEngine.Object.FindObjectsByType<IndianOceanAssets.ShooterSurvival.WeaponScript>(UnityEngine.FindObjectsInactive.Include,UnityEngine.FindObjectsSortMode.None).Sum(w=>w.TotalProjectilesSpawned),choices=map.GetComponentsInChildren<IndianOceanAssets.ShooterSurvival.BonusWallChoicePair>(true).Count(b=>b.Selected!=null),legacyLampTriggers=map.Find("Props/Prop_Lights_X-49_Z-139").GetComponentsInChildren<Collider>(true).Count(c=>c.enabled),cameraHidden=Camera.main.GetComponent<IndianOceanAssets.ShooterSurvival.NoryangjinCameraOcclusion>().HiddenCount};
+var serializer=AppDomain.CurrentDomain.GetAssemblies().Select(a=>a.GetType("Newtonsoft.Json.JsonConvert")).First(t=>t!=null).GetMethod("SerializeObject",new[]{typeof(object)});
+string folder=UnityEditor.SessionState.GetString("SR18.LivePlaytest.20260909.folder","");
+System.IO.File.WriteAllText(folder+"/win-verification.json",(string)serializer.Invoke(null,new object[]{result}));ScreenCapture.CaptureScreenshot(folder+"/win.png");
+return result;

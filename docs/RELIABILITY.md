@@ -1,6 +1,30 @@
 # Reliability
 
+## Run health, cosmetic purchases and test isolation (2026-09-10)
+
+HP rewards increase current and maximum health together and reset at the next run. Permanent helper percentages produce one helper per unlocked type, never one per percentage point. Money rejects negative spending and upgrade purchases require a live wallet.
+
+Cosmetics keep ownership and equipped item per slot in PlayerPrefs. Purchases are guarded against reentry and owned items never debit again. Appearance changes must not modify the source FBX or collision hierarchy. Preview cameras/materials/render textures are disposed on close; Editor-only preview generators explicitly call `Dispose`. The repeated equip path hides every pending old hat before Unity's deferred destruction.
+
+Before live purchase tests run `tools/noryangjin-ui-test-prefs.cs` Begin and verify a nonempty TSV; Restore only after stopping Play. A JsonUtility snapshot of an ephemeral Pipeline-defined type produced `{}` and was unusable; the current helper rejects incomplete snapshots. Preserve backups rather than overwriting them. See the linked workflow learning in `docs/README.md`.
+
+## SR18 contact and pickup rules (2026-09-10 follow-up)
+
+Eight SR18 authored lamps use `canBeShotDown=false`: auto-fire leaves their contact colliders enabled. The defaulttrue setting retains the earlier disarm/reset behavior elsewhere. Four legacy decorative lamps remain disabled. FatMan entry side offsets are stored as0 so workbook reapplication cannot put their wide bodies back over roadside props.
+
+Bonus pickup uses one timestamp on the player across all walls. Check the2-second interval before claiming a pair or changing wall lifetime; rejected pair contacts must not consume a choice or advance the timestamp. Initialize/reset to negative infinity so a pickup atTime.time0 cannot bypass the same-frame lock. Tests: `BonusWallCooldownTests`, `Sr18ContactPairsTests`; current record: `map-concepts/sr18-contact-pairs-2026-09-10/README.md`.
+
+## SR18 shot-lamp and opening verification (2026-09-10)
+
+Light obstacles disarm on a bullet hit before their animated bounds sweep the road. Reset/disable must cancel the Transform-owned tween and restore the captured original collider states; queued player contacts after disarming must remain harmless. Standing-lamp contact damage still applies. Regression fixture: `ObstacleLampSafetyTests`.
+
+SR18's first three modified bucket groups use12-unit intervals based on measured input speed, and two reward approaches use25 units so labels do not hide the next hole. Use `tools/autodrive-sr18-opening-playtest.cs` with normal health for input/collision checks, then restore test rewards. TestRunner's completed result can precede its cleanup: wait until `IsRunActive=false` before reopening SR18 or entering Play. See `map-concepts/sr18-opening-rhythm-2026-09-10/README.md`.
+
+Open observation: after the final97-second gameplay run reset, two stackless Editor exceptions reported `This cannot be used during play mode` during the same period as prefab PreviewImporter work. The caller is not established. Keep this separate from in-run gameplay failures; retained log excerpts and the verification boundary are in the opening-rhythm record.
+
 ## Known Failure Modes
+- Pooled projectile returns must be idempotent before deactivation clears cached ownership. Regression coverage is in `ProjectilePoolLifetimeTests`; inspect full continuous collisions, not just rental counts. See `solutions/runtime-errors/guard-projectile-return-before-deactivation-2026-09-10.md`.
+- Unity test result callbacks may arrive before TestRunner scene cleanup finishes. Confirm `TestRunnerApi.IsRunActive` is false and allow editor cleanup before opening gameplay/entering Play; otherwise the late EditMode cleanup can report an error during Play even when assertions passed.
 - The official Unity Pipeline endpoint can be temporarily unavailable while Package Manager resolves packages, scripts compile, or the domain reloads.
 - `unity status --project-path .` can return `STATUS_NO_INSTANCES` even while the project's Pipeline endpoint accepts commands. Status is a useful diagnostic signal, not the final reachability oracle.
 - Deleting an editor package does not unload code from an already-running Unity AppDomain. After removing an already-loaded CoderGamester package, its localhost listener can remain alive until Unity is restarted once.
@@ -63,11 +87,14 @@
 
 ## Noryangjin SR18 Static-Scene Integrity
 
+- Apparent ramp texture corruption can be the flat-road material's binary black cel shading, not broken UVs. SR18's 12 ramps use `SR18_RoadSlope.mat` with self-shading size 0.45 and edge size 0.08; shared flat-road materials remain unchanged. Preserve the slope-material test and inspect both ascent/descent directions when changing lighting. See `solutions/ui-bugs/avoid-binary-black-cel-shadows-on-sr18-ramps-2026-09-05.md`.
+
 - Renderer AABB contact is not proof of deck continuity: support posts extend beyond the walkable plank ends. The SR18 surface test samples 24,702 points across three lanes and requires upward-facing collider surfaces near the expected deck height; every corrected road uses the same mesh for rendering and collision. Preserve this test when editing the geometry.
 
-- `Noryangjin_MapTool_Mode_SR18.unity` is an independent build-excluded roads-only sibling. It must not replace or mutate Map 1 or the existing Map 2.
-- `NoryangjinSr18SceneTests` validates the 51-road copied prefix, 179-road extension, 15 turn spots, three height-separated crossings, consecutive road seams, empty authored-content roots and Build Settings exclusion.
-- The elevated spans are authoring geometry only. Current player movement freezes Y, so do not advertise SR18 as playable or add it to Build Settings until height-following, camera clearance and projectile behavior are implemented and tested.
+- `Noryangjin_MapTool_Mode_SR18.unity` is an independent build-excluded sibling with the approved dense market applied. It must not replace or mutate Map 1 or the existing Map 2.
+- `NoryangjinSr18SceneTests` validates the 51-road copied prefix, 179-road extension, 15 turn spots, three height-separated crossings, consecutive road seams, the 306-shop roadside placement record, ground support, empty encounter roots and Build Settings exclusion.
+- Ground support alone does not establish a valid layout. The rejected 417-shop layout passed support tests while 252 ground bounds overlapped road bounds and interior rows invented a second route language. `Sr18Market_LeavesTheExistingTimberRoadsVisible` independently rejects shop/quay bounds overlapping any timber road and placements farther than 6 units from the nearest road boundary. The current narrow quays support the full storefront bounds, including awnings; the prior 0.7-inset workaround is no longer used. These are static placement checks, not runtime physics or camera-occlusion tests.
+- SR18's two elevated spans have now passed live player traversal with the opt-in road-height follower and eight non-stopping pitch spots. The follower queries only configured road colliders within ±0.75 of the requested foot height and preserves height on a miss; very large per-step height changes, edited/missing roads or a changed collider require revalidation. Corner checkpoints and enemy route construction exclude slope-only spots. Full-stage encounter balance, mobile performance and combat around upper/lower crossings remain unverified, so Build Settings exclusion stays in place.
 - The map-tool work-grid `600` preset is EditorWindow overlay state rather than scene state; authors must select it when editing the full SR18 bounds.
 
 ## Noryangjin Bonus Altar Data Failures

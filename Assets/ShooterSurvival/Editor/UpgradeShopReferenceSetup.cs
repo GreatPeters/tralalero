@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public static class UpgradeShopReferenceSetup
+public static partial class UpgradeShopReferenceSetup
 {
     public const string MenuPath =
         "Tools/Shooter Survival/UI/Rebuild Upgrade Shoe Workshop";
@@ -54,6 +54,7 @@ public static class UpgradeShopReferenceSetup
             ConfigureHeader(upgradeRoot, signSprite);
             ConfigureCards(upgradeRoot, cardSprite);
             ConfigureFooter(upgradeRoot, signSprite);
+            ApplyReferenceArtwork(upgradeRoot);
 
             EditorUtility.SetDirty(upgradeRoot.gameObject);
             EditorSceneManager.MarkSceneDirty(scene);

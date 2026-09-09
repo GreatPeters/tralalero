@@ -206,7 +206,8 @@ public sealed class UpgradeShopReferenceSetupTests
             TextMeshProUGUI title = upgradeRoot.Find("Button (1)")
                 ?.GetComponentInChildren<TextMeshProUGUI>(true);
             Assert.That(title, Is.Not.Null);
-            Assert.That(title.text, Is.EqualTo("그지 신발 개조소"));
+            Assert.That(title.text, Is.EqualTo("신발 개조소"));
+            Assert.That(title.font.HasCharacter('신'), Is.True);
             Assert.That(upgradeRoot.Find(UpgradeShopReferenceSetup.FooterName), Is.Not.Null);
         }
         finally

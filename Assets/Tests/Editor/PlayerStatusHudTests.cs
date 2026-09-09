@@ -18,6 +18,7 @@ public sealed class PlayerStatusHudTests
         {
             TextMeshProUGUI healthText = healthTextObject.AddComponent<TextMeshProUGUI>();
             Image healthFill = healthFillObject.AddComponent<Image>();
+            healthFill.type = Image.Type.Sliced; // Reproduce the authored SR18 override.
             TextMeshProUGUI attackText = attackTextObject.AddComponent<TextMeshProUGUI>();
             PlayerStatusHud hud = root.AddComponent<PlayerStatusHud>();
             hud.Configure(healthText, healthFill, attackText);
@@ -26,6 +27,9 @@ public sealed class PlayerStatusHudTests
 
             Assert.That(healthText.text, Is.EqualTo("75 / 100"));
             Assert.That(healthFill.fillAmount, Is.EqualTo(0.754f).Within(0.0001f));
+            Assert.That(healthFill.type, Is.EqualTo(Image.Type.Filled), "fillAmount is ignored by a Sliced image");
+            Assert.That(healthFill.fillMethod, Is.EqualTo(Image.FillMethod.Horizontal));
+            Assert.That(healthFill.fillOrigin, Is.EqualTo(0));
 
             hud.SetHealth(150f, 100f);
 

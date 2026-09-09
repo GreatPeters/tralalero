@@ -65,7 +65,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 foreach (EnemyScript_space enemy in
                          root.GetComponentsInChildren<EnemyScript_space>(true))
                 {
-                    if (enemy != null && !IsPooledEnemy(enemy.gameObject))
+                    if (enemy != null && !IsPooledEnemy(enemy.gameObject) && !EncounterPlacementController.IsExplicitlyDisabled(enemy))
                         enemies.Add(enemy);
                 }
             }
@@ -84,7 +84,7 @@ namespace IndianOceanAssets.ShooterSurvival
                          FindObjectsInactive.Include,
                          FindObjectsSortMode.None))
             {
-                if (turnSpot == null || turnSpot.gameObject.scene != scene)
+                if (turnSpot == null || turnSpot.IsSlopeTransition || turnSpot.gameObject.scene != scene)
                     continue;
 
                 HideFlags combinedHideFlags =
@@ -138,6 +138,8 @@ namespace IndianOceanAssets.ShooterSurvival
             for (int index = 0; index < orderedEnemies.Count; index++)
             {
                 EnemyScript_space enemy = orderedEnemies[index];
+                if (EncounterPlacementController.HasPlacementStats(enemy))
+                    continue; // The run-start placement snapshot owns this enemy, including its editable tier.
                 EnemyTier fixedTier = ForwardEnemyTierResolver.ResolveOrFallback(
                     enemy.gameObject.name,
                     EnemyTier.Normal);
@@ -261,6 +263,19 @@ namespace IndianOceanAssets.ShooterSurvival
                 ref bestRouteDirection);
 
             return bestRouteDirection;
+        }
+
+        public static List<ChapterRouteTurn> OrderRemainingTurns(Vector3 start, Vector3 forward, IReadOnlyList<ChapterRouteTurn> turns)
+        {
+            var remaining = new List<ChapterRouteTurn>(turns);
+            var ordered = new List<ChapterRouteTurn>();
+            while (TryTakeNextTurn(Horizontal(start), HorizontalDirection(forward, Vector3.forward), remaining, out var next))
+            {
+                ordered.Add(next);
+                start = next.Position;
+                forward = next.OutgoingDirection;
+            }
+            return ordered;
         }
 
         private static List<RouteSegment> BuildRouteSegments(

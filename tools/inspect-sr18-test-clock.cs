@@ -1,0 +1,2 @@
+var p=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.PlayerScript>();
+return new{UnityEditor.EditorApplication.isPaused,UnityEditor.EditorApplication.isPlaying,Application.runInBackground,Time.time,Time.timeScale,Time.deltaTime,Time.frameCount,factor=IndianOceanAssets.ShooterSurvival.TimeManager.timeFactor,running=IndianOceanAssets.ShooterSurvival.TimeManager.isGameRunning,p.enabled,p.movement,p.currentHealth,pos=p.transform.position.ToString(),p.IsWorldYawTurnActive};

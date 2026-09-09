@@ -1,0 +1,15 @@
+if(!UnityEditor.EditorApplication.isPlaying)throw new System.InvalidOperationException("Play Mode required");
+var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();var map=scene.GetRootGameObjects().Single(g=>g.name=="Noryangjin_MapTool").transform;
+var player=scene.GetRootGameObjects().Single(g=>g.name=="Noryangjin_Player").GetComponent<IndianOceanAssets.ShooterSurvival.PlayerScript>();
+var pair=map.Find("Bonuses").GetComponentsInChildren<IndianOceanAssets.ShooterSurvival.BonusWallChoicePair>().OrderBy(p=>p.name).Skip(1).First();
+var camera=Camera.main;if(camera==null)throw new System.InvalidOperationException("No main camera");
+var offset=Quaternion.Inverse(player.transform.rotation)*(camera.transform.position-player.transform.position);var cameraRotation=Quaternion.Inverse(player.transform.rotation)*camera.transform.rotation;
+IndianOceanAssets.ShooterSurvival.TimeManager.isGameRunning=false;player.enabled=false;
+foreach(var w in scene.GetRootGameObjects().SelectMany(g=>g.GetComponentsInChildren<IndianOceanAssets.ShooterSurvival.WeaponScript>(true)))w.enabled=false;
+foreach(var c in player.GetComponentsInChildren<Collider>(true))c.enabled=false;
+foreach(var root in scene.GetRootGameObjects().Where(g=>g.name=="Canvas"))root.SetActive(false);
+Vector3 center=(pair.Left.transform.position+pair.Right.transform.position)*.5f;Vector3 side=(pair.Right.transform.position-pair.Left.transform.position).normalized;Vector3 direction=Vector3.Cross(side,Vector3.up);
+player.transform.SetPositionAndRotation(center-direction*10,Quaternion.LookRotation(direction));
+if(!camera.transform.IsChildOf(player.transform))camera.transform.SetPositionAndRotation(player.transform.position+player.transform.rotation*offset,player.transform.rotation*cameraRotation);
+string folder="tmp/image-previews/sr18-choices-and-corner-space-2026-09-08/"+System.DateTime.Now.ToString("yyyyMMdd-HHmmss");System.IO.Directory.CreateDirectory(folder);
+return new{output=folder+"/choice-game-view.png",pair=pair.name,left=pair.Left.RolledStat,right=pair.Right.RolledStat,cameraParent=camera.transform.parent==null?null:camera.transform.parent.name};

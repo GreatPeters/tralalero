@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04990f16b294d7a449cf2aa99c8886ed, type: 3}
+  m_Name: Catalog
+  m_EditorClassIdentifier: Assembly-CSharp::CosmeticVisualCatalog
+  splitSharkMesh: {fileID: 4300000, guid: edecf385231f4484bb28c173f2ecf833, type: 2}
+  previewModel: {fileID: 919132149155446097, guid: 45767e28200fd99489514a5c09f6df15, type: 3}
+  previewScale: 450.00018
+  hatLocalPosition: {x: 0.00010478577, y: 0.00080021686, z: 0.0002143067}
+  hatLocalRotation: {x: -0.44884327, y: 0.057044074, z: 0.05214375, w: -0.8902625}
+  hatLocalScale: {x: 0.0012719395, y: 0.0012719395, z: 0.0012719395}
+  entries:
+  - key: skin_original
+    material: {fileID: 2100000, guid: 89397901eb2980f44a9c0aa9ea08a8fb, type: 2}
+    accessory: {fileID: 0}
+    icon: {fileID: 21300000, guid: c13d8f3d304668044a9a8bad24cf076e, type: 3}
+    swatch: {r: 1, g: 1, b: 1, a: 1}
+  - key: skin_coral
+    material: {fileID: 2100000, guid: 6d795a5e227e33047b32c13a9c77c75f, type: 2}
+    accessory: {fileID: 0}
+    icon: {fileID: 21300000, guid: 2800de2c12519e248aaf09c466729c52, type: 3}
+    swatch: {r: 1.45, g: 0.72, b: 0.82, a: 1}
+  - key: skin_ice
+    material: {fileID: 2100000, guid: f768f832794342045a296dc9d6778a65, type: 2}
+    accessory: {fileID: 0}
+    icon: {fileID: 21300000, guid: a73bddd025e717e4a9a675ddc4fb0fe1, type: 3}
+    swatch: {r: 0.72, g: 1.08, b: 1.35, a: 1}
+  - key: skin_sand
+    material: {fileID: 2100000, guid: f4f36d81a60ab7346a655f1de3c216dc, type: 2}
+    accessory: {fileID: 0}
+    icon: {fileID: 21300000, guid: b16a73d7b2d077345a3184f83c417f36, type: 3}
+    swatch: {r: 1.4, g: 1.13, b: 0.72, a: 1}
+  - key: shoes_original
+    material: {fileID: 2100000, guid: f3a2a153f8ac6d24b94eed97890f3af0, type: 2}
+    accessory: {fileID: 0}
+    icon: {fileID: 21300000, guid: 6089b92dbf878b7479a0c163e546b62c, type: 3}
+    swatch: {r: 1, g: 1, b: 1, a: 1}
+  - key: shoes_ruby
+    material: {fileID: 2100000, guid: 96d59cb3826040f4186d05d4947e9f90, type: 2}
+    accessory: {fileID: 0}
+    icon: {fileID: 21300000, guid: a056db0cb973c014a81d4bb5ccfb0a62, type: 3}
+    swatch: {r: 3.8, g: 0.55, b: 0.45, a: 1}
+  - key: shoes_mint
+    material: {fileID: 2100000, guid: eb8fc16aede5c634484947c13932e307, type: 2}
+    accessory: {fileID: 0}
+    icon: {fileID: 21300000, guid: 7a427e6bfdd02b547907386bda512fe2, type: 3}
+    swatch: {r: 0.7, g: 1.7, b: 0.72, a: 1}
+  - key: shoes_gold
+    material: {fileID: 2100000, guid: 0b2d218a4666d3c47ad48e9ebf91f40c, type: 2}
+    accessory: {fileID: 0}
+    icon: {fileID: 21300000, guid: 02a25f3cb1df2f841bc991dcf63a3dbe, type: 3}
+    swatch: {r: 4, g: 2, b: 0.45, a: 1}
+  - key: hat_none
+    material: {fileID: 0}
+    accessory: {fileID: 0}
+    icon: {fileID: 21300000, guid: 5db0c91138b922a45909ea478c2b14d8, type: 3}
+    swatch: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  - key: hat_cap
+    material: {fileID: 0}
+    accessory: {fileID: 7090679149318526098, guid: 76c9a08ddb908384bacfe6fc892f865a, type: 3}
+    icon: {fileID: 21300000, guid: 74ad370ff2c26b44fb0a4bb280ded73f, type: 3}
+    swatch: {r: 0.12, g: 0.25, b: 0.43, a: 1}
+  - key: hat_bucket
+    material: {fileID: 0}
+    accessory: {fileID: 6325862148915919007, guid: 4dedc13e7c2a1794a9fe6d5624e0301a, type: 3}
+    icon: {fileID: 21300000, guid: 67afbca834f23784da1f518741e1dd1b, type: 3}
+    swatch: {r: 0.74, g: 0.56, b: 0.23, a: 1}
+  - key: hat_tophat
+    material: {fileID: 0}
+    accessory: {fileID: 6279011444929369515, guid: ab965961ae05eb14f8bf18c387dd6e75, type: 3}
+    icon: {fileID: 21300000, guid: dee12f20734a8604bac0f610b1376ba9, type: 3}
+    swatch: {r: 0.09, g: 0.1, b: 0.12, a: 1}

@@ -1,0 +1,3 @@
+var c=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.CanvasScript>();
+string Path(Transform t)=>t.parent==null?t.name:Path(t.parent)+"/"+t.name;
+return new{texts=c.youWinUI.GetComponentsInChildren<TMPro.TMP_Text>(true).Select(t=>new{path=Path(t.transform),t.text,active=t.gameObject.activeSelf,parentActive=t.transform.parent.gameObject.activeSelf}).ToArray(),buttons=c.youWinUI.GetComponentsInChildren<UnityEngine.UI.Button>(true).Select(b=>new{path=Path(b.transform),active=b.gameObject.activeSelf,calls=Enumerable.Range(0,b.onClick.GetPersistentEventCount()).Select(i=>new{method=b.onClick.GetPersistentMethodName(i),target=b.onClick.GetPersistentTarget(i)?.GetType().FullName}).ToArray()}).ToArray()};

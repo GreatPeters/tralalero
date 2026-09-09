@@ -1,6 +1,7 @@
 ---
 title: Validate Enemy Stat Workbook Reloads and Preserve Pool Ownership
 date: 2026-08-02
+last_updated: 2026-09-07
 category: integration-issues
 module: enemy-stat-data-pipeline
 problem_type: integration_issue
@@ -124,6 +125,23 @@ from inactivity alone:
 - `GameDataWorkbookTests`: 15/15 passed.
 - Runtime and editor C# builds completed with zero errors.
 - `tools/validate-agent-harness.ps1` passed.
+
+## Authored encounter snapshots, 2026-09-07
+
+SR18 now adds three optional encounter sheets without duplicating the existing enemy-growth or bonus-effect balance tables. `EncounterPlacementTables` strictly reads one snapshot and `EncounterPlacementController` resolves every ID, model capability and road support before applying any change. A bad ID in the final row was verified to leave earlier placements unchanged.
+
+Apply enablement before chapter growth distribution. A workbook-disabled enemy is explicitly excluded by configuration ownership; do not replace that predicate with `activeInHierarchy`, because ordinary defeated enemies must retain their progression slots. The current project disables both domain and scene reload, so the Editor's EnteredPlayMode hook explicitly reapplies a new snapshot before the chapter stat refresh. Saving during combat only updates the next-run encounter snapshot.
+
+Two presentation/lifecycle details need separate validation:
+
+- `AuthoredBonusWall.Configure` changes the rarity field and presentation but does not roll a new effect. On a new snapshot, reactivate the lifetime trigger and call `SetRandomStat`, `SetStats`, and `SetWallSprite`. Verify a Unique effect, not only a Unique rarity field.
+- An inactive prefab root is not a usable authored obstacle even if its transformed collider dimensions are correct. The single Bucket source was inactive; explicitly activate the scene instance and check actual PlayMode collider bounds. Do not resize the model to address inactivity.
+
+Health defaults have the same retained-state boundary: recalculate the upgrade-adjusted maximum and current health together when reloading Excel, preserving the previous health ratio. A full 50/50 becomes 100/100 when the maximum changes; damage or death must not be erased by configuration reload. Clear stale maximum/regen caches when no upgrade manager exists.
+
+Verification: 45 focused tests passed; real Play applied 74 settings, tested and restored five representative overrides (including exclusion of a disabled enemy from growth), rejected an unknown ID before mutation, and confirmed actual Unique effect rerolls. A second Play without reopening the scene again applied all 74 entries and started at 100/100. Five real ambush projectiles, pause/resume/reset and all 24 runtime gimmick colliders passed their separate probe. Full-stage balance was not certified.
+
+See [encounter workbook usage](../../noryangjin-encounter-workbook.md) for the schema and precise verification boundary. This extends the existing high-overlap workbook/lifecycle record rather than adding another competing solution document.
 
 ## Related Issues
 

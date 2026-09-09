@@ -38,6 +38,9 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (healthFill != null)
             {
+                healthFill.type = Image.Type.Filled;
+                healthFill.fillMethod = Image.FillMethod.Horizontal;
+                healthFill.fillOrigin = 0;
                 healthFill.fillAmount = safeMaxHealth > 0f
                     ? safeCurrentHealth / safeMaxHealth
                     : 0f;

@@ -319,8 +319,11 @@ namespace IndianOceanAssets.ShooterSurvival
                 if (playerScript == null || HasInvalidAuthoredRoll())
                     return;
 
-                if (playerScript.lastWallTouchTime == 0 || Time.time - playerScript.lastWallTouchTime > 1f)
+                if (Time.time - playerScript.lastWallTouchTime >= 2f)
                 {
+                    var altar = GetComponentInParent<AuthoredBonusWall>(true);
+                    if (altar != null && altar.ChoicePair != null && !altar.ChoicePair.TryChoose(altar))
+                        return;
                     playerScript.lastWallTouchTime = Time.time;           // Update the last time the wall was touched
                     ApplyWallEffect();                                      // Apply the effect based on the wall's type
                     gameObject.GetComponent<Collider>().isTrigger = false;  // Disable trigger once applied
@@ -480,7 +483,6 @@ namespace IndianOceanAssets.ShooterSurvival
                     }
                     else if (buffType == BuffType.ExtraHelp)
                     {
-                        playerScript.extraHelpCount++;
                         SpawnExtraHelp(HelpType.Tungtungtung);
                     }
                     else if ((buffType == BuffType.att_normmal) || (buffType == BuffType.att_unique))
@@ -510,13 +512,11 @@ namespace IndianOceanAssets.ShooterSurvival
                     }
                     else if ((buffType == BuffType.hp_normal) || (buffType == BuffType.hp_unique))
                     {
-                        playerScript.currentHealth += bonusValue;
-                        playerScript.UpdateHealth();
+                        playerScript.ApplyRunHealthBonus(bonusValue, false);
                     }
                     else if ((buffType == BuffType.hpPer_normal) || buffType == BuffType.hpPer_unique)
                     {
-                        playerScript.currentHealth *= 1f + bonusValue * 0.01f;
-                        playerScript.UpdateHealth();
+                        playerScript.ApplyRunHealthBonus(bonusValue, true);
                     }
 
                     else if ((buffType == BuffType.missileAdd_unique))
@@ -531,12 +531,10 @@ namespace IndianOceanAssets.ShooterSurvival
                     }
                     else if ((buffType == BuffType.tungtung_rare))
                     {
-                        playerScript.extraHelpCount++;
                         SpawnExtraHelp(HelpType.Tungtungtung);
                     }
                     else if ((buffType == BuffType.boombar_rare))
                     {
-                        playerScript.extraHelpCount++;
                         SpawnExtraHelp(HelpType.Boombardino);
                     }
                     if (buffSFX != null)
@@ -631,18 +629,18 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void SpawnExtraHelp(HelpType helpType)
         {
-            if (extraHelp == null || playerScript == null) return;
-
-            Vector3 spawnOffset = new Vector3(1.5f, 0, -0.75f);
-            Vector3 spawnPosition = playerScript.transform.position + spawnOffset;
-            GameObject prefab = helpType == HelpType.Tungtungtung
-                ? GameManager.S.extraHelp_TungTungTung
-                : GameManager.S.extraHelp_BoomBarDino;
-            GameObject instance = Instantiate(prefab, spawnPosition, Quaternion.identity);
-            ExtraHelpBuffScript helper = instance.GetComponent<ExtraHelpBuffScript>();
-            helper.spawnIndex = playerScript.extraHelpCount - 1;
-            helper.helpType = helpType;
-            playerScript.extraHelpWeaponScript.Add(instance.GetComponentInChildren<WeaponScript>());
+            if (playerScript == null) return;
+            var spawner = FindFirstObjectByType<NoryangjinUpgradeExtraHelpSpawner>();
+            if (spawner != null && spawner.IsConfigured)
+            {
+                spawner.SpawnBonus(helpType, playerScript);
+                return;
+            }
+            GameObject prefab = GameManager.S != null
+                ? (helpType == HelpType.Tungtungtung ? GameManager.S.extraHelp_TungTungTung : GameManager.S.extraHelp_BoomBarDino)
+                : extraHelp;
+            if (NoryangjinUpgradeExtraHelpSpawner.SpawnExtraHelp(prefab, helpType, playerScript) == null)
+                Debug.LogWarning("[Bonus] 지원군 프리팹 설정이 없습니다.", this);
         }
 
         private bool HasInvalidAuthoredRoll()

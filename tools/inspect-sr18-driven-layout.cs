@@ -1,0 +1,3 @@
+var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+var ids=new ulong[]{429737042,841249944,1301239122,1420809522,1767346548,1905221289};
+return scene.GetRootGameObjects().SelectMany(g=>g.GetComponentsInChildren<RectTransform>(true)).Where(t=>ids.Contains(UnityEditor.GlobalObjectId.GetGlobalObjectIdSlow(t).targetObjectId)).Select(t=>new{t.name,id=UnityEditor.GlobalObjectId.GetGlobalObjectIdSlow(t).targetObjectId,driver=t.drivenByObject==null?null:t.drivenByObject.GetType().Name,anchor=t.anchorMin.ToString(),position=t.anchoredPosition.ToString(),size=t.sizeDelta.ToString()}).ToArray();

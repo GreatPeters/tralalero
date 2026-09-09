@@ -1,0 +1,5 @@
+var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();var map=scene.GetRootGameObjects().Single(g=>g.name=="Noryangjin_MapTool").transform;
+var settings=map.GetComponent<IndianOceanAssets.ShooterSurvival.EncounterPlacementController>();
+return new{settingsApplied=settings==null?-1:settings.AppliedCount,rows=EncounterPlacementTables.Rows.Count,hazards=map.Find("Props").Cast<Transform>().Where(t=>t.name.StartsWith("SR18_L_G")).Select(t=>{
+var stat=t.GetComponentsInChildren<ObstacleStats>(true).First();var c=stat.GetComponent<BoxCollider>();var rb=c.attachedRigidbody;
+return new{t.name,stat.enabled,stat.gameObject.activeInHierarchy,pattern=stat.obstaclePattern.ToString(),value=stat.value,duration=stat.bucketAttachSeconds,colliderEnabled=c.enabled,size=c.size.ToString("F5"),bounds=c.bounds.size.ToString("F5"),center=c.bounds.center.ToString(),scale=c.transform.lossyScale.ToString(),rb=rb==null?null:new{rb.detectCollisions,rb.isKinematic,position=rb.position.ToString(),rb.gameObject.activeInHierarchy}};}).ToArray()};

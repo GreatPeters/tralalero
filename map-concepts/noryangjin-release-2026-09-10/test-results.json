@@ -1,0 +1,143 @@
+{
+  "fullSuite": {
+    "total": 629,
+    "passed": 606,
+    "failed": 23,
+    "skipped": 0,
+    "inconclusive": 0
+  },
+  "note": "The Pipeline status returned a bounded subset of test details. The full summary includes 23 failures; one upgrade title contract was corrected and its two-test fixture subsequently passed. Do not claim the full suite is green.",
+  "reportedFailures": [
+    {
+      "name": "NoryangjinGameplayIntegrationTests.ActivationSpot_PlayerRootPhysicsStartsLinkedEnemy",
+      "message": "Unhandled log message: '[Exception] UnityException: Transform child out of bounds'. Use UnityEngine.TestTools.LogAssert.Expect"
+    },
+    {
+      "name": "NoryangjinGameplayIntegrationTests.InstalledScene_StartsMovesAttacksTurnsAndResumes",
+      "message": "  Expected: not null\r\n  But was:  null\r\n"
+    },
+    {
+      "name": "NoryangjinGameplayIntegrationTests.Patrol_WaitsForRealAttackOnceBeforeReturning",
+      "message": "Unhandled log message: '[Exception] UnityException: Transform child out of bounds'. Use UnityEngine.TestTools.LogAssert.Expect"
+    },
+    {
+      "name": "NoryangjinGameplayIntegrationTests.TriggeredFire_ReleasesProjectileThroughRuntimeCoroutine",
+      "message": "Unhandled log message: '[Exception] UnityException: Transform child out of bounds'. Use UnityEngine.TestTools.LogAssert.Expect"
+    },
+    {
+      "name": "NoryangjinMapStaticOptimizerTests.AuthoredScenes_KeepOnlyEnvironmentStaticAndUseLowCostWater",
+      "message": "  Expected: 184\r\n  But was:  582\r\n"
+    },
+    {
+      "name": "NoryangjinMapToolGridUtilityTests.ApplyPrefabInstanceRootScaleOverride_WritesPrefabRootFromPlacedInstance",
+      "message": "  Expected: (2.00, 0.50, 3.00)\r\n  But was:  (1.00, 1.00, 1.00)\r\n"
+    },
+    {
+      "name": "NoryangjinMapToolGridUtilityTests.BuildPaletteLabel_KeepsVisibleLabelsWithinEightCharacters",
+      "message": "  Expected: <empty>\r\n  But was:  < \"Noryangjin rainy market ground backdrop (39) <- Assets/ShooterSurvival/Prefabs/MeshyAI/Stage01_Noryangjin/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop.prefab\" >\r\n"
+    },
+    {
+      "name": "NoryangjinMapToolGridUtilityTests.BuildPaletteLabel_TranslatesEveryVisibleNoryangjinPrefab",
+      "message": "  Expected: <empty>\r\n  But was:  < \"Noryangjin rainy market ground backdrop <- Assets/ShooterSurvival/Prefabs/MeshyAI/Stage01_Noryangjin/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop/049_STAGE01_NRY_BG_033_Noryangjin_rainy_market_ground_backdrop.prefab\" >\r\n"
+    },
+    {
+      "name": "NoryangjinMapToolGridUtilityTests.DistantHillsideVillage_UsesSmallManualMapToolFootprint",
+      "message": "  Expected: (5, 3)\r\n  But was:  (1, 1)\r\n"
+    },
+    {
+      "name": "NoryangjinMapToolGridUtilityTests.MapToolScene_FeastWallsInheritFixedTypographyFromTheirPrefabs",
+      "message": "  Placed bonus altars must inherit the prefab's fixed TMP sizing.\r\n  Expected: False\r\n  But was:  True\r\n"
+    },
+    {
+      "name": "NoryangjinMapToolGridUtilityTests.PlacementValidityFill_UsesBrightLimeWhenPlacementIsAllowed",
+      "message": "  Expected: 1.0f +/- 0.00100000005f\r\n  But was:  0.25f\r\n"
+    },
+    {
+      "name": "NoryangjinMapToolGridUtilityTests.SceneUiVisibilityToggle_SupportsUndoAndRedoFromMixedState",
+      "message": "  Expected: True\r\n  But was:  False\r\n"
+    },
+    {
+      "name": "NoryangjinMapToolGridUtilityTests.SceneUiVisibilityToggle_TargetsOnlyRootCanvases",
+      "message": "  Expected: 0\r\n  But was:  -1\r\n"
+    },
+    {
+      "name": "NoryangjinMapToolMode2SceneTests.Map1_RemainsTheExactProtectedSourceScene",
+      "message": "  String lengths are both 64. Strings differ at index 0.\r\n  Expected: \"B52F5D7E473E5729C163BC44EDAB08917BE565FB4AE1D6B6A73378A0960E8B40\"\r\n  But was:  \"53779B69B5C7F0338D3870C8BE5BFD124349215E696BBEC8785751DF6ED58B36\"\r\n  -----------^\r\n"
+    },
+    {
+      "name": "NoryangjinMapToolMode2SceneTests.Map2_IsTheAuthoredCurrentMap1CopyWithCorrectedCampaignLayout",
+      "message": "  String lengths are both 64. Strings differ at index 0.\r\n  Expected: \"B52F5D7E473E5729C163BC44EDAB08917BE565FB4AE1D6B6A73378A0960E8B40\"\r\n  But was:  \"53779B69B5C7F0338D3870C8BE5BFD124349215E696BBEC8785751DF6ED58B36\"\r\n  -----------^\r\n"
+    },
+    {
+      "name": "NoryangjinRuntimeCleanupContractTests.PlayerScript_KeepsRuntimeStateOutOfPrefabSerialization",
+      "message": "  Missing expected PlayerScript.canShoot field.\r\n  Expected: not null\r\n  But was:  null\r\n"
+    },
+    {
+      "name": "NoryangjinSr18SceneTests.PlacementReport_MatchesTheSelectedSr18ManifestContract",
+      "message": "  String lengths are both 64. Strings differ at index 0.\r\n  Expected: \"D3CFFE380E022ED0D45F9A251581861B2066960D48D54F5897181038F81C1315\"\r\n  But was:  \"53779B69B5C7F0338D3870C8BE5BFD124349215E696BBEC8785751DF6ED58B36\"\r\n  -----------^\r\n"
+    },
+    {
+      "name": "NoryangjinSr18SceneTests.Sr18Scene_PreservesTheRouteWithTheApprovedDenseMarket",
+      "message": "  Reviewed Map1 baseline changed.\r\n  String lengths are both 64. Strings differ at index 0.\r\n  Expected: \"D3CFFE380E022ED0D45F9A251581861B2066960D48D54F5897181038F81C1315\"\r\n  But was:  \"53779B69B5C7F0338D3870C8BE5BFD124349215E696BBEC8785751DF6ED58B36\"\r\n  -----------^\r\n"
+    },
+    {
+      "name": "PlayerCharacterDefaultsTests.Awake_ExcelMode_UsesAbsoluteMissileSpeedAndDuration",
+      "message": "  Expected: 16.0f\r\n  But was:  32.0f\r\n"
+    },
+    {
+      "name": "UpgradeShopReferenceSetupTests.UpgradeWorkshop_UsesReferenceBackgroundAndFunctionalThreeByThreeCards",
+      "message": "  Expected string length 9 but was 6. Strings differ at index 0.\r\n  Expected: \"그지 신발 개조소\"\r\n  But was:  \"신발 개조소\"\r\n  -----------^\r\n"
+    }
+  ],
+  "focused": {
+    "Cosmetic": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "BonusWall": {
+      "total": 16,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "NoryangjinRunBalanceTests": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "NoryangjinMapToolTestOverridesTests": {
+      "total": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "GameDataWorkbookTests": {
+      "total": 15,
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "Sr18": {
+      "total": 28,
+      "passed": 26,
+      "failed": 2,
+      "skipped": 0,
+      "inconclusive": 0
+    }
+  },
+  "upgradeTitleRetest": {
+    "total": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0
+  }
+}

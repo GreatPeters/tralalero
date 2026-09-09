@@ -882,6 +882,17 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     {
         convenienceScroll = EditorGUILayout.BeginScrollView(convenienceScroll);
         EditorGUILayout.Space(8f);
+        DrawTestTimeScaleControls();
+        using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+        {
+            EditorGUILayout.LabelField("플레이 검증", EditorStyles.boldLabel);
+            bool power = EditorGUILayout.ToggleLeft("공격력 / 체력 9999 (테스트)", NoryangjinMapToolTestOverrides.PowerEnabled);
+            bool fast = EditorGUILayout.ToggleLeft("빠른 좌우 이동 (테스트 · 4배)", NoryangjinMapToolTestOverrides.FastLateralEnabled);
+            if (power != NoryangjinMapToolTestOverrides.PowerEnabled || fast != NoryangjinMapToolTestOverrides.FastLateralEnabled)
+                NoryangjinMapToolTestOverrides.Select(power, fast);
+            EditorGUILayout.LabelField("게임 시작·다시하기에 적용됩니다. 씬·엑셀·빌드에는 저장하지 않습니다.", EditorStyles.wordWrappedMiniLabel);
+        }
+        EditorGUILayout.Space(6f);
         DrawSceneUiVisibilityControls();
         EditorGUILayout.Space(6f);
         DrawWorkGridExtentControls();
@@ -895,6 +906,24 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         }
 
         EditorGUILayout.EndScrollView();
+    }
+
+    private static void DrawTestTimeScaleControls()
+    {
+        using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+        {
+            EditorGUILayout.LabelField("테스트 속도 (TimeScale)", EditorStyles.boldLabel);
+            int selected = NoryangjinMapToolTestSpeed.SelectedTimeScale == 3f ? 1 : 0;
+            int next = GUILayout.Toolbar(selected, NoryangjinMapToolTestSpeed.Labels, GUILayout.Height(30f));
+            if (next != selected && next >= 0)
+                NoryangjinMapToolTestSpeed.SelectTimeScale(next == 1 ? 3f : 1f);
+            EditorGUILayout.LabelField(
+                EditorApplication.isPlaying
+                    ? $"현재 TimeScale: {Time.timeScale:0.#}배"
+                    : $"다음 맵 실행: {NoryangjinMapToolTestSpeed.SelectedTimeScale:0}배",
+                EditorStyles.miniLabel);
+            EditorGUILayout.LabelField("플레이 종료 시 실제 TimeScale은 1배로 복원됩니다.", EditorStyles.wordWrappedMiniLabel);
+        }
     }
 
     private void DrawSceneUiVisibilityControls()
@@ -1846,6 +1875,16 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
 
         GUILayout.Label("회전 스팟 동작", EditorStyles.miniBoldLabel);
         EditorGUI.BeginChangeCheck();
+        bool slopeTransition = EditorGUILayout.Toggle("이동 유지 (경사)", turnSpot.IsSlopeTransition);
+        if (EditorGUI.EndChangeCheck())
+        {
+            Undo.RecordObject(turnSpot, "Change Turn Spot Mode");
+            turnSpot.IsSlopeTransition = slopeTransition;
+            PrefabUtility.RecordPrefabInstancePropertyModifications(turnSpot);
+            EditorUtility.SetDirty(turnSpot);
+            EditorSceneManager.MarkSceneDirty(turnSpot.gameObject.scene);
+        }
+        EditorGUI.BeginChangeCheck();
         float targetX = EditorGUILayout.DelayedFloatField(
             "목표 X 회전",
             turnSpot.TargetXDegrees);
@@ -1893,7 +1932,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         }
 
         GUILayout.Label(
-            "플레이어 이동·좌우 입력 정지 → 절대 월드 X/Y 회전 → 이동 재개",
+            turnSpot.IsSlopeTransition
+                ? "이동을 유지하며 X 자세 전환. Y는 진입 방향이며, 도로 높이 추종 컴포넌트가 필요합니다."
+                : "플레이어 이동·좌우 입력 정지 → 절대 월드 X/Y 회전 → 이동 재개",
             EditorStyles.wordWrappedMiniLabel);
     }
 

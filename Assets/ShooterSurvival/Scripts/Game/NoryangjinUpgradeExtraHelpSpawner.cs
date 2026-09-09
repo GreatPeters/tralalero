@@ -26,16 +26,8 @@ namespace IndianOceanAssets.ShooterSurvival
                 return;
 
             spawnedForCurrentRun = true;
-            int tungCount = Mathf.Max(
-                0,
-                Mathf.RoundToInt(
-                    UpgradeStatManager.S.GetStat(
-                        UpgradeStatManager.UpgradeType.TUNGTUNGTUNG)));
-            int boomCount = Mathf.Max(
-                0,
-                Mathf.RoundToInt(
-                    UpgradeStatManager.S.GetStat(
-                        UpgradeStatManager.UpgradeType.BOOMBAR)));
+            int tungCount = ResolvePermanentCount(UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.TUNGTUNGTUNG));
+            int boomCount = ResolvePermanentCount(UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.BOOMBAR));
 
             for (int i = 0; i < tungCount; i++)
                 SpawnExtraHelp(tungTungTungPrefab, HelpType.Tungtungtung, player);
@@ -44,17 +36,22 @@ namespace IndianOceanAssets.ShooterSurvival
                 SpawnExtraHelp(boomBarDinoPrefab, HelpType.Boombardino, player);
         }
 
-        private static void SpawnExtraHelp(
+        public ExtraHelpBuffScript SpawnBonus(HelpType type, PlayerScript player)
+            => SpawnExtraHelp(type == HelpType.Tungtungtung ? tungTungTungPrefab : boomBarDinoPrefab, type, player);
+
+        // Upgrade amounts describe helper health/attack, not the number of helpers.
+        public static int ResolvePermanentCount(float value) => value > 0f && !float.IsInfinity(value) ? 1 : 0;
+
+        public static ExtraHelpBuffScript SpawnExtraHelp(
             GameObject prefab,
             HelpType helpType,
             PlayerScript player)
         {
-            if (prefab == null)
-                return;
+            if (prefab == null || player == null || prefab.GetComponent<ExtraHelpBuffScript>() == null)
+                return null;
 
-            Vector3 spawnOffset =
-                player.transform.right * 1.5f -
-                player.transform.forward * 0.75f;
+            Vector3 spawnOffset = helpType == HelpType.Tungtungtung ? Vector3.zero :
+                -player.transform.forward * 1.5f + Vector3.up * 2f;
             GameObject helper = Instantiate(
                 prefab,
                 player.transform.position + spawnOffset,
@@ -65,11 +62,13 @@ namespace IndianOceanAssets.ShooterSurvival
                 player.extraHelpCount++;
                 extraHelp.spawnIndex = player.extraHelpCount - 1;
                 extraHelp.helpType = helpType;
+                extraHelp.ConfigureOwner(player);
             }
 
             WeaponScript weapon = helper.GetComponentInChildren<WeaponScript>();
             if (weapon != null && player.extraHelpWeaponScript != null)
                 player.extraHelpWeaponScript.Add(weapon);
+            return extraHelp;
         }
     }
 }

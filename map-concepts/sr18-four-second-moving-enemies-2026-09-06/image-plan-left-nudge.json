@@ -1,0 +1,1092 @@
+{
+  "status": "Image plan only; Unity scene unchanged",
+  "duration": 300,
+  "quiet_until": 5,
+  "base_encounter_period": 4,
+  "counts": {
+    "enemy": 25,
+    "bonus": 25,
+    "object": 24
+  },
+  "enemy_roles": {
+    "standard": 15,
+    "patrol": 5,
+    "ambush": 5
+  },
+  "moves": [
+    {
+      "time": 161,
+      "before": [
+        -16.913350767040555,
+        -77.7511
+      ],
+      "after": [
+        -19.725850767040555,
+        -77.7511
+      ],
+      "delta_x": -2.8125,
+      "layer": "first upper bridge"
+    },
+    {
+      "time": 177,
+      "before": [
+        121.06228187376999,
+        -77.7511
+      ],
+      "after": [
+        118.24978187376999,
+        -77.7511
+      ],
+      "delta_x": -2.8125,
+      "layer": "first upper bridge"
+    }
+  ],
+  "events": [
+    {
+      "kind": "enemy",
+      "time": 5,
+      "section": "S02",
+      "along": 5.225676724994415,
+      "route_distance": 43.11738520025326,
+      "world_xz": [
+        -10.789066028437535,
+        -109.52433471033717
+      ],
+      "needs_review": [
+        "corner-or-endpoint"
+      ],
+      "upper_span": false,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "bonus",
+      "time": 9,
+      "section": "S02",
+      "along": 39.719584885197015,
+      "route_distance": 77.61129336045586,
+      "world_xz": [
+        -10.716903743798989,
+        -75.030502033043
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 13,
+      "section": "S02",
+      "along": 74.21349304539964,
+      "route_distance": 112.10520152065848,
+      "world_xz": [
+        -10.644741459160443,
+        -40.5366693557488
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 17,
+      "section": "S03",
+      "along": 1.157165853767708,
+      "route_distance": 146.5991096808611,
+      "world_xz": [
+        -9.417834146232291,
+        -7.2
+      ],
+      "needs_review": [
+        "corner-or-endpoint"
+      ],
+      "upper_span": false,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "bonus",
+      "time": 21,
+      "section": "S03",
+      "along": 35.651074013970344,
+      "route_distance": 181.09301784106373,
+      "world_xz": [
+        25.076074013970345,
+        -7.2
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 25,
+      "section": "S03",
+      "along": 70.14498217417292,
+      "route_distance": 215.5869260012663,
+      "world_xz": [
+        59.56998217417292,
+        -7.2
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 29,
+      "section": "S03",
+      "along": 104.63889033437553,
+      "route_distance": 250.0808341614689,
+      "world_xz": [
+        94.06389033437553,
+        -7.2
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "patrol",
+      "patrol_half_length": 4,
+      "rule": "One enemy patrols fore/aft on the same lane; never crosses a corner or overlaps the next station."
+    },
+    {
+      "kind": "bonus",
+      "time": 33,
+      "section": "S03",
+      "along": 139.13279849457814,
+      "route_distance": 284.5747423216715,
+      "world_xz": [
+        128.55779849457815,
+        -7.2
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 37,
+      "section": "S03",
+      "along": 173.62670665478078,
+      "route_distance": 319.06865048187416,
+      "world_xz": [
+        163.0517066547808,
+        -7.2
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 41,
+      "section": "S04",
+      "along": 5.845614814983378,
+      "route_distance": 353.56255864207674,
+      "world_xz": [
+        191.7,
+        -1.3543851850166222
+      ],
+      "needs_review": [
+        "corner-or-endpoint"
+      ],
+      "upper_span": false,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "bonus",
+      "time": 45,
+      "section": "S04",
+      "along": 40.33952297518596,
+      "route_distance": 388.0564668022793,
+      "world_xz": [
+        191.7,
+        33.139522975185955
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 49,
+      "section": "S05",
+      "along": 14.083435735388605,
+      "route_distance": 422.55037496248195,
+      "world_xz": [
+        177.61656426461147,
+        53.54999380900626
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 53,
+      "section": "S05",
+      "along": 48.57734389559124,
+      "route_distance": 457.0442831226846,
+      "world_xz": [
+        143.12265610440906,
+        53.549989912258845
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "ambush",
+      "activation_lead_candidate": 30,
+      "rule": "Player enters an upstream trigger zone; enemy waits further ahead behind existing scenery, emerges there, telegraphs, then shoots from range. No spawn beside/behind the player.",
+      "implementation_gap": "Existing move-then-attack does not chain into Shoot; visibility/movement/fire sequencing needs implementation."
+    },
+    {
+      "kind": "bonus",
+      "time": 57,
+      "section": "S06",
+      "along": 15.796247055793401,
+      "route_distance": 491.53819128288717,
+      "world_xz": [
+        124.4181037540273,
+        37.75374224738875
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 61,
+      "section": "S06",
+      "along": 50.29015521599604,
+      "route_distance": 526.0320994430898,
+      "world_xz": [
+        124.40305549573834,
+        3.259837369651045
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 65,
+      "section": "S06",
+      "along": 84.78406337619867,
+      "route_distance": 560.5260076032924,
+      "world_xz": [
+        124.3880072374494,
+        -31.234067508086653
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "bonus",
+      "time": 69,
+      "section": "S06",
+      "along": 119.27797153640131,
+      "route_distance": 595.0199157634951,
+      "world_xz": [
+        124.37295897916044,
+        -65.72797238582436
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 73,
+      "section": "S06",
+      "along": 153.77187969660383,
+      "route_distance": 629.5138239236976,
+      "world_xz": [
+        124.3579107208715,
+        -100.22187726356194
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 77,
+      "section": "S06",
+      "along": 188.26578785680647,
+      "route_distance": 664.0077320839002,
+      "world_xz": [
+        124.34286246258256,
+        -134.71578214129963
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "patrol",
+      "patrol_half_length": 4,
+      "rule": "One enemy patrols fore/aft on the same lane; never crosses a corner or overlaps the next station."
+    },
+    {
+      "kind": "bonus",
+      "time": 81,
+      "section": "S06",
+      "along": 222.7596960170091,
+      "route_distance": 698.5016402441029,
+      "world_xz": [
+        124.3278142042936,
+        -169.20968701903732
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 85,
+      "section": "S06",
+      "along": 257.2536041772116,
+      "route_distance": 732.9955484043054,
+      "world_xz": [
+        124.31276594600466,
+        -203.70359189677492
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 89,
+      "section": "S06",
+      "along": 291.7475123374144,
+      "route_distance": 767.4894565645081,
+      "world_xz": [
+        124.2977176877157,
+        -238.19749677451273
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "ambush",
+      "activation_lead_candidate": 30,
+      "rule": "Player enters an upstream trigger zone; enemy waits further ahead behind existing scenery, emerges there, telegraphs, then shoots from range. No spawn beside/behind the player.",
+      "implementation_gap": "Existing move-then-attack does not chain into Shoot; visibility/movement/fire sequencing needs implementation."
+    },
+    {
+      "kind": "bonus",
+      "time": 93,
+      "section": "S06",
+      "along": 326.2414204976169,
+      "route_distance": 801.9833647247107,
+      "world_xz": [
+        124.28266942942676,
+        -272.6914016522503
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 97,
+      "section": "S06",
+      "along": 360.7353286578194,
+      "route_distance": 836.4772728849132,
+      "world_xz": [
+        124.2676211711378,
+        -307.18530652998794
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 101,
+      "section": "S06",
+      "along": 395.2292368180222,
+      "route_distance": 870.9711810451159,
+      "world_xz": [
+        124.25257291284886,
+        -341.67921140772575
+      ],
+      "needs_review": [
+        "corner-or-endpoint"
+      ],
+      "upper_span": false,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "bonus",
+      "time": 105,
+      "section": "S07",
+      "along": 28.42201899012298,
+      "route_distance": 905.4650892053185,
+      "world_xz": [
+        95.82790500987701,
+        -347.7511
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 109,
+      "section": "S07",
+      "along": 62.915927150325615,
+      "route_distance": 939.9589973655211,
+      "world_xz": [
+        61.33399684967438,
+        -347.7511
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 113,
+      "section": "S07",
+      "along": 97.40983531052814,
+      "route_distance": 974.4529055257236,
+      "world_xz": [
+        26.840088689471855,
+        -347.7511
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "patrol",
+      "patrol_half_length": 4,
+      "rule": "One enemy patrols fore/aft on the same lane; never crosses a corner or overlaps the next station."
+    },
+    {
+      "kind": "bonus",
+      "time": 117,
+      "section": "S07",
+      "along": 131.9037434707309,
+      "route_distance": 1008.9468136859264,
+      "world_xz": [
+        -7.653819470730895,
+        -347.7511
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 121,
+      "section": "S07",
+      "along": 166.3976516309333,
+      "route_distance": 1043.4407218461288,
+      "world_xz": [
+        -42.1477276309333,
+        -347.7511
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 125,
+      "section": "S08",
+      "along": 9.64155579113617,
+      "route_distance": 1077.9346300063316,
+      "world_xz": [
+        -67.00008,
+        -338.10954420886384
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "bonus",
+      "time": 129,
+      "section": "S08",
+      "along": 44.13546395133858,
+      "route_distance": 1112.428538166534,
+      "world_xz": [
+        -67.00008,
+        -303.61563604866143
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 133,
+      "section": "S08",
+      "along": 78.62937211154144,
+      "route_distance": 1146.922446326737,
+      "world_xz": [
+        -67.00008,
+        -269.12172788845857
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 137,
+      "section": "S08",
+      "along": 113.12328027174385,
+      "route_distance": 1181.4163544869393,
+      "world_xz": [
+        -67.00008,
+        -234.62781972825616
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "ambush",
+      "activation_lead_candidate": 30,
+      "rule": "Player enters an upstream trigger zone; enemy waits further ahead behind existing scenery, emerges there, telegraphs, then shoots from range. No spawn beside/behind the player.",
+      "implementation_gap": "Existing move-then-attack does not chain into Shoot; visibility/movement/fire sequencing needs implementation."
+    },
+    {
+      "kind": "bonus",
+      "time": 141,
+      "section": "S08",
+      "along": 147.6171884319465,
+      "route_distance": 1215.910262647142,
+      "world_xz": [
+        -67.00008,
+        -200.13391156805352
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 145,
+      "section": "S08",
+      "along": 182.11109659214912,
+      "route_distance": 1250.4041708073446,
+      "world_xz": [
+        -67.00008,
+        -165.64000340785088
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 149,
+      "section": "S08",
+      "along": 216.60500475235176,
+      "route_distance": 1284.8980789675472,
+      "world_xz": [
+        -67.00008,
+        -131.14609524764825
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "bonus",
+      "time": 153,
+      "section": "S08",
+      "along": 251.0989129125544,
+      "route_distance": 1319.3919871277499,
+      "world_xz": [
+        -67.00008,
+        -96.65218708744561
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 157,
+      "section": "S09",
+      "along": 15.592821072756806,
+      "route_distance": 1353.8858952879523,
+      "world_xz": [
+        -51.40725892724319,
+        -77.7511
+      ],
+      "needs_review": [
+        "ramp-transition"
+      ],
+      "upper_span": true
+    },
+    {
+      "kind": "bonus",
+      "time": 161,
+      "section": "S09",
+      "along": 47.27422923295944,
+      "route_distance": 1385.567303448155,
+      "world_xz": [
+        -19.725850767040555,
+        -77.7511
+      ],
+      "needs_review": [
+        "ramp-transition"
+      ],
+      "upper_span": true,
+      "geometry_time": 160.6738554544834,
+      "nominal_time_note": "Time is the original planning slot; X-only authoring offset applied."
+    },
+    {
+      "kind": "enemy",
+      "time": 165,
+      "section": "S09",
+      "along": 84.5806373931623,
+      "route_distance": 1422.8737116083578,
+      "world_xz": [
+        17.58055739316231,
+        -77.7511
+      ],
+      "needs_review": [],
+      "upper_span": true,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "object",
+      "time": 169,
+      "section": "S09",
+      "along": 119.07454555336471,
+      "route_distance": 1457.3676197685602,
+      "world_xz": [
+        52.07446555336472,
+        -77.7511
+      ],
+      "needs_review": [],
+      "upper_span": true
+    },
+    {
+      "kind": "enemy",
+      "time": 173,
+      "section": "S09",
+      "along": 153.56845371356735,
+      "route_distance": 1491.8615279287628,
+      "world_xz": [
+        86.56837371356735,
+        -77.7511
+      ],
+      "needs_review": [],
+      "upper_span": true,
+      "enemy_role": "patrol",
+      "patrol_half_length": 4,
+      "rule": "One enemy patrols fore/aft on the same lane; never crosses a corner or overlaps the next station."
+    },
+    {
+      "kind": "bonus",
+      "time": 177,
+      "section": "S09",
+      "along": 185.24986187377,
+      "route_distance": 1523.5429360889655,
+      "world_xz": [
+        118.24978187376999,
+        -77.7511
+      ],
+      "needs_review": [],
+      "upper_span": true,
+      "geometry_time": 176.67385545448343,
+      "nominal_time_note": "Time is the original planning slot; X-only authoring offset applied."
+    },
+    {
+      "kind": "object",
+      "time": 181,
+      "section": "S09",
+      "along": 222.55627003397262,
+      "route_distance": 1560.849344249168,
+      "world_xz": [
+        155.55619003397263,
+        -77.7511
+      ],
+      "needs_review": [
+        "ramp-transition"
+      ],
+      "upper_span": true
+    },
+    {
+      "kind": "enemy",
+      "time": 185,
+      "section": "S09",
+      "along": 257.05017819417526,
+      "route_distance": 1595.3432524093707,
+      "world_xz": [
+        190.05009819417526,
+        -77.7511
+      ],
+      "needs_review": [],
+      "upper_span": true,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "bonus",
+      "time": 189,
+      "section": "S09",
+      "along": 291.5440863543779,
+      "route_distance": 1629.8371605695734,
+      "world_xz": [
+        224.5440063543779,
+        -77.7511
+      ],
+      "needs_review": [
+        "corner-or-endpoint"
+      ],
+      "upper_span": true
+    },
+    {
+      "kind": "object",
+      "time": 193,
+      "section": "S10",
+      "along": 33.537990514580315,
+      "route_distance": 1664.3310687297758,
+      "world_xz": [
+        225.499924,
+        -44.21310948541968
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 197,
+      "section": "S10",
+      "along": 68.03189867478295,
+      "route_distance": 1698.8249768899784,
+      "world_xz": [
+        225.499924,
+        -9.719201325217028
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "ambush",
+      "activation_lead_candidate": 30,
+      "rule": "Player enters an upstream trigger zone; enemy waits further ahead behind existing scenery, emerges there, telegraphs, then shoots from range. No spawn beside/behind the player.",
+      "implementation_gap": "Existing move-then-attack does not chain into Shoot; visibility/movement/fire sequencing needs implementation."
+    },
+    {
+      "kind": "bonus",
+      "time": 201,
+      "section": "S10",
+      "along": 102.52580683498581,
+      "route_distance": 1733.3188850501813,
+      "world_xz": [
+        225.499924,
+        24.77470683498582
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 205,
+      "section": "S11",
+      "along": 2.019704995188249,
+      "route_distance": 1767.8127932103837,
+      "world_xz": [
+        227.51962899518824,
+        57.24891
+      ],
+      "needs_review": [
+        "corner-or-endpoint"
+      ],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 209,
+      "section": "S11",
+      "along": 36.513613155390885,
+      "route_distance": 1802.3067013705863,
+      "world_xz": [
+        262.01353715539085,
+        57.24891
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "bonus",
+      "time": 213,
+      "section": "S11",
+      "along": 71.0075213155933,
+      "route_distance": 1836.8006095307887,
+      "world_xz": [
+        296.50744531559326,
+        57.24891
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 217,
+      "section": "S12",
+      "along": 4.251414475796082,
+      "route_distance": 1871.2945176909916,
+      "world_xz": [
+        326.749939,
+        61.500324475796084
+      ],
+      "needs_review": [
+        "corner-or-endpoint"
+      ],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 221,
+      "section": "S12",
+      "along": 38.74532263599872,
+      "route_distance": 1905.7884258511942,
+      "world_xz": [
+        326.749939,
+        95.99423263599871
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "patrol",
+      "patrol_half_length": 4,
+      "rule": "One enemy patrols fore/aft on the same lane; never crosses a corner or overlaps the next station."
+    },
+    {
+      "kind": "bonus",
+      "time": 225,
+      "section": "S12",
+      "along": 73.23923079620135,
+      "route_distance": 1940.2823340113969,
+      "world_xz": [
+        326.749939,
+        130.48814079620135
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 229,
+      "section": "S12",
+      "along": 107.73313895640376,
+      "route_distance": 1974.7762421715993,
+      "world_xz": [
+        326.749939,
+        164.98204895640376
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 233,
+      "section": "S12",
+      "along": 142.2270471166064,
+      "route_distance": 2009.270150331802,
+      "world_xz": [
+        326.749939,
+        199.4759571166064
+      ],
+      "needs_review": [
+        "corner-or-endpoint"
+      ],
+      "upper_span": false,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "bonus",
+      "time": 237,
+      "section": "S13",
+      "along": 30.47096527680924,
+      "route_distance": 2043.7640584920048,
+      "world_xz": [
+        357.2209042768092,
+        203.4989
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 241,
+      "section": "S13",
+      "along": 64.96487343701187,
+      "route_distance": 2078.2579666522074,
+      "world_xz": [
+        391.71481243701186,
+        203.4989
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 245,
+      "section": "S13",
+      "along": 99.45878159721428,
+      "route_distance": 2112.75187481241,
+      "world_xz": [
+        426.20872059721427,
+        203.4989
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "bonus",
+      "time": 249,
+      "section": "S14",
+      "along": 21.452689757416465,
+      "route_distance": 2147.2457829726122,
+      "world_xz": [
+        439.249939,
+        182.04621024258353
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 253,
+      "section": "S14",
+      "along": 55.94659791761933,
+      "route_distance": 2181.739691132815,
+      "world_xz": [
+        439.249939,
+        147.55230208238066
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 257,
+      "section": "S15",
+      "along": 22.940506077821738,
+      "route_distance": 2216.2335992930175,
+      "world_xz": [
+        416.30943292217825,
+        135.9989
+      ],
+      "needs_review": [],
+      "upper_span": true,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "bonus",
+      "time": 261,
+      "section": "S15",
+      "along": 57.4344142380246,
+      "route_distance": 2250.7275074532204,
+      "world_xz": [
+        381.8155247619754,
+        135.9989
+      ],
+      "needs_review": [],
+      "upper_span": true
+    },
+    {
+      "kind": "object",
+      "time": 265,
+      "section": "S15",
+      "along": 91.92832239822701,
+      "route_distance": 2285.221415613423,
+      "world_xz": [
+        347.321616601773,
+        135.9989
+      ],
+      "needs_review": [
+        "ramp-transition"
+      ],
+      "upper_span": true
+    },
+    {
+      "kind": "bonus",
+      "time": 269,
+      "section": "S15",
+      "along": 126.42223055842942,
+      "route_distance": 2319.715323773625,
+      "world_xz": [
+        312.82770844157056,
+        135.9989
+      ],
+      "needs_review": [
+        "ramp-transition"
+      ],
+      "upper_span": true
+    },
+    {
+      "kind": "enemy",
+      "time": 273,
+      "section": "S15",
+      "along": 160.91613871863228,
+      "route_distance": 2354.209231933828,
+      "world_xz": [
+        278.3338002813677,
+        135.9989
+      ],
+      "needs_review": [
+        "ramp-transition"
+      ],
+      "upper_span": true,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "object",
+      "time": 277,
+      "section": "S16",
+      "along": 4.1600318788350705,
+      "route_distance": 2388.703140094031,
+      "world_xz": [
+        247.999924,
+        140.15893187883506
+      ],
+      "needs_review": [
+        "corner-or-endpoint"
+      ],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 281,
+      "section": "S16",
+      "along": 38.65394003903748,
+      "route_distance": 2423.1970482542333,
+      "world_xz": [
+        247.999924,
+        174.65284003903747
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "ambush",
+      "activation_lead_candidate": 30,
+      "rule": "Player enters an upstream trigger zone; enemy waits further ahead behind existing scenery, emerges there, telegraphs, then shoots from range. No spawn beside/behind the player.",
+      "implementation_gap": "Existing move-then-attack does not chain into Shoot; visibility/movement/fire sequencing needs implementation."
+    },
+    {
+      "kind": "bonus",
+      "time": 285,
+      "section": "S16",
+      "along": 73.14784819923989,
+      "route_distance": 2457.6909564144357,
+      "world_xz": [
+        247.999924,
+        209.14674819923988
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "object",
+      "time": 289,
+      "section": "S16",
+      "along": 107.64175635944275,
+      "route_distance": 2492.1848645746386,
+      "world_xz": [
+        247.999924,
+        243.64065635944274
+      ],
+      "needs_review": [],
+      "upper_span": false
+    },
+    {
+      "kind": "enemy",
+      "time": 293,
+      "section": "S16",
+      "along": 142.13566451964516,
+      "route_distance": 2526.678772734841,
+      "world_xz": [
+        247.999924,
+        278.13456451964515
+      ],
+      "needs_review": [],
+      "upper_span": false,
+      "enemy_role": "standard"
+    },
+    {
+      "kind": "bonus",
+      "time": 297,
+      "section": "S16",
+      "along": 176.62957267984802,
+      "route_distance": 2561.172680895044,
+      "world_xz": [
+        247.999924,
+        312.628472679848
+      ],
+      "needs_review": [],
+      "upper_span": false
+    }
+  ]
+}

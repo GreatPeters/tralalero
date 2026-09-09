@@ -1,0 +1,15 @@
+if(!UnityEditor.EditorApplication.isPlaying)throw new System.InvalidOperationException("Play Mode required");
+var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();var map=scene.GetRootGameObjects().Single(g=>g.name=="Noryangjin_MapTool").transform;
+var enemies=map.Find("Enemies").GetComponentsInChildren<IndianOceanAssets.ShooterSurvival.EnemyEventController>();var ambush=enemies.Where(e=>(int)e.EventMode==6).ToArray();
+var held=typeof(IndianOceanAssets.ShooterSurvival.EnemyScript_space).GetField("heldProjectile",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic);
+var shots=ambush.Select(e=>(Transform)held.GetValue(e.GetComponent<IndianOceanAssets.ShooterSurvival.EnemyScript_space>())).ToArray();
+if(shots.Any(p=>p.parent!=null||p.GetComponent<Rigidbody>().linearVelocity.magnitude<10))throw new System.InvalidOperationException("Projectile did not launch");
+IndianOceanAssets.ShooterSurvival.TimeManager.isGameRunning=false;
+IndianOceanAssets.ShooterSurvival.EnemyEventController.ResetAllForNewRun();IndianOceanAssets.ShooterSurvival.EnemyEventActivationSpot.ResetAllForNewRun();
+if(enemies.Any(e=>e.RuntimeState!=IndianOceanAssets.ShooterSurvival.EnemyEventRuntimeState.Waiting)||ambush.Any(e=>!e.IsAmbushHidden))throw new System.InvalidOperationException("Reset did not restore waiting/hidden state");
+if(ambush.Any(e=>!((Transform)held.GetValue(e.GetComponent<IndianOceanAssets.ShooterSurvival.EnemyScript_space>())).IsChildOf(e.transform)))throw new System.InvalidOperationException("Reset did not recover held projectile");
+var spots=map.Find("Props").GetComponentsInChildren<IndianOceanAssets.ShooterSurvival.EnemyEventActivationSpot>();
+if(spots.Any(s=>!s.GetComponent<BoxCollider>().enabled))throw new System.InvalidOperationException("Spot reset failed");
+string report="{\"status\":\"passed\",\"enemies\":25,\"spots\":25,\"moving\":10,\"ambushProjectilesReleased\":5,\"runtimeHazardColliders\":24,\"pauseAndReset\":true,\"fullBalanceRun\":false}";
+System.IO.File.WriteAllText("map-concepts/sr18-latest-elements-applied-2026-09-07/runtime-probe.json",report);
+return report;

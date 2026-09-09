@@ -1,0 +1,11 @@
+if(UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)throw new System.InvalidOperationException("Edit Mode required");
+var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+if(scene.path!="Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_SR18.unity")throw new System.InvalidOperationException("SR18 required");
+string folder="tmp/backups/sr18-data-work-2026-09-07/test-isolation-"+System.DateTime.Now.ToString("HHmmss");System.IO.Directory.CreateDirectory(folder);
+UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene,folder+"/before.unity",true);
+string live=System.IO.File.ReadAllText(folder+"/before.unity").Replace("\r\n","\n"),disk=System.IO.File.ReadAllText(scene.path).Replace("\r\n","\n");
+string driven=@"(?m)^  (m_AnchorMin|m_AnchorMax|m_AnchoredPosition|m_SizeDelta): .*\n";
+if(System.Text.RegularExpressions.Regex.Replace(live,driven,"")!=System.Text.RegularExpressions.Regex.Replace(disk,driven,""))throw new System.InvalidOperationException("Other pending edits must be reviewed before isolating tests");
+UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene);
+UnityEditor.SceneManagement.EditorSceneManager.NewScene(UnityEditor.SceneManagement.NewSceneSetup.EmptyScene,UnityEditor.SceneManagement.NewSceneMode.Single);
+return new{isolated=true,backup=folder};

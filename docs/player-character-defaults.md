@@ -36,6 +36,8 @@ Missile speed and player speed use the same absolute unit but are independent in
 
 ## Runtime Ownership
 
+- Reloading defaults synchronizes current health and the upgrade-adjusted maximum while preserving the previous health ratio. Full health remains full when the maximum changes; damage and death are not erased by an Excel save. The no-upgrade-manager path clears stale maximum/regen caches. Current SR18 Play starts at 100/100.
+
 - `PlayerScript` resolves the defaults once and supplies player attack, fire rate, and projectile count to child `WeaponScript` components.
 - Weapons that do not belong to a `PlayerScript`, including companion/help weapons, keep their own `WeaponSO` damage/fire-rate values and a projectile count of one.
 - `BulletScript` receives one resolved absolute missile speed and one duration before movement begins. Every pooled rental resets its elapsed duration in `SetDirection`.

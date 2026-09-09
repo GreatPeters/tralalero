@@ -103,6 +103,48 @@ public sealed class NoryangjinSr18SceneTests
     }
 
     [Test]
+    public void Sr18Market_LeavesTheExistingTimberRoadsVisible()
+    {
+        Scene scene = SceneManager.GetSceneByPath(Sr18Path);
+        bool opened = !scene.IsValid() || !scene.isLoaded;
+        if (opened)
+            scene = EditorSceneManager.OpenScene(Sr18Path, OpenSceneMode.Additive);
+        try
+        {
+            Transform root = FindRoot(scene, "Noryangjin_MapTool").transform;
+            Bounds[] roadBounds = root.Find("Roads").Cast<Transform>().Select(CalculateRendererBounds).ToArray();
+            var covered = new List<string>();
+            var detached = new List<string>();
+            foreach (Transform prop in root.Find("Props"))
+            {
+                string prefab = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(prop.gameObject);
+                if (!prefab.Contains("_BLD_") && !prefab.Contains("049_STAGE01"))
+                    continue;
+                Bounds b = CalculateRendererBounds(prop);
+                if (roadBounds.Any(r => b.min.x < r.max.x && b.max.x > r.min.x &&
+                                        b.min.z < r.max.z && b.max.z > r.min.z))
+                    covered.Add(prop.name);
+                // Every shop/quay belongs beside the existing route, not an invented interior street.
+                float nearest = roadBounds.Min(r => Vector2.Distance(
+                    new Vector2(b.center.x, b.center.z),
+                    new Vector2(Mathf.Clamp(b.center.x, r.min.x, r.max.x),
+                        Mathf.Clamp(b.center.z, r.min.z, r.max.z))));
+                if (nearest >= 6f)
+                    detached.Add(prop.name);
+            }
+            Assert.That(covered, Is.Empty, "Market must not cover any existing timber road: " +
+                string.Join(", ", covered.Take(12)));
+            Assert.That(detached, Is.Empty, "Market must follow the existing route: " +
+                string.Join(", ", detached.Take(12)));
+        }
+        finally
+        {
+            if (opened)
+                EditorSceneManager.CloseScene(scene, true);
+        }
+    }
+
+    [Test]
     public void MapTool_RecognizesTheSr18SiblingScene()
     {
         Assert.That(NoryangjinMapToolWindow.Sr18MapToolScenePath, Is.EqualTo(Sr18Path));
@@ -115,6 +157,48 @@ public sealed class NoryangjinSr18SceneTests
     }
 
     [Test]
+    public void Sr18Ramps_UseSlopeSafeShadingWithoutChangingTheirWoodTexture()
+    {
+        const string sourcePath = "Assets/ShooterSurvival/Materials/Env/pirate/Noryangjin_RoadBasic_SubtleOutline.mat";
+        const string slopePath = "Assets/ShooterSurvival/Materials/Generated/SR18_RoadSlope.mat";
+        Material source = AssetDatabase.LoadAssetAtPath<Material>(sourcePath);
+        Scene scene = SceneManager.GetSceneByPath(Sr18Path);
+        bool opened = !scene.IsValid() || !scene.isLoaded;
+        if (opened)
+            scene = EditorSceneManager.OpenScene(Sr18Path, OpenSceneMode.Additive);
+        try
+        {
+            Transform roads = FindRoot(scene, "Noryangjin_MapTool").transform.Find("Roads");
+            Transform[] ramps = roads.Cast<Transform>().Where(t => t.name.EndsWith("_Uphill", StringComparison.Ordinal) ||
+                t.name.EndsWith("_Downhill", StringComparison.Ordinal)).ToArray();
+            Assert.That(ramps.Length, Is.EqualTo(12));
+            foreach (Transform ramp in ramps)
+            {
+                foreach (Material material in ramp.GetComponentsInChildren<Renderer>(true).SelectMany(r => r.sharedMaterials))
+                {
+                    Assert.That(material.GetFloat("_SelfShadingSize"), Is.EqualTo(0.45f).Within(0.001f), ramp.name);
+                    Assert.That(material.GetFloat("_ShadowEdgeSize"), Is.EqualTo(0.08f).Within(0.001f), ramp.name);
+                    Assert.That(AssetDatabase.GetAssetPath(material), Is.EqualTo(slopePath));
+                    Assert.That(material.shader, Is.EqualTo(source.shader));
+                    Assert.That(material.GetTexture("_BaseMap"), Is.EqualTo(source.GetTexture("_BaseMap")));
+                    Assert.That(material.GetTextureScale("_BaseMap"), Is.EqualTo(source.GetTextureScale("_BaseMap")));
+                    Assert.That(material.GetTextureOffset("_BaseMap"), Is.EqualTo(source.GetTextureOffset("_BaseMap")));
+                    Assert.That(material.GetColor("_BaseColor"), Is.EqualTo(source.GetColor("_BaseColor")));
+                    Assert.That(material.shaderKeywords, Is.EquivalentTo(source.shaderKeywords));
+                }
+            }
+            // A slope-only correction must not change the material used by flat roads and other maps.
+            Assert.That(source.GetFloat("_SelfShadingSize"), Is.EqualTo(0.838f).Within(0.001f));
+            Assert.That(roads.Find("SR18_Road_073_Basic").GetComponent<Renderer>().sharedMaterial, Is.EqualTo(source));
+        }
+        finally
+        {
+            if (opened)
+                EditorSceneManager.CloseScene(scene, true);
+        }
+    }
+
+    [Test]
     public void PlacementReport_MatchesTheSelectedSr18ManifestContract()
     {
         PlacementReport report = LoadReport();
@@ -124,7 +208,169 @@ public sealed class NoryangjinSr18SceneTests
     }
 
     [Test]
-    public void Sr18Scene_IsTheRoadsOnlyLighthouseInfinityLayout()
+    public void Sr18TurnSpots_CoverEveryLaneAndTriggerAtTheCornerCenter()
+    {
+        Scene scene = SceneManager.GetSceneByPath(Sr18Path);
+        bool opened = !scene.IsValid() || !scene.isLoaded;
+        if (opened)
+            scene = EditorSceneManager.OpenScene(Sr18Path, OpenSceneMode.Additive);
+        try
+        {
+            NoryangjinTurnSpot[] spots = FindRoot(scene, "Noryangjin_MapTool")
+                .GetComponentsInChildren<NoryangjinTurnSpot>(true).Where(s => !s.IsSlopeTransition).ToArray();
+            PlayerScript player = FindInScene(scene, "Noryangjin_Player").GetComponent<PlayerScript>();
+            CapsuleCollider capsule = player.GetComponent<CapsuleCollider>();
+            Vector3 playerScale = player.transform.lossyScale;
+            // This authored capsule is clamped by its diameter, so its world shape is a sphere.
+            Assert.That(capsule.direction, Is.EqualTo(1));
+            Assert.That(capsule.height, Is.LessThanOrEqualTo(2f * capsule.radius));
+            Assert.That(playerScale, Is.EqualTo(Vector3.one * playerScale.x).Using(Vector3ComparerWithEqualsOperator.Instance));
+            float radius = capsule.radius * playerScale.x;
+            Vector3 centerOffset = Vector3.Scale(capsule.center, playerScale);
+            Assert.That(spots.Length, Is.EqualTo(15));
+
+            foreach (NoryangjinTurnSpot spot in spots)
+            {
+                BoxCollider box = spot.GetComponent<BoxCollider>();
+                Assert.That(spot.isActiveAndEnabled && box.enabled && box.isTrigger, Is.True, spot.name);
+                Vector3 size = Vector3.Scale(box.size, spot.transform.lossyScale);
+                Assert.That(size.x, Is.EqualTo(8f).Within(0.01f));
+                Assert.That(size.y, Is.EqualTo(2f).Within(0.01f));
+                Assert.That(size.z, Is.EqualTo(0.8f).Within(0.01f));
+                Quaternion incomingRotation = spot.transform.rotation;
+                Vector3 forward = incomingRotation * Vector3.forward;
+                Vector3 side = incomingRotation * Vector3.right;
+                foreach (float lane in new[] { -3.3f, -1.65f, 0f, 1.65f, 3.3f })
+                {
+                    float? entry = null;
+                    for (int step = 0; step <= 100; step++)
+                    {
+                        float distance = -1f + step * 0.02f;
+                        Vector3 center = spot.transform.position + Vector3.up * 0.12f +
+                            side * lane + forward * distance + incomingRotation * centerOffset;
+                        if (SphereIntersectsTurnBox(center, radius, box))
+                        {
+                            entry = distance;
+                            break;
+                        }
+                    }
+                    Assert.That(entry.HasValue, Is.True, spot.name + " lane " + lane + " misses the trigger");
+                    Assert.That(entry.Value, Is.InRange(-0.1f, 0.02f), spot.name + " turns before/after the corner");
+                }
+                Vector3 atOtherDeck = spot.transform.position + Vector3.up * 12.12f + incomingRotation * centerOffset;
+                Assert.That(SphereIntersectsTurnBox(atOtherDeck, radius, box), Is.False, spot.name + " reaches the other deck");
+            }
+        }
+        finally
+        {
+            if (opened)
+                EditorSceneManager.CloseScene(scene, true);
+        }
+    }
+
+    private static bool SphereIntersectsTurnBox(Vector3 center, float radius, BoxCollider box)
+    {
+        Vector3 local = box.transform.InverseTransformPoint(center) - box.center;
+        Vector3 half = box.size * 0.5f;
+        Vector3 closest = box.transform.TransformPoint(box.center + new Vector3(
+            Mathf.Clamp(local.x, -half.x, half.x), Mathf.Clamp(local.y, -half.y, half.y),
+            Mathf.Clamp(local.z, -half.z, half.z)));
+        return (center - closest).sqrMagnitude <= radius * radius;
+    }
+
+    [Test]
+    public void Sr18SlopeSpots_MatchEveryRampBoundaryWithoutAddingRouteCheckpoints()
+    {
+        Scene scene = SceneManager.GetSceneByPath(Sr18Path);
+        bool opened = !scene.IsValid() || !scene.isLoaded;
+        if (opened)
+            scene = EditorSceneManager.OpenScene(Sr18Path, OpenSceneMode.Additive);
+        try
+        {
+            Transform map = FindRoot(scene, "Noryangjin_MapTool").transform;
+            NoryangjinTurnSpot[] all = map.GetComponentsInChildren<NoryangjinTurnSpot>(true);
+            NoryangjinTurnSpot[] slopes = all.Where(s => s.IsSlopeTransition).OrderBy(s => s.name).ToArray();
+            Assert.That(all.Length, Is.EqualTo(23));
+            Assert.That(slopes.Length, Is.EqualTo(8));
+            int[] followingRoads = { 70, 73, 87, 90, 151, 154, 156, 159 };
+            for (int i = 0; i < slopes.Length; i++)
+            {
+                Transform before = map.Find("Roads").GetChild(50 + followingRoads[i] - 1);
+                Transform after = map.Find("Roads").GetChild(50 + followingRoads[i]);
+                Vector3 direction = after.position - before.position;
+                float pitch = -Mathf.Atan2(direction.y, new Vector2(direction.x, direction.z).magnitude) * Mathf.Rad2Deg;
+                Assert.That(Vector3.Distance(slopes[i].transform.position, before.position), Is.LessThan(0.01f));
+                Assert.That(slopes[i].TargetXDegrees, Is.EqualTo(pitch).Within(0.01f));
+                Assert.That(slopes[i].TurnDurationSeconds, Is.EqualTo(0.25f));
+                Assert.That(slopes[i].GetComponent<BoxCollider>().size, Is.EqualTo(new Vector3(8, 2, 0.8f)));
+            }
+            Assert.That(ChapterEnemyProgression.CollectRouteTurns(scene).Count, Is.EqualTo(15));
+            Assert.That(NoryangjinTurnSpot.TryGetRouteProgress(scene, out int completed, out int total), Is.True);
+            Assert.That(total, Is.EqualTo(15));
+            Assert.That(completed, Is.Zero);
+            var follower = FindInScene(scene, "Noryangjin_Player").GetComponent<NoryangjinRoadHeightFollower>();
+            Assert.That(follower, Is.Not.Null);
+            Assert.That(follower.RoadRoot, Is.EqualTo(map.Find("Roads")));
+        }
+        finally
+        {
+            if (opened)
+                EditorSceneManager.CloseScene(scene, true);
+        }
+    }
+
+    [Test]
+    public void Sr18HeightFollower_TraversesBothElevationRunsAndStaysOnTheCurrentDeck()
+    {
+        Scene scene = SceneManager.GetSceneByPath(Sr18Path);
+        bool opened = !scene.IsValid() || !scene.isLoaded;
+        if (opened)
+            scene = EditorSceneManager.OpenScene(Sr18Path, OpenSceneMode.Additive);
+        try
+        {
+            Transform roads = FindRoot(scene, "Noryangjin_MapTool").transform.Find("Roads");
+            var follower = FindInScene(scene, "Noryangjin_Player").GetComponent<NoryangjinRoadHeightFollower>();
+            Assert.That(follower, Is.Not.Null);
+            Physics.SyncTransforms();
+            foreach (var span in new[] { (First: 69, Last: 90), (First: 150, Last: 159) })
+            foreach (float lane in new[] { -2f, 0f, 2f })
+            {
+                float height = 0.12f;
+                for (int index = span.First; index <= span.Last; index++)
+                {
+                    Vector3 from = roads.GetChild(50 + index - 1).position;
+                    Vector3 to = roads.GetChild(50 + index).position;
+                    Vector3 forward = Vector3.ProjectOnPlane(to - from, Vector3.up).normalized;
+                    Vector3 side = Vector3.Cross(Vector3.up, forward);
+                    for (int step = 1; step <= 45; step++)
+                    {
+                        float t = step / 45f;
+                        Vector3 proposed = Vector3.Lerp(from, to, t) + side * lane;
+                        proposed.y = height;
+                        Assert.That(follower.TryProjectPosition(proposed, forward, out Vector3 supported), Is.True,
+                            $"road {index}, lane {lane}, step {step}");
+                        float expected = Mathf.Lerp(DeckHeightAt(index - 1), DeckHeightAt(index), t) + 0.12f;
+                        Assert.That(supported.y, Is.EqualTo(expected).Within(0.2f));
+                        height = supported.y;
+                    }
+                }
+                Assert.That(height, Is.EqualTo(0.12f).Within(0.2f));
+            }
+            // The first upper crossing lies over an earlier ground-level path.
+            Vector3 crossing = roads.GetChild(50 + 85).position;
+            crossing.y = 0.12f;
+            Assert.That(follower.TryProjectPosition(crossing, Vector3.back, out Vector3 lower), Is.True);
+            Assert.That(lower.y, Is.LessThan(0.5f));
+        }
+        finally
+        {
+            if (opened)
+                EditorSceneManager.CloseScene(scene, true);
+        }
+    }
+
+    [Test]
+    public void Sr18Scene_PreservesTheRouteWithTheApprovedDenseMarket()
     {
         Assert.That(File.Exists(Sr18Path), Is.True, "SR18 scene has not been baked yet.");
         Assert.That(HashFile(Map1Path), Is.EqualTo(Map1ReviewedSha256), "Reviewed Map1 baseline changed.");
@@ -171,13 +417,12 @@ public sealed class NoryangjinSr18SceneTests
             NoryangjinTurnSpot[] sourceTurnSpots = GetSceneTurnSpots(sourceProps, map1);
             NoryangjinTurnSpot[] targetTurnSpots = GetSceneTurnSpots(targetProps, sr18);
             Assert.That(targetTurnSpots.Length, Is.EqualTo(15));
-            Assert.That(targetProps.childCount, Is.EqualTo(15));
             AssertCopiedTurnSpots(sourceTurnSpots, targetTurnSpots);
             AssertGeneratedTurnSpots(report, targetTurnSpots);
+            AssertDenseMarket(sr18, targetRoot, targetProps);
 
-            AssertEmptyPlacementRoot(targetRoot, "Enemies");
-            AssertEmptyPlacementRoot(targetRoot, "Bonuses");
-            AssertEmptyPlacementRoot(targetRoot, "Water");
+            AssertEncounterLayout(targetRoot);
+            Assert.That(targetRoot.Find("Water").childCount, Is.EqualTo(1));
             Assert.That(sr18.GetRootGameObjects().Any(root => root.name == "Bonus_Altar"), Is.False);
             Assert.That(sr18.GetRootGameObjects().Any(root => root.name.StartsWith("Box_left", StringComparison.Ordinal)), Is.False);
 
@@ -208,6 +453,282 @@ public sealed class NoryangjinSr18SceneTests
             if (previousActive.IsValid() && previousActive.isLoaded)
                 Assert.That(previousActive.isDirty, Is.EqualTo(previousDirty));
         }
+    }
+
+    [Test]
+    public void Sr18Encounters_UseRealScaleLinkedEventsAndRoadHeight()
+    {
+        Scene scene = SceneManager.GetSceneByPath(Sr18Path);
+        bool opened = !scene.IsValid() || !scene.isLoaded;
+        if (opened)
+            scene = EditorSceneManager.OpenScene(Sr18Path, OpenSceneMode.Additive);
+        try
+        {
+            AssertLoadedSceneIsClean(scene, "SR18");
+            Transform root = FindRoot(scene, "Noryangjin_MapTool").transform;
+            AssertEncounterLayout(root);
+            Physics.SyncTransforms();
+            Collider[] flatRoads = root.Find("Roads").GetComponentsInChildren<MeshCollider>(true);
+            Transform[] placements = root.Find("Enemies").Cast<Transform>()
+                .Concat(root.Find("Bonuses").Cast<Transform>())
+                .Concat(root.Find("Props").GetComponentsInChildren<EnemyEventActivationSpot>().Select(s => s.transform))
+                .Concat(root.Find("SR18_EnemyTargets").Cast<Transform>()).ToArray();
+            foreach (Transform placed in placements)
+            {
+                Assert.That(placed.position.y, Is.InRange(-.2f, 12.5f), placed.name);
+                bool supported = new[] { Vector3.zero, Vector3.forward * .12f, Vector3.back * .12f,
+                    Vector3.left * .12f, Vector3.right * .12f }.Any(offset =>
+                    flatRoads.Any(c => c.Raycast(new Ray(placed.position + offset + Vector3.up * .4f,
+                        Vector3.down), out RaycastHit hit, .8f) && hit.normal.y > .7f));
+                Assert.That(supported, Is.True, placed.name + " requires its own deck, not the other crossing level");
+            }
+            CapsuleCollider[] bodies = root.Find("Enemies").GetComponentsInChildren<EnemyEventController>()
+                .Select(e => e.GetComponent<CapsuleCollider>()).ToArray();
+            for (int first = 0; first < bodies.Length; first++)
+                for (int second = first + 1; second < bodies.Length; second++)
+                    Assert.That(bodies[first].bounds.Intersects(bodies[second].bounds), Is.False,
+                        bodies[first].name + " / " + bodies[second].name);
+        }
+        finally
+        {
+            if (opened)
+                EditorSceneManager.CloseScene(scene, true);
+        }
+    }
+
+    [Test]
+    public void Sr18Encounters_ActivationGatesCoverLanesAndNudgedWallsKeepTheirDeck()
+    {
+        Scene scene = SceneManager.GetSceneByPath(Sr18Path);
+        bool opened = !scene.IsValid() || !scene.isLoaded;
+        if (opened)
+            scene = EditorSceneManager.OpenScene(Sr18Path, OpenSceneMode.Additive);
+        try
+        {
+            AssertLoadedSceneIsClean(scene, "SR18");
+            Transform root = FindRoot(scene, "Noryangjin_MapTool").transform;
+            Physics.SyncTransforms();
+            foreach (EnemyEventActivationSpot spot in root.Find("Props").GetComponentsInChildren<EnemyEventActivationSpot>())
+            {
+                BoxCollider box = spot.GetComponent<BoxCollider>();
+                Assert.That(box.isTrigger && box.enabled, Is.True, spot.name);
+                Assert.That(Vector3.Scale(box.size, spot.transform.lossyScale),
+                    Is.EqualTo(new Vector3(8.8f, 2f, 1.2f)).Using(Vector3ComparerWithEqualsOperator.Instance));
+                foreach (float lane in new[] { -2f, 0f, 2f })
+                {
+                    Vector3 point = spot.transform.position + spot.transform.right * lane + Vector3.up;
+                    Assert.That(Vector3.Distance(point, box.ClosestPoint(point)), Is.LessThan(.01f), spot.name);
+                }
+                if (spot.transform.position.y > 6)
+                {
+                    Vector3 below = spot.transform.position + Vector3.down * 11;
+                    Assert.That(Vector3.Distance(below, box.ClosestPoint(below)), Is.GreaterThan(8), spot.name);
+                }
+            }
+            var pairs = root.Find("Bonuses").GetComponentsInChildren<BonusWallChoicePair>(true);
+            Assert.That(pairs.Length, Is.EqualTo(25));
+            foreach (var pair in pairs)
+            {
+                Assert.That(pair.IsConfigured, Is.True, pair.name);
+                Assert.That(Vector3.Distance(pair.Left.transform.position, pair.Right.transform.position), Is.EqualTo(3.8f).Within(.01f));
+                Vector3 side = (pair.Right.transform.position - pair.Left.transform.position).normalized;
+                var leftBox = pair.Left.GetComponentInChildren<BoxCollider>();
+                var rightBox = pair.Right.GetComponentInChildren<BoxCollider>();
+                float Half(BoxCollider box)
+                {
+                    Vector3 e = box.size * .5f;
+                    return Mathf.Abs(Vector3.Dot(side, box.transform.TransformVector(new Vector3(e.x, 0, 0)))) +
+                        Mathf.Abs(Vector3.Dot(side, box.transform.TransformVector(new Vector3(0, e.y, 0)))) +
+                        Mathf.Abs(Vector3.Dot(side, box.transform.TransformVector(new Vector3(0, 0, e.z))));
+                }
+                float gap = Vector3.Dot(rightBox.transform.TransformPoint(rightBox.center) - leftBox.transform.TransformPoint(leftBox.center), side) - Half(leftBox) - Half(rightBox);
+                Assert.That(gap, Is.GreaterThan(1.48f), pair.name + " needs a real neutral lane between choices");
+            }
+            foreach (var expected in new[] { (Time: "T161", X: -19.725851f), (Time: "T177", X: 115.437282f), (Time: "T269", X: 312.827708f) })
+            {
+                var wall = root.Find("Bonuses").Cast<Transform>().Single(t => t.name.EndsWith(expected.Time));
+                Assert.That(wall.position.x, Is.EqualTo(expected.X).Within(.001f));
+                Assert.That(wall.position.y, Is.GreaterThan(10), "Never put the user's elevated wall on the lower crossing");
+            }
+        }
+        finally
+        {
+            if (opened)
+                EditorSceneManager.CloseScene(scene, true);
+        }
+    }
+
+    private static void AssertEncounterLayout(Transform root)
+    {
+        Transform enemies = root.Find("Enemies"), bonuses = root.Find("Bonuses");
+        EnemyEventController[] controllers = enemies.GetComponentsInChildren<EnemyEventController>(true);
+        AuthoredBonusWall[] altars = bonuses.GetComponentsInChildren<AuthoredBonusWall>(true);
+        EnemyEventActivationSpot[] spots = root.Find("Props").GetComponentsInChildren<EnemyEventActivationSpot>(true);
+        Assert.That(enemies.childCount, Is.EqualTo(27));
+        Assert.That(controllers.Length, Is.EqualTo(27));
+        Assert.That(bonuses.childCount, Is.EqualTo(50));
+        Assert.That(altars.Length, Is.EqualTo(50));
+        Assert.That(spots.Length, Is.EqualTo(27));
+        Assert.That(root.Find("SR18_EnemyTargets").childCount, Is.EqualTo(10));
+        Assert.That(spots.SelectMany(s => s.Targets).ToArray(), Is.EquivalentTo(controllers));
+        Assert.That(controllers.Count(c => EnemyEventController.RequiresTarget(c.EventMode)), Is.EqualTo(10));
+        Assert.That(controllers.Count(c => c.EventMode == EnemyEventMode.PatrolBetweenStartAndTarget), Is.EqualTo(5));
+        Assert.That(controllers.Count(c => c.EventMode == EnemyEventMode.AmbushMoveThenShoot), Is.EqualTo(5));
+        Assert.That(spots.All(s => s.Targets.Length == 1), Is.True);
+        foreach (EnemyEventController enemy in controllers)
+        {
+            var clearance = enemy.GetComponent<EnemyCornerClearance>();
+            Assert.That(clearance, Is.Not.Null, enemy.name);
+            Assert.That(clearance.DistanceAfterCorner(enemy.transform.position), Is.GreaterThanOrEqualTo(27.98f), enemy.name);
+            if (enemy.HasUsableTarget) Assert.That(clearance.DistanceAfterCorner(enemy.TargetPoint.position), Is.GreaterThanOrEqualTo(27.98f), enemy.name);
+            var gate = spots.Single(s => s.Targets.Contains(enemy));
+            Assert.That(clearance.DistanceAfterCorner(gate.transform.position), Is.GreaterThanOrEqualTo(19.98f), gate.name);
+            Assert.That(enemy.gameObject.activeSelf && enemy.enabled, Is.True, enemy.name);
+            Assert.That(PrefabUtility.GetPrefabInstanceStatus(enemy.gameObject), Is.EqualTo(PrefabInstanceStatus.Connected));
+            float scale = enemy.name.EndsWith("Enemy_Woman") ? 2.5f : 2.25f;
+            Assert.That(enemy.transform.localScale, Is.EqualTo(Vector3.one * scale).Using(Vector3ComparerWithEqualsOperator.Instance));
+            if (EnemyEventController.RequiresTarget(enemy.EventMode))
+            {
+                Assert.That(enemy.HasUsableTarget, Is.True, enemy.name);
+                Assert.That(enemy.TargetPoint.parent, Is.EqualTo(root.Find("SR18_EnemyTargets")), enemy.name);
+                Assert.That(enemy.MoveSpeed, Is.GreaterThan(0), enemy.name);
+            }
+        }
+        Assert.That(altars.Count(a => a.Rarity == Rarity.Normal), Is.EqualTo(36));
+        Assert.That(altars.Count(a => a.Rarity == Rarity.Rare), Is.EqualTo(12));
+        Assert.That(altars.Count(a => a.Rarity == Rarity.Unique), Is.EqualTo(2));
+        foreach (AuthoredBonusWall altar in altars)
+        {
+            Assert.That(Vector3.Distance(altar.transform.localScale, new Vector3(2.25f, 2.9f, 2.9f)), Is.LessThan(.001f));
+            Assert.That(altar.ChoicePair, Is.Not.Null);
+            Assert.That(altar.Wall.rarity, Is.EqualTo(altar.Rarity));
+            Assert.That(altar.Wall.GetComponent<RuntimeBonusWall>().RemoveWhenPreparingStage, Is.False, altar.name);
+        }
+        var hazards = root.Find("Props").Cast<Transform>().Where(t => t.name.StartsWith("SR18_L_G")).ToArray();
+        Assert.That(hazards.Length, Is.EqualTo(24));
+        Physics.SyncTransforms();
+        foreach (var hazard in hazards)
+        {
+            Assert.That(hazard.gameObject.activeInHierarchy, Is.True, hazard.name);
+            var active = hazard.GetComponentsInChildren<ObstacleStats>();
+            Assert.That(active.Length, Is.EqualTo(hazard.name.EndsWith("Bucket") ? 3 : 1), hazard.name + " retains its authored parts");
+            var box = active[0].GetComponent<BoxCollider>();
+            Assert.That(box.enabled && box.isTrigger, Is.True, hazard.name);
+            // A player capsule (radius .69) must fit through at least one permitted lateral edge.
+            // EditMode can omit Rigidbody-owned shapes from PhysX (zero bounds).
+            // Inspect the authored oriented box; the PlayMode probe checks actual registered shapes.
+            Vector3 center = box.transform.TransformPoint(box.center);
+            float side = Vector3.Dot(center - hazard.position, hazard.right);
+            float authoredOffset = int.Parse(hazard.name.Substring(8, 2)) % 2 == 0 ? .8f : -.8f;
+            Vector3 laneOrigin = center - hazard.right * (side + authoredOffset);
+            float clearance = new[] { -2f, 2f }.Max(x =>
+            {
+                Vector3 lane = laneOrigin + hazard.right * x;
+                Vector3 local = box.transform.InverseTransformPoint(lane) - box.center;
+                Vector3 ext = box.size * .5f;
+                Vector3 closest = box.transform.TransformPoint(box.center + new Vector3(
+                    Mathf.Clamp(local.x, -ext.x, ext.x), Mathf.Clamp(local.y, -ext.y, ext.y), Mathf.Clamp(local.z, -ext.z, ext.z)));
+                return Vector3.Distance(lane, closest);
+            });
+            Assert.That(clearance, Is.GreaterThan(.72f), hazard.name + " blocks both available lane edges");
+        }
+        var report = JObject.Parse(File.ReadAllText(NoryangjinSr18LatestEncounters.RecordPath + "/placement-report.json"));
+        var planned = JObject.Parse(File.ReadAllText(NoryangjinSr18LatestEncounters.PlanPath))["events"].Children<JObject>().ToArray();
+        var installed = report["placements"].Children<JObject>().ToArray();
+        Assert.That(installed.Length, Is.EqualTo(74));
+        foreach (var item in planned)
+        {
+            var row = installed.Single(r => (int)r["time"] == (int)item["time"]);
+            Assert.That((string)row["kind"], Is.EqualTo((string)item["kind"]));
+            Assert.That((string)row["role"], Is.EqualTo((string)item["enemy_role"]));
+            Assert.That((float)item["time"], Is.GreaterThanOrEqualTo(5));
+        }
+        foreach (var gate in report["activationSpots"].Children<JObject>())
+        {
+            var enemy = controllers.Single(c => c.name == (string)gate["enemy"]);
+            if (enemy.EventMode == EnemyEventMode.AmbushMoveThenShoot)
+                Assert.That((float)gate["ahead"], Is.GreaterThanOrEqualTo(30), enemy.name + " must emerge in front, never beside player");
+        }
+        var latest = JObject.Parse(File.ReadAllText(NoryangjinSr18ChoiceLayout.RecordPath + "/applied.json"));
+        var opening = JObject.Parse(File.ReadAllText("map-concepts/sr18-opening-rhythm-2026-09-10/applied.json"));
+        var openingCenters = opening["centerOverrides"].Children<JObject>().ToDictionary(r => (string)r["id"]);
+        var contacts = JObject.Parse(File.ReadAllText("map-concepts/sr18-contact-pairs-2026-09-10/applied.json"));
+        foreach (var row in contacts["centerOverrides"].Children<JObject>()) openingCenters[(string)row["id"]] = row;
+        float previousStation = float.NegativeInfinity;
+        foreach (var row in latest["events"].Children<JObject>())
+        {
+            float distance = (float)row["routeDistance"];
+            Assert.That(distance - previousStation, Is.GreaterThanOrEqualTo(23.98f), (string)row["id"]);
+            previousStation = distance;
+            string kind = (string)row["kind"];
+            var placed = root.Find(kind == "enemy" ? "Enemies" : kind == "bonus" ? "Bonuses" : "Props").Find((string)row["id"]);
+            Vector3 center = placed.position;
+            if (kind == "bonus") center = (placed.GetComponent<BonusWallChoicePair>().Left.transform.position + placed.GetComponent<BonusWallChoicePair>().Right.transform.position) * .5f;
+            if (kind == "enemy")
+            {
+                var enemy = placed.GetComponent<EnemyEventController>();
+                if (enemy.EventMode == EnemyEventMode.PatrolBetweenStartAndTarget) center = (center + enemy.TargetPoint.position) * .5f;
+                if (enemy.EventMode == EnemyEventMode.AmbushMoveThenShoot) center = enemy.TargetPoint.position;
+            }
+            var expected = openingCenters.TryGetValue(placed.name, out var changed) ? changed : row;
+            AssertVector(center, expected["center"].ToObject<float[]>(), .03f, placed.name + " actual reflow center");
+        }
+    }
+
+    private static void AssertDenseMarket(Scene scene, Transform root, Transform props)
+    {
+        const string appliedPath = "map-concepts/sr18-roadside-market-2026-09-05/applied-layout.json";
+        JObject applied = JObject.Parse(File.ReadAllText(appliedPath));
+        Transform[] shops = props.Cast<Transform>().Where(t =>
+            PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(t.gameObject).Contains("_BLD_")).ToArray();
+        Transform[] ground = props.Cast<Transform>().Where(t =>
+            PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(t.gameObject).Contains("049_STAGE01")).ToArray();
+        Assert.That(shops.Length, Is.EqualTo(306));
+        Assert.That(ground.Length, Is.EqualTo((int)applied["groundCount"]));
+        Assert.That(props.childCount, Is.EqualTo(717));
+        Assert.That(props.Cast<Transform>().Count(t => t.GetComponent<EnemyEventActivationSpot>() == null && !t.name.StartsWith("SR18_L_G")), Is.EqualTo(666));
+        Assert.That((bool)applied["roadsideOnly"], Is.True);
+        Assert.That(((JArray)applied["placements"]).Count, Is.EqualTo(612));
+
+        foreach (JObject expected in ((JArray)applied["placements"]).Children<JObject>())
+        {
+            string name = (string)expected["name"];
+            Transform actual = props.Find(name) ?? root.Find("Water").Find(name);
+            Assert.That(actual, Is.Not.Null, name);
+            Assert.That(actual.gameObject.scene, Is.EqualTo(scene));
+            Assert.That(PrefabUtility.GetPrefabInstanceStatus(actual.gameObject), Is.EqualTo(PrefabInstanceStatus.Connected), name);
+            Assert.That(PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(actual.gameObject), Is.EqualTo((string)expected["prefab"]));
+            AssertVector(actual.position, expected["position"].ToObject<float[]>(), 0.02f, name + " position");
+            AssertVector(actual.localScale, expected["scale"].ToObject<float[]>(), 0.02f, name + " scale");
+            float[] angles = expected["rotation"].ToObject<float[]>();
+            Assert.That(Quaternion.Angle(actual.rotation, Quaternion.Euler(angles[0], angles[1], angles[2])), Is.LessThan(0.1f), name);
+        }
+
+        Bounds[] floors = ground.Select(CalculateRendererBounds).ToArray();
+        foreach (Transform shop in shops)
+        {
+            Bounds b = CalculateRendererBounds(shop);
+            // The narrow roadside quay supports the full storefront, including its awning.
+            Vector3[] points = { b.center,
+                new Vector3(b.min.x, 0, b.min.z),
+                new Vector3(b.max.x, 0, b.min.z),
+                new Vector3(b.min.x, 0, b.max.z),
+                new Vector3(b.max.x, 0, b.max.z) };
+            Assert.That(points.All(p => floors.Any(f =>
+                p.x >= f.min.x - 0.05f && p.x <= f.max.x + 0.05f &&
+                p.z >= f.min.z - 0.05f && p.z <= f.max.z + 0.05f)), Is.True, shop.name + " footing");
+            foreach (Renderer renderer in shop.GetComponentsInChildren<Renderer>(true))
+                foreach (Material material in renderer.sharedMaterials)
+                {
+                    Assert.That(AssetDatabase.GetAssetPath(material), Does.StartWith("Assets/ShooterSurvival/Materials/Generated/SR18DenseMarket/"));
+                    Assert.That(material.GetFloat("_OutlineWidth"), Is.Zero);
+                }
+        }
+        Transform water = root.Find("Water").Find("Background_Water");
+        Assert.That(water, Is.Not.Null);
+        Assert.That(CalculateRendererBounds(water).size.x, Is.EqualTo(920f).Within(0.1f));
+        Assert.That(CalculateRendererBounds(water).size.z, Is.EqualTo(1050f).Within(0.1f));
+        Assert.That(water.GetComponentsInChildren<Collider>(true).Any(c => c.enabled), Is.False);
     }
 
     private static void AssertPlacementReportContract(PlacementReport report, JObject manifest)
@@ -606,7 +1127,7 @@ public sealed class NoryangjinSr18SceneTests
     private static NoryangjinTurnSpot[] GetSceneTurnSpots(Transform props, Scene scene)
     {
         return props.GetComponentsInChildren<NoryangjinTurnSpot>(true)
-            .Where(spot => spot.gameObject.scene == scene)
+            .Where(spot => spot.gameObject.scene == scene && !spot.IsSlopeTransition)
             .ToArray();
     }
 

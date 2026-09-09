@@ -1,0 +1,2413 @@
+{
+  "scene": "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_SR18.unity",
+  "plan": "map-concepts/sr18-four-second-moving-enemies-2026-09-06/image-plan-center-left-2026-09-07.json",
+  "planHash": "3C53554A0ED6DDC587C5E44044EB83D0F8C30DE5652E094DB22A3CA3068A2556",
+  "backup": "tmp/backups/sr18-latest-elements-2026-09-07/20260907-103725-469/before.unity",
+  "sourceHash": "818F3C8BABB29B2D7220D42D1E2AD5D9D1F66D2ED1A550C41B0CB0F527714D27",
+  "afterHash": "71FE1E0242EE4C306AA50E2432A2FBBE2C8CD604C23BF16337E879510F8C3AA8",
+  "enemies": 25,
+  "bonuses": 25,
+  "gimmicks": 24,
+  "originalPropsPreserved": 666,
+  "roadsPreserved": 230,
+  "placements": [
+    {
+      "time": 5,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S02",
+      "subtype": "Enemy_OldMan",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_OldMan.prefab",
+      "name": "SR18_L_E01_T005_Enemy_OldMan",
+      "planned": [
+        -10.7890663,
+        -109.524338
+      ],
+      "position": [
+        -10.7832623,
+        0.106738731,
+        -106.750023
+      ],
+      "rotation": [
+        0.0,
+        0.119864658,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 2.77432346
+    },
+    {
+      "time": 9,
+      "kind": "bonus",
+      "role": null,
+      "section": "S02",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B01_T009",
+      "planned": [
+        -10.7169037,
+        -75.0305
+      ],
+      "position": [
+        -10.7169037,
+        0.120857149,
+        -75.0305
+      ],
+      "rotation": [
+        0.0,
+        180.119858,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 13,
+      "kind": "object",
+      "role": null,
+      "section": "S02",
+      "subtype": "Bucket",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Bucket.prefab",
+      "name": "SR18_L_G01_T013_Bucket",
+      "planned": [
+        -10.6447411,
+        -40.53667
+      ],
+      "position": [
+        -11.4447393,
+        0.580399036,
+        -40.534996
+      ],
+      "rotation": [
+        0.0,
+        0.119864658,
+        0.0
+      ],
+      "scale": [
+        50.0,
+        50.0,
+        50.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 17,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S03",
+      "subtype": "Enemy_OldMan",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_OldMan.prefab",
+      "name": "SR18_L_E02_T017_Enemy_OldMan",
+      "planned": [
+        -9.417834,
+        -7.2
+      ],
+      "position": [
+        -2.57500029,
+        0.072916,
+        -7.2
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 6.842834
+    },
+    {
+      "time": 21,
+      "kind": "bonus",
+      "role": null,
+      "section": "S03",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B02_T021",
+      "planned": [
+        25.0760746,
+        -7.2
+      ],
+      "position": [
+        25.0760746,
+        0.120857164,
+        -7.2
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 25,
+      "kind": "object",
+      "role": null,
+      "section": "S03",
+      "subtype": "Light",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Lights.prefab",
+      "name": "SR18_L_G02_T025_Light",
+      "planned": [
+        59.56998,
+        -7.2
+      ],
+      "position": [
+        59.56998,
+        0.671509564,
+        -8.0
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 29,
+      "kind": "enemy",
+      "role": "patrol",
+      "section": "S03",
+      "subtype": "Enemy_YllowMan_Sword",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab",
+      "name": "SR18_L_E03_T029_Enemy_YllowMan_Sword",
+      "planned": [
+        94.06389,
+        -7.2
+      ],
+      "position": [
+        90.06389,
+        0.120857164,
+        -7.2
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 33,
+      "kind": "bonus",
+      "role": null,
+      "section": "S03",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B03_T033",
+      "planned": [
+        128.5578,
+        -7.2
+      ],
+      "position": [
+        128.5578,
+        0.08042426,
+        -7.2
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 37,
+      "kind": "object",
+      "role": null,
+      "section": "S03",
+      "subtype": "Hole",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Hole.prefab",
+      "name": "SR18_L_G03_T037_Hole",
+      "planned": [
+        163.051712,
+        -7.2
+      ],
+      "position": [
+        163.051712,
+        0.16605562,
+        -6.39999962
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        171.6,
+        100.0,
+        453.801331
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 41,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S04",
+      "subtype": "Enemy_OldMan",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_OldMan.prefab",
+      "name": "SR18_L_E04_T041_Enemy_OldMan",
+      "planned": [
+        191.7,
+        -1.35438514
+      ],
+      "position": [
+        191.7,
+        0.07043837,
+        0.799999952
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 2.154385
+    },
+    {
+      "time": 45,
+      "kind": "bonus",
+      "role": null,
+      "section": "S04",
+      "subtype": "Rare",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B04_T045",
+      "planned": [
+        191.7,
+        33.1395226
+      ],
+      "position": [
+        191.7,
+        0.04893832,
+        33.1395226
+      ],
+      "rotation": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 49,
+      "kind": "object",
+      "role": null,
+      "section": "S05",
+      "subtype": "Bucket",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Bucket.prefab",
+      "name": "SR18_L_G04_T049_Bucket",
+      "planned": [
+        177.616562,
+        53.5499954
+      ],
+      "position": [
+        177.616562,
+        0.530613661,
+        54.3499947
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        50.0,
+        50.0,
+        50.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 53,
+      "kind": "enemy",
+      "role": "ambush",
+      "section": "S05",
+      "subtype": "Enemy_Guard",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_Guard.prefab",
+      "name": "SR18_L_E05_T053_Enemy_Guard",
+      "planned": [
+        143.12265,
+        53.54999
+      ],
+      "position": [
+        140.62265,
+        0.120859072,
+        53.54999
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 57,
+      "kind": "bonus",
+      "role": null,
+      "section": "S06",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B05_T057",
+      "planned": [
+        124.418106,
+        37.7537422
+      ],
+      "position": [
+        124.418106,
+        0.08403342,
+        37.7537422
+      ],
+      "rotation": [
+        0.0,
+        0.024995869,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 61,
+      "kind": "object",
+      "role": null,
+      "section": "S06",
+      "subtype": "Light",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Lights.prefab",
+      "name": "SR18_L_G05_T061_Light",
+      "planned": [
+        124.403053,
+        3.25983739
+      ],
+      "position": [
+        125.203056,
+        0.7223506,
+        3.25948834
+      ],
+      "rotation": [
+        0.0,
+        180.025,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 65,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S06",
+      "subtype": "Enemy_YllowMan_Net",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab",
+      "name": "SR18_L_E06_T065_Enemy_YllowMan_Net",
+      "planned": [
+        124.388008,
+        -31.2340679
+      ],
+      "position": [
+        124.388008,
+        0.101451293,
+        -31.2340679
+      ],
+      "rotation": [
+        0.0,
+        180.025,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 69,
+      "kind": "bonus",
+      "role": null,
+      "section": "S06",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B06_T069",
+      "planned": [
+        124.372955,
+        -65.7279739
+      ],
+      "position": [
+        124.372955,
+        0.0958584845,
+        -65.7279739
+      ],
+      "rotation": [
+        0.0,
+        0.024995869,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 73,
+      "kind": "object",
+      "role": null,
+      "section": "S06",
+      "subtype": "Hole",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Hole.prefab",
+      "name": "SR18_L_G06_T073_Hole",
+      "planned": [
+        124.35791,
+        -100.221878
+      ],
+      "position": [
+        123.557907,
+        0.1660532,
+        -100.221527
+      ],
+      "rotation": [
+        0.0,
+        180.025,
+        0.0
+      ],
+      "scale": [
+        171.6,
+        100.0,
+        453.801331
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 77,
+      "kind": "enemy",
+      "role": "patrol",
+      "section": "S06",
+      "subtype": "Enemy_YllowMan_Sword",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab",
+      "name": "SR18_L_E07_T077_Enemy_YllowMan_Sword",
+      "planned": [
+        124.342865,
+        -134.715775
+      ],
+      "position": [
+        124.344612,
+        0.09711416,
+        -130.715775
+      ],
+      "rotation": [
+        0.0,
+        180.025,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 81,
+      "kind": "bonus",
+      "role": null,
+      "section": "S06",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B07_T081",
+      "planned": [
+        124.327812,
+        -169.209686
+      ],
+      "position": [
+        124.327812,
+        0.105597734,
+        -169.209686
+      ],
+      "rotation": [
+        0.0,
+        0.024995869,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 85,
+      "kind": "object",
+      "role": null,
+      "section": "S06",
+      "subtype": "Bucket",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Bucket.prefab",
+      "name": "SR18_L_G07_T085_Bucket",
+      "planned": [
+        124.312767,
+        -203.7036
+      ],
+      "position": [
+        125.11277,
+        0.5803957,
+        -203.703949
+      ],
+      "rotation": [
+        0.0,
+        180.025,
+        0.0
+      ],
+      "scale": [
+        50.0,
+        50.0,
+        50.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 89,
+      "kind": "enemy",
+      "role": "ambush",
+      "section": "S06",
+      "subtype": "Enemy_FatMan",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_FatMan.prefab",
+      "name": "SR18_L_E08_T089_Enemy_FatMan",
+      "planned": [
+        124.297714,
+        -238.1975
+      ],
+      "position": [
+        124.296623,
+        0.120857149,
+        -240.6975
+      ],
+      "rotation": [
+        0.0,
+        180.025,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 93,
+      "kind": "bonus",
+      "role": null,
+      "section": "S06",
+      "subtype": "Rare",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B08_T093",
+      "planned": [
+        124.282669,
+        -272.6914
+      ],
+      "position": [
+        124.282669,
+        0.120861441,
+        -272.6914
+      ],
+      "rotation": [
+        0.0,
+        0.024995869,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 97,
+      "kind": "object",
+      "role": null,
+      "section": "S06",
+      "subtype": "Light",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Lights.prefab",
+      "name": "SR18_L_G08_T097_Light",
+      "planned": [
+        124.267624,
+        -307.1853
+      ],
+      "position": [
+        123.467621,
+        0.7334297,
+        -307.184967
+      ],
+      "rotation": [
+        0.0,
+        180.025,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 101,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S06",
+      "subtype": "Enemy_YllowMan_Net",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab",
+      "name": "SR18_L_E09_T101_Enemy_YllowMan_Net",
+      "planned": [
+        124.252571,
+        -341.6792
+      ],
+      "position": [
+        124.25341,
+        0.07978725,
+        -339.751068
+      ],
+      "rotation": [
+        0.0,
+        180.025,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": -1.9281311
+    },
+    {
+      "time": 105,
+      "kind": "bonus",
+      "role": null,
+      "section": "S07",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B09_T105",
+      "planned": [
+        95.8279,
+        -347.7511
+      ],
+      "position": [
+        95.8279,
+        0.120857164,
+        -347.7511
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 109,
+      "kind": "object",
+      "role": null,
+      "section": "S07",
+      "subtype": "Hole",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Hole.prefab",
+      "name": "SR18_L_G09_T109_Hole",
+      "planned": [
+        61.3339958,
+        -347.7511
+      ],
+      "position": [
+        61.3339958,
+        0.1198091,
+        -348.5511
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        171.6,
+        100.0,
+        453.801331
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 113,
+      "kind": "enemy",
+      "role": "patrol",
+      "section": "S07",
+      "subtype": "Enemy_YllowMan_Sword",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab",
+      "name": "SR18_L_E10_T113_Enemy_YllowMan_Sword",
+      "planned": [
+        26.8400879,
+        -347.7511
+      ],
+      "position": [
+        30.8400879,
+        0.1208609,
+        -347.7511
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 117,
+      "kind": "bonus",
+      "role": null,
+      "section": "S07",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B10_T117",
+      "planned": [
+        -7.65381956,
+        -347.7511
+      ],
+      "position": [
+        -7.65381956,
+        0.127044067,
+        -347.7511
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 121,
+      "kind": "object",
+      "role": null,
+      "section": "S07",
+      "subtype": "Bucket",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Bucket.prefab",
+      "name": "SR18_L_G10_T121_Bucket",
+      "planned": [
+        -42.147728,
+        -347.7511
+      ],
+      "position": [
+        -42.147728,
+        0.5803986,
+        -346.9511
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        50.0,
+        50.0,
+        50.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 125,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S08",
+      "subtype": "Enemy_OldMan",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_OldMan.prefab",
+      "name": "SR18_L_E11_T125_Enemy_OldMan",
+      "planned": [
+        -67.00008,
+        -338.109558
+      ],
+      "position": [
+        -67.00008,
+        0.0599586,
+        -338.109558
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 129,
+      "kind": "bonus",
+      "role": null,
+      "section": "S08",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B11_T129",
+      "planned": [
+        -67.00008,
+        -303.615631
+      ],
+      "position": [
+        -67.00008,
+        0.0958584845,
+        -303.615631
+      ],
+      "rotation": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 133,
+      "kind": "object",
+      "role": null,
+      "section": "S08",
+      "subtype": "Light",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Lights.prefab",
+      "name": "SR18_L_G11_T133_Light",
+      "planned": [
+        -67.00008,
+        -269.121735
+      ],
+      "position": [
+        -67.80008,
+        0.7334297,
+        -269.121735
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 137,
+      "kind": "enemy",
+      "role": "ambush",
+      "section": "S08",
+      "subtype": "Enemy_FatMan",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_FatMan.prefab",
+      "name": "SR18_L_E12_T137_Enemy_FatMan",
+      "planned": [
+        -67.00008,
+        -234.627823
+      ],
+      "position": [
+        -67.00008,
+        0.120858863,
+        -232.127823
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 141,
+      "kind": "bonus",
+      "role": null,
+      "section": "S08",
+      "subtype": "Rare",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B12_T141",
+      "planned": [
+        -67.00008,
+        -200.133911
+      ],
+      "position": [
+        -67.00008,
+        0.109052107,
+        -200.133911
+      ],
+      "rotation": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 145,
+      "kind": "object",
+      "role": null,
+      "section": "S08",
+      "subtype": "Hole",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Hole.prefab",
+      "name": "SR18_L_G12_T145_Hole",
+      "planned": [
+        -67.00008,
+        -165.64
+      ],
+      "position": [
+        -66.20007,
+        0.166054159,
+        -165.64
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        171.6,
+        100.0,
+        453.801331
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 149,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S08",
+      "subtype": "Enemy_OldMan",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_OldMan.prefab",
+      "name": "SR18_L_E13_T149_Enemy_OldMan",
+      "planned": [
+        -67.00008,
+        -131.146088
+      ],
+      "position": [
+        -67.00008,
+        0.120857149,
+        -131.146088
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 153,
+      "kind": "bonus",
+      "role": null,
+      "section": "S08",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B13_T153",
+      "planned": [
+        -67.00008,
+        -96.65218
+      ],
+      "position": [
+        -67.00008,
+        0.120861456,
+        -96.65218
+      ],
+      "rotation": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 157,
+      "kind": "object",
+      "role": null,
+      "section": "S09",
+      "subtype": "Bucket",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Bucket.prefab",
+      "name": "SR18_L_G13_T157_Bucket",
+      "planned": [
+        -51.4072571,
+        -77.7511
+      ],
+      "position": [
+        -51.4072571,
+        2.12451386,
+        -76.9510956
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        50.0,
+        50.0,
+        50.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 161,
+      "kind": "bonus",
+      "role": null,
+      "section": "S09",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B14_T161",
+      "planned": [
+        -19.7258511,
+        -77.7511
+      ],
+      "position": [
+        -19.7258511,
+        12.1208572,
+        -77.7511
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 165,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S09",
+      "subtype": "Enemy_OldMan",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_OldMan.prefab",
+      "name": "SR18_L_E14_T165_Enemy_OldMan",
+      "planned": [
+        17.5805569,
+        -77.7511
+      ],
+      "position": [
+        17.5805569,
+        12.1208572,
+        -77.7511
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 169,
+      "kind": "object",
+      "role": null,
+      "section": "S09",
+      "subtype": "Light",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Lights.prefab",
+      "name": "SR18_L_G14_T169_Light",
+      "planned": [
+        52.0744667,
+        -77.7511
+      ],
+      "position": [
+        52.0744667,
+        12.6925535,
+        -78.5511
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 173,
+      "kind": "enemy",
+      "role": "patrol",
+      "section": "S09",
+      "subtype": "Enemy_YllowMan_Sword",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab",
+      "name": "SR18_L_E15_T173_Enemy_YllowMan_Sword",
+      "planned": [
+        86.5683746,
+        -77.7511
+      ],
+      "position": [
+        82.5683746,
+        12.12086,
+        -77.7511
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 177,
+      "kind": "bonus",
+      "role": null,
+      "section": "S09",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B15_T177",
+      "planned": [
+        115.437279,
+        -77.7511
+      ],
+      "position": [
+        115.437279,
+        12.1208572,
+        -77.7511
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 181,
+      "kind": "object",
+      "role": null,
+      "section": "S09",
+      "subtype": "Bucket",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Bucket.prefab",
+      "name": "SR18_L_G15_T181_Bucket",
+      "planned": [
+        155.556183,
+        -77.7511
+      ],
+      "position": [
+        155.556183,
+        5.44927549,
+        -76.9510956
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        50.0,
+        50.0,
+        50.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 185,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S09",
+      "subtype": "Enemy_OldMan",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_OldMan.prefab",
+      "name": "SR18_L_E16_T185_Enemy_OldMan",
+      "planned": [
+        190.0501,
+        -77.7511
+      ],
+      "position": [
+        190.0501,
+        0.0955411345,
+        -77.7511
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 189,
+      "kind": "bonus",
+      "role": null,
+      "section": "S09",
+      "subtype": "Rare",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B16_T189",
+      "planned": [
+        224.544,
+        -77.7511
+      ],
+      "position": [
+        217.499908,
+        0.07970549,
+        -77.7511
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": -7.044098
+    },
+    {
+      "time": 193,
+      "kind": "object",
+      "role": null,
+      "section": "S10",
+      "subtype": "Bucket",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Bucket.prefab",
+      "name": "SR18_L_G16_T193_Bucket",
+      "planned": [
+        225.499924,
+        -44.2131081
+      ],
+      "position": [
+        226.299927,
+        0.580394745,
+        -44.2131081
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        50.0,
+        50.0,
+        50.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 197,
+      "kind": "enemy",
+      "role": "ambush",
+      "section": "S10",
+      "subtype": "Enemy_Guard",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_Guard.prefab",
+      "name": "SR18_L_E17_T197_Enemy_Guard",
+      "planned": [
+        225.499924,
+        -9.719201
+      ],
+      "position": [
+        225.499924,
+        0.120858207,
+        -7.219201
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 201,
+      "kind": "bonus",
+      "role": null,
+      "section": "S10",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B17_T201",
+      "planned": [
+        225.499924,
+        24.7747059
+      ],
+      "position": [
+        225.499924,
+        0.1125076,
+        24.7747059
+      ],
+      "rotation": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 205,
+      "kind": "object",
+      "role": null,
+      "section": "S11",
+      "subtype": "Light",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Lights.prefab",
+      "name": "SR18_L_G17_T205_Light",
+      "planned": [
+        227.519623,
+        57.24891
+      ],
+      "position": [
+        233.499924,
+        0.733434558,
+        58.04891
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "alongAdjustment": 5.980295
+    },
+    {
+      "time": 209,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S11",
+      "subtype": "Enemy_YllowMan_Net",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab",
+      "name": "SR18_L_E18_T209_Enemy_YllowMan_Net",
+      "planned": [
+        262.01355,
+        57.24891
+      ],
+      "position": [
+        262.01355,
+        0.120857164,
+        57.24891
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 213,
+      "kind": "bonus",
+      "role": null,
+      "section": "S11",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B18_T213",
+      "planned": [
+        296.507446,
+        57.24891
+      ],
+      "position": [
+        296.507446,
+        0.120861262,
+        57.24891
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 217,
+      "kind": "object",
+      "role": null,
+      "section": "S12",
+      "subtype": "Hole",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Hole.prefab",
+      "name": "SR18_L_G18_T217_Hole",
+      "planned": [
+        326.749939,
+        61.5003242
+      ],
+      "position": [
+        327.549927,
+        0.166056812,
+        65.24891
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        171.6,
+        100.0,
+        453.801331
+      ],
+      "alongAdjustment": 3.7485857
+    },
+    {
+      "time": 221,
+      "kind": "enemy",
+      "role": "patrol",
+      "section": "S12",
+      "subtype": "Enemy_YllowMan_Sword",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab",
+      "name": "SR18_L_E19_T221_Enemy_YllowMan_Sword",
+      "planned": [
+        326.749939,
+        95.99423
+      ],
+      "position": [
+        326.749939,
+        0.101237781,
+        91.99423
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 225,
+      "kind": "bonus",
+      "role": null,
+      "section": "S12",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B19_T225",
+      "planned": [
+        326.749939,
+        130.488144
+      ],
+      "position": [
+        326.749939,
+        0.120857157,
+        130.488144
+      ],
+      "rotation": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 229,
+      "kind": "object",
+      "role": null,
+      "section": "S12",
+      "subtype": "Bucket",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Bucket.prefab",
+      "name": "SR18_L_G19_T229_Bucket",
+      "planned": [
+        326.749939,
+        164.982056
+      ],
+      "position": [
+        325.949951,
+        0.5317933,
+        164.982056
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        50.0,
+        50.0,
+        50.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 233,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S12",
+      "subtype": "Enemy_OldMan",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_OldMan.prefab",
+      "name": "SR18_L_E20_T233_Enemy_OldMan",
+      "planned": [
+        326.749939,
+        199.475952
+      ],
+      "position": [
+        326.749939,
+        0.0797063857,
+        195.4989
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": -3.97705078
+    },
+    {
+      "time": 237,
+      "kind": "bonus",
+      "role": null,
+      "section": "S13",
+      "subtype": "Rare",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B20_T237",
+      "planned": [
+        357.220917,
+        203.4989
+      ],
+      "position": [
+        357.220917,
+        0.0980989039,
+        203.4989
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 241,
+      "kind": "object",
+      "role": null,
+      "section": "S13",
+      "subtype": "Light",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Lights.prefab",
+      "name": "SR18_L_G20_T241_Light",
+      "planned": [
+        391.7148,
+        203.4989
+      ],
+      "position": [
+        391.7148,
+        0.7334334,
+        202.6989
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 245,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S13",
+      "subtype": "Enemy_YllowMan_Net",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab",
+      "name": "SR18_L_E21_T245_Enemy_YllowMan_Net",
+      "planned": [
+        426.2087,
+        203.4989
+      ],
+      "position": [
+        426.2087,
+        0.09889871,
+        203.4989
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 249,
+      "kind": "bonus",
+      "role": null,
+      "section": "S14",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B21_T249",
+      "planned": [
+        439.249939,
+        182.0462
+      ],
+      "position": [
+        439.249939,
+        0.0958584845,
+        182.0462
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 253,
+      "kind": "object",
+      "role": null,
+      "section": "S14",
+      "subtype": "Hole",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Hole.prefab",
+      "name": "SR18_L_G21_T253_Hole",
+      "planned": [
+        439.249939,
+        147.5523
+      ],
+      "position": [
+        440.049927,
+        0.1660532,
+        147.5523
+      ],
+      "rotation": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "scale": [
+        171.6,
+        100.0,
+        453.801331
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 257,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S15",
+      "subtype": "Enemy_OldMan",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_OldMan.prefab",
+      "name": "SR18_L_E22_T257_Enemy_OldMan",
+      "planned": [
+        416.309418,
+        135.9989
+      ],
+      "position": [
+        416.309418,
+        0.07831873,
+        135.9989
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 261,
+      "kind": "bonus",
+      "role": null,
+      "section": "S15",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B22_T261",
+      "planned": [
+        381.815521,
+        135.9989
+      ],
+      "position": [
+        381.815521,
+        0.132083,
+        135.9989
+      ],
+      "rotation": [
+        0.0,
+        90.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 265,
+      "kind": "object",
+      "role": null,
+      "section": "S15",
+      "subtype": "Bucket",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Bucket.prefab",
+      "name": "SR18_L_G22_T265_Bucket",
+      "planned": [
+        347.321625,
+        135.9989
+      ],
+      "position": [
+        347.321625,
+        9.25427151,
+        136.7989
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        50.0,
+        50.0,
+        50.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 269,
+      "kind": "bonus",
+      "role": null,
+      "section": "S15",
+      "subtype": "Normal",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B23_T269",
+      "planned": [
+        312.8277,
+        135.9989
+      ],
+      "position": [
+        312.8277,
+        11.170743,
+        135.9989
+      ],
+      "rotation": [
+        340.426819,
+        90.0,
+        9.06135256E-07
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 273,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S15",
+      "subtype": "Enemy_OldMan",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_OldMan.prefab",
+      "name": "SR18_L_E23_T273_Enemy_OldMan",
+      "planned": [
+        278.3338,
+        135.9989
+      ],
+      "position": [
+        278.3338,
+        0.120860942,
+        135.9989
+      ],
+      "rotation": [
+        0.0,
+        270.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 277,
+      "kind": "object",
+      "role": null,
+      "section": "S16",
+      "subtype": "Light",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Lights.prefab",
+      "name": "SR18_L_G23_T277_Light",
+      "planned": [
+        247.999924,
+        140.158936
+      ],
+      "position": [
+        247.199921,
+        0.733434558,
+        143.9989
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "alongAdjustment": 3.8399682
+    },
+    {
+      "time": 281,
+      "kind": "enemy",
+      "role": "ambush",
+      "section": "S16",
+      "subtype": "Enemy_FatMan",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_FatMan.prefab",
+      "name": "SR18_L_E24_T281_Enemy_FatMan",
+      "planned": [
+        247.999924,
+        174.652847
+      ],
+      "position": [
+        247.999924,
+        0.0574851856,
+        177.152847
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        2.25,
+        2.25,
+        2.25
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 285,
+      "kind": "bonus",
+      "role": null,
+      "section": "S16",
+      "subtype": "Rare",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B24_T285",
+      "planned": [
+        247.999924,
+        209.146744
+      ],
+      "position": [
+        247.999924,
+        0.120857149,
+        209.146744
+      ],
+      "rotation": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 289,
+      "kind": "object",
+      "role": null,
+      "section": "S16",
+      "subtype": "Hole",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Hole.prefab",
+      "name": "SR18_L_G24_T289_Hole",
+      "planned": [
+        247.999924,
+        243.640656
+      ],
+      "position": [
+        248.799927,
+        0.123002209,
+        243.640656
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        171.6,
+        100.0,
+        453.801331
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 293,
+      "kind": "enemy",
+      "role": "standard",
+      "section": "S16",
+      "subtype": "Enemy_Woman",
+      "prefab": "Assets/JH/Model/Prefab/Enemy_Woman.prefab",
+      "name": "SR18_L_E25_T293_Enemy_Woman",
+      "planned": [
+        247.999924,
+        278.134552
+      ],
+      "position": [
+        247.999924,
+        0.0958584845,
+        278.134552
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        2.5,
+        2.5,
+        2.5
+      ],
+      "alongAdjustment": 0.0
+    },
+    {
+      "time": 297,
+      "kind": "bonus",
+      "role": null,
+      "section": "S16",
+      "subtype": "Unique",
+      "prefab": "Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab",
+      "name": "SR18_L_B25_T297",
+      "planned": [
+        247.999924,
+        312.628479
+      ],
+      "position": [
+        247.999924,
+        0.08364736,
+        312.628479
+      ],
+      "rotation": [
+        0.0,
+        180.0,
+        0.0
+      ],
+      "scale": [
+        3.0,
+        2.99999976,
+        3.0
+      ],
+      "alongAdjustment": 0.0
+    }
+  ],
+  "activationSpots": [
+    {
+      "name": "SR18_L_E01_Activation",
+      "position": [
+        -10.7832623,
+        0.106738731,
+        -106.750023
+      ],
+      "enemy": "SR18_L_E01_T005_Enemy_OldMan",
+      "ahead": 0.0
+    },
+    {
+      "name": "SR18_L_E02_Activation",
+      "position": [
+        -6.57500029,
+        0.02703327,
+        -7.2
+      ],
+      "enemy": "SR18_L_E02_T017_Enemy_OldMan",
+      "ahead": 4.0
+    },
+    {
+      "name": "SR18_L_E03_Activation",
+      "position": [
+        76.06389,
+        0.06706873,
+        -7.2
+      ],
+      "enemy": "SR18_L_E03_T029_Enemy_YllowMan_Sword",
+      "ahead": 14.0
+    },
+    {
+      "name": "SR18_L_E04_Activation",
+      "position": [
+        191.7,
+        0.08665077,
+        -3.2
+      ],
+      "enemy": "SR18_L_E04_T041_Enemy_OldMan",
+      "ahead": 4.0
+    },
+    {
+      "name": "SR18_L_E05_Activation",
+      "position": [
+        173.12265,
+        0.09585849,
+        53.5499954
+      ],
+      "enemy": "SR18_L_E05_T053_Enemy_Guard",
+      "ahead": 32.5
+    },
+    {
+      "name": "SR18_L_E06_Activation",
+      "position": [
+        124.395859,
+        0.120859519,
+        -13.23407
+      ],
+      "enemy": "SR18_L_E06_T065_Enemy_YllowMan_Net",
+      "ahead": 18.0
+    },
+    {
+      "name": "SR18_L_E07_Activation",
+      "position": [
+        124.350716,
+        0.136449724,
+        -116.715775
+      ],
+      "enemy": "SR18_L_E07_T077_Enemy_YllowMan_Sword",
+      "ahead": 14.0000019
+    },
+    {
+      "name": "SR18_L_E08_Activation",
+      "position": [
+        124.3108,
+        0.07802769,
+        -208.1975
+      ],
+      "enemy": "SR18_L_E08_T089_Enemy_FatMan",
+      "ahead": 32.5000038
+    },
+    {
+      "name": "SR18_L_E09_Activation",
+      "position": [
+        124.261261,
+        0.07837268,
+        -321.751068
+      ],
+      "enemy": "SR18_L_E09_T101_Enemy_YllowMan_Net",
+      "ahead": 18.0000019
+    },
+    {
+      "name": "SR18_L_E10_Activation",
+      "position": [
+        44.8400879,
+        0.08164712,
+        -347.7511
+      ],
+      "enemy": "SR18_L_E10_T113_Enemy_YllowMan_Sword",
+      "ahead": 14.0
+    },
+    {
+      "name": "SR18_L_E11_Activation",
+      "position": [
+        -67.00008,
+        0.120857149,
+        -343.7511
+      ],
+      "enemy": "SR18_L_E11_T125_Enemy_OldMan",
+      "ahead": 5.64154053
+    },
+    {
+      "name": "SR18_L_E12_Activation",
+      "position": [
+        -67.00008,
+        0.0832645446,
+        -264.6278
+      ],
+      "enemy": "SR18_L_E12_T137_Enemy_FatMan",
+      "ahead": 32.4999847
+    },
+    {
+      "name": "SR18_L_E13_Activation",
+      "position": [
+        -67.00008,
+        0.07041872,
+        -149.146088
+      ],
+      "enemy": "SR18_L_E13_T149_Enemy_OldMan",
+      "ahead": 18.0
+    },
+    {
+      "name": "SR18_L_E14_Activation",
+      "position": [
+        -0.41944313,
+        12.0958586,
+        -77.7511
+      ],
+      "enemy": "SR18_L_E14_T165_Enemy_OldMan",
+      "ahead": 18.0
+    },
+    {
+      "name": "SR18_L_E15_Activation",
+      "position": [
+        68.5683746,
+        12.0784245,
+        -77.7511
+      ],
+      "enemy": "SR18_L_E15_T173_Enemy_YllowMan_Sword",
+      "ahead": 14.0
+    },
+    {
+      "name": "SR18_L_E16_Activation",
+      "position": [
+        172.0501,
+        0.120857164,
+        -77.7511
+      ],
+      "enemy": "SR18_L_E16_T185_Enemy_OldMan",
+      "ahead": 18.0
+    },
+    {
+      "name": "SR18_L_E17_Activation",
+      "position": [
+        225.499924,
+        0.1208562,
+        -39.7192
+      ],
+      "enemy": "SR18_L_E17_T197_Enemy_Guard",
+      "ahead": 32.5
+    },
+    {
+      "name": "SR18_L_E18_Activation",
+      "position": [
+        244.01355,
+        0.09456813,
+        57.24891
+      ],
+      "enemy": "SR18_L_E18_T209_Enemy_YllowMan_Net",
+      "ahead": 18.0
+    },
+    {
+      "name": "SR18_L_E19_Activation",
+      "position": [
+        326.749939,
+        0.09755461,
+        77.99423
+      ],
+      "enemy": "SR18_L_E19_T221_Enemy_YllowMan_Sword",
+      "ahead": 14.0
+    },
+    {
+      "name": "SR18_L_E20_Activation",
+      "position": [
+        326.749939,
+        0.07811408,
+        177.4989
+      ],
+      "enemy": "SR18_L_E20_T233_Enemy_OldMan",
+      "ahead": 18.0
+    },
+    {
+      "name": "SR18_L_E21_Activation",
+      "position": [
+        408.2087,
+        0.120857164,
+        203.4989
+      ],
+      "enemy": "SR18_L_E21_T245_Enemy_YllowMan_Net",
+      "ahead": 18.0
+    },
+    {
+      "name": "SR18_L_E22_Activation",
+      "position": [
+        434.309418,
+        0.0741345137,
+        135.9989
+      ],
+      "enemy": "SR18_L_E22_T257_Enemy_OldMan",
+      "ahead": 18.0
+    },
+    {
+      "name": "SR18_L_E23_Activation",
+      "position": [
+        296.3338,
+        5.274818,
+        135.9989
+      ],
+      "enemy": "SR18_L_E23_T273_Enemy_OldMan",
+      "ahead": 18.0
+    },
+    {
+      "name": "SR18_L_E24_Activation",
+      "position": [
+        247.999924,
+        0.106186368,
+        144.652847
+      ],
+      "enemy": "SR18_L_E24_T281_Enemy_FatMan",
+      "ahead": 32.5
+    },
+    {
+      "name": "SR18_L_E25_Activation",
+      "position": [
+        247.999924,
+        0.0775899962,
+        260.134552
+      ],
+      "enemy": "SR18_L_E25_T293_Enemy_Woman",
+      "ahead": 18.0
+    }
+  ]
+}

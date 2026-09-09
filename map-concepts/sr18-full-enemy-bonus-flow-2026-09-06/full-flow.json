@@ -1,0 +1,997 @@
+{
+  "status": "Proposal only; no Unity scene changes",
+  "roads": 230,
+  "sections": [
+    {
+      "id": "S01",
+      "name": "입구 서행",
+      "intent": "첫 적 확인",
+      "start": [
+        27.09,
+        0,
+        -115.11
+      ],
+      "end": [
+        -10.7999983,
+        0.0,
+        -114.75
+      ],
+      "progress_start": 0.0,
+      "progress_end": 1.5,
+      "encounters": [
+        {
+          "id": "E01",
+          "fraction": 0.48,
+          "team": [
+            [
+              "노인",
+              1
+            ]
+          ],
+          "count": 1,
+          "behavior": "공격 한 번",
+          "drop_count": 1,
+          "world_xz": [
+            8.903,
+            -114.937
+          ]
+        }
+      ],
+      "bonuses": [],
+      "enemy_count": 1
+    },
+    {
+      "id": "S02",
+      "name": "시작 상점가 북행",
+      "intent": "적 처치 → 드롭 학습",
+      "start": [
+        -10.7999983,
+        0.0,
+        -114.75
+      ],
+      "end": [
+        -10.575,
+        0.0,
+        -7.2
+      ],
+      "progress_start": 1.5,
+      "progress_end": 5.6,
+      "encounters": [
+        {
+          "id": "E02",
+          "fraction": 0.47,
+          "team": [
+            [
+              "그물",
+              2
+            ]
+          ],
+          "count": 2,
+          "behavior": "앞뒤 순차 발동",
+          "drop_count": 2,
+          "world_xz": [
+            -10.694,
+            -64.202
+          ]
+        }
+      ],
+      "bonuses": [],
+      "enemy_count": 2
+    },
+    {
+      "id": "S03",
+      "name": "기존 가로 상가",
+      "intent": "첫 선택 후 성장 압박",
+      "start": [
+        -10.575,
+        0.0,
+        -7.2
+      ],
+      "end": [
+        191.7,
+        0.0,
+        -7.2
+      ],
+      "progress_start": 5.6,
+      "progress_end": 13.4,
+      "encounters": [
+        {
+          "id": "E03",
+          "fraction": 0.2,
+          "team": [
+            [
+              "노인",
+              2
+            ]
+          ],
+          "count": 2,
+          "behavior": "공격 반복",
+          "drop_count": 2,
+          "world_xz": [
+            29.88,
+            -7.2
+          ]
+        },
+        {
+          "id": "E04",
+          "fraction": 0.79,
+          "team": [
+            [
+              "경비",
+              1
+            ],
+            [
+              "검",
+              2
+            ]
+          ],
+          "count": 3,
+          "behavior": "발사 + 이동 후 공격",
+          "drop_count": 3,
+          "world_xz": [
+            149.222,
+            -7.2
+          ]
+        }
+      ],
+      "bonuses": [
+        {
+          "id": "F01",
+          "fraction": 0.52,
+          "grades": [
+            "N",
+            "N"
+          ],
+          "count": 2,
+          "purpose": "첫 효과 비교",
+          "world_xz": [
+            94.608,
+            -7.2
+          ]
+        }
+      ],
+      "enemy_count": 5
+    },
+    {
+      "id": "S04",
+      "name": "짧은 북행 통로",
+      "intent": "가벼운 추격 압박",
+      "start": [
+        191.7,
+        0.0,
+        -7.2
+      ],
+      "end": [
+        191.7,
+        0.0,
+        53.5499954
+      ],
+      "progress_start": 13.4,
+      "progress_end": 15.8,
+      "encounters": [
+        {
+          "id": "E05",
+          "fraction": 0.48,
+          "team": [
+            [
+              "검",
+              2
+            ]
+          ],
+          "count": 2,
+          "behavior": "이동 후 공격",
+          "drop_count": 2,
+          "world_xz": [
+            191.7,
+            21.96
+          ]
+        }
+      ],
+      "bonuses": [],
+      "enemy_count": 2
+    },
+    {
+      "id": "S05",
+      "name": "상단 연결 상가",
+      "intent": "호흡 · 다음 긴 구간 예고",
+      "start": [
+        191.7,
+        0.0,
+        53.5499954
+      ],
+      "end": [
+        124.424995,
+        0.0,
+        53.5499878
+      ],
+      "progress_start": 15.8,
+      "progress_end": 18.4,
+      "encounters": [],
+      "bonuses": [],
+      "enemy_count": 0
+    },
+    {
+      "id": "S06",
+      "name": "큰 루프 긴 하행",
+      "intent": "세 번의 전투와 중간 선택",
+      "start": [
+        124.424995,
+        0.0,
+        53.5499878
+      ],
+      "end": [
+        124.249924,
+        0.0,
+        -347.7511
+      ],
+      "progress_start": 18.4,
+      "progress_end": 33.9,
+      "encounters": [
+        {
+          "id": "E06",
+          "fraction": 0.15,
+          "team": [
+            [
+              "노인",
+              2
+            ],
+            [
+              "검",
+              1
+            ]
+          ],
+          "count": 3,
+          "behavior": "전방 교대 압박",
+          "drop_count": 3,
+          "world_xz": [
+            124.399,
+            -6.645
+          ]
+        },
+        {
+          "id": "E07",
+          "fraction": 0.4,
+          "team": [
+            [
+              "경비",
+              1
+            ],
+            [
+              "그물",
+              2
+            ]
+          ],
+          "count": 3,
+          "behavior": "발사 + 공격 반복",
+          "drop_count": 3,
+          "world_xz": [
+            124.355,
+            -106.97
+          ]
+        },
+        {
+          "id": "E08",
+          "fraction": 0.8,
+          "team": [
+            [
+              "뚱보",
+              1
+            ],
+            [
+              "검",
+              2
+            ]
+          ],
+          "count": 3,
+          "behavior": "엘리트 포함 압박",
+          "drop_count": 3,
+          "world_xz": [
+            124.285,
+            -267.491
+          ]
+        }
+      ],
+      "bonuses": [
+        {
+          "id": "F02",
+          "fraction": 0.62,
+          "grades": [
+            "N",
+            "E"
+          ],
+          "count": 2,
+          "purpose": "안전 / 욕심 비교",
+          "world_xz": [
+            124.316,
+            -195.257
+          ]
+        }
+      ],
+      "enemy_count": 9
+    },
+    {
+      "id": "S07",
+      "name": "루프 바닥 가로길",
+      "intent": "전투 사이 보상 회수",
+      "start": [
+        124.249924,
+        0.0,
+        -347.7511
+      ],
+      "end": [
+        -67.00008,
+        0.0,
+        -347.7511
+      ],
+      "progress_start": 33.9,
+      "progress_end": 41.3,
+      "encounters": [
+        {
+          "id": "E09",
+          "fraction": 0.2,
+          "team": [
+            [
+              "검",
+              2
+            ],
+            [
+              "경비",
+              1
+            ]
+          ],
+          "count": 3,
+          "behavior": "이동 + 발사",
+          "drop_count": 3,
+          "world_xz": [
+            86.0,
+            -347.751
+          ]
+        },
+        {
+          "id": "E10",
+          "fraction": 0.77,
+          "team": [
+            [
+              "노인",
+              2
+            ],
+            [
+              "경비",
+              1
+            ]
+          ],
+          "count": 3,
+          "behavior": "전후 순차 발동",
+          "drop_count": 3,
+          "world_xz": [
+            -23.013,
+            -347.751
+          ]
+        }
+      ],
+      "bonuses": [
+        {
+          "id": "F03",
+          "fraction": 0.48,
+          "grades": [
+            "N"
+          ],
+          "count": 1,
+          "purpose": "중간 보충",
+          "world_xz": [
+            32.45,
+            -347.751
+          ]
+        }
+      ],
+      "enemy_count": 6
+    },
+    {
+      "id": "S08",
+      "name": "큰 루프 북행",
+      "intent": "첫 큰 압박 구간",
+      "start": [
+        -67.00008,
+        0.0,
+        -347.7511
+      ],
+      "end": [
+        -67.00008,
+        0.0,
+        -77.7511
+      ],
+      "progress_start": 41.3,
+      "progress_end": 51.7,
+      "encounters": [
+        {
+          "id": "E11",
+          "fraction": 0.17,
+          "team": [
+            [
+              "그물",
+              2
+            ],
+            [
+              "경비",
+              1
+            ]
+          ],
+          "count": 3,
+          "behavior": "전면 + 원거리",
+          "drop_count": 3,
+          "world_xz": [
+            -67.0,
+            -301.851
+          ]
+        },
+        {
+          "id": "E12",
+          "fraction": 0.42,
+          "team": [
+            [
+              "뚱보",
+              1
+            ],
+            [
+              "검",
+              2
+            ],
+            [
+              "노인",
+              1
+            ]
+          ],
+          "count": 4,
+          "behavior": "두 번으로 나눠 발동",
+          "drop_count": 4,
+          "world_xz": [
+            -67.0,
+            -234.351
+          ]
+        },
+        {
+          "id": "E13",
+          "fraction": 0.8,
+          "team": [
+            [
+              "경비",
+              1
+            ],
+            [
+              "검",
+              2
+            ]
+          ],
+          "count": 3,
+          "behavior": "회수 뒤 재압박",
+          "drop_count": 3,
+          "world_xz": [
+            -67.0,
+            -131.751
+          ]
+        }
+      ],
+      "bonuses": [
+        {
+          "id": "F04",
+          "fraction": 0.63,
+          "grades": [
+            "N",
+            "E"
+          ],
+          "count": 2,
+          "purpose": "고가 전 성장 선택",
+          "world_xz": [
+            -67.0,
+            -177.651
+          ]
+        }
+      ],
+      "enemy_count": 10
+    },
+    {
+      "id": "S09",
+      "name": "첫 고가 통과",
+      "intent": "경사는 비우고 평지에서 전투",
+      "start": [
+        -67.00008,
+        0.0,
+        -77.7511
+      ],
+      "end": [
+        225.499924,
+        0.0,
+        -77.7511
+      ],
+      "progress_start": 51.7,
+      "progress_end": 63.0,
+      "encounters": [
+        {
+          "id": "E14",
+          "fraction": 0.34,
+          "team": [
+            [
+              "노인",
+              2
+            ]
+          ],
+          "count": 2,
+          "behavior": "상부 평지 단순 전투",
+          "drop_count": 2,
+          "world_xz": [
+            32.45,
+            -77.751
+          ]
+        },
+        {
+          "id": "E15",
+          "fraction": 0.55,
+          "team": [
+            [
+              "검",
+              2
+            ]
+          ],
+          "count": 2,
+          "behavior": "같은 높이에서 공격",
+          "drop_count": 2,
+          "world_xz": [
+            93.875,
+            -77.751
+          ]
+        }
+      ],
+      "bonuses": [
+        {
+          "id": "F05",
+          "fraction": 0.89,
+          "grades": [
+            "E"
+          ],
+          "count": 1,
+          "purpose": "내리막 뒤 보상",
+          "world_xz": [
+            193.325,
+            -77.751
+          ]
+        }
+      ],
+      "enemy_count": 4
+    },
+    {
+      "id": "S10",
+      "name": "중반 북행",
+      "intent": "공격 순서 판단",
+      "start": [
+        225.499924,
+        0.0,
+        -77.7511
+      ],
+      "end": [
+        225.499924,
+        0.0,
+        57.24891
+      ],
+      "progress_start": 63.0,
+      "progress_end": 68.3,
+      "encounters": [
+        {
+          "id": "E16",
+          "fraction": 0.2,
+          "team": [
+            [
+              "경비",
+              1
+            ],
+            [
+              "검",
+              2
+            ]
+          ],
+          "count": 3,
+          "behavior": "발사 + 이동",
+          "drop_count": 3,
+          "world_xz": [
+            225.5,
+            -50.751
+          ]
+        },
+        {
+          "id": "E17",
+          "fraction": 0.48,
+          "team": [
+            [
+              "뚱보",
+              1
+            ],
+            [
+              "그물",
+              2
+            ]
+          ],
+          "count": 3,
+          "behavior": "엘리트와 근접 조합",
+          "drop_count": 3,
+          "world_xz": [
+            225.5,
+            -12.951
+          ]
+        }
+      ],
+      "bonuses": [
+        {
+          "id": "F06",
+          "fraction": 0.79,
+          "grades": [
+            "N",
+            "E"
+          ],
+          "count": 2,
+          "purpose": "빌드 보완",
+          "world_xz": [
+            225.5,
+            28.899
+          ]
+        }
+      ],
+      "enemy_count": 6
+    },
+    {
+      "id": "S11",
+      "name": "중반 가로 상가",
+      "intent": "짧고 진한 한 편성",
+      "start": [
+        225.499924,
+        0.0,
+        57.24891
+      ],
+      "end": [
+        326.749939,
+        0.0,
+        57.24891
+      ],
+      "progress_start": 68.3,
+      "progress_end": 72.2,
+      "encounters": [
+        {
+          "id": "E18",
+          "fraction": 0.5,
+          "team": [
+            [
+              "경비",
+              2
+            ],
+            [
+              "검",
+              2
+            ]
+          ],
+          "count": 4,
+          "behavior": "2명씩 순차 발동",
+          "drop_count": 4,
+          "world_xz": [
+            276.125,
+            57.249
+          ]
+        }
+      ],
+      "bonuses": [],
+      "enemy_count": 4
+    },
+    {
+      "id": "S12",
+      "name": "상단 고리 진입",
+      "intent": "선택 후 다음 조합 시험",
+      "start": [
+        326.749939,
+        0.0,
+        57.24891
+      ],
+      "end": [
+        326.749939,
+        0.0,
+        203.4989
+      ],
+      "progress_start": 72.2,
+      "progress_end": 77.8,
+      "encounters": [
+        {
+          "id": "E19",
+          "fraction": 0.2,
+          "team": [
+            [
+              "노인",
+              2
+            ],
+            [
+              "경비",
+              1
+            ]
+          ],
+          "count": 3,
+          "behavior": "공격 반복 + 발사",
+          "drop_count": 3,
+          "world_xz": [
+            326.75,
+            86.499
+          ]
+        },
+        {
+          "id": "E20",
+          "fraction": 0.78,
+          "team": [
+            [
+              "뚱보",
+              1
+            ],
+            [
+              "검",
+              2
+            ]
+          ],
+          "count": 3,
+          "behavior": "이동 후 공격",
+          "drop_count": 3,
+          "world_xz": [
+            326.75,
+            171.324
+          ]
+        }
+      ],
+      "bonuses": [
+        {
+          "id": "F07",
+          "fraction": 0.49,
+          "grades": [
+            "E",
+            "E"
+          ],
+          "count": 2,
+          "purpose": "후반 효과 비교",
+          "world_xz": [
+            326.75,
+            128.911
+          ]
+        }
+      ],
+      "enemy_count": 6
+    },
+    {
+      "id": "S13",
+      "name": "고리 윗변",
+      "intent": "배운 역할 재조합",
+      "start": [
+        326.749939,
+        0.0,
+        203.4989
+      ],
+      "end": [
+        439.249939,
+        0.0,
+        203.4989
+      ],
+      "progress_start": 77.8,
+      "progress_end": 82.2,
+      "encounters": [
+        {
+          "id": "E21",
+          "fraction": 0.48,
+          "team": [
+            [
+              "경비",
+              1
+            ],
+            [
+              "검",
+              2
+            ],
+            [
+              "그물",
+              1
+            ]
+          ],
+          "count": 4,
+          "behavior": "2명씩 교대 압박",
+          "drop_count": 4,
+          "world_xz": [
+            380.75,
+            203.499
+          ]
+        }
+      ],
+      "bonuses": [],
+      "enemy_count": 4
+    },
+    {
+      "id": "S14",
+      "name": "고리 짧은 하행",
+      "intent": "전투 없이 다음 고가 준비",
+      "start": [
+        439.249939,
+        0.0,
+        203.4989
+      ],
+      "end": [
+        439.249939,
+        0.0,
+        135.9989
+      ],
+      "progress_start": 82.2,
+      "progress_end": 84.8,
+      "encounters": [],
+      "bonuses": [
+        {
+          "id": "F08",
+          "fraction": 0.5,
+          "grades": [
+            "E"
+          ],
+          "count": 1,
+          "purpose": "준비 보상",
+          "world_xz": [
+            439.25,
+            169.749
+          ]
+        }
+      ],
+      "enemy_count": 0
+    },
+    {
+      "id": "S15",
+      "name": "두 번째 고가",
+      "intent": "진입 전만 가볍게 압박",
+      "start": [
+        439.249939,
+        0.0,
+        135.9989
+      ],
+      "end": [
+        247.999924,
+        0.0,
+        135.9989
+      ],
+      "progress_start": 84.8,
+      "progress_end": 92.2,
+      "encounters": [
+        {
+          "id": "E22",
+          "fraction": 0.19,
+          "team": [
+            [
+              "경비",
+              1
+            ],
+            [
+              "검",
+              1
+            ]
+          ],
+          "count": 2,
+          "behavior": "경사 전 발동·종료",
+          "drop_count": 2,
+          "world_xz": [
+            402.912,
+            135.999
+          ]
+        }
+      ],
+      "bonuses": [],
+      "enemy_count": 2
+    },
+    {
+      "id": "S16",
+      "name": "마지막 출구 북행",
+      "intent": "마지막 조합 → 보스 → 보상",
+      "start": [
+        247.999924,
+        0.0,
+        135.9989
+      ],
+      "end": [
+        247.999924,
+        0,
+        338.4989038
+      ],
+      "progress_start": 92.2,
+      "progress_end": 100.0,
+      "encounters": [
+        {
+          "id": "E23",
+          "fraction": 0.17,
+          "team": [
+            [
+              "뚱보",
+              1
+            ],
+            [
+              "검",
+              2
+            ]
+          ],
+          "count": 3,
+          "behavior": "엘리트 포함 편성",
+          "drop_count": 3,
+          "world_xz": [
+            248.0,
+            170.424
+          ]
+        },
+        {
+          "id": "E24",
+          "fraction": 0.43,
+          "team": [
+            [
+              "경비",
+              2
+            ],
+            [
+              "검",
+              2
+            ]
+          ],
+          "count": 4,
+          "behavior": "두 번으로 나눠 발동",
+          "drop_count": 4,
+          "world_xz": [
+            248.0,
+            223.074
+          ]
+        },
+        {
+          "id": "E25",
+          "fraction": 0.7,
+          "team": [
+            [
+              "여성 보스",
+              1
+            ]
+          ],
+          "count": 1,
+          "behavior": "기존 보스 행동 사용",
+          "drop_count": 1,
+          "world_xz": [
+            248.0,
+            277.749
+          ]
+        }
+      ],
+      "bonuses": [
+        {
+          "id": "F09",
+          "fraction": 0.92,
+          "grades": [
+            "U"
+          ],
+          "count": 1,
+          "purpose": "최종 돌파 보상",
+          "world_xz": [
+            248.0,
+            322.299
+          ]
+        }
+      ],
+      "enemy_count": 8
+    }
+  ],
+  "enemy_groups": 25,
+  "enemies": 69,
+  "enemy_types": {
+    "노인": 12,
+    "그물": 9,
+    "경비": 14,
+    "검": 28,
+    "뚱보": 5,
+    "여성 보스": 1
+  },
+  "fixed_bonus_locations": 9,
+  "fixed_bonus_objects": 14,
+  "maximum_enemy_drops": 69,
+  "maximum_bonus_objects": 83,
+  "notes": [
+    "Distance progress, not measured seconds; ignore editor 3x speed for planning.",
+    "Drops are created on enemy death, not necessarily at encounter entry.",
+    "Fixed bonus grades are proposed; effects remain random.",
+    "Side-by-side rewards do not imply an implemented exclusive-choice group.",
+    "No new enemy models or boss AI are proposed."
+  ]
+}

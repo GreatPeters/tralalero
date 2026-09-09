@@ -161,7 +161,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ResolveExtraHelpContact(Collider other)
         {
-            ExtraHelpBuffScript extraHelp = other.GetComponent<ExtraHelpBuffScript>();
+            ExtraHelpBuffScript extraHelp = other.GetComponentInParent<ExtraHelpBuffScript>();
+            if (extraHelp == null || extraHelp.currentHealth <= 0f) return;
             rewardPlayerScore = false;
             if (extraHelp.currentHealth > _health)
             {
@@ -329,6 +330,23 @@ namespace IndianOceanAssets.ShooterSurvival
 
             BeginThrow();
             return true;
+        }
+
+        public bool CanBeginTriggeredFire => CanBeginThrow();
+
+        public bool HasConfiguredProjectile => heldProjectile != null;
+
+        public void ConfigureTriggeredFire(float releaseDelay, float speed)
+        {
+            throwReleaseDelay = Mathf.Max(0f, releaseDelay);
+            throwSpeed = Mathf.Max(0f, speed);
+        }
+
+        internal void ResetTriggeredFireForNewRun()
+        {
+            StopAllCoroutines();
+            hasThrown = false;
+            ResetHeldProjectile();
         }
 
         private bool CanBeginThrow()

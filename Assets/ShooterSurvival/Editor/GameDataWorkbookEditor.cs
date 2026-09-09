@@ -572,10 +572,10 @@ public static class GameDataWorkbookAutoReload
     private static void OnPlayModeStateChanged(PlayModeStateChange state)
     {
         if (state == PlayModeStateChange.EnteredPlayMode)
-            ReloadEnvironmentVariablesAndPlayers(logResult: false);
+            ReloadEnvironmentVariablesAndPlayers(logResult: false, beginRun: true);
     }
 
-    private static void ReloadEnvironmentVariablesAndPlayers(bool logResult)
+    private static void ReloadEnvironmentVariablesAndPlayers(bool logResult, bool beginRun = false)
     {
         try
         {
@@ -586,8 +586,13 @@ public static class GameDataWorkbookAutoReload
             UpgradeTables.Reload();
             BonusTables.Reload();
             SkinTables.Reload();
+            CosmeticService.ReloadCatalog();
             PatternTables.Reload();
+            EncounterPlacementTables.Reload(); // Existing encounters keep their run-start snapshot; next Play uses new settings.
             int refreshedPlayerCount = ReloadLoadedPlayerDefaults();
+            if (beginRun)
+                foreach (var controller in UnityEngine.Object.FindObjectsByType<EncounterPlacementController>(FindObjectsSortMode.None))
+                    controller.BeginNewRun(); // Domain and scene reload are both disabled in this project.
             int refreshedGameManagerCount = ReloadLoadedMonsterStats();
             int refreshedChapterEnemyControllerCount =
                 ReloadLoadedChapterEnemyStats();

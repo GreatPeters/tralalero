@@ -39,6 +39,13 @@ Thumbs.db
 .superpowers/
 skills-lock.json
 
+# Local test evidence, dependency caches and Editor recovery copies
+/tmp/
+**/node_modules/
+**/__pycache__/
+/Assets/_Recovery/
+/Assets/_Recovery.meta
+
 # Local signing material
 **/GameDataSigningKey.json
 

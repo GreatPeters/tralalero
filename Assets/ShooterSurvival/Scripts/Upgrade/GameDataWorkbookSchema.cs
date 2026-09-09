@@ -51,6 +51,13 @@ public static class GameDataWorkbookSchema
             using var environmentStream =
                 new MemoryStream(workbookBytes, writable: false);
             EnvironmentVariableTables.ValidateWorkbook(environmentStream);
+            using var encounterStream = new MemoryStream(workbookBytes, writable: false);
+            EncounterPlacementTables.Read(encounterStream);
+            if (ContainsSheet(workbookBytes, CosmeticTables.SheetName))
+            {
+                using var cosmeticStream = new MemoryStream(workbookBytes, writable: false);
+                CosmeticTables.Read(cosmeticStream);
+            }
         }
         catch (InvalidDataException)
         {

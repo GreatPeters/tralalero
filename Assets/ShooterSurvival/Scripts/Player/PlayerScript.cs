@@ -85,8 +85,15 @@ namespace IndianOceanAssets.ShooterSurvival
 
         [NonSerialized] public List<WeaponScript> extraHelpWeaponScript = new();
         [NonSerialized] public int extraHelpCount;
-        [NonSerialized] public float lastWallTouchTime;
-        [NonSerialized] public bool canShoot;
+        [NonSerialized] public float lastWallTouchTime = float.NegativeInfinity;
+        private bool shootingAllowed;
+        private readonly HashSet<UnityEngine.Object> bucketShootBlockers = new();
+        public bool canShoot { get => shootingAllowed && bucketShootBlockers.Count == 0; set => shootingAllowed = value; }
+        public void SetBucketShootBlock(UnityEngine.Object source, bool blocked)
+        {
+            if (blocked) bucketShootBlockers.Add(source);
+            else bucketShootBlockers.Remove(source);
+        }
 
         [NonSerialized] public Animator sharkAnim;
         [NonSerialized] public float originalMoveSpeed;
@@ -100,6 +107,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private int lastLoggedGameplaySecond;
 
         private float maxHealthWithUpgrades;
+        private float runMaxHealthBonus;
         private float healthRegenPerSecond;
         [SerializeField] private CanvasScript canvasScript;
         private Canvas playerChildCanvas;
@@ -120,6 +128,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private float lastReportedCurrentDamage = float.MinValue;
         private GameObject cachedWeaponObject;
         private Rigidbody playerRigidbody;
+        private NoryangjinRoadHeightFollower roadHeightFollower;
         private bool isWorldYawTurnActive;
         private UnityEngine.Object activeWorldYawTurnSource;
         private Quaternion worldYawTurnStartRotation;
@@ -139,6 +148,9 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public const float DefaultWorldYawTurnDuration = 0.5f;
         public bool IsWorldYawTurnActive => isWorldYawTurnActive;
+#if UNITY_EDITOR
+        public static event Action<PlayerScript> EditorRunPrepared;
+#endif
         public float MaxHealth => maxHealthWithUpgrades > 0f ? maxHealthWithUpgrades : originalHealth;
         public bool UseExcelCharacterDefaults => useExcelCharacterDefaults;
         public float ForwardMoveSpeed
@@ -193,6 +205,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private void Awake()
         {
             playerRigidbody = GetComponent<Rigidbody>();
+            roadHeightFollower = GetComponent<NoryangjinRoadHeightFollower>();
             canShoot = true;
             EnsureCharacterDefaultsInitialized();
             EnsurePlayerChildCanvasVisible();
@@ -210,6 +223,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void OnDisable()
         {
+            roadHeightFollower?.CancelPitch();
             CancelWorldYawTurn();
             UnsubscribeFromStatChanges();
         }
@@ -461,6 +475,12 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ApplyForwardMovement()
         {
+            if (roadHeightFollower != null && roadHeightFollower.isActiveAndEnabled &&
+                roadHeightFollower.AdvancePitch(Time.fixedDeltaTime * TimeManager.timeFactor, out float pitch))
+            {
+                Vector3 angles = transform.eulerAngles;
+                ApplyWorldYawRotation(Quaternion.Euler(pitch, angles.y, angles.z));
+            }
             Vector3 routeForward = Vector3.ProjectOnPlane(transform.forward, Vector3.up);
             if (routeForward.sqrMagnitude <= 0.0001f)
                 return;
@@ -475,10 +495,25 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ApplyPlayerPosition(Vector3 position)
         {
+            if (roadHeightFollower != null && roadHeightFollower.TryProjectPosition(position, transform.forward, out Vector3 supported))
+                position = supported;
             if (playerRigidbody != null)
                 playerRigidbody.position = position;
 
             transform.position = position;
+        }
+
+        public bool RequestSlopePitch(float targetX, float expectedYaw, float duration)
+        {
+            if (!isActiveAndEnabled || isDead || currentHealth <= 0f || CanvasScript.isGameOver ||
+                winDancePlayed || !TimeManager.isGameRunning || isWorldYawTurnActive ||
+                Mathf.Abs(Mathf.DeltaAngle(transform.eulerAngles.y, expectedYaw)) > 5f)
+                return false;
+            roadHeightFollower ??= GetComponent<NoryangjinRoadHeightFollower>();
+            if (roadHeightFollower == null || !roadHeightFollower.isActiveAndEnabled || roadHeightFollower.RoadRoot == null)
+                return false;
+            roadHeightFollower.BeginPitch(transform.eulerAngles.x, targetX, duration);
+            return true;
         }
 
         public bool RequestWorldYawTurn(
@@ -530,6 +565,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (!isWorldYawTurnActive)
             {
+                roadHeightFollower?.CancelPitch();
                 worldYawTurnLockedPosition = transform.position;
                 CaptureWorldYawTurnConstraints();
             }
@@ -567,8 +603,22 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void ReloadCharacterDefaults()
         {
+            float previousMaximum = MaxHealth;
+            float previousHealth = currentHealth;
             characterDefaultsInitialized = false;
             EnsureCharacterDefaultsInitialized();
+            maxHealthWithUpgrades = UpgradeStatManager.S != null
+                ? UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.HP, originalHealth)
+                : originalHealth;
+            maxHealthWithUpgrades += runMaxHealthBonus;
+            // Full 50/50 becomes full 100/100; a damaged or dead player stays damaged or dead.
+            currentHealth = previousMaximum > 0f
+                ? Mathf.Clamp01(previousHealth / previousMaximum) * MaxHealth
+                : Mathf.Clamp(previousHealth, 0f, MaxHealth);
+            healthRegenPerSecond = UpgradeStatManager.S != null
+                ? UpgradeStatManager.S.GetAppliedValue(UpgradeStatManager.UpgradeType.HP_REGEN, MaxHealth)
+                : 0f;
+            RefreshHealthUI(force: true);
         }
 
         public static float NormalizeWorldYaw(float yaw)
@@ -906,6 +956,23 @@ namespace IndianOceanAssets.ShooterSurvival
             UpdateHealth();
         }
 
+        public void ApplyRunHealthBonus(float amount, bool percent)
+        {
+            if (float.IsNaN(amount) || float.IsInfinity(amount) || amount < 0f)
+                throw new ArgumentOutOfRangeException(nameof(amount));
+            float increase = percent ? MaxHealth * amount / 100f : amount;
+            runMaxHealthBonus += increase;
+            maxHealthWithUpgrades = MaxHealth + increase;
+            currentHealth = Mathf.Min(maxHealthWithUpgrades, currentHealth + increase);
+            UpdateHealth();
+        }
+
+        public void ClearRunHealthBonuses()
+        {
+            runMaxHealthBonus = 0f;
+            RefreshUpgradeStats();
+        }
+
         void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("GameEndTriggerTag"))
@@ -917,6 +984,9 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void ResetState()
         {
+            ClearRunHealthBonuses();
+            bucketShootBlockers.Clear();
+            roadHeightFollower?.CancelPitch();
             Vector3 resetPosition = transform.position;
             CancelWorldYawTurn();
             ApplyPlayerPosition(resetPosition);
@@ -937,7 +1007,7 @@ namespace IndianOceanAssets.ShooterSurvival
             }
 
             // 踰??ъ젒珥?荑?珥덇린??
-            lastWallTouchTime = 0f;
+            lastWallTouchTime = float.NegativeInfinity;
 
             // ?대룞/?꾪닾 蹂듦뎄
             movement = true;
@@ -948,6 +1018,9 @@ namespace IndianOceanAssets.ShooterSurvival
             // ?ㅼ떆 ?섍컻????
             foreach (var w in GetComponentsInChildren<WeaponScript>(true))
                 w.ResetShooting();
+#if UNITY_EDITOR
+            EditorRunPrepared?.Invoke(this);
+#endif
         }
 
         private Canvas GetPlayerChildCanvas()
@@ -1024,12 +1097,18 @@ namespace IndianOceanAssets.ShooterSurvival
         }
         public void RefreshUpgradeStats()
         {
-            if (UpgradeStatManager.S == null) return;
-
-            maxHealthWithUpgrades = UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.HP, originalHealth);
+            maxHealthWithUpgrades = UpgradeStatManager.S != null
+                ? UpgradeStatManager.S.ApplyToBase(UpgradeStatManager.UpgradeType.HP, originalHealth)
+                : originalHealth;
+            maxHealthWithUpgrades += runMaxHealthBonus;
             currentHealth = maxHealthWithUpgrades;
 
             RefreshHealthUI(force: true);
+            if (UpgradeStatManager.S == null)
+            {
+                healthRegenPerSecond = 0f;
+                return;
+            }
 
             healthRegenPerSecond = UpgradeStatManager.S.GetAppliedValue(UpgradeStatManager.UpgradeType.HP_REGEN, maxHealthWithUpgrades);
 

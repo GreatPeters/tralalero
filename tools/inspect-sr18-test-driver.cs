@@ -1,0 +1,2 @@
+var callbacks=UnityEditor.EditorApplication.update.GetInvocationList().Where(d=>d.Target!=null && d.Target.GetType().GetFields(System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.NonPublic).Any(f=>f.Name=="hazards")).ToArray();
+return callbacks.Select(d=>new{method=d.Method.Name,fields=d.Target.GetType().GetFields(System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.NonPublic).Select(f=>f.Name).ToArray()}).ToArray();

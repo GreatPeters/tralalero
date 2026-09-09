@@ -9,6 +9,7 @@
 - skins and bonuses;
 - stage patterns;
 - environment variables and player character defaults.
+- authored enemy behavior, fixed bonus rarity and gimmick effects (see [encounter settings](noryangjin-encounter-workbook.md)).
 
 Every gameplay table loader opens the workbook through `GameDataWorkbook`.
 There is no runtime loader that reads a raw file from `StreamingAssets`.

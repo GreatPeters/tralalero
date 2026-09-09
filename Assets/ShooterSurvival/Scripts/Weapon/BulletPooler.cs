@@ -20,6 +20,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         // 어떤 bullet이 어떤 kind인지 역추적용
         private readonly Dictionary<GameObject, BulletKind> reverse = new Dictionary<GameObject, BulletKind>();
+        private readonly HashSet<GameObject> queued = new HashSet<GameObject>();
 
         private void Awake()
         {
@@ -47,6 +48,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             var obj = Create(kind);
             if (obj == null) return;
+            queued.Add(obj);
             if (kind == BulletKind.Water) poolWater.Enqueue(obj);
             else poolBomb.Enqueue(obj);
         }
@@ -59,12 +61,14 @@ namespace IndianOceanAssets.ShooterSurvival
         // ✅ 새 API: 종류 지정해서 꺼내기
         public GameObject Get(BulletKind kind, Transform callerTransform)
         {
+            if (callerTransform == null) return null;
             var q = GetQueue(kind);
             if (q.Count == 0) EnqueueNew(kind); // 필요시 1개 확장
 
             if (q.Count == 0) return null;     // prefab 미지정 등 안전장치
 
             var bullet = q.Dequeue();
+            queued.Remove(bullet);
             bullet.SetActive(true);
             bullet.transform.SetParent(callerTransform);
             bullet.transform.position = callerTransform.position;
@@ -74,16 +78,14 @@ namespace IndianOceanAssets.ShooterSurvival
         // ✅ 새 API: 어떤 종류였는지 자동 판별해 반납
         public void Return(GameObject bullet)
         {
-            if (!bullet) return;
+            // A stale contact must not queue a root twice or destroy an unregistered child.
+            if (!bullet || !reverse.TryGetValue(bullet, out var kind) || !queued.Add(bullet)) return;
 
             bullet.SetActive(false);
             bullet.transform.SetParent(transform);
             bullet.transform.position = transform.position;
 
-            if (reverse.TryGetValue(bullet, out var kind))
-                GetQueue(kind).Enqueue(bullet);
-            else
-                Destroy(bullet); // 예상치 못한 외부 오브젝트일 때
+            GetQueue(kind).Enqueue(bullet);
         }
 
         // ⏪ 하위 호환(예전 코드 유지 시): 기본 Water로 꺼내기

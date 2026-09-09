@@ -1,5 +1,13 @@
 # Noryangjin Enemy Event Authoring
 
+## Forward ambush (updated 2026-09-09)
+
+`AmbushMoveThenShoot = 6` waits at an authored entry point, walks to an independent target, then requests one triggered projectile throw. SR18 disables `대기 중 숨김`: the model is physically present in the distance, not revealed beside the player. Optional legacy hiding still restores previous renderer/collider/Canvas flags safely. Reset cancels the pending throw and recovers the held projectile. Serialized mode numbers are unchanged.
+
+Place both endpoints on the same deck, ahead of the player. SR18 uses an 8-unit forward / 1.6-unit lateral entry (4 forward for E05/E24), Walk speed 3, requested activation lead 44 and shot wind-up .8 seconds. Existing post-turn buffers still apply. See [current SR18 application](../map-concepts/sr18-combat-polish-2026-09-09/README.md).
+
+Attack and patrol-attack visuals continuously face the player's exact XZ position in LateUpdate, not the nearest 90-degree route axis. `모델 정면 보정 Y` describes the mesh's own forward direction; it must not inherit the placement's idle 180-degree pose. Movement faces actual travel; the gameplay root/route frame remains unchanged.
+
 The six Forward enemy prefabs use one `EnemyEventController` per enemy. The
 activation spot stores only links; every attack, shot, movement target, and
 animation choice belongs to the enemy itself.
@@ -21,7 +29,7 @@ speed `4`, ready for rusher encounters without forcing a movement event mode.
 | `공격 반복` | `AttackLoop` | Faces the player on the closest route-aligned 90-degree axis and keeps playing `attack_loop` |
 | `공격 한 번` | `AttackOnce` | Faces the player, plays `attack_once` once, then returns to continuously looping `idle` |
 | `발사` | `Shoot` | Faces the player and fires the configured held projectile once with `attack_once` |
-| `지정 위치 이동 후 공격` | `MoveToTargetThenAttack` | Moves to one target, then faces the player orthogonally and starts `attack_loop` |
+| `지정 위치 이동 후 공격` | `MoveToTargetThenAttack` | Moves to one target, then faces the player's exact XZ direction and starts `attack_loop` |
 | `시작점 ↔ 지정 위치 왕복` | `PatrolBetweenStartAndTarget` | Repeats between the authored start and one target, playing `attack_once` at both endpoints |
 
 Use `발사` for a ranged enemy with a held projectile. FatMan and Guard are the
@@ -49,9 +57,9 @@ warning instead of throwing every frame.
 Choose `없음`, `걷기`, or `달리기` for the movement animation. `없음` keeps
 the continuously looping `idle` state while the Transform moves. While moving,
 only the Animator visual root faces the actual travel direction. At an attack point the
-visual snaps to whichever of the enemy's authored forward, back, right, or left
-route axes best faces the player. It never takes a diagonal attack facing, and
-the prefab root rotation remains unchanged.
+visual continuously faces the player's actual XZ position, including diagonals.
+Mesh-forward correction is separate from the authored idle pose. The prefab
+root rotation remains unchanged.
 
 Selecting an enemy always shows `이동 목표`, `이동 속도`, `이동 애니메이션`,
 and `도착 판정 거리` in both the Inspector and the map-tool selection panel.

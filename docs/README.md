@@ -1,5 +1,7 @@
 # Docs Index
 
+- `../map-concepts/bonus-concepts-2026-09-19/README.md`: ten bonus-VFX concept images with idle/pickup views, existing asset candidates and feasible Unity/Blender implementation paths; no candidate selected or installed.
+
 - `../map-concepts/feedback-2026-09-19/README.md`: reference-sized settings controls, merchant sleeve deformation repair, hand-relative shovel fit and gold reward effects; native tests and actual collection evidence.
 
 - `../map-concepts/new-content-stylized-2026-09-17/README.md`: 174 new surfaces unified with FlatKit, preserved maps/transparency, three shipping outline renderers, merchant/three-scene native renders and regression tests.

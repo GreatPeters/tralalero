@@ -129,6 +129,10 @@ namespace IndianOceanAssets.ShooterSurvival
         private Vector3 routeRight;
         private Quaternion visualRotationOffset = Quaternion.identity;
         private Animator enemyAnimator;
+        public const string CarryLayerName = "CarryPose";
+        private int carryLayer = -1;
+        private bool knifeAudio;
+        private int audibleSwing = -1;
         private EnemyScript_space combat;
         private PlayerScript player;
         private readonly Dictionary<Renderer, bool> hiddenRenderers = new();
@@ -219,9 +223,29 @@ namespace IndianOceanAssets.ShooterSurvival
             bool isGameRunning = TimeManager.isGameRunning;
             if (enemyAnimator != null && enemyAnimator.enabled != isGameRunning)
                 enemyAnimator.enabled = isGameRunning;
+            if (enemyAnimator != null && carryLayer >= 0)
+            {
+                bool moving = RuntimeState == EnemyEventRuntimeState.MovingToTarget || RuntimeState == EnemyEventRuntimeState.MovingToStart;
+                float weight = Mathf.MoveTowards(enemyAnimator.GetLayerWeight(carryLayer), moving ? 1f : 0f, Time.deltaTime * 10f);
+                enemyAnimator.SetLayerWeight(carryLayer, weight);
+            }
 
             if (!isGameRunning || RuntimeState == EnemyEventRuntimeState.Dead)
                 return;
+
+            if (knifeAudio && enemyAnimator != null)
+            {
+                var state = enemyAnimator.GetCurrentAnimatorStateInfo(0);
+                if (state.shortNameHash == AttackLoopStateHash || state.shortNameHash == AttackOnceStateHash)
+                {
+                    int cycle = Mathf.FloorToInt(state.normalizedTime);
+                    if (state.normalizedTime - cycle >= .3f && cycle != audibleSwing)
+                    {
+                        audibleSwing = cycle; GameAudioService.PlayAt(GameSound.Knife, transform.position);
+                    }
+                }
+                else audibleSwing = -1;
+            }
 
             if (RuntimeState != EnemyEventRuntimeState.MovingToTarget &&
                 RuntimeState != EnemyEventRuntimeState.MovingToStart &&
@@ -237,8 +261,9 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void LateUpdate()
         {
-            if (TimeManager.isGameRunning &&
-                (RuntimeState == EnemyEventRuntimeState.Attacking || RuntimeState == EnemyEventRuntimeState.PatrolAttack))
+            // One visual-facing owner, after animation evaluation. Visible waiting and
+            // walking enemies already acknowledge the player before their attack gate.
+            if (RuntimeState != EnemyEventRuntimeState.Dead && !ambushHidden)
                 FacePlayerExactly();
         }
 
@@ -353,6 +378,16 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (enemyAnimator == null)
                 enemyAnimator = GetComponentInChildren<Animator>();
+            if (enemyAnimator != null && carryLayer < 0)
+            {
+                carryLayer = enemyAnimator.GetLayerIndex(CarryLayerName);
+                string rig = enemyAnimator.runtimeAnimatorController != null ? enemyAnimator.runtimeAnimatorController.name : "";
+                knifeAudio = rig.Contains("Sword") || rig.Contains("Woman");
+            }
+            if (Application.isPlaying && enemyAnimator != null && enemyAnimator.isHuman && GetComponent<EnemyGroundedPose>() == null)
+                gameObject.AddComponent<EnemyGroundedPose>();
+            if (Application.isPlaying && enemyAnimator != null && enemyAnimator.isHuman && enemyAnimator.GetComponent<EnemyLookAtTarget>() == null)
+                enemyAnimator.gameObject.AddComponent<EnemyLookAtTarget>();
             if (enemyAnimator != null && !visualRotationOffsetCaptured)
             {
                 visualRotationOffset =
@@ -422,10 +457,6 @@ namespace IndianOceanAssets.ShooterSurvival
             float deltaTime,
             bool arrivedAtTarget)
         {
-            Vector3 movement = destination - transform.position;
-            if (movement.sqrMagnitude > DirectionEpsilonSqr)
-                FaceDirection(movement);
-
             transform.position = Vector3.MoveTowards(
                 transform.position,
                 destination,
@@ -577,6 +608,8 @@ namespace IndianOceanAssets.ShooterSurvival
         private void PlayIdle()
         {
             PlayAnimationState(IdleStateHash);
+            if(enemyAnimator!=null&&enemyAnimator.HasState(0,IdleStateHash))
+                enemyAnimator.Play(IdleStateHash,0,(Animator.StringToHash(gameObject.name)&1023)/1024f);
         }
 
         private void PlayAttackLoop()
@@ -638,6 +671,15 @@ namespace IndianOceanAssets.ShooterSurvival
         private bool IsQueuedPoolObject()
         {
             return GetComponentInParent<EnemyPooler>(includeInactive: true) != null;
+        }
+
+        // Reusable encounter actors need a new placement capture. Ordinary
+        // OnEnable intentionally restores an authored enemy's original position.
+        public void PrepareSpawnAt(Vector3 position, Quaternion rotation)
+        {
+            if (gameObject.activeInHierarchy) throw new System.InvalidOperationException("Deactivate the actor before assigning a new spawn.");
+            PrepareForPlacementCapture();
+            transform.SetPositionAndRotation(position, rotation);
         }
 
         private void SetAmbushHidden(bool hidden)

@@ -1,0 +1,48 @@
+{
+  "source": "map-concepts/flow-opening-2026-09-12/revision-3/02_Natural_Shark_Transforms.mp4",
+  "output": "map-concepts/flow-opening-2026-09-12/revision-3/reviewed/02_Natural_Shark_Transforms.mp4",
+  "source_frames_kept": [
+    0,
+    143
+  ],
+  "source_seconds_kept": [
+    0,
+    6
+  ],
+  "playback_speed": 0.75,
+  "output_target_seconds": 8,
+  "reason": "Exclude the late disappearing-foot defect; retain continuous generated motion.",
+  "watermark": "Preserved unchanged within the full original frame.",
+  "command": [
+    "C:\\AI\\ComfyUI-Creative-AMD\\venv\\Lib\\site-packages\\imageio_ffmpeg\\binaries\\ffmpeg-win-x86_64-v7.1.exe",
+    "-hide_banner",
+    "-loglevel",
+    "error",
+    "-n",
+    "-i",
+    "C:\\Users\\ljh\\tralalero Shooter\\map-concepts\\flow-opening-2026-09-12\\revision-3\\02_Natural_Shark_Transforms.mp4",
+    "-filter_complex",
+    "[0:v]trim=end_frame=144,setpts=(PTS-STARTPTS)*4/3,fps=24[v];[0:a]atrim=end=6,asetpts=PTS-STARTPTS,atempo=0.75,apad,atrim=end=8[a]",
+    "-map",
+    "[v]",
+    "-map",
+    "[a]",
+    "-c:v",
+    "libx264",
+    "-crf",
+    "18",
+    "-preset",
+    "slow",
+    "-pix_fmt",
+    "yuv420p",
+    "-c:a",
+    "aac",
+    "-b:a",
+    "192k",
+    "-movflags",
+    "+faststart",
+    "-t",
+    "8",
+    "C:\\Users\\ljh\\tralalero Shooter\\map-concepts\\flow-opening-2026-09-12\\revision-3\\reviewed\\02_Natural_Shark_Transforms.mp4"
+  ]
+}

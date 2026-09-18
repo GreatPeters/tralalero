@@ -1,0 +1,34 @@
+﻿{
+  "status": "completed",
+  "duration": 1.77,
+  "summary": {
+    "total": 3,
+    "passed": 0,
+    "failed": 3,
+    "skipped": 0,
+    "inconclusive": 0
+  },
+  "results": [
+    {
+      "FullName": "ShopFidelityTests.ShopScenesPreserveTransactionsAndUseFinalPresentation(\"Noryangjin_MapTool_Mode_SR18\")",
+      "Status": "Failed",
+      "Duration": 0.7079639,
+      "Message": "System.InvalidOperationException : Sequence contains no matching element",
+      "StackTrace": "  at System.Linq.Enumerable.Single[TSource] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] predicate) [0x00070] in <7229ad31196947fdb61dcfd278f7b739>:0 \r\n  at ShopFidelityTests.ShopScenesPreserveTransactionsAndUseFinalPresentation (System.String name) [0x00136] in C:\\Users\\ljh\\tralalero Shooter\\Assets\\Tests\\Editor\\ShopFidelityTests.cs:28 \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <59bd7c40c082431db25e1e728ab62789>:0 "
+    },
+    {
+      "FullName": "ShopFidelityTests.ShopScenesPreserveTransactionsAndUseFinalPresentation(\"HighWay\")",
+      "Status": "Failed",
+      "Duration": 0.5593228,
+      "Message": "System.InvalidOperationException : Sequence contains no matching element",
+      "StackTrace": "  at System.Linq.Enumerable.Single[TSource] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] predicate) [0x00070] in <7229ad31196947fdb61dcfd278f7b739>:0 \r\n  at ShopFidelityTests.ShopScenesPreserveTransactionsAndUseFinalPresentation (System.String name) [0x00136] in C:\\Users\\ljh\\tralalero Shooter\\Assets\\Tests\\Editor\\ShopFidelityTests.cs:28 \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <59bd7c40c082431db25e1e728ab62789>:0 "
+    },
+    {
+      "FullName": "ShopFidelityTests.ShopScenesPreserveTransactionsAndUseFinalPresentation(\"RestStop\")",
+      "Status": "Failed",
+      "Duration": 0.4331116,
+      "Message": "System.InvalidOperationException : Sequence contains no matching element",
+      "StackTrace": "  at System.Linq.Enumerable.Single[TSource] (System.Collections.Generic.IEnumerable`1[T] source, System.Func`2[T,TResult] predicate) [0x00070] in <7229ad31196947fdb61dcfd278f7b739>:0 \r\n  at ShopFidelityTests.ShopScenesPreserveTransactionsAndUseFinalPresentation (System.String name) [0x00136] in C:\\Users\\ljh\\tralalero Shooter\\Assets\\Tests\\Editor\\ShopFidelityTests.cs:28 \r\n  at (wrapper managed-to-native) System.Reflection.RuntimeMethodInfo.InternalInvoke(System.Reflection.RuntimeMethodInfo,object,object[],System.Exception&)\r\n  at System.Reflection.RuntimeMethodInfo.Invoke (System.Object obj, System.Reflection.BindingFlags invokeAttr, System.Reflection.Binder binder, System.Object[] parameters, System.Globalization.CultureInfo culture) [0x0006a] in <59bd7c40c082431db25e1e728ab62789>:0 "
+    }
+  ]
+}

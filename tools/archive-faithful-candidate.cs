@@ -1,0 +1,2 @@
+using UnityEditor;using System.IO;
+public static class ArchiveFaithfulCandidate{public static object Main(){const string source="Assets/ShooterSurvival/Resources/UI/CoastalRounded SDF.asset";const string target="Assets/ShooterSurvival/UI/References/Editor/CoastalRounded-Keris-Candidate.asset";if(!File.Exists(source))return "Already archived";var result=AssetDatabase.MoveAsset(source,target);if(!string.IsNullOrEmpty(result))throw new System.Exception(result);return target;}}

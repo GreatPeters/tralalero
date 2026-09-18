@@ -49,6 +49,7 @@ public class ObstacleStats : MonoBehaviour
 
     Transform _player;
     Vector3 _impactPoint;
+    bool _seagullHit;
     bool _started;   // 이미 시작했는지
 
 
@@ -72,24 +73,7 @@ public class ObstacleStats : MonoBehaviour
         Vector3 flat = to - from; flat.y = 0f;
         if (flat.sqrMagnitude < 1e-6f) return;
 
-        float yaw = Quaternion.LookRotation(flat.normalized, Vector3.up).eulerAngles.y;
-        //if (add180) yaw += 180f;
-        //yaw += yawOffset;
-
-        if (add180)
-        {
-            yaw = -90f;
-        }
-        else
-        {
-            yaw = 90f;
-        }
-
-        if (transform.name.Contains("right"))
-        {
-            yaw *= -1f;
-        }
-
+        float yaw = Quaternion.LookRotation(flat.normalized, Vector3.up).eulerAngles.y+yawOffset+(add180?180f:0f);
         transform.rotation = Quaternion.Euler(0f, yaw, 0f);
         //Debug.Log(transform.rotation);
     }
@@ -172,6 +156,7 @@ public class ObstacleStats : MonoBehaviour
         StopAllCoroutines();
         DOTween.Kill(gameObject);
         if (obstaclePattern == ObstaclePattern.Light) DOTween.Kill(transform);
+        if (obstaclePattern == ObstaclePattern.Seagull && balloon != null) DOTween.Kill(balloon);
         _jumpSeq?.Kill();
     }
     void OnDestroy() { _jumpSeq?.Kill(); }
@@ -184,6 +169,7 @@ public class ObstacleStats : MonoBehaviour
     bool _savedStart;
 
     bool _lampFallen;
+    bool _lampSettled;
     [Header("Light")]
     [Tooltip("끄면 자동 사격으로 무력화되지 않는 고정 피해 장애물입니다.")]
     public bool canBeShotDown = true;
@@ -340,6 +326,10 @@ public class ObstacleStats : MonoBehaviour
 
     void InitSeagull()
     {
+        _seagullHit = false;
+        var rootCollider = GetComponent<Collider>();
+        if (rootCollider != null) rootCollider.enabled = false;
+        if (balloon != null) balloon.gameObject.SetActive(false);
         // 0) 남아있을 수 있는 트윈 정리(선택)
         if (shadowSprite) shadowSprite.transform.DOKill();
         if (balloon) balloon.DOKill();
@@ -391,41 +381,30 @@ public class ObstacleStats : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (Application.isPlaying && !TimeManager.isGameRunning) return;
         // Light: 미사일이 닿으면 → 쓰러지기만 (데미지는 안 줌)
         if (obstaclePattern == ObstaclePattern.Light && other.CompareTag("BulletTag"))
         {
-            if (canBeShotDown) ToppleLampOnly();
+            ReactToProjectile();
             return;
         }
 
-        if (!other.CompareTag("Player")) return;
-
-        var playerScript = other.GetComponent<PlayerScript>();
+        var playerScript = other.GetComponentInParent<PlayerScript>();
         if (playerScript == null) return;
 
         switch (obstaclePattern)
         {
             case ObstaclePattern.Hole:
-                Debug.Log("홀이다!!!!");
-                // 체력 감소
-                playerScript.currentHealth = Mathf.Max(0, playerScript.currentHealth - value);
-                if (playerScript.currentHealth <= 0f)
-                {
-                    quaternion toRot = Quaternion.Euler(110f, playerScript.transform.root.rotation.eulerAngles.y, playerScript.transform.root.rotation.eulerAngles.z);
-                    playerScript.transform.root.DORotateQuaternion(toRot, 1f);
-                }
-                else playerScript.UpdateHealth(); // A survivable broken plank must not reverse the route frame.
-
-                // 2) X축만 110°로 부드럽게 꺾기 (0.18초), 1초 유지, 원복 안 함
-                //StartCoroutine(TiltXOnly110(playerScript, tweenTime: 0.18f, holdSeconds: 1.0f, restore: false));               
-
+                playerScript.DieFromHazard(true);
                 break;
 
             case ObstaclePattern.Oil:
                 // 거미줄: 이동 민감도(또는 속도) 감소
                 //playerScript.moveSensitivity = Mathf.Max(1f, playerScript.moveSensitivity - value);
                 //StartCoroutine(SpinPlayerForSeconds(playerScript.transform, value, 720f));
-                StartCoroutine(SpinAndMovePlayer(playerScript.transform, value));
+                var slip = playerScript.GetComponent<OilSteeringEffect>();
+                if (slip == null) slip = playerScript.gameObject.AddComponent<OilSteeringEffect>();
+                slip.Apply(playerScript, value);
                 break;
 
             case ObstaclePattern.Ship:
@@ -435,25 +414,21 @@ public class ObstacleStats : MonoBehaviour
 
             case ObstaclePattern.Seagull:
                 {
-                    Debug.Log("열기구 즉사 범위 체크");
-                    //var ps = other.GetComponent<PlayerScript>();
-                    if (playerScript) playerScript.currentHealth = Mathf.Max(0, playerScript.currentHealth - value); // 즉사면 value 크게
-
+                    if (_seagullHit) return;
+                    _seagullHit = true;
                     var bcol = balloon ? balloon.GetComponent<Collider>() : null;
-                    if (bcol) bcol.enabled = false; // 중복 타격 방지
-
-                    //갈매기 위로 튀어오르면서 날라가게하기
-                    transform.DOMove(new Vector3(transform.position.x - 2f, transform.position.y + 10f, transform.position.z - 2f), 2f).SetEase(Ease.OutQuad); // 위로 쭉~
-                    transform.DORotate(new Vector3(360f * 5f, 0, 0), 2f, RotateMode.FastBeyond360); // 회전
-
-
-                    return; // ← 여기서 메서드 종료 (break 불필요)
+                    if (bcol) bcol.enabled = false;
+                    playerScript.currentHealth = Mathf.Max(0, playerScript.currentHealth - value);
+                    playerScript.UpdateHealth();
+                    // TelegraphThenDrop owns the landing and departure; keep the ground anchor still.
+                    return;
                 }
 
             case ObstaclePattern.Light:
-                if (_lampFallen) return; // A contact already queued before disarming is harmless.
-                // 체력 감소
-                playerScript.currentHealth = Mathf.Max(0, playerScript.currentHealth - value);
+                if (_lampFallen && !_lampSettled) return;
+                if (_lampSettled) playerScript.TryTakeFallenPoleDamage(Time.time);
+                else playerScript.DieFromHazard(false);
+                GetComponent<LampImpactFeedback>()?.Pulse();
                 break;
 
             case ObstaclePattern.Bucket:
@@ -465,6 +440,23 @@ public class ObstacleStats : MonoBehaviour
         }
     }
 
+    public void ReactToProjectile()
+    {
+        if (!enabled || obstaclePattern != ObstaclePattern.Light) return;
+        GetComponent<LampImpactFeedback>()?.Pulse();
+        if (canBeShotDown) ToppleLampOnly();
+    }
+
+    private void OnCollisionEnter(Collision collision) => OnTriggerEnter(collision.collider);
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (obstaclePattern == ObstaclePattern.Light && _lampSettled)
+            OnTriggerEnter(other);
+    }
+
+    private void OnCollisionStay(Collision collision) => OnTriggerStay(collision.collider);
+
     void Update()
     {
         if (!TimeManager.isGameRunning) return;
@@ -473,7 +465,7 @@ public class ObstacleStats : MonoBehaviour
         {
             if (_player == null)
             {
-                var ps = GameManager.S?.playerScript;
+                var ps = GameManager.S != null ? GameManager.S.playerScript : FindFirstObjectByType<PlayerScript>();
                 if (ps != null) _player = ps.transform; else return;
             }
 
@@ -491,15 +483,19 @@ public class ObstacleStats : MonoBehaviour
         if (obstaclePattern != ObstaclePattern.Ship || hasFired)
             return;
 
-        var player = GameManager.S.playerScript.gameObject;
-        if (player == null)
+        if (_player == null)
+        {
+            var target = GameManager.S != null ? GameManager.S.playerScript : FindFirstObjectByType<PlayerScript>();
+            if (target != null) _player = target.transform;
+        }
+        if (_player == null)
             return;
 
-        float dist = Vector3.Distance(transform.position, player.transform.position);
+        float dist = Vector3.Distance(transform.position, _player.position);
         if (dist <= fireDistance)
         {
             Debug.Log("쏜다!");
-            FireAheadOfPlayer(player.transform);
+            FireAheadOfPlayer(_player);
             hasFired = true;
         }
     }
@@ -534,8 +530,8 @@ public class ObstacleStats : MonoBehaviour
         Vector3 parentScale = player.transform.lossyScale;
         bucket.localScale = new Vector3(worldScale.x / parentScale.x, worldScale.y / parentScale.y, worldScale.z / parentScale.z);
         bucket.localPosition = bucketHeadOffset;
-        // 보기 좋게 약간 기울여 씌우는 각도 (원하면 identity로)
-        bucket.localRotation = Quaternion.Euler(12.37f, 180f, 0f);
+        // The mesh opens along +Z. Point it down over the head with a 12-degree tilt.
+        bucket.localRotation = Quaternion.Euler(78f, 180f, 0f);
 
         bucketBlockedPlayer = player;
         player.SetBucketShootBlock(this, true);
@@ -580,52 +576,12 @@ public class ObstacleStats : MonoBehaviour
 
     public IEnumerator SpinAndMovePlayer(Transform player, float duration)
     {
-        // 1️⃣ 충돌 방지
-        var col = GetComponent<BoxCollider>();
-        if (col != null) col.enabled = false;
-
         if (player == null) yield break;
-
-        var playerScript = player.GetComponent<PlayerScript>();
-        if (playerScript != null)
-            playerScript.SetPlayerChildCanvasVisible(false);
-
-        // 2️⃣ 초기 상태 저장
-        float elapsed = 0f;
-        float spinSpeed = 720f;  // 초당 2바퀴
-        float moveDistance = 12f; // 회전 중 앞으로 이동할 거리
-        Vector3 startPos = player.position;
-        Vector3 forwardDir = player.forward;
-        Quaternion originalRot = player.rotation; // 원래 회전값 저장
-
-        // 3️⃣ 앞으로 이동 (DOTween)
-        player.DOMove(startPos + forwardDir * moveDistance, duration)
-              .SetEase(Ease.InOutSine);
-
-        // 4️⃣ 회전 루프
-        while (elapsed < duration)
-        {
-            if (player != null)
-            {
-                float dt = Time.deltaTime;
-                player.Rotate(Vector3.up, spinSpeed * dt, Space.World);
-                elapsed += dt;
-            }
-            yield return null;
-        }
-
-        // 5️⃣ 원래 회전으로 복귀 (부드럽게)
-        player.DORotateQuaternion(originalRot, 0.4f)
-              .SetEase(Ease.OutSine);
-
-        if (playerScript != null)
-            playerScript.EnsurePlayerChildCanvasVisible();
-
-        // 6️⃣ 콜라이더 복구
-        yield return new WaitForSeconds(0.5f);
-        if (col != null) col.enabled = true;
+        var customizer=player.GetComponentInChildren<PlayerCosmeticCustomizer>(true);
+        if(customizer==null||customizer.modelRoot==null)yield break;
+        var spin=customizer.modelRoot.GetComponent<CosmeticHitSpin>()??customizer.modelRoot.gameObject.AddComponent<CosmeticHitSpin>();
+        spin.Play(duration);yield return new WaitForSeconds(duration);
     }
-
     void ToppleLampOnly()
     {
         if (_lampFallen) return;
@@ -649,7 +605,7 @@ public class ObstacleStats : MonoBehaviour
         }
 
         // Read the original bounds before disabling physics, then disarm before moving.
-        lampColliders = GetComponents<Collider>();
+        lampColliders = GetComponentsInChildren<Collider>(true);
         lampColliderEnabled = new bool[lampColliders.Length];
         for (int i = 0; i < lampColliders.Length; i++)
         {
@@ -666,6 +622,12 @@ public class ObstacleStats : MonoBehaviour
             transform.RotateAround(_hinge, transform.forward, -delta);
         })
         .SetEase(Ease.InOutQuad)
+        .OnComplete(() =>
+        {
+            _lampSettled = true;
+            for (int i = 0; i < lampColliders.Length; i++)
+                if (lampColliders[i] != null) lampColliders[i].enabled = lampColliderEnabled[i];
+        })
         .SetTarget(transform);
     }
 
@@ -684,6 +646,7 @@ public class ObstacleStats : MonoBehaviour
 
         // 상태/힌지 리셋
         _lampFallen = false;
+        _lampSettled = false;
         _hinge = Vector3.zero;
 
         // 원래 트랜스폼 복구
@@ -719,7 +682,7 @@ public class ObstacleStats : MonoBehaviour
             anim.SetTrigger("Fly");
 
             float bottomOffset = GetBalloonBottomOffset(); // 반높이
-            float targetY = _impactPoint.y + bottomOffset - 1.424167f;
+            float targetY = _impactPoint.y + bottomOffset + .05f;
             balloon.position = new Vector3(_impactPoint.x, targetY + dropHeight, _impactPoint.z);
             balloon.rotation = Quaternion.identity;
 
@@ -737,7 +700,7 @@ public class ObstacleStats : MonoBehaviour
     float GetBalloonBottomOffset()
     {
         var r = balloon.GetComponentInChildren<Renderer>();
-        if (r != null) return r.bounds.extents.y;      // 월드 기준 반높이
+        if (r != null) return balloon.position.y - r.bounds.min.y;
         var c = balloon.GetComponentInChildren<Collider>();
         if (c != null) return c.bounds.extents.y;
         return 0f;
@@ -752,6 +715,8 @@ public class ObstacleStats : MonoBehaviour
         var bcol = balloon ? balloon.GetComponent<Collider>() : null;
         if (bcol) bcol.enabled = false;
 
+        if (balloon != null) StartCoroutine(SeagullLeave());
+
         // 이펙트/사운드 있으면 여기서
     }
 
@@ -760,11 +725,23 @@ public class ObstacleStats : MonoBehaviour
 
 
 
+    IEnumerator SeagullLeave()
+    {
+        yield return new WaitForSeconds(.5f);
+        if (balloon == null) yield break;
+        var animator = balloon.GetComponent<Animator>();
+        if (animator != null) animator.SetTrigger("Fly");
+        yield return balloon.DOMove(balloon.position + transform.forward * 4f + Vector3.up * 6f, .9f).WaitForCompletion();
+        if (balloon != null) balloon.gameObject.SetActive(false);
+    }
+
     private void FireAheadOfPlayer(Transform playerTransform)
     {
         if (!projectilePrefab || !firePos) return;
 
         Vector3 targetPos = playerTransform.position + playerTransform.forward * aheadOffset;
+        var targetCollider = playerTransform.GetComponent<Collider>();
+        if (targetCollider != null) targetPos.y = targetCollider.bounds.center.y;
         Vector3 dir = (targetPos - firePos.position).normalized;
 
         GameObject proj = Instantiate(projectilePrefab, firePos.position, Quaternion.LookRotation(dir));
@@ -774,16 +751,20 @@ public class ObstacleStats : MonoBehaviour
         var rb = proj.GetComponent<Rigidbody>();
         //Rigidbody rb = proj.AddComponent<Rigidbody>();
         if (rb != null)
+        {
+            rb.isKinematic = false; rb.useGravity = false;
             rb.linearVelocity = dir * 30f;
+        }
 
         var sp = proj.GetComponent<SimpleProjectile>();
         if (sp != null)
         {
-            sp.damage = value;
+            if(sp!=null)sp.damage = value;
+            sp.SetFlightActive(true);
         }
 
         Destroy(proj, 5f);
-        GameManager.S.RegisterDestroyTarget(proj.gameObject);
+        if (GameManager.S != null) GameManager.S.RegisterDestroyTarget(proj.gameObject);
     }
 
     Vector3 _bucketStartLocalScale;

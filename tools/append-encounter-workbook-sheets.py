@@ -36,6 +36,48 @@ def xml_bytes(root, original):
     return result
 
 
+def merge_styles(styles, incoming):
+    """Reuse matching styles and keep all existing indices stable during grafts."""
+    def key(node, number_format=False):
+        attributes = tuple(sorted((k, v) for k, v in node.attrib.items()
+                                  if not (number_format and k == 'numFmtId')))
+        return node.tag, attributes, node.text, tuple(key(child) for child in node)
+
+    maps = {}
+    for collection in ['numFmts', 'fonts', 'fills', 'borders', 'cellStyleXfs', 'cellXfs']:
+        base = styles.find(f'{{{SS}}}{collection}')
+        added = incoming.find(f'{{{SS}}}{collection}')
+        maps[collection] = {}
+        if added is None:
+            continue
+        if base is None:
+            base = ET.Element(f'{{{SS}}}{collection}')
+            styles.insert(0, base)
+        is_number = collection == 'numFmts'
+        lookup = {key(node, is_number): int(node.get('numFmtId')) if is_number else index
+                  for index, node in enumerate(base)}
+        next_number = max([163] + [int(node.get('numFmtId', 0)) for node in base]) + 1
+        for index, node in enumerate(added):
+            clone = deepcopy(node)
+            if not is_number:
+                for attr, group in [('fontId', 'fonts'), ('fillId', 'fills'), ('borderId', 'borders'),
+                                    ('numFmtId', 'numFmts'), ('xfId', 'cellStyleXfs')]:
+                    if attr in clone.attrib:
+                        value = int(clone.get(attr))
+                        clone.set(attr, str(maps.get(group, {}).get(value, value)))
+            identity = key(clone, is_number)
+            if identity not in lookup:
+                lookup[identity] = next_number if is_number else len(base)
+                if is_number:
+                    clone.set('numFmtId', str(next_number))
+                    next_number += 1
+                base.append(clone)
+            old_index = int(node.get('numFmtId')) if is_number else index
+            maps[collection][old_index] = lookup[identity]
+        base.set('count', str(len(base)))
+    return maps
+
+
 def main():
     current = SOURCE.read_bytes()
     before = current
@@ -58,33 +100,7 @@ def main():
 
     styles = ET.fromstring(entries['xl/styles.xml'])
     source_styles = ET.fromstring(additions['xl/styles.xml'])
-    maps = {}
-    for collection in ['numFmts', 'fonts', 'fills', 'borders', 'cellStyleXfs', 'cellXfs']:
-        base = styles.find(f'{{{SS}}}{collection}')
-        added = source_styles.find(f'{{{SS}}}{collection}')
-        if added is None:
-            maps[collection] = {}
-            continue
-        if base is None:
-            base = ET.Element(f'{{{SS}}}{collection}')
-            styles.insert(0, base)
-        offset = len(base)
-        num_id = max([163] + [int(e.get('numFmtId', 0)) for e in base]) + 1
-        maps[collection] = {}
-        for index, item in enumerate(added):
-            clone = deepcopy(item)
-            if collection == 'numFmts':
-                maps[collection][int(item.get('numFmtId'))] = num_id
-                clone.set('numFmtId', str(num_id))
-                num_id += 1
-            else:
-                maps[collection][index] = offset + index
-                for attr, mapping in [('fontId', 'fonts'), ('fillId', 'fills'), ('borderId', 'borders'), ('numFmtId', 'numFmts'), ('xfId', 'cellStyleXfs')]:
-                    if attr in clone.attrib:
-                        value = int(clone.get(attr))
-                        clone.set(attr, str(maps.get(mapping, {}).get(value, value)))
-            base.append(clone)
-        base.set('count', str(len(base)))
+    maps = merge_styles(styles, source_styles)
     entries['xl/styles.xml'] = xml_bytes(styles, entries['xl/styles.xml'])
 
     # Convert only NEW string cells to inline strings, so the existing shared-string part is untouched.
@@ -126,7 +142,8 @@ def main():
             output.writestr(name, contents)
     with ZipFile(BytesIO(before)) as old, ZipFile(candidate) as after:
         changed = [n for n in old.namelist() if old.read(n) != after.read(n)]
-        assert set(changed) == {'xl/styles.xml', 'xl/workbook.xml', 'xl/_rels/workbook.xml.rels', '[Content_Types].xml'}, changed
+        required = {'xl/workbook.xml', 'xl/_rels/workbook.xml.rels', '[Content_Types].xml'}
+        assert required <= set(changed) <= required | {'xl/styles.xml'}, changed
         for name in after.namelist():
             if name.endswith('.xml') or name.endswith('.rels'):
                 ET.fromstring(after.read(name))

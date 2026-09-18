@@ -1,0 +1,218 @@
+{
+  "actions": [
+    {
+      "frame_end": 96.8,
+      "frame_start": 0.8,
+      "name": "SeatedIdle",
+      "users": 2
+    },
+    {
+      "frame_end": 96.8,
+      "frame_start": 0.8,
+      "name": "StandGreet",
+      "users": 1
+    }
+  ],
+  "blender": {
+    "background": true,
+    "build_hash": "05377985c527",
+    "version": "4.4.0",
+    "version_tuple": [
+      4,
+      4,
+      0
+    ]
+  },
+  "hard_gate_pass": true,
+  "input": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\harbor-opening-refinement-2026-09-16\\merchant-rigged\\Merchant.glb",
+  "issues": [],
+  "material_details": [
+    {
+      "image_texture_nodes": 3,
+      "images": [
+        "BaseColor",
+        "Metallic-Roughness",
+        "Normal"
+      ],
+      "name": "Asset_PBR",
+      "node_count": 7,
+      "use_nodes": true
+    }
+  ],
+  "materials": [
+    "Asset_PBR"
+  ],
+  "meshes": [
+    {
+      "boundary_edges": 29668,
+      "connected_components": 4758,
+      "data_name": "geometry_0.001",
+      "degenerate_faces": 0,
+      "edges": 50054,
+      "flat_polygons": 1713,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Asset_PBR"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "MerchantBody",
+      "non_manifold_edges": 29668,
+      "polygons": 23480,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.927044,
+      "smooth_polygons": 21767,
+      "source_polygons": 23480,
+      "source_vertices": 31263,
+      "triangles": 23480,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 31263,
+      "weighted_vertices": 31263,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.083594,
+          -0.886104,
+          -1e-06
+        ],
+        [
+          1.083594,
+          0.541889,
+          2.234739
+        ]
+      ],
+      "zero_length_edges": 0
+    }
+  ],
+  "objects": [
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        2.167188,
+        1.427994,
+        2.23474
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "MerchantBody",
+      "parent": "MerchantRig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": "SeatedIdle",
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        2.102942,
+        0.592733,
+        1.889244
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "MerchantRig",
+      "parent": null,
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "ARMATURE"
+    }
+  ],
+  "scene": {
+    "bounds": {
+      "dimensions": [
+        2.167188,
+        1.427993,
+        2.23474
+      ],
+      "max": [
+        1.083594,
+        0.541889,
+        2.234739
+      ],
+      "min": [
+        -1.083594,
+        -0.886104,
+        -1e-06
+      ]
+    },
+    "fps": 24.0,
+    "frame_end": 250,
+    "frame_start": 1,
+    "name": "Scene"
+  },
+  "schema_version": 3,
+  "totals": {
+    "actions": 2,
+    "armatures": 1,
+    "bones": 18,
+    "boundary_edges": 29668,
+    "cameras": 0,
+    "constraints": 0,
+    "degenerate_faces": 0,
+    "edges": 50054,
+    "flat_polygons": 1713,
+    "geometry_nodes_modifiers": 0,
+    "images": 3,
+    "invalid_vertices": 0,
+    "isolated_vertices": 0,
+    "lights": 0,
+    "materials": 1,
+    "mesh_objects": 1,
+    "missing_material_faces": 0,
+    "node_materials": 1,
+    "non_manifold_edges": 29668,
+    "objects": 2,
+    "polygons": 23480,
+    "refinement_modifiers": 0,
+    "rigid_body_objects": 0,
+    "shape_keys": 0,
+    "simulation_modifiers": 0,
+    "smooth_polygons": 21767,
+    "textured_materials": 1,
+    "triangles": 23480,
+    "uv_mapped_meshes": 1,
+    "vertices": 31263,
+    "weighted_meshes": 1,
+    "wire_edges": 0,
+    "zero_length_edges": 0
+  }
+}

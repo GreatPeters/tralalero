@@ -11,10 +11,16 @@ namespace IndianOceanAssets.ShooterSurvival
         private int nextTurn;
         private Vector3 forward;
         private NoryangjinRoadHeightFollower ground;
+        private PlayerScript player;
+        private HighwayRoute highway;
+        private float highwayDistance;
         public int CompletedTurns => nextTurn;
 
         public void Configure(PlayerScript owner)
         {
+            player = owner;
+            highway = FindFirstObjectByType<HighwayRoute>();
+            if (highway != null) highwayDistance = highway.NearestDistance(transform.position);
             var remaining = new List<ChapterRouteTurn>();
             foreach (var root in owner.gameObject.scene.GetRootGameObjects())
                 foreach (var spot in root.GetComponentsInChildren<NoryangjinTurnSpot>(true))
@@ -33,6 +39,20 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void Advance(float distance)
         {
+            if (player != null && player.IsStationaryCombat) return;
+            if (highway != null)
+            {
+                // Stay near the player until its fork decision is known.
+                highwayDistance = Mathf.Min(highway.length, highwayDistance + distance, highway.Distance + 8);
+                bool bypass = false;
+                foreach (var fork in highway.forks)
+                    if (fork.decided && fork.bypass && highwayDistance >= fork.start && highwayDistance <= fork.end) bypass = true;
+                highway.Sample(highwayDistance, bypass, out var p, out var f);
+                p += Vector3.up * .12f;
+                if (ground != null && ground.TryProjectPosition(p, f, out var supported)) p = supported;
+                transform.SetPositionAndRotation(p, Quaternion.LookRotation(f));
+                return;
+            }
             // Small steps keep floor sampling on the correct level of the two crossing bridges.
             while (distance > .0001f)
             {

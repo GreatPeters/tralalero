@@ -1,0 +1,290 @@
+﻿{
+    "date":  "2026-09-13",
+    "status":  "completed",
+    "unity":  "6000.2.6f1",
+    "pipeline":  "0.6.0-exp.1",
+    "scenes":  [
+                   {
+                       "scene":  "RestStop",
+                       "path":  "Assets/ShooterSurvival/Scenes/Tools/RestStop.unity",
+                       "isDirty":  false,
+                       "sceneHash":  "3369691CCBDCBA4ED0D26C87A978CA02765DDA658FB7306C63D9D0B3FFE7338E",
+                       "enemies":  50,
+                       "bonuses":  50,
+                       "missingScripts":  0,
+                       "cameraLocalPosition":  "(0.07800167, 8.364, -12.8460026)",
+                       "cameraLocalRotation":  "(0.151827246, -0.000293173478, -0.00126513245, 0.988406241)",
+                       "fieldOfView":  40.0,
+                       "playerScale":  "(1.50, 1.50, 1.50)",
+                       "hallBounds":  "(48.00, 0.00, 66.00)"
+                   },
+                   {
+                       "scene":  "HighWay",
+                       "path":  "Assets/ShooterSurvival/Scenes/Tools/HighWay.unity",
+                       "isDirty":  false,
+                       "sceneHash":  "EC3DF275429FCEAE33656D4B392E8FE0B631F6B1E19A805C44CC570426C57875",
+                       "enemies":  50,
+                       "bonuses":  50,
+                       "missingScripts":  0,
+                       "cameraLocalPosition":  "(0.07800167, 8.364, -12.8460026)",
+                       "cameraLocalRotation":  "(0.151827246, -0.000293173478, -0.00126513245, 0.988406241)",
+                       "fieldOfView":  40.0,
+                       "playerScale":  "(1.50, 1.50, 1.50)",
+                       "hallBounds":  null
+                   }
+               ],
+    "humans":  {
+                   "actionsPerRig":  6,
+                   "bonesPerRig":  18,
+                   "nativePoseSamples":  486,
+                   "count":  9,
+                   "freshFormats":  [
+                                        "GLB",
+                                        "FBX"
+                                    ]
+               },
+    "trellisCounters":  {
+                            "outdoorInstances":  10,
+                            "triangles":  [
+                                              24427,
+                                              24532
+                                          ],
+                            "indoorInstances":  16,
+                            "count":  2
+                        },
+    "tests":  {
+                  "failed":  0,
+                  "total":  27,
+                  "passed":  27
+              },
+    "builds":  {
+                   "runtime":  "passed, existing warnings2",
+                   "harness":  "passed",
+                   "editor":  "passed, warnings0"
+               },
+    "live":  [
+                 {
+                     "scene":  "HighWay",
+                     "label":  "highway-normal-final",
+                     "elapsed":  72.0156555,
+                     "startDistance":  0.0,
+                     "endurance":  false,
+                     "attackLevel":  37,
+                     "healthLevel":  46,
+                     "health":  12726.875,
+                     "distance":  561.7712,
+                     "forks":  [
+                                   {
+                                       "decided":  true,
+                                       "bypass":  false,
+                                       "rewarded":  false
+                                   },
+                                   {
+                                       "decided":  false,
+                                       "bypass":  false,
+                                       "rewarded":  false
+                                   }
+                               ],
+                     "trafficLaunched":  1,
+                     "holdoutCompleted":  false,
+                     "holdoutSeconds":  0.0,
+                     "spawned":  0,
+                     "doors":  null,
+                     "spawnError":  0.0,
+                     "maxDrift":  0.0,
+                     "maxCameraPosition":  0.0,
+                     "maxCameraAngle":  0.0,
+                     "maxFov":  0.0,
+                     "aimQuadrants":  [
+
+                                      ],
+                     "movementLocked":  false,
+                     "cameraRestoreError":  -1.0,
+                     "moves":  4026
+                 },
+                 {
+                     "scene":  "HighWay",
+                     "label":  "highway-full-final",
+                     "elapsed":  298.559418,
+                     "startDistance":  0.0,
+                     "endurance":  true,
+                     "attackLevel":  37,
+                     "healthLevel":  46,
+                     "health":  100000.0,
+                     "distance":  2328.84937,
+                     "forks":  [
+                                   {
+                                       "decided":  true,
+                                       "bypass":  true,
+                                       "rewarded":  true
+                                   },
+                                   {
+                                       "decided":  true,
+                                       "bypass":  true,
+                                       "rewarded":  true
+                                   }
+                               ],
+                     "trafficLaunched":  11,
+                     "holdoutCompleted":  false,
+                     "holdoutSeconds":  0.0,
+                     "spawned":  0,
+                     "doors":  null,
+                     "spawnError":  0.0,
+                     "maxDrift":  0.0,
+                     "maxCameraPosition":  0.0,
+                     "maxCameraAngle":  0.0,
+                     "maxFov":  0.0,
+                     "aimQuadrants":  [
+
+                                      ],
+                     "movementLocked":  false,
+                     "cameraRestoreError":  -1.0,
+                     "moves":  17068
+                 },
+                 {
+                     "scene":  "RestStop",
+                     "label":  "reststop-final",
+                     "elapsed":  46.18546,
+                     "startDistance":  828.0,
+                     "endurance":  false,
+                     "attackLevel":  37,
+                     "healthLevel":  46,
+                     "health":  11330.0,
+                     "distance":  -1.0,
+                     "forks":  null,
+                     "trafficLaunched":  0,
+                     "holdoutCompleted":  true,
+                     "holdoutSeconds":  30.0,
+                     "spawned":  28,
+                     "doors":  [
+                                   6,
+                                   6,
+                                   8,
+                                   8
+                               ],
+                     "spawnError":  0.0,
+                     "maxDrift":  0.0,
+                     "maxCameraPosition":  0.0,
+                     "maxCameraAngle":  0.0,
+                     "maxFov":  0.0,
+                     "aimQuadrants":  [
+                                          0,
+                                          1,
+                                          2,
+                                          3
+                                      ],
+                     "movementLocked":  false,
+                     "cameraRestoreError":  0.0,
+                     "moves":  2624
+                 },
+                 {
+                     "scene":  "RestStop",
+                     "label":  "reststop-exterior-final",
+                     "elapsed":  16.0190048,
+                     "startDistance":  70.0,
+                     "endurance":  false,
+                     "attackLevel":  37,
+                     "healthLevel":  46,
+                     "health":  5951.0,
+                     "distance":  -1.0,
+                     "forks":  null,
+                     "trafficLaunched":  0,
+                     "holdoutCompleted":  false,
+                     "holdoutSeconds":  0.0,
+                     "spawned":  0,
+                     "doors":  [
+                                   0,
+                                   0,
+                                   0,
+                                   0
+                               ],
+                     "spawnError":  0.0,
+                     "maxDrift":  0.0,
+                     "maxCameraPosition":  0.0,
+                     "maxCameraAngle":  0.0,
+                     "maxFov":  0.0,
+                     "aimQuadrants":  [
+
+                                      ],
+                     "movementLocked":  false,
+                     "cameraRestoreError":  -1.0,
+                     "moves":  895
+                 },
+                 {
+                     "scene":  "HighWay",
+                     "label":  "highway-grounding-final",
+                     "elapsed":  72.0005646,
+                     "startDistance":  0.0,
+                     "endurance":  false,
+                     "attackLevel":  37,
+                     "healthLevel":  46,
+                     "health":  12594.5332,
+                     "distance":  561.6152,
+                     "forks":  [
+                                   {
+                                       "decided":  true,
+                                       "bypass":  false,
+                                       "rewarded":  false
+                                   },
+                                   {
+                                       "decided":  false,
+                                       "bypass":  false,
+                                       "rewarded":  false
+                                   }
+                               ],
+                     "trafficLaunched":  1,
+                     "holdoutCompleted":  false,
+                     "holdoutSeconds":  0.0,
+                     "spawned":  0,
+                     "doors":  null,
+                     "spawnError":  0.0,
+                     "maxDrift":  0.0,
+                     "maxCameraPosition":  0.0,
+                     "maxCameraAngle":  0.0,
+                     "maxFov":  0.0,
+                     "aimQuadrants":  [
+
+                                      ],
+                     "movementLocked":  false,
+                     "cameraRestoreError":  -1.0,
+                     "moves":  4065
+                 }
+             ],
+    "restoration":  {
+                        "keys":  63,
+                        "mismatches":  [
+
+                                       ],
+                        "coin":  3007,
+                        "jewel":  0,
+                        "files":  [
+                                      {
+                                          "path":  "Assets/ShooterSurvival/GameData/Editor/Data.xlsx",
+                                          "unchanged":  true,
+                                          "sha256":  "F62C32C0EC64333A3E7645CE3C508E9A88028C3D68F5D3894C594693ACC45D56"
+                                      },
+                                      {
+                                          "path":  "Assets/ShooterSurvival/Resources/GameData/Data.bytes",
+                                          "unchanged":  true,
+                                          "sha256":  "A95558C7EFDCC7E3B1C503B454222E7D3C8CD0AE677A39079BEF7CEC26426CD3"
+                                      },
+                                      {
+                                          "path":  "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_SR18.unity",
+                                          "unchanged":  true,
+                                          "sha256":  "1933B438DD390745724ED94E5D290356006F2EB3817BF147816C22F67C790203"
+                                      }
+                                  ]
+                    },
+    "finalEditor":  {
+                        "dirty":  false,
+                        "consoleErrors":  0,
+                        "scene":  "HighWay",
+                        "mode":  "Edit"
+                    },
+    "limits":  [
+                   "Full Highway run uses health correction for route reachability",
+                   "No new Android device/APK or20-run growth cohort",
+                   "Generated concepts are not pixel-identical implementation guarantees",
+                   "Expanded hall approach distances may change difficulty with unchanged combat values"
+               ]
+}

@@ -37,9 +37,10 @@ public sealed class PlayerCharacterDefaultsTests
             SetField(player, "useExcelCharacterDefaults", true);
             // Preserve the resolved old maximum so editing the Inspector fallback cannot alter the old ratio.
             SetField(player, "maxHealthWithUpgrades", 50f);
+            Assert.That(EnvironmentVariableTables.TryGetFloat("playerDefaultHp", out float expectedHealth), Is.True);
             player.ReloadCharacterDefaults();
-            Assert.That(player.MaxHealth, Is.EqualTo(100));
-            Assert.That(player.currentHealth, Is.EqualTo(100));
+            Assert.That(player.MaxHealth, Is.EqualTo(expectedHealth));
+            Assert.That(player.currentHealth, Is.EqualTo(expectedHealth));
         }
         finally { Object.DestroyImmediate(go); }
     }
@@ -92,20 +93,21 @@ public sealed class PlayerCharacterDefaultsTests
             Assert.That(
                 EnvironmentVariableTables.TryGetFloat("missileDuration", out var missileDuration),
                 Is.True);
-            Assert.That(playerSpeed.value1, Is.EqualTo(8f));
-            Assert.That(missileSpeed, Is.EqualTo(16f));
-            Assert.That(missileDuration, Is.EqualTo(1f));
+            Assert.That(EnvironmentVariableTables.TryGetFloat("playerDefaultHp", out float health), Is.True);
+            Assert.That(EnvironmentVariableTables.TryGetFloat("playerDefaultAtt", out float attack), Is.True);
+            Assert.That(EnvironmentVariableTables.TryGetFloat("playerDefaultFireRate", out float fireRate), Is.True);
+            Assert.That(EnvironmentVariableTables.TryGetFloat("playerDefaultMissileCount", out float count), Is.True);
             InvokeAwake(player);
 
-            Assert.That(player.originalHealth, Is.EqualTo(100f));
-            Assert.That(player.originalDamage, Is.EqualTo(50f));
-            Assert.That(player.ForwardMoveSpeed, Is.EqualTo(8f));
-            Assert.That(GetProperty<float>(player, "DefaultFireRate"), Is.EqualTo(1f));
-            Assert.That(GetProperty<int>(player, "DefaultProjectileCount"), Is.EqualTo(1));
-            Assert.That(GetProperty<float>(player, "DefaultMissileSpeed"), Is.EqualTo(16f));
-            Assert.That(GetProperty<float>(player, "DefaultMissileDuration"), Is.EqualTo(1f));
-            Assert.That(GetStaticProperty<float>(typeof(BulletScript), "BaseMissileSpeed"), Is.EqualTo(16f));
-            Assert.That(GetStaticProperty<float>(typeof(BulletScript), "BaseMissileDuration"), Is.EqualTo(1f));
+            Assert.That(player.originalHealth, Is.EqualTo(health));
+            Assert.That(player.originalDamage, Is.EqualTo(attack));
+            Assert.That(player.ForwardMoveSpeed, Is.EqualTo(playerSpeed.value1));
+            Assert.That(GetProperty<float>(player, "DefaultFireRate"), Is.EqualTo(fireRate));
+            Assert.That(GetProperty<int>(player, "DefaultProjectileCount"), Is.EqualTo((int)count));
+            Assert.That(GetProperty<float>(player, "DefaultMissileSpeed"), Is.EqualTo(missileSpeed));
+            Assert.That(GetProperty<float>(player, "DefaultMissileDuration"), Is.EqualTo(missileDuration));
+            Assert.That(GetStaticProperty<float>(typeof(BulletScript), "BaseMissileSpeed"), Is.EqualTo(missileSpeed));
+            Assert.That(GetStaticProperty<float>(typeof(BulletScript), "BaseMissileDuration"), Is.EqualTo(missileDuration));
         }
         finally
         {

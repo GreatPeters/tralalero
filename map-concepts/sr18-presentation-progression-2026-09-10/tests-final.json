@@ -1,0 +1,1614 @@
+{
+  "summary": {
+    "total": 202,
+    "passed": 200,
+    "failed": [
+      {
+        "name": "NoryangjinSr18SceneTests.PlacementReport_MatchesTheSelectedSr18ManifestContract",
+        "message": "  String lengths are both 64. Strings differ at index 0.\r\n  Expected: \"D3CFFE380E022ED0D45F9A251581861B2066960D48D54F5897181038F81C1315\"\r\n  But was:  \"3C8A9458F02272F951EDA447310284DA77E14D64BAA022F5A69D65CCB6E94C07\"\r\n  -----------^\r\n"
+      },
+      {
+        "name": "NoryangjinSr18SceneTests.Sr18Scene_PreservesTheRouteWithTheApprovedDenseMarket",
+        "message": "  Reviewed Map1 baseline changed.\r\n  String lengths are both 64. Strings differ at index 0.\r\n  Expected: \"D3CFFE380E022ED0D45F9A251581861B2066960D48D54F5897181038F81C1315\"\r\n  But was:  \"3C8A9458F02272F951EDA447310284DA77E14D64BAA022F5A69D65CCB6E94C07\"\r\n  -----------^\r\n"
+      }
+    ],
+    "groups": [
+      {
+        "filter": "Sr18PresentationRevisionTests",
+        "summary": {
+          "total": 18,
+          "passed": 18,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "Cosmetic",
+        "summary": {
+          "total": 8,
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "EnemyEventControllerTests",
+        "summary": {
+          "total": 24,
+          "passed": 24,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "ForwardEnemyHumanoidRigTests",
+        "summary": {
+          "total": 49,
+          "passed": 49,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "EnemyThrowDirectionTests",
+        "summary": {
+          "total": 9,
+          "passed": 9,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "Sr18RuntimeFixSceneTests",
+        "summary": {
+          "total": 1,
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "Sr18CombatPolishTests",
+        "summary": {
+          "total": 10,
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "Sr18OpeningRhythmTests",
+        "summary": {
+          "total": 1,
+          "passed": 1,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "ObstacleLampSafetyTests",
+        "summary": {
+          "total": 4,
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "ProjectilePoolLifetimeTests",
+        "summary": {
+          "total": 4,
+          "passed": 4,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "PlayerStatusHud",
+        "summary": {
+          "total": 12,
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "BonusWall",
+        "summary": {
+          "total": 16,
+          "passed": 16,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "NoryangjinRunBalanceTests",
+        "summary": {
+          "total": 6,
+          "passed": 6,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "GameDataWorkbook",
+        "summary": {
+          "total": 15,
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "WaveHarness",
+        "summary": {
+          "total": 3,
+          "passed": 3,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "PlayerCharacterDefaultsTests",
+        "summary": {
+          "total": 9,
+          "passed": 9,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "Sr18ContactPairsTests",
+        "summary": {
+          "total": 2,
+          "passed": 2,
+          "failed": 0,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      },
+      {
+        "filter": "NoryangjinSr18SceneTests",
+        "summary": {
+          "total": 11,
+          "passed": 9,
+          "failed": 2,
+          "skipped": 0,
+          "inconclusive": 0
+        }
+      }
+    ]
+  },
+  "results": [
+    {
+      "FullName": "Sr18PresentationRevisionTests.BoomBarDamage_UsesItsOwnUpgradeMultiplier(40.0f,0.0f,Percent,40.0f)",
+      "Status": "Passed",
+      "Duration": 0.0001316,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.BoomBarDamage_UsesItsOwnUpgradeMultiplier(40.0f,130.0f,Percent,52.0f)",
+      "Status": "Passed",
+      "Duration": 0.0000624,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.BoomBarDamage_UsesItsOwnUpgradeMultiplier(40.0f,10.0f,Value,50.0f)",
+      "Status": "Passed",
+      "Duration": 0.000052,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.BulletDamage_IsALaunchSnapshotEvenAfterPoolDeactivation",
+      "Status": "Passed",
+      "Duration": 0.0001987,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.DefeatCannotBeBypassedWithThePublicStartHandler",
+      "Status": "Passed",
+      "Duration": 0.0000998,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.DisablingOpening_ReleasesPreparedVideoTexture",
+      "Status": "Passed",
+      "Duration": 0.0001996,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.EquipmentPurchase_UsesJewelsAndNeverChargesForReequip",
+      "Status": "Passed",
+      "Duration": 0.0001986,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.EquippedEffects_ReplaceBySlotInsteadOfStackingAcrossRuns",
+      "Status": "Passed",
+      "Duration": 0.0003963,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.Grounding_LiftsImportedPoseWithoutMovingGameplayRoot",
+      "Status": "Passed",
+      "Duration": 0.0028803,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.HeldProjectile_IsSilentAndNonCollidingUntilLaunch",
+      "Status": "Passed",
+      "Duration": 0.0001845,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.PermanentHelperPurchase_DoesNotWeakenTheFreeBonusHelper",
+      "Status": "Passed",
+      "Duration": 0.0000629,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.ReplacingPreviewAttachments_DoesNotAccessDestroyedDescendants",
+      "Status": "Passed",
+      "Duration": 0.0250959,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.SharedCarryLayer_PreservesLegLocomotion",
+      "Status": "Passed",
+      "Duration": 0.0005158,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.SharkController_StartsInIdleAndRetainsWalking",
+      "Status": "Passed",
+      "Duration": 0.0019755,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.ShoePartition_DoesNotTintTailOrRearHip",
+      "Status": "Passed",
+      "Duration": 0.0023451,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.StoryAndDefeat_HaveRealUserAndAutomationActions(\"Noryangjin_MapTool_Mode\")",
+      "Status": "Passed",
+      "Duration": 0.1535517,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.StoryAndDefeat_HaveRealUserAndAutomationActions(\"Noryangjin_MapTool_Mode_SR18\")",
+      "Status": "Passed",
+      "Duration": 0.2503268,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18PresentationRevisionTests.WorkbookEquipment_HasDistinctAttachmentsAndBoundedEffects",
+      "Status": "Passed",
+      "Duration": 0.2050336,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "CosmeticInventoryTests.BuyEquipAndReload_KeepIndependentSlotsAndChargeOnce",
+      "Status": "Passed",
+      "Duration": 0.0008683,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "CosmeticInventoryTests.InsufficientOrFailedPayment_DoesNotGrantOrEquip",
+      "Status": "Passed",
+      "Duration": 0.000416,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "CosmeticInventoryTests.InvalidSavedSelection_FallsBackToFreeSlotDefault",
+      "Status": "Passed",
+      "Duration": 0.0003193,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "CosmeticInventoryTests.NegativePriceAndDuplicateDefaults_AreRejected",
+      "Status": "Passed",
+      "Duration": 0.0012661,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "CosmeticInventoryTests.PaymentCallback_CannotReenterPurchase",
+      "Status": "Passed",
+      "Duration": 0.0002779,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "CosmeticShopIntegrationTests.EveryWorkbookCosmeticHasAUsableVisualAndPreview",
+      "Status": "Passed",
+      "Duration": 0.0170459,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "CosmeticShopIntegrationTests.ShopIsReachableAndUsesIndependentPreviewArea(\"Noryangjin_MapTool_Mode\")",
+      "Status": "Passed",
+      "Duration": 0.1576403,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "CosmeticShopIntegrationTests.ShopIsReachableAndUsesIndependentPreviewArea(\"Noryangjin_MapTool_Mode_SR18\")",
+      "Status": "Passed",
+      "Duration": 0.2534961,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.AddedEnumValues_PreserveExistingSerializedNumbers",
+      "Status": "Passed",
+      "Duration": 0.0030463,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.Ambush_HideRestorePreservesDisabledChildren",
+      "Status": "Passed",
+      "Duration": 0.0029014,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.Ambush_InvalidTargetOrMissingProjectileDoesNotConsumeActivation",
+      "Status": "Passed",
+      "Duration": 0.001955,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.Ambush_RevealsMovesThenRequestsOneShot",
+      "Status": "Passed",
+      "Duration": 0.0044774,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.AttackFacing_SnapsToClosestRouteOrthogonalAxis",
+      "Status": "Passed",
+      "Duration": 0.0012812,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.AttackLoop_ActivatesOnceAndStaysAtAuthoredPosition",
+      "Status": "Passed",
+      "Duration": 0.0026294,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.AttackOnce_ActivatesOnceWithoutMoving",
+      "Status": "Passed",
+      "Duration": 0.0016392,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.AuthoringMove_RebasesTheNewRunStartPosition",
+      "Status": "Passed",
+      "Duration": 0.0018119,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.CanonicalPrefabs_UseEventControllerWithSafeDefault",
+      "Status": "Passed",
+      "Duration": 0.0011434,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.DestroyedMovementTarget_CancelsWithoutRepeatingExceptions",
+      "Status": "Passed",
+      "Duration": 0.002653,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.EventSpotPrefab_UsesTheSimpleConnectionComponent",
+      "Status": "Passed",
+      "Duration": 0.0009467,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.FirstInitialization_CapturesPlacementAssignedAfterEnable",
+      "Status": "Passed",
+      "Duration": 0.0016893,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.LegacySideEntranceMode_DeserializesAsMoveThenAttack",
+      "Status": "Passed",
+      "Duration": 0.0014051,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.MoveModeWithoutTarget_DoesNotConsumeActivation",
+      "Status": "Passed",
+      "Duration": 0.001347,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.MoveModeWithZeroSpeed_DoesNotConsumeActivation",
+      "Status": "Passed",
+      "Duration": 0.0016065,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.MoveToTargetThenAttack_MovesToOneTargetAndStartsAttack",
+      "Status": "Passed",
+      "Duration": 0.0014853,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.MovingEnemy_FacesPlayerBeforeAttacking",
+      "Status": "Passed",
+      "Duration": 0.0013912,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.Patrol_AttacksAtBothEndpointsAndContinuesBetweenThem",
+      "Status": "Passed",
+      "Duration": 0.0020091,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.RouteFacing_PreservesAuthoredAnimatorRotationOffset",
+      "Status": "Passed",
+      "Duration": 0.0010102,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.SceneEnemyReenable_RestoresCapturedStartPosition",
+      "Status": "Passed",
+      "Duration": 0.0015112,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.Shoot_RequestsTheCombatProjectileOnlyOnce",
+      "Status": "Passed",
+      "Duration": 0.001843,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.Spot_OnlyConnectsTargetsAndAlwaysConsumesAfterAcceptedActivation",
+      "Status": "Passed",
+      "Duration": 0.0018988,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.Spot_ResolvesOnlyThePlayerRootCollider",
+      "Status": "Passed",
+      "Duration": 0.0009104,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyEventControllerTests.Spot_WithInvalidMoveTarget_RemainsAvailable",
+      "Status": "Passed",
+      "Duration": 0.0014116,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ExternalLocomotionSource_KeepsLicenseAndProvenance",
+      "Status": "Passed",
+      "Duration": 0.0018594,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyCatalog_ExposesBothNamedYellowManVariants",
+      "Status": "Passed",
+      "Duration": 0.0025867,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyModel_ImportsAsValidHumanoid(\"Assets/JH/Model/Enemy/Fat_Throw/던짐_스킨/Builder_Bob_0811155314_texture@Goalie Throw 1.fbx\")",
+      "Status": "Passed",
+      "Duration": 0.004424,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyModel_ImportsAsValidHumanoid(\"Assets/JH/Model/Enemy/Fat_Throw/던짐_스킨/Builder_Bob_0811155314_texture@Goalie Throw.fbx\")",
+      "Status": "Passed",
+      "Duration": 0.0011216,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyModel_ImportsAsValidHumanoid(\"Assets/JH/Model/Enemy/Fat_Throw/죽음_노스킨/Builder_Bob_0811155314_texture@Flying Back Death.fbx\")",
+      "Status": "Passed",
+      "Duration": 0.0012142,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyModel_ImportsAsValidHumanoid(\"Assets/JH/Model/Enemy/Garden_Spear/Die_NoSkin.fbx\")",
+      "Status": "Passed",
+      "Duration": 0.0013074,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyModel_ImportsAsValidHumanoid(\"Assets/JH/Model/Enemy/Garden_Spear/Shoot_Skin(Idle).fbx\")",
+      "Status": "Passed",
+      "Duration": 0.0012239,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyModel_ImportsAsValidHumanoid(\"Assets/JH/Model/Enemy/Garden_Spear/Shoot_Skin.fbx\")",
+      "Status": "Passed",
+      "Duration": 0.0007509,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyModel_ImportsAsValidHumanoid(\"Assets/JH/Model/Enemy/Oldman_Shovel/Action_Skin/Elderly_Cartoon_Chara_0815100721_texture@Sword And Shield Attack.fbx\")",
+      "Status": "Passed",
+      "Duration": 0.0014039,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyModel_ImportsAsValidHumanoid(\"Assets/JH/Model/Enemy/Oldman_Shovel/Die_NoSkin/Elderly_Cartoon_Chara_0815100721_texture@Flying Back Death.fbx\")",
+      "Status": "Passed",
+      "Duration": 0.0017664,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyModel_ImportsAsValidHumanoid(\"Assets/JH/Model/Enemy/Woman_Boss/죽기_노스킨/Baker_in_Apron_0815171726_texture@Sword And Shield Death.fbx\")",
+      "Status": "Passed",
+      "Duration": 0.0012724,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyModel_ImportsAsValidHumanoid(\"Assets/JH/Model/Enemy/Woman_Boss/휘두르기_스킨/Baker_in_Apron_0815171726_texture@Stable Sword Outward Slash.fbx\")",
+      "Status": "Passed",
+      "Duration": 0.0008139,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyModel_ImportsAsValidHumanoid(\"Assets/JH/Model/Enemy/YellowMan_Web/Die_NoSkin/Bearded_Builder_in_Ye_0811162114_texture@Flying Back Death.fbx\")",
+      "Status": "Passed",
+      "Duration": 0.0012793,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyModel_ImportsAsValidHumanoid(\"Assets/JH/Model/Enemy/YellowMan_Web/Web_Skin/Bearded_Builder_in_Ye_0811162114_texture@Fishing Idle.fbx\")",
+      "Status": "Passed",
+      "Duration": 0.0008426,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyModel_ImportsAsValidHumanoid(\"Assets/ThirdParty/Quaternius/UniversalAnimationLibrary/UAL1_Standard.fbx\")",
+      "Status": "Passed",
+      "Duration": 0.012154,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_AttackOnceEventReturnsToLoopingIdle(\"Assets/JH/Model/Prefab/Enemy_FatMan.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_FatMan.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0045162,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_AttackOnceEventReturnsToLoopingIdle(\"Assets/JH/Model/Prefab/Enemy_Guard.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_Guard.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0033472,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_AttackOnceEventReturnsToLoopingIdle(\"Assets/JH/Model/Prefab/Enemy_OldMan.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_OldMan.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0026176,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_AttackOnceEventReturnsToLoopingIdle(\"Assets/JH/Model/Prefab/Enemy_Woman.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_Woman.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0021093,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_AttackOnceEventReturnsToLoopingIdle(\"Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_YllowMan_Net.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0029509,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_AttackOnceEventReturnsToLoopingIdle(\"Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_YllowMan_Sword.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0027345,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_PreservesExistingNonLocomotionMotions(\"Assets/JH/Model/Prefab/Enemy_FatMan.prefab\",\"Assets/JH/Model/Enemy/Fat_Throw/던짐_스킨/Builder_Bob_0811155314_texture@Goalie Throw 1.fbx\",\"Fatman Idle\",\"Assets/JH/Model/Enemy/Fat_Throw/던짐_스킨/Builder_Bob_0811155314_texture@Goalie Throw.fbx\",\"Fatman Act\",\"Assets/JH/Model/Enemy/Fat_Throw/죽음_노스킨/Builder_Bob_0811155314_texture@Flying Back Death.fbx\",\"Fatman Die\")",
+      "Status": "Passed",
+      "Duration": 0.0037608,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_PreservesExistingNonLocomotionMotions(\"Assets/JH/Model/Prefab/Enemy_Guard.prefab\",\"Assets/JH/Model/Enemy/Garden_Spear/Shoot_Skin(Idle).fbx\",\"guard idle\",\"Assets/JH/Model/Enemy/Garden_Spear/Shoot_Skin.fbx\",\"guard act\",\"Assets/JH/Model/Enemy/Garden_Spear/Die_NoSkin.fbx\",\"guard die\")",
+      "Status": "Passed",
+      "Duration": 0.0005175,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_PreservesExistingNonLocomotionMotions(\"Assets/JH/Model/Prefab/Enemy_OldMan.prefab\",\"Assets/JH/Model/Enemy/Oldman_Shovel/Action_Skin/Elderly_Cartoon_Chara_0815100721_texture@Sword And Shield Attack.fbx\",\"old man act\",\"Assets/JH/Model/Enemy/Oldman_Shovel/Action_Skin/Elderly_Cartoon_Chara_0815100721_texture@Sword And Shield Attack.fbx\",\"old man act\",\"Assets/JH/Model/Enemy/Oldman_Shovel/Die_NoSkin/Elderly_Cartoon_Chara_0815100721_texture@Flying Back Death.fbx\",\"old man die\")",
+      "Status": "Passed",
+      "Duration": 0.0004266,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_PreservesExistingNonLocomotionMotions(\"Assets/JH/Model/Prefab/Enemy_Woman.prefab\",\"Assets/JH/Model/Enemy/Woman_Boss/휘두르기_스킨/Baker_in_Apron_0815171726_texture@Stable Sword Outward Slash.fbx\",\"Woman Act\",\"Assets/JH/Model/Enemy/Woman_Boss/휘두르기_스킨/Baker_in_Apron_0815171726_texture@Stable Sword Outward Slash.fbx\",\"Woman Act\",\"Assets/JH/Model/Enemy/Woman_Boss/죽기_노스킨/Baker_in_Apron_0815171726_texture@Sword And Shield Death.fbx\",\"Woman Die\")",
+      "Status": "Passed",
+      "Duration": 0.0004135,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_PreservesExistingNonLocomotionMotions(\"Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab\",\"Assets/JH/Model/Enemy/YellowMan_Web/Web_Skin/Bearded_Builder_in_Ye_0811162114_texture@Fishing Idle.fbx\",\"bearman act\",\"Assets/JH/Model/Enemy/YellowMan_Web/Web_Skin/Bearded_Builder_in_Ye_0811162114_texture@Fishing Idle.fbx\",\"bearman act\",\"Assets/JH/Model/Enemy/YellowMan_Web/Die_NoSkin/Bearded_Builder_in_Ye_0811162114_texture@Flying Back Death.fbx\",\"bearman die\")",
+      "Status": "Passed",
+      "Duration": 0.00038,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_PreservesExistingNonLocomotionMotions(\"Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab\",\"Assets/JH/Model/Enemy/YellowMan_Web/Web_Skin/Bearded_Builder_in_Ye_0811162114_texture@Fishing Idle.fbx\",\"bearman act\",\"Assets/JH/Model/Enemy/Woman_Boss/휘두르기_스킨/Baker_in_Apron_0815171726_texture@Stable Sword Outward Slash.fbx\",\"Woman Act\",\"Assets/JH/Model/Enemy/YellowMan_Web/Die_NoSkin/Bearded_Builder_in_Ye_0811162114_texture@Flying Back Death.fbx\",\"bearman die\")",
+      "Status": "Passed",
+      "Duration": 0.0003788,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_QuaterniusWalkChangesHumanoidPose(\"Assets/JH/Model/Prefab/Enemy_FatMan.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_FatMan.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0063738,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_QuaterniusWalkChangesHumanoidPose(\"Assets/JH/Model/Prefab/Enemy_Guard.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_Guard.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0022021,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_QuaterniusWalkChangesHumanoidPose(\"Assets/JH/Model/Prefab/Enemy_OldMan.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_OldMan.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0019522,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_QuaterniusWalkChangesHumanoidPose(\"Assets/JH/Model/Prefab/Enemy_Woman.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_Woman.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0017029,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_QuaterniusWalkChangesHumanoidPose(\"Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_YllowMan_Net.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0016597,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_QuaterniusWalkChangesHumanoidPose(\"Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_YllowMan_Sword.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0017699,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_TransitionsThroughSharedStates(\"Assets/JH/Model/Prefab/Enemy_FatMan.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_FatMan.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0033485,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_TransitionsThroughSharedStates(\"Assets/JH/Model/Prefab/Enemy_Guard.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_Guard.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0029475,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_TransitionsThroughSharedStates(\"Assets/JH/Model/Prefab/Enemy_OldMan.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_OldMan.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0023649,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_TransitionsThroughSharedStates(\"Assets/JH/Model/Prefab/Enemy_Woman.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_Woman.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.001695,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_TransitionsThroughSharedStates(\"Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_YllowMan_Net.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0021934,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_TransitionsThroughSharedStates(\"Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_YllowMan_Sword.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0022245,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_UsesHumanoidOverrideController(\"Assets/JH/Model/Prefab/Enemy_FatMan.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_FatMan.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0043152,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_UsesHumanoidOverrideController(\"Assets/JH/Model/Prefab/Enemy_Guard.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_Guard.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0002863,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_UsesHumanoidOverrideController(\"Assets/JH/Model/Prefab/Enemy_OldMan.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_OldMan.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0002418,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_UsesHumanoidOverrideController(\"Assets/JH/Model/Prefab/Enemy_Woman.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_Woman.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0002398,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_UsesHumanoidOverrideController(\"Assets/JH/Model/Prefab/Enemy_YllowMan_Net.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_YllowMan_Net.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0002511,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.ForwardEnemyPrefab_UsesHumanoidOverrideController(\"Assets/JH/Model/Prefab/Enemy_YllowMan_Sword.prefab\",\"Assets/JH/Model/Animatior/ForwardEnemyShared/Overrides/Enemy_YllowMan_Sword.overrideController\")",
+      "Status": "Passed",
+      "Duration": 0.0002314,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.NoMoveAnimation_KeepsIdleWhileMovementEventStarts",
+      "Status": "Passed",
+      "Duration": 0.0033321,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.PreviousSharedLocomotionClip_RemainsAvailable",
+      "Status": "Passed",
+      "Duration": 0.0035806,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.SharedController_UsesSixStateEnemyContract",
+      "Status": "Passed",
+      "Duration": 0.0039373,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ForwardEnemyHumanoidRigTests.YellowManVariants_KeepNetAndSwordLoadoutsWithRunDefault",
+      "Status": "Passed",
+      "Duration": 0.001942,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyThrowDirectionTests.AttackFacing_TracksExactHorizontalPlayerDirection",
+      "Status": "Passed",
+      "Duration": 0.0059473,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyThrowDirectionTests.BuildThrownProjectileRotation_AlignsProjectileLocalXAxisWithVelocity(0.0f)",
+      "Status": "Passed",
+      "Duration": 0.0007817,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyThrowDirectionTests.BuildThrownProjectileRotation_AlignsProjectileLocalXAxisWithVelocity(90.0f)",
+      "Status": "Passed",
+      "Duration": 0.000081,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyThrowDirectionTests.BuildThrownProjectileRotation_AlignsProjectileLocalXAxisWithVelocity(180.0f)",
+      "Status": "Passed",
+      "Duration": 0.0000677,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyThrowDirectionTests.BuildThrownProjectileRotation_AlignsProjectileLocalXAxisWithVelocity(270.0f)",
+      "Status": "Passed",
+      "Duration": 0.0000683,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyThrowDirectionTests.CalculateThrowDirection_AimsFromReleasePointAtCurrentTarget",
+      "Status": "Passed",
+      "Duration": 0.0003866,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyThrowDirectionTests.CalculateThrowDirection_UsesFallbackWhenTargetOverlapsReleasePoint",
+      "Status": "Passed",
+      "Duration": 0.0002194,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyThrowDirectionTests.GetPlayerAimPoint_UsesPlayerRootColliderCenter",
+      "Status": "Passed",
+      "Duration": 0.0010576,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "EnemyThrowDirectionTests.GetPlayerAimPoint_WithoutPlayerFallsBackBehindReleasePoint",
+      "Status": "Passed",
+      "Duration": 0.0008001,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18RuntimeFixSceneTests.ExitAndLegacyScenery_AreSafeWithoutChangingRoadGeometry",
+      "Status": "Passed",
+      "Duration": 0.3089272,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.ExactFacing_IgnoresPlacementHalfTurnAndTracksLateralPlayer",
+      "Status": "Passed",
+      "Duration": 0.0015947,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.Helper_FollowsEveryCornerWithoutDiagonalShortcuts",
+      "Status": "Passed",
+      "Duration": 0.0009042,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.OverlappingBuckets_ReleaseOnlyTheirOwnShootBlock",
+      "Status": "Passed",
+      "Duration": 0.0005218,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.PlacementCombat_AcceptsExplicitTierAndStats(0.0f,1.0f,Normal)",
+      "Status": "Passed",
+      "Duration": 0.0004345,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.PlacementCombat_AcceptsExplicitTierAndStats(43.0f,72.0f,Elite)",
+      "Status": "Passed",
+      "Duration": 0.0000877,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.PlacementCombat_RejectsInvalidValues(float.NaN,10.0f)",
+      "Status": "Passed",
+      "Duration": 0.0006638,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.PlacementCombat_RejectsInvalidValues(10.0f,0.0f)",
+      "Status": "Passed",
+      "Duration": 0.0000959,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.PlacementCombat_RejectsInvalidValues(-1.0f,20.0f)",
+      "Status": "Passed",
+      "Duration": 0.0000826,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.PlacementCombat_RejectsInvalidValues(10.0f,float.PositiveInfinity)",
+      "Status": "Passed",
+      "Duration": 0.0000814,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.Workbook_AllEnemyRowsOwnCombatStats",
+      "Status": "Passed",
+      "Duration": 0.2075781,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18OpeningRhythmTests.Opening_OffersReachableWeavesAndReadableRewardApproaches",
+      "Status": "Passed",
+      "Duration": 0.3103824,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ObstacleLampSafetyTests.DurableLamp_StaysDangerousAfterAutoFire",
+      "Status": "Passed",
+      "Duration": 0.0015722,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ObstacleLampSafetyTests.RestartDuringTopple_RestoresOriginalColliderStatesAndPose",
+      "Status": "Passed",
+      "Duration": 0.0019408,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ObstacleLampSafetyTests.ShotLamp_DisarmsBeforeToppleAndIgnoresQueuedPlayerContact",
+      "Status": "Passed",
+      "Duration": 0.0004553,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ObstacleLampSafetyTests.StandingLamp_StillDealsContactDamage",
+      "Status": "Passed",
+      "Duration": 0.0005611,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ProjectilePoolLifetimeTests.DuplicatePoolReturn_EnqueuesOnlyOnceAndRentsDistinctInstances(Water)",
+      "Status": "Passed",
+      "Duration": 0.0011912,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ProjectilePoolLifetimeTests.DuplicatePoolReturn_EnqueuesOnlyOnceAndRentsDistinctInstances(Bomb)",
+      "Status": "Passed",
+      "Duration": 0.0003138,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ProjectilePoolLifetimeTests.DuplicateProjectileReturn_DoesNotRemoveGfxAndNextRentalResetsLifetime(Water)",
+      "Status": "Passed",
+      "Duration": 0.0011093,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "ProjectilePoolLifetimeTests.DuplicateProjectileReturn_DoesNotRemoveGfxAndNextRentalResetsLifetime(Bomb)",
+      "Status": "Passed",
+      "Duration": 0.0002662,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerStatusHudBuilderTests.ApplyMenuPath_IsStableForAutomation",
+      "Status": "Passed",
+      "Duration": 0.0028518,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerStatusHudBuilderTests.Build_CreatesOneModernDarkHudAndIsIdempotent",
+      "Status": "Passed",
+      "Duration": 0.0423923,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerStatusHudBuilderTests.Build_UndoRestoresPreviousPlayerCanvasBinding",
+      "Status": "Passed",
+      "Duration": 0.0368158,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerStatusHudBuilderTests.FindInScene_ReturnsOnlyComponentsFromRequestedScene",
+      "Status": "Passed",
+      "Duration": 0.0026279,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerStatusHudBuilderTests.SavedNoryangjinMap1_HasOneBoundModernDarkHud",
+      "Status": "Passed",
+      "Duration": 0.187016,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerStatusHudTests.Canvas_RebindsAfterConfiguredHudIsDestroyed",
+      "Status": "Passed",
+      "Duration": 0.0010247,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerStatusHudTests.CanvasUpdates_UseConfiguredPlayerStatusHud",
+      "Status": "Passed",
+      "Duration": 0.000764,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerStatusHudTests.ConfiguredHud_HidesPlayerChildCanvas",
+      "Status": "Passed",
+      "Duration": 0.0007538,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerStatusHudTests.HealthStatus_UpdatesWithoutLegacyHealthWidgets",
+      "Status": "Passed",
+      "Duration": 0.0010829,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerStatusHudTests.LegacyAttackText_UpdatesWhenHudIsNotConfigured",
+      "Status": "Passed",
+      "Duration": 0.0004951,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerStatusHudTests.PlayerChildCanvas_RemainsVisibleForUnrelatedHud",
+      "Status": "Passed",
+      "Duration": 0.0003442,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerStatusHudTests.SetHealth_FormatsCurrentAndMaxAndClampsFill",
+      "Status": "Passed",
+      "Duration": 0.001142,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "BonusWallChoicePairTests.CanonicalDropPrefab_RemainsASingleUnpairedAltar",
+      "Status": "Passed",
+      "Duration": 0.0004838,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "BonusWallChoicePairTests.ChoosingEitherSide_ClosesTheOtherAndRejectsSecondReward(True)",
+      "Status": "Passed",
+      "Duration": 0.001323,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "BonusWallChoicePairTests.ChoosingEitherSide_ClosesTheOtherAndRejectsSecondReward(False)",
+      "Status": "Passed",
+      "Duration": 0.000371,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "BonusWallChoicePairTests.DisabledPair_ClosesBothSides",
+      "Status": "Passed",
+      "Duration": 0.0004742,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "BonusWallChoicePairTests.ForeignOrInactiveAltar_CannotClaimThePair",
+      "Status": "Passed",
+      "Duration": 0.0004399,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "BonusWallChoicePairTests.NewRun_RestoresBothChoicesAndRollsDistinctRareEffects",
+      "Status": "Passed",
+      "Duration": 0.0014819,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "BonusWallCooldownTests.AnotherWall_IsBlockedForTwoSeconds(0.0f,False)",
+      "Status": "Passed",
+      "Duration": 0.0014978,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "BonusWallCooldownTests.AnotherWall_IsBlockedForTwoSeconds(1.5f,False)",
+      "Status": "Passed",
+      "Duration": 0.0003696,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "BonusWallCooldownTests.AnotherWall_IsBlockedForTwoSeconds(1.99f,False)",
+      "Status": "Passed",
+      "Duration": 0.0002725,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "BonusWallCooldownTests.AnotherWall_IsBlockedForTwoSeconds(2.0f,True)",
+      "Status": "Passed",
+      "Duration": 0.0006987,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "BonusWallCooldownTests.BlockedPair_DoesNotClaimOrDisableEitherChoice",
+      "Status": "Passed",
+      "Duration": 0.001147,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "BonusWallCooldownTests.NewPlayerAndRestart_CanCollectImmediately",
+      "Status": "Passed",
+      "Duration": 0.0013034,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "MonsterGrowthAndMapToolEnemyTests.ConfigureBonusWallInstance_MarksEveryPlayableWallAsNoryangjinRuntime",
+      "Status": "Passed",
+      "Duration": 0.0234695,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "MonsterGrowthAndMapToolEnemyTests.FeastOfFortuneRarity_RejectsOtherBonusWalls",
+      "Status": "Passed",
+      "Duration": 0.1218542,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinRuntimeCleanupContractTests.AuthoredBonusWall_UsesConfiguredGradeForDataDrivenRoll",
+      "Status": "Passed",
+      "Duration": 0.0010144,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinRuntimeCleanupContractTests.RuntimeBonusWall_DoesNotResolveGlobalPostProcessing",
+      "Status": "Passed",
+      "Duration": 0.0003931,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinRunBalanceTests.HealthBonuses_UpdateCapacityAndCurrentHealthAndReset",
+      "Status": "Passed",
+      "Duration": 0.0020456,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinRunBalanceTests.PercentageUpgrade_UnlocksOneHelper(0,0)",
+      "Status": "Passed",
+      "Duration": 0.0002491,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinRunBalanceTests.PercentageUpgrade_UnlocksOneHelper(20,1)",
+      "Status": "Passed",
+      "Duration": 0.0000607,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinRunBalanceTests.PercentageUpgrade_UnlocksOneHelper(100,1)",
+      "Status": "Passed",
+      "Duration": 0.000046,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinRunBalanceTests.PercentageUpgrade_UnlocksOneHelper(390,1)",
+      "Status": "Passed",
+      "Duration": 0.0000444,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinRunBalanceTests.PercentageUpgrade_UnlocksOneHelper(-1,0)",
+      "Status": "Passed",
+      "Duration": 0.0000454,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.GameplayTables_AllReloadFromSharedWorkbook",
+      "Status": "Passed",
+      "Duration": 1.2981342,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.GeneratedRuntimeArchive_IsProtectedAndMatchesExcelSource",
+      "Status": "Passed",
+      "Duration": 4.718373,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.MapToolConvenienceTab_ExposesOnlyDataWorkbookOpenAction",
+      "Status": "Passed",
+      "Duration": 0.0016576,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.ProductionSigningKey_StaysOutsideProjectAndAssets",
+      "Status": "Passed",
+      "Duration": 0.0883355,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.ProtectedArchive_RejectsModifiedCiphertext",
+      "Status": "Passed",
+      "Duration": 0.2071697,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.ProtectedArchive_RoundTripsWithMatchingSigningKey",
+      "Status": "Passed",
+      "Duration": 0.2049374,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.SharedWorkbookLoader_ExposesEveryGameplaySheet",
+      "Status": "Passed",
+      "Duration": 0.1950984,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.SourceWorkbook_IsEditorOnlyAndAbsentFromStreamingAssets",
+      "Status": "Passed",
+      "Duration": 0.0005344,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.SourceWorkbookPostprocessor_ReloadsEnvironmentVariableCache",
+      "Status": "Passed",
+      "Duration": 3.9457067,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.ToolsDataMenus_ExposeTheCompleteWorkbookWorkflow",
+      "Status": "Passed",
+      "Duration": 0.0009832,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.WorkbookAutoReload_MatchesOnlyTheSourceWorkbook(\"Assets/ShooterSurvival/GameData/Editor/Data.xlsx\",True)",
+      "Status": "Passed",
+      "Duration": 0.000652,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.WorkbookAutoReload_MatchesOnlyTheSourceWorkbook(\"assets/shootersurvival/gamedata/editor/data.xlsx\",True)",
+      "Status": "Passed",
+      "Duration": 0.0000865,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.WorkbookAutoReload_MatchesOnlyTheSourceWorkbook(\"Assets/ShooterSurvival/Resources/GameData/Data.bytes\",False)",
+      "Status": "Passed",
+      "Duration": 0.0000736,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.WorkbookAutoReload_MatchesOnlyTheSourceWorkbook(\"Assets/Other/Data.xlsx\",False)",
+      "Status": "Passed",
+      "Duration": 0.0000716,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameDataWorkbookTests.WorkbookSchema_RejectsMalformedXlsx",
+      "Status": "Passed",
+      "Duration": 0.0005649,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "WaveHarnessUtilityTests.CountRemainingEnemies_StartsFromCurrentWave",
+      "Status": "Passed",
+      "Duration": 0.0011061,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "WaveHarnessUtilityTests.CountTotals_AggregatesAllEntries",
+      "Status": "Passed",
+      "Duration": 0.0004819,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "WaveHarnessUtilityTests.ShouldTriggerVictory_OnlyWhenRunIsComplete",
+      "Status": "Passed",
+      "Duration": 0.0001835,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerCharacterDefaultsTests.Awake_ExcelMode_PrefersCorrectedMissileSpeedKeyOverLegacyTypo",
+      "Status": "Passed",
+      "Duration": 0.018372,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerCharacterDefaultsTests.Awake_ExcelMode_UsesAbsoluteMissileSpeedAndDuration",
+      "Status": "Passed",
+      "Duration": 0.001956,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerCharacterDefaultsTests.Awake_InspectorMode_UsesOneCentralSetOfCharacterDefaults",
+      "Status": "Passed",
+      "Duration": 0.0006566,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerCharacterDefaultsTests.ExtraHelpWeaponUnderPlayer_KeepsWeaponSoDefaults",
+      "Status": "Passed",
+      "Duration": 0.0011407,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerCharacterDefaultsTests.NonPlayerWeapon_KeepsWeaponSoDefaults",
+      "Status": "Passed",
+      "Duration": 0.00032,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerCharacterDefaultsTests.PlayerWeapon_UsesCentralAttackFireRateAndProjectileCount",
+      "Status": "Passed",
+      "Duration": 0.0006697,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerCharacterDefaultsTests.ReloadCharacterDefaults_LeavesMissileSpeedIndependentFromPlayerSpeed",
+      "Status": "Passed",
+      "Duration": 0.0008202,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerCharacterDefaultsTests.ReloadCharacterDefaults_PreservesDamageAndDoesNotReviveDeadPlayers",
+      "Status": "Passed",
+      "Duration": 0.0009936,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "PlayerCharacterDefaultsTests.ReloadCharacterDefaults_RefreshesFullHealthWithTheNewMaximum",
+      "Status": "Passed",
+      "Duration": 0.0008987,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18ContactPairsTests.FatManFootprints_AreCenteredOnTheirRoadAndLampsRemainHazards",
+      "Status": "Passed",
+      "Duration": 0.2753028,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18ContactPairsTests.NormalPairs_BlockEveryPlayerLaneAndOpenAfterOneSideDies",
+      "Status": "Passed",
+      "Duration": 0.2410483,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinSr18SceneTests.MapTool_RecognizesTheSr18SiblingScene",
+      "Status": "Passed",
+      "Duration": 0.0000769,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinSr18SceneTests.PlacementReport_MatchesTheSelectedSr18ManifestContract",
+      "Status": "Failed",
+      "Duration": 0.2730096,
+      "Message": "  String lengths are both 64. Strings differ at index 0.\r\n  Expected: \"D3CFFE380E022ED0D45F9A251581861B2066960D48D54F5897181038F81C1315\"\r\n  But was:  \"3C8A9458F02272F951EDA447310284DA77E14D64BAA022F5A69D65CCB6E94C07\"\r\n  -----------^\r\n",
+      "StackTrace": "at NoryangjinSr18SceneTests.AssertPlacementReportContract (NoryangjinSr18SceneTests+PlacementReport report, Newtonsoft.Json.Linq.JObject manifest) [0x00057] in C:\\Users\\ljh\\tralalero Shooter\\Assets\\Tests\\Editor\\NoryangjinSr18SceneTests.cs:741\r\nat NoryangjinSr18SceneTests.PlacementReport_MatchesTheSelectedSr18ManifestContract () [0x0000d] in C:\\Users\\ljh\\tralalero Shooter\\Assets\\Tests\\Editor\\NoryangjinSr18SceneTests.cs:207\r\n"
+    },
+    {
+      "FullName": "NoryangjinSr18SceneTests.Sr18Encounters_ActivationGatesCoverLanesAndNudgedWallsKeepTheirDeck",
+      "Status": "Passed",
+      "Duration": 0.2939553,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinSr18SceneTests.Sr18Encounters_UseRealScaleLinkedEventsAndRoadHeight",
+      "Status": "Passed",
+      "Duration": 0.2469838,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinSr18SceneTests.Sr18HeightFollower_TraversesBothElevationRunsAndStaysOnTheCurrentDeck",
+      "Status": "Passed",
+      "Duration": 0.5900508,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinSr18SceneTests.Sr18Market_LeavesTheExistingTimberRoadsVisible",
+      "Status": "Passed",
+      "Duration": 0.2745639,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinSr18SceneTests.Sr18Ramps_UseSlopeSafeShadingWithoutChangingTheirWoodTexture",
+      "Status": "Passed",
+      "Duration": 0.2457128,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinSr18SceneTests.Sr18RoadDecks_SupportThreeLanesAcrossEveryJoinAndRamp",
+      "Status": "Passed",
+      "Duration": 0.2667806,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinSr18SceneTests.Sr18Scene_PreservesTheRouteWithTheApprovedDenseMarket",
+      "Status": "Failed",
+      "Duration": 0.2787558,
+      "Message": "  Reviewed Map1 baseline changed.\r\n  String lengths are both 64. Strings differ at index 0.\r\n  Expected: \"D3CFFE380E022ED0D45F9A251581861B2066960D48D54F5897181038F81C1315\"\r\n  But was:  \"3C8A9458F02272F951EDA447310284DA77E14D64BAA022F5A69D65CCB6E94C07\"\r\n  -----------^\r\n",
+      "StackTrace": "at NoryangjinSr18SceneTests.Sr18Scene_PreservesTheRouteWithTheApprovedDenseMarket () [0x00020] in C:\\Users\\ljh\\tralalero Shooter\\Assets\\Tests\\Editor\\NoryangjinSr18SceneTests.cs:376\r\n"
+    },
+    {
+      "FullName": "NoryangjinSr18SceneTests.Sr18SlopeSpots_MatchEveryRampBoundaryWithoutAddingRouteCheckpoints",
+      "Status": "Passed",
+      "Duration": 0.2437862,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "NoryangjinSr18SceneTests.Sr18TurnSpots_CoverEveryLaneAndTriggerAtTheCornerCenter",
+      "Status": "Passed",
+      "Duration": 0.2484698,
+      "Message": null,
+      "StackTrace": null
+    }
+  ]
+}

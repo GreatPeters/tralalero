@@ -110,7 +110,7 @@ public sealed class EnemyThrowDirectionTests
     }
 
     [Test]
-    public void AttackFacing_SnapsVisualToRouteOrthogonalPlayerDirection()
+    public void AttackFacing_TracksExactHorizontalPlayerDirection()
     {
         var playerObject = new GameObject("Facing Target Player");
         var enemyObject = new GameObject("Facing Enemy Root");
@@ -132,10 +132,7 @@ public sealed class EnemyThrowDirectionTests
             controller.EventMode = EnemyEventMode.AttackLoop;
             Assert.That(controller.ActivateFromSpot(), Is.True);
 
-            Vector3 expected = EnemyEventController.ResolveOrthogonalFacingDirection(
-                player.transform.position - enemyObject.transform.position,
-                enemyObject.transform.forward,
-                enemyObject.transform.right);
+            Vector3 expected = Vector3.ProjectOnPlane(player.transform.position - enemyObject.transform.position, Vector3.up).normalized;
             Assert.That(
                 Vector3.Angle(visualObject.transform.forward, expected),
                 Is.LessThan(0.01f));

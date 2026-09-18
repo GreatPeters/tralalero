@@ -19,12 +19,13 @@ namespace IndianOceanAssets.ShooterSurvival.Analytics
             UpgradeStatManager.UpgradeType.COIN_BONUS,
             UpgradeStatManager.UpgradeType.HP_REGEN,
             UpgradeStatManager.UpgradeType.TUNGTUNGTUNG,
-            UpgradeStatManager.UpgradeType.BOOMBAR
+            UpgradeStatManager.UpgradeType.BOOMBAR,
+            UpgradeStatManager.UpgradeType.LATERAL_SPEED
         };
 
         private static readonly string[] UpgradeCodes =
         {
-            "att", "hp", "as", "ps", "bd", "cb", "hr", "tt", "bb"
+            "att", "hp", "as", "ps", "bd", "cb", "hr", "tt", "bb", "ls"
         };
 
         public UpgradeAnalyticsSnapshot(

@@ -11,6 +11,8 @@ namespace IndianOceanAssets.ShooterSurvival
         Vector3 direction;
         float elapsedDuration;
         bool returnedToPool;
+        public float LaunchDamage { get; private set; }
+        public bool HasDamagePayload { get; private set; }
 
         private static readonly HashSet<BulletScript> ActiveProjectiles = new();
 
@@ -49,6 +51,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void OnDisable()
         {
+            // Retain damage until the next launch so the paired physics callback
+            // can read it even if this callback returned the object first.
             returnedToPool = true;
             ActiveProjectiles.Remove(this);
             routeOwner = null;
@@ -83,12 +87,21 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void SetDirection(Vector3 dir, PlayerScript owner)
         {
+            HasDamagePayload = owner != null;
+            LaunchDamage = owner != null ? owner.ResolvedAttackDamage : 0f;
             direction = dir;
             projectileRoot = transform.root;
             routeOwner = owner;
             elapsedDuration = 0f;
             returnedToPool = false;
             ActiveProjectiles.Add(this);
+        }
+
+        public void SetDirection(Vector3 dir, PlayerScript owner, float damage)
+        {
+            SetDirection(dir, owner);
+            HasDamagePayload = true;
+            LaunchDamage = float.IsNaN(damage) || float.IsInfinity(damage) ? 0f : Mathf.Max(0f, damage);
         }
 
         internal static void ApplyRouteTurn(
@@ -135,7 +148,18 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("EnemyTag") ||
+            if (returnedToPool) return;
+            // Deliver obstacle impact before this pooled projectile is deactivated.
+            // Unity does not guarantee which participant receives its callback first.
+            var obstacle = other.GetComponentInParent<ObstacleStats>();
+            obstacle?.ReactToProjectile();
+            if (obstacle != null)
+            {
+                var highway = obstacle.GetComponent<HighwayHazard>();
+                if (highway != null) highway.ReactToProjectile(this);
+            }
+            bool hitLamp = obstacle != null && obstacle.enabled && obstacle.obstaclePattern == ObstaclePattern.Light;
+            if (hitLamp || other.CompareTag("EnemyTag") ||
                 other.CompareTag("BarrelTag") ||
                 other.CompareTag("Obstacle"))
             {

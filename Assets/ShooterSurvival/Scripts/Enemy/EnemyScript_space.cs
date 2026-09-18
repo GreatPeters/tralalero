@@ -14,15 +14,23 @@ namespace IndianOceanAssets.ShooterSurvival
         [Header("Noryangjin Enemy")]
         [SerializeField] private EnemySO enemyData;
         [SerializeField] private GameObject bonusWall;
+        [SerializeField] private bool dropBonusAltar = true;
+        [SerializeField] private int placementCoinReward = -1;
+        public void ConfigureRewards(bool dropAltar, int coins = -1)
+        {
+            dropBonusAltar=dropAltar;placementCoinReward=coins;
+        }
 
         [Header("Throw (Optional)")]
         [SerializeField] private Transform heldProjectile;
         [SerializeField] private Transform throwPoint;
+        [SerializeField] private bool hideHeldProjectile;
         [SerializeField, Min(0f)] private float throwRange = 7f;
         [SerializeField, Min(0f)] private float throwSpeed = 12f;
         [SerializeField, Min(0f)] private float throwReleaseDelay = 2f;
 
         private float _health;
+        public float CurrentHealth => _health;
         private float _damage;
         private bool isDead;
         private bool hasThrown;
@@ -52,6 +60,8 @@ namespace IndianOceanAssets.ShooterSurvival
             enemyAnimator = GetComponentInChildren<Animator>();
             eventController = GetComponent<EnemyEventController>();
             healthText = GetComponentInChildren<TextMeshProUGUI>(true);
+            if (Application.isPlaying && enemyData != null)
+                EnemyHitEffectPool.Prewarm(enemyData.enemyHitVFX);
 
             if (heldProjectile == null)
                 return;
@@ -132,7 +142,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (other.CompareTag("BulletTag"))
             {
-                ReceiveBulletDamage();
+                ReceiveBulletDamage(other.GetComponentInParent<BulletScript>() ?? other.GetComponentInChildren<BulletScript>());
                 return;
             }
 
@@ -179,13 +189,12 @@ namespace IndianOceanAssets.ShooterSurvival
             RefreshHealthText();
         }
 
-        private void ReceiveBulletDamage()
+        private void ReceiveBulletDamage(BulletScript projectile)
         {
-            GameObject hitEffect = Instantiate(enemyData.enemyHitVFX, hitPosition);
-            ParticleSystem particles = hitEffect.GetComponent<ParticleSystem>();
-            Destroy(hitEffect, particles.main.duration);
+            GameAudioService.PlayAt(GameSound.EnemyHit, transform.position);
+            EnemyHitEffectPool.Play(enemyData.enemyHitVFX, hitPosition);
 
-            float damage = playerScript.currentDamage;
+            float damage = projectile != null && projectile.HasDamagePayload ? projectile.LaunchDamage : playerScript.currentDamage;
             if (enemyTier == EnemyTier.Boss && UpgradeStatManager.S != null)
             {
                 damage = UpgradeStatManager.S.ApplyToBase(
@@ -203,7 +212,6 @@ namespace IndianOceanAssets.ShooterSurvival
 
             _health = 0f;
             RefreshHealthText();
-            audioSource.PlayOneShot(enemyData.enemyDeathSound);
             EnemyDeath();
         }
 
@@ -213,7 +221,8 @@ namespace IndianOceanAssets.ShooterSurvival
                 return;
 
             isDead = true;
-            SpawnBonusAltar();
+            GameAudioService.PlayAt(GameSound.EnemyDeath, transform.position);
+            if(dropBonusAltar)SpawnBonusAltar();
 
             Collider enemyCollider = GetComponent<Collider>();
             if (enemyCollider != null)
@@ -229,8 +238,8 @@ namespace IndianOceanAssets.ShooterSurvival
                 playerScript.playerScore += enemyData.scoreUponDeath;
             rewardPlayerScore = false;
 
-            int coinAmount = CoinDropUtility.ApplyCoinBonus(
-                CoinDropUtility.GetCoinAmount(enemyTier));
+            int baseCoin=placementCoinReward>=0?placementCoinReward:CoinDropUtility.GetCoinAmount(enemyTier);
+            int coinAmount = baseCoin>0?CoinDropUtility.ApplyCoinBonus(baseCoin):0;
             CoinDropUtility.SpawnWorldCoinDrop(transform.position, coinAmount);
         }
 
@@ -296,17 +305,13 @@ namespace IndianOceanAssets.ShooterSurvival
                 rigidbody.isKinematic = true;
             }
 
-            Collider projectileCollider = heldProjectile.GetComponent<Collider>();
-            if (projectileCollider != null)
-                projectileCollider.isTrigger = false;
-
-            TrailRenderer trail = heldProjectile.GetComponentInChildren<TrailRenderer>(true);
-            if (trail == null)
-                return;
-
-            trail.emitting = false;
-            trail.Clear();
-            trail.emitting = true;
+            // A carried prop must not collide with its owner, the road or the player.
+            foreach (Collider collider in heldProjectile.GetComponentsInChildren<Collider>(true))
+                collider.enabled = false;
+            bool showHeldProp = !hideHeldProjectile && GetComponent<EnemyGunAim>() == null;
+            foreach (Renderer renderer in heldProjectile.GetComponentsInChildren<Renderer>(true))
+                if (!(renderer is TrailRenderer)) renderer.enabled = showHeldProp;
+            heldProjectile.GetComponent<SimpleProjectile>()?.SetFlightActive(false);
         }
 
         private void BeginThrow()
@@ -376,16 +381,25 @@ namespace IndianOceanAssets.ShooterSurvival
             if (isDead || heldProjectile == null || !TimeManager.isGameRunning)
                 yield break;
 
-            Transform releaseTransform = throwPoint != null ? throwPoint : transform;
+            GetComponent<EnemyGroundedPose>()?.Settle();
+            GetComponent<EnemyGunAim>()?.AimAtPlayer();
+            Transform releaseTransform = throwPoint != null ? throwPoint : heldProjectile;
             Vector3 releasePosition = releaseTransform.position;
+            // Detached throw props keep the hand's real release height. A low keyframe
+            // must not launch a large crate through the road surface.
+            if (throwPoint == heldProjectile)
+                releasePosition.y = Mathf.Max(releasePosition.y, transform.position.y + .9f);
             Vector3 throwDirection = CalculateThrowDirection(
                 releasePosition,
                 GetPlayerAimPoint(),
                 -releaseTransform.forward);
 
             heldProjectile.position = releasePosition;
+            GameAudioService.PlayAt(GameSound.Throw, releasePosition);
             heldProjectile.SetParent(null, true);
             heldProjectile.rotation = BuildThrownProjectileRotation(throwDirection);
+            foreach (Renderer renderer in heldProjectile.GetComponentsInChildren<Renderer>(true))
+                if (!(renderer is TrailRenderer)) renderer.enabled = true;
 
             Collider projectileCollider = heldProjectile.GetComponent<Collider>();
             if (projectileCollider == null)
@@ -406,6 +420,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             rigidbody.angularVelocity = Vector3.zero;
             rigidbody.linearVelocity = throwDirection * throwSpeed;
+            heldProjectile.GetComponent<SimpleProjectile>().SetFlightActive(true);
         }
 
         private Vector3 GetPlayerAimPoint()

@@ -1,7 +1,7 @@
 ---
 title: Persist each generated image before starting the next prompt
 date: 2026-05-16
-last_updated: 2026-08-17
+last_updated: 2026-09-15
 category: docs/solutions/workflow-issues
 module: Stage reference image generation
 problem_type: workflow_issue
@@ -100,6 +100,14 @@ Copy-Item -LiteralPath $generatedPng -Destination (Join-Path $previewDir '01-woo
 ```
 
 ## Related
+
+### 2026-09-15 in-game UI preview recovery
+
+The user reported another blank image/context view when reopening the Harbor in-game UI proposal. The retained `tmp/image-previews/harbor-ingame-ui-revision-2026-09-15/ingame-ui-revision-v1.png` decoded correctly and was visually inspected at 1536×1024. Its original session summary confirmed that it is a static combat/settings/results proposal, not an installed Unity revision (session history).
+
+Opening that exact PNG through Windows file association returned successfully. This verifies the launch request, not the external viewer's rendered window. Deliver the direct absolute PNG link again. Current narrow log searches did not establish the cause of the context-view failure; keep app repair explicitly unresolved and distinguish the reported surface from Unity gameplay. Existing cache-repair records are historical evidence, not grounds to repeat resets or claim a current fix.
+
+The user subsequently clarified that the failing surface is **inside VS Code**. The active Code window uses the long-running `20260912T180244` log directory; newer timestamped directories were empty and did not represent that window. `code --reuse-window <absolute PNG path>` returned successfully, with visual confirmation pending. The installed Codex 26.908.40401 extension has an open-target path that calls `openTextDocument`, but no matching path-open failure was found in the inspected current-day logs. This is a candidate code path, not a confirmed cause; do not patch the installed extension or reset desktop caches on that evidence alone.
 
 - `docs/design/stage_reference_regeneration_todo_20260516.md`
 - `docs/design/stage_reference_regeneration_prompts_20260515.md`

@@ -1,0 +1,12 @@
+if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode) throw new System.InvalidOperationException("Edit Mode required");
+const string path = "Assets/JH/UI/Opening/Animated/Curse_Opening_Animated.mp4";
+const string folder = "map-concepts/flow-opening-2026-09-12/installed/";
+var before = UnityEditor.AssetDatabase.AssetPathToGUID(path);
+System.IO.File.Copy(folder + "opening-with-flow-cfr.mp4", path, true);
+UnityEditor.AssetDatabase.ImportAsset(path, UnityEditor.ImportAssetOptions.ForceUpdate | UnityEditor.ImportAssetOptions.ForceSynchronousImport);
+var clip = UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Video.VideoClip>(path);
+if (clip == null || clip.frameCount != 626 || clip.width != 720 || clip.height != 1280 || System.Math.Abs(clip.frameRate - 24) > .001) throw new System.InvalidOperationException("Unexpected movie import");
+if (before != UnityEditor.AssetDatabase.AssetPathToGUID(path)) throw new System.InvalidOperationException("Movie GUID changed");
+var opening = UnityEngine.Object.FindFirstObjectByType<OpeningStoryUI>(UnityEngine.FindObjectsInactive.Include);
+if (opening.movie != clip) throw new System.InvalidOperationException("Opening references another movie");
+return new { clip.frameCount, clip.frameRate, clip.length, clip.width, clip.height, guid = before, opening.CurrentPage };

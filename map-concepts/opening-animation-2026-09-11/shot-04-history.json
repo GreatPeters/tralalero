@@ -1,0 +1,795 @@
+{
+  "prompt": [
+    4,
+    "65290bd7-a6e7-48b6-9043-aa7bcebd97b2",
+    {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "wan2.2_ti2v_5B_fp16.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "type": "wan",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "wan2.2_vae.safetensors"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "A polished animated fantasy film shot. The funny determined blue shark walks forward along the fish-market road using its THREE short legs and THREE blue sneakers in a clear alternating walking cycle, body bobbing, arms swinging, tail swaying. Camera gently tracks alongside to keep the whole shark in frame. Gulls flap and fly through the sky. Continuous footstep animation, no sliding, preserve the three-legged anatomy and character face."
+        }
+      },
+      "5": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "still image, slideshow, freeze frame, static pose, text, subtitles, speech bubble, watermark, distorted face, fused limbs, extra limbs, morphing, flickering, camera shake, blurry, low quality"
+        }
+      },
+      "6": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "codex-opening-04.png"
+        }
+      },
+      "7": {
+        "class_type": "Wan22ImageToVideoLatent",
+        "inputs": {
+          "vae": [
+            "3",
+            0
+          ],
+          "width": 512,
+          "height": 896,
+          "length": 121,
+          "batch_size": 1,
+          "start_image": [
+            "6",
+            0
+          ]
+        }
+      },
+      "8": {
+        "class_type": "ModelSamplingSD3",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "shift": 8.0
+        }
+      },
+      "9": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "8",
+            0
+          ],
+          "positive": [
+            "4",
+            0
+          ],
+          "negative": [
+            "5",
+            0
+          ],
+          "latent_image": [
+            "7",
+            0
+          ],
+          "seed": 202609114,
+          "steps": 20,
+          "cfg": 5.0,
+          "sampler_name": "uni_pc",
+          "scheduler": "simple",
+          "denoise": 1.0
+        }
+      },
+      "10": {
+        "class_type": "VAEDecodeTiled",
+        "inputs": {
+          "samples": [
+            "9",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ],
+          "tile_size": 512,
+          "overlap": 64,
+          "temporal_size": 16,
+          "temporal_overlap": 4
+        }
+      },
+      "11": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "10",
+            0
+          ],
+          "filename_prefix": "codex-opening-20260911/shot-04"
+        }
+      }
+    },
+    {
+      "create_time": 1789091421048
+    },
+    [
+      "11"
+    ]
+  ],
+  "outputs": {
+    "11": {
+      "images": [
+        {
+          "filename": "shot-04_00001_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00002_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00003_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00004_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00005_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00006_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00007_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00008_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00009_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00010_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00011_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00012_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00013_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00014_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00015_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00016_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00017_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00018_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00019_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00020_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00021_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00022_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00023_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00024_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00025_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00026_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00027_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00028_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00029_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00030_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00031_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00032_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00033_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00034_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00035_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00036_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00037_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00038_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00039_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00040_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00041_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00042_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00043_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00044_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00045_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00046_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00047_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00048_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00049_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00050_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00051_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00052_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00053_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00054_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00055_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00056_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00057_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00058_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00059_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00060_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00061_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00062_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00063_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00064_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00065_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00066_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00067_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00068_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00069_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00070_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00071_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00072_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00073_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00074_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00075_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00076_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00077_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00078_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00079_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00080_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00081_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00082_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00083_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00084_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00085_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00086_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00087_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00088_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00089_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00090_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00091_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00092_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00093_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00094_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00095_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00096_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00097_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00098_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00099_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00100_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00101_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00102_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00103_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00104_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00105_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00106_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00107_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00108_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00109_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00110_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00111_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00112_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00113_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00114_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00115_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00116_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00117_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00118_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00119_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00120_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-04_00121_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "65290bd7-a6e7-48b6-9043-aa7bcebd97b2",
+          "timestamp": 1789091421049
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "1",
+            "2",
+            "3",
+            "5",
+            "8"
+          ],
+          "prompt_id": "65290bd7-a6e7-48b6-9043-aa7bcebd97b2",
+          "timestamp": 1789091421056
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "65290bd7-a6e7-48b6-9043-aa7bcebd97b2",
+          "timestamp": 1789091988398
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "11": {
+      "node_id": "11",
+      "display_node": "11",
+      "parent_node": null,
+      "real_node_id": "11"
+    }
+  }
+}

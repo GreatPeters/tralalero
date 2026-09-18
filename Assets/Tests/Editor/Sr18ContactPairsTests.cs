@@ -68,7 +68,7 @@ public sealed class Sr18ContactPairsTests
             var lamps = map.Find("Props").Cast<Transform>().Where(t => t.name.StartsWith("SR18_L_G"))
                 .SelectMany(t => t.GetComponentsInChildren<ObstacleStats>()).Where(o => o.enabled && o.obstaclePattern == ObstaclePattern.Light).ToArray();
             Assert.That(lamps.Length, Is.EqualTo(8));
-            Assert.That(lamps.All(l => !l.canBeShotDown), Is.True);
+            Assert.That(lamps.All(l => l.canBeShotDown), Is.True, "Every authored pole can now be toppled by shooting");
             Assert.That(lamps.All(l => l.value == 50 && l.GetComponents<Collider>().All(c => c.enabled)), Is.True);
         });
     }

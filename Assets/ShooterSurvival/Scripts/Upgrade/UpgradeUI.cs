@@ -36,10 +36,13 @@ public class UpgradeUI : MonoBehaviour
     [SerializeField] private Sprite jewelPriceSprite;
     [SerializeField] private GameObject dimb;
     [SerializeField] private Button buyButton;
+    [SerializeField] private TextMeshProUGUI buyLabel;
 
     [Header("Visual (optional)")]
     [SerializeField] private SpriteDatabase spriteDatabase;
     [SerializeField] private string iconKey;
+    [SerializeField] private string displayNameOverride;
+    [SerializeField] private Sprite iconOverride;
     [SerializeField] private Color priceNotEnoughColor = new Color(1f, 0.35f, 0.35f);
     [SerializeField] private Color priceLockedColor = new Color(0.7f, 0.7f, 0.7f);
 
@@ -49,7 +52,7 @@ public class UpgradeUI : MonoBehaviour
 
     private string FormatValue(float value, ValueType valueType)
     {
-        string number = value.ToString("0.##");
+        string number = (value >= 0f ? "+" : "") + value.ToString("0.##");
         return valueType == ValueType.Percent ? $"{number}%" : number;
     }
 
@@ -61,8 +64,9 @@ public class UpgradeUI : MonoBehaviour
         return currentLevel > 0 ? $"{itemName} ({currentLevel})" : itemName;
     }
 
-    private static string GetDisplayName(UpgradeRow row)
+    private string GetDisplayName(UpgradeRow row)
     {
+        if (!string.IsNullOrWhiteSpace(displayNameOverride)) return displayNameOverride;
         return row.type == UpgradeStatManager.MissileDurationUpgradeType
             ? MissileDurationDisplayName
             : row.item;
@@ -177,7 +181,7 @@ public class UpgradeUI : MonoBehaviour
 
         bool enoughMoney = HasEnoughMoney(next);
 
-        SetBuyState(canInteract: true, showDim: false);
+        SetBuyState(canInteract: enoughMoney, showDim: false);
 
         if (priceText != null)
             priceText.color = enoughMoney ? cachedPriceNormalColor : priceNotEnoughColor;
@@ -186,7 +190,9 @@ public class UpgradeUI : MonoBehaviour
     void ApplyMaxTexts(bool useCardV2Layout, UpgradeRow currentRow)
     {
         if (nameText != null)
-            nameText.text = FormatNameWithLevel(GetDisplayName(currentRow), level);
+            nameText.text = useCardV2Layout ? GetDisplayName(currentRow) : FormatNameWithLevel(GetDisplayName(currentRow), level);
+
+        if (useCardV2Layout && levelText != null) levelText.text = $"레벨 {level} / {UpgradeTables.MaxLevel(upgradeId)}";
 
         if (!useCardV2Layout)
         {
@@ -211,7 +217,7 @@ public class UpgradeUI : MonoBehaviour
     void ApplyTexts(UpgradeRow currentRow, UpgradeRow next, float currentValue, bool useCardV2Layout)
     {
         if (nameText != null)
-            nameText.text = FormatNameWithLevel(GetDisplayName(next), level);
+            nameText.text = useCardV2Layout ? GetDisplayName(next) : FormatNameWithLevel(GetDisplayName(next), level);
 
         if (useCardV2Layout)
         {
@@ -231,7 +237,7 @@ public class UpgradeUI : MonoBehaviour
                 descriptionText.text = GetDescription(next);
 
             if (levelText != null)
-                levelText.text = string.Empty;
+                levelText.text = $"레벨 {level} / {UpgradeTables.MaxLevel(upgradeId)}";
 
             return;
         }
@@ -242,6 +248,7 @@ public class UpgradeUI : MonoBehaviour
 
     void SetBuyState(bool canInteract, bool showDim)
     {
+        if (buyLabel != null) buyLabel.text = showDim ? "최대 레벨" : "강화";
         if (buyButton != null)
             buyButton.interactable = canInteract;
 
@@ -262,6 +269,16 @@ public class UpgradeUI : MonoBehaviour
         };
     }
 
+    public int UpgradeId => upgradeId;
+
+    public bool TryBuy()
+    {
+        Load();
+        int previousLevel = level;
+        Buy();
+        return level > previousLevel;
+    }
+
     void Buy()
     {
         if (!UpgradeTables.TryGet(upgradeId, level + 1, out var next))
@@ -273,6 +290,7 @@ public class UpgradeUI : MonoBehaviour
 
         if (!HasEnoughMoney(next))
         {
+            GameAudioService.Play(GameSound.Denied);
             Debug.Log("Not enough currency for upgrade.");
             return;
         }
@@ -281,6 +299,7 @@ public class UpgradeUI : MonoBehaviour
             return;
 
         level++;
+        GameAudioService.Play(GameSound.Upgrade);
         Save();
 
         if (UpgradeStatManager.S != null)
@@ -503,6 +522,7 @@ public class UpgradeUI : MonoBehaviour
 
     void ApplyIcon(UpgradeRow currentRow)
     {
+        if (iconImage != null && iconOverride != null) { iconImage.sprite = iconOverride; return; }
         if (iconImage == null || spriteDatabase == null)
             return;
 

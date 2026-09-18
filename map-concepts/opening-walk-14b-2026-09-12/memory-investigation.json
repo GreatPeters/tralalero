@@ -1,0 +1,19 @@
+{
+  "symptom": "First14B run takes about183 seconds per denoising step after initialization.",
+  "verified": [
+    "R9700 32GB; native FP8 operations reported in ComfyUI log.",
+    "4 of20 steps completed in roughly12 minutes.",
+    "ComfyUI system_stats reported about17GB GPU usage, while Windows per-process counters reported30.34GB dedicated plus2.29GB shared.",
+    "Dynamic VRAM was enabled in the first-run log; no out-of-memory exception occurred."
+  ],
+  "hypothesis": "Dynamic VRAM's residency accounting on this Windows configuration is allowing GPU memory pressure and paging that slows this larger model.",
+  "prediction": "Disabling dynamic VRAM alone should make allocator accounting closer to Windows residency and reduce step time if residency pressure is the cause.",
+  "controlledChange": "Restart only the task-owned ComfyUI process with --disable-dynamic-vram. Keep model files, precision, prompts,seed,frame count,resolution,CFG,sampler and steps unchanged.",
+  "certainty": "Not a proven root cause. Reduced shared allocation is observed, but it does not establish that the original run was paging.",
+  "followupEvidence": [
+    "ComfyUI get_free_memory includes unused torch cache in its available-memory total. Windows dedicated residency includes cached allocations. The two reported usage figures must not be treated as equivalent counters.",
+    "Classic loading reduced the sampled Windows dedicated/shared allocation to25.87GB/0.10GB, compared with30.34GB/2.29GB in the dynamic run.",
+    "Later dynamic-run steps were about183 seconds; later classic-run steps are about155-159 seconds. This is a modest observed difference, not proof that memory management explains most of the runtime.",
+    "The classic run is continuing to completion with no further configuration changes."
+  ]
+}

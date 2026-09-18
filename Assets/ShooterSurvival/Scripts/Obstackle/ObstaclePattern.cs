@@ -9,5 +9,8 @@ public enum ObstaclePattern
     Oldman,
     Dolphin,
     Bucket,
-    Seagull
+    Seagull,
+    HighwayRoadblock,
+    HighwayTraffic,
+    HighwayToll
 }

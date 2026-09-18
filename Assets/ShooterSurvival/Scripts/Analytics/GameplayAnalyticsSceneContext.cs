@@ -124,6 +124,10 @@ namespace IndianOceanAssets.ShooterSurvival.Analytics
                 return true;
             }
 
+            if(string.Equals(sceneName,"HighWay",StringComparison.Ordinal))
+            {
+                resolvedChapter=2;resolvedStage=1;resolvedMaxStage=6;resolvedGameMode="forward_march";return true;
+            }
             resolvedChapter = 0;
             resolvedStage = 0;
             resolvedMaxStage = 0;
@@ -137,6 +141,15 @@ namespace IndianOceanAssets.ShooterSurvival.Analytics
             ref int resolvedMaxStage,
             ref double resolvedChapterProgressPercent)
         {
+            if (scene.IsValid() && scene.isLoaded) foreach (var root in scene.GetRootGameObjects())
+            {
+                var highway = root.GetComponent<HighwayRoute>();
+                if (highway == null) continue;
+                float fraction = Mathf.Clamp01(highway.Distance / Mathf.Max(1, highway.length));
+                resolvedChapterProgressPercent = fraction * 100d;
+                resolvedStage = Mathf.Min(resolvedMaxStage, Mathf.FloorToInt(fraction * resolvedMaxStage) + 1);
+                return;
+            }
             if (!NoryangjinTurnSpot.TryGetRouteProgress(
                     scene,
                     out int completedCheckpointCount,

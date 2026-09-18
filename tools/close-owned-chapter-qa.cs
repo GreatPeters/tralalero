@@ -1,0 +1,10 @@
+if(UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode||!UnityEngine.Application.dataPath.Replace('\\','/').Contains("/tmp/q/"))throw new System.InvalidOperationException("Saved QA Edit Mode required");
+if(UnityEditor.PlayerSettings.companyName!="TralaleroQA")throw new System.InvalidOperationException("QA identity mismatch");
+ChapterPlaytestPreferences.SnapshotAt("tmp/backups/chapters-polish-2026-09-13/final-qa-completion.tsv");
+if(!UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes())throw new System.IO.IOException("QA scenes could not be saved");
+UnityEditor.AssetDatabase.SaveAssets();
+var report=new{project=UnityEngine.Application.dataPath,company=UnityEditor.PlayerSettings.companyName,architecture=UnityEditor.PlayerSettings.Android.targetArchitectures.ToString(),customSigning=UnityEditor.PlayerSettings.Android.useCustomKeystore,minimumApi=(int)UnityEditor.PlayerSettings.Android.minSdkVersion,exitScheduled=true};
+var serialize=System.AppDomain.CurrentDomain.GetAssemblies().First(a=>a.GetName().Name=="Newtonsoft.Json").GetType("Newtonsoft.Json.JsonConvert").GetMethod("SerializeObject",new[]{typeof(object)});
+System.IO.File.WriteAllText("map-concepts/chapters-polish-2026-09-12/qa-cleanup.json",(string)serialize.Invoke(null,new object[]{report}));
+UnityEditor.EditorApplication.delayCall+=()=>UnityEditor.EditorApplication.Exit(0);
+return report;

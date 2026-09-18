@@ -1,0 +1,5 @@
+# Blank shop card
+
+Mode: built-in imagegen, reference-guided generation. Output: `Assets/ShooterSurvival/UI/CoastalFaithful/ShopCard.png`.
+
+Create ONE isolated blank mobile game UI item card background matching the LOWER ITEM CARD in the supplied skin-shop reference. Output square 1024x1024 RGBA transparent outside. Precisely front-on flat UI, not an object in a scene. Rounded rectangle with small 35px corner radius; SLIM glossy deep navy and cobalt-blue enamel outer border 18px wide, very thin white/cyan highlight, slim dark outline and slight shadow. Warm ivory softly textured inset occupying almost all the center. Four SMALL 24px silver cross-head screws inset 36px from each card corner. Border like the reference's four shark item cards, NOT giant octagonal corners, NOT broad chunky bevel, no chamfer. Entire card fills canvas with 8px transparent margin. Absolutely EMPTY center: no writing, no icon, no price band, no check mark, no symbols, no selection glow. Symmetric, straight even borders, suitable for Unity 9-slicing with 64px protected corners. Reproduce reference art quality and blue/ivory palette.

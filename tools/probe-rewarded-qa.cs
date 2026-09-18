@@ -1,0 +1,4 @@
+var ads=IndianOceanAssets.ShooterSurvival.Ads.RewardedAdsService.Instance;
+return new{coins=MoneyScript.S.Coin,ads.Ready,ads.Showing,ads.Status,
+ buttons=UnityEngine.Object.FindObjectsByType<UnityEngine.UI.Button>(UnityEngine.FindObjectsSortMode.None).Select(b=>new{name=b.name,path=b.transform.parent?.name,text=b.GetComponentInChildren<UnityEngine.UI.Text>()?.text,listeners=Enumerable.Range(0,b.onClick.GetPersistentEventCount()).Select(i=>new{target=b.onClick.GetPersistentTarget(i)?.GetType().FullName,method=b.onClick.GetPersistentMethodName(i)}).ToArray()}).ToArray(),
+ controls=UnityEngine.Object.FindObjectsByType<UnityEngine.MonoBehaviour>(UnityEngine.FindObjectsSortMode.None).Where(c=>c.GetType().FullName.StartsWith("GoogleMobileAds")).Select(c=>new{name=c.name,type=c.GetType().FullName}).ToArray()};

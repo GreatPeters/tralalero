@@ -1,0 +1,328 @@
+{
+  "chapter": {
+    "status": "completed",
+    "duration": 0.17,
+    "summary": {
+      "total": 7,
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "results": [
+      {
+        "FullName": "ChapterWorkshopTests.ChapterMultiplier_AppliesAfterRegularAndEquipmentBonuses_WithoutChangingOtherStats",
+        "Status": "Passed",
+        "Duration": 0.0235862,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.InsufficientOrRefusedPayment_DoesNotGrantOwnership",
+        "Status": "Passed",
+        "Duration": 0.0040523,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.InvalidOrUnknownDefinitions_AreRejected",
+        "Status": "Passed",
+        "Duration": 0.0095931,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.LockedChapter_RejectsPurchaseEvenWithEnoughCoins",
+        "Status": "Passed",
+        "Duration": 0.000254,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.PurchaseAndReload_ChargeOnlyOnceAndKeepEffects",
+        "Status": "Passed",
+        "Duration": 0.00034,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.PurchasedChapters_AddBonusesInsteadOfMultiplyingEachOther",
+        "Status": "Passed",
+        "Duration": 0.0003129,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.SynchronousWalletCallback_CannotReenterPurchase",
+        "Status": "Passed",
+        "Duration": 0.0004706,
+        "Message": null,
+        "StackTrace": null
+      }
+    ]
+  },
+  "cosmetics": {
+    "status": "completed",
+    "duration": 0.11,
+    "summary": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "results": [
+      {
+        "FullName": "CosmeticInventoryTests.BuyEquipAndReload_KeepIndependentSlotsAndChargeOnce",
+        "Status": "Passed",
+        "Duration": 0.0049368,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CosmeticInventoryTests.InsufficientOrFailedPayment_DoesNotGrantOrEquip",
+        "Status": "Passed",
+        "Duration": 0.0003284,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CosmeticInventoryTests.InvalidSavedSelection_FallsBackToFreeSlotDefault",
+        "Status": "Passed",
+        "Duration": 0.0004041,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CosmeticInventoryTests.NegativePriceAndDuplicateDefaults_AreRejected",
+        "Status": "Passed",
+        "Duration": 0.0005055,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CosmeticInventoryTests.PaymentCallback_CannotReenterPurchase",
+        "Status": "Passed",
+        "Duration": 0.000277,
+        "Message": null,
+        "StackTrace": null
+      }
+    ]
+  },
+  "opening": {
+    "status": "completed",
+    "duration": 0.31,
+    "summary": {
+      "total": 12,
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "results": [
+      {
+        "FullName": "OpeningMovieTimingTests.CaptionsFollowUnequalShotBoundaries(0,0)",
+        "Status": "Passed",
+        "Duration": 0.0005944,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "OpeningMovieTimingTests.CaptionsFollowUnequalShotBoundaries(7.99d,0)",
+        "Status": "Passed",
+        "Duration": 0.0000741,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "OpeningMovieTimingTests.CaptionsFollowUnequalShotBoundaries(8,1)",
+        "Status": "Passed",
+        "Duration": 0.0000512,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "OpeningMovieTimingTests.CaptionsFollowUnequalShotBoundaries(15.99d,1)",
+        "Status": "Passed",
+        "Duration": 0.000047,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "OpeningMovieTimingTests.CaptionsFollowUnequalShotBoundaries(16,2)",
+        "Status": "Passed",
+        "Duration": 0.000046,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "OpeningMovieTimingTests.CaptionsFollowUnequalShotBoundaries(21.04d,2)",
+        "Status": "Passed",
+        "Duration": 0.0000455,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "OpeningMovieTimingTests.CaptionsFollowUnequalShotBoundaries(21.05d,3)",
+        "Status": "Passed",
+        "Duration": 0.0000472,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "OpeningMovieTimingTests.CaptionsFollowUnequalShotBoundaries(26.08d,3)",
+        "Status": "Passed",
+        "Duration": 0.0000448,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "OpeningMovieTimingTests.NextSeeksToTheActualFirstFrame(0,0)",
+        "Status": "Passed",
+        "Duration": 0.0016584,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "OpeningMovieTimingTests.NextSeeksToTheActualFirstFrame(1,192)",
+        "Status": "Passed",
+        "Duration": 0.0000784,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "OpeningMovieTimingTests.NextSeeksToTheActualFirstFrame(2,384)",
+        "Status": "Passed",
+        "Duration": 0.0000535,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "OpeningMovieTimingTests.NextSeeksToTheActualFirstFrame(3,505)",
+        "Status": "Passed",
+        "Duration": 0.000116,
+        "Message": null,
+        "StackTrace": null
+      }
+    ]
+  },
+  "lateral": {
+    "status": "completed",
+    "duration": 0.29,
+    "summary": {
+      "total": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "results": [
+      {
+        "FullName": "LateralUpgradeTests.LateralResponse_UsesOneAdditivePercentAndStaysWithinBudget(0.0f,1.0f)",
+        "Status": "Passed",
+        "Duration": 0.0162585,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "LateralUpgradeTests.LateralResponse_UsesOneAdditivePercentAndStaysWithinBudget(5.0f,1.05f)",
+        "Status": "Passed",
+        "Duration": 0.002558,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "LateralUpgradeTests.LateralResponse_UsesOneAdditivePercentAndStaysWithinBudget(50.0f,1.5f)",
+        "Status": "Passed",
+        "Duration": 0.0027916,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "LateralUpgradeTests.LateralResponse_UsesOneAdditivePercentAndStaysWithinBudget(100.0f,1.5f)",
+        "Status": "Passed",
+        "Duration": 0.0025341,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "LateralUpgradeTests.LateralResponse_UsesOneAdditivePercentAndStaysWithinBudget(-20.0f,1.0f)",
+        "Status": "Passed",
+        "Duration": 0.0018957,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "LateralUpgradeTests.NewType_PreservesLegacySavedEnumValues",
+        "Status": "Passed",
+        "Duration": 0.0021577,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "LateralUpgradeTests.SavedLevel_RecomputesMovementFromWorkbookOnLobbyReload",
+        "Status": "Passed",
+        "Duration": 0.1410555,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "LateralUpgradeTests.Workbook_HasTenFivePercentLevels_AndNoEleventhPurchase",
+        "Status": "Passed",
+        "Duration": 0.0042794,
+        "Message": null,
+        "StackTrace": null
+      }
+    ]
+  },
+  "runtimeChecks": [
+    {
+      "check": "permanent upgrade through actual button",
+      "beforeCoins": 3047,
+      "afterCoins": 3032,
+      "beforeLevel": 1,
+      "afterLevel": 2,
+      "attackAfter": 16,
+      "contentHeight": 2404
+    },
+    {
+      "check": "chapter one purchase and duplicate rejection",
+      "beforeCoins": 3032,
+      "afterCoins": 2532,
+      "attackBefore": 16,
+      "attackAfter": 32,
+      "healthBefore": 60,
+      "healthAfter": 180,
+      "repeatResult": "Owned",
+      "repeatCoins": 2532
+    },
+    {
+      "check": "chapter two unlock gate",
+      "unlocked": 1,
+      "result": "Locked"
+    },
+    {
+      "check": "unowned cosmetic selection",
+      "item": "shoes_ruby",
+      "price": 200,
+      "jewels": 0,
+      "action": "구매   200",
+      "buttonEnabled": false,
+      "previewTexture": true
+    },
+    {
+      "jewelsAfterPurchase": 50,
+      "ownedAction": "장착",
+      "equippedAction": "장착 중",
+      "jewelsAfterEquip": 50,
+      "owned": true,
+      "effect": "공격력 +16%"
+    }
+  ],
+  "equipmentStartup": {
+    "ready": true,
+    "attack": 34.56,
+    "hp": 180,
+    "equipmentAttack": 16
+  }
+}

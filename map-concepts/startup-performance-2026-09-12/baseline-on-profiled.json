@@ -1,0 +1,373 @@
+{
+    "label": "baseline-on-profiled",
+    "videoEnabled": true,
+    "enteredPlaySeconds": 17.99787518750054,
+    "firstTickSeconds": 18.00234478749917,
+    "movieReadySeconds": 18.077699687499263,
+    "frames": 678,
+    "medianFrameMs": 11.936599731445313,
+    "p95FrameMs": 16.911699295043947,
+    "maxFrameMs": 16907.375,
+    "samples": [
+        {
+            "name": "Main Thread",
+            "totalMs": 26409.729102134705,
+            "maxMs": 16907.375,
+            "calls": 678
+        },
+        {
+            "name": "EditorLoop",
+            "totalMs": 21675.09811833501,
+            "maxMs": 15137.283203125,
+            "calls": 1761
+        },
+        {
+            "name": "PlayerLoop",
+            "totalMs": 4330.738108873367,
+            "maxMs": 1716.5576171875,
+            "calls": 1357
+        },
+        {
+            "name": "UpdateScene",
+            "totalMs": 3403.2235786914825,
+            "maxMs": 1716.556884765625,
+            "calls": 678
+        },
+        {
+            "name": "EarlyUpdate.ScriptRunDelayedStartupFrame",
+            "totalMs": 1699.2335205078125,
+            "maxMs": 1699.2335205078125,
+            "calls": 1
+        },
+        {
+            "name": "CoroutinesDelayedCalls",
+            "totalMs": 1699.232421875,
+            "maxMs": 1699.232421875,
+            "calls": 1
+        },
+        {
+            "name": "Assembly-CSharp.dll!IndianOceanAssets.ShooterSurvival::EncounterPlacementController.Start() [Invoke]",
+            "totalMs": 859.9686889648438,
+            "maxMs": 859.9686889648438,
+            "calls": 1
+        },
+        {
+            "name": "Assembly-CSharp.dll!::PlayerCosmeticCustomizer.Start() [Invoke]",
+            "totalMs": 830.4867553710938,
+            "maxMs": 830.4867553710938,
+            "calls": 1
+        },
+        {
+            "name": "PostLateUpdate.PlayerUpdateCanvases",
+            "totalMs": 205.70040018856526,
+            "maxMs": 11.531700134277344,
+            "calls": 678
+        },
+        {
+            "name": "UIEvents.WillRenderCanvases",
+            "totalMs": 197.97779920697213,
+            "maxMs": 11.501099586486817,
+            "calls": 678
+        },
+        {
+            "name": "UGUI.Rendering.UpdateBatches",
+            "totalMs": 197.8803995847702,
+            "maxMs": 11.50059986114502,
+            "calls": 678
+        },
+        {
+            "name": "UnityEngine.UIModule.dll!UnityEngine::Canvas.SendWillRenderCanvases() [Invoke]",
+            "totalMs": 16.326199769973756,
+            "maxMs": 10.539799690246582,
+            "calls": 7
+        },
+        {
+            "name": "Render",
+            "totalMs": 14.967299938201905,
+            "maxMs": 10.340399742126465,
+            "calls": 2
+        },
+        {
+            "name": "CanvasUpdate.PreRender",
+            "totalMs": 14.901600360870362,
+            "maxMs": 10.305800437927246,
+            "calls": 2
+        },
+        {
+            "name": "Assembly-CSharp.dll!IndianOceanAssets.ShooterSurvival::ChapterEnemyStatController.Start() [Invoke]",
+            "totalMs": 5.328700065612793,
+            "maxMs": 5.328700065612793,
+            "calls": 1
+        },
+        {
+            "name": "TimeUpdate.WaitForLastPresentationAndUpdateTime",
+            "totalMs": 54.903799533843997,
+            "maxMs": 3.5771000385284426,
+            "calls": 18
+        },
+        {
+            "name": "GarbageCollector.CollectIncremental",
+            "totalMs": 54.80140018463135,
+            "maxMs": 3.5713000297546388,
+            "calls": 18
+        },
+        {
+            "name": "FixedUpdate.DirectorFixedUpdate",
+            "totalMs": 2.216599941253662,
+            "maxMs": 2.216599941253662,
+            "calls": 1
+        },
+        {
+            "name": "RenderPlayModeViewCameras",
+            "totalMs": 927.3774967193604,
+            "maxMs": 2.162600040435791,
+            "calls": 679
+        },
+        {
+            "name": "Profiler.CollectEditorStats",
+            "totalMs": 13.83750008046627,
+            "maxMs": 1.9670000076293946,
+            "calls": 45
+        },
+        {
+            "name": "UnityEngine.CoreModule.dll!UnityEngine.Rendering::RenderPipelineManager.DoRenderLoop_Internal() [Invoke]",
+            "totalMs": 790.9011988043785,
+            "maxMs": 1.9026000499725342,
+            "calls": 679
+        },
+        {
+            "name": "Profiler.CollectUIStats",
+            "totalMs": 13.481700032949448,
+            "maxMs": 1.8732999563217164,
+            "calls": 44
+        },
+        {
+            "name": "Inl_UniversalRenderTotal",
+            "totalMs": 773.1029987931252,
+            "maxMs": 1.8467999696731568,
+            "calls": 679
+        },
+        {
+            "name": "Inl_RenderCameraStack",
+            "totalMs": 758.1109989881516,
+            "maxMs": 1.8005000352859498,
+            "calls": 679
+        },
+        {
+            "name": "Assembly-CSharp.dll!IndianOceanAssets.ShooterSurvival::CanvasScript.Start() [Invoke]",
+            "totalMs": 1.742900013923645,
+            "maxMs": 1.742900013923645,
+            "calls": 1
+        },
+        {
+            "name": "FixedUpdate.PhysicsFixedUpdate",
+            "totalMs": 5.8848999589681629,
+            "maxMs": 1.385699987411499,
+            "calls": 18
+        },
+        {
+            "name": "Physics.RunSimulationStage",
+            "totalMs": 2.3378999680280687,
+            "maxMs": 1.3143999576568604,
+            "calls": 5
+        },
+        {
+            "name": "Physics.Simulate",
+            "totalMs": 2.330699935555458,
+            "maxMs": 1.312999963760376,
+            "calls": 5
+        },
+        {
+            "name": "PxScene.simulate",
+            "totalMs": 2.3268000334501268,
+            "maxMs": 1.3121000528335572,
+            "calls": 5
+        },
+        {
+            "name": "Inl_UniversalRenderPipeline.RenderSingleCameraInternal: MapTool_Camera",
+            "totalMs": 421.89249870181085,
+            "maxMs": 1.222599983215332,
+            "calls": 679
+        },
+        {
+            "name": "PreLateUpdate.ScriptRunBehaviourLateUpdate",
+            "totalMs": 503.555198431015,
+            "maxMs": 1.1239999532699586,
+            "calls": 678
+        },
+        {
+            "name": "LateBehaviourUpdate",
+            "totalMs": 503.32599979639055,
+            "maxMs": 1.1232999563217164,
+            "calls": 678
+        },
+        {
+            "name": "PostLateUpdate.UpdateVideo",
+            "totalMs": 0.7605000138282776,
+            "maxMs": 0.7605000138282776,
+            "calls": 1
+        },
+        {
+            "name": "VideoPlayer.Update",
+            "totalMs": 5.210000038146973,
+            "maxMs": 0.7573999762535095,
+            "calls": 10
+        },
+        {
+            "name": "Inl_ScriptableRenderer.Execute: Mobile RP",
+            "totalMs": 193.96119959652425,
+            "maxMs": 0.7516000270843506,
+            "calls": 679
+        },
+        {
+            "name": "Inl_ScriptableRenderContext.Submit",
+            "totalMs": 284.8034995496273,
+            "maxMs": 0.739300012588501,
+            "calls": 679
+        },
+        {
+            "name": "UniversalRenderPipeline.RenderSingleCameraInternal: MapTool_Camera",
+            "totalMs": 268.6681989133358,
+            "maxMs": 0.7080000042915344,
+            "calls": 679
+        },
+        {
+            "name": "WindowsVideoTextureOutput.OpenSharedResource",
+            "totalMs": 3.953199952840805,
+            "maxMs": 0.6750999689102173,
+            "calls": 9
+        },
+        {
+            "name": "Assembly-CSharp.dll!IndianOceanAssets.ShooterSurvival::PlayerScript.Start() [Invoke]",
+            "totalMs": 0.661300003528595,
+            "maxMs": 0.661300003528595,
+            "calls": 1
+        },
+        {
+            "name": "Update.ScriptRunBehaviourUpdate",
+            "totalMs": 245.52469965815545,
+            "maxMs": 0.659600019454956,
+            "calls": 678
+        },
+        {
+            "name": "BehaviourUpdate",
+            "totalMs": 245.17249923944474,
+            "maxMs": 0.6593999862670898,
+            "calls": 678
+        },
+        {
+            "name": "PreUpdate.UpdateVideo",
+            "totalMs": 4.463999927043915,
+            "maxMs": 0.6406999826431274,
+            "calls": 9
+        },
+        {
+            "name": "VideoPlayer.InvokeScriptCallbacks",
+            "totalMs": 0.6301999688148499,
+            "maxMs": 0.6301999688148499,
+            "calls": 1
+        },
+        {
+            "name": "EarlyUpdate.UpdateTextureStreamingManager",
+            "totalMs": 157.1697997301817,
+            "maxMs": 0.6277999877929688,
+            "calls": 565
+        },
+        {
+            "name": "TextureStreamingManager.Update",
+            "totalMs": 156.91389982402326,
+            "maxMs": 0.6276000142097473,
+            "calls": 565
+        },
+        {
+            "name": "TextureStreamingManager.UpdateRenderers",
+            "totalMs": 153.51819963753224,
+            "maxMs": 0.6198999881744385,
+            "calls": 565
+        },
+        {
+            "name": "ScriptableRenderer.Execute: Mobile RP",
+            "totalMs": 257.7827992737293,
+            "maxMs": 0.6134999990463257,
+            "calls": 679
+        },
+        {
+            "name": "UnityEngine.VideoModule.dll!UnityEngine.Video::VideoPlayer.InvokePrepareCompletedCallback_Internal() [Invoke]",
+            "totalMs": 0.5983999967575073,
+            "maxMs": 0.5983999967575073,
+            "calls": 1
+        },
+        {
+            "name": "TMP Parse Text",
+            "totalMs": 0.5242000222206116,
+            "maxMs": 0.5242000222206116,
+            "calls": 1
+        },
+        {
+            "name": "TMP.SetArraySizes",
+            "totalMs": 0.5171999931335449,
+            "maxMs": 0.5171999931335449,
+            "calls": 1
+        },
+        {
+            "name": "PostLateUpdate.UpdateAllRenderers",
+            "totalMs": 7.556399971246719,
+            "maxMs": 0.49889999628067019,
+            "calls": 31
+        },
+        {
+            "name": "Profiler.FlushCounters",
+            "totalMs": 161.2216992676258,
+            "maxMs": 0.4706999957561493,
+            "calls": 677
+        },
+        {
+            "name": "ScheduleUpdateRendererBoundingVolumes",
+            "totalMs": 0.45809999108314516,
+            "maxMs": 0.45809999108314516,
+            "calls": 1
+        },
+        {
+            "name": "Assembly-CSharp.dll!IndianOceanAssets.ShooterSurvival::NoryangjinCameraOcclusion.LateUpdate() [Invoke]",
+            "totalMs": 156.33459939062596,
+            "maxMs": 0.4578999876976013,
+            "calls": 678
+        },
+        {
+            "name": "TransformChangeSystem",
+            "totalMs": 1.0185999870300294,
+            "maxMs": 0.45739999413490298,
+            "calls": 3
+        },
+        {
+            "name": "Profiler.FlushMemoryCounters",
+            "totalMs": 147.71149963140489,
+            "maxMs": 0.45019999146461489,
+            "calls": 670
+        },
+        {
+            "name": "TMP.GenerateText",
+            "totalMs": 0.44040000438690188,
+            "maxMs": 0.44040000438690188,
+            "calls": 1
+        },
+        {
+            "name": "CullScriptable",
+            "totalMs": 3.746800020337105,
+            "maxMs": 0.36250001192092898,
+            "calls": 16
+        },
+        {
+            "name": "Inl_ScriptableRenderer.Setup",
+            "totalMs": 5.303999960422516,
+            "maxMs": 0.35839998722076418,
+            "calls": 23
+        },
+        {
+            "name": "FinalizeUpdateRendererBoundingVolumes",
+            "totalMs": 3.207099989056587,
+            "maxMs": 0.33899998664855959,
+            "calls": 13
+        }
+    ]
+}

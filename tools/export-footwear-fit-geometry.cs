@@ -1,0 +1,10 @@
+var cat=UnityEngine.Resources.Load<CosmeticVisualCatalog>("Cosmetics/Catalog");var mesh=cat.bodyOnlyMesh;var r=cat.previewModel.GetComponentsInChildren<UnityEngine.SkinnedMeshRenderer>(true).Single();
+var source=UnityEditor.AssetDatabase.LoadAssetAtPath<UnityEngine.Mesh>("Assets/ShooterSurvival/Resources/Cosmetics/SharkSkinAndShoes.asset");
+float[] V(UnityEngine.Vector3 v)=>new[]{v.x,v.y,v.z};
+var data=new{vertices=mesh.vertices.Select(V).ToArray(),normals=mesh.normals.Select(V).ToArray(),uv=mesh.uv.Select(v=>new[]{v.x,v.y}).ToArray(),triangles=mesh.triangles,
+sourceVertices=source.vertices.Select(V).ToArray(),sourceWeights=source.boneWeights.Select(w=>new[]{(float)w.boneIndex0,w.weight0,w.boneIndex1,w.weight1,w.boneIndex2,w.weight2,w.boneIndex3,w.weight3}).ToArray(),shoeTriangles=source.GetTriangles(1),bindposes=source.bindposes.Select(m=>System.Linq.Enumerable.Range(0,16).Select(k=>m[k]).ToArray()).ToArray(),blendShapes=mesh.blendShapeCount,colors=mesh.colors32.Length,uv2=mesh.uv2.Length,
+weights=mesh.boneWeights.Select(w=>new[]{(float)w.boneIndex0,w.weight0,w.boneIndex1,w.weight1,w.boneIndex2,w.weight2,w.boneIndex3,w.weight3}).ToArray(),
+matrices=r.bones.Select((b,i)=>{var m=r.transform.worldToLocalMatrix*b.localToWorldMatrix*mesh.bindposes[i];return System.Linq.Enumerable.Range(0,16).Select(k=>m[k]).ToArray();}).ToArray(),
+bones=r.bones.Select(b=>b.name).ToArray(),shoes=cat.entries.Where(e=>e.replacesBaseShoes&&e.accessory!=null).Select(e=>new{e.key,vertices=e.accessory.GetComponentsInChildren<UnityEngine.MeshFilter>(true).SelectMany(f=>f.sharedMesh.vertices.Select(v=>V(f.transform.TransformPoint(v)))).ToArray()}).ToArray()};
+var serialize=System.AppDomain.CurrentDomain.GetAssemblies().First(a=>a.GetName().Name=="Newtonsoft.Json").GetType("Newtonsoft.Json.JsonConvert").GetMethod("SerializeObject",new[]{typeof(object)});
+System.IO.File.WriteAllText("map-concepts/skins-reststop-2026-09-12/footwear-fit-geometry.json",(string)serialize.Invoke(null,new object[]{data}));return mesh.vertexCount;

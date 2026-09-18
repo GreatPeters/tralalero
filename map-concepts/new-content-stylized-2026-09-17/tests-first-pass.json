@@ -1,0 +1,34 @@
+{
+  "status": "completed",
+  "duration": 0.34,
+  "summary": {
+    "total": 3,
+    "passed": 2,
+    "failed": 1,
+    "skipped": 0,
+    "inconclusive": 0
+  },
+  "results": [
+    {
+      "FullName": "GeneratedStylizedSurfaceTests.AllNewSurfaceAssetsKeepStylizedShaderAndConsistentOutlineKeywords",
+      "Status": "Passed",
+      "Duration": 0.0174973,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GeneratedStylizedSurfaceTests.ConversionPreservesMapsTintUvAndTransparentRenderState",
+      "Status": "Failed",
+      "Duration": 0.0157552,
+      "Message": "  Expected string length 11 but was 6. Strings differ at index 0.\r\n  Expected: \"Transparent\"\r\n  But was:  \"Opaque\"\r\n  -----------^\r\n",
+      "StackTrace": "at GeneratedStylizedSurfaceTests.ConversionPreservesMapsTintUvAndTransparentRenderState () [0x00260] in C:\\Users\\ljh\\tralalero Shooter\\Assets\\Tests\\Editor\\GeneratedStylizedSurfaceTests.cs:42\r\n"
+    },
+    {
+      "FullName": "GeneratedStylizedSurfaceTests.EveryShippingRendererHasAnActiveOutlineFeatureForNewOpaqueSurfaces",
+      "Status": "Passed",
+      "Duration": 0.1878562,
+      "Message": null,
+      "StackTrace": null
+    }
+  ]
+}

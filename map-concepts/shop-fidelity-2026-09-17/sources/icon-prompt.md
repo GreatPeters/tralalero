@@ -1,0 +1,7 @@
+# Upgrade icons
+
+Mode: built-in imagegen, reference-guided generation. Reference: `tmp/image-previews/harbor-ui-all-2026-09-15/1/03-upgrades.png`.
+
+Output: `Assets/ShooterSurvival/UI/CoastalFaithful/UpgradeIcons.png`.
+
+Create ONE production-ready transparent PNG upgrade icon sprite sheet matching the supplied Korean game UI reference icons EXACTLY in cartoon rendering style: polished simple bold navy outlines, clean silver highlights, saturated blue/red, no aged realistic textures. Transparent background, no text, no panels. 5 columns by 2 rows, ten equally sized square cells, each object centered with generous 15% transparent margins, no overlap. Top row left to right: (1) blue and silver rounded steel shoe toe cap just like reference first row; (2) bright cyan blue cushioned shoe insole with red edge like reference; (3) chunky black metallic spring coil like reference; (4) red and white small rocket charm like reference; (5) twin blue cylindrical shoe side boosters with cyan exhaust like reference last row. Bottom row left to right: (6) small gold and blue boss-breaking hammer; (7) brown money pouch and two gold coins; (8) cyan padded healing shoe insert with white plus; (9) rounded sturdy blue shield with little wooden face emblem; (10) small red and blue bomber airplane charm. This is a single coordinated atlas for a mobile game. All objects large, consistent ink outlines, frontal three-quarter view, no writing, no shadows beyond object, no outer backdrop. Each object fully isolated alpha. Wide landscape canvas ratio 5:2.

@@ -134,8 +134,7 @@ namespace IndianOceanAssets.ShooterSurvival
             weaponScript = GameObject.FindGameObjectWithTag("WeaponTag").GetComponent<WeaponScript>();
             currentHealth -= weaponScript.damage;                                   // Reduce barrel health by weapon damage
 
-            barrelAudioSource.clip = barrelHitSFX;
-            barrelAudioSource.Play();
+            GameAudioService.PlayAt(GameSound.EnemyHit, transform.position);
 
             // Scale the flame particles based on the health percentage
             fX_Pooler.GetObjectFromPool_FX("Barrel_FlameParticles", transform);

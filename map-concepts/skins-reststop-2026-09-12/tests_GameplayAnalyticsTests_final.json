@@ -1,0 +1,188 @@
+{
+  "status": "completed",
+  "duration": 1.54,
+  "summary": {
+    "total": 25,
+    "passed": 25,
+    "failed": 0,
+    "skipped": 0,
+    "inconclusive": 0
+  },
+  "results": [
+    {
+      "FullName": "GameplayAnalyticsTests.AddEarnedCoins_SumsOnlyNonnegativeRewards",
+      "Status": "Passed",
+      "Duration": 0.0128675,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.AnalyticsEventData_CopiesParametersAndPreservesValueKinds",
+      "Status": "Passed",
+      "Duration": 0.0034578,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.CanvasFallbackStart_ResetsConsumedRouteProgress",
+      "Status": "Passed",
+      "Duration": 0.8207176,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.Complete_EmitsFullRoundOnce",
+      "Status": "Passed",
+      "Duration": 0.0081863,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.Complete_UsesFiniteChapterProgressOverride",
+      "Status": "Passed",
+      "Duration": 0.0014143,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.FirebaseSink_DropsMalformedPersistedEvent",
+      "Status": "Passed",
+      "Duration": 0.004679,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.FirebaseSink_EnableAfterNativeReadinessSendsImmediately",
+      "Status": "Passed",
+      "Duration": 0.002437,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.FirebaseSink_EvictsOldestEventsAtQueueLimit",
+      "Status": "Passed",
+      "Duration": 0.0194102,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.FirebaseSink_OptOutClearsQueueAndRejectsNewEvents",
+      "Status": "Passed",
+      "Duration": 0.0016919,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.FirebaseSink_PersistsEventsBeforeFirebaseIsInitialized",
+      "Status": "Passed",
+      "Duration": 0.0020916,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.HighwaySceneContext_UsesChapterTwoFallback",
+      "Status": "Passed",
+      "Duration": 0.0011119,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.NoryangjinMapScene_ResolvesLiveRouteProgress",
+      "Status": "Passed",
+      "Duration": 0.4217174,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.NoryangjinSceneContext_HasNonzeroFallback",
+      "Status": "Passed",
+      "Duration": 0.0014678,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.NoryangjinSceneContext_UsesConsumedTurnSpotsAsLiveProgress",
+      "Status": "Passed",
+      "Duration": 0.0033219,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.OccurrenceTimestamps_UseInjectedClockExactly",
+      "Status": "Passed",
+      "Duration": 0.0012942,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.RecoverUnfinishedRun_ClearsCorruptCheckpoint",
+      "Status": "Passed",
+      "Duration": 0.0019939,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.RecoverUnfinishedRun_EmitsOneAbandonedEndAndClearsCheckpoint",
+      "Status": "Passed",
+      "Duration": 0.003628,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.Restore_RejectsInvalidSnapshots",
+      "Status": "Passed",
+      "Duration": 0.0012058,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.RoundEvents_StayWithinFirebaseCustomEventLimits",
+      "Status": "Passed",
+      "Duration": 0.0018441,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.Snapshot_RoundTripsAndCanCompleteAsAbandoned",
+      "Status": "Passed",
+      "Duration": 0.0015853,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.StartEvent_WaitsForSinkAndLogsOnlyOnce",
+      "Status": "Passed",
+      "Duration": 0.0016791,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.StartRound_IgnoresSecondStart",
+      "Status": "Passed",
+      "Duration": 0.0013514,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.Tick_OnlyCountsRunningUnscaledTime",
+      "Status": "Passed",
+      "Duration": 0.0011986,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.UpgradeSnapshot_CapturesStableCodesAndSanitizesInvalidNumbers",
+      "Status": "Passed",
+      "Duration": 0.0031434,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "GameplayAnalyticsTests.UpgradeSnapshot_LimitsAllStringValues",
+      "Status": "Passed",
+      "Duration": 0.0013857,
+      "Message": null,
+      "StackTrace": null
+    }
+  ]
+}

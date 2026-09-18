@@ -1,5 +1,106 @@
 # Docs Index
 
+- `../map-concepts/feedback-2026-09-19/README.md`: reference-sized settings controls, merchant sleeve deformation repair, hand-relative shovel fit and gold reward effects; native tests and actual collection evidence.
+
+- `../map-concepts/new-content-stylized-2026-09-17/README.md`: 174 new surfaces unified with FlatKit, preserved maps/transparency, three shipping outline renderers, merchant/three-scene native renders and regression tests.
+
+- `../map-concepts/shop-fidelity-2026-09-17/README.md`: corrected cosmetic and upgrade shop proportions, native nine-slice artwork, runtime states, real-model framing and three-scene verification.
+- `solutions/ui-bugs/keep-shop-reference-styling-through-runtime-refresh-2026-09-17.md`: distinguish font outlines from sprite borders, inspect active runtime states and protect final styling from generic authoring passes.
+
+- `../map-concepts/ui-text-alignment-2026-09-17/README.md`: measured glyph alignment, symmetric story labels, centered previous-arrow group and runtime proofs.
+- `solutions/ui-bugs/center-visible-tmp-glyphs-and-compound-button-content-2026-09-17.md`: distinguish font-metric centering from visible glyph centering and center compound controls together.
+
+- `../map-concepts/chapter-ui-themes-2026-09-17/README.md`: Highway/RestStop lobby motifs, explicit chapter-art selection, native captures and Noryangjin preservation.
+- `solutions/design-patterns/separate-chapter-identity-from-shared-ui-2026-09-17.md`: share UI structure while selecting location-appropriate symbols through the normal authoring path.
+
+- `../map-concepts/harbor-faithful-art-2026-09-17/README.md`: integrated reference-derived lobby/story art, Jua SDF, responsive video chrome, actual navigation/transition checks and same-width reference comparisons.
+
+- `../map-concepts/harbor-reference-fidelity-2026-09-17/README.md`: supplied concept vs native lobby correction, padded display SDF, independent hand animation and enlarged supported merchant framing.
+
+- `../map-concepts/harbor-opening-refinement-2026-09-16/README.md`: 11-point native refinement, Gmarket SDF, all-chapter UI/HP, extended pier, TRELLIS workshop/merchant, bonus effects and verification.
+- `solutions/ui-bugs/verify-mobile-sdf-and-world-presentation-in-native-frames-2026-09-16.md`: mobile outline shader variants, world text units, animated rig weights, portrait camera visibility and early decoder seeks.
+
+- `../map-concepts/coastal-enamel-ui-2026-09-16/README.md`: selected style1 production assets and all-screen game installation, PSD/sprite sources, native validation and live evidence.
+- `solutions/ui-bugs/normalize-sliced-ui-and-rebind-replaced-screen-fields-2026-09-16.md`: native sprite modes, complete fixed borders, compact row surfaces and external victory-label rebinding.
+
+- `solutions/workflow-issues/preserve-concept-scope-when-applying-ui-style-2026-09-15.md`: concept-only clarification, reversed unintended Unity edits, verified restoration and actual-character image proposals.
+
+- `../map-concepts/harbor-ui-suite-revision-2026-09-15/README.md`: five coordinated concept images covering thirteen upgrade/shop/tutorial/story/common-panel states, exact generation prompts and reviewed state consistency; static proposals.
+
+- `../map-concepts/haunted-festival-wearables-2026-09-15/README.md`: selected Haunted Festival BGM installed; canonical forehead seating, lined pirate crown, live animated headwear captures and preservation checks.
+
+- `../map-concepts/sr18-placement-repair-2026-09-15/README.md`: U89 one-to-one trigger repair, protected map-tool assignments, fitted signal gantry and actual view occlusion checks.
+
+- `../map-concepts/harbor-polish-2026-09-15/README.md`: U88 gameplay/settings/retry correction, readable HUD/TMP presets, five-rank chapter upgrades, coin/hitbox/camera improvements, fitted hats, coastal ship visibility and ten lively BGM candidates.
+
+- `../map-concepts/emotional-horror-bgm-2026-09-15/README.md`: ten emotional/creepy BGM candidates from U87, local generation prompts, MP3/WAV/OGG listening copies, playlist and signal-level validation.
+
+- `../map-concepts/harbor-ui-live-2026-09-15/README.md`: installed Harbor UI and chapter purchases across three scenes, actual A video bindings/markers, equipment totals,32 native tests, screen evidence and verified user-state restoration.
+- `solutions/integration-issues/validate-connected-ui-through-activation-and-scene-reload-2026-09-15.md`: canvas-root scale, inactive contrast, dirty-component persistence, test cleanup boundaries and real playback evidence.
+
+- `../map-concepts/harbor-video-ui-2026-09-15/production/README.md`: both video concepts separated into 25 UI PNGs plus a movie preview, 2 PSDs and 2 native presentation prefabs; inspected alpha, native aspect and source/reconstruction boundaries.
+
+- `../map-concepts/harbor-video-ui-2026-09-15/README.md`: two Harbor-style video-screen concepts, cinema overlay versus separate parchment caption; static proposals with retained playback-flow references and prompts.
+
+- `../map-concepts/harbor-ui-production-2026-09-15/README.md`: selected-v2 revision, chapter/purchase state concepts, 35 separated sprites, 2 layered PSDs, exact-scene overlay and verified live health/action-label changes; full UI replacement/chapter logic not installed.
+- `solutions/workflow-issues/validate-real-alpha-and-rebuild-ui-as-separate-assets-2026-09-15.md`: opaque checkerboard recovery, real alpha/9-slice inspection, editable-layer boundaries and actual-scene composition.
+
+- `../map-concepts/combat-feedback-2026-09-14/ui-original-variation.md`: C UI concept revision with gameplay-camera start, stacked current stats and real numeric upgrade caps; generated proposal and preserved prompts.
+- `solutions/design-patterns/preserve-play-intent-and-data-limits-in-ui-concepts-2026-09-14.md`: user-reviewed start interaction and upgrade-layout semantics; inspect partial rows and derive caps from data.
+
+- `../map-concepts/combat-feedback-2026-09-14/README.md`: three-chapter damage feedback, retry reset, lethal hazards/fallen-pole cooldown, nearby coins, melee corrections, stronger cosmetics, two UI concepts and five original BGM previews;82focused native tests and legacy snapshot limits.
+- `solutions/integration-issues/verify-run-reset-and-rendered-feedback-at-runtime-boundaries-2026-09-14.md`: static bonus lifetime, hierarchy-aware UI edits and actual-frame visual verification.
+
+- `exec-plans/active/mobile-presentation-2026-09-14.md`: ongoing Ocean Pop UI, exact lateral upgrade, KERIS font, knife carry, visible coin, original audio and Android content reduction; records native/test/device limits.
+- `solutions/ui-bugs/restore-inactive-unity-modal-order-and-scroll-height-2026-09-14.md`: real menu lifecycle, modal order, actual grid bounds and dirty-scene test blocking.
+- `../map-concepts/mobile-presentation-2026-09-14/audio/README.md`: two original BGM candidates,26SFX, event coverage and generation provenance.
+
+- `exec-plans/completed/mobile-device-playtest-2026-09-13.md`: optimized APK verified and installed in place on Samsung SM-S901N/Android16; actual gameplay capture, signing restoration and USB recovery.
+
+- `exec-plans/completed/mobile-combat-performance-2026-09-13.md`: bounded damage/coin and hit-effect pools, mobile shadows, measured Editor call costs, native regressions and device-validation limits.
+- `solutions/performance-issues/prewarm-bounded-combat-presentation-pools-2026-09-13.md`: prewarming, saturation, lifecycle checks and trustworthy frame-bounded performance evidence.
+
+- `../map-concepts/approved-road-concepts-2026-09-13/README.md`: installed3-head human proportions,2+2 Highway, new TRELLIS indoor counters, open covered hall, unchanged combat camera and native/live verification. Includes model/source index and restoration evidence.
+
+- `../map-concepts/road-reference-visuals-2026-09-13/README.md`: direct comparison with the two actual source images, additive road/service scenery, preserved gameplay snapshots, directed live evidence and fresh preference restoration. Exact reference reproduction and Android acceptance remain separate.
+
+- `design/USER_STATED_REQUIREMENTS.md`: 사용자 직접 발언에 근거한 U01~U74 원칙·요구 원장. 모바일 UI·음향·용량·이동 강화 및 전투 피드백·리트라이·기믹·새 UI/BGM 요청을 포함한다. 원문·구현 상태·에이전트 설계를 구분한다.
+
+- `../map-concepts/road-patterns-2026-09-13/README.md`: continuous Highway curves, two playable recovery bypasses, oncoming traffic and RestStop's stationary30-second food-hall encounter;123tests and scoped live evidence.
+- `exec-plans/completed/road-patterns-2026-09-13.md`: planning, native authoring, repeated play/review, data integration and original-state preservation.
+- `solutions/design-patterns/separate-authored-enemy-resets-from-pooled-spawns-2026-09-13.md`: actual spawn-position verification, curve-normal continuity and exact restoration of temporary combat state.
+
+- `../map-concepts/chapters-polish-2026-09-12/README.md`: completed three-chapter content/UI, corrected tail-shoe movies,CC0font,17/22/22progression,83final native tests, signed Android test APK and user-state preservation.
+- `exec-plans/completed/chapters-style-balance-ads-2026-09-12-log.md`: original Editor recovery, isolated QA, native imports, rejected diagnostics, final gameplay cohorts,83tests, Android build and cleanup.
+- `solutions/workflow-issues/verify-character-anatomy-and-real-support-in-generated-assets-2026-09-13.md`: attachment-aware anatomy, rig axes/frame rates, importer-helper bounds and floor-fragment repair evidence.
+
+- `../map-concepts/startup-performance-2026-09-12/README.md`: installed workbook-style compaction, same-Editor first-frame18.078→2.156seconds, protected archive verification and pending Unity test-runner block.
+
+- `../map-concepts/analytics-smoke-2026-09-12/README.md`: actual latest-code Android start/death event test, matching Firebase DebugView values/HTTP204, daily-export boundary and emulator rendering limitation.
+- `../map-concepts/flow-opening-2026-09-12/README.md`: two completed Veo3.1 Quality clips, two provider refusals/no charge, actual200-credit usage and pending redesign decision.
+
+- `../map-concepts/player-logs-live-2026-09-12/README.md`: completed Tra → Firebase BigQuery connection, one verified real round,60-day report window and daily10:00–11:00 KST refresh.
+
+- `../map-concepts/skins-reststop-2026-09-12/README.md`: accepted22 TRELLIS assets, body UVs, shop,1:2:1 chapters,18-run progression, rest stop,50-test review and57-key restoration; native Google Sheets connection subsequently completed.
+
+- `exec-plans/completed/skins-progression-analytics-reststop-2026-09-12.md`: current skin/model, two-column shop,1:2:1 chapters,18-run progression, rest-stop and player-log work.
+- `exec-plans/completed/skins-progression-analytics-reststop-2026-09-12-log.md`: implementation, failed candidates, verified checks and pending/restoration state.
+- `../tools/analytics/google-sheets/README.md`: live Tra destination and maintained bounded BigQuery refresh connector.
+- `solutions/integration-issues/trellis-uv-backend-bootstrap-order-2026-09-12.md`: independent UV export implementation and required ComfyUI initialization order.
+
+- `../map-concepts/opening-walk-14b-2026-09-12/README.md`: completed5-second14B FP8 walk comparison, subsequently installed as the game's final opening shot on user request; earlier363 frames preserved,20.17-second total,54-minute generation timing and retained5B backup.
+
+- `../map-concepts/two-chapter-2026-09-11/README.md`: completed16-request acceptance table, usage, screenshots, actual video and65-test verification;57 original preference keys restored.
+- `exec-plans/completed/two-chapter-presentation-highway-2026-09-11.md`: completed presentation, editor workflow, Highway production and chapter verification contract.
+- `exec-plans/completed/two-chapter-presentation-highway-2026-09-11-log.md`: final implementation/validation record, retained failed candidates and verified user-state restoration.
+- `../map-concepts/highway-chapter-2026-09-11/placements.json`: authored2340m HighWay route and23 enemy/12 bonus/29 gimmick identifiers used by the workbook.
+- `../map-concepts/opening-animation-2026-09-11/movie-report.json`: actual local Wan2.2 animation provenance and exported20.1667-second MP4 contract.
+
+- `../map-concepts/sr18-presentation-progression-2026-09-10/README.md`: preceding presentation/equipment revision, jewel equipment24 items, actual23-attempt progression record and verification limits; later UI/movie/Highway work is above.
+- `exec-plans/completed/sr18-presentation-progression-2026-09-10.md`: completed implementation units and the1–16 acceptance contract.
+- `../map-concepts/highway-enemies-2026-09-10/README.md`: reviewed TRELLIS2 enemy FBXs, Unity paths, mesh metrics and existing road FBX location.
+- `solutions/workflow-issues/verify-runtime-presentation-and-progression-beyond-numeric-checks-2026-09-10.md`: semantic mesh partition, launch damage, humanoid pose checks, rejected LODs and earned-currency campaign validation.
+
 - `../map-concepts/highway-examples-2026-09-10/README.md`: five asset-grounded Highway examples, source-model inventory and existing road prefab locations; concept stage only.
 
 - `../map-concepts/noryangjin-release-2026-09-10/README.md`: current balance, 9999 controls, upgrade reference art, independent cosmetic purchases and repeat-play evidence; supersedes earlier unchanged-balance notes.

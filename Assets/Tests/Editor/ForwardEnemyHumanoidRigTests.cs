@@ -295,7 +295,8 @@ public sealed class ForwardEnemyHumanoidRigTests
         AnimatorController controller =
             AssetDatabase.LoadAssetAtPath<AnimatorController>(SharedControllerPath);
         Assert.That(controller, Is.Not.Null, "Missing shared enemy controller.");
-        Assert.That(controller.layers, Has.Length.EqualTo(1));
+        Assert.That(controller.layers, Has.Length.EqualTo(2));
+        Assert.That(controller.layers[1].name, Is.EqualTo(EnemyEventController.CarryLayerName));
         Assert.That(controller.parameters, Is.Empty);
 
         AnimatorStateMachine stateMachine = controller.layers[0].stateMachine;
@@ -604,8 +605,8 @@ public sealed class ForwardEnemyHumanoidRigTests
             attackName);
         AssertMotion(
             bySlot["ForwardEnemy_AttackOnce"],
-            attackPath,
-            attackName);
+            assetName == "Enemy_FatMan" ? Sr18PresentationAssets.StableFatThrowPath : attackPath,
+            assetName == "Enemy_FatMan" ? "Fatman_ThrowShort" : attackName);
         AssertMotion(bySlot["ForwardEnemy_Die"], diePath, dieName);
 
         string yaml = System.IO.File.ReadAllText(

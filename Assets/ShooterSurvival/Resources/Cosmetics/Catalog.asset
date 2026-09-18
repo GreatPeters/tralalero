@@ -12,70 +12,365 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04990f16b294d7a449cf2aa99c8886ed, type: 3}
   m_Name: Catalog
   m_EditorClassIdentifier: Assembly-CSharp::CosmeticVisualCatalog
-  splitSharkMesh: {fileID: 4300000, guid: edecf385231f4484bb28c173f2ecf833, type: 2}
+  sourceSharkMesh: {fileID: -6734620852318575487, guid: 45767e28200fd99489514a5c09f6df15, type: 3}
+  splitSharkMesh: {fileID: 4300000, guid: 4280682975d456d45b9d14c20dece1bb, type: 2}
+  bodyOnlyMesh: {fileID: 4300000, guid: 05d0cbceef8230b4eaf298539201290d, type: 2}
+  footMounts:
+  - bone: backleg2
+    localPosition: {x: -1.5755902e-10, y: 0.00027709472, z: 0.00044934292}
+    localRotation: {x: 0.87318057, y: 0.000000099992484, z: 0.00000006968226, w: -0.4873969}
+    localScale: {x: 0.0013635752, y: 0.0013635756, z: 0.0013635756}
+  - bone: R_backleg2
+    localPosition: {x: 2.768682e-10, y: 0.00027508097, z: 0.00044607747}
+    localRotation: {x: 0.87318057, y: -0.00000032028862, z: 0.00000007483814, w: -0.487397}
+    localScale: {x: 0.0013573968, y: 0.0013573973, z: 0.0013573973}
+  - bone: frontleg2
+    localPosition: {x: -1.6755822e-10, y: 0.00027192122, z: 0.00044095333}
+    localRotation: {x: 0.8731806, y: -0.000000016972805, z: 0.00000035883048, w: -0.48739678}
+    localScale: {x: 0.0016897294, y: 0.0016897296, z: 0.0016897294}
+  - bone: R_frontleg2
+    localPosition: {x: -1.7307973e-10, y: 0.00027125256, z: 0.00043986877}
+    localRotation: {x: 0.8731807, y: -0.000000042808264, z: 0.0000004110791, w: -0.4873966}
+    localScale: {x: 0.0016763145, y: 0.0016763139, z: 0.0016763137}
   previewModel: {fileID: 919132149155446097, guid: 45767e28200fd99489514a5c09f6df15, type: 3}
   previewScale: 450.00018
-  hatLocalPosition: {x: 0.00010478577, y: 0.00080021686, z: 0.0002143067}
-  hatLocalRotation: {x: -0.44884327, y: 0.057044074, z: 0.05214375, w: -0.8902625}
-  hatLocalScale: {x: 0.0012719395, y: 0.0012719395, z: 0.0012719395}
+  hatLocalPosition: {x: 0.0000002635576, y: 0.000117242394, z: 0.00043817394}
+  hatLocalRotation: {x: 0.5430581, y: -0.00072555186, z: 0.0008601475, w: 0.8396944}
+  hatLocalScale: {x: 0.0016, y: 0.0015999998, z: 0.0015999998}
   entries:
   - key: skin_original
-    material: {fileID: 2100000, guid: 89397901eb2980f44a9c0aa9ea08a8fb, type: 2}
+    material: {fileID: 2100000, guid: 02f3220060a2ced43b99ee859ed4050b, type: 2}
     accessory: {fileID: 0}
-    icon: {fileID: 21300000, guid: c13d8f3d304668044a9a8bad24cf076e, type: 3}
+    icon: {fileID: 21300000, guid: 8ba94833735f9f04fa4458af1329a1d1, type: 3}
     swatch: {r: 1, g: 1, b: 1, a: 1}
+    accessoryAnchor: 
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
   - key: skin_coral
-    material: {fileID: 2100000, guid: 6d795a5e227e33047b32c13a9c77c75f, type: 2}
+    material: {fileID: 2100000, guid: 095f77d7c2885a9469148fe8a3d57e64, type: 2}
     accessory: {fileID: 0}
-    icon: {fileID: 21300000, guid: 2800de2c12519e248aaf09c466729c52, type: 3}
+    icon: {fileID: 21300000, guid: 8f1764c2209da4940a87c7a97fa0566c, type: 3}
     swatch: {r: 1.45, g: 0.72, b: 0.82, a: 1}
+    accessoryAnchor: 
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
   - key: skin_ice
-    material: {fileID: 2100000, guid: f768f832794342045a296dc9d6778a65, type: 2}
+    material: {fileID: 2100000, guid: 619c5a77e88e0e0489fdab0174d83213, type: 2}
     accessory: {fileID: 0}
-    icon: {fileID: 21300000, guid: a73bddd025e717e4a9a675ddc4fb0fe1, type: 3}
+    icon: {fileID: 21300000, guid: acaaa00da09f6de4381eb8fac0a951dc, type: 3}
     swatch: {r: 0.72, g: 1.08, b: 1.35, a: 1}
+    accessoryAnchor: 
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
   - key: skin_sand
-    material: {fileID: 2100000, guid: f4f36d81a60ab7346a655f1de3c216dc, type: 2}
+    material: {fileID: 2100000, guid: e0572e54dbc00534e99a3f22d5225a77, type: 2}
     accessory: {fileID: 0}
-    icon: {fileID: 21300000, guid: b16a73d7b2d077345a3184f83c417f36, type: 3}
+    icon: {fileID: 21300000, guid: fc91cdccdcc1c80489722c98ebcdf0bc, type: 3}
     swatch: {r: 1.4, g: 1.13, b: 0.72, a: 1}
+    accessoryAnchor: 
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
   - key: shoes_original
     material: {fileID: 2100000, guid: f3a2a153f8ac6d24b94eed97890f3af0, type: 2}
     accessory: {fileID: 0}
-    icon: {fileID: 21300000, guid: 6089b92dbf878b7479a0c163e546b62c, type: 3}
+    icon: {fileID: 21300000, guid: 3c7f15d2cfa574e47bafd5d55a0bb05f, type: 3}
     swatch: {r: 1, g: 1, b: 1, a: 1}
+    accessoryAnchor: 
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
   - key: shoes_ruby
-    material: {fileID: 2100000, guid: 96d59cb3826040f4186d05d4947e9f90, type: 2}
-    accessory: {fileID: 0}
-    icon: {fileID: 21300000, guid: a056db0cb973c014a81d4bb5ccfb0a62, type: 3}
+    material: {fileID: 2100000, guid: e8ead1a5abe6b184ea6f2827480f7666, type: 2}
+    accessory: {fileID: 921817551231402301, guid: a54d9e1888524254d819b13355e87215, type: 3}
+    icon: {fileID: 21300000, guid: 53ac082d1840a654b92774d58643059a, type: 3}
     swatch: {r: 3.8, g: 0.55, b: 0.45, a: 1}
+    accessoryAnchor: feet
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 1
+    fittedShoeMesh: {fileID: 4300000, guid: 495420a55f0c6ea498ec8cd403667e8e, type: 2}
+    fittedBodyMesh: {fileID: 4300000, guid: f09a5d110efc8ec47adb1204455d5787, type: 2}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
   - key: shoes_mint
-    material: {fileID: 2100000, guid: eb8fc16aede5c634484947c13932e307, type: 2}
-    accessory: {fileID: 0}
-    icon: {fileID: 21300000, guid: 7a427e6bfdd02b547907386bda512fe2, type: 3}
+    material: {fileID: 2100000, guid: 7837894b1cd512b418f547e4832e5641, type: 2}
+    accessory: {fileID: 2429373759002498925, guid: 1747e71a37cc4c347b7198d246323509, type: 3}
+    icon: {fileID: 21300000, guid: 08ef63cf1238f10419a075453617adb0, type: 3}
     swatch: {r: 0.7, g: 1.7, b: 0.72, a: 1}
+    accessoryAnchor: feet
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 1
+    fittedShoeMesh: {fileID: 4300000, guid: 3fc6619799b89b145aa3bbd10beb394b, type: 2}
+    fittedBodyMesh: {fileID: 4300000, guid: ec5c73ee509b0ff4ba0c2a049723461f, type: 2}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
   - key: shoes_gold
-    material: {fileID: 2100000, guid: 0b2d218a4666d3c47ad48e9ebf91f40c, type: 2}
-    accessory: {fileID: 0}
-    icon: {fileID: 21300000, guid: 02a25f3cb1df2f841bc991dcf63a3dbe, type: 3}
+    material: {fileID: 2100000, guid: e140a73452e1aea4eb1dae59da67da67, type: 2}
+    accessory: {fileID: 3102656466951790164, guid: 5d546abceda8bee4dac610266ee88c2d, type: 3}
+    icon: {fileID: 21300000, guid: 5ef5795f46a81db4d9f15d640ab5ea7d, type: 3}
     swatch: {r: 4, g: 2, b: 0.45, a: 1}
+    accessoryAnchor: feet
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 1
+    fittedShoeMesh: {fileID: 4300000, guid: eccbdbeb5c753574caca56c1504fa4d5, type: 2}
+    fittedBodyMesh: {fileID: 4300000, guid: 8058384c994edd841ad1afa12c942379, type: 2}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
   - key: hat_none
     material: {fileID: 0}
     accessory: {fileID: 0}
-    icon: {fileID: 21300000, guid: 5db0c91138b922a45909ea478c2b14d8, type: 3}
+    icon: {fileID: 21300000, guid: ce2bdd14bb7c8a44691f220e6498ddd3, type: 3}
     swatch: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    accessoryAnchor: 
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: -0.06, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
   - key: hat_cap
-    material: {fileID: 0}
-    accessory: {fileID: 7090679149318526098, guid: 76c9a08ddb908384bacfe6fc892f865a, type: 3}
-    icon: {fileID: 21300000, guid: 74ad370ff2c26b44fb0a4bb280ded73f, type: 3}
+    material: {fileID: 2100000, guid: f2b4355dd7fb9b342bad4866339aedf3, type: 2}
+    accessory: {fileID: 4173847181617634134, guid: 45e9bfd81d4250345bc18714014f1081, type: 3}
+    icon: {fileID: 21300000, guid: 973b0dec0e09c334fa7d34450c8b9148, type: 3}
     swatch: {r: 0.12, g: 0.25, b: 0.43, a: 1}
+    accessoryAnchor: head
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: -0.035, z: 0.045}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
   - key: hat_bucket
-    material: {fileID: 0}
-    accessory: {fileID: 6325862148915919007, guid: 4dedc13e7c2a1794a9fe6d5624e0301a, type: 3}
-    icon: {fileID: 21300000, guid: 67afbca834f23784da1f518741e1dd1b, type: 3}
+    material: {fileID: 2100000, guid: 46be550808d0eff479347a7cae71ca87, type: 2}
+    accessory: {fileID: 8873126013976610742, guid: 7602bf42fb708914e8696ef1f688abd7, type: 3}
+    icon: {fileID: 21300000, guid: 4f15076e635a8614c8acf084cc880d2b, type: 3}
     swatch: {r: 0.74, g: 0.56, b: 0.23, a: 1}
+    accessoryAnchor: head
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: -0.07, z: -0.015}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1.05
   - key: hat_tophat
-    material: {fileID: 0}
-    accessory: {fileID: 6279011444929369515, guid: ab965961ae05eb14f8bf18c387dd6e75, type: 3}
-    icon: {fileID: 21300000, guid: dee12f20734a8604bac0f610b1376ba9, type: 3}
+    material: {fileID: 2100000, guid: 857df5329baa4a34d935d17d22033517, type: 2}
+    accessory: {fileID: 3165737747230035379, guid: 388baf87f29ca774fa1d8c373ffc76e2, type: 3}
+    icon: {fileID: 21300000, guid: 435a35601bc89c3488e35a188c782f6a, type: 3}
     swatch: {r: 0.09, g: 0.1, b: 0.12, a: 1}
+    accessoryAnchor: head
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: -0.045, z: -0.04}
+    hatEuler: {x: 0, y: 0, z: -3}
+    hatScale: 0.94
+  - key: skin_armor
+    material: {fileID: 2100000, guid: de3ef725e8b4e664daf89e4cc1c29cfa, type: 2}
+    accessory: {fileID: 0}
+    icon: {fileID: 21300000, guid: 91fba3eb9e909f549b7aac018c523bbe, type: 3}
+    swatch: {r: 0.42, g: 0.48, b: 0.57, a: 1}
+    accessoryAnchor: chest
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
+  - key: skin_raider
+    material: {fileID: 2100000, guid: ecdca493bb9f03d4881dae5f9319887e, type: 2}
+    accessory: {fileID: 0}
+    icon: {fileID: 21300000, guid: 403b897a46243d147bf8ef28c7a3946a, type: 3}
+    swatch: {r: 0.65, g: 0.42, b: 0.36, a: 1}
+    accessoryAnchor: chest
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
+  - key: skin_relic
+    material: {fileID: 2100000, guid: a74307443bf46ee43a6411788607fc77, type: 2}
+    accessory: {fileID: 0}
+    icon: {fileID: 21300000, guid: 5e54b23e91a650b4bafbf881bd0b1088, type: 3}
+    swatch: {r: 0.6, g: 0.95, b: 1.2, a: 1}
+    accessoryAnchor: chest
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
+  - key: skin_diver
+    material: {fileID: 2100000, guid: a5e12f19ba5a3404196a844e3629fd0e, type: 2}
+    accessory: {fileID: 0}
+    icon: {fileID: 21300000, guid: b04c6505bc1fc7941a2234e8d5e9b3f1, type: 3}
+    swatch: {r: 0.22, g: 0.37, b: 0.34, a: 1}
+    accessoryAnchor: chest
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
+  - key: shoes_steel
+    material: {fileID: 2100000, guid: ca3e7d5ebf627654ca37baf05e98dd01, type: 2}
+    accessory: {fileID: 7802268719946698548, guid: 9aab839ec36dfbb4cbe6f3bc7922bf03, type: 3}
+    icon: {fileID: 21300000, guid: 423c612536553084eb0a94c7b585238f, type: 3}
+    swatch: {r: 0.42, g: 0.48, b: 0.57, a: 1}
+    accessoryAnchor: feet
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 1
+    fittedShoeMesh: {fileID: 4300000, guid: 7ef8b95502045e540924f0cd3040d700, type: 2}
+    fittedBodyMesh: {fileID: 4300000, guid: 66b53c2ff7c5bf44c9600ca898777038, type: 2}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
+  - key: shoes_spring
+    material: {fileID: 2100000, guid: 1cbb3a5372b4942488e81c63c340c161, type: 2}
+    accessory: {fileID: 4074411003883574220, guid: a6f5a0869a512d6429b6d5678aeb9ba7, type: 3}
+    icon: {fileID: 21300000, guid: c8e7e030a17b87e4ebc1a29957035057, type: 3}
+    swatch: {r: 0.42, g: 0.48, b: 0.57, a: 1}
+    accessoryAnchor: feet
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 1
+    fittedShoeMesh: {fileID: 4300000, guid: 54feb14266b697b41b9671720e42623b, type: 2}
+    fittedBodyMesh: {fileID: 4300000, guid: b13ee192c83194a4685b681aefd66e94, type: 2}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
+  - key: shoes_relic
+    material: {fileID: 2100000, guid: 3f5a539cadcfe834795a52ed534bb637, type: 2}
+    accessory: {fileID: 6792288580639018864, guid: da6c2b59a5404014dbf0c6b7e219ee49, type: 3}
+    icon: {fileID: 21300000, guid: be2d55ce9693d8b4c92fe8b843e5dc23, type: 3}
+    swatch: {r: 0.6, g: 0.95, b: 1.2, a: 1}
+    accessoryAnchor: feet
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 1
+    fittedShoeMesh: {fileID: 4300000, guid: 271855d016f639549bd26ca3ff5a8d4e, type: 2}
+    fittedBodyMesh: {fileID: 4300000, guid: aef16aac5716cf04880c34418bccddd7, type: 2}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
+  - key: shoes_salvage
+    material: {fileID: 2100000, guid: 295a9e78da4c1a749b0e0731144aebc2, type: 2}
+    accessory: {fileID: 7423686410742083971, guid: d7980ff9aa5121844952d17dcb53d1e0, type: 3}
+    icon: {fileID: 21300000, guid: 61b99e44a2c6dbb47ae7862cde4c7000, type: 3}
+    swatch: {r: 0.42, g: 0.48, b: 0.57, a: 1}
+    accessoryAnchor: feet
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 1
+    fittedShoeMesh: {fileID: 4300000, guid: 3918ad5823fa3e047b25279ae87eec2f, type: 2}
+    fittedBodyMesh: {fileID: 4300000, guid: 9612a177e01c2b74ebf6ecfa2f569097, type: 2}
+    hatOffset: {x: 0, y: 0, z: 0}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1
+  - key: hat_goggles
+    material: {fileID: 2100000, guid: 927352136a144b644b631ae863de61eb, type: 2}
+    accessory: {fileID: 3737209028847506970, guid: f3ca0dfc1a2f8f04b8d9e43bcffc8a00, type: 3}
+    icon: {fileID: 21300000, guid: 47c5d78d2706fbc4bac99a2c1e5cccb3, type: 3}
+    swatch: {r: 1, g: 1, b: 1, a: 1}
+    accessoryAnchor: head
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: -0.1, z: 0.1}
+    hatEuler: {x: -45, y: 0, z: 0}
+    hatScale: 0.98
+  - key: hat_diver
+    material: {fileID: 2100000, guid: 66cba076a0c7997489f1c84906083fff, type: 2}
+    accessory: {fileID: 1004547110358276468, guid: 180d4c6722da21244be290a4ef7af3a6, type: 3}
+    icon: {fileID: 21300000, guid: 739f65212bdc89a40b406c80d34cb319, type: 3}
+    swatch: {r: 1, g: 1, b: 1, a: 1}
+    accessoryAnchor: head
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: -0.02, z: -0.025}
+    hatEuler: {x: -5, y: 0, z: 0}
+    hatScale: 0.63
+  - key: hat_pirate
+    material: {fileID: 2100000, guid: f07687a052c9a4a4fa0e6c565364cc75, type: 2}
+    accessory: {fileID: 3029316759075929242, guid: 4cefc320a8ca1ef4a82038c99e9445e5, type: 3}
+    icon: {fileID: 21300000, guid: 430d26ffd20f99647ade1f3209448cb1, type: 3}
+    swatch: {r: 1, g: 1, b: 1, a: 1}
+    accessoryAnchor: head
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: -0.06, z: -0.03}
+    hatEuler: {x: 0, y: 0, z: -3}
+    hatScale: 1.16
+  - key: hat_relic
+    material: {fileID: 2100000, guid: 9c88e5717c94cb24a80eda2cd7bd6f48, type: 2}
+    accessory: {fileID: 7562106952101755873, guid: ad82f1eb091c2d94da02444e4a232eea, type: 3}
+    icon: {fileID: 21300000, guid: dfd45880f2c916b418a36861cfca3a55, type: 3}
+    swatch: {r: 1, g: 1, b: 1, a: 1}
+    accessoryAnchor: head
+    accessoryOffset: {x: 0, y: 0, z: 0}
+    accessoryWorldScale: 1
+    replacesBaseShoes: 0
+    fittedShoeMesh: {fileID: 0}
+    fittedBodyMesh: {fileID: 0}
+    hatOffset: {x: 0, y: -0.035, z: 0.12}
+    hatEuler: {x: 0, y: 0, z: 0}
+    hatScale: 1.02

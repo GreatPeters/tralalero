@@ -1,0 +1,28 @@
+﻿{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "tools/inspect-harbor-opening.cs",
+      "entry": "InspectHarborOpening.Main",
+      "timeout_ms": "60000"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 73,
+      "executeMs": 7,
+      "assemblyName": "PipelineRunScript_inspect-harbor-opening_f302be9b13d0440ca3d26fe042669aec",
+      "success": true,
+      "result": "{ player = (27.09, 0.12, -115.11), roads = <>f__AnonymousType2`5[System.String,UnityEngine.Vector3,UnityEngine.Vector3,UnityEngine.Vector3,System.Nullable`1[UnityEngine.Bounds]][], props = <>f__AnonymousType3`4[System.String,UnityEngine.Vector3,UnityEngine.Vector3,System.Nullable`1[UnityEngine.Bounds]][], enemies = <>f__AnonymousType4`5[System.String,UnityEngine.Vector3,IndianOceanAssets.ShooterSurvival.EnemyEventMode,System.Boolean,UnityEngine.Vector3][] }"
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7801,
+      "projectPath": "C:\\Users\\ljh\\tralalero Shooter"
+    },
+    "success": true
+  },
+  "errors": [],
+  "warnings": []
+}

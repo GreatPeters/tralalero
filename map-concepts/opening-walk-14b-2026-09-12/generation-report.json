@@ -1,0 +1,70 @@
+{
+  "promptId": "6c64a463-89af-40fe-beb8-d73070bf4677",
+  "generatedFrames": 121,
+  "seconds": 3244.136,
+  "systemAfter": {
+    "system": {
+      "os": "win32",
+      "ram_total": 50873622528,
+      "ram_free": 19755401216,
+      "comfyui_version": "0.33.0",
+      "required_frontend_version": "1.49.6",
+      "installed_templates_version": "0.11.44",
+      "required_templates_version": "0.11.44",
+      "comfy_package_versions": [
+        {
+          "name": "comfyui-frontend-package",
+          "installed": "1.49.6",
+          "required": "1.49.6"
+        },
+        {
+          "name": "comfyui-workflow-templates",
+          "installed": "0.11.44",
+          "required": "0.11.44"
+        },
+        {
+          "name": "comfyui-embedded-docs",
+          "installed": "0.5.10",
+          "required": "0.5.10"
+        },
+        {
+          "name": "comfy-kitchen",
+          "installed": "0.2.31",
+          "required": "0.2.31"
+        },
+        {
+          "name": "comfy-aimdo",
+          "installed": "0.4.13",
+          "required": "0.4.13"
+        }
+      ],
+      "python_version": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+      "pytorch_version": "2.12.0+rocm7.14.0",
+      "embedded_python": false,
+      "deploy_environment": "local-git",
+      "argv": [
+        "C:/AI/ComfyUI-Creative-AMD/ComfyUI/main.py",
+        "--listen",
+        "127.0.0.1",
+        "--port",
+        "8190",
+        "--extra-model-paths-config",
+        "C:/AI/ComfyUI-Creative-AMD/extra_model_paths.yaml",
+        "--use-pytorch-cross-attention",
+        "--disable-pinned-memory",
+        "--disable-dynamic-vram"
+      ]
+    },
+    "devices": [
+      {
+        "name": "cuda:0 AMD Radeon AI PRO R9700 : native",
+        "type": "cuda",
+        "index": 0,
+        "vram_total": 34208743424,
+        "vram_free": 18803435008,
+        "torch_vram_total": 15036579840,
+        "torch_vram_free": 25863680
+      }
+    ]
+  }
+}

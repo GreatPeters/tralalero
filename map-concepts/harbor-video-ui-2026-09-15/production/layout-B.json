@@ -1,0 +1,311 @@
+{
+  "variant": "B",
+  "width": 887,
+  "height": 1774,
+  "layers": [
+    {
+      "name": "WoodBacking",
+      "asset": "WoodBackground",
+      "rect": [
+        0,
+        0,
+        887,
+        1774
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "UpperRope",
+      "asset": "RopeKnot",
+      "rect": [
+        31,
+        -87,
+        73,
+        257
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "LeftMap",
+      "asset": "ShipMap",
+      "rect": [
+        -31,
+        277,
+        144,
+        390
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "RightMap",
+      "asset": "CoastMap",
+      "rect": [
+        782,
+        359,
+        166,
+        496
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "LeftLantern",
+      "asset": "LanternRope",
+      "rect": [
+        -16,
+        695,
+        119,
+        363
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "LowerRope",
+      "asset": "RopeKnot",
+      "rect": [
+        828,
+        938,
+        105,
+        315
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "TitlePlaque",
+      "asset": "B_TitlePlaque",
+      "rect": [
+        192,
+        18,
+        509,
+        112
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "CounterRibbon",
+      "asset": "B_CounterRibbon",
+      "rect": [
+        238,
+        130,
+        410,
+        68
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "MovieSlot",
+      "asset": "MovieFramePreview",
+      "rect": [
+        160,
+        223,
+        566,
+        938
+      ],
+      "kind": "video",
+      "aspect": 0.5628997867803838
+    },
+    {
+      "name": "MovieFrame",
+      "asset": "B_VideoFrame",
+      "rect": [
+        123,
+        188,
+        639,
+        1004
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "CaptionCard",
+      "asset": "B_CaptionCard",
+      "rect": [
+        35,
+        1197,
+        818,
+        298
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "SkipButton",
+      "asset": "B_SkipButton",
+      "rect": [
+        713,
+        41,
+        156,
+        68
+      ],
+      "kind": "button"
+    },
+    {
+      "name": "ScreenTitle",
+      "kind": "text",
+      "text": "탈라 스토리",
+      "rect": [
+        224,
+        38,
+        445,
+        75
+      ],
+      "fontSize": 58,
+      "color": "#FFF1CC",
+      "align": "center",
+      "outline": 0
+    },
+    {
+      "name": "StoryCounter",
+      "kind": "text",
+      "text": "이야기 01 / 04",
+      "rect": [
+        331,
+        146,
+        226,
+        40
+      ],
+      "fontSize": 31,
+      "color": "#2C1808",
+      "align": "center",
+      "outline": 0
+    },
+    {
+      "name": "SkipLabel",
+      "kind": "text",
+      "text": "건너뛰기",
+      "rect": [
+        725,
+        54,
+        132,
+        43
+      ],
+      "fontSize": 27,
+      "color": "#FFF1CC",
+      "align": "center",
+      "outline": 0
+    },
+    {
+      "name": "SceneTitle",
+      "kind": "text",
+      "text": "훔친 신발",
+      "rect": [
+        117,
+        1225,
+        650,
+        86
+      ],
+      "fontSize": 63,
+      "color": "#281506",
+      "align": "center",
+      "outline": 0
+    },
+    {
+      "name": "Caption",
+      "kind": "text",
+      "text": "신단의 신발을 물고,\n상어는 항구를 빠져나갔다.",
+      "rect": [
+        87,
+        1344,
+        712,
+        107
+      ],
+      "fontSize": 37,
+      "color": "#281506",
+      "align": "center",
+      "outline": 0
+    },
+    {
+      "name": "StorySegment1",
+      "asset": "ProgressOn",
+      "rect": [
+        204,
+        1515,
+        108,
+        33
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "StorySegment2",
+      "asset": "ProgressOff",
+      "rect": [
+        327,
+        1515,
+        108,
+        33
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "StorySegment3",
+      "asset": "ProgressOff",
+      "rect": [
+        450,
+        1515,
+        108,
+        33
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "StorySegment4",
+      "asset": "ProgressOff",
+      "rect": [
+        573,
+        1515,
+        108,
+        33
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "ReplayButton",
+      "asset": "B_ReplayButton",
+      "rect": [
+        36,
+        1576,
+        334,
+        139
+      ],
+      "kind": "button"
+    },
+    {
+      "name": "NextButton",
+      "asset": "B_NextButton",
+      "rect": [
+        390,
+        1576,
+        463,
+        139
+      ],
+      "kind": "button"
+    },
+    {
+      "name": "ReplayLabel",
+      "kind": "text",
+      "text": "다시 보기",
+      "rect": [
+        73,
+        1609,
+        260,
+        80
+      ],
+      "fontSize": 43,
+      "color": "#FFF1CC",
+      "align": "center",
+      "outline": 0
+    },
+    {
+      "name": "NextLabel",
+      "kind": "text",
+      "text": "다음 장면",
+      "rect": [
+        429,
+        1606,
+        386,
+        80
+      ],
+      "fontSize": 48,
+      "color": "#2C1808",
+      "align": "center",
+      "outline": 0
+    }
+  ]
+}

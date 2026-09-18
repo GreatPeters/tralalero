@@ -1,0 +1,31 @@
+﻿{
+  "success": true,
+  "command": "command get_console_logs",
+  "data": {
+    "command": "get_console_logs",
+    "parameters": {
+      "severity": "error",
+      "limit": "8"
+    },
+    "result": {
+      "total": 1,
+      "returned": 1,
+      "logs": [
+        {
+          "type": "Exception",
+          "message": "Exception: Hand moves in idle lobby",
+          "stackTrace": "",
+          "timestampUtc": "2026-09-16T16:38:42.0089271Z"
+        }
+      ]
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7801,
+      "projectPath": "C:\\Users\\ljh\\tralalero Shooter"
+    },
+    "success": true
+  },
+  "errors": [],
+  "warnings": []
+}

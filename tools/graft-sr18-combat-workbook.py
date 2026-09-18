@@ -33,28 +33,7 @@ def parts(package):
 old_parts, new_parts = parts(entries), parts(added)
 styles = ET.fromstring(entries['xl/styles.xml'])
 new_styles = ET.fromstring(added['xl/styles.xml'])
-maps = {}
-for collection in ['numFmts','fonts','fills','borders','cellStyleXfs','cellXfs']:
-    base, extra = styles.find('{'+SS+'}'+collection), new_styles.find('{'+SS+'}'+collection)
-    maps[collection] = {}
-    if extra is None: continue
-    if base is None:
-        base = ET.Element('{'+SS+'}'+collection)
-        styles.insert(0,base)
-    offset = len(base)
-    next_num = max([163]+[int(e.get('numFmtId',0)) for e in base])+1
-    for index, item in enumerate(extra):
-        clone = deepcopy(item)
-        if collection == 'numFmts':
-            maps[collection][int(item.get('numFmtId'))]=next_num
-            clone.set('numFmtId',str(next_num)); next_num+=1
-        else:
-            maps[collection][index]=offset+index
-            for attr,mapping in [('fontId','fonts'),('fillId','fills'),('borderId','borders'),('numFmtId','numFmts'),('xfId','cellStyleXfs')]:
-                if attr in clone.attrib:
-                    value=int(clone.get(attr)); clone.set(attr,str(maps[mapping].get(value,value)))
-        base.append(clone)
-    base.set('count',str(len(base)))
+maps = helpers.merge_styles(styles, new_styles)
 entries['xl/styles.xml']=helpers.xml_bytes(styles,entries['xl/styles.xml'])
 strings=ET.fromstring(added['xl/sharedStrings.xml']) if 'xl/sharedStrings.xml' in added else []
 changed=['xl/styles.xml']
@@ -74,11 +53,11 @@ with ZipFile(candidate,'w',ZIP_DEFLATED) as z:
     for name,contents in entries.items(): z.writestr(name,contents)
 with ZipFile(BytesIO(before)) as old, ZipFile(candidate) as new:
     actual=[n for n in old.namelist() if old.read(n)!=new.read(n)]
-    assert set(actual)==set(changed),actual
+    assert set(changed) - {'xl/styles.xml'} <= set(actual) <= set(changed), actual
     for name in new.namelist():
         if name.endswith(('.xml','.rels')): ET.fromstring(new.read(name))
 assert source.read_bytes()==before,'Concurrent source edit'
 os.replace(candidate,source)
-record={'backup':str(work/backup_name),'beforeHash':sha256(before).hexdigest(),'afterHash':sha256(source.read_bytes()).hexdigest(),'unchangedSheets':9,'changedParts':changed}
+record={'backup':str(work/backup_name),'beforeHash':sha256(before).hexdigest(),'afterHash':sha256(source.read_bytes()).hexdigest(),'unchangedSheets':9,'changedParts':actual}
 (work/('revision-preservation.json' if '--revision' in sys.argv else 'preservation.json')).write_text(json.dumps(record,indent=2),encoding='utf-8')
 print(json.dumps(record,indent=2))

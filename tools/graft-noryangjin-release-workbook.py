@@ -34,26 +34,7 @@ def parts(package):
 old_parts, new_parts = parts(old), parts(candidate)
 updated = dict(old)
 styles, new_styles = ET.fromstring(old['xl/styles.xml']), ET.fromstring(candidate['xl/styles.xml'])
-maps = {}
-for collection in ['numFmts', 'fonts', 'fills', 'borders', 'cellStyleXfs', 'cellXfs']:
-    base, extra = styles.find(q(collection)), new_styles.find(q(collection))
-    maps[collection] = {}
-    if extra is None: continue
-    if base is None: base = ET.Element(q(collection)); styles.insert(0, base)
-    offset = len(base)
-    next_num = max([163] + [int(e.get('numFmtId', 0)) for e in base]) + 1
-    for index, entry in enumerate(extra):
-        clone = deepcopy(entry)
-        if collection == 'numFmts':
-            maps[collection][int(entry.get('numFmtId'))] = next_num
-            clone.set('numFmtId', str(next_num)); next_num += 1
-        else:
-            maps[collection][index] = offset + index
-            for attr, mapping in [('fontId','fonts'),('fillId','fills'),('borderId','borders'),('numFmtId','numFmts'),('xfId','cellStyleXfs')]:
-                if attr in clone.attrib:
-                    value = int(clone.get(attr)); clone.set(attr, str(maps[mapping].get(value, value)))
-        base.append(clone)
-    base.set('count', str(len(base)))
+maps = helper.merge_styles(styles, new_styles)
 updated['xl/styles.xml'] = helper.xml_bytes(styles, old['xl/styles.xml'])
 strings = ET.fromstring(candidate['xl/sharedStrings.xml']) if 'xl/sharedStrings.xml' in candidate else []
 
@@ -119,7 +100,7 @@ updated['xl/_rels/workbook.xml.rels'] = helper.xml_bytes(rels, old['xl/_rels/wor
 updated['[Content_Types].xml'] = helper.xml_bytes(types, old['[Content_Types].xml'])
 changed_parts = [name for name in old if old[name] != updated[name]]
 expected = {old_parts[name] for name in plan['changed']} | {'xl/styles.xml','xl/workbook.xml','xl/_rels/workbook.xml.rels','[Content_Types].xml'}
-assert set(changed_parts) == expected, changed_parts
+assert expected - {'xl/styles.xml'} <= set(changed_parts) <= expected, changed_parts
 temporary = work / 'merged.xlsx'
 with ZipFile(temporary, 'w', ZIP_DEFLATED) as archive:
     for name, value in updated.items(): archive.writestr(name, value)

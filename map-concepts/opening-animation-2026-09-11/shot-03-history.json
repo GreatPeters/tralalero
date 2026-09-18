@@ -1,0 +1,795 @@
+{
+  "prompt": [
+    3,
+    "f7165d4f-1f16-44b1-a4b8-994c6cab2aed",
+    {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "wan2.2_ti2v_5B_fp16.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "type": "wan",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "wan2.2_vae.safetensors"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "A polished animated fantasy film shot. The gigantic purple stone deity moves its pointing hand toward the fish market and speaks angrily, moving its mouth and brows. The little three-legged blue shark turns its head toward the market, sighs and slumps its shoulders. Gulls fly and flap in the sky, market flags and ropes sway, harbor water ripples. Preserve all THREE shoes and distinct identities. Stable camera, continuous body motion."
+        }
+      },
+      "5": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "still image, slideshow, freeze frame, static pose, text, subtitles, speech bubble, watermark, distorted face, fused limbs, extra limbs, morphing, flickering, camera shake, blurry, low quality"
+        }
+      },
+      "6": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "codex-opening-03.png"
+        }
+      },
+      "7": {
+        "class_type": "Wan22ImageToVideoLatent",
+        "inputs": {
+          "vae": [
+            "3",
+            0
+          ],
+          "width": 512,
+          "height": 896,
+          "length": 121,
+          "batch_size": 1,
+          "start_image": [
+            "6",
+            0
+          ]
+        }
+      },
+      "8": {
+        "class_type": "ModelSamplingSD3",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "shift": 8.0
+        }
+      },
+      "9": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "8",
+            0
+          ],
+          "positive": [
+            "4",
+            0
+          ],
+          "negative": [
+            "5",
+            0
+          ],
+          "latent_image": [
+            "7",
+            0
+          ],
+          "seed": 202609113,
+          "steps": 20,
+          "cfg": 5.0,
+          "sampler_name": "uni_pc",
+          "scheduler": "simple",
+          "denoise": 1.0
+        }
+      },
+      "10": {
+        "class_type": "VAEDecodeTiled",
+        "inputs": {
+          "samples": [
+            "9",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ],
+          "tile_size": 512,
+          "overlap": 64,
+          "temporal_size": 16,
+          "temporal_overlap": 4
+        }
+      },
+      "11": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "10",
+            0
+          ],
+          "filename_prefix": "codex-opening-20260911/shot-03"
+        }
+      }
+    },
+    {
+      "create_time": 1789090829869
+    },
+    [
+      "11"
+    ]
+  ],
+  "outputs": {
+    "11": {
+      "images": [
+        {
+          "filename": "shot-03_00001_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00002_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00003_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00004_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00005_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00006_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00007_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00008_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00009_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00010_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00011_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00012_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00013_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00014_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00015_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00016_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00017_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00018_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00019_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00020_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00021_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00022_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00023_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00024_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00025_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00026_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00027_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00028_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00029_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00030_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00031_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00032_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00033_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00034_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00035_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00036_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00037_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00038_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00039_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00040_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00041_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00042_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00043_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00044_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00045_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00046_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00047_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00048_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00049_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00050_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00051_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00052_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00053_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00054_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00055_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00056_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00057_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00058_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00059_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00060_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00061_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00062_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00063_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00064_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00065_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00066_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00067_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00068_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00069_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00070_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00071_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00072_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00073_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00074_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00075_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00076_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00077_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00078_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00079_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00080_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00081_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00082_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00083_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00084_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00085_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00086_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00087_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00088_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00089_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00090_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00091_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00092_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00093_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00094_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00095_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00096_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00097_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00098_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00099_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00100_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00101_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00102_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00103_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00104_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00105_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00106_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00107_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00108_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00109_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00110_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00111_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00112_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00113_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00114_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00115_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00116_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00117_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00118_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00119_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00120_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-03_00121_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "f7165d4f-1f16-44b1-a4b8-994c6cab2aed",
+          "timestamp": 1789090829871
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "1",
+            "2",
+            "3",
+            "5",
+            "8"
+          ],
+          "prompt_id": "f7165d4f-1f16-44b1-a4b8-994c6cab2aed",
+          "timestamp": 1789090829879
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "f7165d4f-1f16-44b1-a4b8-994c6cab2aed",
+          "timestamp": 1789091416596
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "11": {
+      "node_id": "11",
+      "display_node": "11",
+      "parent_node": null,
+      "real_node_id": "11"
+    }
+  }
+}

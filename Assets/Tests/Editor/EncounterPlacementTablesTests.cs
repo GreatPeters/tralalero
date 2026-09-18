@@ -7,16 +7,19 @@ using NUnit.Framework;
 public sealed class EncounterPlacementTablesTests
 {
     [Test]
-    public void Workbook_ContainsTheLatest76PlacementsAndTheirRoles()
+    public void Workbook_ContainsThreeBalancedChaptersAndTheirRoles()
     {
         using var stream = GameDataWorkbook.OpenRead("Data.xlsx");
-        var rows = EncounterPlacementTables.Read(stream);
-        Assert.That(rows.Count, Is.EqualTo(76));
-        Assert.That(rows.Count(r => r.kind == "적 배치"), Is.EqualTo(27));
+        var all = EncounterPlacementTables.Read(stream);
+        Assert.That(all.Count, Is.EqualTo(300));
+        Assert.That(all.GroupBy(r => r.scene).Select(g => g.Count()), Is.EquivalentTo(new[] { 100, 100, 100 }));
+        var rows=all.Where(r=>r.scene=="Noryangjin_MapTool_Mode_SR18").ToArray();
+        Assert.That(rows.Length, Is.EqualTo(100));
+        Assert.That(rows.Count(r => r.kind == "적 배치"), Is.EqualTo(50));
         Assert.That(rows.Count(r => r.kind == "보너스 배치"), Is.EqualTo(25));
-        Assert.That(rows.Count(r => r.kind == "기믹 배치"), Is.EqualTo(24));
-        Assert.That(rows.Count(r => r.kind == "적 배치" && r.mode == EnemyEventMode.PatrolBetweenStartAndTarget), Is.EqualTo(5));
-        Assert.That(rows.Count(r => r.kind == "적 배치" && r.mode == EnemyEventMode.AmbushMoveThenShoot), Is.EqualTo(5));
+        Assert.That(rows.Count(r => r.kind == "기믹 배치"), Is.EqualTo(25));
+        Assert.That(rows.Count(r => r.kind == "적 배치" && r.mode == EnemyEventMode.PatrolBetweenStartAndTarget), Is.EqualTo(10));
+        Assert.That(rows.Count(r => r.kind == "적 배치" && r.mode == EnemyEventMode.AmbushMoveThenShoot), Is.EqualTo(10));
         Assert.That(rows.Single(r => r.id.Contains("T161")).kind, Is.EqualTo("보너스 배치"));
         Assert.That(rows.Where(r => r.kind == "적 배치" && r.mode == EnemyEventMode.AmbushMoveThenShoot).All(r => r.activationLead == 44 && r.throwDelay == .8f), Is.True);
     }

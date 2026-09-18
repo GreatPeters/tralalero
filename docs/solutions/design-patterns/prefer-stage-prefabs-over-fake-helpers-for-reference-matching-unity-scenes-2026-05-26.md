@@ -1,7 +1,7 @@
 ---
 title: Prefer Stage Prefab Set Dressing Over Fake Helpers For Reference Matching Unity Scenes
 date: 2026-05-26
-last_updated: 2026-05-27
+last_updated: 2026-09-13
 category: docs/solutions/design-patterns
 module: Unity stage generation
 problem_type: design_pattern
@@ -74,7 +74,36 @@ CreateGoldCoin(context, parent,
     "Stage01_2_Center_Gold_Coin_Line_00", position, yaw, goldMaterial);
 ```
 
+## Road chapter follow-up, 2026-09-13
+
+Open the actual requested images before deciding what the asset inventory means. The correct road references are in `output/meshy_images/`, not `output/meshy/_images/`. Existing gameplay improvements did not establish visual fidelity to those images.
+
+- **Measure continuity, not object count.** HighWay already contained102 acoustic panels, but their approximately4.4m length and12m spacing left large gaps. Route-aligned panels and a continuous green band change the visible boundary without changing the road sampler or collision geometry. Leave fork openings clear rather than connecting a decorative wall across a playable branch.
+- **Check imported asset types.** The sky PNG was imported as a `Cubemap`. `LoadAssetAtPath<Texture2D>` returned null without a compile error, and `Skybox/Panoramic` rendered gray. Loading the actual `Cubemap` into `Skybox/Cubemap`'s `_Tex` fixed the visible sky. A file extension does not determine its Unity object type.
+- **Use lit copies for new scenery.** Megacity vegetation used an Unlit texture atlas. Enlarging it produced bright, flat crowns that obscured the horizon. Scene-specific Lit copies of the atlas, smaller crowns and more distant placement gave the new foliage lighting and depth without modifying the shared source materials.
+- **Inspect fascia depth against the real mesh.** The fuel canopy was about8.06m deep; trim at localZ3.5 remained inside its roof. Moving the accent to approximatelyZ4.08 put it on the outside face. Correct naming and coordinates are insufficient proof of visibility.
+- **Protect behavior separately from appearance.** The Pipeline tool snapshots gameplay transforms and serialized route/traffic/holdout/enemy settings, then compares before saving and after reload. New decoration carries no colliders. Scene-specific material changes are allowed while source materials, the workbook and signed archive stay intact.
+- **Review the Game view after placement.** Edit-mode camera renders omit overlay UI and do not exercise occlusion or camera transitions. Directed live runs exposed overly strong checkerboard contrast in the food hall; quieter stone finishes retain the clear cross-shaped battle space. Preserve failed images alongside the corrected captures, and label upgraded section-entry tests accurately.
+
+The implementation and evidence are in [road reference visuals](../../../map-concepts/road-reference-visuals-2026-09-13/README.md) and `tools/road-reference-visuals.cs`. This is a composition/material improvement, not a claim of exact reference reproduction or Android performance acceptance.
+
 ## Related
+
+### Native implementation follow-up
+
+The [approved-concept implementation](../../../map-concepts/approved-road-concepts-2026-09-13/README.md) retained the normal camera but initially placed the new roof below it: local cameraY8.364 inherited a1.5 player scale, putting the camera near12.67world metres. Camera-local equality was therefore insufficient. Measure the camera's world height, preserve the camera, and place architecture above it; verify actual gameplay images as well as transform assertions. Bind complete sign/shutter assemblies to existing occlusion handling so labels do not remain floating.
+
+Reusing human rigs for a3-head proportion requires coordinated geometry and rest-bone changes, rigid hand-equipment relocation and re-grounding of existing animation keys. Preserve the source file version (these sources needed installed Blender5.2.1), verify fresh GLB/FBX and actual Unity skin matrices, and keep stable combat prefab/controller references. New TRELLIS counters were generated as isolated modules with blank sign panels and native Korean labels, then reused around the perimeter. Do not replace an open lobby with a corridor merely to put all props in the camera.
+
+Road paint needs readable shading: the line renderers did not provide useful lighting data for a Lit material, so dedicated unlit paint restored contrast without changing geometry. Fit exterior panels at their lateral curve radius rather than the centerline segment length. Check scenery's actual support surface too: the elevated road was atY0 while CityGround was atY-6.5; potted vegetation placed near road height floated above the surrounding land. Ground non-colliding landscape by rendered minimumY and provide a separate shoulder surface under road-level lamps. Legacy integration checks must sample the authored continuous route, and test-runner filters must yield nonzero test counts; a pipe-separated literal filter is not a union of classes.
+
+The subsequent [six concept previews](../../../map-concepts/road-style-concepts-2026-09-13-v1/README.md) exposed a prompt-level variant of the same layout problem: common runner instructions introduced bonus pedestals into the food-hall encounter. The first correction raised the camera to expose every door, but the user's later explicit correction rejected that view. The [v2 concepts](../../../map-concepts/road-style-concepts-2026-09-13-v2/README.md) preserve the normal rear gameplay camera, allow the rear entrance to stay off-screen, and show a roofed restaurant rather than a cutaway courtyard. Do not change the camera merely to make every mechanic visible in one concept.
+
+The same review required human NPCs with three-head proportions, opposing two-lane carriageways and a yellow centerline. Describe road topology as a left-to-right sequence of edge/divider/center markings and inspect the drawn result: extra dashed toll guides made the first v2 toll approach ambiguous and needed removal. A style reference does not authorize copying its penguin characters, extra limbs or incorrect lane count. Role-label references, override those defects explicitly, and keep concept verification separate from Unity implementation; the latest design requires the original rear-view holdout even while the saved runtime still has its earlier raised camera.
+
+In the subsequent [360-degree holdout concepts](../../../map-concepts/reststop-360-concepts-2026-09-13-v1/README.md), the user clarified that fixed position still allows full body/aim rotation. The attempt to illustrate this with a giant near-foreground rear attacker pushed the shark toward the middle of the image and was explicitly rejected: it felt like a different camera despite the prompt saying fixed camera. The [corrected v2](../../../map-concepts/reststop-360-concepts-2026-09-13-v2/README.md) uses the approved gameplay image as the edit base, preserves the large bottom-third shark and the room's perspective, and changes only body/aim orientation. Rear targets can remain outside the image. Camera direction alone is not enough; compare player screen position, apparent scale and floor projection. Never require an off-screen mechanic to be visible at the expense of the user's camera contract.
+
+The user's later real-photo reference added an independent venue constraint: a broad open rest-stop lobby with stores at the far perimeter, not a narrow restaurant aisle. The [open-hall concepts](../../../map-concepts/reststop-open-hall-concepts-2026-09-13-v1/README.md) keep the player low and close while moving the room boundaries/props outward. A larger unobstructed world space and a wider camera are different changes. Label the photograph as the spatial reference and the approved game image as the camera/art reference, so neither requirement silently overrides the other.
 
 - [Keep Unity Generated Set Dressing Outside Runner Lane](keep-unity-generated-set-dressing-outside-runner-lane-2026-05-26.md)
 - [Flatten Road Prefabs As Surface Skins For Unity Runner Previews](flatten-road-prefabs-as-surface-skins-for-unity-runner-previews-2026-05-27.md)

@@ -1,0 +1,38 @@
+{
+  "engine": "C:\\AI\\StableAudio3\\optimized\\tflite",
+  "model": "sm-music",
+  "decoder": "same-s",
+  "precision": "fp32",
+  "seconds": 64,
+  "steps": 8,
+  "cfg": 1.5,
+  "threads": 8,
+  "reference_recording_used": false,
+  "jobs": [
+    {
+      "name": "01_moonlit_aquarium",
+      "seed": 26091421,
+      "prompt": "Original instrumental looping background soundtrack for a whimsical shark arcade game, 78 BPM, luminous underwater mystery, delicate celesta arpeggios, warm felt piano, floating glass harmonics, rounded sub bass, sparse brushed drums, original wistful D minor melody, clear uncluttered mix leaving room for game effects, stable musical pulse, evolving small motifs, seamless loop feel, no intro silence, no big finale"
+    },
+    {
+      "name": "02_lantern_market",
+      "seed": 26091422,
+      "prompt": "Original instrumental looping background soundtrack for a whimsical shark arcade game, 92 BPM, curious lantern-lit night market, bamboo flute fragments, plucked zither, pizzicato strings, soft wooden percussion, pentatonic minor motif, mischievous rhythmic groove, clear uncluttered mix leaving room for game effects, stable musical pulse, evolving small motifs, seamless loop feel, no intro silence, no big finale"
+    },
+    {
+      "name": "03_starlit_highway",
+      "seed": 26091423,
+      "prompt": "Original instrumental looping background soundtrack for a whimsical shark arcade game, 104 BPM, mysterious midnight highway, analog synth arpeggios, airy electric piano, shimmering pads, pulsing warm bass, restrained electronic drums, hypnotic minor-key driving motif, clear uncluttered mix leaving room for game effects, stable musical pulse, evolving small motifs, seamless loop feel, no intro silence, no big finale"
+    },
+    {
+      "name": "04_clockwork_rest_stop",
+      "seed": 26091424,
+      "prompt": "Original instrumental looping background soundtrack for a whimsical shark arcade game, 86 BPM, enchanted abandoned roadside cafe, slightly detuned music box, vibraphone and pizzicato double bass, ticking rim percussion, playful chromatic question-answer melody, intimate dreamlike atmosphere, clear uncluttered mix leaving room for game effects, stable musical pulse, evolving small motifs, seamless loop feel, no intro silence, no big finale"
+    },
+    {
+      "name": "05_tidal_observatory",
+      "seed": 26091425,
+      "prompt": "Original instrumental looping background soundtrack for a whimsical shark arcade game, 72 BPM, magical ocean observatory, haunting soft flute, glass bells, slowly shifting orchestral strings, gently plucked harp, restrained deep toms, mysterious hopeful modal melody, wide open space, clear uncluttered mix leaving room for game effects, stable musical pulse, evolving small motifs, seamless loop feel, no intro silence, no big finale"
+    }
+  ]
+}

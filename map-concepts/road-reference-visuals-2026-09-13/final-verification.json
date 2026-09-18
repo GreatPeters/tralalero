@@ -1,0 +1,252 @@
+﻿{
+    "date":  "2026-09-13",
+    "status":  "completed",
+    "references":  [
+                       "output/meshy_images/stage_02_1_highway_concept_batch_v1.png",
+                       "output/meshy_images/stage_03_3_rest_stop_concept_batch_v1.png"
+                   ],
+    "scenes":  [
+                   {
+                       "scene":  "HighWay",
+                       "gameplayUnchanged":  true,
+                       "newRenderers":  1112,
+                       "newColliders":  0,
+                       "enemyRoots":  50,
+                       "bonusRoots":  50,
+                       "missingScripts":  0,
+                       "skyTexture":  "Cubemap",
+                       "sceneHash":  "E80BCB31738BA62918A2640CBC88A6741CD6A36308835AD2F34487BC04112D76"
+                   },
+                   {
+                       "scene":  "RestStop",
+                       "gameplayUnchanged":  true,
+                       "newRenderers":  1026,
+                       "newColliders":  0,
+                       "enemyRoots":  50,
+                       "bonusRoots":  50,
+                       "missingScripts":  0,
+                       "skyTexture":  "Cubemap",
+                       "sceneHash":  "890CD35F12D6BF9C5199580535A6F40791527B5CED14499896DEE8694B947E8A"
+                   }
+               ],
+    "liveRuns":  [
+                     {
+                         "label":  "reststop-opening",
+                         "elapsed":  72.0162048,
+                         "health":  6725.44336,
+                         "startDistance":  0.0,
+                         "distance":  -1.0,
+                         "endurance":  false,
+                         "attackLevel":  37,
+                         "healthLevel":  46,
+                         "forks":  null,
+                         "trafficLaunched":  0,
+                         "holdoutCompleted":  false,
+                         "holdoutSeconds":  0.0,
+                         "police":  0,
+                         "doors":  [
+                                       0,
+                                       0,
+                                       0,
+                                       0
+                                   ],
+                         "spawnError":  0.0,
+                         "maxDrift":  0.0,
+                         "cameraPositionError":  -1.0,
+                         "cameraRotationError":  -1.0,
+                         "movementLocked":  false,
+                         "moves":  3774
+                     },
+                     {
+                         "label":  "reststop-holdout",
+                         "elapsed":  42.4578323,
+                         "health":  10049.6,
+                         "startDistance":  838.0,
+                         "distance":  -1.0,
+                         "endurance":  false,
+                         "attackLevel":  37,
+                         "healthLevel":  46,
+                         "forks":  null,
+                         "trafficLaunched":  0,
+                         "holdoutCompleted":  true,
+                         "holdoutSeconds":  30.0,
+                         "police":  27,
+                         "doors":  [
+                                       6,
+                                       6,
+                                       8,
+                                       7
+                                   ],
+                         "spawnError":  0.0,
+                         "maxDrift":  0.0,
+                         "cameraPositionError":  0.0,
+                         "cameraRotationError":  0.0,
+                         "movementLocked":  false,
+                         "moves":  2160
+                     },
+                     {
+                         "label":  "highway-main",
+                         "elapsed":  58.02008,
+                         "health":  11086.0,
+                         "startDistance":  0.0,
+                         "distance":  452.5671,
+                         "endurance":  false,
+                         "attackLevel":  37,
+                         "healthLevel":  46,
+                         "forks":  [
+                                       {
+                                           "decided":  true,
+                                           "bypass":  false,
+                                           "rewarded":  false
+                                       },
+                                       {
+                                           "decided":  false,
+                                           "bypass":  false,
+                                           "rewarded":  false
+                                       }
+                                   ],
+                         "trafficLaunched":  1,
+                         "holdoutCompleted":  false,
+                         "holdoutSeconds":  0.0,
+                         "police":  0,
+                         "doors":  null,
+                         "spawnError":  0.0,
+                         "maxDrift":  0.0,
+                         "cameraPositionError":  -1.0,
+                         "cameraRotationError":  -1.0,
+                         "movementLocked":  false,
+                         "moves":  2590
+                     },
+                     {
+                         "label":  "highway-recovery",
+                         "elapsed":  54.00302,
+                         "health":  11036.0,
+                         "startDistance":  0.0,
+                         "distance":  421.365936,
+                         "endurance":  false,
+                         "attackLevel":  37,
+                         "healthLevel":  46,
+                         "forks":  [
+                                       {
+                                           "decided":  true,
+                                           "bypass":  true,
+                                           "rewarded":  true
+                                       },
+                                       {
+                                           "decided":  false,
+                                           "bypass":  false,
+                                           "rewarded":  false
+                                       }
+                                   ],
+                         "trafficLaunched":  1,
+                         "holdoutCompleted":  false,
+                         "holdoutSeconds":  0.0,
+                         "police":  0,
+                         "doors":  null,
+                         "spawnError":  0.0,
+                         "maxDrift":  0.0,
+                         "cameraPositionError":  -1.0,
+                         "cameraRotationError":  -1.0,
+                         "movementLocked":  false,
+                         "moves":  2572
+                     },
+                     {
+                         "label":  "reststop-final-frontage",
+                         "elapsed":  12.0203552,
+                         "health":  6601.0,
+                         "startDistance":  70.0,
+                         "distance":  -1.0,
+                         "endurance":  false,
+                         "attackLevel":  37,
+                         "healthLevel":  46,
+                         "forks":  null,
+                         "trafficLaunched":  0,
+                         "holdoutCompleted":  false,
+                         "holdoutSeconds":  0.0,
+                         "police":  0,
+                         "doors":  [
+                                       0,
+                                       0,
+                                       0,
+                                       0
+                                   ],
+                         "spawnError":  0.0,
+                         "maxDrift":  0.0,
+                         "cameraPositionError":  -1.0,
+                         "cameraRotationError":  -1.0,
+                         "movementLocked":  false,
+                         "moves":  564
+                     },
+                     {
+                         "label":  "reststop-final-holdout",
+                         "elapsed":  42.46241,
+                         "health":  10049.6,
+                         "startDistance":  838.0,
+                         "distance":  -1.0,
+                         "endurance":  false,
+                         "attackLevel":  37,
+                         "healthLevel":  46,
+                         "forks":  null,
+                         "trafficLaunched":  0,
+                         "holdoutCompleted":  true,
+                         "holdoutSeconds":  30.0,
+                         "police":  27,
+                         "doors":  [
+                                       6,
+                                       6,
+                                       8,
+                                       7
+                                   ],
+                         "spawnError":  0.0,
+                         "maxDrift":  0.0,
+                         "cameraPositionError":  0.0,
+                         "cameraRotationError":  0.0,
+                         "movementLocked":  false,
+                         "moves":  2142
+                     }
+                 ],
+    "preferences":  {
+                        "snapshot":  "map-concepts/road-reference-visuals-2026-09-13/before/playerprefs.tsv",
+                        "keys":  63,
+                        "mismatches":  [
+
+                                       ],
+                        "coin":  3007,
+                        "jewel":  0,
+                        "untouched":  [
+                                          {
+                                              "path":  "Assets/ShooterSurvival/GameData/Editor/Data.xlsx",
+                                              "unchanged":  true
+                                          },
+                                          {
+                                              "path":  "Assets/ShooterSurvival/Resources/GameData/Data.bytes",
+                                              "unchanged":  true
+                                          },
+                                          {
+                                              "path":  "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_SR18.unity",
+                                              "unchanged":  true
+                                          }
+                                      ]
+                    },
+    "checks":  {
+                   "old123TestsRerun":  false,
+                   "nativeToolCompilation":  "passed",
+                   "harness":  "passed",
+                   "runtimeBuild":  "passed, 16 existing warnings",
+                   "editorBuild":  "passed, 0 warnings",
+                   "consoleErrors":  0
+               },
+    "finalEditor":  {
+                        "dirty":  false,
+                        "unity":  "6000.2.6f1",
+                        "project":  "C:/Users/ljh/tralalero Shooter",
+                        "mode":  "Edit",
+                        "scene":  "HighWay"
+                    },
+    "limits":  [
+                   "Composition and material improvement; exact reference reproduction not claimed",
+                   "No new full 300-second traversal or 20-run progression cohort",
+                   "No Android device validation",
+                   "Live tests use ATT37/HP46/attack-speed30 and some section-entry positions; no continuous health correction"
+               ]
+}

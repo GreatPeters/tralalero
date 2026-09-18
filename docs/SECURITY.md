@@ -1,6 +1,10 @@
 # Security
 
 ## Trust Boundaries
+- The installed rewarded-ad integration uses official test identifiers. Rewards are local soft currency, granted only through the SDK earned callback and a round/attempt guard, including a late-earned callback after UI destruction. PlayerPrefs guards are not server-authoritative anti-fraud. Production activation needs real AdMob app/unit IDs and the applicable consent/audience configuration; the verified Editor placeholder does not certify production ads or physical-device consent behavior.
+- Repeated chapter tests use a separate real-file Unity project with distinct company/product preferences and analytics disabled. Do not merge its QA bootstrap, product settings or player preferences into the original project.
+- The Google Sheets refresh connector runs under the spreadsheet owner's Google account, uses a bounded query window/bytes-billed cap, and writes literal typed values in one atomic batch. BigQuery credentials never enter Unity Assets. A prepared local workbook is not proof that Firebase export or a native Sheet is connected.
+- `MapToolCurrencyCheats` is compiled only in the Editor assembly. Its grants intentionally alter local PlayerPrefs and live wallet balances, reject negative additions and clamp integer overflow. No grant control or callable cheat component is added to player builds; grants bypass earned-coin telemetry.
 - Unity editor state is mutable and should be treated as an external runtime boundary.
 - The official Unity CLI/Pipeline command surface can execute scene, asset, and editor operations. Treat it as privileged.
 - Local scripts and docs are authoritative only when committed and versioned.

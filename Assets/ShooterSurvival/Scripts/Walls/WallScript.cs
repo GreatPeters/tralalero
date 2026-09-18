@@ -326,6 +326,7 @@ namespace IndianOceanAssets.ShooterSurvival
                         return;
                     playerScript.lastWallTouchTime = Time.time;           // Update the last time the wall was touched
                     ApplyWallEffect();                                      // Apply the effect based on the wall's type
+                    GetComponentInParent<BonusRewardCue>(true)?.PlayPickup();
                     gameObject.GetComponent<Collider>().isTrigger = false;  // Disable trigger once applied
 
                     GetLifetimeObject().SetActive(false);
@@ -537,8 +538,7 @@ namespace IndianOceanAssets.ShooterSurvival
                     {
                         SpawnExtraHelp(HelpType.Boombardino);
                     }
-                    if (buffSFX != null)
-                        AudioSource.PlayClipAtPoint(buffSFX, transform.position);
+                    GameAudioService.Play(GameSound.Bonus);
 
                     ShowBuffOverlay();
 
@@ -563,8 +563,7 @@ namespace IndianOceanAssets.ShooterSurvival
                         ShowFireRateModifier(fireRateReduceSpr, fireRateDecMultipier);
                     }
 
-                    if (wallAudioSource != null && nerfSFX != null)
-                        wallAudioSource.PlayOneShot(nerfSFX);
+                    GameAudioService.Play(GameSound.Denied);
                     break;
             }
         }

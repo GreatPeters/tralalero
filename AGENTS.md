@@ -5,6 +5,7 @@ This repository is operated as an agent-friendly Unity project.
 Start here:
 - Read `ARCHITECTURE.md` for the codebase map.
 - Read `docs/README.md` for the living documentation index.
+- For game design, maps, balance, characters, UI or cinematics, read `docs/design/USER_STATED_REQUIREMENTS.md`. It records direct user statements; keep assistant choices and implementation reports separate from user requirements.
 - Read `docs/exec-plans/active/codex-harness-foundation.md` before large repo-shaping work.
 
 Primary goal:

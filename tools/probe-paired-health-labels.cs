@@ -1,0 +1,2 @@
+var enemies=UnityEngine.Object.FindObjectsByType<IndianOceanAssets.ShooterSurvival.EnemyScript_space>(UnityEngine.FindObjectsInactive.Include,UnityEngine.FindObjectsSortMode.None).Where(e=>e.name.Contains("E04_T")).ToArray();
+return string.Join("\n",enemies.SelectMany(e=>e.GetComponentsInChildren<TMPro.TMP_Text>(true).Select(t=>$"{e.name}/{t.name} text={t.text} font={t.fontSize} scale={t.transform.lossyScale} size={t.rectTransform.rect.size} bounds={t.bounds.size}")));

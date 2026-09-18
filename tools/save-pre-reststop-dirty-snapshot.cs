@@ -1,0 +1,3 @@
+var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();if(UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode||scene.name!="HighWay")throw new System.InvalidOperationException("HighWay edit mode required");
+if(scene.GetRootGameObjects().Single(g=>g.name=="Noryangjin_MapTool").transform.Find("Props/Highway_RestStop")!=null)throw new System.InvalidOperationException("Rest stop already exists");
+UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene,"tmp/backups/skins-progression-2026-09-12/dirty-before-reststop.unity",true);return new{scene.isDirty,undo=UnityEditor.Undo.GetCurrentGroupName()};

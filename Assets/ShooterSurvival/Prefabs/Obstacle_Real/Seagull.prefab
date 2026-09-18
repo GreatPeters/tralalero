@@ -72,6 +72,7 @@ MonoBehaviour:
   lookAlongPath: 1
   flipYawOnReverse: 1
   yawOffset: 0
+  canBeShotDown: 1
   obstaclePattern: 8
   value: 20
   firePos: {fileID: 0}
@@ -291,9 +292,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100034, guid: 9b07f9ec326e2774da437ccfb7e6b9a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2197714460564291210}
-    - targetCorrespondingSourceObject: {fileID: 100034, guid: 9b07f9ec326e2774da437ccfb7e6b9a0, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9196090539602493561}
   m_SourcePrefab: {fileID: 100100000, guid: 9b07f9ec326e2774da437ccfb7e6b9a0, type: 3}
 --- !u!1 &5341347060700989184 stripped
 GameObject:
@@ -321,33 +319,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3, y: 0.3, z: 0.3}
   m_Center: {x: 0, y: 0.17, z: 0}
---- !u!54 &9196090539602493561
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5341347060700989184}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!4 &5341347060701420384 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400034, guid: 9b07f9ec326e2774da437ccfb7e6b9a0, type: 3}

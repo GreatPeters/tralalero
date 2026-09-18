@@ -146,9 +146,10 @@ namespace IndianOceanAssets.ShooterSurvival
             //Debug.Log(isShooting + " isShooting");
             //Debug.Log(TimeManager.isGameRunning + " TimeManager.isGameRunning");
 
-            if (isShooting && TimeManager.isGameRunning && gameObject.activeInHierarchy)
+            if (isShooting && TimeManager.isGameRunning && TimeManager.timeFactor > 0f && gameObject.activeInHierarchy)
             {
-                Debug.Log("슛!!!!?");
+                if (extraHelpBuffScript != null && extraHelpBuffScript.helpType == HelpType.Boombardino)
+                    damage = extraHelpBuffScript.ResolveProjectileDamage();
                 if (playerScript != null && !playerScript.canShoot) return;
 
                 int count = Mathf.Min(bulletCount, bulletPositions.Length);
@@ -157,13 +158,18 @@ namespace IndianOceanAssets.ShooterSurvival
                     Transform bulletPos = bulletPositions[i];
                     Vector3 direction = bulletPos.up.normalized;
                     Vector3 spawnPosition = ResolveProjectileSpawnPosition(bulletPos);
+                    var aimOwner = playerScript != null ? playerScript : extraHelpBuffScript != null ? extraHelpBuffScript.Owner : null;
+                    if (aimOwner != null && aimOwner.HoldoutAim != null)
+                    {
+                        if (!aimOwner.HoldoutAim.TryAim(spawnPosition, out direction)) continue;
+                    }
                     parentAnimator.SetTrigger("WeaponShoot");
-                    audioSource.PlayOneShot(weaponSO.weaponSound);
 
                     // 종류 지정 꺼내기 (새 API)
                     GameObject bullet = bulletPooler.Get(bulletKind, transform);
                     if (bullet != null)
                     {
+                        GameAudioService.PlayAt(bulletKind == BulletKind.Bomb ? GameSound.Missile : GameSound.Shot, spawnPosition);
                         LastProjectileSpawnPosition = spawnPosition;
                         LastVisibleMouthPositionAtSpawn = visiblePlayerMouth != null
                             ? visiblePlayerMouth.position
@@ -172,7 +178,7 @@ namespace IndianOceanAssets.ShooterSurvival
                         bullet.transform.position = spawnPosition;
                         bullet.transform.rotation = BuildProjectileRotation(direction);
                         bullet.GetComponentInChildren<BulletScript>()
-                            .SetDirection(direction, playerScript);
+                            .SetDirection(direction, playerScript, damage);
                         TotalProjectilesSpawned++; // Count a successfully initialized shot, not just a rental.
                     }
                 }

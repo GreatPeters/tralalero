@@ -1,0 +1,15 @@
+var ads=IndianOceanAssets.ShooterSurvival.Ads.RewardedAdsService.Instance;
+if(!ads.Ready)throw new System.InvalidOperationException("Ad must be ready");
+var defeat=UnityEngine.Object.FindFirstObjectByType<DefeatPresentation>();
+int before=MoneyScript.S.Coin;
+defeat.SetResult(30,77,System.Guid.NewGuid().ToString("N"));
+defeat.WatchRewardedVideo();
+var close=UnityEngine.Object.FindObjectsByType<UnityEngine.UI.Button>(UnityEngine.FindObjectsSortMode.None).Single(b=>b.name=="Button"&&b.transform.parent.name=="Ad");
+close.onClick.Invoke();
+double deadline=UnityEditor.EditorApplication.timeSinceStartup+2;
+UnityEditor.EditorApplication.CallbackFunction tick=null;
+tick=()=>{if(UnityEditor.EditorApplication.timeSinceStartup<deadline)return;
+ var report=new{before,after=MoneyScript.S.Coin,showing=ads.Showing,continueEnabled=defeat.continueButton.interactable};
+ var serialize=System.AppDomain.CurrentDomain.GetAssemblies().First(a=>a.GetName().Name=="Newtonsoft.Json").GetType("Newtonsoft.Json.JsonConvert").GetMethod("SerializeObject",new[]{typeof(object)});
+ System.IO.File.WriteAllText("tmp/qa-proof/chapter-ui-final-v3/ad-early-close.json",(string)serialize.Invoke(null,new object[]{report}));UnityEditor.EditorApplication.update-=tick;};
+UnityEditor.EditorApplication.update+=tick;return new{before};

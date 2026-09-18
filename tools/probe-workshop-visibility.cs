@@ -1,0 +1,2 @@
+using System;using System.Linq;using UnityEngine;using UnityEditor;
+public static class ProbeWorkshopVisibility{public static object Main(){var map=UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects().Single(g=>g.name=="Noryangjin_MapTool").transform;var root=map.Find("Props/HarborDeparture_20260916/ShoeWorkshop");return string.Join("\n",root.GetComponentsInChildren<Renderer>(true).Select(r=>r.name+" enabled="+r.enabled+" bounds="+r.bounds+" viewport="+Camera.main.WorldToViewportPoint(r.bounds.center)));}}

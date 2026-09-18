@@ -157,7 +157,7 @@ public static class ForwardEnemyAnimatorSetup
                     [walkTemplate] = walkClip,
                     [runTemplate] = runClip,
                     [dieTemplate] = dieClip,
-                    [attackOnceTemplate] = attackClip
+                    [attackOnceTemplate] = enemy.AttackClipName == "Fatman Act" ? Sr18PresentationAssets.GetStableFatThrow() : attackClip
                 };
             AnimatorOverrideController overrideController = ConfigureOverrideController(
                 enemy,
@@ -167,6 +167,8 @@ public static class ForwardEnemyAnimatorSetup
             ConfigurePrefab(enemy.PrefabPath, avatar, overrideController);
         }
 
+        Sr18PresentationAssets.RepairAnimationAssets();
+        MobileKnifePose.Apply();
         AssetDatabase.SaveAssets();
         Debug.Log(
             "[Forward Enemy Animator] Configured shared idle/attack_loop/walk/run/" +

@@ -1,0 +1,212 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4090479565802437895
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2908297034436539524}
+  - component: {fileID: 7844259665559354819}
+  - component: {fileID: 2433581689335041103}
+  - component: {fileID: 1378928298570444985}
+  - component: {fileID: 4630219489271919588}
+  m_Layer: 0
+  m_Name: HighwayRoadblock
+  m_TagString: Obstacle
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2908297034436539524
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4090479565802437895}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2496771717450359156}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7844259665559354819
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4090479565802437895}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.2, y: 2, z: 1.2}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &2433581689335041103
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4090479565802437895}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &1378928298570444985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4090479565802437895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c07ab17fef1dcc4baac3c46a3d8f247, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObstacleStats
+  bucket: {fileID: 0}
+  bucketAttachSeconds: 3
+  bucketHeadOffset: {x: 0, y: 1.3, z: 0.2}
+  bucketDetachImpulse: {x: 0, y: 2, z: -4}
+  bucketDetachAngularImpulse: {x: -20, y: 0, z: 0}
+  destroyAfterDetach: 1
+  balloon: {fileID: 0}
+  shadowSprite: {fileID: 0}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  triggerRadius: 6
+  telegraphTime: 1
+  shadowStartScale: 0.2
+  shadowEndScale: 1.8
+  dropHeight: 12
+  dropTime: 0.18
+  pointA: {fileID: 0}
+  pointB: {fileID: 0}
+  jumpHeight: 3
+  jumpTime: 1.2
+  lookAlongPath: 1
+  flipYawOnReverse: 1
+  yawOffset: 0
+  canBeShotDown: 1
+  obstaclePattern: 9
+  value: 25
+  firePos: {fileID: 0}
+  projectilePrefab: {fileID: 0}
+  fireDistance: 12
+  aheadOffset: 3
+--- !u!114 &4630219489271919588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4090479565802437895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebe8d6d07f9b30d4a823b0be27ae8b8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HighwayHazard
+  visual: {fileID: 2496771717450359156}
+  barrierArm: {fileID: 0}
+  signal: {fileID: 0}
+  warning: {fileID: 0}
+  laneIndex: 0
+  breakHealth: 85
+  warningSeconds: 1.5
+  cycleSeconds: 6
+  crossingDistance: 6
+--- !u!1001 &262816511423257463
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2908297034436539524}
+    m_Modifications:
+    - target: {fileID: 2378998600964471299, guid: 635590bad92c7f54d810ef1c9d1977e8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378998600964471299, guid: 635590bad92c7f54d810ef1c9d1977e8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378998600964471299, guid: 635590bad92c7f54d810ef1c9d1977e8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378998600964471299, guid: 635590bad92c7f54d810ef1c9d1977e8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378998600964471299, guid: 635590bad92c7f54d810ef1c9d1977e8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378998600964471299, guid: 635590bad92c7f54d810ef1c9d1977e8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378998600964471299, guid: 635590bad92c7f54d810ef1c9d1977e8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378998600964471299, guid: 635590bad92c7f54d810ef1c9d1977e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378998600964471299, guid: 635590bad92c7f54d810ef1c9d1977e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2378998600964471299, guid: 635590bad92c7f54d810ef1c9d1977e8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4514750687234462348, guid: 635590bad92c7f54d810ef1c9d1977e8, type: 3}
+      propertyPath: m_Name
+      value: HighwayProp_51
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 635590bad92c7f54d810ef1c9d1977e8, type: 3}
+--- !u!4 &2496771717450359156 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2378998600964471299, guid: 635590bad92c7f54d810ef1c9d1977e8, type: 3}
+  m_PrefabInstance: {fileID: 262816511423257463}
+  m_PrefabAsset: {fileID: 0}

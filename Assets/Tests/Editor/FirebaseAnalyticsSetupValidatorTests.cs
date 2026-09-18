@@ -18,7 +18,7 @@ public sealed class FirebaseAnalyticsSetupValidatorTests
             Is.True);
     }
 
-    [TestCase("com.google.external-dependency-manager-1.2.186.tgz")]
+    [TestCase("com.google.external-dependency-manager-1.2.187.tgz")]
     [TestCase("com.google.firebase.app-13.14.0.tgz")]
     [TestCase("com.google.firebase.analytics-13.14.0.tgz")]
     public void ManifestPinning_RejectsEachMissingPackage(string archiveName)

@@ -38,6 +38,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private bool isDead = false;
         private Vector3 previousPosition;
         private PlayerScript playerScript;
+        public PlayerScript Owner => playerScript;
         private bool hasDeadParameter;
         private bool hasWalkForwardParameter;
         private bool hasMovingParameter;
@@ -126,19 +127,24 @@ namespace IndianOceanAssets.ShooterSurvival
             }
             else if (helpType == HelpType.Boombardino)
             {
-                float value = UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.BOOMBAR);
-                if (value <= 0f) return;
-                var vt = UpgradeStatManager.S.GetValueType(UpgradeStatManager.UpgradeType.BOOMBAR);
-
                 var weapon = GetComponentInChildren<WeaponScript>();
-                if (weapon != null)
-                {
-                    float baseDamage = playerScript.currentDamage;
-                    weapon.damage = vt == ValueType.Percent
-                        ? baseDamage * (value / 100f)
-                        : baseDamage + value;
-                }
+                if (weapon != null) weapon.damage = ResolveProjectileDamage();
             }
+        }
+
+        public float ResolveProjectileDamage()
+        {
+            if (playerScript == null) playerScript = FindFirstObjectByType<PlayerScript>();
+            if (playerScript == null) return 0f;
+            float value = UpgradeStatManager.S != null ? UpgradeStatManager.S.GetStat(UpgradeStatManager.UpgradeType.BOOMBAR) : 0f;
+            ValueType type = UpgradeStatManager.S != null ? UpgradeStatManager.S.GetValueType(UpgradeStatManager.UpgradeType.BOOMBAR) : ValueType.Percent;
+            return CalculateProjectileDamage(playerScript.ResolvedAttackDamage, value, type);
+        }
+
+        public static float CalculateProjectileDamage(float playerDamage, float upgradeValue, ValueType type)
+        {
+            if (upgradeValue <= 0f) return playerDamage;
+            return type == ValueType.Percent ? playerDamage * upgradeValue / 100f : playerDamage + upgradeValue;
         }
 
         private void Update()
@@ -156,8 +162,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 isDead = true;
                 if (hasDeadParameter)
                     EH_animator.SetBool("EH_dead", isDead);
-                if (audioSource != null && EH_deathAudioClip != null)
-                    audioSource.PlayOneShot(EH_deathAudioClip);
+                GameAudioService.PlayAt(GameSound.EnemyDeath, transform.position);
                 Destroy(gameObject, 0.1f);
                 return;
             }

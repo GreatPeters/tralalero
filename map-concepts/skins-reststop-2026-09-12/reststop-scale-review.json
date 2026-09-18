@@ -1,0 +1,18 @@
+{
+  "applyAfterCohort": true,
+  "reason": "Width-only import made the single-storey hall11.76m high and the fuel canopy7.68m high. Use believable building/equipment heights and normal parking bay widths.",
+  "heightMetres": {
+    "reststop_hall": 6,
+    "reststop_fuel_canopy": 5.5,
+    "reststop_restroom": 3.8,
+    "reststop_kiosk": 3.2,
+    "reststop_picnic_shelter": 3.4,
+    "reststop_vending": 2.1,
+    "reststop_ev_charger": 2.4,
+    "reststop_wayfinding": 3.4
+  },
+  "parkingBayWidth": 3.4,
+  "parkingBayPitch": 4.2,
+  "parkingBayLength": 6.3,
+  "stagedSceneBuilder": "tools/RestStopSceneBuilder.cs"
+}

@@ -1,0 +1,209 @@
+{
+  "ui": {
+    "status": "completed",
+    "duration": 1.81,
+    "summary": {
+      "total": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "results": [
+      {
+        "FullName": "CoastalUIIntegrationTests.AllChapterRanksGrantFivePercentAndKeepFiveRankCap",
+        "Status": "Passed",
+        "Duration": 0.0271053,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CoastalUIIntegrationTests.EverySkinUsesASeparatedTwoDimensionalIcon",
+        "Status": "Passed",
+        "Duration": 0.347794,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CoastalUIIntegrationTests.SavedGameplayScreensUseCoastalArtAndRealBindings(\"Noryangjin_MapTool_Mode_SR18\")",
+        "Status": "Passed",
+        "Duration": 0.458097,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CoastalUIIntegrationTests.SavedGameplayScreensUseCoastalArtAndRealBindings(\"HighWay\")",
+        "Status": "Passed",
+        "Duration": 0.4775498,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CoastalUIIntegrationTests.SavedGameplayScreensUseCoastalArtAndRealBindings(\"RestStop\")",
+        "Status": "Passed",
+        "Duration": 0.3900948,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CoastalUIIntegrationTests.TutorialTriggersOnlyForNearbyObjectsAhead(0,12,True)",
+        "Status": "Passed",
+        "Duration": 0.001216,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CoastalUIIntegrationTests.TutorialTriggersOnlyForNearbyObjectsAhead(0,-1,False)",
+        "Status": "Passed",
+        "Duration": 0.0000765,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CoastalUIIntegrationTests.TutorialTriggersOnlyForNearbyObjectsAhead(0,25,False)",
+        "Status": "Passed",
+        "Duration": 0.0000604,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CoastalUIIntegrationTests.TutorialTriggersOnlyForNearbyObjectsAhead(30,2,False)",
+        "Status": "Passed",
+        "Duration": 0.0000562,
+        "Message": null,
+        "StackTrace": null
+      }
+    ]
+  },
+  "chapter": {
+    "status": "completed",
+    "duration": 0.04,
+    "summary": {
+      "total": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "results": [
+      {
+        "FullName": "ChapterWorkshopTests.ChapterMultiplier_AppliesAfterRegularAndEquipmentBonuses_WithoutChangingOtherStats",
+        "Status": "Passed",
+        "Duration": 0.0092658,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.FirstChapter_IsAvailableBeforeAnyClear_AndRanksAreIndependent",
+        "Status": "Passed",
+        "Duration": 0.002663,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.FiveRanks_ChargeEscalatingPricesAndRejectSixthAfterReload",
+        "Status": "Passed",
+        "Duration": 0.0006909,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.InsufficientOrRefusedPayment_DoesNotGrantOwnership",
+        "Status": "Passed",
+        "Duration": 0.0005961,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.InvalidOrUnknownDefinitions_AreRejected",
+        "Status": "Passed",
+        "Duration": 0.0019711,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.LegacyOwnership_ReadsAsRankOneUntilExplicitLevelExists",
+        "Status": "Passed",
+        "Duration": 0.0010041,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.LockedChapter_RejectsPurchaseEvenWithEnoughCoins",
+        "Status": "Passed",
+        "Duration": 0.0001959,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.PurchasedChapters_AddBonusesInsteadOfMultiplyingEachOther",
+        "Status": "Passed",
+        "Duration": 0.0002005,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.RefusedNextRank_RestoresThePreviouslyPurchasedRank",
+        "Status": "Passed",
+        "Duration": 0.0001766,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "ChapterWorkshopTests.SynchronousWalletCallback_CannotReenterPurchase",
+        "Status": "Passed",
+        "Duration": 0.0002636,
+        "Message": null,
+        "StackTrace": null
+      }
+    ]
+  },
+  "inventory": {
+    "status": "completed",
+    "duration": 0.04,
+    "summary": {
+      "total": 5,
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "results": [
+      {
+        "FullName": "CosmeticInventoryTests.BuyEquipAndReload_KeepIndependentSlotsAndChargeOnce",
+        "Status": "Passed",
+        "Duration": 0.0038074,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CosmeticInventoryTests.InsufficientOrFailedPayment_DoesNotGrantOrEquip",
+        "Status": "Passed",
+        "Duration": 0.0004684,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CosmeticInventoryTests.InvalidSavedSelection_FallsBackToFreeSlotDefault",
+        "Status": "Passed",
+        "Duration": 0.0004401,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CosmeticInventoryTests.NegativePriceAndDuplicateDefaults_AreRejected",
+        "Status": "Passed",
+        "Duration": 0.0009909,
+        "Message": null,
+        "StackTrace": null
+      },
+      {
+        "FullName": "CosmeticInventoryTests.PaymentCallback_CannotReenterPurchase",
+        "Status": "Passed",
+        "Duration": 0.000293,
+        "Message": null,
+        "StackTrace": null
+      }
+    ]
+  }
+}

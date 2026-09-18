@@ -56,6 +56,11 @@ namespace IndianOceanAssets.ShooterSurvival
                 prefab,
                 player.transform.position + spawnOffset,
                 player.transform.rotation);
+            if (helpType == HelpType.Boombardino)
+            {
+                Transform model = helper.transform.Find("bomb_0910060745_texture");
+                if (model != null) model.localScale *= 1.7f;
+            }
             ExtraHelpBuffScript extraHelp = helper.GetComponent<ExtraHelpBuffScript>();
             if (extraHelp != null)
             {

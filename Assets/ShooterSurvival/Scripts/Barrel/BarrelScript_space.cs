@@ -100,7 +100,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             Transform hitPos = transform.GetChild(transform.childCount - 1);
 
-            barrelAudioSource.PlayOneShot(barrelHitSFX);
+            GameAudioService.PlayAt(GameSound.EnemyHit, transform.position);
             GameObject hitfx = Instantiate(bulletHitFX, hitPos);
             Destroy(hitfx, hitfx.GetComponent<ParticleSystem>().main.duration);
 
@@ -109,6 +109,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 weaponManager.ChangeWeapon((int)barrelType);
 
                 currentHealth = 0;
+                GameAudioService.PlayAt(GameSound.Explosion, transform.position);
                 explodeScript.Explode();
 
                 // effect nearby entities

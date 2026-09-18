@@ -1,0 +1,3 @@
+using System;using System.Linq;using UnityEngine;
+public static class ProbeMerchantPost20260917{public static object Main(){var map=GameObject.Find("Noryangjin_MapTool").transform;var merchant=map.Find("Props/HarborDeparture_20260916/MerchantStation");string Path(Transform t)=>t.parent==map?t.name:Path(t.parent)+"/"+t.name;
+ return string.Join("\n",map.Find("Roads").GetComponentsInChildren<Renderer>(true).Where(r=>r.bounds.min.x<merchant.position.x+4&&r.bounds.max.x>merchant.position.x-4&&r.bounds.min.z<merchant.position.z+1&&r.bounds.max.z>merchant.position.z-1).Select(r=>Path(r.transform)+" "+r.bounds));}}

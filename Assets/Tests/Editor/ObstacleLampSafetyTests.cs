@@ -47,10 +47,10 @@ public sealed class ObstacleLampSafetyTests
         typeof(ObstacleStats).GetMethod(method, Private).Invoke(lamp, args);
 
     [Test]
-    public void StandingLamp_StillDealsContactDamage()
+    public void StandingLamp_IsLethal()
     {
         Call("OnTriggerEnter", playerCollider);
-        Assert.That(player.currentHealth, Is.EqualTo(50));
+        Assert.That(player.currentHealth, Is.Zero);
     }
 
     [Test]
@@ -61,7 +61,7 @@ public sealed class ObstacleLampSafetyTests
         Assert.That(lampCollider.enabled, Is.True);
         Assert.That(lampObject.transform.rotation, Is.EqualTo(Quaternion.identity));
         Call("OnTriggerEnter", playerCollider);
-        Assert.That(player.currentHealth, Is.EqualTo(50));
+        Assert.That(player.currentHealth, Is.Zero);
     }
 
     [Test]
@@ -90,8 +90,24 @@ public sealed class ObstacleLampSafetyTests
         Assert.That(lampObject.transform.position, Is.EqualTo(initialPosition));
         Assert.That(lampObject.transform.rotation, Is.EqualTo(initialRotation));
         Call("OnTriggerEnter", playerCollider);
-        Assert.That(player.currentHealth, Is.EqualTo(50));
+        Assert.That(player.currentHealth, Is.Zero);
         Call("OnTriggerEnter", bulletCollider);
         Assert.That(lampCollider.enabled, Is.False, "A restarted lamp must be shootable again");
+    }
+
+    [Test]
+    public void SettledLamp_RestoresContactAndUsesPlayerWideCooldown()
+    {
+        player.currentHealth = player.MaxHealth;
+        float maximum = player.MaxHealth;
+        Call("OnTriggerEnter", bulletCollider);
+        DOTween.Complete(lampObject.transform);
+        Assert.That(lampCollider.enabled, Is.True);
+        Call("OnTriggerEnter", playerCollider);
+        Call("OnTriggerStay", playerCollider);
+        Assert.That(player.currentHealth, Is.EqualTo(maximum * .7f).Within(.001f));
+        Assert.That(player.TryTakeFallenPoleDamage(Time.time + .99f), Is.False);
+        Assert.That(player.TryTakeFallenPoleDamage(Time.time + 1f), Is.True);
+        Assert.That(player.currentHealth, Is.EqualTo(maximum * .4f).Within(.001f));
     }
 }

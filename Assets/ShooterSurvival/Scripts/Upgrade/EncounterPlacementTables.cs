@@ -17,6 +17,10 @@ public sealed class EncounterPlacementRow
     public bool hasCombatStats;
     public float damage, health;
     public EnemyTier tier;
+    public bool hasHighwaySettings;
+    public float durability, warningSeconds, operationSeconds, crossingDistance;
+    public bool dropBonusAltar=true;
+    public int coinReward=-1;
 }
 
 // One atomic snapshot. Placed combat stats override legacy chapter growth; bonus effects remain in BonusTables.
@@ -68,6 +72,10 @@ public static class EncounterPlacementTables
                 row.enabled = enabled == "1";
                 if (kind == 0)
                 {
+                    string OptionalReward(string name)=>headers.TryGetValue(name,out int column)?Convert.ToString(reader.GetValue(column),CultureInfo.InvariantCulture)?.Trim()??"":"";
+                    string drop=OptionalReward("보너스드롭"),coins=OptionalReward("코인보상");
+                    if(drop.Length>0){if(drop!="0"&&drop!="1")throw new InvalidDataException(row.id+": 보너스드롭은 0 또는 1이어야 합니다.");row.dropBonusAltar=drop=="1";}
+                    if(coins.Length>0 && (!int.TryParse(coins,NumberStyles.Integer,CultureInfo.InvariantCulture,out row.coinReward)||row.coinReward<0))throw new InvalidDataException(row.id+": 코인보상은 0 이상 정수여야 합니다.");
                     row.mode = ParseMode(Text("이벤트"));
                     row.moveSpeed = Number(Text("이동속도"), "이동속도");
                     row.moveDistance = Number(Text("이동거리"), "이동거리");
@@ -94,6 +102,15 @@ public static class EncounterPlacementTables
                     if (!Enum.TryParse(Text("기믹종류"), out row.pattern) || !Enum.IsDefined(typeof(ObstaclePattern), row.pattern) || row.pattern == ObstaclePattern.None)
                         throw new InvalidDataException($"{row.id}: 잘못된 기믹종류");
                     row.effectValue = Number(Text("효과값"), "효과값");
+                    string Optional(string name) => headers.TryGetValue(name, out int column)
+                        ? Convert.ToString(reader.GetValue(column), CultureInfo.InvariantCulture)?.Trim() ?? "" : "";
+                    string[] settings = { Optional("내구도"), Optional("예고초"), Optional("작동초"), Optional("이동폭") };
+                    row.hasHighwaySettings = settings.Any(s => s.Length > 0);
+                    if (row.hasHighwaySettings)
+                    {
+                        float Value(int index) => settings[index].Length == 0 ? 0 : Number(settings[index], "고속도로 기믹 설정");
+                        row.durability = Value(0); row.warningSeconds = Value(1); row.operationSeconds = Value(2); row.crossingDistance = Value(3);
+                    }
                 }
                 rows.Add(row);
             }
@@ -112,6 +129,7 @@ public static class EncounterPlacementTables
                 throw new InvalidDataException("맵/배치ID는 비어 있거나 중복될 수 없습니다.");
             if (row.kind == SheetNames[0])
             {
+                if(row.coinReward < -1)throw new InvalidDataException(row.id+": 잘못된 코인보상");
                 if (!Enum.IsDefined(typeof(EnemyEventMode), row.mode)) throw new InvalidDataException(row.id + ": 잘못된 적 이벤트");
                 if (row.hasCombatStats && (!Enum.IsDefined(typeof(EnemyTier), row.tier) ||
                     float.IsNaN(row.damage) || float.IsInfinity(row.damage) || row.damage < 0 ||
@@ -128,6 +146,13 @@ public static class EncounterPlacementTables
                 throw new InvalidDataException(row.id + ": 잘못된 제단 등급");
             if (row.kind == SheetNames[2] && (row.effectValue < 0 || float.IsNaN(row.effectValue) || float.IsInfinity(row.effectValue)))
                 throw new InvalidDataException(row.id + ": 잘못된 효과값");
+            if (row.hasHighwaySettings)
+            {
+                foreach (float value in new[] { row.durability, row.warningSeconds, row.operationSeconds, row.crossingDistance })
+                    if (value < 0 || float.IsNaN(value) || float.IsInfinity(value)) throw new InvalidDataException(row.id + ": 잘못된 기믹 설정");
+                if (row.pattern == ObstaclePattern.HighwayRoadblock && row.durability <= 0) throw new InvalidDataException(row.id + ": 내구도는 양수여야 합니다.");
+                if ((row.pattern == ObstaclePattern.HighwayTraffic || row.pattern == ObstaclePattern.HighwayToll) && row.operationSeconds < 1) throw new InvalidDataException(row.id + ": 작동초는 1 이상이어야 합니다.");
+            }
         }
     }
     public static EnemyEventMode ParseMode(string value) => value switch

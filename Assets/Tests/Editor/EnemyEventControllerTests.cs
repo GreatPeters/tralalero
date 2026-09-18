@@ -263,7 +263,7 @@ public sealed class EnemyEventControllerTests
     }
 
     [Test]
-    public void MovingEnemy_FacesItsActualTravelDirection()
+    public void MovingEnemy_FacesPlayerBeforeAttacking()
     {
         GameObject enemy = CreateObject("Facing Enemy");
         Animator animator = CreateObject("Visual").AddComponent<Animator>();
@@ -275,12 +275,16 @@ public sealed class EnemyEventControllerTests
         controller.EventMode = EnemyEventMode.MoveToTargetThenAttack;
         controller.TargetPoint = target.transform;
         controller.MoveSpeed = 1f;
+        var player=CreateObject("Visible Player").AddComponent<PlayerScript>();
+        player.transform.position=new Vector3(-4f,0f,-3f);
+        typeof(EnemyEventController).GetField("player",BindingFlags.NonPublic|BindingFlags.Instance).SetValue(controller,player);
 
         Assert.That(controller.ActivateFromSpot(), Is.True);
         Advance(controller, 0.25f);
+        typeof(EnemyEventController).GetMethod("LateUpdate",BindingFlags.NonPublic|BindingFlags.Instance).Invoke(controller,null);
 
         Assert.That(
-            Vector3.Angle(animator.transform.forward, new Vector3(4f, 0f, 3f)),
+            Vector3.Angle(animator.transform.forward, player.transform.position-enemy.transform.position),
             Is.LessThan(0.01f));
     }
 

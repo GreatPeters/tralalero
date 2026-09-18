@@ -156,14 +156,11 @@ namespace IndianOceanAssets.ShooterSurvival
         private const float BobDuration = 0.75f;
         private const float RotateSpeed = 120f;
 
-        private static Material s_coinMaterial;
-        private static Material s_coinFaceMaterial;
-        private static Material s_coinArrowMaterial;
         private bool collected;
         private Vector3 basePosition;
         private Tween bobTween;
-        private Transform arrowRootTransform;
-        private Camera cachedMainCamera;
+        private Transform collector;
+        private float collectionRadius;
 
         public static CoinPickup Spawn(Vector3 worldPosition, int amount)
         {
@@ -178,172 +175,21 @@ namespace IndianOceanAssets.ShooterSurvival
             rb.useGravity = false;
             rb.isKinematic = true;
 
-            CreateVisualPart(
-                "Coin Body",
-                PrimitiveType.Cylinder,
-                pickupObject.transform,
-                new Vector3(0f, 0f, 0f),
-                new Vector3(0.5f, 0.1f, 0.5f),
-                GetCoinMaterial());
-
-            CreateVisualPart(
-                "Coin Face Top",
-                PrimitiveType.Cylinder,
-                pickupObject.transform,
-                new Vector3(0f, 0.102f, 0f),
-                new Vector3(0.34f, 0.012f, 0.34f),
-                GetCoinFaceMaterial());
-
-            CreateVisualPart(
-                "Coin Face Bottom",
-                PrimitiveType.Cylinder,
-                pickupObject.transform,
-                new Vector3(0f, -0.102f, 0f),
-                new Vector3(0.34f, 0.012f, 0.34f),
-                GetCoinFaceMaterial());
-
-            var arrowRoot = new GameObject("Coin Arrow Root");
-            arrowRoot.transform.SetParent(pickupObject.transform, false);
-            arrowRoot.transform.localPosition = new Vector3(0f, 0.92f, 0f);
-
-            CreateVisualPart(
-                "Coin Arrow Stem",
-                PrimitiveType.Cube,
-                arrowRoot.transform,
-                new Vector3(0f, 0.03f, 0f),
-                new Vector3(0.08f, 0.28f, 0.08f),
-                GetCoinArrowMaterial());
-
-            CreateVisualPart(
-                "Coin Arrow Head Left",
-                PrimitiveType.Cube,
-                arrowRoot.transform,
-                new Vector3(-0.08f, -0.12f, 0f),
-                new Vector3(0.08f, 0.18f, 0.08f),
-                GetCoinArrowMaterial(),
-                new Vector3(0f, 0f, 45f));
-
-            CreateVisualPart(
-                "Coin Arrow Head Right",
-                PrimitiveType.Cube,
-                arrowRoot.transform,
-                new Vector3(0.08f, -0.12f, 0f),
-                new Vector3(0.08f, 0.18f, 0.08f),
-                GetCoinArrowMaterial(),
-                new Vector3(0f, 0f, -45f));
+            CoinTokenVisual.Attach(pickupObject.transform);
 
             var pickup = pickupObject.AddComponent<CoinPickup>();
             pickup.amount = amount;
             return pickup;
         }
 
-        private static void CreateVisualPart(string name, PrimitiveType primitiveType, Transform parent, Vector3 localPosition, Vector3 localScale, Material material)
-        {
-            CreateVisualPart(name, primitiveType, parent, localPosition, localScale, material, Vector3.zero);
-        }
-
-        private static void CreateVisualPart(string name, PrimitiveType primitiveType, Transform parent, Vector3 localPosition, Vector3 localScale, Material material, Vector3 localEulerAngles)
-        {
-            var visual = GameObject.CreatePrimitive(primitiveType);
-            visual.name = name;
-            visual.transform.SetParent(parent, false);
-            visual.transform.localPosition = localPosition;
-            visual.transform.localScale = localScale;
-            visual.transform.localEulerAngles = localEulerAngles;
-
-            var collider = visual.GetComponent<Collider>();
-            if (collider != null)
-                Destroy(collider);
-
-            var renderer = visual.GetComponent<Renderer>();
-            if (renderer == null)
-                return;
-
-            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-            renderer.receiveShadows = false;
-            renderer.sharedMaterial = material;
-        }
-
-        private static Material GetCoinMaterial()
-        {
-            if (s_coinMaterial != null)
-                return s_coinMaterial;
-
-            s_coinMaterial = CreateCoinMaterial(
-                new Color(0.92f, 0.67f, 0.12f),
-                new Color(0.55f, 0.34f, 0.03f),
-                new Color(0.35f, 0.22f, 0.02f));
-            return s_coinMaterial;
-        }
-
-        private static Material GetCoinFaceMaterial()
-        {
-            if (s_coinFaceMaterial != null)
-                return s_coinFaceMaterial;
-
-            s_coinFaceMaterial = CreateCoinMaterial(
-                new Color(1f, 0.84f, 0.22f),
-                new Color(0.85f, 0.62f, 0.08f),
-                new Color(0.55f, 0.37f, 0.04f));
-            return s_coinFaceMaterial;
-        }
-
-        private static Material GetCoinArrowMaterial()
-        {
-            if (s_coinArrowMaterial != null)
-                return s_coinArrowMaterial;
-
-            Shader shader = Shader.Find("URP/AlwaysOnTopUnlit");
-            if (shader == null)
-                shader = Shader.Find("Unlit/Color");
-            if (shader == null)
-                shader = Shader.Find("Sprites/Default");
-
-            s_coinArrowMaterial = new Material(shader);
-            Color arrowColor = new Color(1f, 0.9f, 0.32f, 0.88f);
-            if (s_coinArrowMaterial.HasProperty("_BaseColor"))
-                s_coinArrowMaterial.SetColor("_BaseColor", arrowColor);
-            if (s_coinArrowMaterial.HasProperty("_Color"))
-                s_coinArrowMaterial.SetColor("_Color", arrowColor);
-
-            return s_coinArrowMaterial;
-        }
-
-        private static Material CreateCoinMaterial(Color baseColor, Color emissionColor, Color specColor)
-        {
-            Shader shader = Shader.Find("Universal Render Pipeline/Lit");
-            if (shader == null)
-                shader = Shader.Find("Standard");
-            if (shader == null)
-                shader = Shader.Find("Sprites/Default");
-
-            var material = new Material(shader);
-            material.color = baseColor;
-
-            if (material.HasProperty("_BaseColor"))
-                material.SetColor("_BaseColor", baseColor);
-            if (material.HasProperty("_Color"))
-                material.SetColor("_Color", baseColor);
-            if (material.HasProperty("_Metallic"))
-                material.SetFloat("_Metallic", 0.9f);
-            if (material.HasProperty("_Smoothness"))
-                material.SetFloat("_Smoothness", 0.8f);
-            if (material.HasProperty("_Glossiness"))
-                material.SetFloat("_Glossiness", 0.8f);
-            if (material.HasProperty("_SpecColor"))
-                material.SetColor("_SpecColor", specColor);
-            if (material.HasProperty("_EmissionColor"))
-            {
-                material.EnableKeyword("_EMISSION");
-                material.SetColor("_EmissionColor", emissionColor);
-            }
-
-            return material;
-        }
-
         private void Awake()
         {
-            arrowRootTransform = transform.Find("Coin Arrow Root");
+            collectionRadius = 3.5f;
+            if (EnvironmentVariableTables.TryGetFloat("coinPickupRadius_" + gameObject.scene.name, out float configured) && !float.IsNaN(configured) && !float.IsInfinity(configured))
+            {
+                collectionRadius = Mathf.Clamp(configured, 0f, 6f);
+            }
+            collector = GameObject.FindGameObjectWithTag("Player")?.transform;
         }
 
         private void OnEnable()
@@ -363,27 +209,27 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void Update()
         {
+            if (!collected && collector != null && collectionRadius > 0 && TimeManager.isGameRunning)
+            {
+                Vector3 delta = collector.position - transform.position;
+                if (Mathf.Abs(delta.y) < 2.5f && delta.x * delta.x + delta.z * delta.z <= collectionRadius * collectionRadius) Collect();
+            }
             transform.Rotate(Vector3.up, RotateSpeed * Time.deltaTime, Space.World);
 
-            if (arrowRootTransform != null)
-            {
-                float pulse = 1f + Mathf.Sin(Time.time * 6f) * 0.08f;
-                arrowRootTransform.localScale = Vector3.one * pulse;
-                arrowRootTransform.localPosition = new Vector3(0f, 0.92f + Mathf.Sin(Time.time * 4f) * 0.04f, 0f);
-                if (cachedMainCamera == null)
-                    cachedMainCamera = Camera.main;
-                if (cachedMainCamera != null)
-                    arrowRootTransform.forward = cachedMainCamera.transform.forward;
-            }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (collected || !other.CompareTag("Player"))
+            if (collected || !TimeManager.isGameRunning || other.GetComponentInParent<PlayerScript>() == null)
                 return;
-
+            Collect();
+        }
+        private void Collect()
+        {
+            if (collected || MoneyScript.S == null) return;
             collected = true;
-            MoneyScript.S?.GetCoin(amount);
+            MoneyScript.S.GetCoin(amount);
+            GameAudioService.Play(GameSound.Coin);
             DamagePopupFX.ShowCoin(transform.position + Vector3.up * 0.35f, amount);
             Destroy(gameObject);
         }

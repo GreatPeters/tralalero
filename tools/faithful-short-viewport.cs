@@ -1,0 +1,3 @@
+var type=typeof(UnityEditor.EditorWindow).Assembly.GetType("UnityEditor.GameView");var view=UnityEditor.EditorWindow.GetWindow(type);var flags=System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.Static;
+if(SessionState.GetInt("Faithful.OriginalWidth",0)==0){SessionState.SetInt("Faithful.OriginalWidth",Screen.width);SessionState.SetInt("Faithful.OriginalHeight",Screen.height);}
+var method=type.GetMethod("SetCustomResolution",flags);method.Invoke(method.IsStatic?null:view,new object[]{new Vector2(1080,1920),"Faithful short phone"});view.Repaint();SessionState.SetString("FaithfulUI.Phase","short-phone");return true;

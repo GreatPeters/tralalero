@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using IndianOceanAssets.ShooterSurvival;
@@ -365,7 +366,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         public string Label { get; }
     }
 
-    internal const string KoreanWindowTitle = "노량진 맵툴";
+    internal const string KoreanWindowTitle = "맵 툴";
+    internal const string HighwayMapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/HighWay.unity";
+    internal const string RestStopMapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/RestStop.unity";
     internal const string MapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode.unity";
     internal const string MapToolScene2Path = "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_2.unity";
     internal const string Sr18MapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_SR18.unity";
@@ -695,6 +698,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     [SerializeField] private bool isTopSceneView;
     [SerializeField] private NoryangjinMapToolContentTab selectedContentTab;
     [SerializeField] private NoryangjinMapToolPaletteCategory selectedPaletteCategory = NoryangjinMapToolPaletteCategory.Building;
+    [SerializeField] private bool highwayPalette;
+    [SerializeField] private bool restStopPalette;
     [SerializeField] private string selectedPalettePrefabPath;
 
     private Vector2 scroll;
@@ -728,11 +733,14 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         Undo.undoRedoPerformed += RefreshTrackedEnemyPlacementsAfterUndoRedo;
     }
 
-    [MenuItem("Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기", false, 2305)]
+    [MenuItem("Tools/맵 제작 도구/맵 툴 열기", false, 2305)]
     public static void Open()
     {
         NoryangjinMapToolWindow window = GetWindow<NoryangjinMapToolWindow>();
         window.titleContent = new GUIContent(KoreanWindowTitle);
+        window.restStopPalette = SceneManager.GetActiveScene().path == RestStopMapToolScenePath;
+        window.highwayPalette = window.restStopPalette || SceneManager.GetActiveScene().path == HighwayMapToolScenePath;
+        window.paletteItems = null;
         window.showSceneGrid = DefaultShowSceneGrid;
         window.showWorkSubGrid = DefaultShowWorkSubGrid;
         window.isTopSceneView = false;
@@ -883,6 +891,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         convenienceScroll = EditorGUILayout.BeginScrollView(convenienceScroll);
         EditorGUILayout.Space(8f);
         DrawTestTimeScaleControls();
+        MapToolCurrencyCheats.Draw();
         using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
         {
             EditorGUILayout.LabelField("플레이 검증", EditorStyles.boldLabel);
@@ -1497,6 +1506,10 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                 GUILayout.FlexibleSpace();
                 if (selectedContentTab != NoryangjinMapToolContentTab.Information)
                 {
+                    int current=restStopPalette?2:highwayPalette?1:0;
+                    int palette = EditorGUILayout.Popup(current,
+                        new[] { "노량진 맵툴", "고속도로 컨셉", "휴게소 컨셉" }, GUILayout.Width(125f));
+                    if(palette!=current)SetPaletteConcept(palette);
                     Color oldBackgroundColor = GUI.backgroundColor;
                     GUI.backgroundColor = new Color(1f, 0.38f, 0.32f, 1f);
                     if (GUILayout.Button(DeleteAllPlacedObjectsButtonLabel, GUILayout.Width(82f), GUILayout.Height(22f)))
@@ -2151,7 +2164,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         GUILayout.Label($"연결된 적: {assignedCount}명", EditorStyles.miniBoldLabel);
 
         EditorGUILayout.HelpBox(
-            IsEnemyAssignmentModeActiveFor(trigger)
+            assignedTargets.Any(WorkbookEnemyAssignment.IsManaged)
+                ? "엑셀 배치 적은 1:1 연결을 유지합니다. 다른 적을 클릭하면 연결을 교체하고, 기존 적의 스팟과 서로 바꿉니다. 같은 적을 다시 클릭해도 연결을 해제하지 않습니다."
+                : IsEnemyAssignmentModeActiveFor(trigger)
                 ? "스팟 선택 중: 씬에서 적을 클릭하면 연결/해제됩니다. Esc를 누르면 스팟 선택이 해제됩니다."
                 : "스팟을 선택한 뒤 씬에서 적을 클릭하면 자동으로 연결됩니다.",
             MessageType.Info);
@@ -3577,7 +3592,12 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             allowGridFallback: true);
         if (target != null)
         {
-            bool added = ToggleEnemyMovementTargetAssignment(trigger, target);
+            bool added;
+            try { added = ToggleEnemyMovementTargetAssignment(trigger, target); }
+            catch (Exception error) when (error is InvalidOperationException || error is ArgumentException)
+            {
+                ShowNotification(new GUIContent(error.Message));currentEvent.Use();return;
+            }
             hoveredEnemyAssignmentTarget = target;
             Selection.activeGameObject = trigger.gameObject;
             ShowNotification(new GUIContent(
@@ -3743,6 +3763,17 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             throw new ArgumentNullException(nameof(trigger));
         if (target == null)
             throw new ArgumentNullException(nameof(target));
+
+        if (WorkbookEnemyAssignment.IsManaged(target) || trigger.Targets.Any(WorkbookEnemyAssignment.IsManaged))
+        {
+            var map = target.gameObject.scene.GetRootGameObjects().FirstOrDefault(root => root.name == "Noryangjin_MapTool");
+            var props = map != null ? map.transform.Find("Props") : null;
+            if (props == null || !trigger.transform.IsChildOf(props))
+                throw new InvalidOperationException("엑셀 배치 적의 발동 스팟은 같은 맵의 Props 안에 두세요.");
+            var spots = props.GetComponentsInChildren<EnemyEventActivationSpot>(true);
+            WorkbookEnemyAssignment.Assign(trigger, target, spots);
+            return true;
+        }
 
         EnemyEventController[] nextTargets =
             BuildToggledEnemyMovementTargets(
@@ -4438,7 +4469,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         };
         Handles.Label(
             end + Vector3.up * 0.45f,
-            alreadyAssigned ? "클릭하면 연결 해제" : "클릭하면 연결",
+            alreadyAssigned && WorkbookEnemyAssignment.IsManaged(target) ? "이미 연결됨 (1:1 유지)" : alreadyAssigned ? "클릭하면 연결 해제" : "클릭하면 연결",
             labelStyle);
     }
 
@@ -6928,7 +6959,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     {
         return string.Equals(scenePath, MapToolScenePath, StringComparison.OrdinalIgnoreCase) ||
                string.Equals(scenePath, MapToolScene2Path, StringComparison.OrdinalIgnoreCase) ||
-               string.Equals(scenePath, Sr18MapToolScenePath, StringComparison.OrdinalIgnoreCase);
+               string.Equals(scenePath, Sr18MapToolScenePath, StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(scenePath, HighwayMapToolScenePath, StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(scenePath, RestStopMapToolScenePath, StringComparison.OrdinalIgnoreCase);
     }
 
     internal static string ResolveMapToolScenePathToOpen(string activeScenePath)
@@ -7807,6 +7840,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             return false;
 
         string normalizedPath = prefabPath.Replace('\\', '/');
+        if (normalizedPath.StartsWith("Assets/ShooterSurvival/Prefabs/Highway/Enemies/", StringComparison.OrdinalIgnoreCase) ||
+            normalizedPath.StartsWith("Assets/ShooterSurvival/Prefabs/RestStop/Enemies/", StringComparison.OrdinalIgnoreCase))
+            return true;
         foreach (string enemyPrefabPath in EnemyPalettePrefabPaths)
         {
             if (string.Equals(normalizedPath, enemyPrefabPath, StringComparison.OrdinalIgnoreCase))
@@ -8568,6 +8604,13 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
             ClearSelectionPaletteItemSortOrder,
             NoryangjinMapToolPaletteSection.Common));
         AddTurnSpotPaletteItem(paletteItems);
+        if (highwayPalette)
+        {
+            AddEnemyMovementTriggerPaletteItem(paletteItems);
+            AddBonusWallPaletteItems(paletteItems);
+            AddHighwayPaletteItems(paletteItems,restStopPalette);
+            return paletteItems;
+        }
         AddObstaclePaletteItems(paletteItems);
         AddEnemyMovementTriggerPaletteItem(paletteItems);
         AddEnemyPaletteItems(paletteItems);
@@ -8624,6 +8667,47 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         });
 
         return paletteItems;
+    }
+
+    public void SetPaletteConcept(int concept)
+    {
+        if(concept<0||concept>2)throw new ArgumentOutOfRangeException(nameof(concept));
+        highwayPalette=concept!=0;restStopPalette=concept==2;paletteItems=null;selectedPalettePrefabPath=null;selectedPaletteCategory=NoryangjinMapToolPaletteCategory.All;Repaint();
+    }
+    private static void AddHighwayPaletteItems(List<PaletteItem> items,bool restOnly=false)
+    {
+        const string root = "Assets/ShooterSurvival/Prefabs/Highway";
+        if (!AssetDatabase.IsValidFolder(root)) return;
+        foreach (string guid in AssetDatabase.FindAssets("t:Prefab", new[] { root }).OrderBy(g => AssetDatabase.GUIDToAssetPath(g)))
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            if(restOnly && path.Contains("/Props/") && !new[]{"HWY_067.prefab","HWY_081.prefab","HWY_082.prefab","HWY_065.prefab"}.Any(path.EndsWith))continue;
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            if (prefab == null) continue;
+            bool enemy = path.Contains("/Enemies/"), gimmick = path.Contains("/Gimmicks/");
+            if (restOnly && enemy && !new[] { "DeliveryRider.prefab", "TireBruiser.prefab" }.Any(path.EndsWith)) continue;
+            var category = path.Contains("/Roads/") ? NoryangjinMapToolPaletteCategory.Road :
+                path.Contains("/Background/") ? NoryangjinMapToolPaletteCategory.Background : NoryangjinMapToolPaletteCategory.Prop;
+            items.Add(new PaletteItem(prefab.name, path, prefab, category, 10,
+                enemy ? NoryangjinMapToolPaletteSection.Enemy : gimmick ? NoryangjinMapToolPaletteSection.Gimmick : NoryangjinMapToolPaletteSection.Object));
+        }
+        if(restOnly)
+        {
+            const string roster = "Assets/ShooterSurvival/Prefabs/RestStop/Enemies";
+            if (AssetDatabase.IsValidFolder(roster))
+                foreach (string guid in AssetDatabase.FindAssets("t:Prefab", new[] { roster }).OrderBy(AssetDatabase.GUIDToAssetPath))
+                {
+                    string path = AssetDatabase.GUIDToAssetPath(guid);
+                    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                    if (prefab != null) items.Add(new PaletteItem(prefab.name, path, prefab, NoryangjinMapToolPaletteCategory.Prop, 10, NoryangjinMapToolPaletteSection.Enemy));
+                }
+            foreach(var entry in new[]{("table_001","야외 테이블"),("bench_001","야외 벤치"),("tree_012","휴게소 조경수")})
+            {
+                string path="Assets/ithappy/Megacity/Prefabs/Props/"+entry.Item1+".prefab";
+                var prefab=AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                if(prefab!=null&&!HasPaletteItem(items,path))items.Add(new PaletteItem(entry.Item2,path,prefab,NoryangjinMapToolPaletteCategory.Prop,10,NoryangjinMapToolPaletteSection.Object));
+            }
+        }
     }
 
     private static void AddTurnSpotPaletteItem(List<PaletteItem> items)

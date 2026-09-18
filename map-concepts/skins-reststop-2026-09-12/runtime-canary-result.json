@@ -1,0 +1,81 @@
+﻿{
+    "prompt":  [
+                   0,
+                   "14d288bf-c84c-4824-8005-754318d6a5a0",
+                   {
+                       "2":  {
+                                 "inputs":  {
+                                                "images":  [
+                                                               "1",
+                                                               0
+                                                           ]
+                                            },
+                                 "class_type":  "PreviewImage"
+                             },
+                       "1":  {
+                                 "inputs":  {
+                                                "batch_size":  1,
+                                                "color":  0,
+                                                "width":  64,
+                                                "height":  64
+                                            },
+                                 "class_type":  "EmptyImage"
+                             }
+                   },
+                   {
+                       "create_time":  1789151041693
+                   },
+                   [
+                       "2"
+                   ]
+               ],
+    "outputs":  {
+                    "2":  {
+                              "images":  [
+                                             {
+                                                 "filename":  "ComfyUI_temp_uumcq_00001_.png",
+                                                 "subfolder":  "",
+                                                 "type":  "temp"
+                                             }
+                                         ]
+                          }
+                },
+    "status":  {
+                   "status_str":  "success",
+                   "completed":  true,
+                   "messages":  [
+                                    [
+                                        "execution_start",
+                                        {
+                                            "prompt_id":  "14d288bf-c84c-4824-8005-754318d6a5a0",
+                                            "timestamp":  1789151041694
+                                        }
+                                    ],
+                                    [
+                                        "execution_cached",
+                                        {
+                                            "nodes":  [
+
+                                                      ],
+                                            "prompt_id":  "14d288bf-c84c-4824-8005-754318d6a5a0",
+                                            "timestamp":  1789151041696
+                                        }
+                                    ],
+                                    [
+                                        "execution_success",
+                                        {
+                                            "prompt_id":  "14d288bf-c84c-4824-8005-754318d6a5a0",
+                                            "timestamp":  1789151041703
+                                        }
+                                    ]
+                                ]
+               },
+    "meta":  {
+                 "2":  {
+                           "node_id":  "2",
+                           "display_node":  "2",
+                           "parent_node":  null,
+                           "real_node_id":  "2"
+                       }
+             }
+}

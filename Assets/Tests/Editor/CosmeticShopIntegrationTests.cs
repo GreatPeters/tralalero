@@ -17,7 +17,7 @@ public sealed class CosmeticShopIntegrationTests
         Assert.That(catalog, Is.Not.Null);
         Assert.That(catalog.splitSharkMesh.subMeshCount, Is.EqualTo(2));
         Assert.That(catalog.splitSharkMesh.boneWeights.Length, Is.EqualTo(catalog.splitSharkMesh.vertexCount));
-        Assert.That(CosmeticTables.Rows.Count, Is.EqualTo(12));
+        Assert.That(CosmeticTables.Rows.Count, Is.EqualTo(24));
         foreach (var item in CosmeticTables.Rows)
         {
             var visual = catalog.Find(item.visualKey);
@@ -34,6 +34,7 @@ public sealed class CosmeticShopIntegrationTests
 
     [TestCase("Noryangjin_MapTool_Mode")]
     [TestCase("Noryangjin_MapTool_Mode_SR18")]
+    [TestCase("HighWay")]
     public void ShopIsReachableAndUsesIndependentPreviewArea(string name)
     {
         string path = "Assets/ShooterSurvival/Scenes/Tools/" + name + ".unity";
@@ -46,7 +47,9 @@ public sealed class CosmeticShopIntegrationTests
             var shop = canvas.GetComponentInChildren<CosmeticShopUI>(true);
             Assert.That(shop, Is.Not.Null);
             var entry = canvas.Find("UI/Main/Bottom/Skin_Button").GetComponent<Button>();
-            Assert.That(Enumerable.Range(0, entry.onClick.GetPersistentEventCount()).Any(i => entry.onClick.GetPersistentTarget(i) == shop.gameObject), Is.True);
+            Assert.That(Enumerable.Range(0, entry.onClick.GetPersistentEventCount()).Any(i =>
+                (entry.onClick.GetPersistentTarget(i) == shop.gameObject && entry.onClick.GetPersistentMethodName(i) == "SetActive") ||
+                (entry.onClick.GetPersistentTarget(i) == shop && entry.onClick.GetPersistentMethodName(i) == "Open")), Is.True);
             Assert.That(shop.preview.display.transform.parent.name, Is.EqualTo("PreviewArea"));
             Assert.That(shop.GetComponentsInChildren<TMP_Text>(true).All(t => t.font != null && t.font.HasCharacter('상')), Is.True, "All shop labels must support Korean");
             var customizer = scene.GetRootGameObjects().SelectMany(g => g.GetComponentsInChildren<PlayerCosmeticCustomizer>(true)).Single();

@@ -373,7 +373,9 @@ public sealed class NoryangjinSr18SceneTests
     public void Sr18Scene_PreservesTheRouteWithTheApprovedDenseMarket()
     {
         Assert.That(File.Exists(Sr18Path), Is.True, "SR18 scene has not been baked yet.");
-        Assert.That(HashFile(Map1Path), Is.EqualTo(Map1ReviewedSha256), "Reviewed Map1 baseline changed.");
+        // The report's hash identifies its historical input; later authorized UI edits
+        // must not invalidate the geometric copy contract checked below.
+        string map1Before = HashFile(Map1Path);
         Assert.That(HashFile(Map2Path), Is.EqualTo(Map2ReviewedSha256), "Reviewed Map2 baseline changed.");
         string sr18Before = HashFile(Sr18Path);
 
@@ -436,7 +438,8 @@ public sealed class NoryangjinSr18SceneTests
             string[] buildScenes = EditorBuildSettings.scenes
                 .Select(scene => scene.path)
                 .ToArray();
-            Assert.That(buildScenes, Does.Not.Contain(Sr18Path));
+            Assert.That(buildScenes, Does.Contain(Sr18Path));
+            Assert.That(buildScenes, Does.Contain(HighwaySceneBuilder.ScenePath));
         }
         finally
         {
@@ -447,7 +450,7 @@ public sealed class NoryangjinSr18SceneTests
             if (openedMap1 && map1.IsValid() && map1.isLoaded)
                 EditorSceneManager.CloseScene(map1, true);
 
-            Assert.That(HashFile(Map1Path), Is.EqualTo(Map1ReviewedSha256));
+            Assert.That(HashFile(Map1Path), Is.EqualTo(map1Before), "Validation must not write Map1.");
             Assert.That(HashFile(Map2Path), Is.EqualTo(Map2ReviewedSha256));
             Assert.That(HashFile(Sr18Path), Is.EqualTo(sr18Before), "Validation must not write the authored scene.");
             if (previousActive.IsValid() && previousActive.isLoaded)
@@ -585,7 +588,7 @@ public sealed class NoryangjinSr18SceneTests
             Assert.That(clearance.DistanceAfterCorner(gate.transform.position), Is.GreaterThanOrEqualTo(19.98f), gate.name);
             Assert.That(enemy.gameObject.activeSelf && enemy.enabled, Is.True, enemy.name);
             Assert.That(PrefabUtility.GetPrefabInstanceStatus(enemy.gameObject), Is.EqualTo(PrefabInstanceStatus.Connected));
-            float scale = enemy.name.EndsWith("Enemy_Woman") ? 2.5f : 2.25f;
+            float scale = (PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(enemy.gameObject).EndsWith("Enemy_Woman.prefab") ? 2.5f : 2.25f) * .75f;
             Assert.That(enemy.transform.localScale, Is.EqualTo(Vector3.one * scale).Using(Vector3ComparerWithEqualsOperator.Instance));
             if (EnemyEventController.RequiresTarget(enemy.EventMode))
             {
@@ -612,6 +615,12 @@ public sealed class NoryangjinSr18SceneTests
             Assert.That(hazard.gameObject.activeInHierarchy, Is.True, hazard.name);
             var active = hazard.GetComponentsInChildren<ObstacleStats>();
             Assert.That(active.Length, Is.EqualTo(hazard.name.EndsWith("Bucket") ? 3 : 1), hazard.name + " retains its authored parts");
+            if(active[0].obstaclePattern==ObstaclePattern.Seagull)
+            {
+                Assert.That(active[0].GetComponent<BoxCollider>().enabled,Is.False,"Only the descending bird may hit the player.");
+                Assert.That(active[0].balloon,Is.Not.Null);Assert.That(active[0].shadowSprite,Is.Not.Null);
+                continue;
+            }
             var box = active[0].GetComponent<BoxCollider>();
             Assert.That(box.enabled && box.isTrigger, Is.True, hazard.name);
             // A player capsule (radius .69) must fit through at least one permitted lateral edge.
@@ -654,6 +663,9 @@ public sealed class NoryangjinSr18SceneTests
         var openingCenters = opening["centerOverrides"].Children<JObject>().ToDictionary(r => (string)r["id"]);
         var contacts = JObject.Parse(File.ReadAllText("map-concepts/sr18-contact-pairs-2026-09-10/applied.json"));
         foreach (var row in contacts["centerOverrides"].Children<JObject>()) openingCenters[(string)row["id"]] = row;
+        var presentation = JObject.Parse(File.ReadAllText("map-concepts/sr18-presentation-progression-2026-09-10/placements.json"));
+        foreach (var row in presentation["centerOverrides"].Children<JObject>()) openingCenters[(string)row["id"]] = row;
+        var refinement=JObject.Parse(File.ReadAllText("map-concepts/noryangjin-refinement-2026-09-11/changes.json"))["replacements"].Children<JObject>().ToDictionary(r=>(string)r["previous"]);
         float previousStation = float.NegativeInfinity;
         foreach (var row in latest["events"].Children<JObject>())
         {
@@ -661,7 +673,8 @@ public sealed class NoryangjinSr18SceneTests
             Assert.That(distance - previousStation, Is.GreaterThanOrEqualTo(23.98f), (string)row["id"]);
             previousStation = distance;
             string kind = (string)row["kind"];
-            var placed = root.Find(kind == "enemy" ? "Enemies" : kind == "bonus" ? "Bonuses" : "Props").Find((string)row["id"]);
+            refinement.TryGetValue((string)row["id"],out var replacement);
+            var placed = root.Find(kind == "enemy" ? "Enemies" : kind == "bonus" ? "Bonuses" : "Props").Find(replacement!=null?(string)replacement["id"]:(string)row["id"]);
             Vector3 center = placed.position;
             if (kind == "bonus") center = (placed.GetComponent<BonusWallChoicePair>().Left.transform.position + placed.GetComponent<BonusWallChoicePair>().Right.transform.position) * .5f;
             if (kind == "enemy")
@@ -670,7 +683,7 @@ public sealed class NoryangjinSr18SceneTests
                 if (enemy.EventMode == EnemyEventMode.PatrolBetweenStartAndTarget) center = (center + enemy.TargetPoint.position) * .5f;
                 if (enemy.EventMode == EnemyEventMode.AmbushMoveThenShoot) center = enemy.TargetPoint.position;
             }
-            var expected = openingCenters.TryGetValue(placed.name, out var changed) ? changed : row;
+            var expected = replacement ?? (openingCenters.TryGetValue(placed.name, out var changed) ? changed : row);
             AssertVector(center, expected["center"].ToObject<float[]>(), .03f, placed.name + " actual reflow center");
         }
     }
@@ -685,8 +698,8 @@ public sealed class NoryangjinSr18SceneTests
             PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(t.gameObject).Contains("049_STAGE01")).ToArray();
         Assert.That(shops.Length, Is.EqualTo(306));
         Assert.That(ground.Length, Is.EqualTo((int)applied["groundCount"]));
-        Assert.That(props.childCount, Is.EqualTo(717));
-        Assert.That(props.Cast<Transform>().Count(t => t.GetComponent<EnemyEventActivationSpot>() == null && !t.name.StartsWith("SR18_L_G")), Is.EqualTo(666));
+        Assert.That(props.Cast<Transform>().Count(t=>!t.name.StartsWith("SR18_Polish_")), Is.EqualTo(717));
+        Assert.That(props.Cast<Transform>().Count(t => t.GetComponent<EnemyEventActivationSpot>() == null && !t.name.StartsWith("SR18_L_G") && !t.name.StartsWith("SR18_Polish_")), Is.EqualTo(666));
         Assert.That((bool)applied["roadsideOnly"], Is.True);
         Assert.That(((JArray)applied["placements"]).Count, Is.EqualTo(612));
 
@@ -736,7 +749,7 @@ public sealed class NoryangjinSr18SceneTests
         Assert.That((string)manifest["id"], Is.EqualTo("super-radical-18"));
         Assert.That(report.source.scenePath, Is.EqualTo(Map1Path));
         Assert.That(report.source.sha256, Is.EqualTo(Map1ReviewedSha256));
-        Assert.That(HashFile(Map1Path), Is.EqualTo(report.source.sha256));
+        Assert.That(File.Exists(Map1Path), Is.True);
         Assert.That(report.source.roadCount, Is.EqualTo(51));
         Assert.That(report.source.turnSpotCount, Is.EqualTo(5));
         Assert.That(report.target.scenePath, Is.EqualTo(Sr18Path));

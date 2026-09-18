@@ -1,0 +1,795 @@
+{
+  "prompt": [
+    2,
+    "fb389a15-5e9a-47b3-9bbf-fa9fd55cc319",
+    {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "wan2.2_ti2v_5B_fp16.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "type": "wan",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "wan2.2_vae.safetensors"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "A polished animated fantasy film shot. The huge purple stone shoe deity slowly closes its enormous hands toward the little blue shark while its face scowls and its mouth moves angrily. The frightened shark flinches, looks upward, blinks and shuffles its THREE shoe-wearing legs. Purple lightning crawls around all THREE shoes. Continuous believable character movement, preserve exactly three feet, stable camera."
+        }
+      },
+      "5": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "still image, slideshow, freeze frame, static pose, text, subtitles, speech bubble, watermark, distorted face, fused limbs, extra limbs, morphing, flickering, camera shake, blurry, low quality"
+        }
+      },
+      "6": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "codex-opening-02.png"
+        }
+      },
+      "7": {
+        "class_type": "Wan22ImageToVideoLatent",
+        "inputs": {
+          "vae": [
+            "3",
+            0
+          ],
+          "width": 512,
+          "height": 896,
+          "length": 121,
+          "batch_size": 1,
+          "start_image": [
+            "6",
+            0
+          ]
+        }
+      },
+      "8": {
+        "class_type": "ModelSamplingSD3",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "shift": 8.0
+        }
+      },
+      "9": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "8",
+            0
+          ],
+          "positive": [
+            "4",
+            0
+          ],
+          "negative": [
+            "5",
+            0
+          ],
+          "latent_image": [
+            "7",
+            0
+          ],
+          "seed": 202609112,
+          "steps": 20,
+          "cfg": 5.0,
+          "sampler_name": "uni_pc",
+          "scheduler": "simple",
+          "denoise": 1.0
+        }
+      },
+      "10": {
+        "class_type": "VAEDecodeTiled",
+        "inputs": {
+          "samples": [
+            "9",
+            0
+          ],
+          "vae": [
+            "3",
+            0
+          ],
+          "tile_size": 512,
+          "overlap": 64,
+          "temporal_size": 16,
+          "temporal_overlap": 4
+        }
+      },
+      "11": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "images": [
+            "10",
+            0
+          ],
+          "filename_prefix": "codex-opening-20260911/shot-02"
+        }
+      }
+    },
+    {
+      "create_time": 1789090258608
+    },
+    [
+      "11"
+    ]
+  ],
+  "outputs": {
+    "11": {
+      "images": [
+        {
+          "filename": "shot-02_00001_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00002_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00003_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00004_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00005_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00006_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00007_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00008_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00009_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00010_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00011_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00012_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00013_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00014_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00015_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00016_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00017_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00018_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00019_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00020_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00021_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00022_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00023_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00024_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00025_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00026_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00027_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00028_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00029_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00030_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00031_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00032_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00033_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00034_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00035_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00036_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00037_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00038_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00039_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00040_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00041_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00042_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00043_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00044_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00045_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00046_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00047_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00048_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00049_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00050_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00051_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00052_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00053_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00054_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00055_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00056_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00057_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00058_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00059_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00060_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00061_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00062_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00063_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00064_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00065_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00066_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00067_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00068_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00069_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00070_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00071_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00072_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00073_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00074_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00075_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00076_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00077_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00078_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00079_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00080_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00081_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00082_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00083_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00084_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00085_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00086_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00087_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00088_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00089_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00090_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00091_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00092_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00093_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00094_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00095_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00096_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00097_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00098_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00099_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00100_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00101_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00102_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00103_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00104_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00105_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00106_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00107_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00108_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00109_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00110_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00111_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00112_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00113_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00114_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00115_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00116_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00117_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00118_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00119_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00120_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        },
+        {
+          "filename": "shot-02_00121_.png",
+          "subfolder": "codex-opening-20260911",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "fb389a15-5e9a-47b3-9bbf-fa9fd55cc319",
+          "timestamp": 1789090258609
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "1",
+            "2",
+            "3",
+            "5",
+            "8"
+          ],
+          "prompt_id": "fb389a15-5e9a-47b3-9bbf-fa9fd55cc319",
+          "timestamp": 1789090258617
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "fb389a15-5e9a-47b3-9bbf-fa9fd55cc319",
+          "timestamp": 1789090827888
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "11": {
+      "node_id": "11",
+      "display_node": "11",
+      "parent_node": null,
+      "real_node_id": "11"
+    }
+  }
+}

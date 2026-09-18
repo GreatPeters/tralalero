@@ -16,7 +16,8 @@ public class UpgradeStatManager : MonoBehaviour
         COIN_BONUS,
         HP_REGEN,
         TUNGTUNGTUNG,
-        BOOMBAR
+        BOOMBAR,
+        LATERAL_SPEED
     }
 
     public const UpgradeType MissileDurationUpgradeType = UpgradeType.PROJECTILE_SPEED;
@@ -31,11 +32,35 @@ public class UpgradeStatManager : MonoBehaviour
     private readonly Dictionary<UpgradeType, float> stats = new Dictionary<UpgradeType, float>();
     private readonly Dictionary<UpgradeType, ValueType> statValueTypes = new Dictionary<UpgradeType, ValueType>();
     private readonly Dictionary<string, RuntimeStatModifier> runtimeModifiers = new Dictionary<string, RuntimeStatModifier>();
+    private float chapterAttackMultiplier = 1f, chapterHealthMultiplier = 1f;
 
     const string SAVE_KEY = "upgrade_stat_";
     const string SAVE_KEY_TYPE = "upgrade_stat_type_";
 
     public event Action StatsChanged;
+
+    public void SyncFromPurchasedLevels()
+    {
+        // Levels are ownership; derived stat amounts follow the current workbook.
+        // Rebalancing must also reach players who never reopen the upgrade panel.
+        foreach (int id in UpgradeTables.Ids)
+        {
+            if (!UpgradeTables.TryGet(id, 1, out var first)) continue;
+            int level = Mathf.Clamp(PlayerPrefs.GetInt("upgrade_lv_" + id, 0), 0, 1000);
+            while (level > 0 && !UpgradeTables.TryGet(id, level, out _)) level--;
+            var row = level > 0 && UpgradeTables.TryGet(id, level, out var purchased) ? purchased : first;
+            ApplyUpgrade(row.type, level > 0 ? row.amount : 0f, row.valueType);
+        }
+        ChapterUpgradeService.ApplyToStats(this);
+        EquipmentRunEffects.Apply(CosmeticService.Current, this);
+    }
+
+    public void SetChapterMultipliers(float attack, float health)
+    {
+        if (Mathf.Approximately(chapterAttackMultiplier, attack) && Mathf.Approximately(chapterHealthMultiplier, health)) return;
+        chapterAttackMultiplier = attack; chapterHealthMultiplier = health;
+        RaiseStatsChanged();
+    }
 
     void Awake()
     {
@@ -122,7 +147,9 @@ public class UpgradeStatManager : MonoBehaviour
 
     public float ApplyToBase(UpgradeType type, float baseValue)
     {
-        return baseValue * (1f + GetPercentStat(type) / 100f) + GetFlatStat(type);
+        float upgraded = baseValue * (1f + GetPercentStat(type) / 100f) + GetFlatStat(type);
+        float chapter = type == UpgradeType.ATT ? chapterAttackMultiplier : type == UpgradeType.HP ? chapterHealthMultiplier : 1f;
+        return upgraded * chapter;
     }
 
     float GetSavedStat(UpgradeType type)

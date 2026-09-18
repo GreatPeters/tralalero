@@ -1,0 +1,199 @@
+{
+  "tests": {
+    "pattern": {
+      "total": 19,
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "turn-regression": {
+      "total": 48,
+      "passed": 48,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "combat-regression": {
+      "total": 12,
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "chapter-integration": {
+      "total": 4,
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "analytics": {
+      "total": 25,
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    },
+    "workbook": {
+      "total": 15,
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "inconclusive": 0
+    }
+  },
+  "passedTests": 123,
+  "playtests": {
+    "cycle2-highway-green": {
+      "scene": "HighWay",
+      "elapsed": 48.00136,
+      "endurance": false,
+      "health": 5355.0,
+      "distance": 374.408173,
+      "branches": [
+        {
+          "decided": true,
+          "bypass": true,
+          "rewarded": true
+        },
+        {
+          "decided": false,
+          "bypass": false,
+          "rewarded": false
+        }
+      ],
+      "holdoutCompleted": false,
+      "holdoutSeconds": 0.0,
+      "spawned": 0,
+      "killed": 0,
+      "maximumDrift": 0.0,
+      "pausedOnce": false,
+      "movementLocked": false,
+      "shots": 192,
+      "movementCalls": 1433,
+      "frames": 1434,
+      "trafficLaunched": 1,
+      "trafficContacts": 0
+    },
+    "accepted-highway-main-opening": {
+      "scene": "HighWay",
+      "elapsed": 16.0395088,
+      "endurance": false,
+      "health": 5660.0,
+      "distance": 125.11097,
+      "branches": [
+        {
+          "decided": true,
+          "bypass": false,
+          "rewarded": false
+        },
+        {
+          "decided": false,
+          "bypass": false,
+          "rewarded": false
+        }
+      ],
+      "holdoutCompleted": false,
+      "holdoutSeconds": 0.0,
+      "spawned": 0,
+      "spawnedByDoor": null,
+      "spawnPositionError": 0.0,
+      "killed": 0,
+      "maximumDrift": 0.0,
+      "pausedOnce": false,
+      "movementLocked": false,
+      "shots": 64,
+      "movementCalls": 471,
+      "frames": 472,
+      "trafficLaunched": 1,
+      "trafficContacts": 0
+    },
+    "final-highway-full-main": {
+      "scene": "HighWay",
+      "elapsed": 298.5623,
+      "endurance": true,
+      "health": 100000.0,
+      "distance": 2328.84937,
+      "branches": [
+        {
+          "decided": true,
+          "bypass": false,
+          "rewarded": false
+        },
+        {
+          "decided": true,
+          "bypass": false,
+          "rewarded": false
+        }
+      ],
+      "holdoutCompleted": false,
+      "holdoutSeconds": 0.0,
+      "spawned": 0,
+      "spawnedByDoor": null,
+      "spawnPositionError": 0.0,
+      "killed": 0,
+      "maximumDrift": 0.0,
+      "pausedOnce": false,
+      "movementLocked": false,
+      "shots": 1315,
+      "movementCalls": 8902,
+      "frames": 8903,
+      "trafficLaunched": 11,
+      "trafficContacts": 3
+    },
+    "accepted-reststop-late-chapter": {
+      "scene": "RestStop",
+      "elapsed": 48.18196,
+      "endurance": false,
+      "health": 9897.6,
+      "distance": -1.0,
+      "branches": null,
+      "holdoutCompleted": true,
+      "holdoutSeconds": 30.0,
+      "spawned": 27,
+      "spawnedByDoor": [
+        6,
+        7,
+        8,
+        6
+      ],
+      "spawnPositionError": 0.0,
+      "killed": 26,
+      "maximumDrift": 0.0,
+      "pausedOnce": true,
+      "movementLocked": false,
+      "shots": 170,
+      "movementCalls": 404,
+      "frames": 1420,
+      "trafficLaunched": 0,
+      "trafficContacts": 0
+    }
+  },
+  "originalState": {
+    "keys": 63,
+    "unchanged": true,
+    "differences": [],
+    "coins": 3007,
+    "jewels": 0,
+    "archiveVerified": true,
+    "scene": "HighWay"
+  },
+  "hashes": {
+    "Assets/ShooterSurvival/Scenes/Tools/HighWay.unity": "2d4289d219edec561e6774047d7cfd474f63d2c716ad3dfe21df81326ba27cdc",
+    "Assets/ShooterSurvival/Scenes/Tools/RestStop.unity": "429d5a65f2731eb4392cfa0a9ff11d8f2a62c54641e264e839d5bcf53e93e7d8",
+    "Assets/ShooterSurvival/GameData/Editor/Data.xlsx": "f62c32c0ec64333a3e7645ce3c508e9a88028c3d68f5d3894c594693acc45d56",
+    "Assets/ShooterSurvival/Resources/GameData/Data.bytes": "a95558c7efdcc7e3b1c503b454222e7d3c8cd0ae677a39079bef7cec26426cd3"
+  },
+  "previews": {
+    "highway-oncoming.png": "tmp/image-previews/road-patterns-2026-09-13/highway-oncoming.png",
+    "highway-curve.png": "tmp/image-previews/road-patterns-2026-09-13/highway-curve.png",
+    "reststop-holdout.png": "tmp/image-previews/road-patterns-2026-09-13/reststop-holdout.png",
+    "reststop-opposite-doors.png": "tmp/image-previews/road-patterns-2026-09-13/reststop-opposite-doors.png"
+  },
+  "limits": [
+    "Highway full traversal uses a maintained health override, not ordinary balance certification.",
+    "RestStop success uses seeded late-chapter upgrades ATT37 HP46 speed30 and section entry setup.",
+    "The prior 17/22/22 progression cohorts and Android APK predate these new patterns."
+  ]
+}

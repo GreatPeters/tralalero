@@ -27,7 +27,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private static void Loaded(Scene scene, LoadSceneMode mode) => Ensure(scene);
         private static void Ensure(Scene scene)
         {
-            if (!scene.IsValid() || !scene.name.StartsWith("Noryangjin_", StringComparison.Ordinal)) return;
+            if (!scene.IsValid() || (!scene.name.StartsWith("Noryangjin_", StringComparison.Ordinal) && scene.name != "HighWay" && scene.name != "RestStop")) return;
             var map = scene.GetRootGameObjects().FirstOrDefault(g => g.name == "Noryangjin_MapTool");
             if (map != null && map.GetComponent<EncounterPlacementController>() == null) map.AddComponent<EncounterPlacementController>();
         }
@@ -56,6 +56,7 @@ namespace IndianOceanAssets.ShooterSurvival
             var changes = new List<Action>();
             var map = transform;
             var roads = map.Find("Roads").GetComponentsInChildren<MeshCollider>(true);
+            var curvedRoute = map.GetComponent<HighwayRoute>();
             float Floor(Vector3 p)
             {
                 foreach (Vector3 offset in new[] { Vector3.zero, Vector3.right * .12f, Vector3.left * .12f, Vector3.forward * .12f, Vector3.back * .12f })
@@ -76,8 +77,10 @@ namespace IndianOceanAssets.ShooterSurvival
                     if (enemy == null || combat == null) throw new InvalidDataException(row.id + ": 적 컴포넌트 없음");
                     if ((row.mode == EnemyEventMode.Shoot || row.mode == EnemyEventMode.AmbushMoveThenShoot) && !combat.HasConfiguredProjectile)
                         throw new InvalidDataException(row.id + ": 경비원/뚱보 등 투사체가 있는 모델만 사격할 수 있습니다.");
-                    var spot = map.Find("Props").GetComponentsInChildren<EnemyEventActivationSpot>(true).SingleOrDefault(s => s.Targets.Contains(enemy));
-                    if (spot == null || spot.Targets.Length != 1) throw new InvalidDataException(row.id + ": 일대일 발동 스팟 필요");
+                    var matchingSpots = map.Find("Props").GetComponentsInChildren<EnemyEventActivationSpot>(true).Where(s => s.Targets.Contains(enemy)).ToArray();
+                    if (matchingSpots.Length != 1 || matchingSpots[0].Targets.Length != 1)
+                        throw new InvalidDataException(row.id + ": 일대일 발동 스팟 필요 (연결 스팟 " + matchingSpots.Length + "개, 대상 수 " + string.Join(",",matchingSpots.Select(s=>s.Targets.Length)) + ")");
+                    var spot = matchingSpots[0];
                     var origin = placement.position;
                     Vector3 center = enemy.EventMode == EnemyEventMode.PatrolBetweenStartAndTarget && enemy.HasUsableTarget ?
                         (origin + enemy.TargetPoint.position) * .5f : enemy.EventMode == EnemyEventMode.AmbushMoveThenShoot && enemy.HasUsableTarget ? enemy.TargetPoint.position : origin;
@@ -92,6 +95,7 @@ namespace IndianOceanAssets.ShooterSurvival
                         start += dir * row.moveDistance + Vector3.Cross(Vector3.up, dir) * enemy.AmbushEntrySide;
                     else if (row.mode == EnemyEventMode.MoveToTargetThenAttack) target -= dir * row.moveDistance;
                     Vector3 gate = center - dir * row.activationLead;
+                    if (curvedRoute != null) gate = curvedRoute.ActivationPoint(center, row.activationLead);
                     gate.y = spot.transform.position.y; // A gate may be on a ramp even when its enemy is on the next flat.
                     var clearance = placement.GetComponent<EnemyCornerClearance>();
                     if (row.enabled && clearance != null)
@@ -123,6 +127,7 @@ namespace IndianOceanAssets.ShooterSurvival
                         enemy.MoveSpeed = row.moveSpeed;
                         enemy.EventMode = row.mode;
                         combat.ConfigureTriggeredFire(row.throwDelay, row.throwSpeed);
+                        combat.ConfigureRewards(row.dropBonusAltar,row.coinReward);
                         if (row.hasCombatStats) combat.ApplyStat(row.damage, row.health, row.tier);
                         spot.transform.position = gate;
                         placement.gameObject.SetActive(row.enabled); spot.gameObject.SetActive(row.enabled);
@@ -158,7 +163,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 {
                     var parts = placement.GetComponentsInChildren<ObstacleStats>(true).Where(s => s.transform == placement || s.gameObject.activeSelf).ToArray();
                     if (parts.Length == 0 || parts.Any(p => p.obstaclePattern != row.pattern) ||
-                        (parts.Length != 1 && row.pattern != ObstaclePattern.Bucket))
+                        (parts.Length != 1 && row.pattern != ObstaclePattern.Bucket && !(row.pattern==ObstaclePattern.HighwayToll&&parts.Length==3)))
                         throw new InvalidDataException(row.id + ": 기믹 모델/종류 불일치");
                     changes.Add(() =>
                     {
@@ -166,6 +171,17 @@ namespace IndianOceanAssets.ShooterSurvival
                         {
                             if (row.pattern == ObstaclePattern.Bucket) obstacle.bucketAttachSeconds = row.effectValue;
                             else obstacle.value = row.effectValue;
+                            if(row.pattern==ObstaclePattern.Dolphin)obstacle.jumpHeight=row.effectValue;
+                            if(row.pattern==ObstaclePattern.Oldman)
+                                foreach(var paddle in obstacle.GetComponentsInChildren<SimpleProjectile>(true))paddle.damage=row.effectValue;
+                            var highway = obstacle.GetComponent<HighwayHazard>();
+                            if (highway != null && row.hasHighwaySettings)
+                            {
+                                highway.breakHealth = row.durability;
+                                highway.warningSeconds = row.warningSeconds;
+                                highway.cycleSeconds = row.operationSeconds;
+                                highway.crossingDistance = row.crossingDistance;
+                            }
                         }
                         placement.gameObject.SetActive(row.enabled);
                     });

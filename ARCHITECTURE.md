@@ -1,14 +1,183 @@
 # ARCHITECTURE.md
 
+## Settings and opening feedback correction (2026-09-19)
+
+- `HarborGameUIInstaller.SettingsFaithful` is the final settings pass, shared by the normal Faithful installer and `ApplyFaithfulSettingsAll`. It preserves live controls while using Jua display type, readable native icon/knob sprites and width-based modal sizing. `HarborSettingsPanel.Open` selects lobby/run aspect ratios.
+- `tools/rig-harbor-merchant.py` protects front-apron weights without pinning inner sleeves, diffuses weights over welded topology and keeps four normalized influences. The existing FBX path/GUID and seated/greeting controller remain authoritative. Editable exports are under `outputs/feedback-2026-09-19/merchant-rigged`.
+- `HarborCharacterPresentationRepair.ApplyShovelGrip` applies a hand-relative shovel fit to its source prefab and matching saved scene props. `HarborBonusPresentationInstaller.RebuildRewardEffects` rebuilds the two shared effects as bounded gold stars/glints. `BonusRewardCue` emits once above the collecting player and hides the approach cue on claim.
+- Evidence, regeneration and verification: `map-concepts/feedback-2026-09-19/README.md`.
+
+## Generated surface consistency (2026-09-17)
+
+- `GeneratedStylizedSurface` is the Editor-only shared FlatKit treatment used by the chapter, merchant, mascot, footwear, headwear and body-atlas authoring paths. It preserves maps, tint, UVs and transparent render state while applying readable cel shading and thin outlines; outline materials register with the Graphics/Quality pipelines' renderer features.
+- 174 newly added surface materials are enumerated in `map-concepts/new-content-stylized-2026-09-17/materials.txt`. UI, particles, skyboxes and the dedicated coin shader retain their specialized shaders. The migration changes shared materials without rewriting scene/prefab references. Reproduction, three-scene native images and preservation checks are in that folder's README.
+
+## Shop reference presentation (2026-09-17)
+
+- `HarborGameUIInstaller.ShopsFaithful` runs after generic Coastal styling in the final Faithful pass. `ApplyFaithfulShopsAll` narrowly authors the existing cosmetic/permanent/chapter shops in SR18, HighWay and RestStop. It keeps original purchase components and serialized text references; new decorations are updated by name, without accumulating duplicates.
+- Shop artwork lives under `UI/CoastalFaithful`: native 9-slice card/button sprites, a trimmed illustrated header, ten upgrade icon slices and native rank-ring textures. Jua SDF and a dedicated shop-white preset cover shop type; geometry-based centering stays in the final alignment pass.
+- `CosmeticShopUI.referencePresentation` preserves artwork colors during refresh and distinguishes focused selection from equipped status. `ChapterUpgradeCardUI.referencePresentation` renders hollow remaining ranks, filled purchased ranks and explicit locked presentation while existing purchase services own prices, caps and unlocks.
+- `CosmeticPreview` retains the real model, equipment materials, drag orbit, baked pose and two-frame demand rendering. Its optional reference presentation adjusts framing and adds a lit plinth; all added runtime materials are disposed with the preview.
+- Evidence, prompts and reproduction: `map-concepts/shop-fidelity-2026-09-17/README.md`.
+
+## Display text alignment (2026-09-17)
+
+- `HarborGameUIInstaller.Alignment` is the final centered-display alignment pass used by Faithful authoring and a narrow three-scene repair. Rounded/display labels use TMP MidlineGeoAligned so visible glyph bounds, including numerals, center on their intended rectangles.
+- Story skip/next/tab labels have symmetric insets; counter/skip typography matches. The Previous arrow and label share a preferred-size HorizontalLayoutGroup anchored at the button center. Playback callbacks remain on the original button root. Evidence: `map-concepts/ui-text-alignment-2026-09-17/README.md`.
+
+## Chapter lobby identity (2026-09-17)
+
+- `HarborGameUIInstaller.ChapterThemes` explicitly selects lobby plaques by `ChapterProgression.chapter`: harbor/anchor for 1, expressway-green motorway markings for 2, teal coffee/service symbols for 3. The normal Faithful authoring path reuses that selection instead of assigning one harbor plaque to every scene.
+- `ApplyRoadChapterPlaques` is the narrow repair path for Highway/RestStop. Common typography, controls and harbor-origin story chrome remain shared. Adding a chapter requires an explicit theme mapping. Evidence and prompts: `map-concepts/chapter-ui-themes-2026-09-17/README.md`.
+
+## Integrated reference artwork and video layout (2026-09-17)
+
+- `HarborGameUIInstaller.Faithful` is the last presentation pass after the earlier Coastal/Reference passes. It installs the reference-derived integrated lobby plaque and video chrome under `UI/CoastalFaithful`, hides substitute decorations, and preserves live TMP/button/video bindings.
+- `CoastalRoundedJua SDF` uses the OFL Jua source under `Fonts/CoastalJua`, with 96-point sampling and 24-pixel padding. Display headings/navigation/video captions use role-specific ink, white and prompt materials; gameplay/body labels retain their existing font. The rejected KERIS candidate is archived under `UI/References/Editor` rather than shipped in Resources.
+- `CoastalStoryLayout` aligns story controls with fixed chrome regions scaled from content width. The movie opening takes the remaining height. It fills normal tall-phone windows with no more than 15% edge crop, otherwise preserves the full movie; RectMask2D contains the fill. Existing Next/Previous/Skip and RenderTexture lifetime remain owned by OpeningStoryUI.
+- Chapter transitions reuse a matching header/movie-frame subrect with their existing single-clip semantics. Asset prompts, source licenses, alpha checks, same-width comparisons and native evidence are indexed in `map-concepts/harbor-faithful-art-2026-09-17/README.md`.
+
+## Lobby reference fidelity (2026-09-17)
+
+- `HarborGameUIInstaller.Reference` is the final lobby styling pass and can run independently against all three existing scenes. It owns reference-sized type/borders, centered anchor crest, selected customization tile and separated start gesture. The normal Coastal installer calls this pass after its generic material assignments.
+- `GmarketHarborDisplay SDF` uses the same existing font source with extra SDF padding for display strokes. Dedicated display ink/header/prompt materials preserve white interiors by balancing face dilation with outline width. Body/world labels keep their smaller-text SDF.
+- `HarborSwipeHint` animates only the separate hand with unscaled time and restores position/rotation on disable. Upper arrows remain fixed beside the start text.
+- The enlarged SR18 merchant, shop and supported side deck are nearer the start camera. A scoped copy of `HarborOpeningPier_03` opens the shop entrance; the shared source mesh remains unchanged and the local renderer/collider share the revised mesh. Evidence: `map-concepts/harbor-reference-fidelity-2026-09-17/README.md`.
+
+## Native UI and harbor opening refinement (2026-09-16)
+
+- `HarborRefinementFontBuilder` reuses the existing OFL Gmarket Sans Bold source and persists a dynamic SDF under `Resources/UI`. `HarborGameUIInstaller.Refinement` normalizes all three scenes' Canvas typography, compact HUD/tutorial and settings rows. `HarborWorldTypographyInstaller` applies the same family to enemy health in saved scenes and source prefabs, preserving world units. Mobile SDF outlines explicitly enable `OUTLINE_ON`.
+- `OpeningStoryUI.Previous` seeks to the preceding movie boundary and disables at the first page. Prepare/seek starts the decoder before assigning a nonzero time. `ReplayMovie` remains a programmatic reset, while the visible button is Previous Scene.
+- `HarborOpeningRefinementInstaller` extends SR18's departure pier by five 11.25 m modules, moves spawn 48 m outward, preserves road/corner clearances, installs calm idle overrides and disables the first workbook bucket. Paired enemy HP derives from the left value with a 15% right-side increase in `Data.xlsx`, including all 75 pairs across the three chapters.
+- `HarborWorkshopAssetImporter` installs the selected TRELLIS workshop and rigged merchant on a connected side deck. `HarborMerchantGreeting` plays one stand/wave/sit cycle on departure. Editable Blender sources and source generation provenance remain under `outputs/harbor-opening-refinement-2026-09-16`.
+- `HarborBonusPresentationInstaller` lowers the existing reward pedestal while preserving collision/choice semantics. `BonusRewardCue` bounds the Cartoon FX glow by player distance and spawns a one-shot burst only after successful `WallScript` collection. Effects are local derivatives of installed Cartoon FX prefabs, with camera-shake behaviours removed.
+- Native frames, focused tests, workbook preservation and fresh preference recovery are indexed in `map-concepts/harbor-opening-refinement-2026-09-16/README.md`.
+
+## Selected Coastal Enamel interface (2026-09-16)
+
+- `HarborGameUIInstaller.Coastal*` extends the existing installer with the selected navy/ivory/yellow theme, screen layouts and live bindings across SR18, HighWay and RestStop. Production PNGs are under `UI/CoastalEnamel`; extraction, PSD layers, manifests and proof are indexed in `map-concepts/coastal-enamel-ui-2026-09-16/README.md`.
+- Chapter catalog entries grant additive5% attack/health per rank, five ranks per unlocked chapter. `ChapterUpgradeCardUI` presents the next incremental grant separately from rank/max totals. The existing purchase services and stored ownership keys remain authoritative.
+- `CoastalMessagePanel` presents insufficient cosmetic currency without debiting; `CosmeticShopUI` reopens on the equipped item. Skin catalog thumbnails use2D art; `CosmeticPreview` still renders the actual model.
+- `CoastalTutorialUI` supplies the four existing onboarding topics in forward scenes, using nearby active objects ahead of the player and the existing `TutorialDone` preference. Movie playback and chapter transitions continue through their existing controllers; the replaced victory label remains bound to `ChapterProgression.clearRewardText`.
+
+## Selected BGM and canonical headwear seating (2026-09-15)
+
+- `Resources/Audio/Mobile/music.ogg` is the user-selected Haunted Festival candidate, using the existing shared looping audio source.
+- `SharkHeadwearFitter` owns headwear seating in canonical mesh/bind space; importer and hat-builder paths reuse it. The pirate hat wrapper adds a closed lining without modifying its source mesh or collision. Shared catalog changes apply to gameplay and the cosmetic preview; verification covers seven animated hats and16skin/footwear combinations.
+
+## Workbook activation editing and gantry visibility (2026-09-15)
+
+- `WorkbookEnemyAssignment` keeps workbook-managed enemies in a one-to-one trigger mapping in the map tool, with atomic swap/Undo and no-op re-click behavior. Generic multi-target assignment remains supported for other content. Runtime validation still rejects malformed mappings with explicit counts.
+- `NoryangjinCameraOcclusion` distinguishes explicit scenery groups from road renderers, allowing grounded combined gantries to hide/restore without hiding the road floor. The SR18 camera now has its player/road references and gantry group populated. Evidence: `map-concepts/sr18-placement-repair-2026-09-15/README.md`.
+
+## Harbor feedback correction (2026-09-15)
+
+- `HarborSettingsPanel` provides a shared lobby/in-run settings surface with explicit resume intent, actual sound/vibration/sliders and optional legal URLs. `CanvasScript` hides the old score UI, blocks startup under settings, and reloads into a prepared lobby. `PlayerScript` synchronizes shark locomotion with run/stationary state.
+- `StableGameplayCamera` follows route yaw and smoothed height without inheriting visual/slope pitch; `EnemyHitboxSize` captures an original body collider once and applies30% horizontal expansion idempotently.
+- `HarborGameUIInstaller.Polish` authors the rectangular HUD, shared font material presets, unified settings/defeat and upper-right close controls; the 2026-09-16 refinement selects Gmarket Sans in place of KERIS. `HarborHatBuilder` supplies a fitted closed brass diving cap and matching icon. Coin pickups use the gold wallet sprite.
+- Chapter entries now support five ranks, escalating prices and a one-time price schema update; old ownership keys read as rank1. Native26-test and live UI/reload evidence: `map-concepts/harbor-polish-2026-09-15/README.md`.
+
+## Live Harbor presentation and chapter workshop (2026-09-15)
+
+- `HarborGameUIInstaller` authors the connected lobby, ten-row regular upgrade shop, chapter tab, equipment shop, selected A video UI and related HUD/modals in SR18, HighWay and RestStop. Root canvas scale is normalized when nesting the A template; inactive UI layers, safe areas and existing bindings remain explicit. SR18 is the first enabled build scene; the legacy tool scene stays available in the project.
+- `ChapterUpgradeCatalog` owns three configurable chapter entries, expanded to five ranks in the feedback correction. `ChapterUpgradePurchases` handles unlock/rank/payment gates; `ChapterUpgradeService` uses persistent chapter keys. `UpgradeStatManager` applies their additive percentages as a multiplier after regular/equipment totals, and synchronizes equipment at lobby startup. These catalog values do not modify the existing workbook.
+- `OpeningStoryUI.sceneIndicators` follows the existing actual movie boundaries; Next/Previous/Skip and natural completion retain resource cleanup. Chapter-transition UI reuses A with a single clip marker. The template prefabs remain separate authoring references; the saved scene screens have real playback bindings.
+- Verification and restoration: `map-concepts/harbor-ui-live-2026-09-15/README.md` (32 focused tests, three-scene UI checks, actual movie transitions,69 preference entries restored, Editor-only acceptance).
+
+## Separated video UI templates (2026-09-15)
+
+- `HarborVideoAssetBuilder` creates two presentation-only prefabs from the A/B layout manifests, with independent TMP labels/buttons and a 9:16 RawImage slot. `UI/HarborVideo` contains 25 UI sprites plus a real movie-frame placeholder. These templates do not replace or control the installed OpeningStoryUI; sources, PSDs, native renders and hookup boundaries are in `map-concepts/harbor-video-ui-2026-09-15/production/README.md`.
+
+## Player-local health and Harbor UI assets (2026-09-15)
+
+- `UI/PlayerWorldHealthBar` projects the real player's position onto the root screen-space Canvas and reads current/max health. One authored instance exists in SR18, HighWay and RestStop alongside the existing status HUD, without reviving the legacy player child Canvas.
+- `CosmeticShopUI` now labels the existing ownership/equipped actions as purchase, equip and equipped. `EquipmentRunEffects.Describe` remains the explicit stat-name/value source; transaction behavior is unchanged.
+- `UI/HarborWorkshop` contains 35 separated/rebuilt sprites, 8 native nine-slice surfaces and production manifests. Chapter-tab art and the full visual replacement remain proposals, with no new chapter-upgrade economy installed. See `map-concepts/harbor-ui-production-2026-09-15/README.md` for native checks, layered sources and limits.
+
+## Combat feedback and retry revision (2026-09-14)
+
+- `PlayerScript` resets run-only static missile duration at scene creation and all weapon/health bonuses at run reset. `PlayerDamageFeedback` owns one screen vignette and model-only hole tumble; `DamagePopupPool` supplies negative player numbers. `CanvasScript` delays results0.9seconds to expose death motion.
+- Standing poles/holes and road collision hazards are lethal. Shot poles disable contact during their0.5-second fall, restore original collider states when settled, and use the player's shared30%-maximum-health/1-second guard. Oil reuses `CosmeticHitSpin` while preserving route/camera orientation. Hazard death preserves/restores Rigidbody kinematic state.
+- Shared coin collection defaults to3.5planar units with vertical separation. The workbook reduces74ranged rows to45%damage/85%speed and delays right paired gates;21paid cosmetic prices/effects are10×/4×. Existing ownership keys remain stable.
+- `CombatFeedbackInstaller` authors all three scene hints/pole settings and shared ImpactSplash assets. Woman/sword YellowMan overrides use neutral carry and a new ControlledSlash; arm-only carry masking leaves locomotion torso/head channels intact. Two UI proposal PNGs and five music candidates remain separate from installed UI/music.
+- Evidence and exact limits: `map-concepts/combat-feedback-2026-09-14/README.md`. This revision supersedes earlier descriptions of harmless toppled poles, fixed-damage holes and steering-only oil.
+
+## Mobile presentation revision (2026-09-14, integration ongoing)
+
+- `MobilePresentationBuilder` and its Screens partial author the three playable chapter canvases using `GameUITheme`/`MobileUIArt`. `MobileUILayer` restores inactive modal sorting, `MobileSafeArea` owns top-level device insets, and `EquipmentCardGrid` repairs actual content height after layout resets. `UpgradeSummaryUI` displays actual player attack/max-health and `MobileWalletUI` observes the shared wallet.
+- `UpgradeStatManager.LATERAL_SPEED` is appended without renumbering prior save values. Workbook upgrade ID10 contains ten additive5% levels; `PlayerScript` applies one capped multiplier to lateral input before existing route bounds and stationary-combat guards.
+- `GameUIFont` now loads the static `UI/KERISKEDU_B SDF` resource. `MobileFontMigration` updates dependent prefab labels/TMP defaults and moves obsolete auto-included fonts to `Fonts/LegacyArchive` while retaining source assets/GUIDs.
+- `GameAudioService` owns one persistent music stream, one scene ambience source and12reusable effect voices. Event consumers call its bounded, prioritized API; SettingsManager continues to own master volume/mute. New deterministic pitch variation does not consume gameplay RNG. Sources/prompts/candidates are indexed in `map-concepts/mobile-presentation-2026-09-14/audio/README.md`.
+- `CoinTokenVisual` uses one shared texture-free mesh/material and keeps its emblem camera-facing. CoinPickup retains the original trigger/proximity/one-shot wallet claim. `MobileKnifePose` supplies a relaxed arm-only idle/carry override for the knife YellowMan; the attack and death clips are preserved.
+- `MobileContentOptimizer` is prepared, not yet executed: backed-up material dependency cleanup, role-based Android texture overrides, cosmetic-only mesh compression and a mobile default pipeline. The execution log distinguishes authored code/native captures from the still-pending optimized APK/device acceptance.
+
+## Mobile combat presentation budget (2026-09-13)
+
+- CanvasScript prewarms64 scene-owned numeric popups. DamagePopupFX retains its public damage/coin entry points; DamagePopupPool owns reusable TMP canvases and their rise/fade without per-event object construction or tweens.
+- EnemyScript_space prewarms32 particle effects per distinct hit prefab. EnemyHitEffectPool owns rental/reset/expiry and cleanup of effects temporarily parented to enemies. Saturation replaces the oldest cosmetic effect and leaves combat/rewards intact.
+- The Mobile RP Asset uses a2048 main-light shadow map. Existing60fps foreground targeting, MSAA4 and0.8 render scale remain. Native tests and bounded three-scene stress evidence are in docs/exec-plans/completed/mobile-combat-performance-2026-09-13.md; phone frame pacing still requires device measurement.
+
+## Approved road/open-hall integration (2026-09-13)
+
+- HighWay retains the authored continuous route as the center of its forward carriageway. Two forward lanes divide at lateral0; two opposing lanes divide at-14; double yellow separates them at-7. Opposing deck pieces and an8m spawn approach live under Roads. `HighwayAmbientTraffic` supplies six collider-free opposing visuals separately from the existing eleven scheduled wrong-way hazards.
+- Nine existing chapter human models now retain18bones and six full-key actions while body/rest-bone proportions target three head units. Existing prefab paths/controllers/materials and ranged sockets remain connected. Native sampling verifies the imported skin matrices.
+- RestStop has a48×66 open covered hall with16 perimeter instances of two new TRELLIS counters; ten additional counter instances enrich the outdoor service courts. Central floor remains open. `RestStopHoldout` keeps the ordinary camera unchanged during combat and rotates only the visible body/new projectile aim. The player's inherited1.5scale puts its normal camera at roughly12.67m world height, so the hall roof clears it at16.5m; complete sign/shutter groups join existing occlusion handling.
+- Reproducible authoring, fresh before-snapshots, source/fresh-import assets and directed verification are in `map-concepts/approved-road-concepts-2026-09-13/README.md`. Workbook and signed archive values were not changed by this integration.
+
+## Road reference scenery (2026-09-13)
+
+- HighWay and RestStop retain their gameplay roots and route/pattern components. Each now has a scene-owned `Reference_Scenery_20260913` hierarchy with collider-free imported decoration. Original opening parking and acoustic-wall scenery remains in its original hierarchy, with selected visuals disabled.
+- `tools/road-reference-visuals.cs` runs through official Unity Pipeline outside Assets, with fresh backup guards, gameplay-state comparison before save/after reload, scene-specific materials and frame-bounded live evidence. Source materials and protected workbook/archive remain shared and unchanged. See `map-concepts/road-reference-visuals-2026-09-13/README.md` for the exact reference and acceptance boundaries.
+
+## Road chapter patterns (2026-09-13)
+
+- `HighwayRoute` owns sampled continuous centerline travel and two per-run bypass choices. The same sampler bakes the road meshes. `PlayerScript` retains normal lateral input and its existing projectile rotation path; `EncounterPlacementController` samples curved activation gates. Helper followers and analytics use route progress when this component is present. Noryangjin retains its paused corner triggers.
+- `HighwayOncomingTraffic` owns five bounded warning/launch schedules and four reusable car visuals, with fixed lanes and one swept contact claim per car. At least one lane remains outside each new traffic pattern. Existing crossing/toll hazards keep their own workbook settings.
+- `RestStopHoldout` owns the food-hall encounter, 16 reusable police, four entrances, 30 simulation seconds and exact camera/body/input cleanup. `PlayerScript` exposes owner-scoped stationary combat; `WeaponScript` aims newly launched player/helper shots without rotating airborne shots toward new targets. `EnemyEventController.PrepareSpawnAt` explicitly recaptures an inactive actor's placement instead of restoring its original authored spawn.
+- The workbook retains all300 placement IDs, disables the eight outdoor station11/12 records replaced by the interior, and adds nine pattern controls. Final active outdoor RestStop counts are46enemies/23bonus pairs/23gimmicks plus the interior waves. See `map-concepts/road-patterns-2026-09-13/README.md` for123native tests and the limits of the directed play evidence.
+
+## Three-chapter presentation and progression (2026-09-13)
+
+- `Ads/RewardedCoinOffer` owns round/attempt identity and one-shot coin claims. `RewardedAdsService` initializes the main-thread callback pump before consent, then initializes the SDK; stale callbacks and loading/initialization waits are bounded, while an open consent form has no reading timeout. `Resources/Ads/RewardedAdsSettings` enables the service. Pinned Google Mobile Ads11.5.0/EDM1.2.187 and official test IDs are installed; native Editor earned/duplicate/early-close paths are verified. Production identifiers/device validation remain separate.
+- `ChapterTransitionUI` releases its video target before asynchronous scene loading. Saved scenes bind Noryangjin→HighWay→RestStop to the selected5.04-second entry movies. Native natural completion and skip preserve wallet/upgrades/equipment. `OpeningStoryUI` auto-shows once per application session; manual Story/Replay still work after scene reloads.
+- `ChapterPresentationInstaller` originally authored workshop story/transition/defeat surfaces and a two-column cosmetic grid. Its Jigmo font was superseded by the2026-09-14KERIS/Ocean Pop revision above. The old unimplemented gem-ad image remains hidden.
+- `ChapterMascotImporter` preserves six Highway combat prefab paths and adds three RestStop roles, mapping fresh-import material slots and retaining imported visual-axis/scale conversion. `ChapterPropRefinement` replaces eight reviewed visuals at stable prefab paths. Both have run in the original project. All nine mascot rigs have18bones/six actions; projectile sockets compensate for100x bone scale.
+- `RestStopChapterBuilder` creates a separate2100m route through parking, shops, dining, charging, service and exit garden zones. Its refinement entry point updates scenery without rebuilding gameplay. `RunProgressReward` computes bounded15-second progress rewards; `CanvasScript` credits them once before ending run analytics and includes them in defeat results. Workbook values own the rewards and combat/upgrade curves.
+- `ChapterProgression` awards workbook-configured first/repeat-clear jewels through the wallet and `chapter_rewarded_<chapter>` keys, making cosmetic purchases possible without ads. Transition/victory text displays the award. Source/UI and the latest signed reward workbook are installed in the original project; final runtime acceptance is tracked in the execution log.
+- `CoinPickup` optionally collects nearby road-chapter coins through configured planar radius, with a vertical-separation and one-shot guard. Its physical trigger remains small; collection does not add projectile-blocking geometry. Enemy contact still exchanges remaining enemy health against player health, while the separate damage stat drives projectiles.
+- `RuntimePerformanceBudget` caps frame targets and physics catch-up while preserving desktop VSync. Heavy generation jobs are separately bounded and run sequentially; it is not a claim that arbitrary100%CPU Editor stalls are repaired.
+- The cinematic shark has two legs plus a sneaker on the end of its tail. Three shoes do not imply three legs. New chapter inputs follow this contract; older candidates are superseded. See `map-concepts/chapters-polish-2026-09-12/modeling-contract.md`.
+
+## Equipment and chapter data (2026-09-12)
+
+- Workbook sheet grafts share `merge_styles` from `tools/append-encounter-workbook-sheets.py`, reusing equivalent style records while keeping existing indices stable. The canonical workbook's duplicate styles were compacted and its signed runtime archive regenerated; values/formulas and appearance remain equivalent. This removes repeated27MB stylesheet parsing during Editor validation and runtime table initialization. See `map-concepts/startup-performance-2026-09-12/README.md`.
+
+- The shared opening movie now uses reviewed8-second Flow shots01/02 followed by the existing121-frame/24fps shots03/04. `OpeningStoryUI` maps time and seeks to explicit starts0,8,16,505/24seconds; total626frames/24fps. The movie fits inside its parent at its native aspect ratio, avoiding edge cropping on taller phone displays. See `map-concepts/flow-opening-2026-09-12/installed/README.md`.
+
+- `CosmeticVisualCatalog` maps stable cosmetic IDs to body materials, per-shoe fitted body/shoe meshes and fitted headwear. `SharkSurfaceImporter` builds the shared UV atlas; `SharkFootwearFitImporter` and `WearableAssetImporter` retain the27-bone rig and four actual feet. Source FBXs and ownership keys remain stable.
+- `CosmeticShopUI` retains cards while selection or wallet state changes, rebuilds when the catalog inventory changes, and shows a two-column catalog. `CosmeticPreview` isolates a neutral pose and a disposable render stage; public selection, purchase, rotation and close actions remain callable through editor automation.
+- `EncounterPlacementController` applies300 workbook rows across SR18, HighWay and RestStop. Each chapter has50 individual enemies,25 bonus choice pairs and25 gimmick stations. Optional per-enemy drop/coin columns preserve legacy defaults when absent; a toll station applies one settings row to all three lanes.
+- `playerSpeed_<sceneName>` optionally overrides the common environment speed. The same route geometry supports approximately300-second runs in both chapters.
+- HighWay's `Highway_RestStop` decorative hierarchy and separate road deck/access colliders form its service plaza; the map tool exposes a third rest-stop concept. `NoryangjinCameraOcclusion` accepts explicit overhead scenery groups, hiding a complete gantry/arch with its lettering when it blocks the player or forward corridor, then restoring each renderer's original state.
+- `tools/analytics/google-sheets` derives its validated round query from canonical BigQuery SQL. The user's Tra sheet is connected to `tralaleroshooter.analytics_547820149` in `asia-northeast3`, with a60-day report window and daily10:00–11:00 KST refresh. The Unity client contains no Sheets or BigQuery administrator credentials; the bound script runs under the owner's Google account.
+
 ## Purpose
 This is a Unity 6 shooter project with most gameplay logic in `Assets/ShooterSurvival/Scripts`.
 
 The repo is being shaped so agents can work from stable, versioned context instead of hidden intent.
 
 ## Runtime Layers
-- Cosmetic shop: `Scripts/Upgrade/CosmeticTables.cs` reads the optional `커스터마이징` workbook sheet; `CosmeticInventory` owns purchase/equip rules and per-slot PlayerPrefs persistence. `CosmeticShopUI` uses the existing main Skin button in both Noryangjin tool scenes. `PlayerCosmeticCustomizer` applies a split original shark mesh (skin/shoes) and head-bone accessories from `Resources/Cosmetics/Catalog`. Cosmetics do not alter stats or colliders; the legacy whole-skin table remains compatible.
+- Three playable chapter scenes: `Noryangjin_MapTool_Mode_SR18`, `HighWay` and `RestStop`, registered in build settings. `ChapterProgression` owns run-relative hazard time, completion/unlock state and scene travel. HighWay/RestStop retain the shared `Noryangjin_MapTool` container for existing route/editor consumers. Chapters4/5are progression design targets, not authored scenes.
+- `EncounterPlacementController` bootstraps all three chapter families. HighWay/RestStop explicit enemy stats and optional hazard durability/warning/operation/crossing columns are run-start snapshots from `Data.xlsx`; the legacy chapter-growth controller is not their stat owner. `HighwayHazard` implements destructible roadblocks, telegraphed crossing traffic and a three-lane toll cycle. `OilSteeringEffect` refreshes one steering reduction without rotating the route or stacking spills; coastal Ship/Seagull hazards resolve a player even without `GameManager`.
+- `RefinedGameUI` authors the equipment/story surfaces. `CosmeticShopUI.Open/Close` leaves lobby state intact, and the formerly static `Story_Button` opens the story. `OpeningStoryUI` uses the actual animated MP4, preserves subtitle state during asynchronous seeks, and invalidates its render target before stopping playback. `MapToolCurrencyCheats` and scene navigation are Editor-only; grants refresh/save the wallet directly without counting as earned-run coins.
+- Equipment shop: `Scripts/Upgrade/CosmeticTables.cs` reads24 skin/shoe/hat entries, jewel prices and explicit effects from `커스터마이징`; `CosmeticInventory` preserves per-slot ownership/equipment IDs. `CosmeticShopUI` uses the existing Skin button and workshop visual assets in both Noryangjin tool scenes. `PlayerCosmeticCustomizer` applies the split original mesh and bone-mounted equipment. `EquipmentRunEffects` applies only the three equipped items at run start with stable modifier keys, so previews and repeat starts cannot stack effects. Equipment meshes do not add colliders. The legacy whole-skin table remains compatible.
+- `OpeningStoryUI` gates the start handler until its four-part animated video is dismissed; `Skip` and `PlayMovie` are public automation actions. `DefeatPresentation.ReturnToAltar` releases the defeat screen into the existing reset/reload flow. Both use the workshop palette andCC0 Korean TMP font.
+- Enemy presentation: `EnemyEventController` owns visual facing after animation and the shared `CarryPose` weight. Humanoid `EnemyLookAtTarget` keeps head/eye attention on the player; `EnemyGroundedPose` corrects the visual hierarchy against foot bones without moving gameplay roots/colliders. `EnemyGunAim` aligns the gun/muzzle after grounding. The shared builder preserves the carry/IK layers and the derived1.1-second FatMan throw, while original FBXs remain intact.
+- Projectile payloads: `WeaponScript` resolves launch damage (including BoomBar's own percentage), `BulletScript` retains it through pool deactivation for paired collision callbacks, and `EnemyScript_space` consumes it. Lamps receive impact feedback before projectile return; active Light components block projectiles even on legacy untagged instances.
 - Noryangjin test-only power/lateral controls live in `Editor/NoryangjinMapToolTestOverrides.cs` and use SessionState plus an Editor-only run-start event. Never serialize 9999 values into player defaults or the workbook.
 - Upgrade workshop art is sliced into one merchant and nine card sprites. Native labels, prices and purchase buttons remain functional; `ResponsiveCardGrid` sizes cards within their container.
+- `UpgradeStatManager.SyncFromPurchasedLevels` derives stats from owned levels and the current workbook on lobby load, so balance changes reach players who do not reopen the upgrade panel. Editor-only `Sr18ProgressionPlaytest` exercises ordinary movement, earned coins and the real purchase handler across repeated runs.
+- Progression harness ticks are gated by `Time.frameCount`; Editor callbacks are more frequent than gameplay frames. Final CSVs record movement calls/frame counts, and the optional saving policy waits for the best-value next upgrade rather than spending every partial balance. Historical cohorts before this gate are diagnostic evidence, not ordinary-input difficulty certification.
 - Scene and game flow: `Scripts/Game`
 - Combat actors: `Scripts/Player`, `Scripts/Enemy`, `Scripts/Weapon`
 - Encounter orchestration: `Scripts/Wave`, `Scripts/Barrel`, `Scripts/Walls`, `Scripts/Obstackle`
@@ -77,7 +246,7 @@ The repo is being shaped so agents can work from stable, versioned context inste
 - `Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_SR18.unity` is the build-excluded Lighthouse Infinity sibling. It preserves Map 1's 51-road prefix, adds 179 roads and 10 corner spots, and contains 306 shops on 306 roadside quays, retained scenery and one water backdrop. Scene-owned material variants preserve shared materials. It contains 27 enemies (17 standard, 5 patrol, 5 ambush), 25 fixed choice pairs/50 walls, 24 gimmick stations/42 parts, 27 activation spots and 10 movement targets. `NoryangjinRoadHeightFollower` and eight slope transitions support both elevated spans. See `map-concepts/sr18-contact-pairs-2026-09-10/README.md`; full-stage combat timing and difficulty remain unverified.
 - `NoryangjinRoadHeightFollower` projects requested player positions onto the configured authored road colliders near the current height, with a small foot offset and plank-gap fallback. It never selects a distant upper/lower crossing deck or props. `PlayerScript` uses it only when the component is installed. `NoryangjinTurnSpot.IsSlopeTransition` requests a non-stopping pitch blend without changing the lane origin; ordinary corner turns retain their pause/rotation contract. Slope spots reset as one-shot triggers but are excluded from route checkpoint analytics and `ChapterEnemyProgression.CollectRouteTurns`.
 - `NoryangjinForwardGameplayInstaller` composes that scene from the configured `Forward March Mode` scene rather than reconstructing its setup from bare prefabs. It clones the player/weapon rig, Canvas and pre-start/shop UI, Managers, EventSystem, and upgrade services so scene-assigned references stay intact.
-- `PlayerStatusHudBuilder` adds the rebuildable screen-space `PlayerStatusHUD` contract to that Canvas. The compact dark-glass cards use high-contrast white type and a coral health fill to show live current/max health and attack, stay hidden before gameplay, and replace the legacy player-child health Canvas plus `ATT` text only when all HUD references are valid.
+- `PlayerStatusHudBuilder` adds the rebuildable screen-space `PlayerStatusHUD` contract to that Canvas. `HarborGameUIInstaller.Refinement` currently supplies the Coastal ivory/navy presentation, Gmarket Sans SDF and teal health fill. The HUD shows live current/max health and attack, stays hidden before gameplay, and replaces the legacy player-child health Canvas plus `ATT` text only when all references are valid. `PlayerWorldHealthBar` remains a slim complementary player-following indicator.
 - The installer keeps the map scene's real `Original` character as the visible child of `Noryangjin_Player` and disables only the cloned Forward character renderers.
 - `PlayerScript` treats the player's current forward and right vectors as the route frame. Normal forward motion and lateral input therefore follow the new local frame after every corner instead of remaining locked to world axes. On a completed `NoryangjinTurnSpot` turn, the spot center becomes the lane origin so the configured `xRange` remains centered on the bridge rather than shifting to the player's trigger-entry offset.
 - Noryangjin runtime state stays out of prefab authoring data. `PlayerScript` caches the active weapon and updates health UI only when values change. Forward bonus walls avoid legacy volume lookup and unused FixedUpdate callbacks; enemy health canvases disable raycast input. Hit feedback uses the named `Walker-HitPos` anchor. `EnemyEventController` rotates only the Animator visual root: movement faces actual travel and attacks continuously face the exact player direction. The gameplay root remains unchanged.

@@ -41,6 +41,11 @@ namespace IndianOceanAssets.ShooterSurvival
         private Animator scorePopAnimator;
         private int previousScore = 0;
         private FTUE_script ftue_Script;
+        private float activeRunSeconds;
+        private int runStartingCoins;
+        private string rewardRoundId;
+        private bool progressRewardGranted;
+        private int progressRewardCoins;
 
 
         private void Start()
@@ -53,9 +58,11 @@ namespace IndianOceanAssets.ShooterSurvival
                 GetComponent<CanvasScaler>().referenceResolution = new Vector2(1080, 1920);
 
             playerScript = FindFirstObjectByType<PlayerScript>();
+            UpgradeStatManager.S?.SyncFromPurchasedLevels();
             playerScript?.ConfigureCanvasScript(this);
             playerScoreText = playerScoreUI.GetComponent<TextMeshProUGUI>();
             playerScoreText.text = "0";
+            DamagePopupFX.Prewarm(damagePopupPrefab);
             scorePopAnimator = playerScoreUI.GetComponent<Animator>();
             attackDebugText ??= FindAttackDebugText();
             ResolvePlayerStatusHud();
@@ -78,6 +85,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void Update()
         {
+            if (TimeManager.isGameRunning) activeRunSeconds += Time.deltaTime * Mathf.Max(0f, TimeManager.timeFactor);
             if (playerScript.currentHealth == 0 && !isGameOver)
                 StartCoroutine(GameOverSequence(3f));
 
@@ -86,6 +94,14 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void PlayerPressedStartButton()
         {
+            if (settingsMenuUI != null && settingsMenuUI.activeInHierarchy || pauseMenuUI != null && pauseMenuUI.activeInHierarchy) return;
+            if (OpeningStoryUI.IsBlockingGameplay || Ads.RewardedAdsService.Instance?.BlockingConsentForm == true || FindFirstObjectByType<CosmeticShopUI>() != null || TimeManager.isGameRunning || isGameOver) return;
+            activeRunSeconds = 0f;
+            rewardRoundId = System.Guid.NewGuid().ToString("N");
+            progressRewardGranted = false; progressRewardCoins = 0;
+            gameOverUI?.GetComponent<DefeatPresentation>()?.InvalidateOffer();
+            runStartingCoins = MoneyScript.S != null ? MoneyScript.S.Coin : 0;
+            EquipmentRunEffects.Apply(CosmeticService.Current, UpgradeStatManager.S);
             Debug.Log("??뽰삂!?");
 
             bool usesSceneFallback = GameManager.S == null;
@@ -101,6 +117,8 @@ namespace IndianOceanAssets.ShooterSurvival
             }
 
             SetTapPromptVisible(false);
+            // Horizontal-start input bypasses the legacy Start button's UI events.
+            if (pauseButton != null) pauseButton.SetActive(true);
 
             if (ftue_Script != null) StartCoroutine(ftue_Script.ShowDisplay(0, 3));
 
@@ -120,10 +138,12 @@ namespace IndianOceanAssets.ShooterSurvival
             }
 
             GameplayAnalytics.BeginRun(playerScript);
+            FindFirstObjectByType<ChapterProgression>()?.BeginRun();
         }
 
         public bool IsStartAreaActive()
         {
+            if (settingsMenuUI != null && settingsMenuUI.activeInHierarchy || pauseMenuUI != null && pauseMenuUI.activeInHierarchy) return false;
             return startAreaImg != null && startAreaImg.gameObject.activeInHierarchy;
         }
 
@@ -192,8 +212,13 @@ namespace IndianOceanAssets.ShooterSurvival
         private IEnumerator GameOverSequence(float delay)
         {
             GameOver();
+            // Let the shark's death/fall read before covering it with results.
+            yield return new WaitForSecondsRealtime(.9f);
+            if (gameOverUI != null) gameOverUI.SetActive(true);
 
-            yield return new WaitForSecondsRealtime(delay);
+            var presentation = gameOverUI != null ? gameOverUI.GetComponent<DefeatPresentation>() : null;
+            if (presentation != null) yield return new WaitUntil(() => presentation.ContinueRequested);
+            else yield return new WaitForSecondsRealtime(delay);
 
             if (gameOverUI != null) gameOverUI.SetActive(false);
             isGameOver = false;
@@ -206,6 +231,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void GameOver()
         {
+            GameAudioService.Play(GameSound.Defeat);
+            GrantProgressReward();
             GameplayAnalytics.EndRun(
                 GameplayAnalytics.OutcomeDeath,
                 playerScript);
@@ -213,7 +240,8 @@ namespace IndianOceanAssets.ShooterSurvival
             pauseButton.SetActive(false);
             SetAttackDebugVisible(false);
             isGameOver = true;
-            gameOverUI.SetActive(true);
+            gameOverUI.GetComponent<DefeatPresentation>()?.SetResult(activeRunSeconds, Mathf.Max(0, (MoneyScript.S != null ? MoneyScript.S.Coin : 0) - runStartingCoins), rewardRoundId, progressRewardCoins);
+            gameOverUI.SetActive(false);
             TimeManager.timeFactor = 0;
             TimeManager.isGameRunning = false;
         }
@@ -221,6 +249,9 @@ namespace IndianOceanAssets.ShooterSurvival
         public void YouWin()
         {
             if (isGameOver == true) return;
+            GameAudioService.Play(GameSound.Victory);
+            GrantProgressReward();
+            FindFirstObjectByType<ChapterProgression>()?.CompleteChapter();
 
             GameplayAnalytics.EndRun(
                 GameplayAnalytics.OutcomeWin,
@@ -235,7 +266,27 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (playerScript != null) playerScript.PlayWinDance();
 
-            Invoke(nameof(ShowWinScreen), 2);
+            var progression = FindFirstObjectByType<ChapterProgression>();
+            if (progression == null || !progression.TryAdvanceAutomatically())
+                StartCoroutine(ShowWinScreenAfterDelay());
+        }
+
+        private IEnumerator ShowWinScreenAfterDelay()
+        {
+            yield return new WaitForSecondsRealtime(2);
+            ShowWinScreen();
+        }
+
+        private void GrantProgressReward()
+        {
+            if (progressRewardGranted || string.IsNullOrEmpty(rewardRoundId) || MoneyScript.S == null) return;
+            progressRewardGranted = true;
+            if (!EnvironmentVariableTables.TryGetFloat("progressCoinPerCheckpoint_" + gameObject.scene.name, out var rate)) return;
+            float interval = EnvironmentVariableTables.TryGetFloat("progressRewardInterval", out var configuredInterval) ? configuredInterval : 15;
+            int maximum = EnvironmentVariableTables.TryGetFloat("progressRewardMaximum", out var configuredMaximum) ? Mathf.Clamp(Mathf.FloorToInt(configuredMaximum), 0, 1000) : 20;
+            int earned = RunProgressReward.Calculate(activeRunSeconds, interval, Mathf.Clamp(Mathf.FloorToInt(rate), 0, 10000), maximum);
+            progressRewardCoins = Mathf.Min(earned, int.MaxValue - MoneyScript.S.Coin);
+            if (progressRewardCoins > 0) MoneyScript.S.GetCoin(progressRewardCoins);
         }
 
         private void ShowWinScreen()
@@ -258,18 +309,25 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void ResumeGame()
         {
+            if (isGameOver) return;
+            GameAudioService.Play(GameSound.Resume);
             pauseMenuUI.SetActive(false);
+            settingsMenuUI.SetActive(false);
             TimeManager.timeFactor = 1;
             TimeManager.isGameRunning = true;
-
-            scoreParent.SetActive(true);
+            playerScript?.SetSharkLocomotion(!playerScript.IsStationaryCombat);
+            SetAttackDebugVisible(true);
+            scoreParent.SetActive(!HasPlayerStatusHud);
             pauseButton.SetActive(true);
         }
 
         public void PauseGame()
         {
+            var harbor = settingsMenuUI != null ? settingsMenuUI.GetComponent<HarborSettingsPanel>() : null;
+            if (harbor != null && !isGameOver) { harbor.Open(true); return; }
             if (!isGameOver)
             {
+                GameAudioService.Play(GameSound.Pause);
                 scoreParent.SetActive(false);
                 pauseButton.SetActive(false);
                 settingsMenuUI.SetActive(false);
@@ -363,10 +421,10 @@ namespace IndianOceanAssets.ShooterSurvival
                 playerScript);
 
             Scene activeScene = SceneManager.GetActiveScene();
+            TimeManager.timeFactor = 0;
+            TimeManager.isGameRunning = false;
+            isGameOver = false;
             SceneManager.LoadScene(activeScene.name);
-
-            TimeManager.timeFactor = 1;
-            TimeManager.isGameRunning = true;
         }
 
         public void QuitGame()
@@ -380,6 +438,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void SettingsMenu()
         {
+            var harbor = settingsMenuUI != null ? settingsMenuUI.GetComponent<HarborSettingsPanel>() : null;
+            if (harbor != null) { harbor.Open(TimeManager.isGameRunning); return; }
             settingsMenuUI.SetActive(true);
             pauseMenuUI.SetActive(false);
         }

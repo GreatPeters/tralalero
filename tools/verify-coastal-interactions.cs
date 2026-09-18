@@ -1,0 +1,41 @@
+if(!EditorApplication.isPlaying)throw new InvalidOperationException("Play Mode required");
+var canvas=UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects().Single(g=>g.name=="Canvas").GetComponent<IndianOceanAssets.ShooterSurvival.CanvasScript>();
+string folder=System.IO.Path.GetFullPath("tmp/image-previews/coastal-enamel-ui-2026-09-16/interaction-checks");System.IO.Directory.CreateDirectory(folder);
+string report=folder+"/checks.txt";System.IO.File.WriteAllText(report,"");
+void Check(bool ok,string name){System.IO.File.AppendAllText(report,(ok?"PASS ":"FAIL ")+name+"\n");if(!ok)throw new Exception(name);}
+System.Collections.IEnumerator Verify(){
+ var root=canvas.transform;canvas.GetComponentInChildren<OpeningStoryUI>(true).Skip();canvas.gameOverUI.SetActive(false);canvas.youWinUI.SetActive(false);canvas.settingsMenuUI.SetActive(false);
+ IndianOceanAssets.ShooterSurvival.TimeManager.isGameRunning=false;IndianOceanAssets.ShooterSurvival.TimeManager.timeFactor=0;
+ root.Find("UI").gameObject.SetActive(true);MoneyScript.S.Coin=100000;MoneyScript.S.Jewel=10000;
+ var shop=canvas.GetComponentInChildren<CosmeticShopUI>(true);shop.Open();shop.SelectSlot(CosmeticSlot.Skin);shop.SelectItem("skin_coral");yield return new WaitForSecondsRealtime(.4f);
+ bool owned=CosmeticService.Current.Owns("skin_coral");int before=MoneyScript.S.Jewel;
+ shop.actionButton.onClick.Invoke();yield return new WaitForSecondsRealtime(.4f);
+ Check(CosmeticService.Current.Equipped(CosmeticSlot.Skin).id=="skin_coral","Skin purchase/equip updates actual inventory");
+ Check(before-MoneyScript.S.Jewel==(owned?0:250),"One exact cosmetic debit");
+ before=MoneyScript.S.Jewel;shop.actionButton.onClick.Invoke();yield return null;Check(MoneyScript.S.Jewel==before,"Equipped action never charges again");
+ shop.SelectItem("skin_ice");yield return new WaitForSecondsRealtime(.3f);shop.Close();yield return null;shop.Open();yield return new WaitForSecondsRealtime(.4f);
+ Check(shop.selectionName.text==CosmeticService.Current.Equipped(CosmeticSlot.Skin).name,"Reopening starts from equipped skin");
+ var texture=shop.preview.Texture;Check(texture!=null&&texture.IsCreated(),"Reopened actual3D preview rendered");shop.preview.Rotate(45);yield return new WaitForSecondsRealtime(.3f);
+ ScreenCapture.CaptureScreenshot(folder+"/equipped-and-rotated.png");shop.Close();
+ root.Find("UI/Main/Bottom/Upgrade_Button").GetComponent<UnityEngine.UI.Button>().onClick.Invoke();yield return new WaitForSecondsRealtime(.3f);
+ var upgrade=root.Find("UI/Upgrade2");var regular=upgrade.GetComponentsInChildren<UpgradeUI>().Single(c=>c.UpgradeId==1);
+ int level=PlayerPrefs.GetInt("upgrade_lv_1");UpgradeTables.TryGet(1,level+1,out var next);
+ int coins=MoneyScript.S.Coin;regular.transform.Find("Down").GetComponent<UnityEngine.UI.Button>().onClick.Invoke();yield return new WaitForSecondsRealtime(.3f);
+ Check(PlayerPrefs.GetInt("upgrade_lv_1")==level+1&&coins-MoneyScript.S.Coin==next.price,"Regular upgrade button buys one level at actual table price");
+ var tabs=upgrade.GetComponent<HarborUpgradeTabs>();tabs.ShowChapters();PlayerPrefs.SetInt(ChapterUpgradeService.LevelKey(1),0);
+ var chapter=upgrade.GetComponentsInChildren<ChapterUpgradeCardUI>().Single(c=>c.chapter==1);chapter.Refresh();int expected=ChapterUpgradeService.Catalog.entries.Single(c=>c.chapter==1).CostAtLevel(0);coins=MoneyScript.S.Coin;
+ chapter.buyButton.onClick.Invoke();yield return new WaitForSecondsRealtime(.4f);
+ Check(ChapterUpgradeService.Level(1)==1&&coins-MoneyScript.S.Coin==expected,"Chapter button buys one rank at actual catalog price");
+ Check(chapter.rankLabel.text.Contains("1 / 5")&&chapter.effects.text.Contains("+5%"),"Chapter UI shows rank and next additional5percent");
+ ScreenCapture.CaptureScreenshot(folder+"/chapter-purchased.png");upgrade.Find("Back").GetComponent<UnityEngine.UI.Button>().onClick.Invoke();
+ var settings=canvas.settingsMenuUI.GetComponent<HarborSettingsPanel>();settings.Open(false);bool sound=IndianOceanAssets.ShooterSurvival.SettingsManager.Instance.soundEnabled;
+ settings.soundButton.onClick.Invoke();Check(IndianOceanAssets.ShooterSurvival.SettingsManager.Instance.soundEnabled!=sound,"Sound switch changes setting");settings.soundButton.onClick.Invoke();
+ settings.Close();
+ var story=canvas.GetComponentInChildren<OpeningStoryUI>(true);story.Open();yield return new WaitForSecondsRealtime(1.2f);
+ var footer=(RectTransform)story.transform.Find("HarborContent/NextButton");Vector3 position=footer.position;story.Next();story.Next();yield return new WaitForSecondsRealtime(.7f);
+ Check(story.CurrentPage==1&&Vector3.Distance(position,footer.position)<.5f,"Rapid Next moves one scene and keeps footer fixed");
+ story.ReplayMovie();yield return new WaitForSecondsRealtime(.6f);Check(story.CurrentPage==0,"Replay returns to first scene");story.Skip();
+ Check(!story.gameObject.activeSelf&&story.movieDisplay.texture==null,"Skip releases video surface");
+ System.IO.File.AppendAllText(report,"COMPLETE\n");
+}
+canvas.StartCoroutine(Verify());return folder;

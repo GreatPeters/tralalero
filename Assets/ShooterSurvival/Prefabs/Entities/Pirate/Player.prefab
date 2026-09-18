@@ -292,10 +292,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1345998417110621319}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -347,14 +347,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e05046c2d6af655459ac5140daff7df3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: 100
+  useExcelCharacterDefaults: 1
+  originalHealth: 100
+  defaultAttackDamage: 50
+  defaultForwardMoveSpeed: 2
+  defaultFireRate: 1
+  defaultProjectileCount: 1
+  defaultMissileSpeed: 16
+  defaultMissileDuration: 1
+  moveSensitivity_Devision: 0
   xRange: {x: -1, y: 1}
   movementSmoothness: 40
   enemyDetectRadius: 1.5
-  fwdMoveSpeed: 2
   movement: 1
   animationActive: 1
   healthBar: {fileID: 408395557795352465}
+  healthText: {fileID: 0}
+  sharksGO: {fileID: 0}
+  canvasScript: {fileID: 0}
 --- !u!114 &7608299530434229643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -499,8 +509,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: x0.25
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1812f42b07f790b4cbef189f89d84a30, type: 2}
-  m_sharedMaterial: {fileID: -7970122878156502487, guid: 1812f42b07f790b4cbef189f89d84a30, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9fa086a777d03e743b7615e2f297e6ba, type: 2}
+  m_sharedMaterial: {fileID: 9144282636563422684, guid: 9fa086a777d03e743b7615e2f297e6ba, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -530,7 +540,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 1
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -877,6 +887,8 @@ SkinnedMeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -898,6 +910,7 @@ SkinnedMeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -2174,6 +2187,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2195,6 +2210,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0

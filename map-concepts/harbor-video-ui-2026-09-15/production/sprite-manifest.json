@@ -1,0 +1,556 @@
+{
+  "sprites": [
+    {
+      "name": "WoodBackground",
+      "file": "WoodBackground.png",
+      "width": 887,
+      "height": 1774,
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "source": "wood-background.png",
+      "box": null,
+      "method": "reconstructed blank background",
+      "transparent_pixels": 0,
+      "partial_alpha_pixels": 0
+    },
+    {
+      "name": "A_Header",
+      "file": "A_Header.png",
+      "width": 620,
+      "height": 106,
+      "border": [
+        36,
+        15,
+        15,
+        15
+      ],
+      "source": "cinema-clean-source.png",
+      "box": [
+        0,
+        0,
+        620,
+        106
+      ],
+      "method": "restored-plate crop",
+      "transparent_pixels": 0,
+      "partial_alpha_pixels": 0
+    },
+    {
+      "name": "A_HeaderEndcap",
+      "file": "A_HeaderEndcap.png",
+      "width": 40,
+      "height": 106,
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "source": "cinema-clean-source.png",
+      "box": [
+        847,
+        0,
+        887,
+        106
+      ],
+      "method": "restored-plate crop",
+      "transparent_pixels": 0,
+      "partial_alpha_pixels": 0
+    },
+    {
+      "name": "A_VideoFrame",
+      "file": "A_VideoFrame.png",
+      "width": 887,
+      "height": 1446,
+      "border": [
+        29,
+        32,
+        29,
+        32
+      ],
+      "source": "cinema-clean-source.png",
+      "box": [
+        0,
+        102,
+        887,
+        1548
+      ],
+      "method": "restored-plate crop and key",
+      "transparent_pixels": 1178964,
+      "partial_alpha_pixels": 16910
+    },
+    {
+      "name": "A_SkipButton",
+      "file": "A_SkipButton.png",
+      "width": 225,
+      "height": 85,
+      "border": [
+        25,
+        22,
+        25,
+        22
+      ],
+      "source": "cinema-clean-source.png",
+      "box": [
+        623,
+        16,
+        848,
+        101
+      ],
+      "method": "restored-plate crop",
+      "transparent_pixels": 96,
+      "partial_alpha_pixels": 192
+    },
+    {
+      "name": "A_ReplayButton",
+      "file": "A_ReplayButton.png",
+      "width": 272,
+      "height": 119,
+      "border": [
+        31,
+        29,
+        31,
+        29
+      ],
+      "source": "cinema-clean-source.png",
+      "box": [
+        35,
+        1607,
+        307,
+        1726
+      ],
+      "method": "restored-plate crop",
+      "transparent_pixels": 180,
+      "partial_alpha_pixels": 244
+    },
+    {
+      "name": "A_NextButton",
+      "file": "A_NextButton.png",
+      "width": 521,
+      "height": 122,
+      "border": [
+        32,
+        30,
+        32,
+        30
+      ],
+      "source": "cinema-clean-source.png",
+      "box": [
+        331,
+        1605,
+        852,
+        1727
+      ],
+      "method": "restored-plate crop",
+      "transparent_pixels": 180,
+      "partial_alpha_pixels": 244
+    },
+    {
+      "name": "B_TitlePlaque",
+      "file": "B_TitlePlaque.png",
+      "width": 509,
+      "height": 112,
+      "border": [
+        45,
+        31,
+        45,
+        31
+      ],
+      "source": "journal-clean-source.png",
+      "box": [
+        192,
+        18,
+        701,
+        130
+      ],
+      "method": "restored-plate crop",
+      "transparent_pixels": 160,
+      "partial_alpha_pixels": 232
+    },
+    {
+      "name": "B_CounterRibbon",
+      "file": "B_CounterRibbon.png",
+      "width": 410,
+      "height": 68,
+      "border": [
+        105,
+        16,
+        105,
+        16
+      ],
+      "source": "journal-clean-source.png",
+      "box": [
+        238,
+        130,
+        648,
+        198
+      ],
+      "method": "restored-plate crop",
+      "transparent_pixels": 16,
+      "partial_alpha_pixels": 84
+    },
+    {
+      "name": "B_VideoFrame",
+      "file": "B_VideoFrame.png",
+      "width": 639,
+      "height": 1004,
+      "border": [
+        56,
+        56,
+        56,
+        56
+      ],
+      "source": "journal-clean-source.png",
+      "box": [
+        123,
+        188,
+        762,
+        1192
+      ],
+      "method": "restored-plate crop and key",
+      "transparent_pixels": 527086,
+      "partial_alpha_pixels": 3517
+    },
+    {
+      "name": "B_SkipButton",
+      "file": "B_SkipButton.png",
+      "width": 156,
+      "height": 68,
+      "border": [
+        17,
+        16,
+        17,
+        16
+      ],
+      "source": "journal-clean-source.png",
+      "box": [
+        713,
+        41,
+        869,
+        109
+      ],
+      "method": "restored-plate crop",
+      "transparent_pixels": 40,
+      "partial_alpha_pixels": 136
+    },
+    {
+      "name": "B_CaptionCard",
+      "file": "B_CaptionCard.png",
+      "width": 818,
+      "height": 298,
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "source": "journal-clean-source.png",
+      "box": [
+        35,
+        1197,
+        853,
+        1495
+      ],
+      "method": "restored-plate crop",
+      "transparent_pixels": 296,
+      "partial_alpha_pixels": 304
+    },
+    {
+      "name": "B_ReplayButton",
+      "file": "B_ReplayButton.png",
+      "width": 334,
+      "height": 139,
+      "border": [
+        33,
+        31,
+        33,
+        31
+      ],
+      "source": "journal-clean-source.png",
+      "box": [
+        36,
+        1576,
+        370,
+        1715
+      ],
+      "method": "restored-plate crop",
+      "transparent_pixels": 204,
+      "partial_alpha_pixels": 272
+    },
+    {
+      "name": "B_NextButton",
+      "file": "B_NextButton.png",
+      "width": 463,
+      "height": 139,
+      "border": [
+        33,
+        31,
+        33,
+        31
+      ],
+      "source": "journal-clean-source.png",
+      "box": [
+        390,
+        1576,
+        853,
+        1715
+      ],
+      "method": "restored-plate crop",
+      "transparent_pixels": 204,
+      "partial_alpha_pixels": 272
+    },
+    {
+      "name": "ProgressOff",
+      "file": "ProgressOff.png",
+      "width": 109,
+      "height": 33,
+      "border": [
+        14,
+        14,
+        14,
+        14
+      ],
+      "source": "journal-clean-source.png",
+      "box": [
+        326,
+        1514,
+        435,
+        1547
+      ],
+      "method": "restored-plate crop",
+      "transparent_pixels": 40,
+      "partial_alpha_pixels": 136
+    },
+    {
+      "name": "ProgressOn",
+      "file": "ProgressOn.png",
+      "width": 110,
+      "height": 33,
+      "border": [
+        14,
+        14,
+        14,
+        14
+      ],
+      "source": "journal-clean-source.png",
+      "box": [
+        202,
+        1514,
+        312,
+        1547
+      ],
+      "method": "restored-plate crop",
+      "transparent_pixels": 40,
+      "partial_alpha_pixels": 136
+    },
+    {
+      "name": "ProgressFill",
+      "file": "ProgressFill.png",
+      "width": 16,
+      "height": 33,
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "source": "ProgressOn.png",
+      "box": [
+        40,
+        0,
+        56,
+        33
+      ],
+      "method": "straight center strip for native horizontal fill",
+      "transparent_pixels": 0,
+      "partial_alpha_pixels": 0
+    },
+    {
+      "name": "LanternRope",
+      "file": "LanternRope.png",
+      "width": 213,
+      "height": 551,
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "source": "decor-magenta.png",
+      "box": [
+        145,
+        0,
+        389,
+        559
+      ],
+      "method": "reconstructed ornament and key",
+      "transparent_pixels": 46095,
+      "partial_alpha_pixels": 2765
+    },
+    {
+      "name": "ShipMap",
+      "file": "ShipMap.png",
+      "width": 311,
+      "height": 553,
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "source": "decor-magenta.png",
+      "box": [
+        607,
+        20,
+        925,
+        580
+      ],
+      "method": "reconstructed ornament and key",
+      "transparent_pixels": 11047,
+      "partial_alpha_pixels": 1584
+    },
+    {
+      "name": "CoastMap",
+      "file": "CoastMap.png",
+      "width": 309,
+      "height": 553,
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "source": "decor-magenta.png",
+      "box": [
+        1131,
+        15,
+        1448,
+        582
+      ],
+      "method": "reconstructed ornament and key",
+      "transparent_pixels": 11071,
+      "partial_alpha_pixels": 1586
+    },
+    {
+      "name": "RopeKnot",
+      "file": "RopeKnot.png",
+      "width": 217,
+      "height": 365,
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "source": "decor-magenta.png",
+      "box": [
+        145,
+        607,
+        370,
+        976
+      ],
+      "method": "reconstructed ornament and key",
+      "transparent_pixels": 35370,
+      "partial_alpha_pixels": 1354
+    },
+    {
+      "name": "CaptionDivider",
+      "file": "CaptionDivider.png",
+      "width": 550,
+      "height": 62,
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "source": "decor-magenta.png",
+      "box": [
+        489,
+        744,
+        1048,
+        813
+      ],
+      "method": "reconstructed ornament and key",
+      "transparent_pixels": 26740,
+      "partial_alpha_pixels": 1130
+    },
+    {
+      "name": "ChevronOrnament",
+      "file": "ChevronOrnament.png",
+      "width": 197,
+      "height": 281,
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "source": "decor-magenta.png",
+      "box": [
+        1204,
+        635,
+        1414,
+        929
+      ],
+      "method": "reconstructed ornament and key",
+      "transparent_pixels": 26054,
+      "partial_alpha_pixels": 659
+    },
+    {
+      "name": "SubtitleGradient",
+      "file": "SubtitleGradient.png",
+      "width": 32,
+      "height": 256,
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "source": "",
+      "box": null,
+      "method": "procedural UI alpha gradient",
+      "transparent_pixels": 32,
+      "partial_alpha_pixels": 8160
+    },
+    {
+      "name": "ChevronInk",
+      "file": "ChevronInk.png",
+      "width": 32,
+      "height": 48,
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "source": "",
+      "box": null,
+      "method": "procedural simple UI chevron",
+      "transparent_pixels": 1141,
+      "partial_alpha_pixels": 0
+    },
+    {
+      "name": "MovieFramePreview",
+      "file": "MovieFramePreview.png",
+      "width": 720,
+      "height": 1280,
+      "border": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "source": "movie-frame-2s.png",
+      "box": null,
+      "method": "actual installed movie frame at 2 seconds, preview only",
+      "transparent_pixels": 0,
+      "partial_alpha_pixels": 0
+    }
+  ]
+}

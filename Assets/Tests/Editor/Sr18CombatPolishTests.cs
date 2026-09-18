@@ -44,6 +44,35 @@ public sealed class Sr18CombatPolishTests
         Assert.That(helper.CompletedTurns,Is.EqualTo(3));
         helper.Advance(0); Assert.That(helper.transform.position.x,Is.EqualTo(8).Within(.001));
     }
+    [TestCase(0f)]
+    [TestCase(90f)]
+    public void BucketAttachment_OpeningFacesDownOnScaledTurningPlayer(float yaw)
+    {
+        var player = Make("Player").AddComponent<PlayerScript>();
+        player.transform.SetPositionAndRotation(new Vector3(12f, 3f, -7f), Quaternion.Euler(10f, yaw, 0f));
+        player.transform.localScale = Vector3.one * 1.5f;
+        player.canShoot = true;
+        var prefab = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>(
+            "Assets/ShooterSurvival/Prefabs/Obstacle_Real/Bucket.prefab");
+        var bucket = Object.Instantiate(prefab);
+        objects.Add(bucket);
+        bucket.transform.localScale = Vector3.one * 70f;
+        var obstacle = bucket.GetComponent<ObstacleStats>();
+        typeof(ObstacleStats).GetMethod("InitBucket", Private).Invoke(obstacle, null);
+        var routine = (System.Collections.IEnumerator)typeof(ObstacleStats)
+            .GetMethod("AttachBucketRoutine", Private).Invoke(obstacle, new object[] { player });
+
+        Assert.That(routine.MoveNext(), Is.True);
+        // The original mesh's wide open rim is at +Z; its closed base is at -Z.
+        var bounds = bucket.GetComponent<MeshFilter>().sharedMesh.bounds;
+        Vector3 rim = bucket.transform.TransformPoint(new Vector3(bounds.center.x, bounds.center.y, bounds.max.z));
+        Vector3 closedBase = bucket.transform.TransformPoint(new Vector3(bounds.center.x, bounds.center.y, bounds.min.z));
+        Assert.That(Vector3.Dot((rim - closedBase).normalized, -player.transform.up), Is.GreaterThan(.95f),
+            "The open rim must face down over the head, including after a route turn or on a slope.");
+        Assert.That(Vector3.Distance(bucket.transform.lossyScale, Vector3.one * 70f), Is.LessThan(.001f));
+        Assert.That(player.canShoot, Is.False);
+    }
+
     [Test] public void OverlappingBuckets_ReleaseOnlyTheirOwnShootBlock()
     {
         var p=Make("Player").AddComponent<PlayerScript>(); p.canShoot=true;
@@ -69,10 +98,12 @@ public sealed class Sr18CombatPolishTests
     [Test] public void Workbook_AllEnemyRowsOwnCombatStats()
     {
         using var stream=GameDataWorkbook.OpenRead("Data.xlsx");
-        var rows=EncounterPlacementTables.Read(stream).Where(r=>r.kind=="적 배치").ToArray();
-        Assert.That(rows.Length,Is.EqualTo(27)); Assert.That(rows.All(r=>r.hasCombatStats && r.health>0),Is.True);
-        Assert.That(rows[0].damage,Is.EqualTo(33)); Assert.That(rows[1].damage,Is.EqualTo(36));
-        Assert.That(rows.Count(r=>r.tier==EnemyTier.Elite),Is.EqualTo(3)); Assert.That(rows.Single(r=>r.id.StartsWith("SR18_L_E25_")).tier,Is.EqualTo(EnemyTier.Boss));
+        var rows=EncounterPlacementTables.Read(stream).Where(r=>r.kind=="적 배치"&&r.scene=="Noryangjin_MapTool_Mode_SR18").ToArray();
+        // The current layout has 25 paired formations, each with explicit stats.
+        Assert.That(rows.Length,Is.EqualTo(50)); Assert.That(rows.All(r=>r.hasCombatStats && r.health>0 && r.damage>=0),Is.True);
+        var formations=rows.GroupBy(r=>r.id.EndsWith("_Right")?r.id.Substring(0,r.id.Length-6):r.id).ToArray();
+        Assert.That(formations.Length,Is.EqualTo(25)); Assert.That(formations.All(g=>g.Count()==2),Is.True);
+        Assert.That(rows.Where(r=>r.id.StartsWith("SR18_L_E25_")).Count(r=>r.tier==EnemyTier.Boss),Is.EqualTo(2));
     }
 }
 #endif

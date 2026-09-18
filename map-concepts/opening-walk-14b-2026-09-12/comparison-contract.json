@@ -1,0 +1,38 @@
+{
+  "source": "C:\\Users\\ljh\\tralalero Shooter\\Assets\\JH\\UI\\Opening\\Animated\\Story_04.png",
+  "sourceSha256": "dd7859b9a302f57c72ecb997894f3d6eafe0886fb65581fcddd462bda7115af4",
+  "existingClip": "C:\\Users\\ljh\\tralalero Shooter\\map-concepts\\opening-animation-2026-09-11\\shot-04.mp4",
+  "existingClipSha256": "862e1a3e0a73df6857b92fd4cf286f37bd265bf1f4d00233cd19570a21c2ea54",
+  "generationSize": [
+    512,
+    896
+  ],
+  "presentationSize": [
+    576,
+    1024
+  ],
+  "frames": 121,
+  "fps": 24,
+  "seconds": 5.041666666666667,
+  "seed": 202609114,
+  "totalSteps": 20,
+  "samePositivePrompt": "A polished animated fantasy film shot. The funny determined blue shark walks forward along the fish-market road using its THREE short legs and THREE blue sneakers in a clear alternating walking cycle, body bobbing, arms swinging, tail swaying. Camera gently tracks alongside to keep the whole shark in frame. Gulls flap and fly through the sky. Continuous footstep animation, no sliding, preserve the three-legged anatomy and character face.",
+  "sameNegativePrompt": "still image, slideshow, freeze frame, static pose, text, subtitles, speech bubble, watermark, distorted face, fused limbs, extra limbs, morphing, flickering, camera shake, blurry, low quality",
+  "old": {
+    "model": "Wan2.2 TI2V5B FP16",
+    "sampler": "uni_pc",
+    "cfg": 5,
+    "shift": 8,
+    "generationSeconds": 567.35
+  },
+  "new": {
+    "model": "Wan2.2 I2V-A14B FP8 scaled",
+    "sampler": "euler",
+    "cfg": 3.5,
+    "shift": 5,
+    "expertSwitchStep": 10,
+    "textEncoderDevice": "default",
+    "lora": null
+  },
+  "comparisonScope": "Same source/prompt/duration/resolution/seed/step budget; each model uses its own VAE and sampling recipe. A practical workflow comparison, not a parameter-count-only experiment."
+}

@@ -1,5 +1,90 @@
 # Reliability
 
+## Coastal UI production — 2026-09-16
+
+Theme replacement must set scalable Images to Sliced and preserve entire fasteners/shadows inside fixed borders; inherited Tiled modes repeat decorations. Rebuilt children require rebinding external serialized fields, including chapter-clear rewards. The new all-scene authoring entry rejects dirty/playing scenes and restores the original scene setup. Runtime and state-restoration evidence: `map-concepts/coastal-enamel-ui-2026-09-16/README.md`.
+
+## Combat feedback revision (2026-09-14)
+
+Temporary missile duration is static and must be reset at Player Awake as well as ResetState; a scene reload alone does not clear it. Settled-pole cooldown is player-owned, so overlapping poles/colliders cannot multiply contact damage within one second. Hole death freezes the player's physics body while only the model tumbles, and retry restores its prior kinematic state. Results wait0.9seconds before covering death motion.
+
+The latest focused82tests pass. Two older SR18 snapshot tests still expect3FatMan actors/717props versus the already-authored6/740; see the combat-feedback report. Directed probes must explicitly hold forward speed when inspecting fixed-camera melee, and must capture after a rendered frame rather than pausing immediately after mutating health.
+
+## Mobile menu and audio lifecycle — 2026-09-14
+
+Authoring inactive nested canvases does not prove their eventual sorting: MobileUILayer reapplies it on enable. Scroll caches must compare actual content height after Unity layout resets. ScreenCapture proves overlay composition; a camera-only image does not. Cosmetic previews now use two normal URP frames per change with a single-sample RenderTexture, then idle; dispose clears the stage/target on close. Android confirmation is pending.
+
+GameAudioService bounds effects to12voices, gives warnings/player outcomes priority over gunfire, and pauses/stops audio across focus changes. A background first launch must start loops when focus returns even if no earlier Play occurred. Use a private cosmetic variation counter so audio cannot advance gameplay RNG.
+
+Native tests can block in SaveModifiedSceneTask when prefab/import changes dirty an already-saved scene. The current first MobilePresentationTests invocation timed out after300seconds, with no result; do not treat it as a failed assertion or enqueue duplicates. Windows Computer Use is also unavailable (`native pipe ... os error2`) in this session. Preserve the active Editor and ask for the visible save step when direct control is unavailable.
+
+## Live Android build and USB recovery — 2026-09-14
+
+Use a one-shot Editor update for the phone APK builder when a verified pending delayCall is not serviced. A successful callback registration is not a build result. Restore temporary signing in memory and compare ProjectSettings on disk to its before-image; this Editor left the temporary flag serialized until a guarded byte-exact recovery. An ADB interface can show PnP code0while USB serial retrieval fails with Win32 error31. Physical cable reconnection resolved that condition here; subsequent unauthorized state required phone approval. See `solutions/workflow-issues/schedule-unity-builds-through-one-shot-update-2026-09-13.md`.
+
+## Combat presentation pools — 2026-09-13
+
+Prewarm64 numeric popups from CanvasScript.Start and32 hit effects per prefab from enemy Awake before firing. Saturation recycles the oldest cosmetic entry without suppressing combat or currency. Returning particles must clear old emissions; disabling an enemy returns its attached effects, and destroying the pool also cleans active children outside its own hierarchy. A destroyed enemy root can remove its attached visual, so the next rental repairs that slot. Unit tests explicitly simulate teardown callbacks for Edit Mode-only objects; real scene teardown is a separate runtime check.
+
+The performance probe advances once per Time.frameCount and writes a completion report. Never stop it based only on the start response. Background RuntimePerformanceBudget pacing can target15fps, so Editor frame percentiles cannot certify mobile60fps or be compared across focus states.
+
+## Approved road/hall integration — 2026-09-13
+
+Preserve the fresh task snapshot before any play/test. `apply-approved-road-concepts.cs` refuses repeated initial installs and unsaved/non-Edit authoring. Use the authored `HighwayRoute` sampler in integration checks; the old straight builder points miss the curved road at420m. Include inherited player scale when placing overhead architecture: local cameraY8.364 becomes approximately12.67world metres. Raised roof and grouped fascia/shutter occlusion preserve the actual game camera.
+
+Re-proportion geometry and rest bones together, keep carried props rigid relative to hands, re-ground all six actions and revalidate imported clips. The original rig files require installed Blender5.2.1, not system4.4. Source counter renders must normalize studio illumination for their larger size. Native test-name filtering uses partial strings; a literal pipe-separated class list returned zero tests and was rejected in favour of individual nonzero class runs.
+
+## Road scenery authoring — 2026-09-13
+
+`tools/road-reference-visuals.cs` operates only on saved Edit Mode scenes through official Pipeline. `Prepare` refuses an existing backup directory; initial Apply methods refuse an existing scenery root. Its live helper uses a fresh63-key preference snapshot, upgraded section-entry runs and one movement call per rendered frame. Exit Play Mode before `RestorePreferences`, and verify the exact key-existence/value comparison. Do not rerun older restore or scene-building scripts. A PNG imported as Cubemap must be assigned to a matching sky shader; a null Texture2D load can silently produce gray sky despite successful compilation.
+
+## Road patterns
+
+- Reusable police must call `PrepareSpawnAt` while inactive. Repositioning before ordinary `OnEnable` alone restores the first authored start and can invalidate an otherwise correct four-door schedule.
+- Stationary combat owns a movement lock rather than the global running flag. Success/death/disable reset the lock, camera and visual rotation; wave and traffic timers respect gameplay pause. Actual holdout completion and death cleanup were exercised.
+- Offset routes require continuous normals as well as supported points. Bake and move through the same curve sampler; check both branches and both lateral extremes.
+- Native Edit Mode regression tests can write real PlayerPrefs even when gameplay QA uses an isolated product. Snapshot before tests, compare afterward, and restore confirmed test writes after the last scene-open callback. The road-pattern revision verified all63original keys after restoration.
+
+## Chapter revision verification (2026-09-13)
+
+Original Editor10140 resumed servicing Pipeline without being killed; the exact cause of recovery is unconfirmed. Its live scene and58preference keys were preserved before native authoring. Run tests asynchronously after saving, and inspect actual scene/archive state after a timeout because a started mutation can finish after transport failure. A timeout error can also enable Editor error-pause; inspect pause state before declaring a gameplay stall.
+
+The separate graphics-enabled QA project uses real file copies and isolated company/product preferences with analytics disabled. Use a short path (`tmp/q`) to avoid Windows path limits. Never share writable Asset/Library databases with the original Editor or merge the QA-only bootstrap. Address each Editor by project path through discovery. Native screenshots require a real portrait GameView resolution; camera-only captures omit overlay UI.
+
+Gate automated movement by Time.frameCount. A live measurement found828Editor callbacks across248game frames, so invoking deltaTime-based PlayerMove on each Editor callback multiplied movement. Final progression files must include movement_calls<=game_frames; earlier cohorts are diagnostics. Current tools snapshot actual chapter entry state and distinguish saving from greedy-affordable purchases.
+
+Task-owned generation runs with bounded CPU affinity/thread counts, below-normal priority and a free-memory startup check through `tools/run-limited-generation.py`. TRELLIS and Wan GPU queues run sequentially; diagnostic Blender rendering uses two CPU threads. These controls address background resource contention, not a proven cause of the user's game freeze. Wan latents are retained before diffusion is unloaded and VAE decoding begins, permitting a decode retry without repeating sampling.
+
+The installed ad service initializes MobileAdsEventExecutor before consent, expires cached ads, retries no-fill after30seconds on idle screens, invalidates loads after45seconds and times out consent-update/SDK initialization after60seconds. It rejects superseded callbacks. An open consent form has no reading timeout. Earned may arrive after closed and after the defeat UI is destroyed, so credit is guarded by round/attempt identity rather than UI lifetime. Native Editor placeholder success(+90exactly once) and immediate close(0coins, Continue enabled) passed; physical-device/network behavior remains a separate validation boundary.
+
+Android build guards must match the shared dependency and SDK floor. Ads11.5.0requiresEDM1.2.187and Android API24; an old Firebase exact-version/hash guard rejected the new manager, then the Android manifest merger rejected the oldAPI23floor. Keep the exact archive hash check, update its documented pin, and reject incompatible minimum versions before expensive shader compilation. A native build is scheduled once outside the eval request via delayCall and writes its own result/restoration files.
+
+Startup data cost (2026-09-12): repeated full stylesheet appends made Data.xlsx's style XML27MB and each ExcelDataReader creation about0.8seconds. The source was compacted with effective-format/data preservation and its protected archive regenerated. Sheet graft writers now reuse matching style definitions. Same-Editor first movie frame improved18.078→2.156seconds. Preserve this deduplication path during future workbook updates; see `solutions/performance-issues/deduplicate-workbook-styles-before-gameplay-table-loads-2026-09-12.md`.
+
+Android analytics smoke follow-up (2026-09-12): use a real Android SDK runtime, not Editor stubs, and distinguish SDK logging, upload response, Firebase DebugView receipt and later BigQuery export as separate evidence. The read-only API36 emulator produced a matched38.133-second start/death pair and HTTP204 receipts, independently seen in DebugView. Its MSAA/FlatKit rendering failures mean that result is not a visual/performance certification. Source project settings were restored and the task AVD was stopped; raw logs remain under tmp/analytics-flow-20260912.
+
+## Equipment and chapter revision (2026-09-12)
+
+Body atlas meshes preserve the original rig. Replacement footwear has a matching closed body mesh and a skinned shoe mesh in the original bind space. The imported FBX's current pose is not a neutral fitting frame. The shop restores a neutral pose and CPU-bakes it once per selection for reliable manual rendering; player animation remains skinned. Preview stages deactivate before deferred destruction, and a next-frame render handles first-open allocation.
+
+`AssetDatabase.Refresh` returning does not prove script reload completion. Wait for fresh compiled assemblies before invoking changed authoring code. Detached jobs can disappear across domain reloads; use resulting files and read-back as evidence before retrying. `ScreenCapture.CaptureScreenshot` captures a later frame, so hold UI state until the file exists.
+
+The progression harness seeds and re-rolls through the real encounter reset API before starting. Initial scene rolls previously preceded the seed. Test snapshots for this revision are the57-key file under`tmp/backups/skins-progression-2026-09-12`; older snapshots must not be used to restore this user's state.
+
+Rest-stop construction is a guarded one-shot command; subsequent layout changes use the recorded refinement script. Opening a temporary map-tool palette window can mark work objects dirty even when a saved scene copy has no content difference. Compare that copy before clearing the dirty flag or running a builder. Do not blindly discard an unsaved scene. Generated architecture must be checked for surface tears and its actual front axis; the wayfinding sign required a90-degree visual normalization.
+
+2026-09-11 two-chapter workflow: keep the live scene saved before starting EditMode tests; a pending Save dialog can stall Pipeline. Native render resources such as `MaterialPropertyBlock` must be initialized in Awake/Start, not MonoBehaviour field initializers. Story playback invalidates its RenderTexture before Stop and waits for seek completion before following the video clock. Authoring builders refuse to replace an existing HighWay scene; subsequent work uses the normal map tool or a narrowly guarded refinement method. See the [two-chapter acceptance record](../map-concepts/two-chapter-2026-09-11/README.md) for evidence and recovery details.
+
+Replacing a copied chapter's Roads hierarchy requires explicit rebinding of the player height follower and camera occlusion root. Flat opening movement does not establish correctness on elevated turns. Projectile consumers must receive damage before pool deactivation; retaining the payload alone does not guarantee delivery of the receiver's callback. Seagull's child collider belongs to its parent's Rigidbody so the damage callback reaches ObstacleStats. Directed probes reject paused Play Mode, including an Editor error-pause after a transient Pipeline timeout.
+
+## Presentation and progression follow-up
+
+Pooled bullets retain launch damage through deactivation so the other collision callback can read it. Enemy receivers use that payload, including BoomBar's percentage. Visible SR18 lamps have consistent damage, feedback and projectile consumption. Humanoid ground correction moves only visuals, while carry and look-at preserve readable motion.
+
+The opening blocks the public start handler until dismissed; defeat/clear also reject direct starts. Video allocation is idempotent and textures are released on disable/skip/destroy. Equipment effect keys replace previous values on each run. Purchased levels are re-evaluated against current workbook values on lobby load.
+
+Unity Pipeline may time out during import/archive work while the operation continues. Inspect the resulting scene/file or `GetRuntimeArchiveStatus` before repeating a mutation. During this revision the archive initially failed a Windows replacement and a retry timed out, then read-back confirmed `Current`; no stale archive was accepted.
+
 ## Run health, cosmetic purchases and test isolation (2026-09-10)
 
 HP rewards increase current and maximum health together and reset at the next run. Permanent helper percentages produce one helper per unlocked type, never one per percentage point. Money rejects negative spending and upgrade purchases require a live wallet.
@@ -108,6 +193,20 @@ Open observation: after the final97-second gameplay run reset, two stackless Edi
 - Keep the enemy-drop `RuntimeBonusWall` marker on the `Box_left` root so stage cleanup destroys the complete composite altar. Child `WallScript` instances must resolve that marker through their parent hierarchy before deciding whether to use the legacy global post-processing overlay.
 
 ## Verification
+
+- Rounded display-font replacement requires glyph-bound checks, not only RectTransform or font-metric Center alignment. Centered presentation text now uses MidlineGeoAligned; left/top content retains its authored alignment. Story Previous content is a preferred-size icon/label group, while Next/Skip/tab labels use symmetric insets. Always verify the active layout after enable, because inactive layout groups need not resolve their sizes.
+
+- The final `FaithfulPresentation` pass must run after `ReferenceLobby` and generic material/layout passes; otherwise integrated chrome and rounded display typography are replaced by earlier substitutes. Live story tab sprites must cover their baked backgrounds so only the actual current scene is highlighted.
+- Story chrome controls use width-scaled fixed header/footer regions. Validate both tall and short portrait viewports and every caption page; the movie-fill policy limits crop to 15% and falls back to the full image beyond that threshold. Source MP4 and playback lifetime are unchanged.
+
+- Large TMP display strokes need sufficient atlas padding and balanced face dilation: the outline also expands inward. A wide outline on the body preset can consume all white glyph interiors even when `OUTLINE_ON` is enabled. The lobby display material pass must run after generic body-material styling.
+- Independent start-hand animation resets its origin/rotation on disable. Test its full cycle; two arbitrary sinusoidal sample points may have the same X even when animation works. Evidence: `map-concepts/harbor-reference-fidelity-2026-09-17/README.md`.
+
+- Mobile TMP SDF requires `OUTLINE_ON` as well as outline width/color; verify both in material tests and actual world-label frames. Material/atlas comparisons must use Unity native object identity across asset reloads.
+- `OpeningStoryUI` must start the prepared decoder before seeking to a nonzero scene boundary. Wait for a rendered frame before allowing the next seek; a prepared but stopped player can otherwise remain at frame -1.
+- Audio focus loss can arrive after one child AudioSource is destroyed but before the service is destroyed. `GameAudioService.ApplyFocus` checks each channel independently and teardown clears its ready flag.
+- Pier and NPC position changes need fresh Play Mode verification; statically batched scenery does not provide reliable runtime move previews. Keep SR18's corner clearance validation active when adjusting both enemy start/target and workbook activation lead.
+- Long multi-scene authoring should use official CLI `run_script --timeout_ms 120000`. A short eval timeout can leave a completed mutation behind; inspect saved state before retrying. Related evidence: `map-concepts/harbor-opening-refinement-2026-09-16/README.md`.
 - Run `unity --version` and `unity pipeline list`.
 - Run `unity command --project-path . list_open_scenes` and confirm the expected active scene.
 - Optionally run `unity status --project-path .` for extra diagnostics; do not fail an otherwise successful reachability check only because it reports `STATUS_NO_INSTANCES`.

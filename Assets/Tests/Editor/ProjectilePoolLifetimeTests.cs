@@ -50,5 +50,36 @@ public sealed class ProjectilePoolLifetimeTests
         Assert.That(typeof(BulletScript).GetField("elapsedDuration",Private).GetValue(script),Is.EqualTo(0f));
         giveBack.Invoke(script,null); Assert.That(rented.activeSelf,Is.False);
     }
+
+    [Test]
+    public void Roadblock_ReceivesOneHitBeforeProjectileIsReturned()
+    {
+        bool wasRunning=TimeManager.isGameRunning;
+        try
+        {
+            TimeManager.isGameRunning=true;
+            var target=Make("Roadblock");target.tag="Obstacle";
+            var collider=target.AddComponent<BoxCollider>();collider.isTrigger=true;
+            target.AddComponent<ObstacleStats>().obstaclePattern=ObstaclePattern.HighwayRoadblock;
+            var hazard=target.AddComponent<HighwayHazard>();hazard.breakHealth=85;
+            typeof(HighwayHazard).GetMethod("Awake",Private).Invoke(hazard,null);
+            var pool=Pool();var caller=Make("Caller").transform;
+            var root=pool.Get(BulletKind.Water,caller);objects.Add(root);root.transform.SetParent(null);
+            var bullet=root.GetComponentInChildren<BulletScript>(true);
+            typeof(BulletScript).GetField("bulletPooler",Private).SetValue(bullet,pool);
+            var hit=typeof(BulletScript).GetMethod("OnTriggerEnter",Private);
+            for(int i=0;i<3;i++)
+            {
+                if(i>0){root=pool.Get(BulletKind.Water,caller);root.transform.SetParent(null);}
+                bullet.SetDirection(Vector3.forward,null,30);
+                hit.Invoke(bullet,new object[]{collider});
+                hit.Invoke(bullet,new object[]{collider}); // queued duplicate after deactivation
+                Assert.That(hazard.Broken,Is.EqualTo(i==2));
+                Assert.That(root.activeSelf,Is.False);
+            }
+            Assert.That(collider.enabled,Is.False);
+        }
+        finally{TimeManager.isGameRunning=wasRunning;}
+    }
 }
 #endif

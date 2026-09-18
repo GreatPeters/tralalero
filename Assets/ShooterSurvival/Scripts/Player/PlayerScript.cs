@@ -79,6 +79,10 @@ namespace IndianOceanAssets.ShooterSurvival
         private Vector3 previousPosition;
         private bool isMoving;
         private bool isDead = false;
+        private float nextFallenPoleHitTime = float.NegativeInfinity;
+        private PlayerDamageFeedback damageFeedback;
+        private bool hazardBodyFrozen;
+        private bool bodyWasKinematic;
         Transform playerMesh;
         [NonSerialized] public Transform nearestEnemy;
         private bool winDancePlayed;
@@ -103,8 +107,6 @@ namespace IndianOceanAssets.ShooterSurvival
         private float resolvedDefaultMissileSpeed;
         private float resolvedDefaultMissileDuration;
         private bool characterDefaultsInitialized;
-        private float gameplayElapsedSeconds;
-        private int lastLoggedGameplaySecond;
 
         private float maxHealthWithUpgrades;
         private float runMaxHealthBonus;
@@ -139,6 +141,25 @@ namespace IndianOceanAssets.ShooterSurvival
         private RigidbodyConstraints constraintsBeforeWorldYawTurn;
         private bool worldYawTurnConstraintsCaptured;
         private Vector3 routeLaneOrigin;
+        private HighwayRoute highwayRoute;
+        private UnityEngine.Object stationaryCombatOwner;
+        private Vector3 stationaryCombatPosition;
+        public bool IsStationaryCombat => stationaryCombatOwner != null;
+        public RestStopHoldout HoldoutAim { get; private set; }
+
+        public void SetStationaryCombat(RestStopHoldout owner, bool active)
+        {
+            if (active) { stationaryCombatOwner = owner; stationaryCombatPosition = transform.position; HoldoutAim = owner; }
+            else if (stationaryCombatOwner == owner) { stationaryCombatOwner = null; HoldoutAim = null; }
+            SetSharkLocomotion(!IsStationaryCombat && TimeManager.isGameRunning);
+        }
+
+        public void ApplyContinuousRoutePose(Vector3 center, Vector3 forward, float lane)
+        {
+            ApplyWorldYawRotation(Quaternion.LookRotation(forward, Vector3.up));
+            RebaseRouteFrame(center);
+            ApplyPlayerPosition(center + routeRight * lane);
+        }
         private Vector3 routeRight = Vector3.right;
         private bool routeFrameInitialized;
         private float lastHealthTextValue = float.NaN;
@@ -152,6 +173,7 @@ namespace IndianOceanAssets.ShooterSurvival
         public static event Action<PlayerScript> EditorRunPrepared;
 #endif
         public float MaxHealth => maxHealthWithUpgrades > 0f ? maxHealthWithUpgrades : originalHealth;
+        public float ResolvedAttackDamage => currentWeaponScript != null ? currentWeaponScript.damage : currentDamage;
         public bool UseExcelCharacterDefaults => useExcelCharacterDefaults;
         public float ForwardMoveSpeed
         {
@@ -204,6 +226,9 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void Awake()
         {
+            BulletScript.ResetStatBonus();
+            if (Application.isPlaying)
+                damageFeedback = gameObject.AddComponent<PlayerDamageFeedback>();
             playerRigidbody = GetComponent<Rigidbody>();
             roadHeightFollower = GetComponent<NoryangjinRoadHeightFollower>();
             canShoot = true;
@@ -236,6 +261,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 playerAnimator.SetBool("PlayerIsDead", false);
 
             RefreshSharkAnimator();
+            SetSharkLocomotion(false);
             weaponManager = GetComponent<WeaponManager>();
             canvasScript = FindFirstObjectByType<CanvasScript>();
             SubscribeToStatChanges();
@@ -278,6 +304,8 @@ namespace IndianOceanAssets.ShooterSurvival
             }
 
             HandleAnimation();
+            if (!isDead && !winDancePlayed)
+                SetSharkLocomotion(TimeManager.isGameRunning && !IsStationaryCombat);
             ApplyHealthRegen();
         }
 
@@ -336,6 +364,22 @@ namespace IndianOceanAssets.ShooterSurvival
             ApplySkinBonusFromActiveShark();
         }
 
+        public void SetSharkLocomotion(bool walking)
+        {
+            if (sharkAnim == null) return;
+            int state = Animator.StringToHash(walking ? "Walk" : "Idle");
+            if (!sharkAnim.HasState(0, state)) return;
+            sharkAnim.ResetTrigger("Walk");
+            if (sharkAnim.GetCurrentAnimatorStateInfo(0).shortNameHash != state)
+                sharkAnim.Play(state, 0, 0f);
+        }
+
+        public void ResetStartGesture()
+        {
+            startGestureTriggered = false;
+            startGestureArmed = false;
+        }
+
         void OnStatsChanged()
         {
             RefreshUpgradeStats();
@@ -372,7 +416,6 @@ namespace IndianOceanAssets.ShooterSurvival
                 return;
             }
 
-            UpdateGameplayTimeDebug();
 
             bool isForwardMarchScene = TimeManager.Instance != null && TimeManager.Instance.isForwardMarchScene;
             if (CanvasScript.isGameOver || winDancePlayed) // Add winDancePlayed to stop movement
@@ -383,6 +426,15 @@ namespace IndianOceanAssets.ShooterSurvival
                 if (playerAnimator != null)
                     playerAnimator.SetBool("WalkFwd", false); // Stop forward walk animation
                 return; // Stop further fixed update logic for movement/input
+            }
+
+            if (IsStationaryCombat)
+            {
+                ApplyPlayerPosition(stationaryCombatPosition);
+                if (playerRigidbody != null) { playerRigidbody.linearVelocity = Vector3.zero; playerRigidbody.angularVelocity = Vector3.zero; }
+                SetSharkLocomotion(false);
+                PlayerInput(); // Refresh drag anchors without accumulating a release jump.
+                return;
             }
 
             if (isWorldYawTurnActive)
@@ -451,9 +503,14 @@ namespace IndianOceanAssets.ShooterSurvival
             }
         }
 
+        public float LateralSpeedMultiplier => 1f + Mathf.Clamp(
+            UpgradeStatManager.S != null
+                ? UpgradeStatManager.S.GetPercentStat(UpgradeStatManager.UpgradeType.LATERAL_SPEED)
+                : 0f, 0f, 50f) / 100f;
+
         private void PlayerMove(float deltaX)
         {
-            if (!movement || isWorldYawTurnActive)
+            if (!movement || isWorldYawTurnActive || IsStationaryCombat)
                 return;
 
             EnsureRouteFrame();
@@ -462,7 +519,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 : 1f;
             float currentOffset = Vector3.Dot(transform.position - routeLaneOrigin, routeRight);
             float targetOffset = Mathf.Clamp(
-                currentOffset + deltaX * moveSensitivity / sensitivityDivisor,
+                currentOffset + deltaX * moveSensitivity / sensitivityDivisor * LateralSpeedMultiplier,
                 xRange.x,
                 xRange.y);
             Vector3 targetPosition = transform.position + routeRight * (targetOffset - currentOffset);
@@ -475,6 +532,11 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ApplyForwardMovement()
         {
+            if (highwayRoute != null && highwayRoute.isActiveAndEnabled)
+            {
+                highwayRoute.Advance(this, currentForwardMoveSpeed * Time.fixedDeltaTime * TimeManager.timeFactor);
+                return;
+            }
             if (roadHeightFollower != null && roadHeightFollower.isActiveAndEnabled &&
                 roadHeightFollower.AdvancePitch(Time.fixedDeltaTime * TimeManager.timeFactor, out float pitch))
             {
@@ -941,6 +1003,11 @@ namespace IndianOceanAssets.ShooterSurvival
             if (!statusChanged)
                 return;
 
+            if (!force && !float.IsNaN(lastReportedCurrentHealth) && currentHealth < lastReportedCurrentHealth)
+            {
+                GameAudioService.Play(currentHealth <= 0 ? GameSound.PlayerDeath : GameSound.PlayerHit);
+                damageFeedback?.Show(lastReportedCurrentHealth - currentHealth, maxHealth);
+            }
             lastReportedCurrentHealth = currentHealth;
             lastReportedMaxHealth = maxHealth;
 
@@ -956,11 +1023,37 @@ namespace IndianOceanAssets.ShooterSurvival
             UpdateHealth();
         }
 
+        public bool TryTakeFallenPoleDamage(float time)
+        {
+            if (currentHealth <= 0f || time < nextFallenPoleHitTime) return false;
+            nextFallenPoleHitTime = time + 1f;
+            currentHealth = Mathf.Max(0f, currentHealth - MaxHealth * .3f);
+            UpdateHealth();
+            return true;
+        }
+
+        public void DieFromHazard(bool fallIntoHole)
+        {
+            if (currentHealth <= 0f) return;
+            currentHealth = 0f;
+            movement = false;
+            canShoot = false;
+            UpdateHealth();
+            if (playerRigidbody != null && !hazardBodyFrozen)
+            {
+                bodyWasKinematic = playerRigidbody.isKinematic;
+                playerRigidbody.isKinematic = true;
+                hazardBodyFrozen = true;
+            }
+            if (fallIntoHole) damageFeedback?.FallIntoHole();
+        }
+
         public void ApplyRunHealthBonus(float amount, bool percent)
         {
             if (float.IsNaN(amount) || float.IsInfinity(amount) || amount < 0f)
                 throw new ArgumentOutOfRangeException(nameof(amount));
             float increase = percent ? MaxHealth * amount / 100f : amount;
+            if (increase > 0) GameAudioService.Play(GameSound.Heal);
             runMaxHealthBonus += increase;
             maxHealthWithUpgrades = MaxHealth + increase;
             currentHealth = Mathf.Min(maxHealthWithUpgrades, currentHealth + increase);
@@ -984,6 +1077,18 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void ResetState()
         {
+            nextFallenPoleHitTime = float.NegativeInfinity;
+            damageFeedback?.ResetFeedback();
+            if (hazardBodyFrozen && playerRigidbody != null) playerRigidbody.isKinematic = bodyWasKinematic;
+            hazardBodyFrozen = false;
+            BulletScript.ResetStatBonus();
+            foreach (var weapon in GetComponentsInChildren<WeaponScript>(true))
+                weapon.ResetStatBonus();
+            stationaryCombatOwner = null; HoldoutAim = null;
+            highwayRoute = FindFirstObjectByType<HighwayRoute>();
+            highwayRoute?.BeginRun();
+            var slip = GetComponent<OilSteeringEffect>();
+            if (slip != null) slip.Clear();
             ClearRunHealthBonuses();
             bucketShootBlockers.Clear();
             roadHeightFollower?.CancelPitch();
@@ -994,16 +1099,24 @@ namespace IndianOceanAssets.ShooterSurvival
             winDancePlayed = false;  
             startGestureTriggered = false;
             startGestureArmed = false;
-            gameplayElapsedSeconds = 0f;
-            lastLoggedGameplaySecond = 0;
             currentForwardMoveSpeed = originalMoveSpeed;
 
             // ?좊땲硫붿씠???꾩쟾 珥덇린??DeathAnim ?덉텧)
-            if (playerAnimator)
+            RefreshSharkAnimator();
+            if (sharkAnim != null)
             {
-                RefreshSharkAnimator();
-                if (sharkAnim != null)
-                    sharkAnim.SetTrigger("Walk");
+                sharkAnim.enabled = true;
+                sharkAnim.speed = 1;
+                sharkAnim.ResetTrigger("Die");
+                sharkAnim.ResetTrigger("Walk");
+                sharkAnim.Rebind();
+                SetSharkLocomotion(TimeManager.isGameRunning && !IsStationaryCombat);
+            }
+            if (playerAnimator != null)
+            {
+                playerAnimator.enabled = true;
+                playerAnimator.SetBool("PlayerIsDead", false);
+                playerAnimator.ResetTrigger("WinDance");
             }
 
             // 踰??ъ젒珥?荑?珥덇린??
@@ -1062,6 +1175,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void ResetStatBonus()
         {
+            runMaxHealthBonus = 0f;
+            BulletScript.ResetStatBonus();
             // 泥대젰 ?먮났
             currentHealth = originalHealth;
 
@@ -1074,8 +1189,6 @@ namespace IndianOceanAssets.ShooterSurvival
                 extraHelpWeaponScript.Clear();
 
             // ?댁냽 ?먮났
-            gameplayElapsedSeconds = 0f;
-            lastLoggedGameplaySecond = 0;
             currentForwardMoveSpeed = originalMoveSpeed;
             RefreshUpgradeStats();
             PushCurrentDamageToCanvasIfChanged(force: true);
@@ -1213,6 +1326,8 @@ namespace IndianOceanAssets.ShooterSurvival
                 {
                     moveSpeed = speedValue;
                 }
+                if(EnvironmentVariableTables.TryGetFloat(PlayerSpeedVariableKey+"_"+gameObject.scene.name,out var chapterSpeed)
+                    && chapterSpeed>=0f && !float.IsInfinity(chapterSpeed))moveSpeed=chapterSpeed;
 
                 bool hasMissileSpeed = EnvironmentVariableTables.TryGetFloat(
                     MissileSpeedVariableKey,
@@ -1269,19 +1384,6 @@ namespace IndianOceanAssets.ShooterSurvival
             characterDefaultsInitialized = true;
         }
 
-        private void UpdateGameplayTimeDebug()
-        {
-            if (isDead || CanvasScript.isGameOver || winDancePlayed)
-                return;
-
-            gameplayElapsedSeconds += Time.fixedDeltaTime * Mathf.Max(0f, TimeManager.timeFactor);
-            int currentSecond = Mathf.FloorToInt(gameplayElapsedSeconds);
-            if (currentSecond <= 0 || currentSecond == lastLoggedGameplaySecond)
-                return;
-
-            lastLoggedGameplaySecond = currentSecond;
-            Debug.Log($"[PlayerScript] Play time: {currentSecond}s");
-        }
 
 
 

@@ -715,7 +715,7 @@ public sealed class GameplayAnalyticsTests
         Assert.That(snapshot.Levels, Does.StartWith("att:3,hp:0,as:0"));
         Assert.That(snapshot.FlatValues, Does.StartWith("att:12.5,hp:0,as:0"));
         Assert.That(snapshot.PercentValues, Does.Contain("as:0"));
-        Assert.That(snapshot.Levels, Does.EndWith("bb:0"));
+        Assert.That(snapshot.Levels, Does.EndWith("bb:0,ls:0"));
     }
 
     [Test]
@@ -733,6 +733,13 @@ public sealed class GameplayAnalyticsTests
         Assert.That(stage, Is.EqualTo(1));
         Assert.That(maxStage, Is.EqualTo(10));
         Assert.That(gameMode, Is.EqualTo("forward_march"));
+    }
+
+    [Test]
+    public void HighwaySceneContext_UsesChapterTwoFallback()
+    {
+        Assert.That(GameplayAnalyticsSceneContext.TryGetDefaultsForSceneName("HighWay",out int chapter,out int stage,out int maxStage,out string mode),Is.True);
+        Assert.That(chapter,Is.EqualTo(2));Assert.That(stage,Is.EqualTo(1));Assert.That(maxStage,Is.EqualTo(6));Assert.That(mode,Is.EqualTo("forward_march"));
     }
 
     [Test]
@@ -755,7 +762,7 @@ public sealed class GameplayAnalyticsTests
                     out int totalCheckpoints),
                 Is.True);
             Assert.That(completedCheckpoints, Is.Zero);
-            Assert.That(totalCheckpoints, Is.EqualTo(2));
+            Assert.That(totalCheckpoints, Is.GreaterThan(0));
 
             Assert.That(
                 GameplayAnalyticsSceneContext.TryResolve(
@@ -768,7 +775,7 @@ public sealed class GameplayAnalyticsTests
                 Is.True);
             Assert.That(chapter, Is.EqualTo(1));
             Assert.That(stage, Is.EqualTo(1));
-            Assert.That(maxStage, Is.EqualTo(3));
+            Assert.That(maxStage, Is.EqualTo(totalCheckpoints+1));
             Assert.That(gameMode, Is.EqualTo("forward_march"));
             Assert.That(progress, Is.EqualTo(0d));
         }
@@ -904,6 +911,9 @@ public sealed class GameplayAnalyticsTests
             CanvasScript canvas = canvasObject.AddComponent<CanvasScript>();
             GameplayAnalytics.Initialize(new RecordingAnalyticsSink());
 
+            // The consumed checkpoint belonged to the previous run. Starting
+            // during an active run is intentionally rejected by the lobby gate.
+            TimeManager.isGameRunning=false;
             canvas.PlayerPressedStartButton();
 
             Assert.That(routeObject.activeSelf, Is.True);

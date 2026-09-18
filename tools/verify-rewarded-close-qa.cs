@@ -1,0 +1,14 @@
+var ads=IndianOceanAssets.ShooterSurvival.Ads.RewardedAdsService.Instance;
+var defeat=UnityEngine.Object.FindFirstObjectByType<DefeatPresentation>();
+var close=UnityEngine.Object.FindObjectsByType<UnityEngine.UI.Button>(UnityEngine.FindObjectsSortMode.None).Single(b=>b.name=="Button"&&b.transform.parent.name=="Ad");
+close.onClick.Invoke();
+double deadline=UnityEditor.EditorApplication.timeSinceStartup+1;
+UnityEditor.EditorApplication.CallbackFunction tick=null;
+tick=()=>{if(UnityEditor.EditorApplication.timeSinceStartup<deadline)return;
+ int coins=MoneyScript.S.Coin;defeat.WatchRewardedVideo();
+ var report=new {coins,before=int.Parse(System.IO.File.ReadAllText("tmp/qa-proof/chapter-ui-final-v3/ad-before.txt")),expectedReward=90,duplicateIgnored=MoneyScript.S.Coin==coins,showing=ads.Showing,continueEnabled=defeat.continueButton.interactable};
+ var serialize=System.AppDomain.CurrentDomain.GetAssemblies().First(a=>a.GetName().Name=="Newtonsoft.Json").GetType("Newtonsoft.Json.JsonConvert").GetMethod("SerializeObject",new[]{typeof(object)});
+ System.IO.File.WriteAllText("tmp/qa-proof/chapter-ui-final-v3/ad-earned.json",(string)serialize.Invoke(null,new object[]{report}));
+ UnityEditor.EditorApplication.update-=tick;
+};
+UnityEditor.EditorApplication.update+=tick;return "Checking closed state after the SDK callback queue drains";

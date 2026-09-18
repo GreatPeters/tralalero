@@ -1,0 +1,17 @@
+﻿{
+  "success": true,
+  "command": "command test_status",
+  "data": {
+    "command": "test_status",
+    "parameters": {},
+    "result": "{\r\n  \"status\": \"completed\",\r\n  \"duration\": 1.62,\r\n  \"summary\": {\r\n    \"total\": 10,\r\n    \"passed\": 9,\r\n    \"failed\": 1,\r\n    \"skipped\": 0,\r\n    \"inconclusive\": 0\r\n  },\r\n  \"results\": [\r\n    {\r\n      \"FullName\": \"HarborRefinementTests.AudioFocusToleratesPartiallyDestroyedChannels\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.0069361,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"HarborRefinementTests.FontPresetsUseTheCurrentAtlasWithoutExtraWeight\",\r\n      \"Status\": \"Failed\",\r\n      \"Duration\": 0.0042549,\r\n      \"Message\": \"  Expected: same as <Gmarket Sans TTF - Bold Atlas (UnityEngine.Texture2D)>\\r\\n  But was:  <Gmarket Sans TTF - Bold Atlas (UnityEngine.Texture2D)>\\r\\n\",\r\n      \"StackTrace\": \"at HarborRefinementTests.FontPresetsUseTheCurrentAtlasWithoutExtraWeight () [0x0005c] in C:\\\\Users\\\\ljh\\\\tralalero Shooter\\\\Assets\\\\Tests\\\\Editor\\\\HarborRefinementTests.cs:72\\r\\n\"\r\n    },\r\n    {\r\n      \"FullName\": \"HarborRefinementTests.PairedEnemiesHaveTenToTwentyPercentDifferentHealth\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.0564134,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"HarborRefinementTests.PreviousSceneUsesThePrecedingBoundary(0,0)\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.0003789,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"HarborRefinementTests.PreviousSceneUsesThePrecedingBoundary(1,0)\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 5.81E-05,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"HarborRefinementTests.PreviousSceneUsesThePrecedingBoundary(2,1)\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 4.49E-05,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"HarborRefinementTests.PreviousSceneUsesThePrecedingBoundary(3,2)\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 4.2E-05,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"HarborRefinementTests.RefinedScreensAndBonusCuesAreSaved(\\\"Noryangjin_MapTool_Mode_SR18\\\")\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.6287718,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"HarborRefinementTests.RefinedScreensAndBonusCuesAreSaved(\\\"HighWay\\\")\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.499116,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"HarborRefinementTests.RefinedScreensAndBonusCuesAreSaved(\\\"RestStop\\\")\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.3715864,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    }\r\n  ]\r\n}",
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7801,
+      "projectPath": "C:\\Users\\ljh\\tralalero Shooter"
+    },
+    "success": true
+  },
+  "errors": [],
+  "warnings": []
+}

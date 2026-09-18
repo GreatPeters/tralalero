@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2660571682143751433}
   - component: {fileID: 3830795747877741581}
   - component: {fileID: 4278837998962792084}
+  - component: {fileID: 7896207325259057897}
   m_Layer: 0
   m_Name: Enemy_Woman
   m_TagString: EnemyTag
@@ -57,7 +58,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.63
+  m_Radius: 0.82
   m_Height: 2.9
   m_Direction: 1
   m_Center: {x: -0.04, y: 1.16, z: 0}
@@ -75,8 +76,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 540a5d24ed1af08488d38a3679c240cb, type: 2}
   bonusWall: {fileID: 2043384531407714870, guid: 7bc4493fbc8ad4348bab6c61730917b1, type: 3}
+  dropBonusAltar: 1
+  placementCoinReward: -1
   heldProjectile: {fileID: 0}
   throwPoint: {fileID: 0}
+  hideHeldProjectile: 0
   throwRange: 7
   throwSpeed: 12
   throwReleaseDelay: 2
@@ -191,9 +195,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::IndianOceanAssets.ShooterSurvival.EnemyMovementController
   eventMode: 0
   moveSpeed: 2
+  patrolAcrossRoad: 0
   moveAnimation: 0
   targetPoint: {fileID: 0}
+  hideWhileWaiting: 1
+  ambushEntrySide: 0
+  modelForwardYaw: 0
   arrivalDistance: 0.05
+--- !u!114 &7896207325259057897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6434442862553050332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b1bd73864b81a941af8e827e45428af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHitboxSize
+  body: {fileID: 7997512390416334186}
+  captured: 1
+  originalRadius: 0.63
+  originalSize: {x: 0, y: 0, z: 0}
 --- !u!1 &7758117552189074025
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,8 +285,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 999
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: cde872c89765c7e49b9aa4eed882b6ce, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 0b47ffacf7216a146951ab69c7764af5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -286,12 +310,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 0.8
+  m_fontSize: 0.64000005
   m_fontSizeBase: 0.4
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 0.4
-  m_fontSizeMax: 0.8
+  m_fontSizeMin: 0.416
+  m_fontSizeMax: 0.64000005
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -309,7 +333,7 @@ MonoBehaviour:
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 0
   m_ActiveFontFeatures: 6e72656b
-  m_enableExtraPadding: 0
+  m_enableExtraPadding: 1
   checkPaddingRequired: 0
   m_isRichText: 1
   m_EmojiFallbackSupport: 1

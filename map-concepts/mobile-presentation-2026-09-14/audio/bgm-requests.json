@@ -1,0 +1,23 @@
+{
+  "engine": "C:\\AI\\StableAudio3\\optimized\\tflite",
+  "model": "sm-music",
+  "decoder": "same-s",
+  "precision": "fp32",
+  "seconds": 64,
+  "steps": 8,
+  "cfg": 1.5,
+  "threads": 8,
+  "reference_recording_used": false,
+  "jobs": [
+    {
+      "name": "a_midnight_tide",
+      "seed": 26091401,
+      "prompt": "Instrumental soundtrack for a whimsical spooky cartoon arcade game, 75 BPM, gentle eerie music box and soft celesta, slightly detuned felt piano, a memorable original minor-key melody, quiet rounded plucked bass, subtle brushed percussion, mysterious and mischievous rather than frightening, nostalgic toy theatre, warm low end, spacious but clear mix, steady looping groove, no big finale"
+    },
+    {
+      "name": "b_ghost_arcade",
+      "seed": 26091402,
+      "prompt": "Instrumental playful dark arcade soundtrack, 90 BPM, quirky pizzicato strings and delicate glass bells, muted electric piano, gentle analog bass, a catchy original chromatic minor-key motif, restrained dry rim clicks and soft shakers, curious haunted seaside carnival atmosphere, cute and sneaky, understated tension, clean game background mix, consistent rhythm suitable for looping, no big finale"
+    }
+  ]
+}

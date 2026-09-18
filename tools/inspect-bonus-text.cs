@@ -1,0 +1,2 @@
+using System;using System.Linq;using UnityEditor;using UnityEngine;using TMPro;using IndianOceanAssets.ShooterSurvival;
+public static class InspectBonusText {public static object Main(){var a=UnityEngine.Object.FindObjectsByType<AuthoredBonusWall>(FindObjectsInactive.Include,FindObjectsSortMode.None).First();return string.Join("\n",a.GetComponentsInChildren<TMP_Text>(true).Select(t=>t.name+" size="+t.fontSize+" rect="+t.rectTransform.rect+" scale="+t.transform.lossyScale+" pos="+t.rectTransform.anchoredPosition+" text="+t.text));}}

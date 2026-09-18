@@ -80,7 +80,11 @@ public static class CosmeticService
             if (current == null || !ReferenceEquals(catalog, rows))
             {
                 catalog = rows; current = new CosmeticInventory(rows, new PrefsStorage(), new GameWallet());
-                current.Changed += () => Changed?.Invoke();
+                current.Changed += () => {
+                    if (!IndianOceanAssets.ShooterSurvival.TimeManager.isGameRunning)
+                        EquipmentRunEffects.Apply(current, UpgradeStatManager.S);
+                    Changed?.Invoke();
+                };
             }
             return current;
         }

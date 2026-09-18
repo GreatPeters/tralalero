@@ -1,0 +1,5 @@
+# Shop header
+
+Mode: built-in imagegen, reference-guided generation. Output: `Assets/ShooterSurvival/UI/CoastalFaithful/ShopHeader.png`.
+
+Production transparent PNG mobile game shop HEADER BAR, front-on, wide landscape ratio 8:1. Match exactly the blue shop title header in the supplied reference. Glossy dark navy blue painted wood/enamel center, slim bright cobalt-blue beveled frame, silver corner bolts, subtly textured horizontal navy woodgrain. Small white anchor emblem centered at x=15%, with a short white rope to its LEFT near the far left edge; short white rope at x=75% to 86%. Large clear EMPTY navy center for runtime Korean title. Four gently chamfered or rounded corners, not broad octagonal corners. Header fills canvas with minimal transparent margin. NO text, NO lettering, NO close button, NO background scene, NO coin, NO currency. Need only isolated reusable long header panel with its anchor/rope decorations. Keep ends and decorations inside 20% widths, middle 50% blank. Exact matching cobalt/cream harbor mobile game illustration quality.

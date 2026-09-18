@@ -8,6 +8,20 @@ public static class UpgradeTables
 
     private static Dictionary<int, Dictionary<int, UpgradeRow>> _map;
 
+    public static IEnumerable<int> Ids
+    {
+        get { EnsureInit(); return _map.Keys; }
+    }
+
+    public static int MaxLevel(int id)
+    {
+        EnsureInit();
+        if (!_map.TryGetValue(id, out var levels)) return 0;
+        int maximum = 0;
+        foreach (int level in levels.Keys) if (level > maximum) maximum = level;
+        return maximum;
+    }
+
     private static void EnsureInit()
     {
         if (_map != null) return;

@@ -12,6 +12,16 @@ namespace IndianOceanAssets.ShooterSurvival
         [SerializeField] private Sprite toggleOnSprite;
         [SerializeField] private Sprite toggleOffSprite;
         [SerializeField] private Color toggleColor = Color.white;
+        [SerializeField] private TMPro.TMP_Text soundStateText;
+        [SerializeField] private TMPro.TMP_Text vibrationStateText;
+
+        public void ConfigureMobile(Button sound, Button vibration, TMPro.TMP_Text soundLabel, TMPro.TMP_Text vibrationLabel)
+        {
+            soundToggleButton = sound; vibrationToggleButton = vibration;
+            soundToggleImage = sound.targetGraphic as Image; vibrationToggleImage = vibration.targetGraphic as Image;
+            soundStateText = soundLabel; vibrationStateText = vibrationLabel;
+            toggleOnSprite = toggleOffSprite = null;
+        }
 
         private void Awake()
         {
@@ -54,7 +64,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (vibrationToggleImage == null && vibrationToggleButton != null)
                 vibrationToggleImage = vibrationToggleButton.GetComponent<Image>();
 
-            if (toggleOnSprite == null)
+            if (toggleOnSprite == null && soundStateText == null)
             {
                 if (soundToggleImage != null)
                     toggleOnSprite = soundToggleImage.sprite;
@@ -85,6 +95,19 @@ namespace IndianOceanAssets.ShooterSurvival
 
             bool soundOn = SettingsManager.Instance.soundEnabled;
             bool vibrationOn = SettingsManager.Instance.vibrationEnabled;
+
+            if (soundStateText != null && vibrationStateText != null)
+            {
+                soundStateText.text = soundOn ? "소리 켜짐" : "소리 꺼짐";
+                vibrationStateText.text = vibrationOn ? "진동 켜짐" : "진동 꺼짐";
+                var theme = GameUITheme.Current;
+                if (theme != null)
+                {
+                    if (soundToggleImage != null) soundToggleImage.color = soundOn ? theme.primary : theme.card;
+                    if (vibrationToggleImage != null) vibrationToggleImage.color = vibrationOn ? theme.primary : theme.card;
+                }
+                return;
+            }
 
             if (soundToggleImage != null)
             {

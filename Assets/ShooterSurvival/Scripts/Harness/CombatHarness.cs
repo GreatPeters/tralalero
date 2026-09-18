@@ -12,6 +12,7 @@ namespace IndianOceanAssets.ShooterSurvival
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void Bootstrap()
         {
+            if (!Application.isEditor && !Debug.isDebugBuild) return;
             EnsureHarnessInstance();
         }
 
@@ -45,6 +46,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void Awake()
         {
+            if (!Application.isEditor && !Debug.isDebugBuild) { enabled = false; return; }
             RefreshReferences();
             if (verboseStartupLog)
                 LogHarness($"Initialized. hotkeys={hotkeysEnabled}, overlay={overlayVisible}, scene={gameObject.scene.name}");

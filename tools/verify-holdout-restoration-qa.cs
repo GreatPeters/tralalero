@@ -1,0 +1,10 @@
+if(!UnityEditor.EditorApplication.isPlaying)throw new System.InvalidOperationException("Completed QA Play Mode required");
+var h=UnityEngine.Object.FindFirstObjectByType<RestStopHoldout>();var p=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.PlayerScript>();
+var flags=System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance;
+var cameraPosition=(UnityEngine.Vector3)typeof(RestStopHoldout).GetField("cameraPosition",flags).GetValue(h);
+var cameraRotation=(UnityEngine.Quaternion)typeof(RestStopHoldout).GetField("cameraRotation",flags).GetValue(h);
+var cam=UnityEngine.Camera.main;
+if(!h.Completed||h.Active||p.IsStationaryCombat||h.police.Any(e=>e.gameObject.activeSelf))throw new System.InvalidOperationException("Encounter state was not released");
+float positionError=UnityEngine.Vector3.Distance(cam.transform.localPosition,cameraPosition);float angleError=UnityEngine.Quaternion.Angle(cam.transform.localRotation,cameraRotation);
+if(positionError>.001f||angleError>.01f)throw new System.InvalidOperationException("Camera not restored");
+return new{completed=h.Completed,policeInactive=true,movementReleased=true,cameraPositionError=positionError,cameraAngleError=angleError,doorCounts=h.SpawnedByDoor};

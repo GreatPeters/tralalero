@@ -1,0 +1,97 @@
+{
+  "status": "completed",
+  "duration": 0.17,
+  "summary": {
+    "total": 12,
+    "passed": 11,
+    "failed": 1,
+    "skipped": 0,
+    "inconclusive": 0
+  },
+  "results": [
+    {
+      "FullName": "Sr18CombatPolishTests.BucketAttachment_OpeningFacesDownOnScaledTurningPlayer(0.0f)",
+      "Status": "Passed",
+      "Duration": 0.0124382,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.BucketAttachment_OpeningFacesDownOnScaledTurningPlayer(90.0f)",
+      "Status": "Passed",
+      "Duration": 0.000407,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.ExactFacing_IgnoresPlacementHalfTurnAndTracksLateralPlayer",
+      "Status": "Passed",
+      "Duration": 0.0063455,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.Helper_FollowsEveryCornerWithoutDiagonalShortcuts",
+      "Status": "Passed",
+      "Duration": 0.0029487,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.OverlappingBuckets_ReleaseOnlyTheirOwnShootBlock",
+      "Status": "Passed",
+      "Duration": 0.0004241,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.PlacementCombat_AcceptsExplicitTierAndStats(0.0f,1.0f,Normal)",
+      "Status": "Passed",
+      "Duration": 0.0020797,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.PlacementCombat_AcceptsExplicitTierAndStats(43.0f,72.0f,Elite)",
+      "Status": "Passed",
+      "Duration": 0.0001417,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.PlacementCombat_RejectsInvalidValues(float.NaN,10.0f)",
+      "Status": "Passed",
+      "Duration": 0.0018711,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.PlacementCombat_RejectsInvalidValues(10.0f,0.0f)",
+      "Status": "Passed",
+      "Duration": 0.0001268,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.PlacementCombat_RejectsInvalidValues(-1.0f,20.0f)",
+      "Status": "Passed",
+      "Duration": 0.0001097,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.PlacementCombat_RejectsInvalidValues(10.0f,float.PositiveInfinity)",
+      "Status": "Passed",
+      "Duration": 0.0001105,
+      "Message": null,
+      "StackTrace": null
+    },
+    {
+      "FullName": "Sr18CombatPolishTests.Workbook_AllEnemyRowsOwnCombatStats",
+      "Status": "Failed",
+      "Duration": 0.0929354,
+      "Message": "  Expected: 27\r\n  But was:  50\r\n",
+      "StackTrace": "at Sr18CombatPolishTests.Workbook_AllEnemyRowsOwnCombatStats () [0x0003c] in C:\\Users\\ljh\\tralalero Shooter\\Assets\\Tests\\Editor\\Sr18CombatPolishTests.cs:102\r\n"
+    }
+  ]
+}

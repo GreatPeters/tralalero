@@ -1,0 +1,37 @@
+﻿{
+  "success": true,
+  "command": "command get_console_logs",
+  "data": {
+    "command": "get_console_logs",
+    "parameters": {
+      "severity": "error",
+      "limit": "10"
+    },
+    "result": {
+      "total": 2,
+      "returned": 2,
+      "logs": [
+        {
+          "type": "Error",
+          "message": "Failed to handle /api/exec request: Main thread operation timed out after 30000ms",
+          "stackTrace": "",
+          "timestampUtc": "2026-09-16T01:59:19.0779274Z"
+        },
+        {
+          "type": "Error",
+          "message": "Failed to handle /api/exec request: Main thread operation timed out after 5000ms",
+          "stackTrace": "",
+          "timestampUtc": "2026-09-16T01:58:49.0190873Z"
+        }
+      ]
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7801,
+      "projectPath": "C:\\Users\\ljh\\tralalero Shooter"
+    },
+    "success": true
+  },
+  "errors": [],
+  "warnings": []
+}

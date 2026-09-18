@@ -1024,7 +1024,7 @@ public sealed class NoryangjinMapToolGridUtilityTests
     [Test]
     public void KoreanWindowTitle_IsUsedForReadableEditorUi()
     {
-        Assert.That(NoryangjinMapToolWindow.KoreanWindowTitle, Is.EqualTo("노량진 맵툴"));
+        Assert.That(NoryangjinMapToolWindow.KoreanWindowTitle, Is.EqualTo("맵 툴"));
     }
 
     [Test]

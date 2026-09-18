@@ -1,0 +1,18 @@
+if(!UnityEditor.EditorApplication.isPlaying||!UnityEngine.Application.dataPath.Replace('\\','/').Contains("/tmp/q/"))throw new System.InvalidOperationException("QA Play Mode required");
+if(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name!="HighWay")throw new System.InvalidOperationException("Highway required");
+OpeningStoryUI.Instance?.Skip();
+var canvas=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.CanvasScript>();canvas.PlayerPressedStartButton();
+var player=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.PlayerScript>();
+int before=MoneyScript.S.Coin;
+var near=IndianOceanAssets.ShooterSurvival.CoinPickup.Spawn(player.transform.position+player.transform.right*3,37);
+var far=IndianOceanAssets.ShooterSurvival.CoinPickup.Spawn(player.transform.position+player.transform.right*6,41);
+var high=IndianOceanAssets.ShooterSurvival.CoinPickup.Spawn(player.transform.position+UnityEngine.Vector3.up*5,43);
+double end=UnityEditor.EditorApplication.timeSinceStartup+.3;
+UnityEditor.EditorApplication.CallbackFunction tick=null;
+tick=()=>{if(UnityEditor.EditorApplication.timeSinceStartup<end)return;
+ var report=new{before,after=MoneyScript.S.Coin,nearCollected=near==null,farPreserved=far!=null,otherFloorPreserved=high!=null,paidExactlyOnce=MoneyScript.S.Coin==before+37};
+ var serialize=System.AppDomain.CurrentDomain.GetAssemblies().First(a=>a.GetName().Name=="Newtonsoft.Json").GetType("Newtonsoft.Json.JsonConvert").GetMethod("SerializeObject",new[]{typeof(object)});
+ System.IO.File.WriteAllText("map-concepts/chapters-polish-2026-09-12/coin-collection-verification.json",(string)serialize.Invoke(null,new object[]{report}));
+ if(near!=null)UnityEngine.Object.Destroy(near.gameObject);if(far!=null)UnityEngine.Object.Destroy(far.gameObject);if(high!=null)UnityEngine.Object.Destroy(high.gameObject);
+ UnityEditor.EditorApplication.update-=tick;};
+UnityEditor.EditorApplication.update+=tick;return new{before};

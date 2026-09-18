@@ -1,0 +1,836 @@
+{
+  "scene": "HighWay",
+  "backup": "tmp/backups/skins-progression-2026-09-12/before-encounters-HighWay.unity",
+  "enemyCount": 50,
+  "pairCount": 25,
+  "gimmickStations": 25,
+  "copies": [
+    {
+      "id": "HWY_AddedLeader_1",
+      "sourceId": "HWY_E01_ConeMechanic"
+    },
+    {
+      "id": "HWY_AddedLeader_2",
+      "sourceId": "HWY_E02_TrafficPatrol"
+    },
+    {
+      "id": "HWY_E01_ConeMechanic_Right",
+      "sourceId": "HWY_E01_ConeMechanic"
+    },
+    {
+      "id": "HWY_E02_TrafficPatrol_Right",
+      "sourceId": "HWY_E02_TrafficPatrol"
+    },
+    {
+      "id": "HWY_E03_TollgateChief_Right",
+      "sourceId": "HWY_E03_TollgateChief"
+    },
+    {
+      "id": "HWY_E04_TireBruiser_Right",
+      "sourceId": "HWY_E04_TireBruiser"
+    },
+    {
+      "id": "HWY_E05_AsphaltWorker_Right",
+      "sourceId": "HWY_E05_AsphaltWorker"
+    },
+    {
+      "id": "HWY_E06_DeliveryRider_Right",
+      "sourceId": "HWY_E06_DeliveryRider"
+    },
+    {
+      "id": "HWY_E07_ConeMechanic_Right",
+      "sourceId": "HWY_E07_ConeMechanic"
+    },
+    {
+      "id": "HWY_E08_TrafficPatrol_Right",
+      "sourceId": "HWY_E08_TrafficPatrol"
+    },
+    {
+      "id": "HWY_E09_TollgateChief_Right",
+      "sourceId": "HWY_E09_TollgateChief"
+    },
+    {
+      "id": "HWY_E10_TireBruiser_Right",
+      "sourceId": "HWY_E10_TireBruiser"
+    },
+    {
+      "id": "HWY_E11_AsphaltWorker_Right",
+      "sourceId": "HWY_E11_AsphaltWorker"
+    },
+    {
+      "id": "HWY_E12_DeliveryRider_Right",
+      "sourceId": "HWY_E12_DeliveryRider"
+    },
+    {
+      "id": "HWY_E13_ConeMechanic_Right",
+      "sourceId": "HWY_E13_ConeMechanic"
+    },
+    {
+      "id": "HWY_E14_TrafficPatrol_Right",
+      "sourceId": "HWY_E14_TrafficPatrol"
+    },
+    {
+      "id": "HWY_E15_TollgateChief_Right",
+      "sourceId": "HWY_E15_TollgateChief"
+    },
+    {
+      "id": "HWY_E16_TireBruiser_Right",
+      "sourceId": "HWY_E16_TireBruiser"
+    },
+    {
+      "id": "HWY_E17_AsphaltWorker_Right",
+      "sourceId": "HWY_E17_AsphaltWorker"
+    },
+    {
+      "id": "HWY_E18_DeliveryRider_Right",
+      "sourceId": "HWY_E18_DeliveryRider"
+    },
+    {
+      "id": "HWY_E19_ConeMechanic_Right",
+      "sourceId": "HWY_E19_ConeMechanic"
+    },
+    {
+      "id": "HWY_E20_TrafficPatrol_Right",
+      "sourceId": "HWY_E20_TrafficPatrol"
+    },
+    {
+      "id": "HWY_E21_TollgateChief_Right",
+      "sourceId": "HWY_E21_TollgateChief"
+    },
+    {
+      "id": "HWY_E22_TireBruiser_Right",
+      "sourceId": "HWY_E22_TireBruiser"
+    },
+    {
+      "id": "HWY_AddedLeader_1_Right",
+      "sourceId": "HWY_AddedLeader_1"
+    },
+    {
+      "id": "HWY_AddedLeader_2_Right",
+      "sourceId": "HWY_AddedLeader_2"
+    },
+    {
+      "id": "HWY_E23_TollgateChief_Right",
+      "sourceId": "HWY_E23_TollgateChief"
+    }
+  ],
+  "gimmicks": [
+    {
+      "id": "HWY_G01_Roadblock",
+      "station": 1,
+      "distance": 119.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_G02_Roadblock",
+      "station": 2,
+      "distance": 209.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_G03_Roadblock",
+      "station": 3,
+      "distance": 299.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_G04_Roadblock",
+      "station": 4,
+      "distance": 389.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_G05_Roadblock",
+      "station": 5,
+      "distance": 496.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_G06_Roadblock",
+      "station": 6,
+      "distance": 569.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_G07_Roadblock",
+      "station": 7,
+      "distance": 659.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_G08_Roadblock",
+      "station": 8,
+      "distance": 756.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_G09_Roadblock",
+      "station": 9,
+      "distance": 839.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_G10_Roadblock",
+      "station": 10,
+      "distance": 929.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_G11_Roadblock",
+      "station": 11,
+      "distance": 1019.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_G12_Roadblock",
+      "station": 12,
+      "distance": 1109.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_G13_Roadblock",
+      "station": 13,
+      "distance": 1199.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_G14_Roadblock",
+      "station": 14,
+      "distance": 1296.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_G15_Traffic",
+      "station": 15,
+      "distance": 1379.0,
+      "pattern": "HighwayTraffic"
+    },
+    {
+      "id": "HWY_TollStation_1",
+      "station": 16,
+      "distance": 1490.0,
+      "pattern": "HighwayToll",
+      "memberIds": [
+        "HWY_G21_Toll_L0",
+        "HWY_G22_Toll_L1",
+        "HWY_G23_Toll_L2"
+      ]
+    },
+    {
+      "id": "HWY_G16_Traffic",
+      "station": 17,
+      "distance": 1562.0,
+      "pattern": "HighwayTraffic"
+    },
+    {
+      "id": "HWY_G17_Traffic",
+      "station": 18,
+      "distance": 1656.0,
+      "pattern": "HighwayTraffic"
+    },
+    {
+      "id": "HWY_TollStation_2",
+      "station": 19,
+      "distance": 1770.0,
+      "pattern": "HighwayToll",
+      "memberIds": [
+        "HWY_G24_Toll_L0",
+        "HWY_G25_Toll_L1",
+        "HWY_G26_Toll_L2"
+      ]
+    },
+    {
+      "id": "HWY_G18_Traffic",
+      "station": 20,
+      "distance": 1842.0,
+      "pattern": "HighwayTraffic"
+    },
+    {
+      "id": "HWY_G19_Traffic",
+      "station": 21,
+      "distance": 1918.0,
+      "pattern": "HighwayTraffic"
+    },
+    {
+      "id": "HWY_TollStation_3",
+      "station": 22,
+      "distance": 1990.0,
+      "pattern": "HighwayToll",
+      "memberIds": [
+        "HWY_G27_Toll_L0",
+        "HWY_G28_Toll_L1",
+        "HWY_G29_Toll_L2"
+      ]
+    },
+    {
+      "id": "HWY_G20_Traffic",
+      "station": 23,
+      "distance": 2114.0,
+      "pattern": "HighwayTraffic"
+    },
+    {
+      "id": "HWY_AddedRoadblock_1",
+      "station": 24,
+      "distance": 2189.0,
+      "pattern": "HighwayRoadblock"
+    },
+    {
+      "id": "HWY_AddedRoadblock_2",
+      "station": 25,
+      "distance": 2279.0,
+      "pattern": "HighwayRoadblock"
+    }
+  ],
+  "placements": [
+    {
+      "id": "HWY_E01_ConeMechanic",
+      "station": 1,
+      "kind": "enemy",
+      "distance": 65.0,
+      "lead": 42.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_E01_ConeMechanic_Right",
+      "station": 1,
+      "kind": "enemy",
+      "distance": 65.0,
+      "lead": 42.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_E02_TrafficPatrol",
+      "station": 2,
+      "kind": "enemy",
+      "distance": 155.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E02_TrafficPatrol_Right",
+      "station": 2,
+      "kind": "enemy",
+      "distance": 155.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E03_TollgateChief",
+      "station": 3,
+      "kind": "enemy",
+      "distance": 245.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E03_TollgateChief_Right",
+      "station": 3,
+      "kind": "enemy",
+      "distance": 245.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E04_TireBruiser",
+      "station": 4,
+      "kind": "enemy",
+      "distance": 335.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E04_TireBruiser_Right",
+      "station": 4,
+      "kind": "enemy",
+      "distance": 335.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E05_AsphaltWorker",
+      "station": 5,
+      "kind": "enemy",
+      "distance": 448.0,
+      "lead": 8.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_E05_AsphaltWorker_Right",
+      "station": 5,
+      "kind": "enemy",
+      "distance": 448.0,
+      "lead": 8.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_E06_DeliveryRider",
+      "station": 6,
+      "kind": "enemy",
+      "distance": 520.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E06_DeliveryRider_Right",
+      "station": 6,
+      "kind": "enemy",
+      "distance": 520.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E07_ConeMechanic",
+      "station": 7,
+      "kind": "enemy",
+      "distance": 605.0,
+      "lead": 42.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_E07_ConeMechanic_Right",
+      "station": 7,
+      "kind": "enemy",
+      "distance": 605.0,
+      "lead": 42.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_E08_TrafficPatrol",
+      "station": 8,
+      "kind": "enemy",
+      "distance": 708.0,
+      "lead": 8.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E08_TrafficPatrol_Right",
+      "station": 8,
+      "kind": "enemy",
+      "distance": 708.0,
+      "lead": 8.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E09_TollgateChief",
+      "station": 9,
+      "kind": "enemy",
+      "distance": 785.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E09_TollgateChief_Right",
+      "station": 9,
+      "kind": "enemy",
+      "distance": 785.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E10_TireBruiser",
+      "station": 10,
+      "kind": "enemy",
+      "distance": 875.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E10_TireBruiser_Right",
+      "station": 10,
+      "kind": "enemy",
+      "distance": 875.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E11_AsphaltWorker",
+      "station": 11,
+      "kind": "enemy",
+      "distance": 965.0,
+      "lead": 42.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_E11_AsphaltWorker_Right",
+      "station": 11,
+      "kind": "enemy",
+      "distance": 965.0,
+      "lead": 42.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_E12_DeliveryRider",
+      "station": 12,
+      "kind": "enemy",
+      "distance": 1055.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E12_DeliveryRider_Right",
+      "station": 12,
+      "kind": "enemy",
+      "distance": 1055.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E13_ConeMechanic",
+      "station": 13,
+      "kind": "enemy",
+      "distance": 1145.0,
+      "lead": 42.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_E13_ConeMechanic_Right",
+      "station": 13,
+      "kind": "enemy",
+      "distance": 1145.0,
+      "lead": 42.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_E14_TrafficPatrol",
+      "station": 14,
+      "kind": "enemy",
+      "distance": 1248.0,
+      "lead": 8.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E14_TrafficPatrol_Right",
+      "station": 14,
+      "kind": "enemy",
+      "distance": 1248.0,
+      "lead": 8.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E15_TollgateChief",
+      "station": 15,
+      "kind": "enemy",
+      "distance": 1325.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E15_TollgateChief_Right",
+      "station": 15,
+      "kind": "enemy",
+      "distance": 1325.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E16_TireBruiser",
+      "station": 16,
+      "kind": "enemy",
+      "distance": 1415.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E16_TireBruiser_Right",
+      "station": 16,
+      "kind": "enemy",
+      "distance": 1415.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E17_AsphaltWorker",
+      "station": 17,
+      "kind": "enemy",
+      "distance": 1514.0,
+      "lead": 42.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_E17_AsphaltWorker_Right",
+      "station": 17,
+      "kind": "enemy",
+      "distance": 1514.0,
+      "lead": 42.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_E18_DeliveryRider",
+      "station": 18,
+      "kind": "enemy",
+      "distance": 1608.0,
+      "lead": 8.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E18_DeliveryRider_Right",
+      "station": 18,
+      "kind": "enemy",
+      "distance": 1608.0,
+      "lead": 8.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E19_ConeMechanic",
+      "station": 19,
+      "kind": "enemy",
+      "distance": 1685.0,
+      "lead": 42.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_E19_ConeMechanic_Right",
+      "station": 19,
+      "kind": "enemy",
+      "distance": 1685.0,
+      "lead": 42.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_E20_TrafficPatrol",
+      "station": 20,
+      "kind": "enemy",
+      "distance": 1794.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E20_TrafficPatrol_Right",
+      "station": 20,
+      "kind": "enemy",
+      "distance": 1794.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E21_TollgateChief",
+      "station": 21,
+      "kind": "enemy",
+      "distance": 1866.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E21_TollgateChief_Right",
+      "station": 21,
+      "kind": "enemy",
+      "distance": 1866.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E22_TireBruiser",
+      "station": 22,
+      "kind": "enemy",
+      "distance": 1942.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E22_TireBruiser_Right",
+      "station": 22,
+      "kind": "enemy",
+      "distance": 1942.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_AddedLeader_1",
+      "station": 23,
+      "kind": "enemy",
+      "distance": 2045.0,
+      "lead": 42.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_AddedLeader_1_Right",
+      "station": 23,
+      "kind": "enemy",
+      "distance": 2045.0,
+      "lead": 42.0,
+      "move": 2.8
+    },
+    {
+      "id": "HWY_AddedLeader_2",
+      "station": 24,
+      "kind": "enemy",
+      "distance": 2138.0,
+      "lead": 38.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_AddedLeader_2_Right",
+      "station": 24,
+      "kind": "enemy",
+      "distance": 2138.0,
+      "lead": 38.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E23_TollgateChief",
+      "station": 25,
+      "kind": "enemy",
+      "distance": 2225.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_E23_TollgateChief_Right",
+      "station": 25,
+      "kind": "enemy",
+      "distance": 2225.0,
+      "lead": 42.0,
+      "move": 0.0
+    },
+    {
+      "id": "HWY_B01",
+      "station": 1,
+      "kind": "bonus",
+      "distance": 92.0
+    },
+    {
+      "id": "HWY_B02",
+      "station": 2,
+      "kind": "bonus",
+      "distance": 182.0
+    },
+    {
+      "id": "HWY_B03",
+      "station": 3,
+      "kind": "bonus",
+      "distance": 272.0
+    },
+    {
+      "id": "HWY_B04",
+      "station": 4,
+      "kind": "bonus",
+      "distance": 362.0
+    },
+    {
+      "id": "HWY_B05",
+      "station": 5,
+      "kind": "bonus",
+      "distance": 472.0
+    },
+    {
+      "id": "HWY_B06",
+      "station": 6,
+      "kind": "bonus",
+      "distance": 544.0
+    },
+    {
+      "id": "HWY_B07",
+      "station": 7,
+      "kind": "bonus",
+      "distance": 632.0
+    },
+    {
+      "id": "HWY_B08",
+      "station": 8,
+      "kind": "bonus",
+      "distance": 732.0
+    },
+    {
+      "id": "HWY_B09",
+      "station": 9,
+      "kind": "bonus",
+      "distance": 812.0
+    },
+    {
+      "id": "HWY_B10",
+      "station": 10,
+      "kind": "bonus",
+      "distance": 902.0
+    },
+    {
+      "id": "HWY_B11",
+      "station": 11,
+      "kind": "bonus",
+      "distance": 992.0
+    },
+    {
+      "id": "HWY_B12",
+      "station": 12,
+      "kind": "bonus",
+      "distance": 1082.0
+    },
+    {
+      "id": "HWY_B13",
+      "station": 13,
+      "kind": "bonus",
+      "distance": 1172.0
+    },
+    {
+      "id": "HWY_B14",
+      "station": 14,
+      "kind": "bonus",
+      "distance": 1272.0
+    },
+    {
+      "id": "HWY_B15",
+      "station": 15,
+      "kind": "bonus",
+      "distance": 1352.0
+    },
+    {
+      "id": "HWY_B16",
+      "station": 16,
+      "kind": "bonus",
+      "distance": 1442.0
+    },
+    {
+      "id": "HWY_B17",
+      "station": 17,
+      "kind": "bonus",
+      "distance": 1538.0
+    },
+    {
+      "id": "HWY_B18",
+      "station": 18,
+      "kind": "bonus",
+      "distance": 1632.0
+    },
+    {
+      "id": "HWY_B19",
+      "station": 19,
+      "kind": "bonus",
+      "distance": 1712.0
+    },
+    {
+      "id": "HWY_B20",
+      "station": 20,
+      "kind": "bonus",
+      "distance": 1818.0
+    },
+    {
+      "id": "HWY_B21",
+      "station": 21,
+      "kind": "bonus",
+      "distance": 1892.0
+    },
+    {
+      "id": "HWY_B22",
+      "station": 22,
+      "kind": "bonus",
+      "distance": 1966.0
+    },
+    {
+      "id": "HWY_B23",
+      "station": 23,
+      "kind": "bonus",
+      "distance": 2090.0
+    },
+    {
+      "id": "HWY_B24",
+      "station": 24,
+      "kind": "bonus",
+      "distance": 2162.0
+    },
+    {
+      "id": "HWY_B25",
+      "station": 25,
+      "kind": "bonus",
+      "distance": 2252.0
+    }
+  ]
+}

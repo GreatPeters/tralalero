@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7356019594095648023}
   - component: {fileID: 4288427393728409008}
   - component: {fileID: -479296784966100930}
+  - component: {fileID: 5967457687867230351}
   m_Layer: 0
   m_Name: EnemyTypeRusher
   m_TagString: EnemyTag
@@ -55,7 +56,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.15
+  m_Radius: 0.2
   m_Height: 0.67061
   m_Direction: 1
   m_Center: {x: 0, y: 0.309971, z: -0.030000001}
@@ -179,6 +180,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5967457687867230351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6115356977578382085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b1bd73864b81a941af8e827e45428af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHitboxSize
+  body: {fileID: 7356019594095648023}
+  captured: 1
+  originalRadius: 0.15
+  originalSize: {x: 0, y: 0, z: 0}
 --- !u!1 &6758086498979000692
 GameObject:
   m_ObjectHideFlags: 0

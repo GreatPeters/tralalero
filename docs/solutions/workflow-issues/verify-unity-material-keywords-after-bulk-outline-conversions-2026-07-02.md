@@ -1,7 +1,7 @@
 ---
 title: Verify Unity Material Keywords After Bulk Outline Conversions
 date: 2026-07-02
-last_updated: 2026-08-13
+last_updated: 2026-09-17
 category: docs/solutions/workflow-issues
 module: Unity Noryangjin map tooling
 problem_type: workflow_issue
@@ -134,6 +134,23 @@ Test the renderer contract separately from the material contract. The Noryangjin
 
 Do not infer the deployment renderer list from the currently visible Game view. Trace the Universal Render Pipeline assets referenced by platform and Quality settings, then inspect every Renderer Data asset they reference. A bonus-wall review caught a real gap where PC and the FlatKit example renderer were configured, but `Mobile RP.asset` had no outline feature; the material would have looked correct in-editor and lost its outline on the mobile tier.
 
-## Related
+## Follow-up: preserve authored surface data and transparent render state
+
+The 2026-09-17 Merchant/new-content pass found 174 newly authored surfaces still using Lit/Unlit or the deprecated outline shader. Use `GeneratedStylizedSurface.Apply` at the end of the relevant importers, after setting source maps and tint. An asset-only conversion leaves future authoring able to recreate inconsistent materials.
+
+Changing `material.shader` resets explicit render queue and override tags in this project. The first preservation check caught `HallClerestory` moving from queue 3000 to 2000. A focused regression subsequently caught `RenderType` changing from Transparent to Opaque. Preserve `rawRenderQueue` across shader assignment and explicitly derive `RenderType` from `_Surface`/`_AlphaClip`. Keep alpha blending, ZWrite, culling and shadow/depth pass state. The installed FlatKit shader has no `_SURFACE_TYPE_TRANSPARENT` variant; validate its blend state, queue, tags and pixels instead of requiring that URP Lit keyword.
+
+```csharp
+int queue = material.rawRenderQueue;
+material.shader = Shader.Find("FlatKit/Stylized Surface");
+material.renderQueue = queue;
+material.SetOverrideTag("RenderType", transparent ? "Transparent" : cutout ? "TransparentCutout" : "Opaque");
+```
+
+Compare all converted assets against a pre-change backup, including `_BaseMap`/`_BumpMap` references and UV transforms, `_BaseColor`, blend/depth/cull state and queue. Do not overwrite these by copying a whole reference material. All 174 passed the retained comparison. Use milder shading (0.45 threshold, 0.08 transition and a tint-relative 72% shade) to avoid the documented ramp-blackening failure. Glass and road paint omit silhouette outlines.
+
+Native checks: `GeneratedStylizedSurfaceTests` passes preservation/idempotence, the complete material manifest, and registration in Mobile, PC and FlatKit example renderers. Evidence: `map-concepts/new-content-stylized-2026-09-17/README.md`. A long apply request exceeded the CLI's 30-second wait while Unity continued saving; verify completion before retrying. The repeatable command records a 120-second request budget. Ephemeral `run_script` sees two Newtonsoft definitions in this Editor; return structured objects to the CLI instead of referencing `JsonConvert` in those scripts.
+
+## Related references
 - [Handle Inline Unity Material Keyword Lists](handle-inline-unity-material-keyword-lists-2026-05-25.md)
 - [Avoid Broad Unity MCP Asset Enumeration](avoid-broad-unity-mcp-asset-enumeration-2026-06-13.md)

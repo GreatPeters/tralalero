@@ -28,16 +28,7 @@ public static class SharkCosmeticAssets
                 source.GetBlendShapeFrameVertices(shape, frame, dv, dn, dt);
                 mesh.AddBlendShapeFrame(source.GetBlendShapeName(shape), source.GetBlendShapeFrameWeight(shape, frame), dv, dn, dt);
             }
-        var vertices = mesh.vertices; var triangles = source.triangles;
-        float cutoff = vertices.Min(v => v.y) + (vertices.Max(v => v.y) - vertices.Min(v => v.y)) * .33f;
-        var body = new List<int>(); var shoes = new List<int>();
-        for (int i = 0; i < triangles.Length; i += 3)
-        {
-            bool shoe = vertices[triangles[i]].y <= cutoff && vertices[triangles[i + 1]].y <= cutoff && vertices[triangles[i + 2]].y <= cutoff;
-            (shoe ? shoes : body).AddRange(new[] { triangles[i], triangles[i + 1], triangles[i + 2] });
-        }
-        if (shoes.Count < triangles.Length * .05f || shoes.Count > triangles.Length * .55f) throw new InvalidOperationException("Unexpected shoe partition");
-        mesh.subMeshCount = 2; mesh.SetTriangles(body, 0); mesh.SetTriangles(shoes, 1); mesh.RecalculateBounds();
+        CosmeticMeshPartition.Apply(source, mesh, renderer.bones);
         AssetDatabase.CreateAsset(mesh, Folder + "/SharkSkinAndShoes.asset");
         var catalog = ScriptableObject.CreateInstance<CosmeticVisualCatalog>(); catalog.splitSharkMesh = mesh;
         catalog.previewModel = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GetAssetPath(source));
@@ -106,7 +97,7 @@ public static class SharkCosmeticAssets
             finally { UnityEngine.Object.DestroyImmediate(root); }
         }
         catalog.entries = entries.ToArray(); AssetDatabase.CreateAsset(catalog, catalogPath); AssetDatabase.SaveAssets();
-        return new { catalogPath, bodyTriangles = body.Count / 3, shoeTriangles = shoes.Count / 3, entries = entries.Count, cutoff };
+        return new { catalogPath, bodyTriangles = mesh.GetIndexCount(0) / 3, shoeTriangles = mesh.GetIndexCount(1) / 3, entries = entries.Count };
     }
     private static void Part(GameObject root, string name, Mesh mesh, Material material, string assetName)
     {

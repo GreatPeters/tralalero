@@ -1,0 +1,1 @@
+var shop=UnityEngine.Object.FindFirstObjectByType<CosmeticShopUI>(UnityEngine.FindObjectsInactive.Include);shop.Open();shop.SelectSlot(CosmeticSlot.Skin);shop.SelectItem("skin_armor");shop.Refresh();return "Skin selected";

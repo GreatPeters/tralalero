@@ -1,0 +1,263 @@
+{
+  "variant": "A",
+  "width": 887,
+  "height": 1774,
+  "layers": [
+    {
+      "name": "WoodBacking",
+      "asset": "WoodBackground",
+      "rect": [
+        0,
+        0,
+        887,
+        1774
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "HeaderWood",
+      "asset": "A_Header",
+      "rect": [
+        0,
+        0,
+        620,
+        106
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "HeaderRightCap",
+      "asset": "A_HeaderEndcap",
+      "rect": [
+        847,
+        0,
+        40,
+        106
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "MovieSlot",
+      "asset": "MovieFramePreview",
+      "rect": [
+        20,
+        121,
+        847,
+        1409
+      ],
+      "kind": "video",
+      "aspect": 0.5628105039034776
+    },
+    {
+      "name": "MovieFrame",
+      "asset": "A_VideoFrame",
+      "rect": [
+        0,
+        102,
+        887,
+        1446
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "CaptionShade",
+      "asset": "SubtitleGradient",
+      "rect": [
+        21,
+        1235,
+        845,
+        292
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "CaptionDivider",
+      "asset": "CaptionDivider",
+      "rect": [
+        71,
+        1350,
+        390,
+        22
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "StoryCounter",
+      "kind": "text",
+      "text": "이야기 01 / 04",
+      "rect": [
+        60,
+        25,
+        465,
+        70
+      ],
+      "fontSize": 43,
+      "color": "#FFF1CC",
+      "align": "left",
+      "outline": 0
+    },
+    {
+      "name": "SkipButton",
+      "asset": "A_SkipButton",
+      "rect": [
+        623,
+        16,
+        225,
+        85
+      ],
+      "kind": "button"
+    },
+    {
+      "name": "SkipLabel",
+      "kind": "text",
+      "text": "건너뛰기",
+      "rect": [
+        650,
+        29,
+        173,
+        57
+      ],
+      "fontSize": 30,
+      "color": "#FFF1CC",
+      "align": "center",
+      "outline": 0
+    },
+    {
+      "name": "SceneTitle",
+      "kind": "text",
+      "text": "훔친 신발",
+      "rect": [
+        71,
+        1270,
+        600,
+        77
+      ],
+      "fontSize": 47,
+      "color": "#FFD269",
+      "align": "left",
+      "outline": 1
+    },
+    {
+      "name": "Caption",
+      "kind": "text",
+      "text": "신단의 신발을 물고,\n상어는 항구를 빠져나갔다.",
+      "rect": [
+        73,
+        1386,
+        741,
+        122
+      ],
+      "fontSize": 34,
+      "color": "#FFF1CC",
+      "align": "left",
+      "outline": 1
+    },
+    {
+      "name": "StorySegment1",
+      "asset": "ProgressOn",
+      "rect": [
+        204,
+        1556,
+        108,
+        33
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "StorySegment2",
+      "asset": "ProgressOff",
+      "rect": [
+        327,
+        1556,
+        108,
+        33
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "StorySegment3",
+      "asset": "ProgressOff",
+      "rect": [
+        450,
+        1556,
+        108,
+        33
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "StorySegment4",
+      "asset": "ProgressOff",
+      "rect": [
+        573,
+        1556,
+        108,
+        33
+      ],
+      "kind": "image"
+    },
+    {
+      "name": "ReplayButton",
+      "asset": "A_ReplayButton",
+      "rect": [
+        35,
+        1607,
+        272,
+        119
+      ],
+      "kind": "button"
+    },
+    {
+      "name": "NextButton",
+      "asset": "A_NextButton",
+      "rect": [
+        331,
+        1605,
+        521,
+        122
+      ],
+      "kind": "button"
+    },
+    {
+      "name": "ReplayLabel",
+      "kind": "text",
+      "text": "다시 보기",
+      "rect": [
+        58,
+        1630,
+        226,
+        70
+      ],
+      "fontSize": 36,
+      "color": "#FFF1CC",
+      "align": "center",
+      "outline": 0
+    },
+    {
+      "name": "NextLabel",
+      "kind": "text",
+      "text": "다음 장면",
+      "rect": [
+        380,
+        1624,
+        377,
+        79
+      ],
+      "fontSize": 48,
+      "color": "#2C1808",
+      "align": "center",
+      "outline": 0
+    },
+    {
+      "name": "NextArrow",
+      "asset": "ChevronInk",
+      "rect": [
+        766,
+        1641,
+        30,
+        46
+      ],
+      "kind": "image"
+    }
+  ]
+}

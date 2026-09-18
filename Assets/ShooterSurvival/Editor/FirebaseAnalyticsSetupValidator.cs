@@ -25,10 +25,10 @@ public static class FirebaseAnalyticsSetupValidator
     public const string FirebaseSetupDocumentPath =
         "docs/firebase-analytics-bigquery.md";
     public const string FirebaseAppPackageVersion = "13.14.0";
-    public const string ExternalDependencyManagerVersion = "1.2.186";
+    public const string ExternalDependencyManagerVersion = "1.2.187";
 
     public const string ExternalDependencyManagerSha256 =
-        "46684B475C2A39844C44C07945B5AEE02895C41A9BFF97D5CD4B5D9E85E021D8";
+        "0E0D6A1A088E82B2CAD8CACFAD5DE768D849602E035F753AEB621114709F5D40";
     public const string FirebaseAppSha256 =
         "BB54CC7AAB6DEC3430BC2F628E9A500D44A7E5BB05727D0372D30D6B68438FCB";
     public const string FirebaseAnalyticsSha256 =

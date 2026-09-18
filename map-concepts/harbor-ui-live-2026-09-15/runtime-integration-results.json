@@ -1,0 +1,48 @@
+{
+  "startup": {
+    "ready": true,
+    "attack": 34.56,
+    "hp": 180,
+    "equipmentAttack": 16
+  },
+  "highwayTransition": {
+    "scene": "HighWay",
+    "unlocked": 2,
+    "chapterOneOwned": true,
+    "attack": 34.56,
+    "health": 180,
+    "coins": 2532
+  },
+  "chapterTwo": {
+    "before": 2532,
+    "after": 532,
+    "insufficient": "InsufficientFunds",
+    "repeat": "Owned",
+    "repeatCoins": 532,
+    "hp": 420,
+    "expectedAttack": 69.12
+  },
+  "hud": {
+    "current": 315,
+    "max": 420,
+    "fill": 0.75,
+    "attack": 69.12
+  },
+  "restStop": {
+    "scene": "RestStop",
+    "coins": 532,
+    "chapter3": "InsufficientFunds",
+    "attack": 69.12,
+    "hp": 420,
+    "owned1": true,
+    "owned2": true,
+    "owned3": false
+  },
+  "nativeTests": {
+    "chapter": 7,
+    "cosmetic": 5,
+    "opening": 12,
+    "lateral": 8,
+    "total": 32
+  }
+}

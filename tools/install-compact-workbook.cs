@@ -1,0 +1,18 @@
+if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode) throw new System.InvalidOperationException("Edit Mode required");
+const string source = "Assets/ShooterSurvival/GameData/Editor/Data.xlsx";
+const string candidate = "outputs/startup-performance-2026-09-12/Data.xlsx";
+const string folder = "map-concepts/startup-performance-2026-09-12/";
+using var hasher = System.Security.Cryptography.SHA256.Create();
+var beforeBytes = System.IO.File.ReadAllBytes(source);
+string beforeHash = System.BitConverter.ToString(hasher.ComputeHash(beforeBytes)).Replace("-", "").ToLowerInvariant();
+if (beforeHash != "bba5d62e03d0d3eec1807e617f8a20ea6f80c04ea0810a7f236b1d5fa6d01459") throw new System.InvalidOperationException("Workbook changed since inspection; rebase the compaction first");
+var bytes = System.IO.File.ReadAllBytes(candidate);
+GameDataWorkbookSchema.Validate(bytes);
+System.IO.File.Copy(GameDataWorkbookEditor.RuntimeArchiveAssetPath, folder + "Data-before.bytes", false);
+var guid = UnityEditor.AssetDatabase.AssetPathToGUID(source);
+System.IO.File.WriteAllBytes(source, bytes);
+UnityEditor.AssetDatabase.ImportAsset(source, UnityEditor.ImportAssetOptions.ForceSynchronousImport | UnityEditor.ImportAssetOptions.ForceUpdate);
+GameDataWorkbookEditor.EnsureRuntimeArchiveCurrent(false);
+GameDataWorkbookEditor.ValidateRuntimeArchiveOrThrow();
+if (UnityEditor.AssetDatabase.AssetPathToGUID(source) != guid) throw new System.Exception("Workbook GUID changed");
+return new { bytes = bytes.Length, guid, protectedArchiveVerified = true };

@@ -1,108 +1,45 @@
-using DG.Tweening;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace IndianOceanAssets.ShooterSurvival
 {
     public static class DamagePopupFX
     {
-        private const float RiseDistance = 0.8f;
-        private const float Duration = 0.75f;
-        private const int PopupSortingOrder = 32767;
-        private static readonly Vector3 CanvasScale = new Vector3(0.01f, 0.01f, 0.01f);
-        private static readonly Vector3 CoinCanvasScale = new Vector3(0.007f, 0.007f, 0.007f);
-        private static readonly Color DamageColor = new Color(1f, 0.25f, 0.25f, 1f);
-        private static readonly Color CoinColor = new Color(1f, 0.88f, 0.22f, 1f);
+        private static DamagePopupPool pool;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void Reset() => pool = null;
+
+        public static void Prewarm(TextMeshProUGUI template)
+        {
+            if (pool != null) return;
+            pool = new GameObject("Damage popup pool").AddComponent<DamagePopupPool>();
+            pool.Initialize(template);
+        }
 
         public static void Show(Vector3 worldPosition, float amount)
         {
-            Show(worldPosition, Mathf.RoundToInt(amount).ToString(), DamageColor, CanvasScale);
+            EnsurePool();
+            pool.Show(worldPosition, Mathf.RoundToInt(amount), false);
         }
 
         public static void ShowCoin(Vector3 worldPosition, int amount)
         {
-            Show(worldPosition, $"+{amount}", CoinColor, CoinCanvasScale);
+            EnsurePool();
+            pool.Show(worldPosition, amount, true);
         }
 
-        private static void Show(Vector3 worldPosition, string message, Color color, Vector3 canvasScale)
+        public static void ShowPlayerDamage(Vector3 worldPosition, float amount)
         {
-            GameObject popupObject = new GameObject("DamagePopup");
-            popupObject.transform.position = worldPosition + new Vector3(Random.Range(-0.15f, 0.15f), 0.35f, 0f);
-            popupObject.transform.localScale = canvasScale;
-
-            Camera cam = Camera.main;
-            Canvas canvas = popupObject.AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.WorldSpace;
-            canvas.worldCamera = cam;
-            canvas.overrideSorting = true;
-            canvas.sortingOrder = PopupSortingOrder;
-
-            popupObject.AddComponent<CanvasScaler>().dynamicPixelsPerUnit = 10f;
-            popupObject.AddComponent<GraphicRaycaster>();
-            popupObject.transform.SetAsLastSibling();
-
-            RectTransform canvasRect = canvas.GetComponent<RectTransform>();
-            canvasRect.sizeDelta = new Vector2(240f, 120f);
-
-            GameObject textObject = new GameObject("Text");
-            textObject.transform.SetParent(popupObject.transform, false);
-
-            RectTransform textRect = textObject.AddComponent<RectTransform>();
-            textRect.anchorMin = Vector2.zero;
-            textRect.anchorMax = Vector2.one;
-            textRect.offsetMin = Vector2.zero;
-            textRect.offsetMax = Vector2.zero;
-
-            TextMeshProUGUI text = CreatePopupText(textObject.transform);
-            text.text = message;
-            text.color = color;
-            Color baseColor = color;
-
-            if (cam != null)
-                popupObject.transform.forward = cam.transform.forward;
-
-            Sequence seq = DOTween.Sequence();
-            seq.Join(popupObject.transform.DOMoveY(popupObject.transform.position.y + RiseDistance, Duration).SetEase(Ease.OutCubic));
-            seq.Join(DOTween.To(
-                () => 1f,
-                alpha =>
-                {
-                    if (text == null)
-                        return;
-
-                    Color color = baseColor;
-                    color.a = alpha;
-                    text.color = color;
-                },
-                0f,
-                Duration).SetEase(Ease.InQuad));
-            seq.OnComplete(() => Object.Destroy(popupObject));
+            EnsurePool();
+            pool.Show(worldPosition, Mathf.Max(1, Mathf.RoundToInt(amount)), false, true);
         }
 
-        private static TextMeshProUGUI CreatePopupText(Transform parent)
+        private static void EnsurePool()
         {
-            CanvasScript canvasScript = Object.FindFirstObjectByType<CanvasScript>();
-            if (canvasScript != null && canvasScript.DamagePopupPrefab != null)
-            {
-                TextMeshProUGUI instance = Object.Instantiate(canvasScript.DamagePopupPrefab, parent, false);
-                RectTransform rect = instance.rectTransform;
-                rect.anchorMin = Vector2.zero;
-                rect.anchorMax = Vector2.one;
-                rect.offsetMin = Vector2.zero;
-                rect.offsetMax = Vector2.zero;
-                instance.color = DamageColor;
-                return instance;
-            }
-
-            TextMeshProUGUI text = parent.gameObject.AddComponent<TextMeshProUGUI>();
-            text.color = DamageColor;
-            text.fontSize = 72f;
-            text.alignment = TextAlignmentOptions.Center;
-            text.enableWordWrapping = false;
-            text.outlineWidth = 0.2f;
-            text.outlineColor = new Color(0f, 0f, 0f, 0.8f);
-            return text;
+            if (pool != null) return;
+            var canvas = Object.FindFirstObjectByType<CanvasScript>();
+            Prewarm(canvas != null ? canvas.DamagePopupPrefab : null);
         }
     }
 }

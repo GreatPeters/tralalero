@@ -1,0 +1,3 @@
+using System;using System.Linq;using UnityEngine;using UnityEditor;
+public static class ProbeMerchantFloor20260917{public static object Main(){var roads=GameObject.Find("Noryangjin_MapTool").transform.Find("Roads");Physics.SyncTransforms();var colliders=roads.GetComponentsInChildren<MeshCollider>();var lines=new System.Collections.Generic.List<string>();
+ for(float z=-124;z<=-116;z+=1)for(float x=48;x<=56;x+=2){var hits=colliders.Select(c=>c.Raycast(new Ray(new Vector3(x,2,z),Vector3.down),out var hit,4)?hit.point.y:-99).Where(y=>y>-10).ToArray();lines.Add(x+","+z+":"+(hits.Length>0?hits.Max().ToString("F2"):"gap"));}return string.Join(" ",lines);}}

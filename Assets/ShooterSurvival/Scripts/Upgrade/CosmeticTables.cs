@@ -14,6 +14,9 @@ public sealed class CosmeticItem
     public PriceType currency;
     public int price;
     public bool isDefault;
+    public string effectStat;
+    public float effectValue;
+    public ValueType effectValueType = ValueType.Percent;
 }
 
 public static class CosmeticTables
@@ -49,11 +52,22 @@ public static class CosmeticTables
                     headers = names.Select((v, i) => (v, i)).Where(x => x.v.Length > 0).ToDictionary(x => x.v, x => x.i);
                     continue;
                 }
-                string Text(string name) => Convert.ToString(reader.GetValue(headers[name]), System.Globalization.CultureInfo.InvariantCulture)?.Trim() ?? "";
+                string Text(string name) => headers.TryGetValue(name, out int column) && column < reader.FieldCount
+                    ? Convert.ToString(reader.GetValue(column), System.Globalization.CultureInfo.InvariantCulture)?.Trim() ?? "" : "";
                 string id = Text("ID"); if (id.Length == 0) continue;
+                string effectText = Text("효과값");
+                float parsedEffect = 0f;
+                if (effectText.Length > 0 && !float.TryParse(effectText, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out parsedEffect))
+                    throw new InvalidDataException("Invalid equipment effect value: " + id);
+                string effectTypeText = Text("효과타입");
+                ValueType parsedEffectType = ValueType.Percent;
+                if (effectTypeText.Length > 0 && !Enum.TryParse(effectTypeText, out parsedEffectType))
+                    throw new InvalidDataException("Invalid equipment effect type: " + id);
                 rows.Add(new CosmeticItem { id = id, slot = (CosmeticSlot)Enum.Parse(typeof(CosmeticSlot), Text("부위")),
                     name = Text("이름"), currency = (PriceType)Enum.Parse(typeof(PriceType), Text("가격타입")),
-                    price = int.Parse(Text("가격")), visualKey = Text("비주얼"), isDefault = Text("기본") == "1", description = Text("설명") });
+                    price = int.Parse(Text("가격")), visualKey = Text("비주얼"), isDefault = Text("기본") == "1", description = Text("설명"),
+                    effectStat = Text("효과"),
+                    effectValue = parsedEffect, effectValueType = parsedEffectType });
             }
             Validate(rows);
             return rows.AsReadOnly();
@@ -68,6 +82,13 @@ public static class CosmeticTables
             throw new InvalidDataException("Invalid cosmetic item");
         if (rows.Select(r => r.id).Distinct(StringComparer.Ordinal).Count() != rows.Length)
             throw new InvalidDataException("Duplicate cosmetic ID");
+        foreach (var row in rows)
+        {
+            if (float.IsNaN(row.effectValue) || float.IsInfinity(row.effectValue) || row.effectValue < 0f || row.effectValue > 50f ||
+                (row.effectValue != 0f && (!Enum.TryParse(row.effectStat, out UpgradeStatManager.UpgradeType effect) || !Enum.IsDefined(typeof(UpgradeStatManager.UpgradeType), effect))) ||
+                (row.effectValueType != ValueType.Value && row.effectValueType != ValueType.Percent))
+                throw new InvalidDataException("Invalid equipment effect: " + row.id);
+        }
         foreach (CosmeticSlot slot in Enum.GetValues(typeof(CosmeticSlot)))
             if (rows.Count(r => r.slot == slot && r.isDefault) != 1) throw new InvalidDataException("Each cosmetic slot needs one free default: " + slot);
     }

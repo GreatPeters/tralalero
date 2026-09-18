@@ -1,0 +1,1 @@
+return new{levels=Enumerable.Range(1,3).Select(id=>new{id,level=UnityEngine.PlayerPrefs.GetInt("upgrade_lv_"+id)}).ToArray(),speedRows=Enumerable.Range(1,30).Select(level=>{UpgradeTables.TryGet(3,level,out var row);return new{level,row.price,row.amount};}).ToArray()};

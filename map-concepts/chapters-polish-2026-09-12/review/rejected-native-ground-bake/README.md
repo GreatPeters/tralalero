@@ -1,0 +1,1 @@
+The native BakeMesh inspection multiplied FBX scale twice. Independent boneWorld × bindpose × vertex skinning measured all nine rigs within 3mm of the floor. No controller was switched to these candidates. Preserve the source clips; rejected baker/candidates are retained only as diagnostic evidence.

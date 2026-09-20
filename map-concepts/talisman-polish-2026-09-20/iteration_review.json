@@ -1,0 +1,80 @@
+{
+  "asset": "Folded talisman and common torso pickup",
+  "date": "2026-09-20",
+  "decision": "retain_repair",
+  "contract": "map-concepts/talisman-polish-2026-09-20/contract.md",
+  "creator_self_review": true,
+  "before": {
+    "assets": "outputs/talisman-polish-2026-09-20/before/BonusTalisman",
+    "native": "outputs/talisman-polish-2026-09-20/before/native"
+  },
+  "defects": [
+    "Squat flat card and tiny stock icon",
+    "Box-shaped clip with weak material separation",
+    "Absorption path/body glow unreadable in moving gameplay"
+  ],
+  "repair": [
+    "Blender three-panel long paper, rounded bent enamel clip and rivet",
+    "Five raised emblem meshes; helper portraits retained",
+    "Separated reveal/transfer/impact with dual bright curved trails and shared torso pulse",
+    "Matte caption prevents specular whiteout; data fallback preserves missing legacy value labels"
+  ],
+  "invariants": {
+    "bonusSources": 21,
+    "scenePlacements": 150,
+    "gameplayPrefabFieldsPreserved": 23,
+    "sharedTorsoTarget": true,
+    "regressionTestsPassed": 39,
+    "changedRewardRules": false
+  },
+  "ledger": [
+    {
+      "requirement": "Folded paper proportions and real thickness",
+      "before": "fail",
+      "after": "pass",
+      "evidence": "outputs/talisman-polish-2026-09-20/neutral.png"
+    },
+    {
+      "requirement": "Enamel clip, metal rivet, raised emblem",
+      "before": "fail",
+      "after": "pass",
+      "evidence": "outputs/talisman-polish-2026-09-20/reimport-matched.png"
+    },
+    {
+      "requirement": "Visible moving unfold and torso absorption",
+      "before": "fail",
+      "after": "pass",
+      "evidence": "tmp/image-previews/talisman-polish-2026-09-20/video/Noryangjin_MapTool_Mode_SR18.mp4"
+    },
+    {
+      "requirement": "Same behavior in three maps",
+      "before": "pass",
+      "after": "pass",
+      "evidence": "tmp/image-previews/talisman-polish-2026-09-20/video/"
+    },
+    {
+      "requirement": "Reference hidden back surface likeness",
+      "before": "unclear",
+      "after": "unclear",
+      "reason": "Reference does not specify the back; authored as plain paper."
+    }
+  ],
+  "validation": {
+    "sourceTriangles": 3756,
+    "reimportTriangles": 3756,
+    "bounds": [
+      1.475888,
+      0.715456,
+      2.45872
+    ],
+    "degenerateFaces": 0,
+    "invalidVertices": 0,
+    "uvMeshes": 8,
+    "matchedStudioCamera": "outputs/talisman-polish-2026-09-20/reimport-matched.png"
+  },
+  "limits": [
+    "Visual review is creator self-review, not a claim of exact reference duplication.",
+    "Videos use fixed 30fps simulation capture, not measured device performance.",
+    "Native shader treatment differs from Blender studio lighting."
+  ]
+}

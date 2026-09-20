@@ -54,5 +54,24 @@ public sealed class NoryangjinCameraOcclusionTests
         Assert.That(component.HiddenCount,Is.EqualTo(2));Assert.That(renderer.forceRenderingOff,Is.True);Assert.That(lettering.GetComponent<Renderer>().forceRenderingOff,Is.True);Assert.That(sign.transform.position,Is.EqualTo(position));Assert.That(sign.GetComponent<Collider>().enabled,Is.True);
         component.ConfigureAdditionalOccluders(System.Array.Empty<Transform>());component.RefreshVisibility();Assert.That(renderer.forceRenderingOff,Is.False);Assert.That(lettering.GetComponent<Renderer>().forceRenderingOff,Is.False);Assert.That(component.HiddenCount,Is.Zero);
     }
+
+    [Test] public void ConnectedUphillTiles_RemainVisibleAboveTheCurrentFloor()
+    {
+        var player=Make("Climbing player");player.transform.position=Vector3.up*.12f;
+        var roads=Make("Ramp tiles");var renderers=new List<Renderer>();
+        for(int i=0;i<24;i++)
+        {
+            var tile=GameObject.CreatePrimitive(PrimitiveType.Cube);objects.Add(tile);tile.transform.SetParent(roads.transform);
+            tile.transform.position=new Vector3(0,i*.25f-.25f,i*.5f);tile.transform.localScale=new Vector3(8,.5f,.55f);
+            Object.DestroyImmediate(tile.GetComponent<BoxCollider>());
+            tile.AddComponent<MeshCollider>().sharedMesh=tile.GetComponent<MeshFilter>().sharedMesh;
+            renderers.Add(tile.GetComponent<Renderer>());
+        }
+        player.AddComponent<NoryangjinRoadHeightFollower>().Configure(roads.transform,.12f);
+        var camera=Make("Ramp camera");camera.transform.position=new Vector3(0,12,-19);
+        var occlusion=camera.AddComponent<NoryangjinCameraOcclusion>();occlusion.Configure(player.transform,roads.transform);
+        Physics.SyncTransforms();occlusion.RefreshVisibility();
+        foreach(var renderer in renderers)Assert.That(renderer.forceRenderingOff,Is.False,"Connected uphill road must not expose the lower deck");
+    }
 }
 #endif

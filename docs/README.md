@@ -1,5 +1,52 @@
 # Docs Index
 
+- `../map-concepts/seagull-size-followup-2026-09-20/README.md`: latest size-only follow-up, +20% warning diameter to 3.744m and +30% bird scale to 4.095; timing and impact reactions preserved.
+
+- `../map-concepts/seagull-impact-tumble-2026-09-20/README.md`: latest +50% bird/+30% shadow sizing; two-turn shark spin plus three-turn bird knockback, native normal/slow-motion video and pause/retry verification.
+
+- `../map-concepts/seagull-early-landing-2026-09-20/README.md`: latest timing correction—28m warning, earlier completed landing and wait until the runner passes; native landing lead measured at approximately 15m and two-second before/after comparison.
+
+- `../map-concepts/seagull-warning-readability-2026-09-20/README.md`: latest seagull tuning—50% larger bird/2.4m warning, darker alpha and earlier 21m warning with matching delay; native dodge/contact verification.
+
+- `../map-concepts/seagull-dodge-size-2026-09-20/README.md`: smaller 1.6m landing warning and matching bird/contact footprint; actual delayed left/right steering avoids damage, while contact retains the 20% penalty and two-turn spin.
+
+- `../map-concepts/synced-crate-throw-2026-09-20/README.md`: supersedes the jittering two-hand throw with one pose owner, post-pose launch and scoped outline repair; 52 tests and complete native normal/half-speed videos.
+- `exec-plans/completed/synced-crate-throw-2026-09-20.md`: implementation and verification of the timing/motion correction.
+
+- `../map-concepts/seagull-contact-2026-09-20/README.md`: animated body/wing contact, two-turn spin and 20% maximum-HP penalty; 15 tests, moving/miss/landed physical probes and native HUD/video.
+- `solutions/integration-issues/keep-seagull-contact-active-through-landing-2026-09-20.md`: align collider lifetime with the visible hazard, validate root-player contact and stop probe-only coroutine producers.
+
+- `../map-concepts/two-hand-crate-2026-09-20/README.md`: replaces the rejected one-hand attachment with independent crate placement, two-palm contact, body-mesh validation and a native front/side motion video.
+
+- `../map-concepts/throw-ship-refinement-2026-09-20/README.md`: follow-up crate/face clearance with a hand-anchored rim, fixed road-facing ship fire, native captures and 13 regression tests.
+
+- `../map-concepts/combat-route-fixes-2026-09-20/README.md`: nine combat/route fixes, 70 tests, native projectile/HP/slope evidence and three-map placement audit.
+- `solutions/integration-issues/verify-combat-with-authored-prefab-layers-and-pivots-2026-09-20.md`: production Default-layer collisions, bone-relative grip anchoring, imported projectile scale and native verification corrections.
+
+- `../map-concepts/talisman-polish-2026-09-20/README.md`: reference-based Blender rebuild, raised emblems, visible shared torso VFX, actual physical-pickup videos in three scenes and 39 tests; supersedes the rejected first presentation.
+- `solutions/workflow-issues/validate-pickup-art-in-moving-gameplay-2026-09-20.md`: distinguish functional test success from visible fidelity; motion, depth and caption-material checks.
+
+- `../map-concepts/common-talisman-applied-2026-09-20/README.md`: implemented common talisman/body absorption for all Bonus sources; 37 tests, actual pickups/drops and native three-scene evidence.
+- `solutions/workflow-issues/common-bonus-feedback-survives-root-deactivation-2026-09-20.md`: detached pickup effects, nonuniform prefab transforms, explicit Single sprite import and simulation-clock verification.
+
+- `../map-concepts/talisman-common-body-2026-09-20/README.md`: latest user correction—all upgrade talismans share one torso absorption effect; replaces per-stat destinations.
+
+- `../map-concepts/talisman-stat-targets-2026-09-20/README.md`: corrected talisman feedback targets—attack to visible mouth muzzle, health to torso; supersedes attack-to-shoe concepts.
+
+- `../map-concepts/talisman-pickup-flows-2026-09-20/README.md`: four pickup storyboards for the preferred folded talisman, immediate-reward timing, separate effect lifetime and verified external gallery.
+
+- `../map-concepts/universal-bonus-2026-09-20/README.md`: ten distinct buildable bonus concepts, each identical across harbor/highway/rest-stop, with construction breakdowns and a verified gallery.
+
+- `../map-concepts/slim-ring-story-2026-09-19/README.md`: selected slim ring linked to offerings and cursed shoes in a four-panel image concept; full prompt and external gallery.
+
+- `../map-concepts/bonus-ring-variants-2026-09-19/README.md`: ten variations of the user-preferred latest 07 open orbit ring, original prompts, corrected 05 sheet and verified external gallery.
+
+- `../map-concepts/bonus-diverse-pickups-2026-09-19/README.md`: ten new silhouettes extending the positively received enamel/metal bonus concepts, with construction notes and a verified external gallery; no gameplay installation.
+
+- `../map-concepts/bonus-polished-pickups-2026-09-19/README.md`: three reference-informed, feasible 3D bonus pickup concepts with gameplay/detail/pickup views and a verified external gallery; concept only.
+
+- `solutions/workflow-issues/protect-codex-image-clicks-without-changing-thread-state-2026-09-19.md`: reversible Codex VS Code thumbnail safeguard, installation/rollback, fixture checks and pending native activation verification.
+
 - `../map-concepts/bonus-concepts-2026-09-19/README.md`: ten bonus-VFX concept images with idle/pickup views, existing asset candidates and feasible Unity/Blender implementation paths; no candidate selected or installed.
 
 - `../map-concepts/feedback-2026-09-19/README.md`: reference-sized settings controls, merchant sleeve deformation repair, hand-relative shovel fit and gold reward effects; native tests and actual collection evidence.

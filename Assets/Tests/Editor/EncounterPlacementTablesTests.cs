@@ -19,9 +19,16 @@ public sealed class EncounterPlacementTablesTests
         Assert.That(rows.Count(r => r.kind == "보너스 배치"), Is.EqualTo(25));
         Assert.That(rows.Count(r => r.kind == "기믹 배치"), Is.EqualTo(25));
         Assert.That(rows.Count(r => r.kind == "적 배치" && r.mode == EnemyEventMode.PatrolBetweenStartAndTarget), Is.EqualTo(10));
-        Assert.That(rows.Count(r => r.kind == "적 배치" && r.mode == EnemyEventMode.AmbushMoveThenShoot), Is.EqualTo(10));
+        Assert.That(rows.Count(r => r.kind == "적 배치" && r.mode == EnemyEventMode.AmbushMoveThenShoot), Is.EqualTo(4));
         Assert.That(rows.Single(r => r.id.Contains("T161")).kind, Is.EqualTo("보너스 배치"));
-        Assert.That(rows.Where(r => r.kind == "적 배치" && r.mode == EnemyEventMode.AmbushMoveThenShoot).All(r => r.activationLead == 44 && r.throwDelay == .8f), Is.True);
+        var throwers=rows.Where(r=>r.kind=="적 배치"&&r.id.Contains("FatMan")).ToArray();
+        Assert.That(throwers.Length,Is.EqualTo(6));
+        Assert.That(throwers.All(r=>r.mode==EnemyEventMode.Shoot&&r.moveSpeed==0&&r.moveDistance==0&&r.throwDelay==.62f),Is.True);
+        Assert.That(rows.Where(r => r.kind == "적 배치" && r.mode == EnemyEventMode.AmbushMoveThenShoot).All(r => r.throwDelay == .45f), Is.True);
+        Assert.That(rows.Single(r=>r.id=="SR18_L_E25_T293_Enemy_Woman_Right").enabled,Is.False);
+        var earlyBoss=rows.Single(r=>r.id=="SR18_L_E06_T065_Enemy_YllowMan_Net_Right");
+        Assert.That(earlyBoss.tier,Is.EqualTo(EnemyTier.Boss));
+        Assert.That(earlyBoss.health,Is.GreaterThan(rows.Single(r=>r.id=="SR18_L_E06_T065_Enemy_YllowMan_Net").health*2));
     }
 
     [Test]

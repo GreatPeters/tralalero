@@ -15,8 +15,10 @@ public sealed class Sr18RuntimeFixSceneTests
         var stats=root.GetComponent<ObstacleStats>();
         Assert.That(stats,Is.Not.Null);
         Assert.That(root.GetComponent<Rigidbody>(),Is.Not.Null);
-        Assert.That(stats.balloon.GetComponent<Collider>(),Is.Not.Null);
-        Assert.That(stats.balloon.GetComponent<Rigidbody>(),Is.Null,"A nested body intercepts the parent's physical damage callback.");
+        var contacts=stats.balloon.GetComponentsInChildren<Collider>(true);
+        Assert.That(contacts.Length,Is.GreaterThan(3),"Body and animated wings need their own contact shapes.");
+        Assert.That(contacts.All(c=>c.isTrigger),Is.True);
+        Assert.That(stats.balloon.GetComponentsInChildren<Rigidbody>(true),Is.Empty,"A nested body intercepts the parent's physical damage callback.");
     }
 
     [Test] public void ExitAndLegacyScenery_AreSafeWithoutChangingRoadGeometry()

@@ -1509,6 +1509,8 @@ public static class FeastOfFortuneWallSetup
 
             ConfigureStatLabelPreview(wall, BuffType.attackSpeed_normal);
             RebuildDataFirstLayout(wall);
+            if (Resources.Load<BonusTalismanVisual>(BonusTalismanPresentation.ResourcePath) != null)
+                BonusTalismanPresentation.Refresh(wall);
             GameObject saved = PrefabUtility.SaveAsPrefabAsset(
                 root,
                 LeftPrefabPath,

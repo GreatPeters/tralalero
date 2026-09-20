@@ -1,5 +1,13 @@
 # Reliability
 
+## Common Bonus feedback — 2026-09-20
+
+WallScript deactivates its lifetime root immediately after applying the reward; the talisman transfer therefore runs in a separate scene-owned visual object. It must never apply a second reward and must cancel on player loss/death/run exit or claim-timestamp reset. Generated glow textures require explicit Single sprite import; a PNG with Multiple mode and no slices yields a null runtime Sprite. Rebuild only from clean Edit Mode. See `map-concepts/common-talisman-applied-2026-09-20/README.md`.
+
+## Codex image-click blank panel — 2026-09-19
+
+Codex VS Code 26.908.40401 has a user-reported image-click path that leaves the conversation body blank. A local thumbnail guard is installed on disk, with original HTML backed up; it needs `Developer: Reload Window` before use. Browser fixture checks passed, but native verification is pending. Extension updates may remove it. See `docs/solutions/workflow-issues/protect-codex-image-clicks-without-changing-thread-state-2026-09-19.md` for status and rollback. Preserve session data; an external gallery or a successful fixture is not proof that the native panel is repaired.
+
 ## Coastal UI production — 2026-09-16
 
 Theme replacement must set scalable Images to Sliced and preserve entire fasteners/shadows inside fixed borders; inherited Tiled modes repeat decorations. Rebuilt children require rebinding external serialized fields, including chapter-clear rewards. The new all-scene authoring entry rejects dirty/playing scenes and restores the original scene setup. Runtime and state-restoration evidence: `map-concepts/coastal-enamel-ui-2026-09-16/README.md`.

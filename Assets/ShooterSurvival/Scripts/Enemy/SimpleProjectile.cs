@@ -9,6 +9,36 @@ namespace IndianOceanAssets.ShooterSurvival
         private bool isAttacked;
         private bool inFlight;
         [System.NonSerialized] public float damage = 5f;
+        private Rigidbody flightBody;
+        private Vector3 launchVelocity;
+        private float remainingLifetime;
+        private bool managedFlight;
+
+        public void Launch(Vector3 direction, float speed, float hitDamage, float lifetime)
+        {
+            damage = hitDamage;
+            launchVelocity = direction.normalized * Mathf.Max(0f, speed);
+            remainingLifetime = Mathf.Max(.1f, lifetime);
+            managedFlight = true;
+            flightBody = GetComponent<Rigidbody>();
+            if (flightBody == null) flightBody = gameObject.AddComponent<Rigidbody>();
+            flightBody.isKinematic = false;
+            flightBody.useGravity = false;
+            flightBody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            flightBody.interpolation = RigidbodyInterpolation.Interpolate;
+            flightBody.angularVelocity = Vector3.zero;
+            flightBody.linearVelocity = TimeManager.isGameRunning ? launchVelocity * TimeManager.timeFactor : Vector3.zero;
+            SetFlightActive(true);
+        }
+
+        private void FixedUpdate()
+        {
+            if (!managedFlight || !inFlight || flightBody == null) return;
+            float factor = TimeManager.isGameRunning ? Mathf.Max(0f, TimeManager.timeFactor) : 0f;
+            flightBody.linearVelocity = launchVelocity * factor;
+            remainingLifetime -= Time.fixedDeltaTime * factor;
+            if (remainingLifetime <= 0f) Destroy(gameObject);
+        }
 
         private void OnEnable()
         {
@@ -49,7 +79,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (TryGetComponent(out TrailRenderer trail))
                 trail.enabled = false;
 
-            if (transform.name == "Arrow2")
+            if (!managedFlight && transform.name == "Arrow2")
             {
                 gameObject.SetActive(false);
                 return;

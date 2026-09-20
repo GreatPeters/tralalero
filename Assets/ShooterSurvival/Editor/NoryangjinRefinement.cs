@@ -37,7 +37,7 @@ public static class NoryangjinRefinement
             else
             {
                 root=Instantiate("Assets/ShooterSurvival/Prefabs/Obstacle_Real/Seagull.prefab",props,id);root.transform.SetPositionAndRotation(new Vector3(position.x,ground,position.z),rotation);
-                var stats=root.GetComponent<ObstacleStats>();stats.value=20;stats.triggerRadius=13;stats.telegraphTime=1.1f;stats.dropTime=.5f;stats.dropHeight=6;stats.shadowEndScale=1.35f;
+                var stats=root.GetComponent<ObstacleStats>();stats.value=20;
                 root.GetComponent<Collider>().enabled=false;PrefabUtility.RecordPrefabInstancePropertyModifications(stats);
             }
             replacements.Add(new{previous,id,pattern=spec.kind.ToString(),effect=spec.kind==ObstaclePattern.Oil?2:20,center=new[]{root.transform.position.x,root.transform.position.y,root.transform.position.z}});

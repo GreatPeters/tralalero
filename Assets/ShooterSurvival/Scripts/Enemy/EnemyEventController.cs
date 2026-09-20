@@ -134,6 +134,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private bool knifeAudio;
         private int audibleSwing = -1;
         private EnemyScript_space combat;
+        private FatManCratePose cratePose;
         private PlayerScript player;
         private readonly Dictionary<Renderer, bool> hiddenRenderers = new();
         private readonly Dictionary<Collider, bool> hiddenColliders = new();
@@ -221,8 +222,9 @@ namespace IndianOceanAssets.ShooterSurvival
             EnsureInitialized();
 
             bool isGameRunning = TimeManager.isGameRunning;
-            if (enemyAnimator != null && enemyAnimator.enabled != isGameRunning)
-                enemyAnimator.enabled = isGameRunning;
+            bool animate = isGameRunning && !(cratePose != null && cratePose.ControlsAlivePose && RuntimeState != EnemyEventRuntimeState.Dead);
+            if (enemyAnimator != null && enemyAnimator.enabled != animate)
+                enemyAnimator.enabled = animate;
             if (enemyAnimator != null && carryLayer >= 0)
             {
                 bool moving = RuntimeState == EnemyEventRuntimeState.MovingToTarget || RuntimeState == EnemyEventRuntimeState.MovingToStart;
@@ -357,12 +359,21 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void PlayAttackOnce()
         {
-            PlayAnimationState(AttackOnceStateHash);
+            if (Application.isPlaying && cratePose != null && cratePose.ControlsAlivePose) return;
+            // Repeated throws restart the wind-up even when the previous state has finished.
+            if (enemyAnimator != null && enemyAnimator.runtimeAnimatorController != null)
+                enemyAnimator.CrossFadeInFixedTime(AttackOnceStateHash, AnimationTransitionSeconds, 0, 0f);
         }
 
         public void PlayDie()
         {
             RuntimeState = EnemyEventRuntimeState.Dead;
+            if (cratePose != null && cratePose.ControlsAlivePose && enemyAnimator != null)
+            {
+                enemyAnimator.enabled = true;
+                enemyAnimator.Play(DieStateHash, 0, 0f);
+                return;
+            }
             PlayAnimationState(DieStateHash);
         }
 
@@ -376,6 +387,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ResolveRuntimeReferences()
         {
+            if (cratePose == null) cratePose = GetComponent<FatManCratePose>();
             if (enemyAnimator == null)
                 enemyAnimator = GetComponentInChildren<Animator>();
             if (enemyAnimator != null && carryLayer < 0)
@@ -558,6 +570,11 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void FacePlayerExactly()
         {
+            if (combat != null && combat.StationaryThrow)
+            {
+                FaceDirection(combat.AuthoredThrowDirection);
+                return;
+            }
             if (player == null)
                 player = FindFirstObjectByType<PlayerScript>();
 
@@ -607,6 +624,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void PlayIdle()
         {
+            if (Application.isPlaying && cratePose != null && cratePose.ControlsAlivePose) return;
             PlayAnimationState(IdleStateHash);
             if(enemyAnimator!=null&&enemyAnimator.HasState(0,IdleStateHash))
                 enemyAnimator.Play(IdleStateHash,0,(Animator.StringToHash(gameObject.name)&1023)/1024f);
@@ -651,7 +669,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private void ResetForNewRun()
         {
             SetAmbushHidden(false);
-            if (Application.isPlaying && eventMode == EnemyEventMode.AmbushMoveThenShoot)
+            if (Application.isPlaying && (eventMode == EnemyEventMode.AmbushMoveThenShoot || eventMode == EnemyEventMode.Shoot))
                 combat?.ResetTriggeredFireForNewRun();
             RuntimeState = EnemyEventRuntimeState.Waiting;
             patrolAttackStateObserved = false;

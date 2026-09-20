@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &102332348447437629
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 756753727868789412}
+  m_Layer: 0
+  m_Name: Muzzle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &756753727868789412
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102332348447437629}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.00284723, y: 0.000003824971, z: -0.000000044994522}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4700757064566741169}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1904837081477733875
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +243,7 @@ GameObject:
   - component: {fileID: 7979261263588834552}
   - component: {fileID: 3682602123234194214}
   - component: {fileID: 3245297517748156597}
+  - component: {fileID: 6132253867432269957}
   m_Layer: 0
   m_Name: Enemy_Guard
   m_TagString: EnemyTag
@@ -278,11 +310,14 @@ MonoBehaviour:
   dropBonusAltar: 1
   placementCoinReward: -1
   heldProjectile: {fileID: 5289139592847430183}
-  throwPoint: {fileID: 3671831264324207950}
-  hideHeldProjectile: 0
+  throwPoint: {fileID: 756753727868789412}
+  hideHeldProjectile: 1
   throwRange: 14
   throwSpeed: 30
-  throwReleaseDelay: 0.8
+  throwReleaseDelay: 0.45
+  stationaryThrow: 0
+  throwApproachSeconds: 5
+  throwCycleSeconds: 2.8
 --- !u!82 &7979261263588834552
 AudioSource:
   m_ObjectHideFlags: 0
@@ -417,6 +452,23 @@ MonoBehaviour:
   captured: 1
   originalRadius: 0.33
   originalSize: {x: 0, y: 0, z: 0}
+--- !u!114 &6132253867432269957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7596627218402003408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 872daba22c781cd4fa6542ce05f9f28a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::IndianOceanAssets.ShooterSurvival.EnemyGunAim
+  gun: {fileID: 4700757064566741169}
+  muzzle: {fileID: 756753727868789412}
+  localBarrelAxis: {x: 1, y: 0, z: 0}
+  grip: {fileID: 5112140296948613332}
+  localGripPoint: {x: -0.00998434, y: 0.000003824971, z: -0.000000044994522}
 --- !u!1 &7621180490812681715
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,7 +637,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.0078022717, y: 0.0029291895, z: 0.0028376065}
   m_Center: {x: 0.0006404819, y: 0.000035893645, z: -0.0000033023164}
@@ -799,6 +851,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6000407479487422213, guid: 9bfa181b824fbc342a53626dc7416b0d, type: 3}
   m_PrefabInstance: {fileID: 6864704406693019420}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &5112140296948613332 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: 9bfa181b824fbc342a53626dc7416b0d, type: 3}
+  m_PrefabInstance: {fileID: 6864704406693019420}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6018284201788555853 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9bfa181b824fbc342a53626dc7416b0d, type: 3}
@@ -891,6 +948,38 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 91.683
       objectReference: {fileID: 0}
+    - target: {fileID: -7036747610138410600, guid: 5e68f7b12809269418a82fb54af54ef7, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: -7036747610138410600, guid: 5e68f7b12809269418a82fb54af54ef7, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: -7036747610138410600, guid: 5e68f7b12809269418a82fb54af54ef7, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: -7036747610138410600, guid: 5e68f7b12809269418a82fb54af54ef7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.44929528
+      objectReference: {fileID: 0}
+    - target: {fileID: -7036747610138410600, guid: 5e68f7b12809269418a82fb54af54ef7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7036747610138410600, guid: 5e68f7b12809269418a82fb54af54ef7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7036747610138410600, guid: 5e68f7b12809269418a82fb54af54ef7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7036747610138410600, guid: 5e68f7b12809269418a82fb54af54ef7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e68f7b12809269418a82fb54af54ef7, type: 3}
       propertyPath: m_Name
       value: Hand
@@ -898,9 +987,17 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 65702495048144492, guid: 5e68f7b12809269418a82fb54af54ef7, type: 3}
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -7036747610138410600, guid: 5e68f7b12809269418a82fb54af54ef7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 756753727868789412}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e68f7b12809269418a82fb54af54ef7, type: 3}
+--- !u!4 &4700757064566741169 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -7036747610138410600, guid: 5e68f7b12809269418a82fb54af54ef7, type: 3}
+  m_PrefabInstance: {fileID: 6873622168395553065}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6408265533217242818 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5e68f7b12809269418a82fb54af54ef7, type: 3}

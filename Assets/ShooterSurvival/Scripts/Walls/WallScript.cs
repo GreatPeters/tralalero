@@ -57,7 +57,10 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public float CurrentBonusValue => bonusValue;
         public float CurrentBonusDisplayValue => displayBonusValue;
+        public string CurrentBonusDisplayText => BonusAltarRules.FormatDisplayValue(displayBonusValue, bonusValueType);
         public string CurrentBonusAlias => bonusAlias;
+        public string CurrentBonusDisplayName => hasSelectedBonusRow
+            ? BonusAltarRules.ResolveDisplayName(selectedDisplayRow) : null;
 
         [Header("Nerf Wall Properties")]
         public Sprite healthReduceSpr;
@@ -326,7 +329,12 @@ namespace IndianOceanAssets.ShooterSurvival
                         return;
                     playerScript.lastWallTouchTime = Time.time;           // Update the last time the wall was touched
                     ApplyWallEffect();                                      // Apply the effect based on the wall's type
-                    GetComponentInParent<BonusRewardCue>(true)?.PlayPickup();
+                    if (wallType == WallType.BuffWall)
+                    {
+                        var talisman = GetComponent<BonusTalismanPresentation>();
+                        if (talisman != null && talisman.Visual != null) talisman.PlayPickup(playerScript);
+                        else GetComponentInParent<BonusRewardCue>(true)?.PlayPickup();
+                    }
                     gameObject.GetComponent<Collider>().isTrigger = false;  // Disable trigger once applied
 
                     GetLifetimeObject().SetActive(false);
@@ -391,10 +399,15 @@ namespace IndianOceanAssets.ShooterSurvival
             UpdateStatUI(buffType, displayBonusValue);
             GetComponentInParent<BonusChoiceAltarVfx>(true)
                 ?.SetBonusType(buffType);
+            if (Application.isPlaying && wallType == WallType.BuffWall)
+                BonusTalismanPresentation.Refresh(this);
         }
 
         private void DisableInvalidAuthoredPresentation()
         {
+            var talisman = GetComponent<BonusTalismanPresentation>();
+            if (talisman != null && talisman.Visual != null)
+                talisman.Visual.gameObject.SetActive(false);
             TextMeshProUGUI statNameText = null;
             if (statNameLoc != null)
             {

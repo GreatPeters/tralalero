@@ -33,15 +33,16 @@ public class ObstacleStats : MonoBehaviour
 
 
     //열기구 관련
-    [Header("Balloon Tween Drop")]
+    [Header("Seagull approach")]
     public Transform balloon;            // 열기구(비활성 시작 권장)
     public SpriteRenderer shadowSprite;  // 바닥 그림자 스프라이트(처음엔 꺼두기)
     public LayerMask groundMask;         // 바닥 레이어
 
-    public float triggerRadius = 6f;     // 이 거리 안 들어오면 텔레그래프 시작
+    public float triggerRadius = 28f;   // 이 거리 안 들어오면 텔레그래프 시작
     public float telegraphTime = 1.0f;   // 그림자 커지는 시간
-    public float shadowStartScale = 0.2f;
-    public float shadowEndScale = 1.8f;
+    // The authored 10.24-unit shadow sprite grows from 2.808m to 3.744m.
+    public float shadowStartScale = 0.27421875f;
+    public float shadowEndScale = 0.365625f;
 
     public float dropHeight = 12f;       // 위에서부터 떨어질 높이
     public float dropTime = 0.18f;     // 바닥까지 떨어지는 시간
@@ -51,6 +52,12 @@ public class ObstacleStats : MonoBehaviour
     Vector3 _impactPoint;
     bool _seagullHit;
     bool _started;   // 이미 시작했는지
+    private bool seagullContactActive;
+    private Collider[] seagullColliders;
+    private Animator seagullAnimator;
+    [Header("Seagull contact")]
+    [Min(.1f)] public float seagullSpinSeconds = 1.2f;
+    [Min(0f)] public float seagullLandingOffset = .15f;
 
 
     //돌고래 관련
@@ -152,6 +159,8 @@ public class ObstacleStats : MonoBehaviour
 
     void OnDisable()
     {
+        if (obstaclePattern == ObstaclePattern.Seagull) SetSeagullContact(false);
+        if (shipShot != null) Destroy(shipShot);
         ReleaseBucketShootBlock();
         StopAllCoroutines();
         DOTween.Kill(gameObject);
@@ -178,13 +187,16 @@ public class ObstacleStats : MonoBehaviour
     bool[] lampColliderEnabled;
 
     public ObstaclePattern obstaclePattern;
-    public float value = 10f;                 // 플레이어에게 적용할 기본 수치(피해량, 감속값 등)
+    [Tooltip("기믹 효과 값. Seagull은 최대 체력 대비 피해율(%)입니다.")]
+    public float value = 10f;
     public Transform firePos;
     public GameObject projectilePrefab;       // Inspector에서 투사체(이펙트) 프리팹 할당
     public float fireDistance = 12f;          // 발사 트리거 거리
     public float aheadOffset = 3f;            // 플레이어 진행 방향 앞쪽으로 조준할 거리
 
     private bool hasFired = false;
+    [Min(.1f)] public float shipApproachSeconds = 7.5f;
+    private GameObject shipShot;
 
     void Start()
     {
@@ -198,33 +210,11 @@ public class ObstacleStats : MonoBehaviour
             dolphinAnim = GetComponentInChildren<Animator>();
             StartFixedZigZag();
         }
-        else if (obstaclePattern == ObstaclePattern.Seagull) // ← 기존 Balloon 패턴 재사용
+        else if (obstaclePattern == ObstaclePattern.Seagull && !_started)
         {
-            // 낙하지점 Y 고정
-            if (Physics.Raycast(transform.position + Vector3.up * 5f, Vector3.down, out var hit, 40f, groundMask))
-                //if (Physics.SphereCast(new Ray(transform.position + Vector3.up * 50f, Vector3.down), 0.25f, out var hit, 200f, groundMask, QueryTriggerInteraction.Ignore))
-                _impactPoint = hit.point;
-            else
-                _impactPoint = transform.position;
-
-            transform.position = _impactPoint;
-
-            if (shadowSprite)
-            {
-                shadowSprite.enabled = false;
-                shadowSprite.transform.position = _impactPoint + Vector3.up * 0.02f;
-                shadowSprite.transform.localScale = Vector3.one * shadowStartScale;
-            }
-            if (balloon) balloon.gameObject.SetActive(false);
-
-            // 부모에 kinematic Rigidbody 보장(콜백 받기용)
-            var rb = GetComponent<Rigidbody>();
-            if (!rb) rb = gameObject.AddComponent<Rigidbody>();
-            rb.isKinematic = true; rb.useGravity = false;
-
-            // 자식(풍선) 콜라이더를 트리거로 쓰되, 낙하 전엔 꺼둠
-            var bcol = balloon ? balloon.GetComponent<Collider>() : null;
-            if (bcol) { bcol.isTrigger = true; bcol.enabled = false; }
+            // Initial spawners may assign the final placement after OnEnable.
+            // Reuse the same initialization rather than a separate collider path.
+            InitSeagull();
         }
 
         // if (obstaclePattern == ObstaclePattern.Bucket)
@@ -287,6 +277,7 @@ public class ObstacleStats : MonoBehaviour
 
         // 2) 플래그 리셋
         hasFired = false;
+        if (shipShot != null) Destroy(shipShot);
         _started = false;
         _bucketAttached = false;
         _lampFallen = false;
@@ -327,6 +318,10 @@ public class ObstacleStats : MonoBehaviour
     void InitSeagull()
     {
         _seagullHit = false;
+        seagullColliders = balloon != null ? balloon.GetComponentsInChildren<Collider>(true) : Array.Empty<Collider>();
+        seagullAnimator = balloon != null ? balloon.GetComponent<Animator>() : null;
+        if (seagullAnimator != null) seagullAnimator.enabled = true;
+        SetSeagullContact(false);
         var rootCollider = GetComponent<Collider>();
         if (rootCollider != null) rootCollider.enabled = false;
         if (balloon != null) balloon.gameObject.SetActive(false);
@@ -363,12 +358,7 @@ public class ObstacleStats : MonoBehaviour
         // 5) 풍선 비활성 + 콜라이더 비활성
         if (balloon) balloon.gameObject.SetActive(false);
 
-        var bcol = balloon ? balloon.GetComponent<Collider>() : null;
-        if (bcol)
-        {
-            bcol.isTrigger = true;
-            bcol.enabled = false;
-        }
+        SetSeagullContact(false);
 
         // 6) 부모 rigidbody 보장(콜백/트리거 안정용)
         var rb = GetComponent<Rigidbody>();
@@ -414,13 +404,7 @@ public class ObstacleStats : MonoBehaviour
 
             case ObstaclePattern.Seagull:
                 {
-                    if (_seagullHit) return;
-                    _seagullHit = true;
-                    var bcol = balloon ? balloon.GetComponent<Collider>() : null;
-                    if (bcol) bcol.enabled = false;
-                    playerScript.currentHealth = Mathf.Max(0, playerScript.currentHealth - value);
-                    playerScript.UpdateHealth();
-                    // TelegraphThenDrop owns the landing and departure; keep the ground anchor still.
+                    TrySeagullContact(other);
                     return;
                 }
 
@@ -451,7 +435,7 @@ public class ObstacleStats : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (obstaclePattern == ObstaclePattern.Light && _lampSettled)
+        if ((obstaclePattern == ObstaclePattern.Light && _lampSettled) || obstaclePattern == ObstaclePattern.Seagull)
             OnTriggerEnter(other);
     }
 
@@ -459,6 +443,8 @@ public class ObstacleStats : MonoBehaviour
 
     void Update()
     {
+        if (obstaclePattern == ObstaclePattern.Seagull && seagullAnimator != null)
+            seagullAnimator.speed = TimeManager.isGameRunning ? Mathf.Max(0f, TimeManager.timeFactor) : 0f;
         if (!TimeManager.isGameRunning) return;
 
         if (obstaclePattern == ObstaclePattern.Seagull && !_started)
@@ -491,12 +477,11 @@ public class ObstacleStats : MonoBehaviour
         if (_player == null)
             return;
 
-        float dist = Vector3.Distance(transform.position, _player.position);
-        if (dist <= fireDistance)
+        var shipTarget = _player.GetComponent<PlayerScript>();
+        if (shipTarget != null && EnemyScript_space.IsWithinApproachWindow(_player.position,
+            _player.forward, transform.position, shipTarget.ForwardMoveSpeed, shipApproachSeconds, 18f))
         {
-            Debug.Log("쏜다!");
-            FireAheadOfPlayer(_player);
-            hasFired = true;
+            hasFired = FireFromBow();
         }
     }
 
@@ -657,114 +642,171 @@ public class ObstacleStats : MonoBehaviour
 
     IEnumerator TelegraphThenDrop()
     {
-        // 1) 그림자 켜고 커지기
         if (shadowSprite)
         {
             shadowSprite.enabled = true;
             shadowSprite.transform.localScale = Vector3.one * shadowStartScale;
-            shadowSprite.transform.DOScale(Vector3.one * shadowEndScale, telegraphTime)
-                                   .SetEase(Ease.InOutSine);
         }
-
-        yield return new WaitForSeconds(telegraphTime);
-
-        // 2) 열기구 스폰 & 낙하(DOTween)
-        if (balloon)
+        float elapsed = 0f;
+        while (elapsed < telegraphTime)
         {
-            balloon.gameObject.SetActive(true);
-
-            // 낙하하면서부터 충돌 활성화 (트리거 ON)
-            var bcol = balloon.GetComponent<Collider>();
-            if (bcol) { bcol.isTrigger = true; bcol.enabled = true; }
-
-            // 아래 낙하 트윈 코드는 그대로
-            Animator anim = transform.GetComponentInChildren<Animator>();
-            anim.SetTrigger("Fly");
-
-            float bottomOffset = GetBalloonBottomOffset(); // 반높이
-            float targetY = _impactPoint.y + bottomOffset + .05f;
-            balloon.position = new Vector3(_impactPoint.x, targetY + dropHeight, _impactPoint.z);
-            balloon.rotation = Quaternion.identity;
-
-            yield return balloon.DOMoveY(targetY, dropTime)
-                                .SetEase(Ease.InQuad)
-                                .WaitForCompletion();
-
-            anim.SetTrigger("Land");
-            Debug.Log("Land!");
+            yield return null;
+            elapsed += SeagullDelta();
+            if (shadowSprite) shadowSprite.transform.localScale = Vector3.one * Mathf.Lerp(
+                shadowStartScale, shadowEndScale, Mathf.Clamp01(elapsed / Mathf.Max(.001f, telegraphTime)));
         }
-
+        if (balloon == null) yield break;
+        Vector3 landing = _impactPoint + Vector3.up * seagullLandingOffset;
+        Vector3 start = landing + Vector3.up * dropHeight;
+        balloon.SetPositionAndRotation(start, transform.rotation);
+        balloon.gameObject.SetActive(true);
+        if (seagullAnimator != null) { seagullAnimator.ResetTrigger("Land"); seagullAnimator.SetTrigger("Fly"); }
+        SetSeagullContact(true);
+        elapsed = 0f; bool folding = false;
+        while (elapsed < dropTime)
+        {
+            yield return null;
+            elapsed += SeagullDelta();
+            float t = Mathf.Clamp01(elapsed / Mathf.Max(.001f, dropTime));
+            balloon.position = Vector3.Lerp(start, landing, 1f - (1f - t) * (1f - t));
+            if (!folding && t >= .6f)
+            { folding = true; if (seagullAnimator != null) seagullAnimator.SetTrigger("Land"); }
+        }
+        balloon.position = landing;
         OnBalloonImpact();
     }
 
-    float GetBalloonBottomOffset()
+    private static float SeagullDelta() => TimeManager.isGameRunning
+        ? Time.deltaTime * Mathf.Max(0f, TimeManager.timeFactor) : 0f;
+
+    private IEnumerator WaitForSeagull(float seconds)
     {
-        var r = balloon.GetComponentInChildren<Renderer>();
-        if (r != null) return balloon.position.y - r.bounds.min.y;
-        var c = balloon.GetComponentInChildren<Collider>();
-        if (c != null) return c.bounds.extents.y;
-        return 0f;
+        float elapsed = 0f;
+        while (elapsed < seconds) { yield return null; elapsed += SeagullDelta(); }
     }
 
     void OnBalloonImpact()
     {
-        // (반경 즉사 제거) 충돌 데미지는 OnTriggerEnter에서 처리됨
         if (shadowSprite) shadowSprite.enabled = false;
-
-        // 안전: 혹시 켜져있다면 콜라이더 꺼주기
-        var bcol = balloon ? balloon.GetComponent<Collider>() : null;
-        if (bcol) bcol.enabled = false;
-
+        // Keep the bird touchable while landed/departing. Finishing the descent
+        // must not disable contact before the next physics step.
         if (balloon != null) StartCoroutine(SeagullLeave());
-
-        // 이펙트/사운드 있으면 여기서
     }
-
-
-
-
-
 
     IEnumerator SeagullLeave()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return WaitForSeagull(.6f);
+        // An early landing must remain an obstacle until the runner reaches it.
+        // Lateral dodges still count as passing; compare progress along the road.
+        while (ShouldKeepSeagullLanded()) yield return null;
         if (balloon == null) yield break;
-        var animator = balloon.GetComponent<Animator>();
-        if (animator != null) animator.SetTrigger("Fly");
-        yield return balloon.DOMove(balloon.position + transform.forward * 4f + Vector3.up * 6f, .9f).WaitForCompletion();
+        if (seagullAnimator != null) seagullAnimator.SetTrigger("Fly");
+        Vector3 start = balloon.position, end = start + transform.forward * 4f + Vector3.up * 6f;
+        float elapsed = 0f;
+        while (elapsed < .9f)
+        { yield return null; elapsed += SeagullDelta(); balloon.position = Vector3.Lerp(start, end, Mathf.Clamp01(elapsed / .9f)); }
+        SetSeagullContact(false);
         if (balloon != null) balloon.gameObject.SetActive(false);
     }
 
-    private void FireAheadOfPlayer(Transform playerTransform)
-    {
-        if (!projectilePrefab || !firePos) return;
+    private bool ShouldKeepSeagullLanded() => _player != null && !_seagullHit &&
+        Vector3.Dot(_player.position - _impactPoint, transform.forward) < 2f;
 
-        Vector3 targetPos = playerTransform.position + playerTransform.forward * aheadOffset;
-        var targetCollider = playerTransform.GetComponent<Collider>();
-        if (targetCollider != null) targetPos.y = targetCollider.bounds.center.y;
-        Vector3 dir = (targetPos - firePos.position).normalized;
+    private void SetSeagullContact(bool active)
+    {
+        seagullContactActive = active && !_seagullHit;
+        if (seagullColliders == null) return;
+        foreach (var collider in seagullColliders)
+            if (collider != null) { collider.isTrigger = true; collider.enabled = seagullContactActive; }
+    }
+
+    public bool TrySeagullContact(Collider other)
+    {
+        if (!isActiveAndEnabled || !TimeManager.isGameRunning || obstaclePattern != ObstaclePattern.Seagull ||
+            _seagullHit || !seagullContactActive || balloon == null || !balloon.gameObject.activeInHierarchy || other == null)
+            return false;
+        // Ignore invisible weapon/child colliders. Only the player's body counts.
+        var player = other.GetComponent<PlayerScript>();
+        if (player == null || player.currentHealth <= 0f) return false;
+        _seagullHit = true; SetSeagullContact(false);
+        // Cancel descent/ordinary departure before the hit animation owns the bird.
+        // Start the two independent reactions only after stopping those coroutines.
+        StopAllCoroutines();
+        if (shadowSprite != null) shadowSprite.enabled = false;
+        player.currentHealth = Mathf.Max(0f, player.currentHealth - player.MaxHealth * Mathf.Clamp(value, 0f, 100f) / 100f);
+        player.UpdateHealth();
+        StartCoroutine(SpinAndMovePlayer(player.transform, seagullSpinSeconds));
+        StartCoroutine(SeagullKnockback(player.transform));
+        return true;
+    }
+
+    private Vector3 SeagullKnockbackDirection(Transform player)
+    {
+        Vector3 forward = Vector3.ProjectOnPlane(player.forward, Vector3.up).normalized;
+        if (forward.sqrMagnitude < .001f) forward = transform.forward;
+        Vector3 right = Vector3.Cross(Vector3.up, forward);
+        Vector3 away = Vector3.ProjectOnPlane(balloon.position - player.position, Vector3.up).normalized;
+        float side = Vector3.Dot(away, right) < -.05f ? -1f : 1f;
+        return (away + forward + right * (side * 1.4f)).normalized;
+    }
+
+    private IEnumerator SeagullKnockback(Transform player)
+    {
+        Vector3 start = balloon.position, direction = SeagullKnockbackDirection(player);
+        Quaternion rotation = balloon.rotation;
+        if (seagullAnimator != null)
+        {
+            seagullAnimator.ResetTrigger("Land");
+            // A spread-wing silhouette reads clearly while stunned and tumbling.
+            // The authored Fly state has no root-transform curves.
+            seagullAnimator.Play("Fly", 0, 0f);
+            seagullAnimator.Update(0f);
+            seagullAnimator.enabled = false;
+        }
+        float elapsed = 0f;
+        const float duration = 1.1f;
+        while (elapsed < duration && balloon != null)
+        {
+            yield return null;
+            elapsed += SeagullDelta();
+            if (balloon != null) ApplySeagullKnockbackPose(start, direction, rotation, Mathf.Clamp01(elapsed / duration));
+        }
+        if (balloon != null) balloon.gameObject.SetActive(false);
+    }
+
+    private void ApplySeagullKnockbackPose(Vector3 start, Vector3 direction, Quaternion rotation, float progress)
+    {
+        // Carry the current impact pose into an outward/upward arc, with three tumbles.
+        Vector3 axis = (Vector3.Cross(Vector3.up, direction) + Vector3.up * .25f).normalized;
+        balloon.SetPositionAndRotation(
+            start + direction * (7.5f * progress) + Vector3.up * (2f * progress + 3.5f * Mathf.Sin(Mathf.PI * progress)),
+            Quaternion.AngleAxis(1080f * progress, axis) * rotation);
+    }
+
+    private bool FireFromBow()
+    {
+        if (!projectilePrefab || !firePos) return false;
+
+        // FirePos is authored along the cannon toward the road. Preserve the
+        // waiting ship's heading when the approaching player triggers the shot.
+        Vector3 dir = firePos.forward;
 
         GameObject proj = Instantiate(projectilePrefab, firePos.position, Quaternion.LookRotation(dir));
         proj.SetActive(true);
-        proj.transform.localScale = Vector3.one;
+        // The template is a tiny imported mesh nested under a scaled ship.
+        proj.transform.localScale = projectilePrefab.transform.lossyScale;
+        proj.name = "CannonBall_Shot";
+        foreach (var renderer in proj.GetComponentsInChildren<Renderer>(true))
+        { renderer.enabled = true; renderer.forceRenderingOff = false; }
 
-        var rb = proj.GetComponent<Rigidbody>();
-        //Rigidbody rb = proj.AddComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = false; rb.useGravity = false;
-            rb.linearVelocity = dir * 30f;
-        }
-
-        var sp = proj.GetComponent<SimpleProjectile>();
-        if (sp != null)
-        {
-            if(sp!=null)sp.damage = value;
-            sp.SetFlightActive(true);
-        }
-
-        Destroy(proj, 5f);
+        var collider = proj.GetComponent<Collider>();
+        if (collider == null) collider = proj.AddComponent<SphereCollider>();
+        collider.isTrigger = true;
+        var sp = proj.GetComponent<SimpleProjectile>() ?? proj.AddComponent<SimpleProjectile>();
+        sp.Launch(dir, 30f, value, 8f);
+        shipShot = proj;
         if (GameManager.S != null) GameManager.S.RegisterDestroyTarget(proj.gameObject);
+        return true;
     }
 
     Vector3 _bucketStartLocalScale;

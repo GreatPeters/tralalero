@@ -504,7 +504,7 @@ public sealed class EnemyEventControllerTests
             Assert.That(controller, Is.Not.Null, prefabPath);
             Assert.That(
                 controller.EventMode,
-                Is.EqualTo(EnemyEventMode.AttackLoop),
+                Is.EqualTo(prefabPath.EndsWith("Enemy_FatMan.prefab") ? EnemyEventMode.Shoot : EnemyEventMode.AttackLoop),
                 prefabPath);
         }
     }

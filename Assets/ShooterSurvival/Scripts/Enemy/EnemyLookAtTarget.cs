@@ -21,6 +21,8 @@ namespace IndianOceanAssets.ShooterSurvival
         private void OnAnimatorIK(int layerIndex)
         {
             if(animator==null||!animator.isHuman||player==null||owner==null)return;
+            var combat=owner.GetComponent<EnemyScript_space>();
+            if(combat!=null&&combat.StationaryThrow){animator.SetLookAtWeight(0);return;}
             if(owner.RuntimeState==EnemyEventRuntimeState.Dead){animator.SetLookAtWeight(0);return;}
             if(playerHead==null&&player.sharkAnim!=null)
                 playerHead=player.sharkAnim.GetComponentsInChildren<Transform>(true).FirstOrDefault(t=>t.name=="head");

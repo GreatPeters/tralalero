@@ -176,7 +176,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7749091181983832935}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.009332, y: 0.001819, z: -0.000025}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -311,9 +311,11 @@ MonoBehaviour:
   lookAlongPath: 1
   flipYawOnReverse: 1
   yawOffset: 0
+  canBeShotDown: 1
   obstaclePattern: 3
   value: 10
   firePos: {fileID: 2792472117287862521}
   projectilePrefab: {fileID: 5582523550592579708}
   fireDistance: 30
   aheadOffset: 1
+  shipApproachSeconds: 7.5

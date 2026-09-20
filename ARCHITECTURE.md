@@ -1,5 +1,26 @@
 # ARCHITECTURE.md
 
+## Seagull contact (2026-09-20)
+
+- The latest warning grows from 2.808m to 3.744m with rig/contact scale 4.095. Timing remains a 28m trigger, 1.0s warning and 0.4s descent. `SeagullLeave` waits for road progress past the bird. On contact, `TrySeagullContact` cancels ordinary motion, disables contact and starts a three-turn `SeagullKnockback` arc alongside the shark's two-turn spin. The spread-wing pose is frozen only for impact; `InitSeagull` restores the Animator. `Seagull_WarningDark` and prefab-inherited authoring remain shared. Size evidence: `map-concepts/seagull-size-followup-2026-09-20/README.md`; earlier native motion evidence: `map-concepts/seagull-impact-tumble-2026-09-20/README.md`.
+- `ObstacleStats` uses all Seagull bone-following trigger shapes under its one root Rigidbody. Contact remains live through descent/landing/departure and is consumed once by the player root collider. For Seagull, workbook/prefab `value` is maximum-health damage percent (20).
+- `CosmeticHitSpin` supplies the shared 720-degree visible-model response; `PlayerScript.ResetState` clears independent hit spins as well as oil steering. The seagull sequence respects the gameplay clock. Native evidence and collider regeneration are recorded in `map-concepts/seagull-contact-2026-09-20/README.md`.
+
+## FatMan two-hand throw (2026-09-20)
+
+- `FatManCratePose` is the sole live-pose owner: it restores a serialized quiet reference pose, drives a dip/forward stroke/recovery and solves both arms to independent crate grips. FatMan-specific palm calibration remains asset-specific. The Animator is disabled while alive and re-enabled for the original death animation.
+- `EnemyScript_space.ReleaseCrateAtPose` launches once after the completed `LateUpdate` pose. Clock expiry alone cannot launch. The crate moves .16 model units forward and retains its exact release position/rotation. Guard Arrow2 retains its separate timer and local-X axis alignment.
+- `FatMan_StableSurface` preserves the original skin texture/color using current FlatKit surface shading without the deprecated hull outline that produced black internal triangles. The crate's URP/Unlit material is unchanged.
+- `FatManTwoHandPoseTests` verifies real-rig geometry, imported-animation invariance and timer-before-pose rejection. `tools/install-synced-crate-throw.cs` captures reference poses and authors the source prefab plus six SR18 actors; `tools/record-synced-crate-throw.cs` records three complete native throws, pause and death handoff. Evidence: `map-concepts/synced-crate-throw-2026-09-20/README.md`.
+
+## Common Bonus talisman (2026-09-20)
+
+- Visual rework: `tools/build-polished-talisman.py` authors separated Blender FBX/GLB parts and five raised emblem meshes. `PolishedTalismanAssets` builds the shared runtime prefab/materials; helpers retain their portrait sprites. `BonusTalismanPickup` now separates reveal/transfer/impact over 1.02 seconds, follows runner motion, uses a depth-independent transfer ribbon and cleans up its torso pulse/glints. Captions use matte material and fall back to formatted data when legacy TMP references are absent. Native physical-pickup videos: `map-concepts/talisman-polish-2026-09-20/README.md`.
+
+- `BonusTalismanPresentation` owns shared positive-Bonus artwork and data labels across authored pairs, legacy prefabs and enemy drops. `WallScript.SetWallSprite` refreshes it; invalid rolls hide it. Negative walls retain existing presentation.
+- `BonusTalismanVisual` uses a shared three-panel mesh prefab under `Resources/BonusTalisman`, normalized world scale and camera-facing idle motion. `BonusTalismanPickup` creates a separate scene-owned, reward-free effect that unfolds and transfers the icon to the torso before cleanup; it survives original-root deactivation and cancels on death/run reset.
+- `BonusTalismanInstaller` reproducibly builds meshes/materials/single-sprite glow and installs 21 source prefabs plus 150 placements in three scenes. The map authoring generator invokes the same presentation after rebuilding its data layout. Evidence: `map-concepts/common-talisman-applied-2026-09-20/README.md`.
+
 ## Settings and opening feedback correction (2026-09-19)
 
 - `HarborGameUIInstaller.SettingsFaithful` is the final settings pass, shared by the normal Faithful installer and `ApplyFaithfulSettingsAll`. It preserves live controls while using Jua display type, readable native icon/knob sprites and width-based modal sizing. `HarborSettingsPanel.Open` selects lobby/run aspect ratios.

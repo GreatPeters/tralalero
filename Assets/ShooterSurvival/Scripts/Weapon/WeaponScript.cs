@@ -178,7 +178,7 @@ namespace IndianOceanAssets.ShooterSurvival
                         bullet.transform.position = spawnPosition;
                         bullet.transform.rotation = BuildProjectileRotation(direction);
                         bullet.GetComponentInChildren<BulletScript>()
-                            .SetDirection(direction, playerScript, damage);
+                            .SetDirection(direction, aimOwner, damage);
                         TotalProjectilesSpawned++; // Count a successfully initialized shot, not just a rental.
                     }
                 }

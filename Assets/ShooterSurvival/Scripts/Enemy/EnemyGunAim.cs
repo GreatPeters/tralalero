@@ -8,13 +8,18 @@ namespace IndianOceanAssets.ShooterSurvival
         public Transform gun;
         public Transform muzzle;
         public Vector3 localBarrelAxis = Vector3.right;
+        public Transform grip;
+        public Vector3 localGripPoint;
         private PlayerScript player;
         private EnemyEventController owner;
+        private Quaternion authoredGrip;
+        private Vector3 authoredPosition;
 
-        private void Awake() { owner = GetComponent<EnemyEventController>(); player = FindFirstObjectByType<PlayerScript>(); }
+        private void Awake() { owner = GetComponent<EnemyEventController>(); player = FindFirstObjectByType<PlayerScript>(); if(gun!=null){authoredGrip=gun.localRotation;authoredPosition=gun.localPosition;} }
         private void LateUpdate()
         {
-            AimAtPlayer();
+            if (owner != null && owner.RuntimeState == EnemyEventRuntimeState.Attacking) AimAtPlayer();
+            else if (gun != null) { gun.localRotation = authoredGrip; gun.localPosition = authoredPosition; }
         }
         public void AimAtPlayer()
         {
@@ -26,6 +31,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 Vector3 direction = target - (muzzle != null ? muzzle.position : gun.position);
                 if (direction.sqrMagnitude < .001f) return;
                 gun.rotation = Quaternion.LookRotation(direction, Vector3.up) * Quaternion.FromToRotation(localBarrelAxis, Vector3.forward);
+                if (grip != null) gun.position = grip.position - gun.TransformVector(localGripPoint);
             }
         }
     }

@@ -1089,6 +1089,7 @@ namespace IndianOceanAssets.ShooterSurvival
             highwayRoute?.BeginRun();
             var slip = GetComponent<OilSteeringEffect>();
             if (slip != null) slip.Clear();
+            foreach (var spin in GetComponentsInChildren<CosmeticHitSpin>(true)) spin.ResetPose();
             ClearRunHealthBonuses();
             bucketShootBlockers.Clear();
             roadHeightFollower?.CancelPitch();

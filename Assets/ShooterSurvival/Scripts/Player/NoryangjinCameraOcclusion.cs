@@ -16,6 +16,8 @@ namespace IndianOceanAssets.ShooterSurvival
         private readonly List<(Renderer[] renderers, bool explicitScenery)> candidateGroups = new();
         private readonly Dictionary<Renderer, bool> hidden = new();
         private readonly List<Renderer> restored = new();
+        private readonly HashSet<Transform> traversedRoads = new();
+        private NoryangjinRoadHeightFollower heightFollower;
         public int HiddenCount => hidden.Count;
 
         public void Configure(Transform target, Transform roads)
@@ -50,6 +52,7 @@ namespace IndianOceanAssets.ShooterSurvival
             Vector3 head = player.position + Vector3.up * 1.4f;
             Vector3 forward = Vector3.ProjectOnPlane(player.forward, Vector3.up).normalized;
             Vector3 side = Vector3.Cross(Vector3.up, forward);
+            CacheTraversedRoads(forward);
             foreach (var candidate in candidateGroups)
             {
                 var group=candidate.renderers;
@@ -58,6 +61,9 @@ namespace IndianOceanAssets.ShooterSurvival
                 {
                     if (renderer == null || !renderer.enabled || !renderer.gameObject.activeInHierarchy) continue;
                     Bounds bounds = renderer.bounds;
+                    // A ramp ahead is ground we are about to walk on, even when its
+                    // upper tiles are above the player's current floor-height guard.
+                    if (!candidate.explicitScenery && traversedRoads.Contains(renderer.transform)) continue;
                     // Explicit props may combine ground-level posts and overhead
                     // beams in one mesh. The floor-height guard is for roads only.
                     if (candidate.explicitScenery || bounds.min.y > player.position.y + clearance)
@@ -95,6 +101,24 @@ namespace IndianOceanAssets.ShooterSurvival
             {
                 if (renderer != null) renderer.forceRenderingOff = hidden[renderer];
                 hidden.Remove(renderer);
+            }
+        }
+        private void CacheTraversedRoads(Vector3 forward)
+        {
+            traversedRoads.Clear();
+            if (heightFollower == null || heightFollower.transform != player)
+                heightFollower = player.GetComponent<NoryangjinRoadHeightFollower>();
+            if (heightFollower == null) return;
+            foreach (float sign in new[] { -1f, 1f })
+            {
+                Vector3 sample = player.position;
+                float reach = sign < 0f ? 4f : viewAhead + 3f;
+                for (float distance = 0f; distance <= reach; distance += .5f)
+                {
+                    if (!heightFollower.TryProjectPosition(sample, forward, out var supported, out var collider)) break;
+                    if (collider != null) traversedRoads.Add(collider.transform);
+                    sample = supported + forward * (sign * .5f);
+                }
             }
         }
         private static bool IntersectsView(Bounds bounds, Vector3 from, Vector3 to)

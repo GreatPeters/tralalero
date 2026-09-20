@@ -14,6 +14,9 @@ namespace IndianOceanAssets.ShooterSurvival
         private const float TungtungMoveSpeedMultiplier = 1.06f;
         private const int InitialEnemySearchCapacity = 32;
         private int enemyLayerMask;
+        private Collider contactCollider;
+        private Collider[] contactOverlaps = new Collider[32];
+        private RaycastHit[] contactHits = new RaycastHit[32];
 
         [Header("Runtime")]
         [Tooltip("Current health of the Extra Help Buff.")]
@@ -72,7 +75,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void Awake()
         {
-            enemyLayerMask = LayerMask.GetMask("Enemy");
+            // Authored forward enemies still use Default; pooled enemies use Enemy.
+            enemyLayerMask = LayerMask.GetMask("Enemy", "Default");
             PlayerScript owner = GameManager.S != null
                 ? GameManager.S.playerScript
                 : FindFirstObjectByType<PlayerScript>();
@@ -290,6 +294,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void MoveAndHitEnemy()
         {
+            Vector3 before = transform.position;
             float tf = TimeManager.timeFactor;
             float baseSpeed = playerScript != null
                 ? playerScript.ForwardMoveSpeed * TungtungMoveSpeedMultiplier
@@ -299,6 +304,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (routeFollower != null)
             {
                 routeFollower.Advance(step);
+                ResolveContactsAlongMove(before, transform.position);
                 return; // Never chase across water, a crossing deck or an unvisited corner.
             }
 
@@ -326,6 +332,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             // 이동
             transform.position = Vector3.MoveTowards(transform.position, targetPos, step);
+            ResolveContactsAlongMove(before, transform.position);
 
             // 회전(자식 있으면 자식 회전)
             Vector3 dir = targetPos - transform.position; dir.y = 0f;
@@ -335,6 +342,46 @@ namespace IndianOceanAssets.ShooterSurvival
                 Quaternion rot = Quaternion.LookRotation(dir.normalized, Vector3.up);
                 body.rotation = Quaternion.Slerp(body.rotation, rot, 10f * Time.deltaTime * tf);
             }
+        }
+
+        public void ResolveContactsAlongMove(Vector3 from, Vector3 to)
+        {
+            if (helpType != HelpType.Tungtungtung || currentHealth <= 0f) return;
+            if (contactCollider == null) contactCollider = GetComponent<Collider>();
+            if (contactCollider == null || !contactCollider.enabled) return;
+            Physics.SyncTransforms();
+            Bounds bounds = contactCollider.bounds;
+            float radius = Mathf.Max(.05f, Mathf.Min(bounds.extents.x, bounds.extents.z));
+            Vector3 center = bounds.center + from - to;
+            Vector3 vertical = Vector3.up * Mathf.Max(0f, bounds.extents.y - radius);
+            if (enemyLayerMask == 0) enemyLayerMask = LayerMask.GetMask("Enemy", "Default");
+            int mask = enemyLayerMask;
+            int count;
+            while ((count = Physics.OverlapCapsuleNonAlloc(center - vertical, center + vertical,
+                       radius, contactOverlaps, mask, QueryTriggerInteraction.Collide)) == contactOverlaps.Length)
+                System.Array.Resize(ref contactOverlaps, contactOverlaps.Length * 2);
+            for (int i = 0; i < count && currentHealth > 0f; i++)
+                Contact(contactOverlaps[i]);
+            Vector3 delta = to - from;
+            if (delta.sqrMagnitude < .000001f || currentHealth <= 0f) return;
+            while ((count = Physics.CapsuleCastNonAlloc(center - vertical, center + vertical, radius,
+                       delta.normalized, contactHits, delta.magnitude, mask,
+                       QueryTriggerInteraction.Collide)) == contactHits.Length)
+                System.Array.Resize(ref contactHits, contactHits.Length * 2);
+            // Resolve the nearest enemy first, so a stronger enemy stops this helper.
+            System.Array.Sort(contactHits, 0, count, ContactDistanceComparer.Instance);
+            for (int i = 0; i < count && currentHealth > 0f; i++)
+                if (Contact(contactHits[i].collider) && currentHealth <= 0f)
+                    transform.position = Vector3.Lerp(from, to, Mathf.Clamp01(contactHits[i].distance / delta.magnitude));
+        }
+
+        private bool Contact(Collider other) => other != null &&
+            other.GetComponentInParent<EnemyScript_space>() is { } enemy && enemy.TryResolveHelperContact(this);
+
+        private sealed class ContactDistanceComparer : System.Collections.Generic.IComparer<RaycastHit>
+        {
+            public static readonly ContactDistanceComparer Instance = new();
+            public int Compare(RaycastHit a, RaycastHit b) => a.distance.CompareTo(b.distance);
         }
 
         // ▼ 이동만을 위한 보조(로컬) 함수

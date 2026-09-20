@@ -104,8 +104,10 @@ Using the incremental delta makes immediate and timed turns share one rule. An
 instant 90-degree turn applies one 90-degree delta; a smooth turn applies a
 series of smaller deltas whose product reaches the same final direction.
 
-Owner filtering prevents a global turn from redirecting enemy throws or helper
-shots. Separating trajectory state from lifetime state also keeps pooling and
+Owner filtering prevents a global turn from redirecting unrelated enemy throws.
+As of the user's 2026-09-20 request, Boombardino missiles explicitly pass the
+helper's player Owner in `WeaponScript` and inherit that player's turns too.
+Separating trajectory state from lifetime state also keeps pooling and
 missile-duration upgrades independent from route presentation.
 
 ## When to Apply

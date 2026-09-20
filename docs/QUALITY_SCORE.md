@@ -1,5 +1,13 @@
 # Quality Score
 
+## Talisman visual rework — 2026-09-20
+
+The user rejected the first implementation's visual fidelity despite passing tests. Rebuilt Blender geometry/emblems and native materials, strengthened and repositioned the common effect, fixed depth occlusion/caption whiteout/legacy value labels. Source and GLB reimport metrics and fixed studio views match. Three physical-pickup videos show unfolding, transfer and torso impact during movement. 39 tests pass; device performance remains unmeasured. Evidence and explicit visual ledger: `map-concepts/talisman-polish-2026-09-20/README.md`.
+
+## Common Bonus talisman — 2026-09-20
+
+21 positive Bonus prefab files and 150 scene placements use the shared folded talisman and torso absorption. 37 focused EditMode tests, native trigger/drop/helper/reset checks, runtime/editor builds and harness validation pass. Three-scene native captures and saved-scene audits pass. Android device performance remains unmeasured. Evidence: `map-concepts/common-talisman-applied-2026-09-20/README.md`.
+
 ## Settings and opening feedback — 2026-09-19
 
 Reference-sized settings controls are saved in all three chapters; merchant sleeve weights, shovel grip and both reward effects are corrected. 27 focused native tests, runtime/editor builds and the harness validator pass. Actual collection/pause/settings checks pass; tracked 66 preference keys are restored. Native and multiview evidence: `map-concepts/feedback-2026-09-19/README.md`. These are Editor checks, without a new APK/device acceptance.

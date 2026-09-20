@@ -38,8 +38,12 @@ namespace IndianOceanAssets.ShooterSurvival
         }
 
         public bool TryProjectPosition(Vector3 proposed, Vector3 forward, out Vector3 supported)
+            => TryProjectPosition(proposed, forward, out supported, out _);
+
+        public bool TryProjectPosition(Vector3 proposed, Vector3 forward, out Vector3 supported, out Collider support)
         {
             supported = proposed;
+            support = null;
             if (!isActiveAndEnabled || roadRoot == null)
                 return false;
             if (roadColliders == null)
@@ -67,6 +71,7 @@ namespace IndianOceanAssets.ShooterSurvival
                         continue;
                     nearest = hit.distance;
                     supported.y = hit.point.y + footOffset;
+                    support = collider;
                     found = true;
                 }
                 if (found)

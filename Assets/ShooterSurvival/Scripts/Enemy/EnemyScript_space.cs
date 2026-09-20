@@ -28,12 +28,21 @@ namespace IndianOceanAssets.ShooterSurvival
         [SerializeField, Min(0f)] private float throwRange = 7f;
         [SerializeField, Min(0f)] private float throwSpeed = 12f;
         [SerializeField, Min(0f)] private float throwReleaseDelay = 2f;
+        [SerializeField] private bool stationaryThrow;
+        [SerializeField, Min(.1f)] private float throwApproachSeconds = 5f;
+        [SerializeField, Min(.1f)] private float throwCycleSeconds = 2.8f;
+        private float throwCooldown;
+        private readonly System.Collections.Generic.List<GameObject> launchedProjectiles = new();
+        public bool StationaryThrow => stationaryThrow;
+        public Vector3 AuthoredThrowDirection => Vector3.ProjectOnPlane(-transform.forward, Vector3.up).normalized;
 
         private float _health;
         public float CurrentHealth => _health;
         private float _damage;
         private bool isDead;
         private bool hasThrown;
+        private bool projectileReleased;
+        private bool UsesCrateMotion => cratePose != null && cratePose.ControlsAlivePose;
         private bool rewardPlayerScore;
         private EnemyTier enemyTier;
 
@@ -41,6 +50,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private PlayerScript playerScript;
         private Animator enemyAnimator;
         private EnemyEventController eventController;
+        private FatManCratePose cratePose;
         private AudioSource audioSource;
         private TextMeshProUGUI healthText;
 
@@ -59,6 +69,7 @@ namespace IndianOceanAssets.ShooterSurvival
             audioSource = GetComponent<AudioSource>();
             enemyAnimator = GetComponentInChildren<Animator>();
             eventController = GetComponent<EnemyEventController>();
+            cratePose = GetComponent<FatManCratePose>();
             healthText = GetComponentInChildren<TextMeshProUGUI>(true);
             if (Application.isPlaying && enemyData != null)
                 EnemyHitEffectPool.Prewarm(enemyData.enemyHitVFX);
@@ -101,6 +112,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private void OnDisable()
         {
             StopAllCoroutines();
+            ClearLaunchedProjectiles();
         }
 
         private void Update()
@@ -109,6 +121,22 @@ namespace IndianOceanAssets.ShooterSurvival
                 isDead)
                 return;
 
+            if (stationaryThrow)
+            {
+                throwCooldown = Mathf.Max(0f, throwCooldown - Time.deltaTime * Mathf.Max(0f, TimeManager.timeFactor));
+                if (throwCooldown <= 0f && hasThrown)
+                {
+                    hasThrown = false;
+                    ResetHeldProjectile();
+                }
+                if (CanBeginThrow() && IsInApproachWindow())
+                {
+                    if (eventController != null && eventController.RuntimeState == EnemyEventRuntimeState.Waiting)
+                        eventController.ActivateFromSpot();
+                    else BeginThrow();
+                }
+                return;
+            }
             if (eventController != null)
                 return;
 
@@ -172,21 +200,28 @@ namespace IndianOceanAssets.ShooterSurvival
         private void ResolveExtraHelpContact(Collider other)
         {
             ExtraHelpBuffScript extraHelp = other.GetComponentInParent<ExtraHelpBuffScript>();
-            if (extraHelp == null || extraHelp.currentHealth <= 0f) return;
-            rewardPlayerScore = false;
-            if (extraHelp.currentHealth > _health)
-            {
-                extraHelp.currentHealth -= _health;
-                _health = 0f;
-                RefreshHealthText();
-                EnemyDeath();
-                return;
-            }
+            TryResolveHelperContact(extraHelp);
+        }
 
-            float extraHelpHealth = extraHelp.currentHealth;
-            _health -= extraHelpHealth;
-            extraHelp.currentHealth = 0f;
+        // Both physics callbacks and the helper's swept movement use this one transaction.
+        public bool TryResolveHelperContact(ExtraHelpBuffScript extraHelp)
+        {
+            if (isDead || _health <= 0f || extraHelp == null ||
+                extraHelp.helpType != HelpType.Tungtungtung || extraHelp.currentHealth <= 0f)
+                return false;
+            rewardPlayerScore = false;
+            ExchangeContactHealth(ref _health, ref extraHelp.currentHealth);
             RefreshHealthText();
+            if (_health <= 0f) EnemyDeath();
+            return true;
+        }
+
+        public static void ExchangeContactHealth(ref float enemyHealth, ref float helperHealth)
+        {
+            float enemyBefore = Mathf.Max(0f, enemyHealth);
+            float helperBefore = Mathf.Max(0f, helperHealth);
+            enemyHealth = Mathf.Max(0f, enemyBefore - helperBefore);
+            helperHealth = Mathf.Max(0f, helperBefore - enemyBefore);
         }
 
         private void ReceiveBulletDamage(BulletScript projectile)
@@ -287,6 +322,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ResetHeldProjectile()
         {
+            projectileReleased = false;
             if (heldProjectile == null)
                 return;
 
@@ -312,11 +348,14 @@ namespace IndianOceanAssets.ShooterSurvival
             foreach (Renderer renderer in heldProjectile.GetComponentsInChildren<Renderer>(true))
                 if (!(renderer is TrailRenderer)) renderer.enabled = showHeldProp;
             heldProjectile.GetComponent<SimpleProjectile>()?.SetFlightActive(false);
+            cratePose?.ResetCarry();
         }
 
         private void BeginThrow()
         {
             hasThrown = true;
+            if (UsesCrateMotion) cratePose.BeginWindup(throwReleaseDelay);
+            throwCooldown = Mathf.Max(throwCycleSeconds, throwReleaseDelay + .5f);
             if (eventController != null)
                 eventController.PlayAttackOnce();
             else
@@ -324,13 +363,13 @@ namespace IndianOceanAssets.ShooterSurvival
                     ForwardEnemyAnimationContract.AttackOnce,
                     0,
                     0f);
-            if (Application.isPlaying)
+            if (Application.isPlaying && !UsesCrateMotion)
                 StartCoroutine(ReleaseProjectileAfterDelay());
         }
 
         public bool TryBeginTriggeredFire()
         {
-            if (!CanBeginThrow())
+            if (!CanBeginThrow() || (stationaryThrow && !IsInApproachWindow()))
                 return false;
 
             BeginThrow();
@@ -350,8 +389,34 @@ namespace IndianOceanAssets.ShooterSurvival
         internal void ResetTriggeredFireForNewRun()
         {
             StopAllCoroutines();
+            ClearLaunchedProjectiles();
             hasThrown = false;
+            throwCooldown = 0f;
             ResetHeldProjectile();
+        }
+
+        public bool IsInApproachWindow()
+        {
+            if (playerScript == null) return false;
+            return IsWithinApproachWindow(playerScript.transform.position, playerScript.transform.forward,
+                transform.position, playerScript.ForwardMoveSpeed, throwApproachSeconds, 6f);
+        }
+
+        public static bool IsWithinApproachWindow(Vector3 playerPosition, Vector3 playerForward,
+            Vector3 position, float moveSpeed, float seconds, float lateralLimit)
+        {
+            Vector3 forward = Vector3.ProjectOnPlane(playerForward, Vector3.up).normalized;
+            Vector3 delta = position - playerPosition;
+            float ahead = Vector3.Dot(delta, forward);
+            float lateral = Mathf.Abs(Vector3.Dot(delta, Vector3.Cross(Vector3.up, forward)));
+            return moveSpeed > 0f && ahead >= 0f && ahead <= moveSpeed * seconds &&
+                lateral <= lateralLimit && Mathf.Abs(delta.y) < 3f;
+        }
+
+        private void ClearLaunchedProjectiles()
+        {
+            foreach (var projectile in launchedProjectiles) if (projectile != null) Destroy(projectile);
+            launchedProjectiles.Clear();
         }
 
         private bool CanBeginThrow()
@@ -378,49 +443,60 @@ namespace IndianOceanAssets.ShooterSurvival
                     Time.deltaTime * Mathf.Max(0f, TimeManager.timeFactor);
             }
 
-            if (isDead || heldProjectile == null || !TimeManager.isGameRunning)
-                yield break;
+            LaunchPreparedProjectile();
+        }
 
-            GetComponent<EnemyGroundedPose>()?.Settle();
-            GetComponent<EnemyGunAim>()?.AimAtPlayer();
+        internal bool ReleaseCrateAtPose()
+        {
+            return UsesCrateMotion && cratePose.ReadyToRelease && LaunchPreparedProjectile();
+        }
+
+        private bool LaunchPreparedProjectile()
+        {
+            if (isDead || !hasThrown || projectileReleased || heldProjectile == null || !TimeManager.isGameRunning)
+                return false;
+            projectileReleased = true;
+
+            if (!UsesCrateMotion)
+            {
+                GetComponent<EnemyGroundedPose>()?.Settle();
+                GetComponent<EnemyGunAim>()?.AimAtPlayer();
+            }
             Transform releaseTransform = throwPoint != null ? throwPoint : heldProjectile;
             Vector3 releasePosition = releaseTransform.position;
             // Detached throw props keep the hand's real release height. A low keyframe
             // must not launch a large crate through the road surface.
             if (throwPoint == heldProjectile)
                 releasePosition.y = Mathf.Max(releasePosition.y, transform.position.y + .9f);
-            Vector3 throwDirection = CalculateThrowDirection(
+            Vector3 throwDirection = stationaryThrow ? AuthoredThrowDirection : CalculateThrowDirection(
                 releasePosition,
                 GetPlayerAimPoint(),
                 -releaseTransform.forward);
 
-            heldProjectile.position = releasePosition;
             GameAudioService.PlayAt(GameSound.Throw, releasePosition);
-            heldProjectile.SetParent(null, true);
-            heldProjectile.rotation = BuildThrownProjectileRotation(throwDirection);
+            Quaternion launchRotation = UsesCrateMotion ? heldProjectile.rotation : BuildThrownProjectileRotation(throwDirection);
+            var projectile = Instantiate(heldProjectile.gameObject, releasePosition, launchRotation);
+            projectile.name = heldProjectile.name + "_Shot";
+            projectile.transform.localScale = heldProjectile.lossyScale;
+            launchedProjectiles.RemoveAll(p => p == null);
+            launchedProjectiles.Add(projectile);
             foreach (Renderer renderer in heldProjectile.GetComponentsInChildren<Renderer>(true))
+                if (!(renderer is TrailRenderer)) renderer.enabled = false;
+            if (UsesCrateMotion) cratePose.Release();
+            foreach (Renderer renderer in projectile.GetComponentsInChildren<Renderer>(true))
                 if (!(renderer is TrailRenderer)) renderer.enabled = true;
 
-            Collider projectileCollider = heldProjectile.GetComponent<Collider>();
+            Collider projectileCollider = projectile.GetComponent<Collider>();
             if (projectileCollider == null)
-                projectileCollider = heldProjectile.gameObject.AddComponent<SphereCollider>();
+                projectileCollider = projectile.AddComponent<SphereCollider>();
             projectileCollider.isTrigger = true;
-            heldProjectile.GetComponent<SimpleProjectile>().damage = _damage;
-
-            Rigidbody rigidbody = heldProjectile.GetComponent<Rigidbody>();
-            if (rigidbody == null)
-                rigidbody = heldProjectile.gameObject.AddComponent<Rigidbody>();
-            rigidbody.isKinematic = false;
-            rigidbody.useGravity = false;
-            rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-            rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 
             foreach (Collider enemyCollider in GetComponentsInChildren<Collider>(true))
                 Physics.IgnoreCollision(projectileCollider, enemyCollider, true);
 
-            rigidbody.angularVelocity = Vector3.zero;
-            rigidbody.linearVelocity = throwDirection * throwSpeed;
-            heldProjectile.GetComponent<SimpleProjectile>().SetFlightActive(true);
+            var flight = projectile.GetComponent<SimpleProjectile>() ?? projectile.AddComponent<SimpleProjectile>();
+            flight.Launch(throwDirection, throwSpeed, _damage, 8f);
+            return true;
         }
 
         private Vector3 GetPlayerAimPoint()

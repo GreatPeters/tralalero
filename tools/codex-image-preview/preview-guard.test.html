@@ -1,0 +1,51 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Codex image click guard regression fixture</title>
+<style>body{font:16px system-ui;margin:30px;background:#18212d;color:#fff}button{padding:12px}img{width:160px}pre{white-space:pre-wrap}</style>
+<h1>Image click regression fixture</h1>
+<p>This fixture uses the two trigger attributes inspected in Codex 26.908.40401. It is not the actual VS Code webview.</p>
+<section id="conversation"><p>Existing conversation stays mounted.</p><textarea id="draft">Unsent draft — preserve me</textarea></section>
+<button data-testid="generated-image-preview" id="generated"><img alt="Generated image"></button>
+<button data-markdown-image-preview-trigger="true" id="markdown"><img alt="Markdown image"></button>
+<button id="ordinary">Unrelated control</button>
+<button id="run">Run regression checks</button>
+<pre id="results">Ready</pre>
+<script>
+// ?baseline=1 runs the same assertions without the proposed safeguard.
+if (!new URLSearchParams(location.search).has('baseline')) {
+  const guard = document.createElement('script'); guard.src = 'preview-guard.js'; document.head.append(guard);
+}
+const sample = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500"><rect width="900" height="500" fill="#237b97"/><text x="90" y="260" font-size="64" fill="white">Image preview / conversation intact</text></svg>');
+document.querySelectorAll('button img').forEach(img => img.src = sample);
+let routed = 0, ordinary = 0;
+for (const id of ['generated','markdown']) document.getElementById(id).addEventListener('click', () => {
+  routed++; document.getElementById('conversation').hidden = true;
+});
+document.getElementById('ordinary').addEventListener('click', () => ordinary++);
+document.getElementById('run').addEventListener('click', async () => {
+  const lines = [], check = (name, ok) => lines.push(`${ok ? 'PASS' : 'FAIL'} ${name}`);
+  const conversation = document.getElementById('conversation'); conversation.hidden = false; routed = 0;
+  const original = conversation;
+  for (const id of ['generated','markdown']) {
+    const trigger = document.getElementById(id); trigger.focus(); trigger.querySelector('img').click();
+    const dialog = document.querySelector('dialog#codex-local-image-preview-guard');
+    check(`${id}: replacement opens`, !!dialog?.open);
+    check(`${id}: routing never runs`, routed === 0);
+    check(`${id}: conversation remains mounted`, !conversation.hidden && original === document.getElementById('conversation'));
+    check(`${id}: unsent text unchanged`, document.getElementById('draft').value === 'Unsent draft — preserve me');
+    if (dialog) {
+      const image = dialog.querySelector('img');
+      await image.decode(); check(`${id}: image decodes`, image.naturalWidth === 900);
+      image.click(); check(`${id}: original size toggles`, image.style.maxWidth === 'none');
+      dialog.querySelector('button').click();
+      await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      check(`${id}: closing removes overlay and restores focus`, !dialog.isConnected && document.activeElement === trigger);
+    }
+  }
+  document.getElementById('ordinary').click(); check('Unrelated control still works', ordinary > 0);
+  const trigger = document.getElementById('generated'); trigger.disabled = true; trigger.click();
+  check('Disabled trigger stays disabled', !document.querySelector('dialog')); trigger.disabled = false;
+  document.getElementById('results').textContent = lines.join('\n');
+  document.title = lines.some(line => line.startsWith('FAIL')) ? 'FAIL: image guard' : 'PASS: image guard';
+});
+</script>

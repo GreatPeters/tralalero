@@ -1,7 +1,7 @@
 ---
 title: Persist each generated image before starting the next prompt
 date: 2026-05-16
-last_updated: 2026-09-15
+last_updated: 2026-09-19
 category: docs/solutions/workflow-issues
 module: Stage reference image generation
 problem_type: workflow_issue
@@ -50,6 +50,14 @@ For preview-only work, use the same transaction with a temporary project path:
 Do not claim the desktop viewer itself is repaired unless Focused view and Canvas have been independently verified. A cache reset can be a diagnostic step, but repeating cache deletion after a fresh restart reproduces the same empty-route warning does not address the underlying app integration problem.
 
 ## Why This Matters
+
+## When local PNG links also open a blank viewer
+
+On 2026-09-19 the user reported the same blank image surface after clicking absolute PNG links. The files themselves decoded normally. Repeating the same links was insufficient. A standalone HTML gallery with relative PNG copies, served only from its dedicated folder on 127.0.0.1, displayed correctly in the user's connected Chrome browser. Verify an actual screenshot and a click-to-expand interaction, then preserve the browser tab as a deliverable. Keep the raw PNG links as fallback, but give the browser gallery URL as the primary review surface. Do not claim this repairs the original app or establishes its root cause.
+
+Bind a local server to loopback only, record its actual URL, and keep its helper process hidden. Serve the gallery folder rather than the whole repository. The HTML also works when opened directly in a browser after the server stops. Instructions: [Bonus Wall gallery](../../../map-concepts/bonus-gallery-2026-09-19/README.md).
+
+Use height:auto along with width:100% for responsive img elements carrying width/height attributes; otherwise the fixed height can produce a large empty letterbox. This was corrected and rechecked visually in the gallery.
 
 When multiple image generations share the same default output directory, "copy the newest file" is only correct if no later image has been generated yet. Skipping the immediate persist step can silently swap visual concepts between filenames, which is hard to detect after dozens of similar stage images.
 

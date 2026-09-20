@@ -59,6 +59,7 @@ Generated image previews:
 - Do not rely only on the desktop app's inline `Canvas` viewer when presenting generated images.
 - Copy preview images that the user may want to inspect into `tmp/image-previews/<topic>/` without overwriting existing files.
 - Include clickable absolute PNG links in the final response so the full-resolution files remain accessible even if the inline viewer fails.
+- This user's Codex VS Code panel has gone blank after image clicks. Use a verified external gallery as the primary browsing link; local PNG links are secondary. The local thumbnail safeguard, activation/rollback commands, and verification limits are in `docs/solutions/workflow-issues/protect-codex-image-clicks-without-changing-thread-state-2026-09-19.md`. Do not claim the native panel is fixed from a browser fixture alone or reset conversation data to repair a display issue.
 
 Definition of done for repo-shaping work:
 - Code change implemented.

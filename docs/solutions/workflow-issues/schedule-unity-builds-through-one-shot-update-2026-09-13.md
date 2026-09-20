@@ -48,6 +48,10 @@ SaveAssetIfDirty and the generic Unity serialized-file writer did not update thi
 
 The resulting699039439-byte APK verified under the same certificate as the predecessor, installed with adb install -r, retained the original first-install date, and matched the phone's installed APK hash. Native gameplay rendering was observed on2026-09-14. Full device frame-rate certification is a separate task.
 
+## Phone launch is not rendering verification
+
+The September20 update built revision `dedade520`, matched the predecessor's certificate, installed with `adb install -r`, retained first-install time and matched the installed APK hash. PlayerSettings were restored byte-for-byte. The cold activity launch reported success, but the device was on its always-on/lock screen and the activity then became hidden. Check device visibility separately; do not report game rendering from an `am start` success or live PID alone. A wake action does not authorize bypassing the lock screen. Ask the owner to unlock when visual verification is needed, while accurately separating completed installation from pending rendering checks. See [the release record](../../../map-concepts/mobile-release-2026-09-20/README.md).
+
 ## Examples
 
 - Pending: builder output says scheduled, no running.txt, isBuildingPlayer=false, matching callback remains in delayCall.

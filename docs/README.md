@@ -1,5 +1,7 @@
 # Docs Index
 
+- `../map-concepts/mobile-release-2026-09-20/README.md`: current work merged/pushed to `master`, ARM64 build and in-place Samsung phone installation verified by matching APK hash; game rendering verification awaits phone unlock.
+
 - `../map-concepts/seagull-size-followup-2026-09-20/README.md`: latest size-only follow-up, +20% warning diameter to 3.744m and +30% bird scale to 4.095; timing and impact reactions preserved.
 
 - `../map-concepts/seagull-impact-tumble-2026-09-20/README.md`: latest +50% bird/+30% shadow sizing; two-turn shark spin plus three-turn bird knockback, native normal/slow-motion video and pause/retry verification.

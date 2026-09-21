@@ -1,5 +1,9 @@
 # Quality Score
 
+## Mobile feedback follow-up — 2026-09-20
+
+82 focused tests, both C# builds, harness validation, native projectile-hit probes and both elevated-road traversals pass. Three chapters have native UI captures. Android ARM64 build succeeds (0 errors, 58 warnings) and the Samsung SM-S901N in-place install matches the APK SHA-256. Final phone rendering/FPS awaits unlock after an automatic timeout. The Editor start fixture improves from 327 to 296 batches and 53 to 17 enabled animators; frame-time samples vary and baked occlusion alone is not a guaranteed FPS improvement. Evidence: `map-concepts/mobile-feedback-2026-09-20/README.md`.
+
 ## Talisman visual rework — 2026-09-20
 
 The user rejected the first implementation's visual fidelity despite passing tests. Rebuilt Blender geometry/emblems and native materials, strengthened and repositioned the common effect, fixed depth occlusion/caption whiteout/legacy value labels. Source and GLB reimport metrics and fixed studio views match. Three physical-pickup videos show unfolding, transfer and torso impact during movement. 39 tests pass; device performance remains unmeasured. Evidence and explicit visual ledger: `map-concepts/talisman-polish-2026-09-20/README.md`.

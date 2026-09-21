@@ -1,0 +1,345 @@
+{
+  "actions": [
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "attack_loop",
+      "users": 2
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "attack_once",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "die",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "idle",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "run",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "walk",
+      "users": 1
+    }
+  ],
+  "blender": {
+    "background": true,
+    "build_hash": "9e2066aef7ef",
+    "version": "5.2.1 LTS",
+    "version_tuple": [
+      5,
+      2,
+      1
+    ]
+  },
+  "hard_gate_pass": true,
+  "input": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\chapters-polish-2026-09-12\\rigged\\v2\\ParkingMarshal\\ParkingMarshal.glb",
+  "issues": [],
+  "material_details": [
+    {
+      "image_texture_nodes": 1,
+      "images": [
+        "BaseColor"
+      ],
+      "name": "Asset_PBR",
+      "node_count": 3,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "ParkingMarshal_Coral",
+      "node_count": 2,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "ParkingMarshal_Cream",
+      "node_count": 2,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "ParkingMarshal_Navy",
+      "node_count": 2,
+      "use_nodes": true
+    }
+  ],
+  "materials": [
+    "Asset_PBR",
+    "ParkingMarshal_Coral",
+    "ParkingMarshal_Cream",
+    "ParkingMarshal_Navy"
+  ],
+  "meshes": [
+    {
+      "boundary_edges": 18523,
+      "connected_components": 2351,
+      "data_name": "geometry_0.001",
+      "degenerate_faces": 0,
+      "edges": 36905,
+      "flat_polygons": 891,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Asset_PBR"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "ParkingMarshal_Body",
+      "non_manifold_edges": 18523,
+      "polygons": 18429,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.951652,
+      "smooth_polygons": 17538,
+      "source_polygons": 18429,
+      "source_vertices": 20747,
+      "triangles": 18429,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 20747,
+      "weighted_vertices": 20747,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.47228,
+          -0.268,
+          -0.0
+        ],
+        [
+          0.666272,
+          0.647867,
+          1.599947
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 412,
+      "connected_components": 60,
+      "data_name": "Cylinder",
+      "degenerate_faces": 0,
+      "edges": 644,
+      "flat_polygons": 148,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "ParkingMarshal_Navy",
+        "ParkingMarshal_Coral",
+        "ParkingMarshal_Cream"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "ParkingMarshal_Equipment",
+      "non_manifold_edges": 412,
+      "polygons": 292,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.493151,
+      "smooth_polygons": 144,
+      "source_polygons": 292,
+      "source_vertices": 412,
+      "triangles": 292,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 412,
+      "weighted_vertices": 412,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.510816,
+          0.121081,
+          0.418493
+        ],
+        [
+          -0.270548,
+          0.160383,
+          0.809013
+        ]
+      ],
+      "zero_length_edges": 0
+    }
+  ],
+  "objects": [
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.138552,
+        0.915868,
+        1.599947
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "ParkingMarshal_Body",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.240268,
+        0.039302,
+        0.390521
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "ParkingMarshal_Equipment",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": "attack_loop",
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.996327,
+        0.226868,
+        0.990309
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Rig",
+      "parent": null,
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "ARMATURE"
+    }
+  ],
+  "scene": {
+    "bounds": {
+      "dimensions": [
+        1.177088,
+        0.915867,
+        1.599947
+      ],
+      "max": [
+        0.666272,
+        0.647867,
+        1.599947
+      ],
+      "min": [
+        -0.510816,
+        -0.268,
+        -0.0
+      ]
+    },
+    "fps": 24.0,
+    "frame_end": 250,
+    "frame_start": 1,
+    "name": "Scene"
+  },
+  "schema_version": 3,
+  "totals": {
+    "actions": 6,
+    "armatures": 1,
+    "bones": 18,
+    "boundary_edges": 18935,
+    "cameras": 0,
+    "constraints": 0,
+    "degenerate_faces": 0,
+    "edges": 37549,
+    "flat_polygons": 1039,
+    "geometry_nodes_modifiers": 0,
+    "images": 1,
+    "invalid_vertices": 0,
+    "isolated_vertices": 0,
+    "lights": 0,
+    "materials": 4,
+    "mesh_objects": 2,
+    "missing_material_faces": 0,
+    "node_materials": 4,
+    "non_manifold_edges": 18935,
+    "objects": 3,
+    "polygons": 18721,
+    "refinement_modifiers": 0,
+    "rigid_body_objects": 0,
+    "shape_keys": 0,
+    "simulation_modifiers": 0,
+    "smooth_polygons": 17682,
+    "textured_materials": 1,
+    "triangles": 18721,
+    "uv_mapped_meshes": 2,
+    "vertices": 21159,
+    "weighted_meshes": 2,
+    "wire_edges": 0,
+    "zero_length_edges": 0
+  }
+}

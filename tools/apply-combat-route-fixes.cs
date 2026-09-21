@@ -33,7 +33,6 @@ public static class ApplyCombatRouteFixes
    so.FindProperty("throwPoint").objectReferenceValue=shot.transform;
    so.FindProperty("throwSpeed").floatValue=18;
    so.FindProperty("throwApproachSeconds").floatValue=5;
-   so.FindProperty("throwCycleSeconds").floatValue=2.8f;
   }
   else
   {

@@ -127,6 +127,8 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (!Initialize() || !HasReferencePose ||
                 (owner != null && owner.RuntimeState == EnemyEventRuntimeState.Dead)) return;
+            if (owner != null && !owner.VisualIsRelevant && !windingUp &&
+                (!released || recovery >= FollowThroughSeconds + ReturnSeconds)) return;
             model.enabled = false;
             // Apply even while paused: grounding must not leave the model at an
             // unposed height. Only Update advances this motion clock.

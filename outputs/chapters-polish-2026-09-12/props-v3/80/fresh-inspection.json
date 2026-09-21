@@ -1,0 +1,169 @@
+{
+  "actions": [],
+  "blender": {
+    "background": true,
+    "build_hash": "9e2066aef7ef",
+    "version": "5.2.1 LTS",
+    "version_tuple": [
+      5,
+      2,
+      1
+    ]
+  },
+  "hard_gate_pass": true,
+  "input": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\chapters-polish-2026-09-12\\props-v3\\80\\Model.glb",
+  "issues": [],
+  "material_details": [
+    {
+      "image_texture_nodes": 3,
+      "images": [
+        "BaseColor",
+        "Metallic-Roughness",
+        "Normal"
+      ],
+      "name": "Asset_PBR",
+      "node_count": 7,
+      "use_nodes": true
+    }
+  ],
+  "materials": [
+    "Asset_PBR"
+  ],
+  "meshes": [
+    {
+      "boundary_edges": 14931,
+      "connected_components": 2145,
+      "data_name": "geometry_0.001",
+      "degenerate_faces": 0,
+      "edges": 27564,
+      "flat_polygons": 855,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Asset_PBR"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [],
+      "name": "Highway_80_Visual",
+      "non_manifold_edges": 14931,
+      "polygons": 13399,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.936189,
+      "smooth_polygons": 12544,
+      "source_polygons": 13399,
+      "source_vertices": 16192,
+      "triangles": 13399,
+      "uv_layers": 1,
+      "vertex_groups": 0,
+      "vertices": 16192,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -1.943147,
+          -4.5,
+          0.0
+        ],
+        [
+          1.943147,
+          4.5,
+          3.492962
+        ]
+      ],
+      "zero_length_edges": 0
+    }
+  ],
+  "objects": [
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        3.886294,
+        9.0,
+        3.492962
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Highway_80_Visual",
+      "parent": null,
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    }
+  ],
+  "scene": {
+    "bounds": {
+      "dimensions": [
+        3.886294,
+        9.0,
+        3.492962
+      ],
+      "max": [
+        1.943147,
+        4.5,
+        3.492962
+      ],
+      "min": [
+        -1.943147,
+        -4.5,
+        0.0
+      ]
+    },
+    "fps": 24.0,
+    "frame_end": 250,
+    "frame_start": 1,
+    "name": "Scene"
+  },
+  "schema_version": 3,
+  "totals": {
+    "actions": 0,
+    "armatures": 0,
+    "bones": 0,
+    "boundary_edges": 14931,
+    "cameras": 0,
+    "constraints": 0,
+    "degenerate_faces": 0,
+    "edges": 27564,
+    "flat_polygons": 855,
+    "geometry_nodes_modifiers": 0,
+    "images": 3,
+    "invalid_vertices": 0,
+    "isolated_vertices": 0,
+    "lights": 0,
+    "materials": 1,
+    "mesh_objects": 1,
+    "missing_material_faces": 0,
+    "node_materials": 1,
+    "non_manifold_edges": 14931,
+    "objects": 1,
+    "polygons": 13399,
+    "refinement_modifiers": 0,
+    "rigid_body_objects": 0,
+    "shape_keys": 0,
+    "simulation_modifiers": 0,
+    "smooth_polygons": 12544,
+    "textured_materials": 1,
+    "triangles": 13399,
+    "uv_mapped_meshes": 1,
+    "vertices": 16192,
+    "weighted_meshes": 0,
+    "wire_edges": 0,
+    "zero_length_edges": 0
+  }
+}

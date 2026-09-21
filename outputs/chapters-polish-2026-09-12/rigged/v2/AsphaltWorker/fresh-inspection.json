@@ -1,0 +1,351 @@
+{
+  "actions": [
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "attack_loop",
+      "users": 2
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "attack_once",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "die",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "idle",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "run",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "walk",
+      "users": 1
+    }
+  ],
+  "blender": {
+    "background": true,
+    "build_hash": "9e2066aef7ef",
+    "version": "5.2.1 LTS",
+    "version_tuple": [
+      5,
+      2,
+      1
+    ]
+  },
+  "hard_gate_pass": true,
+  "input": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\chapters-polish-2026-09-12\\rigged\\v2\\AsphaltWorker\\AsphaltWorker.glb",
+  "issues": [
+    {
+      "code": "degenerate_faces",
+      "count": 2,
+      "severity": "warning"
+    }
+  ],
+  "material_details": [
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "AsphaltWorker_Cardboard",
+      "node_count": 2,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "AsphaltWorker_Navy",
+      "node_count": 2,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "AsphaltWorker_Steel",
+      "node_count": 2,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 1,
+      "images": [
+        "BaseColor"
+      ],
+      "name": "Asset_PBR",
+      "node_count": 3,
+      "use_nodes": true
+    }
+  ],
+  "materials": [
+    "AsphaltWorker_Cardboard",
+    "AsphaltWorker_Navy",
+    "AsphaltWorker_Steel",
+    "Asset_PBR"
+  ],
+  "meshes": [
+    {
+      "boundary_edges": 21686,
+      "connected_components": 3228,
+      "data_name": "geometry_0.001",
+      "degenerate_faces": 2,
+      "edges": 38347,
+      "flat_polygons": 1300,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Asset_PBR"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "AsphaltWorker_Body",
+      "non_manifold_edges": 21686,
+      "polygons": 18336,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.929101,
+      "smooth_polygons": 17036,
+      "source_polygons": 18336,
+      "source_vertices": 23171,
+      "triangles": 18336,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 23171,
+      "weighted_vertices": 23171,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.485377,
+          -0.246274,
+          -0.0
+        ],
+        [
+          0.66553,
+          0.695601,
+          1.599898
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 530,
+      "connected_components": 111,
+      "data_name": "Cylinder",
+      "degenerate_faces": 0,
+      "edges": 727,
+      "flat_polygons": 155,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "AsphaltWorker_Cardboard",
+        "AsphaltWorker_Steel",
+        "AsphaltWorker_Navy"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "AsphaltWorker_Equipment",
+      "non_manifold_edges": 530,
+      "polygons": 308,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.496753,
+      "smooth_polygons": 153,
+      "source_polygons": 308,
+      "source_vertices": 530,
+      "triangles": 308,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 530,
+      "weighted_vertices": 530,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.473013,
+          0.025513,
+          0.013231
+        ],
+        [
+          0.63559,
+          0.093491,
+          0.602731
+        ]
+      ],
+      "zero_length_edges": 0
+    }
+  ],
+  "objects": [
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.150907,
+        0.941875,
+        1.599898
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "AsphaltWorker_Body",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.162577,
+        0.067978,
+        0.589499
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "AsphaltWorker_Equipment",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": "attack_loop",
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.023237,
+        0.26432,
+        0.991232
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Rig",
+      "parent": null,
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "ARMATURE"
+    }
+  ],
+  "scene": {
+    "bounds": {
+      "dimensions": [
+        1.150907,
+        0.941875,
+        1.599898
+      ],
+      "max": [
+        0.66553,
+        0.695601,
+        1.599898
+      ],
+      "min": [
+        -0.485377,
+        -0.246274,
+        -0.0
+      ]
+    },
+    "fps": 24.0,
+    "frame_end": 250,
+    "frame_start": 1,
+    "name": "Scene"
+  },
+  "schema_version": 3,
+  "totals": {
+    "actions": 6,
+    "armatures": 1,
+    "bones": 18,
+    "boundary_edges": 22216,
+    "cameras": 0,
+    "constraints": 0,
+    "degenerate_faces": 2,
+    "edges": 39074,
+    "flat_polygons": 1455,
+    "geometry_nodes_modifiers": 0,
+    "images": 1,
+    "invalid_vertices": 0,
+    "isolated_vertices": 0,
+    "lights": 0,
+    "materials": 4,
+    "mesh_objects": 2,
+    "missing_material_faces": 0,
+    "node_materials": 4,
+    "non_manifold_edges": 22216,
+    "objects": 3,
+    "polygons": 18644,
+    "refinement_modifiers": 0,
+    "rigid_body_objects": 0,
+    "shape_keys": 0,
+    "simulation_modifiers": 0,
+    "smooth_polygons": 17189,
+    "textured_materials": 1,
+    "triangles": 18644,
+    "uv_mapped_meshes": 2,
+    "vertices": 23701,
+    "weighted_meshes": 2,
+    "wire_edges": 0,
+    "zero_length_edges": 0
+  }
+}

@@ -57,6 +57,7 @@ public static class PolishedTalismanAssets
                 emblems.Add(new BonusTalismanVisual.Emblem{spriteName=key,mesh=filter.sharedMesh,materials=filter.GetComponent<Renderer>().sharedMaterials.Select(m=>materials[m.name]).ToArray()});
             }
             visual.emblems=emblems.ToArray();
+            BonusTalismanRibbon.Apply(visual);
             visual.readyHalo=Child(root.transform,"ReadyHalo").gameObject.AddComponent<SpriteRenderer>();
             visual.readyHalo.sprite=Resources.Load<Sprite>("BonusTalisman/SoftGlow");
             visual.readyHalo.sharedMaterial=AssetDatabase.LoadAssetAtPath<Material>(Art+"/GoldGlow.mat");

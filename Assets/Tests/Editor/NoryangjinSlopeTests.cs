@@ -113,6 +113,19 @@ public sealed class NoryangjinSlopeTests
         Assert.That((Vector3)laneField.GetValue(player), Is.EqualTo(laneOrigin));
     }
 
+    [TestCase(-16f)] [TestCase(16f)]
+    public void RoadIndexKeepsNegativeCellEdgesAndReconfiguredRoads(float x)
+    {
+        var player = Player();var follower = player.GetComponent<NoryangjinRoadHeightFollower>();
+        var roads = follower.RoadRoot;roads.position = new Vector3(x, 0, 0);Physics.SyncTransforms();
+        follower.Configure(roads, .12f);
+        Assert.That(follower.TryProjectPosition(new Vector3(x, .12f, 1), Vector3.forward, out var low), Is.True);
+        Assert.That(low.y, Is.EqualTo(.12f).Within(.001f));
+        Assert.That(follower.TryProjectPosition(new Vector3(x, 12.12f, 1), Vector3.forward, out var high), Is.True);
+        Assert.That(high.y, Is.EqualTo(12.12f).Within(.001f));
+        Assert.That(follower.TryProjectPosition(new Vector3(x + 20, .12f, 1), Vector3.forward, out _), Is.False);
+    }
+
     [Test]
     public void SlopePitch_RejectsMissingFollowerAndWrongIncomingDirection()
     {

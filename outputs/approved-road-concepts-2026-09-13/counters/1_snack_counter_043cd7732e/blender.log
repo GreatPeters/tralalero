@@ -1,0 +1,111 @@
+APP_STAGE Import source GLB
+20:00:40 | INFO: Data are loaded, start creating Blender stuff
+20:00:40 | INFO: Blender create Mesh node geometry_0
+20:00:40 | INFO: glTF import finished in 0.11s
+Warning: No mesh data to join
+APP_STAGE Clean mesh
+APP_STAGE Reduce triangle count
+APP_STAGE Unwrap UV atlas
+APP_STAGE Bake BaseColor
+Blender 4.4.0 (hash 05377985c527 built 2025-03-18 03:22:03)
+Fra:1 Mem:483.39M (Peak 514.34M) | Time:26:03:46.47 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | Detailed_Source
+Fra:1 Mem:501.19M (Peak 527.56M) | Time:26:03:46.54 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:501.19M (Peak 527.56M) | Time:26:03:46.54 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading BaseColor
+Fra:1 Mem:501.19M (Peak 527.56M) | Time:26:03:46.54 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading Image_1
+Info: Baking map saved to internal image, save it externally or pack it
+APP_STAGE Bake Roughness
+Fra:1 Mem:486.33M (Peak 1128.66M) | Time:26:03:49.26 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | Detailed_Source
+Fra:1 Mem:501.21M (Peak 1128.66M) | Time:26:03:49.31 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:501.21M (Peak 1128.66M) | Time:26:03:49.31 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading Roughness
+Fra:1 Mem:501.21M (Peak 1128.66M) | Time:26:03:49.31 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading Image_0
+Fra:1 Mem:517.21M (Peak 1128.66M) | Time:26:03:49.31 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading Image_1
+Info: Baking map saved to internal image, save it externally or pack it
+APP_STAGE Bake Metallic
+Fra:1 Mem:486.35M (Peak 1128.68M) | Time:26:03:51.91 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | Detailed_Source
+Fra:1 Mem:501.23M (Peak 1128.68M) | Time:26:03:51.95 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:501.23M (Peak 1128.68M) | Time:26:03:51.95 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading Metallic
+Fra:1 Mem:501.23M (Peak 1128.68M) | Time:26:03:51.95 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading Image_0
+Fra:1 Mem:501.23M (Peak 1128.68M) | Time:26:03:51.95 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading Image_1
+Info: Baking map saved to internal image, save it externally or pack it
+APP_STAGE Bake Normal
+Fra:1 Mem:486.36M (Peak 1128.70M) | Time:26:03:54.44 | Mem:0.00M, Peak:0.00M | Scene | Synchronizing object | Detailed_Source
+Fra:1 Mem:503.70M (Peak 1128.70M) | Time:26:03:54.49 | Mem:0.00M, Peak:0.00M | Scene | Initializing
+Fra:1 Mem:503.69M (Peak 1128.70M) | Time:26:03:54.49 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading Normal
+Fra:1 Mem:503.69M (Peak 1128.70M) | Time:26:03:54.49 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading Image_0
+Fra:1 Mem:535.69M (Peak 1128.70M) | Time:26:03:54.49 | Mem:0.00M, Peak:0.00M | Scene | Updating Images | Loading Image_1
+Info: Baking map saved to internal image, save it externally or pack it
+APP_STAGE Export FBX and GLB
+
+FBX export starting... 'C:\\Users\\ljh\\tralalero Shooter\\outputs\\approved-road-concepts-2026-09-13\\counters\\1_snack_counter_043cd7732e\\model.fbx'
+export finished in 0.0651 sec.
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 4.4\4.4\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+20:00:58 | INFO: Starting glTF 2.0 export
+20:00:58 | INFO: Extracting primitive: geometry_0.001
+C:\Program Files\Blender Foundation\Blender 4.4\4.4\python\Lib\site-packages\numpy\linalg\linalg.py:2582: RuntimeWarning: overflow encountered in multiply
+  s = (x.conj() * x).real
+20:00:59 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+20:00:59 | INFO: Primitives created: 1
+20:00:59 | INFO: Finished glTF 2.0 export in 0.44643616676330566 s
+
+APP_STAGE Render preview
+Fra:1 Mem:118.63M (Peak 182.37M) | Time:00:00.00 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Synchronizing object | Asset_Optimized
+Fra:1 Mem:122.42M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Initializing
+Fra:1 Mem:122.18M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Waiting for render to start
+Fra:1 Mem:122.18M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Loading render kernels (may take a few minutes the first time)
+Fra:1 Mem:122.18M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Scene
+Fra:1 Mem:122.18M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Shaders
+Fra:1 Mem:122.26M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Procedurals
+Fra:1 Mem:122.26M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Background
+Fra:1 Mem:122.26M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Camera
+Fra:1 Mem:122.26M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes Flags
+Fra:1 Mem:122.26M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects
+Fra:1 Mem:122.26M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Copying Transformations to device
+Fra:1 Mem:122.26M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Objects | Applying Static Transformations
+Fra:1 Mem:122.26M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems
+Fra:1 Mem:122.26M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Particle Systems | Copying Particles to device
+Fra:1 Mem:122.26M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Meshes
+Fra:1 Mem:122.64M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Computing attributes
+Fra:1 Mem:124.60M (Peak 182.37M) | Time:00:00.01 | Mem:0.00M, Peak:0.00M | Scene, ViewLayer | Updating Mesh | Copying Attributes to device
+Fra:1 Mem:124.60M (Peak 182.37M) | Time:00:00.01 | Mem:1.97M, Peak:1.97M | Scene, ViewLayer | Updating Scene BVH | Building
+Fra:1 Mem:124.60M (Peak 182.37M) | Time:00:00.01 | Mem:1.97M, Peak:1.97M | Scene, ViewLayer | Updating Scene BVH | Building BVH
+Fra:1 Mem:124.60M (Peak 182.37M) | Time:00:00.02 | Mem:2.71M, Peak:2.71M | Scene, ViewLayer | Updating Scene BVH | Building BVH 0%
+Fra:1 Mem:124.60M (Peak 182.37M) | Time:00:00.02 | Mem:3.68M, Peak:4.43M | Scene, ViewLayer | Updating Scene BVH | Copying BVH to device
+Fra:1 Mem:124.60M (Peak 182.37M) | Time:00:00.02 | Mem:3.68M, Peak:4.43M | Scene, ViewLayer | Updating Mesh | Computing normals
+Fra:1 Mem:125.84M (Peak 182.37M) | Time:00:00.02 | Mem:3.68M, Peak:4.43M | Scene, ViewLayer | Updating Mesh | Copying Mesh to device
+Fra:1 Mem:125.84M (Peak 182.37M) | Time:00:00.02 | Mem:4.92M, Peak:4.92M | Scene, ViewLayer | Updating Objects Flags
+Fra:1 Mem:125.84M (Peak 182.37M) | Time:00:00.02 | Mem:4.92M, Peak:4.92M | Scene, ViewLayer | Updating Primitive Offsets
+Fra:1 Mem:125.84M (Peak 182.37M) | Time:00:00.02 | Mem:4.92M, Peak:4.92M | Scene, ViewLayer | Updating Images
+Fra:1 Mem:125.84M (Peak 182.37M) | Time:00:00.02 | Mem:4.92M, Peak:4.92M | Scene, ViewLayer | Updating Images | Loading Normal.png
+Fra:1 Mem:125.84M (Peak 182.37M) | Time:00:00.02 | Mem:4.92M, Peak:4.92M | Scene, ViewLayer | Updating Images | Loading BaseColor.png
+Fra:1 Mem:141.84M (Peak 182.37M) | Time:00:00.02 | Mem:4.92M, Peak:4.92M | Scene, ViewLayer | Updating Images | Loading Roughness.png
+Fra:1 Mem:189.85M (Peak 189.85M) | Time:00:00.09 | Mem:68.92M, Peak:68.92M | Scene, ViewLayer | Updating Camera Volume
+Fra:1 Mem:189.85M (Peak 189.85M) | Time:00:00.09 | Mem:68.92M, Peak:68.92M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:189.85M (Peak 189.85M) | Time:00:00.09 | Mem:69.00M, Peak:69.00M | Scene, ViewLayer | Updating Lights
+Fra:1 Mem:189.85M (Peak 189.85M) | Time:00:00.09 | Mem:69.00M, Peak:69.00M | Scene, ViewLayer | Updating Lights | Computing tree
+Fra:1 Mem:189.85M (Peak 189.85M) | Time:00:00.09 | Mem:69.00M, Peak:69.00M | Scene, ViewLayer | Updating Integrator
+Fra:1 Mem:189.85M (Peak 189.85M) | Time:00:00.09 | Mem:69.00M, Peak:69.00M | Scene, ViewLayer | Updating Film
+Fra:1 Mem:189.86M (Peak 189.86M) | Time:00:00.09 | Mem:68.92M, Peak:69.00M | Scene, ViewLayer | Updating Lookup Tables
+Fra:1 Mem:189.86M (Peak 189.86M) | Time:00:00.09 | Mem:69.01M, Peak:69.01M | Scene, ViewLayer | Updating Baking
+Fra:1 Mem:189.86M (Peak 189.86M) | Time:00:00.09 | Mem:69.01M, Peak:69.01M | Scene, ViewLayer | Updating Device | Writing constant memory
+Fra:1 Mem:189.86M (Peak 189.86M) | Time:00:00.09 | Mem:69.01M, Peak:69.01M | Scene, ViewLayer | Loading denoising kernels (may take a few minutes the first time)
+Fra:1 Mem:189.86M (Peak 189.86M) | Time:00:00.09 | Mem:69.01M, Peak:69.01M | Scene, ViewLayer | Sample 0/24
+Fra:1 Mem:243.02M (Peak 243.02M) | Time:00:00.15 | Remaining:00:01.51 | Mem:121.90M, Peak:121.90M | Scene, ViewLayer | Sample 1/24
+Fra:1 Mem:265.28M (Peak 298.68M) | Time:00:02.87 | Mem:121.90M, Peak:121.90M | Scene, ViewLayer | Sample 24/24
+Fra:1 Mem:265.28M (Peak 298.68M) | Time:00:02.87 | Mem:121.90M, Peak:121.90M | Scene, ViewLayer | Finished
+Saved: 'C:\Users\ljh\tralalero Shooter\outputs\approved-road-concepts-2026-09-13\counters\1_snack_counter_043cd7732e\preview.png'
+Time: 00:02.99 (Saving: 00:00.11)
+
+Info: Packed 4 file(s)
+Info: Saved "model.blend"
+APP_STAGE Saved
+
+Blender quit
+APP_STAGE Verify exported FBX
+FBX version: 7400
+20:01:04 | INFO: Data are loaded, start creating Blender stuff
+20:01:04 | INFO: Blender create Mesh node geometry_0.001
+20:01:04 | INFO: glTF import finished in 0.02s
+APP_STAGE Validated 24427 triangles
+Blender 4.4.0 (hash 05377985c527 built 2025-03-18 03:22:03)
+
+Blender quit

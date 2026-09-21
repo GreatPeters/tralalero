@@ -48,6 +48,21 @@ public sealed class BonusTalismanTests
     }
 
     [Test]
+    public void BonusRerollsUseTheOriginalEnhancementArtworkForEveryMappedType()
+    {
+        var go=UnityEngine.Object.Instantiate(Resources.Load<BonusTalismanVisual>(BonusTalismanPresentation.ResourcePath)).gameObject;owned.Add(go);
+        var visual=go.GetComponent<BonusTalismanVisual>();Assert.That(visual.enhancementIcons,Is.Not.Null);
+        foreach(BuffType type in Enum.GetValues(typeof(BuffType)))
+        {
+            string key=BonusAltarRules.ResolveIconResourceName(type);if(key==null)continue;
+            var expected=visual.enhancementIcons.GetSpriteOrDefault(key);Assert.That(expected,Is.Not.Null,key);
+            visual.SetContent(Resources.Load<Sprite>("WallBonusIcons/"+key),"보너스 +1",Color.white);
+            Assert.That(visual.icon.sprite==expected,Is.True,type.ToString());Assert.That(visual.icon.enabled,Is.True);
+            Assert.That(visual.emblemRenderer.enabled,Is.False,"The earlier replacement emblem must not cover the restored original icon.");
+        }
+    }
+
+    [Test]
     public void EveryPositiveBonusTypeHasAnIconAndUsesTheSameVisual()
     {
         var go=Make("All bonus types");go.AddComponent<BoxCollider>();var wall=go.AddComponent<WallScript>();

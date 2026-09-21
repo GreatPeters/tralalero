@@ -49,7 +49,7 @@ public sealed class CoastalTutorialUI : MonoBehaviour
     {
         if(index<0||index>=Titles.Length)return;
         title.text=Titles[index];body.text=Bodies[index];icon.sprite=icons[index];
-        seen|=1<<index;panel.SetActive(true);hideAt=Time.unscaledTime+2.5f;
+        seen|=1<<index;panel.SetActive(true);hideAt=Time.unscaledTime+4.5f;
         if(seen==15){complete=true;PlayerPrefs.SetInt("TutorialDone",1);PlayerPrefs.Save();}
     }
     public void Close(){panel.SetActive(false);nextHint=Time.unscaledTime+2;}

@@ -58,7 +58,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.43
+  m_Radius: 0.55
   m_Height: 1.28
   m_Direction: 1
   m_Center: {x: -0.04, y: 0.64, z: 0}
@@ -84,6 +84,8 @@ MonoBehaviour:
   throwRange: 7
   throwSpeed: 12
   throwReleaseDelay: 2
+  stationaryThrow: 0
+  throwApproachSeconds: 5
 --- !u!82 &2867802748243985862
 AudioSource:
   m_ObjectHideFlags: 0
@@ -216,7 +218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHitboxSize
   body: {fileID: 1763793154828632031}
   captured: 1
-  originalRadius: 0.33
+  originalRadius: 0.42307696
   originalSize: {x: 0, y: 0, z: 0}
 --- !u!1 &5373966266097683866
 GameObject:

@@ -1,0 +1,40 @@
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  SA3 → TFLite/CPU  text-to-audio
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       prompt  'Original instrumental game background music. 70 BPM, instrumental ocean gothic requiem, aching solo cello melody over restrained low strings, sparse resonant piano notes, quiet pipe-organ foundation and deep distant tom pulse, vast black water and loss, close dissonant string harmonics and trembling high violins, mournful lyrical beauty surrounded by palpable dread, slow breathing dynamics without explosive climaxes. A clear expressive original melody remains audible throughout, gentle musical evolution, creepy atmospheric tension, balanced uncluttered mix with room for gameplay sound effects, steady loop-friendly arrangement, no intro silence, no big finale.'
+   neg prompt  'vocals, singing, speech, lyrics, harsh distortion, loud impacts, abrupt ending'
+          dit  sm-music       decoder  same-s     precision  fp32       threads  8
+         σmax  1.00           cfg  1.5  (apg=1.0, batched CFG)
+      seconds  64.0s         steps  8          seed  26091508
+        T_lat  690 (64.09s → trimmed to 64.00s)
+
+  [1/3] T5Gemma (tokenize + encode)
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+  [1/3] T5Gemma (tokenize + encode) ····················   906 ms
+        t5_hidden (1, 256, 768)   mask sum=118   neg (prompt)
+  [2/3] DiT — load + sample (8 steps, σmax=1.00)
+        loading baked DiT sm-music ...
+        load 0.9s   CFG batched (1× batch=2 invoke/step)
+        schedule  1.000 · 0.994 · 0.984 · 0.958 · 0.891 · 0.746 · 0.512 · 0.274 · 0.000
+        sampling step 1/8  6384 ms
+        sampling step 2/8  3419 ms
+        sampling step 3/8  3277 ms
+        sampling step 4/8  3269 ms
+        sampling step 5/8  3307 ms
+        sampling step 6/8  3333 ms
+        sampling step 7/8  3279 ms
+        sampling step 8/8  3279 ms
+  [2/3] DiT — load + sample (8 steps, σmax=1.00) ······· 30453 ms
+        sample 29547 ms  (3693 ms/step, 16 forwards)   latents (1, 256, 690)
+  [3/3] Decoder (same-s, audio-out) + WAV
+        loading baked decoder same-s ...
+        load 1 ms
+        whole decode ...
+  [3/3] Decoder (same-s, audio-out) + WAV ··············  4370 ms
+        decode whole  4369 ms   audio (2, 2822400)   peak 0.630 rms 0.062
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  done   36.43s wall  →  64.0s audio  →  1.76× realtime   seed 26091508
+  ▸ saved  C:\Users\ljh\tralalero Shooter\map-concepts\emotional-horror-bgm-2026-09-15\raw\08_black_tide_requiem.wav
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

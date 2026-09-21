@@ -67,14 +67,11 @@ namespace IndianOceanAssets.ShooterSurvival
             if (isAttacked || !other.CompareTag(PlayerTag) || (!inFlight && GetComponentInParent<EnemyScript_space>() != null))
                 return;
 
-            isAttacked = true;
-
             PlayerScript player = other.GetComponent<PlayerScript>();
-            if (player != null)
-            {
-                player.currentHealth = Mathf.Max(0f, player.currentHealth - damage);
-                player.UpdateHealth();
-            }
+            if (player == null) return;
+            isAttacked = true;
+            player.currentHealth = Mathf.Max(0f, player.currentHealth - damage);
+            player.UpdateHealth();
 
             if (TryGetComponent(out TrailRenderer trail))
                 trail.enabled = false;

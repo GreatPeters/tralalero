@@ -1,0 +1,345 @@
+{
+  "actions": [
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "attack_loop",
+      "users": 2
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "attack_once",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "die",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "idle",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "run",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "walk",
+      "users": 1
+    }
+  ],
+  "blender": {
+    "background": true,
+    "build_hash": "9e2066aef7ef",
+    "version": "5.2.1 LTS",
+    "version_tuple": [
+      5,
+      2,
+      1
+    ]
+  },
+  "hard_gate_pass": true,
+  "input": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\chapters-polish-2026-09-12\\rigged\\v2\\TrafficPatrol\\TrafficPatrol.glb",
+  "issues": [],
+  "material_details": [
+    {
+      "image_texture_nodes": 1,
+      "images": [
+        "BaseColor"
+      ],
+      "name": "Asset_PBR",
+      "node_count": 3,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "TrafficPatrol_Cream",
+      "node_count": 2,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "TrafficPatrol_Navy",
+      "node_count": 2,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "TrafficPatrol_Orange",
+      "node_count": 2,
+      "use_nodes": true
+    }
+  ],
+  "materials": [
+    "Asset_PBR",
+    "TrafficPatrol_Cream",
+    "TrafficPatrol_Navy",
+    "TrafficPatrol_Orange"
+  ],
+  "meshes": [
+    {
+      "boundary_edges": 18464,
+      "connected_components": 2385,
+      "data_name": "geometry_0.001",
+      "degenerate_faces": 0,
+      "edges": 37507,
+      "flat_polygons": 708,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Asset_PBR"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "TrafficPatrol_Body",
+      "non_manifold_edges": 18464,
+      "polygons": 18850,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.96244,
+      "smooth_polygons": 18142,
+      "source_polygons": 18850,
+      "source_vertices": 20964,
+      "triangles": 18850,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 20964,
+      "weighted_vertices": 20964,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.550034,
+          -0.258818,
+          -0.0
+        ],
+        [
+          0.611681,
+          0.679692,
+          1.600015
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 294,
+      "connected_components": 9,
+      "data_name": "Cylinder",
+      "degenerate_faces": 0,
+      "edges": 561,
+      "flat_polygons": 132,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "TrafficPatrol_Navy",
+        "TrafficPatrol_Cream",
+        "TrafficPatrol_Orange"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "TrafficPatrol_Equipment",
+      "non_manifold_edges": 294,
+      "polygons": 276,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.521739,
+      "smooth_polygons": 144,
+      "source_polygons": 276,
+      "source_vertices": 294,
+      "triangles": 276,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 294,
+      "weighted_vertices": 294,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.483963,
+          0.139637,
+          0.380826
+        ],
+        [
+          -0.407188,
+          0.21645,
+          0.72736
+        ]
+      ],
+      "zero_length_edges": 0
+    }
+  ],
+  "objects": [
+    {
+      "action": "attack_loop",
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.000311,
+        0.268877,
+        0.992058
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Rig",
+      "parent": null,
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "ARMATURE"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.161715,
+        0.93851,
+        1.600015
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "TrafficPatrol_Body",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.076775,
+        0.076812,
+        0.346535
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "TrafficPatrol_Equipment",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    }
+  ],
+  "scene": {
+    "bounds": {
+      "dimensions": [
+        1.161715,
+        0.93851,
+        1.600015
+      ],
+      "max": [
+        0.611681,
+        0.679692,
+        1.600015
+      ],
+      "min": [
+        -0.550034,
+        -0.258818,
+        -0.0
+      ]
+    },
+    "fps": 24.0,
+    "frame_end": 250,
+    "frame_start": 1,
+    "name": "Scene"
+  },
+  "schema_version": 3,
+  "totals": {
+    "actions": 6,
+    "armatures": 1,
+    "bones": 18,
+    "boundary_edges": 18758,
+    "cameras": 0,
+    "constraints": 0,
+    "degenerate_faces": 0,
+    "edges": 38068,
+    "flat_polygons": 840,
+    "geometry_nodes_modifiers": 0,
+    "images": 1,
+    "invalid_vertices": 0,
+    "isolated_vertices": 0,
+    "lights": 0,
+    "materials": 4,
+    "mesh_objects": 2,
+    "missing_material_faces": 0,
+    "node_materials": 4,
+    "non_manifold_edges": 18758,
+    "objects": 3,
+    "polygons": 19126,
+    "refinement_modifiers": 0,
+    "rigid_body_objects": 0,
+    "shape_keys": 0,
+    "simulation_modifiers": 0,
+    "smooth_polygons": 18286,
+    "textured_materials": 1,
+    "triangles": 19126,
+    "uv_mapped_meshes": 2,
+    "vertices": 21258,
+    "weighted_meshes": 2,
+    "wire_edges": 0,
+    "zero_length_edges": 0
+  }
+}

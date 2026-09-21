@@ -14,6 +14,7 @@ namespace IndianOceanAssets.ShooterSurvival
             public Material[] materials;
         }
         public Emblem[] emblems;
+        public SpriteDatabase enhancementIcons;
         public MeshFilter emblemMesh;
         public MeshRenderer emblemRenderer;
         public SpriteRenderer readyHalo;
@@ -31,6 +32,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void SetContent(Sprite sprite, string text, Color accent)
         {
+            if(sprite!=null&&enhancementIcons!=null&&enhancementIcons.TryGetSprite(sprite.name,out var original))sprite=original;
             icon.sprite = sprite;
             icon.color = Color.white;
             bool sculpted = false;

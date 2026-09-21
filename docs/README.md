@@ -1,5 +1,10 @@
 # Docs Index
 
+- `exec-plans/completed/enemy-radius-055-2026-09-21.md`: enemy capsule radii 0.43 → 0.55 in scenes/source prefabs, including initialization baseline preservation and all-chapter audit.
+
+- `../map-concepts/mobile-feedback-2026-09-20/README.md`: ten mobile feedback fixes, one-shot FatMan attack 100, Woman grip/+50% HP, original enhancement artwork, readable start UI and measured render/CPU changes.
+- `solutions/performance-issues/measure-road-queries-and-actor-visibility-before-camera-clipping-2026-09-20.md`: road spatial queries, conservative visibility gating, safe occluder authoring and separate Editor/device frame measurements.
+
 - `../map-concepts/mobile-release-2026-09-20/README.md`: current work merged/pushed to `master`, ARM64 build and in-place Samsung phone installation verified by matching APK hash; game rendering verification awaits phone unlock.
 
 - `../map-concepts/seagull-size-followup-2026-09-20/README.md`: latest size-only follow-up, +20% warning diameter to 3.744m and +30% bird scale to 4.095; timing and impact reactions preserved.

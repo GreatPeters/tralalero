@@ -30,14 +30,13 @@ namespace IndianOceanAssets.ShooterSurvival
         [SerializeField, Min(0f)] private float throwReleaseDelay = 2f;
         [SerializeField] private bool stationaryThrow;
         [SerializeField, Min(.1f)] private float throwApproachSeconds = 5f;
-        [SerializeField, Min(.1f)] private float throwCycleSeconds = 2.8f;
-        private float throwCooldown;
         private readonly System.Collections.Generic.List<GameObject> launchedProjectiles = new();
         public bool StationaryThrow => stationaryThrow;
         public Vector3 AuthoredThrowDirection => Vector3.ProjectOnPlane(-transform.forward, Vector3.up).normalized;
 
         private float _health;
         public float CurrentHealth => _health;
+        public float AttackDamage => _damage;
         private float _damage;
         private bool isDead;
         private bool hasThrown;
@@ -112,7 +111,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private void OnDisable()
         {
             StopAllCoroutines();
-            ClearLaunchedProjectiles();
+            // Fired projectiles belong to the run and must survive the shooter's death.
         }
 
         private void Update()
@@ -123,12 +122,6 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (stationaryThrow)
             {
-                throwCooldown = Mathf.Max(0f, throwCooldown - Time.deltaTime * Mathf.Max(0f, TimeManager.timeFactor));
-                if (throwCooldown <= 0f && hasThrown)
-                {
-                    hasThrown = false;
-                    ResetHeldProjectile();
-                }
                 if (CanBeginThrow() && IsInApproachWindow())
                 {
                     if (eventController != null && eventController.RuntimeState == EnemyEventRuntimeState.Waiting)
@@ -355,7 +348,6 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             hasThrown = true;
             if (UsesCrateMotion) cratePose.BeginWindup(throwReleaseDelay);
-            throwCooldown = Mathf.Max(throwCycleSeconds, throwReleaseDelay + .5f);
             if (eventController != null)
                 eventController.PlayAttackOnce();
             else
@@ -391,7 +383,6 @@ namespace IndianOceanAssets.ShooterSurvival
             StopAllCoroutines();
             ClearLaunchedProjectiles();
             hasThrown = false;
-            throwCooldown = 0f;
             ResetHeldProjectile();
         }
 
@@ -468,7 +459,7 @@ namespace IndianOceanAssets.ShooterSurvival
             // must not launch a large crate through the road surface.
             if (throwPoint == heldProjectile)
                 releasePosition.y = Mathf.Max(releasePosition.y, transform.position.y + .9f);
-            Vector3 throwDirection = stationaryThrow ? AuthoredThrowDirection : CalculateThrowDirection(
+            Vector3 throwDirection = stationaryThrow ? CalculateStationaryThrowDirection(AuthoredThrowDirection, releasePosition, GetPlayerAimPoint()) : CalculateThrowDirection(
                 releasePosition,
                 GetPlayerAimPoint(),
                 -releaseTransform.forward);
@@ -484,7 +475,10 @@ namespace IndianOceanAssets.ShooterSurvival
                 if (!(renderer is TrailRenderer)) renderer.enabled = false;
             if (UsesCrateMotion) cratePose.Release();
             foreach (Renderer renderer in projectile.GetComponentsInChildren<Renderer>(true))
+            {
+                renderer.forceRenderingOff = false;
                 if (!(renderer is TrailRenderer)) renderer.enabled = true;
+            }
 
             Collider projectileCollider = projectile.GetComponent<Collider>();
             if (projectileCollider == null)
@@ -496,6 +490,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             var flight = projectile.GetComponent<SimpleProjectile>() ?? projectile.AddComponent<SimpleProjectile>();
             flight.Launch(throwDirection, throwSpeed, _damage, 8f);
+            if (GameManager.S != null) GameManager.S.RegisterDestroyTarget(projectile);
             return true;
         }
 
@@ -527,6 +522,16 @@ namespace IndianOceanAssets.ShooterSurvival
                 return fallbackDirection.normalized;
 
             return Vector3.forward;
+        }
+
+        private static Vector3 CalculateStationaryThrowDirection(Vector3 authoredForward, Vector3 releasePosition, Vector3 targetPosition)
+        {
+            Vector3 forward=Vector3.ProjectOnPlane(authoredForward,Vector3.up).normalized;
+            float distance=Vector3.Dot(targetPosition-releasePosition,forward);
+            if(distance<=.01f)return forward;
+            // Keep the authored lane. Only pitch toward body height so a chest-high
+            // crate cannot skim just above the shark's actual contact capsule.
+            return (forward*distance+Vector3.up*(targetPosition.y-releasePosition.y)).normalized;
         }
 
         private static Quaternion BuildThrownProjectileRotation(Vector3 direction)

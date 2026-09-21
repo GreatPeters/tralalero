@@ -1,0 +1,113 @@
+{
+  "1": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "wan2.2_ti2v_5B_fp16.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "2": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "type": "wan",
+      "device": "default"
+    }
+  },
+  "3": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "wan2.2_vae.safetensors"
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "text": "Continuous cinematic cartoon animation, preserve the exact character designs, proportions and the camera framing. The blue shark has exactly THREE short legs and THREE attached blue-and-gold sneakers, all visible and separate throughout. No cuts, changing anatomy, disappearing feet, subtitles or added writing. Real body and environmental movement, not a still-image zoom. The GIANT shark remains much larger than the adult people, about twice their height on the same ground plane. It looks down curiously at them and makes a small forward lean, arms and tail moving. The two diners stare directly up at the enormous shark in fear, widen their eyes, jerk their hands and food back and take a short frightened step backward from the bench. The chef raises both hands in alarm. Preserve the giant scale for the entire shot, and keep all three shark feet planted. People must be afraid of the shark, not smiling at it. Fixed camera."
+    }
+  },
+  "5": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "2",
+        0
+      ],
+      "text": "static image, slideshow, freeze frame, camera zoom only, fused limbs, extra limbs, disappearing feet, changing character scale, distorted faces, flickering, unstable camera, added text, speech bubbles, small shark, humans taller than shark, smiling unafraid diners"
+    }
+  },
+  "6": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "codex-chapter-reststop-A-v2-8884160393.png"
+    }
+  },
+  "7": {
+    "class_type": "Wan22ImageToVideoLatent",
+    "inputs": {
+      "vae": [
+        "3",
+        0
+      ],
+      "width": 576,
+      "height": 1024,
+      "length": 121,
+      "batch_size": 1,
+      "start_image": [
+        "6",
+        0
+      ]
+    }
+  },
+  "8": {
+    "class_type": "ModelSamplingSD3",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "shift": 8
+    }
+  },
+  "9": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "8",
+        0
+      ],
+      "positive": [
+        "4",
+        0
+      ],
+      "negative": [
+        "5",
+        0
+      ],
+      "latent_image": [
+        "7",
+        0
+      ],
+      "seed": 2026091303,
+      "steps": 24,
+      "cfg": 5,
+      "sampler_name": "uni_pc",
+      "scheduler": "simple",
+      "denoise": 1
+    }
+  },
+  "10": {
+    "class_type": "SaveLatent",
+    "inputs": {
+      "samples": [
+        "9",
+        0
+      ],
+      "filename_prefix": "codex-chapter-entry-20260912/reststop-A-v2"
+    }
+  }
+}

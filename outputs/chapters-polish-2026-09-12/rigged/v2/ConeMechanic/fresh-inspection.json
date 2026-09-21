@@ -1,0 +1,336 @@
+{
+  "actions": [
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "attack_loop",
+      "users": 2
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "attack_once",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "die",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "idle",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "run",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "walk",
+      "users": 1
+    }
+  ],
+  "blender": {
+    "background": true,
+    "build_hash": "9e2066aef7ef",
+    "version": "5.2.1 LTS",
+    "version_tuple": [
+      5,
+      2,
+      1
+    ]
+  },
+  "hard_gate_pass": true,
+  "input": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\chapters-polish-2026-09-12\\rigged\\v2\\ConeMechanic\\ConeMechanic.glb",
+  "issues": [],
+  "material_details": [
+    {
+      "image_texture_nodes": 1,
+      "images": [
+        "BaseColor"
+      ],
+      "name": "Asset_PBR",
+      "node_count": 3,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "ConeMechanic_Cream",
+      "node_count": 2,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "ConeMechanic_Orange",
+      "node_count": 2,
+      "use_nodes": true
+    }
+  ],
+  "materials": [
+    "Asset_PBR",
+    "ConeMechanic_Cream",
+    "ConeMechanic_Orange"
+  ],
+  "meshes": [
+    {
+      "boundary_edges": 18760,
+      "connected_components": 2524,
+      "data_name": "geometry_0.001",
+      "degenerate_faces": 0,
+      "edges": 36962,
+      "flat_polygons": 1050,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Asset_PBR"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "ConeMechanic_Body",
+      "non_manifold_edges": 18760,
+      "polygons": 18388,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.942898,
+      "smooth_polygons": 17338,
+      "source_polygons": 18388,
+      "source_vertices": 21034,
+      "triangles": 18388,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 21034,
+      "weighted_vertices": 21034,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.630623,
+          -0.22853,
+          -0.0
+        ],
+        [
+          0.546224,
+          0.650676,
+          1.599915
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 476,
+      "connected_components": 60,
+      "data_name": "Cube",
+      "degenerate_faces": 0,
+      "edges": 772,
+      "flat_polygons": 179,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "ConeMechanic_Orange",
+        "ConeMechanic_Cream"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "ConeMechanic_Equipment",
+      "non_manifold_edges": 476,
+      "polygons": 356,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.497191,
+      "smooth_polygons": 177,
+      "source_polygons": 356,
+      "source_vertices": 476,
+      "triangles": 356,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 476,
+      "weighted_vertices": 476,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.627861,
+          -0.069178,
+          0.254728
+        ],
+        [
+          -0.394739,
+          0.164033,
+          0.506276
+        ]
+      ],
+      "zero_length_edges": 0
+    }
+  ],
+  "objects": [
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.176847,
+        0.879206,
+        1.599915
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "ConeMechanic_Body",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.233122,
+        0.233211,
+        0.251548
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "ConeMechanic_Equipment",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": "attack_loop",
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.992454,
+        0.196456,
+        0.988678
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Rig",
+      "parent": null,
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "ARMATURE"
+    }
+  ],
+  "scene": {
+    "bounds": {
+      "dimensions": [
+        1.176847,
+        0.879206,
+        1.599915
+      ],
+      "max": [
+        0.546224,
+        0.650676,
+        1.599915
+      ],
+      "min": [
+        -0.630623,
+        -0.22853,
+        -0.0
+      ]
+    },
+    "fps": 24.0,
+    "frame_end": 250,
+    "frame_start": 1,
+    "name": "Scene"
+  },
+  "schema_version": 3,
+  "totals": {
+    "actions": 6,
+    "armatures": 1,
+    "bones": 18,
+    "boundary_edges": 19236,
+    "cameras": 0,
+    "constraints": 0,
+    "degenerate_faces": 0,
+    "edges": 37734,
+    "flat_polygons": 1229,
+    "geometry_nodes_modifiers": 0,
+    "images": 1,
+    "invalid_vertices": 0,
+    "isolated_vertices": 0,
+    "lights": 0,
+    "materials": 3,
+    "mesh_objects": 2,
+    "missing_material_faces": 0,
+    "node_materials": 3,
+    "non_manifold_edges": 19236,
+    "objects": 3,
+    "polygons": 18744,
+    "refinement_modifiers": 0,
+    "rigid_body_objects": 0,
+    "shape_keys": 0,
+    "simulation_modifiers": 0,
+    "smooth_polygons": 17515,
+    "textured_materials": 1,
+    "triangles": 18744,
+    "uv_mapped_meshes": 2,
+    "vertices": 21510,
+    "weighted_meshes": 2,
+    "wire_edges": 0,
+    "zero_length_edges": 0
+  }
+}

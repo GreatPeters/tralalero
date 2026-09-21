@@ -1,0 +1,40 @@
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  SA3 → TFLite/CPU  text-to-audio
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+       prompt  'Instrumental playful dark arcade soundtrack, 90 BPM, quirky pizzicato strings and delicate glass bells, muted electric piano, gentle analog bass, a catchy original chromatic minor-key motif, restrained dry rim clicks and soft shakers, curious haunted seaside carnival atmosphere, cute and sneaky, understated tension, clean game background mix, consistent rhythm suitable for looping, no big finale'
+   neg prompt  'vocals, singing, speech, lyrics, harsh distortion, loud impacts, abrupt ending'
+          dit  sm-music       decoder  same-s     precision  fp32       threads  8
+         σmax  1.00           cfg  1.5  (apg=1.0, batched CFG)
+      seconds  64.0s         steps  8          seed  26091402
+        T_lat  690 (64.09s → trimmed to 64.00s)
+
+  [1/3] T5Gemma (tokenize + encode)
+INFO: Created TensorFlow Lite XNNPACK delegate for CPU.
+  [1/3] T5Gemma (tokenize + encode) ····················  1150 ms
+        t5_hidden (1, 256, 768)   mask sum=73   neg (prompt)
+  [2/3] DiT — load + sample (8 steps, σmax=1.00)
+        loading baked DiT sm-music ...
+        load 1.1s   CFG batched (1× batch=2 invoke/step)
+        schedule  1.000 · 0.994 · 0.984 · 0.958 · 0.891 · 0.746 · 0.512 · 0.274 · 0.000
+        sampling step 1/8  10443 ms
+        sampling step 2/8  6881 ms
+        sampling step 3/8  6409 ms
+        sampling step 4/8  6183 ms
+        sampling step 5/8  6659 ms
+        sampling step 6/8  6782 ms
+        sampling step 7/8  6905 ms
+        sampling step 8/8  7220 ms
+  [2/3] DiT — load + sample (8 steps, σmax=1.00) ······· 58602 ms
+        sample 57481 ms  (7185 ms/step, 16 forwards)   latents (1, 256, 690)
+  [3/3] Decoder (same-s, audio-out) + WAV
+        loading baked decoder same-s ...
+        load 1 ms
+        whole decode ...
+  [3/3] Decoder (same-s, audio-out) + WAV ··············  6662 ms
+        decode whole  6661 ms   audio (2, 2822400)   peak 1.147 rms 0.132
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  done   67.55s wall  →  64.0s audio  →  0.95× realtime   seed 26091402
+  ▸ saved  C:\Users\ljh\tralalero Shooter\map-concepts\mobile-presentation-2026-09-14\audio\b_ghost_arcade.wav
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bonus Wall · 시안 갤러리</title>
+<style>
+:root{color-scheme:light;--ink:#10263d;--muted:#587084;--paper:#f5f3ed;--line:#d8dfdf;--accent:#006b76}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Malgun Gothic",sans-serif}
+header{max-width:1500px;margin:auto;padding:42px 28px 24px}.eyebrow{color:var(--accent);font-size:12px;letter-spacing:.15em;font-weight:700}
+h1{font-size:clamp(28px,4vw,44px);letter-spacing:-.05em;margin:10px 0}p{color:var(--muted);line-height:1.7;margin:0}
+nav{position:sticky;top:0;z-index:2;background:#f5f3eef2;border-block:1px solid var(--line);padding:12px 28px;display:flex;gap:8px;flex-wrap:wrap}
+button,a{font:inherit}button{cursor:pointer}nav button,.action{border:1px solid #bcc9cd;border-radius:6px;background:white;color:var(--ink);padding:10px 16px;font-size:14px;text-decoration:none}
+nav button[aria-pressed=true]{background:var(--ink);color:white;border-color:var(--ink)}button:focus-visible,a:focus-visible{outline:3px solid #e79e20;outline-offset:3px}
+main{max-width:1500px;margin:auto;padding:28px}#count{font-size:13px;color:var(--muted);margin-bottom:20px}
+#grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 24px}
+figure{margin:0;min-width:0}figure[hidden]{display:none}.preview{display:block;border:0;background:#e8e8e5;padding:0;width:100%;border-radius:6px;overflow:hidden}
+.preview img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:contain;transition:transform .15s}.preview:hover img{transform:scale(1.015)}
+figcaption{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
+figcaption strong{display:block;font-size:16px}figcaption small{display:block;margin-top:4px;color:var(--muted)}
+figcaption a{white-space:nowrap;color:var(--accent);font-size:13px;text-underline-offset:4px}
+dialog{padding:0;border:0;background:#111923;color:white;max-width:100vw;width:100vw;max-height:100vh;height:100vh;margin:0}
+dialog::backdrop{background:#111923}.toolbar{height:66px;display:flex;align-items:center;gap:10px;padding:10px 20px;background:#172333}
+.toolbar strong{margin-right:auto;font-size:15px}.toolbar button,.toolbar a{color:white;background:#24354a;border:1px solid #5a6d82;padding:8px 14px;border-radius:5px;text-decoration:none}
+#viewport{height:calc(100vh - 66px);overflow:auto;display:grid;place-items:center;padding:12px}
+#full{display:block;max-width:100%;max-height:calc(100vh - 90px);width:auto;height:auto;object-fit:contain}
+#viewport.actual{display:block}#viewport.actual #full{max-width:none;max-height:none;margin:auto}
+footer{padding:30px 28px;color:var(--muted);font-size:12px;max-width:1500px;margin:auto}
+@media(max-width:800px){#grid{grid-template-columns:1fr}header,main{padding:22px 16px}nav{padding:10px 16px}.toolbar{flex-wrap:wrap;height:auto;min-height:66px}.toolbar strong{width:100%}#viewport{height:calc(100vh - 105px)}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<header><div class="eyebrow">TRALALERO SHOOTER / BONUS WALL</div><h1>보너스 시안 모아보기</h1>
+<p>이미지를 눌러 크게 보세요. 원본 크기 보기와 PNG 저장도 가능합니다.</p></header>
+<nav aria-label="시안 종류">
+<button data-group="context" aria-pressed="true">최신 · 맥락 수정 3장</button>
+<button data-group="practical" aria-pressed="false">프리팹 활용 10장</button>
+<button data-group="sacred" aria-pressed="false">신성한 제단 10장</button>
+<button data-group="original" aria-pressed="false">초기 이펙트 10장</button>
+<button data-group="all" aria-pressed="false">전체 33장</button>
+</nav>
+<main><div id="count" aria-live="polite"></div><div id="grid">__FIGURES__</div></main>
+<footer>모두 기획 시안입니다. 실제 Unity 적용 화면과는 구분해 주세요.</footer>
+<dialog id="viewer" aria-label="이미지 확대"><div class="toolbar"><strong id="label"></strong><button id="previous" aria-label="이전 이미지">← 이전</button><button id="next" aria-label="다음 이미지">다음 →</button><button id="zoom">원본 크기</button><a id="download" download>PNG 저장</a><button id="close">닫기 ×</button></div><div id="viewport"><img id="full" alt=""></div></dialog>
+<script>
+const figures=[...document.querySelectorAll('figure')], viewer=document.querySelector('#viewer'),full=document.querySelector('#full'),viewport=document.querySelector('#viewport');
+let active=[],current=0;
+function filter(group){figures.forEach(f=>f.hidden=group!=='all'&&f.dataset.group!==group);active=figures.filter(f=>!f.hidden);document.querySelector('#count').textContent=active.length+'장의 시안 · 1536 × 1024 원본';document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.group===group)))}
+function show(f){current=active.indexOf(f);const img=f.querySelector('img');full.src=img.getAttribute('src');full.alt=img.alt;document.querySelector('#label').textContent=img.alt;document.querySelector('#download').href=full.src;viewport.classList.remove('actual');document.querySelector('#zoom').textContent='원본 크기';if(!viewer.open)viewer.showModal()}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>filter(b.dataset.group)));
+figures.forEach(f=>f.querySelector('button').addEventListener('click',()=>show(f)));
+document.querySelector('#close').onclick=()=>viewer.close();
+document.querySelector('#zoom').onclick=()=>{const actual=viewport.classList.toggle('actual');document.querySelector('#zoom').textContent=actual?'화면에 맞추기':'원본 크기'};
+function step(n){show(active[(current+n+active.length)%active.length])}
+document.querySelector('#previous').onclick=()=>step(-1);document.querySelector('#next').onclick=()=>step(1);
+viewer.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();step(-1)}if(e.key==='ArrowRight'){e.preventDefault();step(1)}});
+filter('context');
+</script></html>

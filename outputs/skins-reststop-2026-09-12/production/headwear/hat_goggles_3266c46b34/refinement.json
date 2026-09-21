@@ -1,0 +1,19 @@
+{
+  "source_triangles": 175134,
+  "cleaned_source_triangles": 154868,
+  "triangles": 13232,
+  "vertices": 8642,
+  "degenerate_faces": 0,
+  "loose_vertices": 0,
+  "boundary_edges": 4509,
+  "nonmanifold_edges": 432,
+  "finite": true,
+  "uv": true,
+  "warnings": [
+    "Mesh has boundary or non-manifold edges; inspect before physics/printing use."
+  ],
+  "texture_size": 2048,
+  "refine_profile": "legacy",
+  "method": "merge duplicate vertices, remove degenerates, priority-weighted decimate when requested, re-unwrap, PBR + tangent normal bake",
+  "artistic_review_required": true
+}

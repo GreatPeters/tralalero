@@ -135,6 +135,8 @@ namespace IndianOceanAssets.ShooterSurvival
         private int audibleSwing = -1;
         private EnemyScript_space combat;
         private FatManCratePose cratePose;
+        private EnemyVisualDistance visualDistance;
+        public bool VisualIsRelevant => visualDistance == null || visualDistance.IsRelevant;
         private PlayerScript player;
         private readonly Dictionary<Renderer, bool> hiddenRenderers = new();
         private readonly Dictionary<Collider, bool> hiddenColliders = new();
@@ -222,7 +224,7 @@ namespace IndianOceanAssets.ShooterSurvival
             EnsureInitialized();
 
             bool isGameRunning = TimeManager.isGameRunning;
-            bool animate = isGameRunning && !(cratePose != null && cratePose.ControlsAlivePose && RuntimeState != EnemyEventRuntimeState.Dead);
+            bool animate = isGameRunning && VisualIsRelevant && !(cratePose != null && cratePose.ControlsAlivePose && RuntimeState != EnemyEventRuntimeState.Dead);
             if (enemyAnimator != null && enemyAnimator.enabled != animate)
                 enemyAnimator.enabled = animate;
             if (enemyAnimator != null && carryLayer >= 0)
@@ -265,7 +267,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             // One visual-facing owner, after animation evaluation. Visible waiting and
             // walking enemies already acknowledge the player before their attack gate.
-            if (RuntimeState != EnemyEventRuntimeState.Dead && !ambushHidden)
+            if (VisualIsRelevant && RuntimeState != EnemyEventRuntimeState.Dead && !ambushHidden)
                 FacePlayerExactly();
         }
 
@@ -387,6 +389,11 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ResolveRuntimeReferences()
         {
+            if (Application.isPlaying && visualDistance == null)
+            {
+                visualDistance = GetComponent<EnemyVisualDistance>();
+                if (visualDistance == null) visualDistance = gameObject.AddComponent<EnemyVisualDistance>();
+            }
             if (cratePose == null) cratePose = GetComponent<FatManCratePose>();
             if (enemyAnimator == null)
                 enemyAnimator = GetComponentInChildren<Animator>();

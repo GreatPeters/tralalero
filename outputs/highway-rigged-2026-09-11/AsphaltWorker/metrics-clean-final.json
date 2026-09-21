@@ -1,0 +1,503 @@
+{
+  "actions": [
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "attack_loop",
+      "users": 2
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "attack_once",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "die",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "idle",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "run",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "walk",
+      "users": 1
+    }
+  ],
+  "blender": {
+    "background": true,
+    "build_hash": "9e2066aef7ef",
+    "version": "5.2.1 LTS",
+    "version_tuple": [
+      5,
+      2,
+      1
+    ]
+  },
+  "hard_gate_pass": true,
+  "input": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\highway-rigged-2026-09-11\\AsphaltWorker\\AsphaltWorker.glb",
+  "issues": [],
+  "material_details": [
+    {
+      "image_texture_nodes": 3,
+      "images": [
+        "BaseColor",
+        "Metallic-Roughness",
+        "Normal"
+      ],
+      "name": "Asset_PBR",
+      "node_count": 7,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "Carry_Orange",
+      "node_count": 2,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "Carry_Rubber",
+      "node_count": 2,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "Carry_Steel",
+      "node_count": 2,
+      "use_nodes": true
+    }
+  ],
+  "materials": [
+    "Asset_PBR",
+    "Carry_Orange",
+    "Carry_Rubber",
+    "Carry_Steel"
+  ],
+  "meshes": [
+    {
+      "boundary_edges": 28258,
+      "connected_components": 4483,
+      "data_name": "geometry_0.001",
+      "degenerate_faces": 0,
+      "edges": 47909,
+      "flat_polygons": 1470,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Asset_PBR"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "AsphaltWorker_Body",
+      "non_manifold_edges": 28258,
+      "polygons": 22520,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.934725,
+      "smooth_polygons": 21050,
+      "source_polygons": 22520,
+      "source_vertices": 29792,
+      "triangles": 22520,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 29792,
+      "weighted_vertices": 29792,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.527214,
+          -0.404346,
+          0.0
+        ],
+        [
+          0.533329,
+          0.325591,
+          2.200012
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 34,
+      "connected_components": 1,
+      "data_name": "Cube",
+      "degenerate_faces": 0,
+      "edges": 179,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Carry_Orange"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "Carry_Orange",
+      "non_manifold_edges": 34,
+      "polygons": 108,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 108,
+      "source_polygons": 108,
+      "source_vertices": 72,
+      "triangles": 108,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 72,
+      "weighted_vertices": 72,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.402293,
+          -0.257901,
+          0.665203
+        ],
+        [
+          0.632293,
+          -0.007745,
+          1.045303
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 634,
+      "connected_components": 6,
+      "data_name": "Torus",
+      "degenerate_faces": 0,
+      "edges": 9119,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Carry_Rubber"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "Carry_Rubber",
+      "non_manifold_edges": 634,
+      "polygons": 5868,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 5868,
+      "source_polygons": 5868,
+      "source_vertices": 3257,
+      "triangles": 5868,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 3257,
+      "weighted_vertices": 3257,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.372293,
+          -0.245986,
+          0.457213
+        ],
+        [
+          0.662293,
+          -0.019909,
+          1.237762
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 136,
+      "connected_components": 4,
+      "data_name": "Cube.001",
+      "degenerate_faces": 0,
+      "edges": 716,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Carry_Steel"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "Carry_Steel",
+      "non_manifold_edges": 136,
+      "polygons": 432,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 432,
+      "source_polygons": 432,
+      "source_vertices": 288,
+      "triangles": 432,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 288,
+      "weighted_vertices": 288,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          0.347293,
+          -0.343061,
+          0.292667
+        ],
+        [
+          0.687293,
+          0.076952,
+          1.210258
+        ]
+      ],
+      "zero_length_edges": 0
+    }
+  ],
+  "objects": [
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.060543,
+        0.729937,
+        2.200011
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "AsphaltWorker_Body",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.23,
+        0.250156,
+        0.3801
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Carry_Orange",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.29,
+        0.226077,
+        0.780549
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Carry_Rubber",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.34,
+        0.420012,
+        0.917591
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Carry_Steel",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": "attack_loop",
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.101576,
+        0.261248,
+        1.978007
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Rig",
+      "parent": null,
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "ARMATURE"
+    }
+  ],
+  "scene": {
+    "bounds": {
+      "dimensions": [
+        1.214507,
+        0.729937,
+        2.200012
+      ],
+      "max": [
+        0.687293,
+        0.325591,
+        2.200012
+      ],
+      "min": [
+        -0.527214,
+        -0.404346,
+        0.0
+      ]
+    },
+    "fps": 24.0,
+    "frame_end": 250,
+    "frame_start": 1,
+    "name": "Scene"
+  },
+  "schema_version": 3,
+  "totals": {
+    "actions": 6,
+    "armatures": 1,
+    "bones": 18,
+    "boundary_edges": 29062,
+    "cameras": 0,
+    "constraints": 0,
+    "degenerate_faces": 0,
+    "edges": 57923,
+    "flat_polygons": 1470,
+    "geometry_nodes_modifiers": 0,
+    "images": 3,
+    "invalid_vertices": 0,
+    "isolated_vertices": 0,
+    "lights": 0,
+    "materials": 4,
+    "mesh_objects": 4,
+    "missing_material_faces": 0,
+    "node_materials": 4,
+    "non_manifold_edges": 29062,
+    "objects": 5,
+    "polygons": 28928,
+    "refinement_modifiers": 0,
+    "rigid_body_objects": 0,
+    "shape_keys": 0,
+    "simulation_modifiers": 0,
+    "smooth_polygons": 27458,
+    "textured_materials": 1,
+    "triangles": 28928,
+    "uv_mapped_meshes": 4,
+    "vertices": 33409,
+    "weighted_meshes": 4,
+    "wire_edges": 0,
+    "zero_length_edges": 0
+  }
+}

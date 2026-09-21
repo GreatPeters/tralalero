@@ -24,10 +24,10 @@ namespace IndianOceanAssets.ShooterSurvival
         }
         private void Update()
         {
-            if (leftFoot == null || rightFoot == null || (owner != null && owner.RuntimeState == EnemyEventRuntimeState.Dead)) return;
+            if (leftFoot == null || rightFoot == null || (owner != null && (!owner.VisualIsRelevant || owner.RuntimeState == EnemyEventRuntimeState.Dead))) return;
             model.transform.localPosition = authoredPosition;
         }
-        private void LateUpdate() => Settle();
+        private void LateUpdate() { if(owner == null || owner.VisualIsRelevant) Settle(); }
         public void Settle()
         {
             if (leftFoot == null || rightFoot == null || (owner != null && owner.RuntimeState == EnemyEventRuntimeState.Dead)) return;

@@ -70,7 +70,7 @@ public static partial class HarborGameUIInstaller
         foreach(var old in card.GetComponents<LayoutGroup>())Object.DestroyImmediate(old);
         var background=GetOrAdd<Image>(card.gameObject);background.sprite=Art("ParchmentPanel");background.type=UnityEngine.UI.Image.Type.Sliced;background.color=Color.white;RemoveOutline(card.gameObject);
         var up=Rect(card.transform,"Up",0,0,1,1);
-        var icon=Image(up,"Icon",Art(icons[id-1]),.02f,.10f,.22f,.91f,true);
+        var icon=Image(up,"Icon",OriginalUpgradeArtwork.ForUpgrade(id)??Art(icons[id-1]),.02f,.10f,.22f,.91f,true);
         var title=Text(up,"Name",names[id-1],35,Ink,.235f,.65f,.72f,.94f,TextAlignmentOptions.Left);
         var level=Text(up,"Level","레벨 0",27,Muted,.238f,.44f,.72f,.65f,TextAlignmentOptions.Left);
         Text(up,"Effect",stats[id-1],27,Ink,.238f,.24f,.72f,.43f,TextAlignmentOptions.Left);

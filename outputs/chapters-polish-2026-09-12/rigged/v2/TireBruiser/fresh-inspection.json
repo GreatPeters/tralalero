@@ -1,0 +1,327 @@
+{
+  "actions": [
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "attack_loop",
+      "users": 2
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "attack_once",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "die",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "idle",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "run",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "walk",
+      "users": 1
+    }
+  ],
+  "blender": {
+    "background": true,
+    "build_hash": "9e2066aef7ef",
+    "version": "5.2.1 LTS",
+    "version_tuple": [
+      5,
+      2,
+      1
+    ]
+  },
+  "hard_gate_pass": true,
+  "input": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\chapters-polish-2026-09-12\\rigged\\v2\\TireBruiser\\TireBruiser.glb",
+  "issues": [],
+  "material_details": [
+    {
+      "image_texture_nodes": 1,
+      "images": [
+        "BaseColor"
+      ],
+      "name": "Asset_PBR",
+      "node_count": 3,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "TireBruiser_Rubber",
+      "node_count": 2,
+      "use_nodes": true
+    }
+  ],
+  "materials": [
+    "Asset_PBR",
+    "TireBruiser_Rubber"
+  ],
+  "meshes": [
+    {
+      "boundary_edges": 17318,
+      "connected_components": 1937,
+      "data_name": "geometry_0.001",
+      "degenerate_faces": 0,
+      "edges": 36703,
+      "flat_polygons": 778,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Asset_PBR"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "TireBruiser_Body",
+      "non_manifold_edges": 17318,
+      "polygons": 18696,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.958387,
+      "smooth_polygons": 17918,
+      "source_polygons": 18696,
+      "source_vertices": 19895,
+      "triangles": 18696,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 19895,
+      "weighted_vertices": 19895,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.727199,
+          -0.513079,
+          -0.0
+        ],
+        [
+          0.807937,
+          0.32305,
+          1.750068
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 252,
+      "connected_components": 3,
+      "data_name": "Torus",
+      "degenerate_faces": 0,
+      "edges": 3006,
+      "flat_polygons": 0,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "TireBruiser_Rubber"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "TireBruiser_Equipment",
+      "non_manifold_edges": 252,
+      "polygons": 1920,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 1.0,
+      "smooth_polygons": 1920,
+      "source_polygons": 1920,
+      "source_vertices": 1089,
+      "triangles": 1920,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 1089,
+      "weighted_vertices": 1089,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.648494,
+          -0.601249,
+          0.171797
+        ],
+        [
+          -0.50818,
+          -0.047375,
+          0.725644
+        ]
+      ],
+      "zero_length_edges": 0
+    }
+  ],
+  "objects": [
+    {
+      "action": "attack_loop",
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.314836,
+        0.434779,
+        1.085961
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Rig",
+      "parent": null,
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "ARMATURE"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.535136,
+        0.836129,
+        1.750068
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "TireBruiser_Body",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.140314,
+        0.553873,
+        0.553846
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "TireBruiser_Equipment",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    }
+  ],
+  "scene": {
+    "bounds": {
+      "dimensions": [
+        1.535136,
+        0.924299,
+        1.750068
+      ],
+      "max": [
+        0.807937,
+        0.32305,
+        1.750068
+      ],
+      "min": [
+        -0.727199,
+        -0.601249,
+        -0.0
+      ]
+    },
+    "fps": 24.0,
+    "frame_end": 250,
+    "frame_start": 1,
+    "name": "Scene"
+  },
+  "schema_version": 3,
+  "totals": {
+    "actions": 6,
+    "armatures": 1,
+    "bones": 18,
+    "boundary_edges": 17570,
+    "cameras": 0,
+    "constraints": 0,
+    "degenerate_faces": 0,
+    "edges": 39709,
+    "flat_polygons": 778,
+    "geometry_nodes_modifiers": 0,
+    "images": 1,
+    "invalid_vertices": 0,
+    "isolated_vertices": 0,
+    "lights": 0,
+    "materials": 2,
+    "mesh_objects": 2,
+    "missing_material_faces": 0,
+    "node_materials": 2,
+    "non_manifold_edges": 17570,
+    "objects": 3,
+    "polygons": 20616,
+    "refinement_modifiers": 0,
+    "rigid_body_objects": 0,
+    "shape_keys": 0,
+    "simulation_modifiers": 0,
+    "smooth_polygons": 19838,
+    "textured_materials": 1,
+    "triangles": 20616,
+    "uv_mapped_meshes": 2,
+    "vertices": 20984,
+    "weighted_meshes": 2,
+    "wire_edges": 0,
+    "zero_length_edges": 0
+  }
+}

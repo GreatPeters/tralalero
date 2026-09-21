@@ -197,7 +197,7 @@ public static partial class HarborGameUIInstaller
         string[] icons={"SteelToe","CushionInsole","SpringCoil","RocketCharm","BossBreaker","CoinPouch","HealingInsert","SahurShield","BomberCharm","LateralSneaker"};
         foreach(var card in viewport.GetComponentsInChildren<UpgradeUI>(true)){
             ShopSurface(card.GetComponent<Image>(),"RowPanel",.7f);var up=card.transform.Find("Up");
-            Move(up,"Icon",.025f,.13f,.195f,.89f);var icon=up.Find("Icon").GetComponent<Image>();icon.sprite=AssetDatabase.LoadAssetAtPath<Sprite>(FaithfulPath+"Shop"+icons[card.UpgradeId-1]+".asset");
+            Move(up,"Icon",.025f,.13f,.195f,.89f);var icon=up.Find("Icon").GetComponent<Image>();icon.sprite=OriginalUpgradeArtwork.ForUpgrade(card.UpgradeId)??AssetDatabase.LoadAssetAtPath<Sprite>(FaithfulPath+"Shop"+icons[card.UpgradeId-1]+".asset");
             var data=new SerializedObject(card);data.FindProperty("iconOverride").objectReferenceValue=icon.sprite;data.ApplyModifiedPropertiesWithoutUndo();
             Move(up,"Name",.217f,.62f,.715f,.92f);ShopType(up.Find("Name").GetComponent<TMP_Text>(),51,false,true);
             Move(up,"Level",.22f,.38f,.71f,.63f);ShopType(up.Find("Level").GetComponent<TMP_Text>(),35,false,true);

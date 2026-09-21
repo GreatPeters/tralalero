@@ -1,0 +1,94 @@
+{
+  "active": false,
+  "stop_requested": false,
+  "message": "처리가 끝났습니다. 결과를 확인하세요.",
+  "jobs": [
+    {
+      "id": "445d3dcc087db185",
+      "generation_id": "e046c07e42a726440d61",
+      "name": "04-TireBruiser.png",
+      "input": "C:\\Users\\ljh\\tralalero Shooter\\map-concepts\\highway-enemies-2026-09-11\\input\\04-TireBruiser.png",
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\highway-enemies-2026-09-11\\04-TireBruiser_445d3dcc08",
+      "status": "done",
+      "message": "완료 · 메시 경계/바닥 확인 필요",
+      "triangles": 22344,
+      "prompt_id": "449cabf8-0039-4e28-a16d-33a44dbdef01",
+      "trellis_output": "C:\\AI\\TRELLIS2-AMD\\ComfyUI\\output\\trellis_automation\\445d3dcc087db185\\asset_Textured_00001_.glb",
+      "warnings": [
+        "Mesh has boundary or non-manifold edges; inspect before physics/printing use."
+      ],
+      "error_type": null,
+      "completed_at": 1789088290.166898
+    },
+    {
+      "id": "1c1da4d2215ef43d",
+      "generation_id": "ba8ae09f8fc7ba87e920",
+      "name": "05-AsphaltWorker.png",
+      "input": "C:\\Users\\ljh\\tralalero Shooter\\map-concepts\\highway-enemies-2026-09-11\\input\\05-AsphaltWorker.png",
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\highway-enemies-2026-09-11\\05-AsphaltWorker_1c1da4d221",
+      "status": "done",
+      "message": "완료 · 메시 경계/바닥 확인 필요",
+      "triangles": 22748,
+      "prompt_id": "1f06ae9b-b891-451e-aac5-847a46159e7a",
+      "trellis_output": "C:\\AI\\TRELLIS2-AMD\\ComfyUI\\output\\trellis_automation\\1c1da4d2215ef43d\\asset_Textured_00001_.glb",
+      "warnings": [
+        "Mesh has boundary or non-manifold edges; inspect before physics/printing use."
+      ],
+      "error_type": null,
+      "completed_at": 1789088694.7806854
+    },
+    {
+      "id": "77af4c3dee8f8bcf",
+      "generation_id": "c217d95a8cd44b41cc5d",
+      "name": "06-DeliveryRider.png",
+      "input": "C:\\Users\\ljh\\tralalero Shooter\\map-concepts\\highway-enemies-2026-09-11\\input\\06-DeliveryRider.png",
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\highway-enemies-2026-09-11\\06-DeliveryRider_77af4c3dee",
+      "status": "done",
+      "message": "완료 · 메시 경계/바닥 확인 필요",
+      "triangles": 23214,
+      "prompt_id": "631b9d2c-4e52-4eb0-8157-6f41c3815978",
+      "trellis_output": "C:\\AI\\TRELLIS2-AMD\\ComfyUI\\output\\trellis_automation\\77af4c3dee8f8bcf\\asset_Textured_00001_.glb",
+      "warnings": [
+        "Mesh has boundary or non-manifold edges; inspect before physics/printing use."
+      ],
+      "error_type": null,
+      "completed_at": 1789089151.2634861
+    }
+  ],
+  "logs": [
+    "09:49:34  시작: 04-TireBruiser.png",
+    "09:58:10  완료: 04-TireBruiser.png",
+    "09:58:10  파일 사이 휴식 · 다음 파일까지 60초",
+    "09:59:10  시작: 05-AsphaltWorker.png",
+    "10:04:54  완료: 05-AsphaltWorker.png",
+    "10:04:54  파일 사이 휴식 · 다음 파일까지 60초",
+    "10:05:54  시작: 06-DeliveryRider.png",
+    "10:12:31  완료: 06-DeliveryRider.png"
+  ],
+  "started": 1789087774.7106338,
+  "settings": {
+    "input_dir": "C:\\Users\\ljh\\tralalero Shooter\\map-concepts\\highway-enemies-2026-09-11\\input",
+    "output_dir": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\highway-enemies-2026-09-11",
+    "recursive": false,
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 25000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": false,
+    "continue_on_error": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "trellis_url": "http://127.0.0.1:8188",
+    "trellis_root": "C:\\AI\\TRELLIS2-AMD",
+    "blender": "C:\\Users\\ljh\\AppData\\Local\\Programs\\Blender Foundation\\Blender 5.2\\blender.exe",
+    "longest_side": 2.2,
+    "timeout_minutes": 120,
+    "quality_retry": false,
+    "stage_quality": false
+  },
+  "cooldown_remaining": 0
+}

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace IndianOceanAssets.ShooterSurvival
 {
@@ -10,6 +11,8 @@ namespace IndianOceanAssets.ShooterSurvival
         [Min(0f)] [SerializeField] private float footOffset = 0.12f;
         [Min(0.1f)] [SerializeField] private float probeReach = 0.75f;
         private MeshCollider[] roadColliders;
+        private const float RoadCellSize = 16f;
+        private readonly Dictionary<Vector2Int, List<MeshCollider>> roadCells = new();
         private bool blendingPitch;
         private float startPitch;
         private float targetPitch;
@@ -35,7 +38,25 @@ namespace IndianOceanAssets.ShooterSurvival
             roadColliders = roadRoot != null
                 ? roadRoot.GetComponentsInChildren<MeshCollider>(false)
                 : System.Array.Empty<MeshCollider>();
+            // Authored road tiles do not move during a run. Configure rebuilds this
+            // index when the road layout changes; each query visits only its cell.
+            roadCells.Clear();
+            foreach (var collider in roadColliders)
+            {
+                Bounds bounds = collider.bounds;
+                Vector2Int min = Cell(bounds.min), max = Cell(bounds.max);
+                for (int x = min.x; x <= max.x; x++)
+                    for (int z = min.y; z <= max.y; z++)
+                    {
+                        var key = new Vector2Int(x, z);
+                        if (!roadCells.TryGetValue(key, out var list)) roadCells.Add(key, list = new List<MeshCollider>());
+                        list.Add(collider);
+                    }
+            }
         }
+
+        private static Vector2Int Cell(Vector3 point) => new Vector2Int(
+            Mathf.FloorToInt(point.x / RoadCellSize), Mathf.FloorToInt(point.z / RoadCellSize));
 
         public bool TryProjectPosition(Vector3 proposed, Vector3 forward, out Vector3 supported)
             => TryProjectPosition(proposed, forward, out supported, out _);
@@ -55,10 +76,11 @@ namespace IndianOceanAssets.ShooterSurvival
                 float nudge = sample == 0 ? 0f : sample == 1 ? -0.06f : 0.06f;
                 Vector3 origin = proposed + planarForward * nudge;
                 origin.y = proposed.y - footOffset + probeReach;
+                if (!roadCells.TryGetValue(Cell(origin), out var candidates)) continue;
                 var ray = new Ray(origin, Vector3.down);
                 bool found = false;
                 float nearest = float.PositiveInfinity;
-                foreach (MeshCollider collider in roadColliders)
+                foreach (MeshCollider collider in candidates)
                 {
                     if (collider == null || !collider.enabled || !collider.gameObject.activeInHierarchy)
                         continue;

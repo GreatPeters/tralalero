@@ -1,5 +1,9 @@
 # Reliability
 
+## Mobile visibility and launched attacks — 2026-09-20
+
+Detached Guard/FatMan shots must survive shooter deactivation; register them with run cleanup and bound their own lifetime. Clones from distance-culled templates must clear `forceRenderingOff`. Visual distance gating must leave collision/event roots enabled and complete an active crate stroke before release. The road spatial index assumes authored roads remain static during a run; call `Configure` after a layout change. Exclude camera-hidden geometry from baked static occluders. Workbook edits must preserve unrelated formula caches, not silently apply an importer's recalculation as new combat balance. Evidence: `map-concepts/mobile-feedback-2026-09-20/README.md`.
+
 ## Common Bonus feedback — 2026-09-20
 
 WallScript deactivates its lifetime root immediately after applying the reward; the talisman transfer therefore runs in a separate scene-owned visual object. It must never apply a second reward and must cancel on player loss/death/run exit or claim-timestamp reset. Generated glow textures require explicit Single sprite import; a PNG with Multiple mode and no slices yields a null runtime Sprite. Rebuild only from clean Edit Mode. See `map-concepts/common-talisman-applied-2026-09-20/README.md`.

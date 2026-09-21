@@ -1,0 +1,111 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using UnityEditor;
+using UnityEditor.Animations;
+using UnityEngine;
+
+// Bake against Unity's evaluated skin, retaining the original imported FBX clips.
+public static class ChapterMascotGrounding
+{
+    public static object BakeAll()
+    {
+        if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Edit Mode required");
+        var reports = new List<object>();
+        foreach (string name in ChapterMascotImporter.Names)
+        {
+            string folder = "Assets/ShooterSurvival/Models/Chapters/Mascots/" + name;
+            var root = PrefabUtility.LoadPrefabContents(ChapterMascotImporter.PrefabPath(name));
+            var mesh = new Mesh();
+            try
+            {
+                var animator = root.GetComponentInChildren<Animator>(true);
+                var transforms = animator.GetComponentsInChildren<Transform>(true);
+                var positions = transforms.Select(t => t.localPosition).ToArray();
+                var rotations = transforms.Select(t => t.localRotation).ToArray();
+                var scales = transforms.Select(t => t.localScale).ToArray();
+                void ResetPose()
+                {
+                    for (int i = 0; i < transforms.Length; i++)
+                    {
+                        transforms[i].SetLocalPositionAndRotation(positions[i], rotations[i]);
+                        transforms[i].localScale = scales[i];
+                    }
+                }
+                var bone = animator.transform.Find("Rig/Root");
+                var bodies = animator.GetComponentsInChildren<SkinnedMeshRenderer>(true).Where(r => !r.name.EndsWith("_Equipment")).ToArray();
+                if (bone == null || bodies.Length == 0) throw new InvalidOperationException("Unexpected rig: " + name);
+                var controller = (AnimatorController)animator.runtimeAnimatorController;
+                var sourceClips = AssetDatabase.LoadAllAssetsAtPath(folder + "/" + name + ".fbx").OfType<AnimationClip>().Where(c => !c.name.StartsWith("__preview__")).ToArray();
+                var mappings = new Dictionary<string, AnimationClip>();
+                foreach (var source in sourceClips)
+                {
+                    var clip = new AnimationClip { frameRate = source.frameRate };
+                    var bindings = AnimationUtility.GetCurveBindings(source);
+                    AnimationUtility.SetEditorCurves(clip, bindings, bindings.Select(b => AnimationUtility.GetEditorCurve(source, b)).ToArray());
+                    AnimationUtility.SetAnimationClipSettings(clip, AnimationUtility.GetAnimationClipSettings(source));
+                    AnimationUtility.SetAnimationEvents(clip, AnimationUtility.GetAnimationEvents(source));
+                    string action = source.name.Split('|').Last();
+                    clip.name = name + "_" + action + "_Grounded";
+                    var curves = new[] { new AnimationCurve(), new AnimationCurve(), new AnimationCurve() };
+                    int frames = Mathf.CeilToInt(source.length * 60);
+                    for (int frame = 0; frame <= frames; frame++)
+                    {
+                        float time = source.length * frame / frames;
+                        ResetPose(); source.SampleAnimation(animator.gameObject, time);
+                        float minimum = Bottom(bodies, mesh);
+                        Vector3 position = bone.localPosition + bone.parent.InverseTransformVector(Vector3.up * -minimum);
+                        for (int axis = 0; axis < 3; axis++) curves[axis].AddKey(time, position[axis]);
+                    }
+                    for (int axis = 0; axis < 3; axis++)
+                    {
+                        for (int key = 0; key < curves[axis].length; key++)
+                        {
+                            AnimationUtility.SetKeyLeftTangentMode(curves[axis], key, AnimationUtility.TangentMode.Linear);
+                            AnimationUtility.SetKeyRightTangentMode(curves[axis], key, AnimationUtility.TangentMode.Linear);
+                        }
+                        AnimationUtility.SetEditorCurve(clip, EditorCurveBinding.FloatCurve("Rig/Root", typeof(Transform), "m_LocalPosition." + "xyz"[axis]), curves[axis]);
+                    }
+                    float low = float.PositiveInfinity, high = float.NegativeInfinity;
+                    for (int frame = 0; frame <= frames * 2; frame++)
+                    {
+                        ResetPose(); clip.SampleAnimation(animator.gameObject, clip.length * frame / (frames * 2));
+                        float bottom = Bottom(bodies, mesh); low = Mathf.Min(low, bottom); high = Mathf.Max(high, bottom);
+                    }
+                    if (Mathf.Max(Mathf.Abs(low), Mathf.Abs(high)) > .012f)
+                    {
+                        UnityEngine.Object.DestroyImmediate(clip);
+                        throw new InvalidOperationException($"Ground bake failed: {name}/{action}: {low}..{high}");
+                    }
+                    string path = folder + "/Grounded_" + action + ".anim";
+                    var existing = AssetDatabase.LoadAssetAtPath<AnimationClip>(path);
+                    if (existing == null) AssetDatabase.CreateAsset(clip, path);
+                    else { EditorUtility.CopySerialized(clip, existing); UnityEngine.Object.DestroyImmediate(clip); clip = existing; EditorUtility.SetDirty(clip); }
+                    mappings[action] = clip;
+                    reports.Add(new { name, action, low, high, path });
+                }
+                foreach (var state in controller.layers[0].stateMachine.states)
+                {
+                    if (!mappings.TryGetValue(state.state.name, out var clip)) throw new InvalidOperationException("Unknown action: " + state.state.name);
+                    state.state.motion = clip; EditorUtility.SetDirty(state.state);
+                }
+                EditorUtility.SetDirty(controller);
+            }
+            finally { UnityEngine.Object.DestroyImmediate(mesh); PrefabUtility.UnloadPrefabContents(root); }
+        }
+        AssetDatabase.SaveAssets();
+        File.WriteAllText("map-concepts/chapters-polish-2026-09-12/review/native-grounded-clips.json", Newtonsoft.Json.JsonConvert.SerializeObject(reports, Newtonsoft.Json.Formatting.Indented));
+        return new { clips = reports.Count };
+    }
+    private static float Bottom(SkinnedMeshRenderer[] bodies, Mesh mesh)
+    {
+        float minimum = float.PositiveInfinity;
+        foreach (var body in bodies)
+        {
+            body.BakeMesh(mesh);
+            foreach (var vertex in mesh.vertices) minimum = Mathf.Min(minimum, body.transform.TransformPoint(vertex).y);
+        }
+        return minimum;
+    }
+}

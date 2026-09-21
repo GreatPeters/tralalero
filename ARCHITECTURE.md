@@ -1,5 +1,13 @@
 # ARCHITECTURE.md
 
+## Mobile combat and presentation follow-up (2026-09-20)
+
+- FatMan consumes one throw until run reset. Its six placement attack values are 100; the active Woman boss health is 3687 (previously 2458). Detached shots belong to run cleanup and survive their shooter's deactivation. Stationary crates retain their authored horizontal lane and pitch toward player collider height at release.
+- `OriginalUpgradeArtwork` maps the original nine enhancement images into the existing sprite database, shop installers and Bonus aliases; lateral speed uses the earlier speed artwork. `BonusTalismanRibbon` replaces the black attachment in the shared source, placed visuals and drop/pool prefabs. Reward logic and torso absorption remain shared.
+- `LobbyStartShade` controls a 90%-black, non-intercepting background layer beneath lobby UI. The tutorial uses a larger native panel and 4.5-second display time.
+- `NoryangjinRoadHeightFollower` indexes static road collider bounds in 16m XZ cells, rebuilt by `Configure`. `EnemyVisualDistance` hides distant artwork at 85m, restores it at 75m, and gates animation/facing without disabling root gameplay or collision. Occlusion baking excludes geometry hidden by the custom camera from static occluders. The mobile pipeline uses 0.75 world render scale and 2x MSAA; overlay UI remains full resolution.
+- Reproduction and measured limits: [mobile feedback evidence](map-concepts/mobile-feedback-2026-09-20/README.md).
+
 ## Seagull contact (2026-09-20)
 
 - The latest warning grows from 2.808m to 3.744m with rig/contact scale 4.095. Timing remains a 28m trigger, 1.0s warning and 0.4s descent. `SeagullLeave` waits for road progress past the bird. On contact, `TrySeagullContact` cancels ordinary motion, disables contact and starts a three-turn `SeagullKnockback` arc alongside the shark's two-turn spin. The spread-wing pose is frozen only for impact; `InitSeagull` restores the Animator. `Seagull_WarningDark` and prefab-inherited authoring remain shared. Size evidence: `map-concepts/seagull-size-followup-2026-09-20/README.md`; earlier native motion evidence: `map-concepts/seagull-impact-tumble-2026-09-20/README.md`.

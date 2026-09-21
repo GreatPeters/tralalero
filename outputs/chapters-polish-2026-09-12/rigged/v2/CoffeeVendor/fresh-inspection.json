@@ -1,0 +1,351 @@
+{
+  "actions": [
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "attack_loop",
+      "users": 2
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "attack_once",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "die",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "idle",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "run",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "walk",
+      "users": 1
+    }
+  ],
+  "blender": {
+    "background": true,
+    "build_hash": "9e2066aef7ef",
+    "version": "5.2.1 LTS",
+    "version_tuple": [
+      5,
+      2,
+      1
+    ]
+  },
+  "hard_gate_pass": true,
+  "input": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\chapters-polish-2026-09-12\\rigged\\v2\\CoffeeVendor\\CoffeeVendor.glb",
+  "issues": [
+    {
+      "code": "degenerate_faces",
+      "count": 1,
+      "severity": "warning"
+    }
+  ],
+  "material_details": [
+    {
+      "image_texture_nodes": 1,
+      "images": [
+        "BaseColor"
+      ],
+      "name": "Asset_PBR",
+      "node_count": 3,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "CoffeeVendor_Coral",
+      "node_count": 2,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "CoffeeVendor_Cream",
+      "node_count": 2,
+      "use_nodes": true
+    },
+    {
+      "image_texture_nodes": 0,
+      "images": [],
+      "name": "CoffeeVendor_Navy",
+      "node_count": 2,
+      "use_nodes": true
+    }
+  ],
+  "materials": [
+    "Asset_PBR",
+    "CoffeeVendor_Coral",
+    "CoffeeVendor_Cream",
+    "CoffeeVendor_Navy"
+  ],
+  "meshes": [
+    {
+      "boundary_edges": 18062,
+      "connected_components": 2269,
+      "data_name": "geometry_0.001",
+      "degenerate_faces": 1,
+      "edges": 37324,
+      "flat_polygons": 798,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Asset_PBR"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "CoffeeVendor_Body",
+      "non_manifold_edges": 18062,
+      "polygons": 18862,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.957693,
+      "smooth_polygons": 18064,
+      "source_polygons": 18862,
+      "source_vertices": 20673,
+      "triangles": 18862,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 20673,
+      "weighted_vertices": 20673,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.499203,
+          -0.282426,
+          -0.0
+        ],
+        [
+          0.646473,
+          0.682663,
+          1.599887
+        ]
+      ],
+      "zero_length_edges": 0
+    },
+    {
+      "boundary_edges": 326,
+      "connected_components": 9,
+      "data_name": "Cone",
+      "degenerate_faces": 0,
+      "edges": 625,
+      "flat_polygons": 148,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "CoffeeVendor_Cream",
+        "CoffeeVendor_Navy",
+        "CoffeeVendor_Coral"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "CoffeeVendor_Equipment",
+      "non_manifold_edges": 326,
+      "polygons": 308,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.519481,
+      "smooth_polygons": 160,
+      "source_polygons": 308,
+      "source_vertices": 326,
+      "triangles": 308,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 326,
+      "weighted_vertices": 326,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.466139,
+          0.057302,
+          0.364955
+        ],
+        [
+          -0.329815,
+          0.193636,
+          0.543579
+        ]
+      ],
+      "zero_length_edges": 0
+    }
+  ],
+  "objects": [
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.145676,
+        0.965089,
+        1.599887
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "CoffeeVendor_Body",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.136324,
+        0.136334,
+        0.178624
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "CoffeeVendor_Equipment",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": "attack_loop",
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.966168,
+        0.267269,
+        0.992293
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Rig",
+      "parent": null,
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "ARMATURE"
+    }
+  ],
+  "scene": {
+    "bounds": {
+      "dimensions": [
+        1.145676,
+        0.965089,
+        1.599887
+      ],
+      "max": [
+        0.646473,
+        0.682663,
+        1.599887
+      ],
+      "min": [
+        -0.499203,
+        -0.282426,
+        -0.0
+      ]
+    },
+    "fps": 24.0,
+    "frame_end": 250,
+    "frame_start": 1,
+    "name": "Scene"
+  },
+  "schema_version": 3,
+  "totals": {
+    "actions": 6,
+    "armatures": 1,
+    "bones": 18,
+    "boundary_edges": 18388,
+    "cameras": 0,
+    "constraints": 0,
+    "degenerate_faces": 1,
+    "edges": 37949,
+    "flat_polygons": 946,
+    "geometry_nodes_modifiers": 0,
+    "images": 1,
+    "invalid_vertices": 0,
+    "isolated_vertices": 0,
+    "lights": 0,
+    "materials": 4,
+    "mesh_objects": 2,
+    "missing_material_faces": 0,
+    "node_materials": 4,
+    "non_manifold_edges": 18388,
+    "objects": 3,
+    "polygons": 19170,
+    "refinement_modifiers": 0,
+    "rigid_body_objects": 0,
+    "shape_keys": 0,
+    "simulation_modifiers": 0,
+    "smooth_polygons": 18224,
+    "textured_materials": 1,
+    "triangles": 19170,
+    "uv_mapped_meshes": 2,
+    "vertices": 20999,
+    "weighted_meshes": 2,
+    "wire_edges": 0,
+    "zero_length_edges": 0
+  }
+}

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>상어 걷기 · 5B / 14B 비교</title>
+<style>
+:root{color-scheme:dark;--bg:#07121c;--panel:#102430;--text:#f0f4f5;--muted:#a0b2bd;--accent:#74dcf1}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:"Noto Sans KR","Malgun Gothic",sans-serif}main{max-width:1080px;margin:0 auto;padding:28px 28px 32px}header{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:20px}h1{font-size:26px;letter-spacing:-1px;margin:0 0 7px}p{color:var(--muted);font-size:13px;line-height:1.7;margin:0}.eyebrow{color:var(--accent);font-size:11px;letter-spacing:2px;margin-bottom:9px}.stage{display:grid;grid-template-columns:1fr 1fr;gap:20px}figure{margin:0;min-width:0}figcaption{display:flex;justify-content:space-between;align-items:baseline;padding:0 0 10px;font-size:18px;font-weight:700}figcaption small{font-size:12px;color:var(--muted);font-weight:400}.new{color:var(--accent)}video{display:block;width:100%;height:min(63vh,750px);background:#03090d;object-fit:contain}.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding-top:20px}button,select{font:inherit;font-size:13px;padding:11px 15px;background:var(--panel);color:var(--text);border:1px solid #2a4350;border-radius:5px;cursor:pointer}button:hover,select:hover{border-color:var(--accent)}button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}#play{background:var(--accent);color:#06212a;font-weight:700;border-color:var(--accent);min-width:126px}.timeline{display:flex;align-items:center;gap:14px;margin:18px 0 9px}input{accent-color:var(--accent);width:100%;cursor:pointer}output{white-space:nowrap;font-size:12px;font-variant-numeric:tabular-nums;color:var(--muted)}#status{min-height:23px}footer{display:flex;gap:16px;flex-wrap:wrap;border-top:1px solid #203642;padding-top:17px;margin-top:14px;font-size:12px}a{color:var(--accent);text-underline-offset:4px}details{color:var(--muted);font-size:12px;margin-top:18px;line-height:1.8}summary{cursor:pointer}label{color:var(--muted);font-size:12px;margin-left:auto}
+@media(max-width:650px){main{padding:18px 12px}header{display:block}header>p{margin-top:10px}.stage{gap:10px}h1{font-size:22px}figcaption{font-size:15px;display:block}figcaption small{display:block;margin-top:4px}video{height:51vh}.controls{gap:6px}button,select{padding:10px}label{margin-left:0}}
+</style>
+<main>
+  <header><div><div class="eyebrow">WALK SEQUENCE / 04</div><h1>같은 장면, 두 모델</h1><p>얼굴과 신발의 형태, 발걸음과 배경의 움직임을 비교해보세요.</p></div><p>같은 원화 · 같은 프롬프트<br>약 5초 · 무음</p></header>
+  <section class="stage" aria-label="영상 비교">
+    <figure><figcaption>5B <small>기존 영상</small></figcaption><video id="old" muted playsinline preload="auto" aria-label="기존5B 걷기 영상" src="shot-04-5b-existing.mp4"></video></figure>
+    <figure><figcaption class="new">14B FP8 <small>새로 생성한 영상</small></figcaption><video id="new" muted playsinline preload="auto" aria-label="신규14B 걷기 영상" src="shot-04-14b-fp8.mp4"></video></figure>
+  </section>
+  <div class="controls"><button id="play">함께 재생</button><button id="restart">처음으로</button><button id="back">−1 프레임</button><button id="forward">+1 프레임</button><label for="speed">재생 속도</label><select id="speed"><option value="0.25">0.25배</option><option value="0.5">0.5배</option><option value="1" selected>1배</option><option value="2">2배</option></select></div>
+  <div class="timeline"><input id="seek" aria-label="두 영상의 재생 위치" type="range" min="0" max="5.041667" step="0.041667" value="0"><output id="time">0.00 / 5.04초</output></div>
+  <p id="status" role="status" aria-live="polite">영상 파일을 불러오는 중입니다.</p>
+  <footer><a href="shot-04-5b-existing.mp4">기존5B 파일</a><a href="shot-04-14b-fp8.mp4">14B FP8 파일</a><a href="comparison-5b-vs-14b.mp4">좌우 비교 MP4</a></footer>
+  <details><summary>비교 조건 보기</summary><p>두 영상 모두512×896에서121프레임을 생성하고24fps,576×1024로 출력했습니다. 원화·프롬프트·시드·총20스텝은 같습니다. 14B는 전용 VAE와 기본 Euler/CFG3.5/shift5 설정을 사용하며, 기존5B는 UniPC/CFG5/shift8입니다. 기존5B 파일은 재생성하지 않았습니다.</p></details>
+</main>
+<script>
+const videos=[document.querySelector('#old'),document.querySelector('#new')];
+const [master,follower]=videos,play=document.querySelector('#play'),seek=document.querySelector('#seek'),time=document.querySelector('#time'),status=document.querySelector('#status');
+let running=false,token=0;
+const duration=()=>Math.min(...videos.map(v=>Number.isFinite(v.duration)?v.duration:121/24));
+function pause(){running=false;token++;videos.forEach(v=>v.pause());play.textContent='함께 재생';}
+function position(value){pause();const t=Math.max(0,Math.min(duration()-1/24,value));videos.forEach(v=>v.currentTime=t);seek.value=t;time.textContent=`${t.toFixed(2)} / ${duration().toFixed(2)}초`;status.textContent='일시 정지 · 프레임을 비교할 수 있습니다.';}
+async function start(){if(running){pause();status.textContent='일시 정지';return;}if(videos.some(v=>v.readyState<2)){status.textContent='두 영상이 모두 준비될 때까지 기다려주세요.';return;}if(master.ended||master.currentTime>=duration()-.04)videos.forEach(v=>v.currentTime=0);follower.currentTime=master.currentTime;const mine=++token;const outcomes=await Promise.allSettled(videos.map(v=>v.play()));if(mine!==token)return;if(outcomes.some(r=>r.status==='rejected')){pause();status.textContent='재생을 시작하지 못했습니다. 아래 영상 파일 링크로 열어보세요.';return;}running=true;play.textContent='함께 일시 정지';status.textContent='두 영상을 같은 시점으로 재생 중입니다.';}
+play.onclick=start;document.querySelector('#restart').onclick=()=>position(0);document.querySelector('#back').onclick=()=>position(master.currentTime-1/24);document.querySelector('#forward').onclick=()=>position(master.currentTime+1/24);seek.oninput=()=>position(Number(seek.value));document.querySelector('#speed').onchange=e=>videos.forEach(v=>v.playbackRate=Number(e.target.value));
+videos.forEach(v=>{v.addEventListener('loadeddata',()=>{if(videos.every(item=>item.readyState>=2))status.textContent='준비 완료 · 함께 재생하거나 프레임 단위로 비교하세요.';});v.addEventListener('error',()=>{pause();status.textContent='영상 파일을 열지 못했습니다. HTML과 MP4 파일을 같은 폴더에 두세요.';});});
+master.addEventListener('ended',()=>{pause();status.textContent='재생 완료 · 다시 재생하거나 느린 속도로 비교하세요.';});
+function update(){if(running){seek.value=master.currentTime;time.textContent=`${master.currentTime.toFixed(2)} / ${duration().toFixed(2)}초`;if(!follower.seeking&&Math.abs(master.currentTime-follower.currentTime)>.12)follower.currentTime=master.currentTime;}requestAnimationFrame(update);}update();
+</script>
+</html>

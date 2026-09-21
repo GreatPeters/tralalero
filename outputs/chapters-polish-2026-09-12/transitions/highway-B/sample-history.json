@@ -1,0 +1,174 @@
+{
+  "prompt": [
+    2,
+    "82660cb0-a882-4f60-a617-a4aae13e8bee",
+    {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "wan2.2_ti2v_5B_fp16.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "2": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "type": "wan",
+          "device": "default"
+        }
+      },
+      "3": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "wan2.2_vae.safetensors"
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "Continuous cinematic cartoon animation, preserve the exact character designs, proportions and the camera framing. The blue shark has exactly THREE short legs and THREE attached blue-and-gold sneakers, all visible and separate throughout. No cuts, changing anatomy, disappearing feet, subtitles or added writing. Real body and environmental movement, not a still-image zoom. The red car rapidly passes leftward across the road and exits the frame while the bus follows farther back. The blue shark on the shoulder recoils with wide worried eyes, hunches its shoulders and grips its own hands. All three feet stay planted and the shark remains safely outside the traffic lanes. Body and tail react naturally. Stable camera, fast clearly moving vehicles."
+        }
+      },
+      "5": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "static image, slideshow, freeze frame, camera zoom only, fused limbs, extra limbs, disappearing feet, changing character scale, distorted faces, flickering, unstable camera, added text, speech bubbles"
+        }
+      },
+      "6": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "codex-chapter-highway-B-e2b1a25929.png"
+        }
+      },
+      "7": {
+        "class_type": "Wan22ImageToVideoLatent",
+        "inputs": {
+          "vae": [
+            "3",
+            0
+          ],
+          "width": 576,
+          "height": 1024,
+          "length": 121,
+          "batch_size": 1,
+          "start_image": [
+            "6",
+            0
+          ]
+        }
+      },
+      "8": {
+        "class_type": "ModelSamplingSD3",
+        "inputs": {
+          "model": [
+            "1",
+            0
+          ],
+          "shift": 8.0
+        }
+      },
+      "9": {
+        "class_type": "KSampler",
+        "inputs": {
+          "model": [
+            "8",
+            0
+          ],
+          "positive": [
+            "4",
+            0
+          ],
+          "negative": [
+            "5",
+            0
+          ],
+          "latent_image": [
+            "7",
+            0
+          ],
+          "seed": 2026091302,
+          "steps": 24,
+          "cfg": 5.0,
+          "sampler_name": "uni_pc",
+          "scheduler": "simple",
+          "denoise": 1.0
+        }
+      },
+      "10": {
+        "class_type": "SaveLatent",
+        "inputs": {
+          "samples": [
+            "9",
+            0
+          ],
+          "filename_prefix": "codex-chapter-entry-20260912/highway-B"
+        }
+      }
+    },
+    {
+      "create_time": 1789226086166
+    },
+    [
+      "10"
+    ]
+  ],
+  "outputs": {
+    "10": {
+      "latents": [
+        {
+          "filename": "highway-B_00001_.latent",
+          "subfolder": "codex-chapter-entry-20260912",
+          "type": "output"
+        }
+      ]
+    }
+  },
+  "status": {
+    "status_str": "success",
+    "completed": true,
+    "messages": [
+      [
+        "execution_start",
+        {
+          "prompt_id": "82660cb0-a882-4f60-a617-a4aae13e8bee",
+          "timestamp": 1789226086168
+        }
+      ],
+      [
+        "execution_cached",
+        {
+          "nodes": [
+            "3"
+          ],
+          "prompt_id": "82660cb0-a882-4f60-a617-a4aae13e8bee",
+          "timestamp": 1789226086174
+        }
+      ],
+      [
+        "execution_success",
+        {
+          "prompt_id": "82660cb0-a882-4f60-a617-a4aae13e8bee",
+          "timestamp": 1789226332608
+        }
+      ]
+    ]
+  },
+  "meta": {
+    "10": {
+      "node_id": "10",
+      "display_node": "10",
+      "parent_node": null,
+      "real_node_id": "10"
+    }
+  }
+}

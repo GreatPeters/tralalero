@@ -1,0 +1,51 @@
+{
+  "source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\S02-r4\\source\\model.glb",
+  "method": "Keep the reviewed high PBR source intact; weld only the low copy, split observed non-manifold edge fans, reduce without re-welding, then bake a new atlas",
+  "before": {
+    "triangles": 293840,
+    "vertices": 145359,
+    "degenerate_faces": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 913,
+    "nonmanifold_edges": 1121,
+    "finite": true,
+    "uv": true
+  },
+  "split_edges": 1121,
+  "after_split": {
+    "triangles": 293840,
+    "vertices": 147748,
+    "degenerate_faces": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 3004,
+    "nonmanifold_edges": 0,
+    "finite": true,
+    "uv": true
+  },
+  "split_did_not_move_surface": true,
+  "original_canonical_attempts_preserved": 2,
+  "extra_ai_requests": 0,
+  "reduction_metrics": [
+    {
+      "triangles": 14531,
+      "vertices": 6726,
+      "degenerate_faces": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 1733,
+      "nonmanifold_edges": 0,
+      "finite": true,
+      "uv": true
+    }
+  ],
+  "final_metrics": {
+    "triangles": 14531,
+    "vertices": 6726,
+    "degenerate_faces": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 1733,
+    "nonmanifold_edges": 0,
+    "finite": true,
+    "uv": true
+  },
+  "opacity_restoration_required": true
+}

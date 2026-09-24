@@ -151,7 +151,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             if (other.CompareTag("Player"))
             {
-                ResolvePlayerContact();
+                if(other.GetComponent<PlayerScript>()==playerScript)ResolvePlayerContact();
                 return;
             }
 
@@ -173,11 +173,13 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ResolvePlayerContact()
         {
+            if(playerScript==null||playerScript.currentHealth<=0)return;
+            if(TryGetComponent<HighwayEncounterMember>(out var member)&&!member.AcceptPhysicalContact(this))return;
             rewardPlayerScore = false;
 
             if (playerScript.currentHealth > _health)
             {
-                playerScript.currentHealth -= _health;
+                playerScript.ApplyDamage(_health,PlayerDamageCause.EnemyContact);
                 _health = 0f;
                 RefreshHealthText();
                 EnemyDeath();
@@ -186,8 +188,9 @@ namespace IndianOceanAssets.ShooterSurvival
 
             float playerHealth = playerScript.currentHealth;
             _health -= playerHealth;
-            playerScript.currentHealth = 0f;
+            playerScript.ApplyDamage(playerHealth,PlayerDamageCause.EnemyContact);
             RefreshHealthText();
+            if (_health <= 0f) EnemyDeath();
         }
 
         private void ResolveExtraHelpContact(Collider other)
@@ -234,6 +237,7 @@ namespace IndianOceanAssets.ShooterSurvival
             _health -= damage;
             if (_health > 0f)
             {
+                if(TryGetComponent<HighwayEnemyAnimation>(out var reaction))reaction.ReactToHit();
                 RefreshHealthText();
                 return;
             }
@@ -291,7 +295,8 @@ namespace IndianOceanAssets.ShooterSurvival
             if (healthText != null)
                 healthText.enabled = false;
 
-            yield return new WaitForSeconds(0.25f);
+            float remaining=TryGetComponent<HighwayEnemyAnimation>(out var presentation)?Mathf.Max(.25f,presentation.deathSeconds-.25f):.25f;
+            yield return new WaitForSeconds(remaining);
             gameObject.SetActive(false);
         }
 
@@ -316,6 +321,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private void ResetHeldProjectile()
         {
             projectileReleased = false;
+            highwayReleaseQueued = false;
             if (heldProjectile == null)
                 return;
 
@@ -356,7 +362,10 @@ namespace IndianOceanAssets.ShooterSurvival
                     0,
                     0f);
             if (Application.isPlaying && !UsesCrateMotion)
+            {
+                GetComponent<HighwayEnemyAnimation>()?.PrepareThrow(throwReleaseDelay);
                 StartCoroutine(ReleaseProjectileAfterDelay());
+            }
         }
 
         public bool TryBeginTriggeredFire()
@@ -434,7 +443,17 @@ namespace IndianOceanAssets.ShooterSurvival
                     Time.deltaTime * Mathf.Max(0f, TimeManager.timeFactor);
             }
 
-            LaunchPreparedProjectile();
+            if(GetComponent<HighwayEnemyAnimation>()!=null)highwayReleaseQueued=true;
+            else LaunchPreparedProjectile();
+        }
+
+        private bool highwayReleaseQueued;
+        internal bool ReleaseQueuedHighwayProjectile()
+        {
+            if(!highwayReleaseQueued)return false;
+            highwayReleaseQueued=false;
+            if(TryGetComponent<EnemyGunAim>(out var aim))aim.AimAtPlayer();
+            return LaunchPreparedProjectile();
         }
 
         internal bool ReleaseCrateAtPose()
@@ -465,7 +484,8 @@ namespace IndianOceanAssets.ShooterSurvival
                 -releaseTransform.forward);
 
             GameAudioService.PlayAt(GameSound.Throw, releasePosition);
-            Quaternion launchRotation = UsesCrateMotion ? heldProjectile.rotation : BuildThrownProjectileRotation(throwDirection);
+            bool preservePose=UsesCrateMotion || GetComponent<HighwayEnemyAnimation>()!=null && GetComponent<EnemyGunAim>()==null;
+            Quaternion launchRotation = preservePose ? heldProjectile.rotation : BuildThrownProjectileRotation(throwDirection);
             var projectile = Instantiate(heldProjectile.gameObject, releasePosition, launchRotation);
             projectile.name = heldProjectile.name + "_Shot";
             projectile.transform.localScale = heldProjectile.lossyScale;
@@ -490,6 +510,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             var flight = projectile.GetComponent<SimpleProjectile>() ?? projectile.AddComponent<SimpleProjectile>();
             flight.Launch(throwDirection, throwSpeed, _damage, 8f);
+            flight.damageCause=UsesCrateMotion?PlayerDamageCause.Crate:GetComponent<EnemyGunAim>()!=null?PlayerDamageCause.GuardShot:PlayerDamageCause.EnemyProjectile;
             if (GameManager.S != null) GameManager.S.RegisterDestroyTarget(projectile);
             return true;
         }

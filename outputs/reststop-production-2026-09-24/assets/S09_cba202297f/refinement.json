@@ -1,0 +1,21 @@
+{
+  "source_triangles": 249134,
+  "cleaned_source_triangles": 242618,
+  "triangles": 14375,
+  "vertices": 7884,
+  "degenerate_faces": 0,
+  "loose_vertices": 0,
+  "boundary_edges": 1432,
+  "nonmanifold_edges": 80,
+  "finite": true,
+  "uv": true,
+  "warnings": [
+    "Floor removal requested; no clearly oversized bottom slab detected. Mesh retained.",
+    "Geometry-based priority: 25 small/thin components, 19799 feature vertices. Not semantic part segmentation.",
+    "Mesh has boundary or non-manifold edges; inspect before physics/printing use."
+  ],
+  "texture_size": 2048,
+  "refine_profile": "parts",
+  "method": "merge duplicate vertices, remove degenerates, priority-weighted decimate when requested, re-unwrap, PBR + tangent normal bake",
+  "artistic_review_required": true
+}

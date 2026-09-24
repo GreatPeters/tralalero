@@ -1,0 +1,21 @@
+{
+  "status": "review_needed",
+  "counts": {
+    "meshes": 1,
+    "textures": 1,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 2
+  },
+  "notes": [
+    "shape: Reference, all clay contact-sheet views and full hero checked. Thin upright rectangular wall, straight main edges, flat broad faces and base strip are retained. No major bending, missing slab or extra object.",
+    "texture_source: Reference, contact-sheet views and full hero inspected. Cream stone face and dark base trim are clean, slab remains flat and tile divisions are legible. No major material spill or missing region.",
+    "final_compare: Reject this reduction: broad wall faces and the dark base strip acquire conspicuous lumpy/faceted shading. The neutral comparison exposes new lobes absent from the clean high-density source, even though the baked normal map hides some in the beauty render.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "final_compare: Alternate reduction still has the same broad-face faceting/lumpy neutral shading absent from source. Bounded automatic reductions are exhausted; retain review-needed status and repair a separate Blender copy.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "고밀도 원본은 통과했지만 Blender 두 방식에서도 결함이 남았습니다. 직접 수정이 필요합니다."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\c24e09cc849b4301f8dcf7d84b56dd01a56cda6840efab791ae3573c5bc15cfe.json",
+  "policy": "stage_gates_v2"
+}

@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.98,
+  "summary": "Reject: header/jambs and central opening exist, but the reference continuous thin lower guide rail is missing across the middle and replaced by irregular shelf-like stubs at both feet. This loses a visible construction element and adds malformed protrusions.",
+  "issues": [
+    {
+      "part": "lower guide rail",
+      "problem": "Middle span is missing; end fragments are broad, ragged and unlike the reference straight rail.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

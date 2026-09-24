@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "d54c0840660d9dcc86e24fb455c2b6ee6db132f9a42d8f720d9f319d46a4f8b0",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S05_4aea753fcd\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S05_4aea753fcd\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S05_4aea753fcd\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "14299triangle coffee machine preserves the hopper, display/knob, two dispensers, cup bay, tray, cabinet and feet. Five PBR/neutral views and source comparison show no major part loss or new bake defects; fresh FBX/GLB technical checks pass.",
+                "issues": [
+                  {
+                    "part": "fine hopper, tray and base detail",
+                    "problem": "Opaque ordered bean relief, inferred tray holes/rear hopper finish and slight edge softening remain minor differences.",
+                    "kind": "texture",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "5b403c10-ea80-451b-830a-651b7c33180c",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Black cabinet, silver fascia/tray, dark display/knob, warm cup bay and two metal dispensers match the reference read. Five PBR views remain coherent with no large paint leaks or missing parts.",
+            "issues": [
+              {
+                "part": "hopper and tray details",
+                "problem": "Beans are ordered opaque relief/texture rather than separate loose beans; rear hopper finish and tray openings are inferred.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "d2b85227-314e-4c62-b025-78b795eb451a",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Coffee machine preserves rectangular cabinet, top hopper, front display/knob, two dispensers, open cup bay, drip tray and feet. Five clay views show a coherent body and plausible rear panels/vents.",
+        "issues": [
+          {
+            "part": "hopper and drip tray detail",
+            "problem": "Bean-like hopper relief and tray openings are simplified/inferred rather than separate individual beans or exact reference slots; assess with texture.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790265536.8713405,
+  "notes": [
+    "shape: Coffee machine preserves rectangular cabinet, top hopper, front display/knob, two dispensers, open cup bay, drip tray and feet. Five clay views show a coherent body and plausible rear panels/vents.",
+    "texture_source: Black cabinet, silver fascia/tray, dark display/knob, warm cup bay and two metal dispensers match the reference read. Five PBR views remain coherent with no large paint leaks or missing parts.",
+    "final_compare: 14299triangle coffee machine preserves the hopper, display/knob, two dispensers, cup bay, tray, cabinet and feet. Five PBR/neutral views and source comparison show no major part loss or new bake defects; fresh FBX/GLB technical checks pass."
+  ],
+  "reason": ""
+}

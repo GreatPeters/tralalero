@@ -1,0 +1,19 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "summary": "14,784-triangle final window compared with source in contact views and full hero. All six panes, mullions and the outer frame remain intact; the finished reflective-blue material reads cleanly and fresh FBX/GLB imports pass.",
+  "issues": [
+    {
+      "part": "thin inner rims",
+      "problem": "Small edge rippling/softening appears after reduction; neutral-only shading is rougher than the source, while the PBR appearance remains close.",
+      "kind": "mesh",
+      "severity": "minor"
+    },
+    {
+      "part": "color",
+      "problem": "Cooler frame cast and stronger reflection bands remain from the accepted source texture.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ]
+}

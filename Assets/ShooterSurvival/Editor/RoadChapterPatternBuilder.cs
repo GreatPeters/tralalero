@@ -198,7 +198,7 @@ public static class RoadChapterPatternBuilder
     {
         var root = Group(map, "Oncoming_Traffic"); var controller = root.gameObject.AddComponent<HighwayOncomingTraffic>(); controller.route = route; controller.hud = hud;
         controller.beats = new[] {
-            new HighwayOncomingTraffic.Beat { distance = 28, title = "정면 차량 접근", lanes = new[] { 1 }, delays = new[] { 0f } },
+            new HighwayOncomingTraffic.Beat { distance = 84, title = "정면 차량 접근", lanes = new[] { 1 }, delays = new[] { 0f } },
             new HighwayOncomingTraffic.Beat { distance = 710, title = "시간차 차량 접근", lanes = new[] { 0, 1 }, delays = new[] { 0f, 1.7f } },
             new HighwayOncomingTraffic.Beat { distance = 1320, title = "공사 차로 합류", lanes = new[] { 1, 2 }, delays = new[] { 0f, 1.5f } },
             new HighwayOncomingTraffic.Beat { distance = 1700, title = "본선 차량 행렬", lanes = new[] { 0, 2, 0, 2 }, delays = new[] { 0f, 0f, 2.7f, 2.7f } },

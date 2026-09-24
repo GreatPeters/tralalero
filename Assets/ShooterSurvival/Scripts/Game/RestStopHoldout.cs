@@ -168,7 +168,7 @@ public sealed class RestStopHoldout : MonoBehaviour
         {
             Completed = true;
             float fraction = HighwayRoute.Setting("reststopHoldoutHeal", .12f, 0, .3f);
-            player.currentHealth = HighwayRoute.RecoveredHealth(player.currentHealth, player.MaxHealth, fraction); player.UpdateHealth();
+            player.Heal(player.MaxHealth * fraction);
         }
         Active = false;
         if (player != null) player.SetStationaryCombat(this, false);

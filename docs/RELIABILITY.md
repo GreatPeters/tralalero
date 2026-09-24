@@ -1,5 +1,27 @@
 # Reliability
 
+## Damage visibility and campaign calibration — 2026-09-23
+
+A new hit must not consume frame time that elapsed before it was received. Player damage notices skip their receipt frame and cap presentation decay during hitches; enemy popup saturation cannot replace the reserved player slot. Ordinary healing and HP bonuses cannot revive a committed death, and a zero-health finish callback cannot grant a clear. See `docs/solutions/ui-bugs/keep-player-damage-visible-through-hitches-and-recovery-2026-09-23.md`.
+
+Curved-road projectiles must follow their own road progress and height rather than only copying the owner's yaw. The automatic test driver must aim at road-relative target lanes after this change; tangent-space aiming can falsely suggest bad combat balance. Stationary defense is a separate free-aim mode. Compare earned wallets/purchases and actual chapter-completion state, not just a stopped game clock.
+
+RestStop pair alignment must project onto the canonical polyline, never use the existing left actor as the center. Otherwise repeated installers shift actors out of the shootable road. Exclude hazards on laterally remote parallel roads from QA steering before predicting arrival. See [placement and driver diagnosis](solutions/workflow-issues/separate-road-placement-and-driver-errors-from-campaign-balance-2026-09-23.md).
+
+RestStop motion/body sources and native fitted tools are separate. Keep the source prefabs and saved placements in sync with `tools/install-reststop-campaign-motion.cs`; older asset generators may recreate their previous launch attachments. Workbook preparation seconds retime the attack to its authored strike phase. Retain the current normalized strike setting when changing clips (Coffee0.5, rebuilt highway roles0.46).
+
+Campaign testing temporarily used540×1170 (index26). Final verification restored index23/1080×2340 and all77original preference records; see `map-concepts/campaign-balance-2026-09-23/final-state.json`. Keep the same snapshot/restore discipline for reruns. Copied earlier chapter checkpoints are reused evidence, not additional newly played attempts.
+
+## Highway reconstructed prefab integration — 2026-09-23
+
+Replacing a source prefab Body can leave a new inherited Body beside a scene-added visual and invalidate scene-specific launch references. Importers must clear all old visual rigs, restore projectiles from the role contract and inspect the saved/reopened scene. HighWay currently requires one Animator per50actors and34valid ranged launch bindings. Gate coverage tests must include real patrol movement; static capsule math missed a center gap. Keep the highway post-pose launch queue resettable and separate from the Noryangjin crate owner. Details: `docs/solutions/integration-issues/rebuild-enemy-prefabs-without-stale-scene-rigs-2026-09-23.md`.
+
+## Readability and automated playtest integrity — 2026-09-23
+
+Damage provenance must be recorded before HUD/death notification and remain unchanged after a fatal hit. Classify crossing vehicles and toll barriers separately even though both use `HighwayHazard`. Reconfigure and restore camera-fade material owners when scenes/player bindings change; remove fading structures from static occluders and rebake after authoring. A null additional-occluder reference silently leaves the actual gantry opaque.
+
+Later-chapter repeated deaths can be caused by QA steering. Predict crossing-car position and the open toll lane at arrival; reacting to current positions can turn the bot into the hazard. Preserve failed attempts, label corrected reruns, and never infer enemy balance from instant-kill traffic contacts. A purchased-level test save does not prove the player can naturally afford those levels at chapter entry. Keep original key presence/values and tutorial state, restore in `finally`, and verify the scene is clean in Edit Mode. Editor pauses are excluded from the QA watchdog rather than silently resumed. See `map-concepts/review-fixes-20-runs-2026-09-22/README.md`.
+
 ## Mobile visibility and launched attacks — 2026-09-20
 
 Detached Guard/FatMan shots must survive shooter deactivation; register them with run cleanup and bound their own lifetime. Clones from distance-culled templates must clear `forceRenderingOff`. Visual distance gating must leave collision/event roots enabled and complete an active crate stroke before release. The road spatial index assumes authored roads remain static during a run; call `Configure` after a layout change. Exclude camera-hidden geometry from baked static occluders. Workbook edits must preserve unrelated formula caches, not silently apply an importer's recalculation as new combat balance. Evidence: `map-concepts/mobile-feedback-2026-09-20/README.md`.
@@ -205,6 +227,9 @@ Open observation: after the final97-second gameplay run reset, two stackless Edi
 - Keep the enemy-drop `RuntimeBonusWall` marker on the `Box_left` root so stage cleanup destroys the complete composite altar. Child `WallScript` instances must resolve that marker through their parent hierarchy before deciding whether to use the legacy global post-processing overlay.
 
 ## Verification
+
+- TRELLIS/ComfyUI completion can race between separate history and queue reads. A missing queue entry is not proof that generation was lost. The task-owned rest-stop client rechecks the same history ID before preserving the halt; it never resubmits automatically in that recovery path. Preserve original attempt ledgers and verify exact completed-output provenance. See [completion polling recovery](solutions/integration-issues/recheck-comfy-history-before-replaying-lost-prompts-2026-09-24.md).
+- A ComfyUI interrupt response does not prove that a custom sampler stopped. Confirm its request is inactive before retrying; stop a backend process only after checking the exact task-owned worker/launcher and exclusive queue. Cancelled requests still consume their original attempt. DINO substeps and the rescaled-time CFG interval also change per-step cost, so early timing alone can understate a long texture request. See [glazed-prop partitioning and confirmed cancellation](solutions/workflow-issues/partition-glazed-trellis-props-without-resetting-attempts-2026-09-24.md).
 
 - Rounded display-font replacement requires glyph-bound checks, not only RectTransform or font-metric Center alignment. Centered presentation text now uses MidlineGeoAligned; left/top content retains its authored alignment. Story Previous content is a preferred-size icon/label group, while Next/Skip/tab labels use symmetric insets. Always verify the active layout after enable, because inactive layout groups need not resolve their sizes.
 

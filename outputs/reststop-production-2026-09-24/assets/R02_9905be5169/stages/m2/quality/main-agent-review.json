@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.99,
+  "summary": "Second shape is a broad triangular/funnel slab tapering into a narrow stalk, not a constant-width curved road.",
+  "issues": [
+    {
+      "part": "road silhouette",
+      "problem": "Missing curved strip and severe width mismatch make the segment unusable for the reference route.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

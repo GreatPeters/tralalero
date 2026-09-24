@@ -1,5 +1,39 @@
 # Docs Index
 
+- `../map-concepts/reststop-production-2026-09-24/README.md`: **진행 중** — 저장된 TRELLIS 자동화 값으로 소품82종+인물8종 제작, 인물 리깅·애니메이션. 입력90종·진행 갤러리·원본 보존·단계별 검토 기록.
+- `exec-plans/active/reststop-trellis-production.md`: 같은 제작 작업의 범위·실행 상태·완료 조건을 연결하는 실행 계획.
+
+- `../map-concepts/reststop-prop-audit-2026-09-24/README.md`: 최신 Blender v4와 69종 PNG의 누락 검토. 환경 6종 누락·진열대 1종 보완·인물 장비 6종, 재사용 후보와 별도 보강 제안. 실제 원본 근접 렌더·인벤토리·구간 대응표.
+
+- `../map-concepts/reststop-atomic-assets-2026-09-23/README.md`: 휴게소 10개 공간 시안을 개별 PNG 69종(신규 63+차량 6)으로 분해 완료. 구간별 소품 갤러리·ZIP·CSV·실제 프롬프트·검증 기록. TRELLIS 미실행.
+
+- `../map-concepts/reststop-trellis-images-2026-09-23/README.md`: 공간 배치 참고 시안 10장·단독 차량 후보 6장. 공간 전체를 TRELLIS 제작 입력으로 안내한 판단을 정정한 기록. 이후 개별 에셋 분해는 위 atomic-assets에서 완료; 실제 변환은 미검증.
+
+- `../map-concepts/reststop-blender-v4-2026-09-23/README.md`: 차량 전체 1.8배 확대, 주차 재배치·후진 위치 보정, 동일 카메라 크기 비교와 1~10번 이미지·Blender 원본·GLB.
+
+- `../map-concepts/reststop-blender-v3-2026-09-23/README.md`: 카트 제거, 차량 6종 91대, 자동 경로 전진과 좌우 전용 제어를 반영한 Blender 수정판. 1~10구간 PNG·원본·GLB·이동 제약 검증.
+
+- `../map-concepts/reststop-blender-v2-2026-09-23/README.md`: 실제 게임 기준 휴게소 Blender 수정판. 화장실 10.08배·편의점 7.67배, 차량 91대, 쿼터뷰 60초 방어, 300초/10영상·원본·GLB·전후 비교·검증 갤러리.
+- `../map-concepts/reststop-blender-300s-2026-09-23/README.md`: 완료된 휴게소10구간 Blender 프리비즈,300초 통합영상,60초/90도·초 방어전,5배 화장실,새 인물·편의점 시안과 원본.7,200프레임/10클립 검증 및 갤러리.
+- `solutions/workflow-issues/verify-imported-timing-and-mesh-ownership-before-blender-previs-render-2026-09-23.md`: FBX의FPS변경, 공유 메시 병합 증폭, 네이티브 회전 검증, 지붕 가림·투명 노이즈 수정.
+
+- `../map-concepts/reststop-ppt-concepts-2026-09-23/README.md`: Desktop 휴게소.pptx의 34슬라이드를 종합한 6장 콘셉트 이미지, 프롬프트, 검증한 브라우저 갤러리. 실제 Blender/TRELLIS/Unity 적용 전 시안.
+
+- `../map-concepts/opening-best4-v5-2026-09-23/README.md`: four supplied opening videos installed without re-encoding;39-second playback,0/8/20/30scene boundaries, three chapter bindings and native navigation verification.
+
+- `../map-concepts/campaign-balance-2026-09-23/README.md`: actual earned-purchase clears at30/19/7attempts, universal damage feedback, fatal-state guards, projectile/gate/placement repairs and revised RestStop motion. Records pacing variance separately from per-upgrade guarantees.
+- `solutions/workflow-issues/separate-road-placement-and-driver-errors-from-campaign-balance-2026-09-23.md`: canonical road alignment, parallel-road hazard filtering, true completion and async-test result handling.
+- `solutions/ui-bugs/keep-player-damage-visible-through-hitches-and-recovery-2026-09-23.md`: hit-frame lifetime, reserved player popup, exact burst accumulation and recovery/finish ordering.
+
+- `../map-concepts/highway-enemy-rebuild-2026-09-23/README.md`: six fresh TRELLIS character bodies, fitted rigs/actions,50placements, required physical encounter passages,146tests and native videos.
+- `solutions/integration-issues/rebuild-enemy-prefabs-without-stale-scene-rigs-2026-09-23.md`: duplicate scene rigs, lost ranged overrides, moving collision gaps and torso-weight corrections found during the rebuild.
+
+- `../map-concepts/review-fixes-20-runs-2026-09-22/README.md`: selected readability/character corrections,135tests,20recorded attempts and1531nativePNGs;3clears, later-chapter purchased-level comparisons, archived steering-error attempts and restored user state. Helper formation/repeating layout intentionally retained.
+
+- `exec-plans/completed/bonus-amount-fix-2026-09-22.md`: fixes ATT/HP label-versus-effect mismatch; twelve workbook cells, shared resolved amount,45tests and actual+12/+14/+36/+54pickup evidence.
+
+- `../map-concepts/ten-run-review-2026-09-22/README.md`: ten actual normal-stat attempts,458screenshots and nine annotated visual/balance/gameplay findings with coverage limits; source assets unchanged and preferences restored.
+
 - `exec-plans/completed/enemy-radius-055-2026-09-21.md`: enemy capsule radii 0.43 → 0.55 in scenes/source prefabs, including initialization baseline preservation and all-chapter audit.
 
 - `../map-concepts/mobile-feedback-2026-09-20/README.md`: ten mobile feedback fixes, one-shot FatMan attack 100, Woman grip/+50% HP, original enhancement artwork, readable start UI and measured render/CPU changes.

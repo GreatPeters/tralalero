@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "image_hash": "cf83200a7599d8a1392097f84e14889a582bb8475165c6dbb39a421ca327612d",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B10_8107b517ba\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B10_8107b517ba\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B10_8107b517ba\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.96,
+                "summary": "The 14139-triangle finished arch preserves the continuous curve, two uprights, open passage, base plates and bolts. Finished PBR appearance remains close to the high-detail source across both oblique views and side profile. Fresh FBX/GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "curved beam and bases",
+                    "problem": "Small neutral-only faceting and edge softening after reduction; finished painted material remains smooth at the review scale.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "98586385-1c3a-4abd-bb16-9176fa6b6833",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Warm off-white painted steel, darker anchor bolts and clean material boundaries match the reference. Both faces and thin side views retain the complete arch and open passage; no fake text, dark blotches or background material leakage are present.",
+            "issues": []
+          }
+        }
+      ],
+      "prompt_id": "c52c6c3d-a60f-481e-b41a-b6ab29efc6ed",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Both uprights, base plates, anchor bolts and the continuous arched cross-member remain present in front/back oblique and side views. The opening is empty, with no background slab or filled panel. Minor small flange waviness can be reviewed again after reduction.",
+        "issues": [
+          {
+            "part": "arch flange",
+            "problem": "Small edge waviness is visible along the thin outer flange.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790208940.2836094,
+  "notes": [
+    "shape: Both uprights, base plates, anchor bolts and the continuous arched cross-member remain present in front/back oblique and side views. The opening is empty, with no background slab or filled panel. Minor small flange waviness can be reviewed again after reduction.",
+    "texture_source: Warm off-white painted steel, darker anchor bolts and clean material boundaries match the reference. Both faces and thin side views retain the complete arch and open passage; no fake text, dark blotches or background material leakage are present.",
+    "final_compare: The 14139-triangle finished arch preserves the continuous curve, two uprights, open passage, base plates and bolts. Finished PBR appearance remains close to the high-detail source across both oblique views and side profile. Fresh FBX/GLB checks pass."
+  ],
+  "reason": ""
+}

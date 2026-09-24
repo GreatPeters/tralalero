@@ -1,0 +1,39 @@
+{
+  "source_failed_blend": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\F03-reduction-recovery\\low2\\failed-state.blend",
+  "method": "Split non-manifold edge fans without moving the surface, then reduce the repaired low mesh without re-welding those fans",
+  "before": {
+    "triangles": 18504,
+    "vertices": 7385,
+    "degenerate_faces": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 1202,
+    "nonmanifold_edges": 1182,
+    "finite": true,
+    "uv": true
+  },
+  "split_edges": 1182,
+  "after_split": {
+    "triangles": 18504,
+    "vertices": 9878,
+    "degenerate_faces": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 2518,
+    "nonmanifold_edges": 0,
+    "finite": true,
+    "uv": true
+  },
+  "reduction_metrics": [
+    {
+      "triangles": 14814,
+      "vertices": 7813,
+      "degenerate_faces": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 2470,
+      "nonmanifold_edges": 0,
+      "finite": true,
+      "uv": true
+    }
+  ],
+  "original_automatic_attempts_preserved": 2,
+  "ai_regeneration": false
+}

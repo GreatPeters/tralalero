@@ -1,0 +1,51 @@
+APP_STAGE Import source GLB
+16:54:42 | INFO: Data are loaded, start creating Blender stuff
+16:54:42 | INFO: Blender create Mesh node geometry_0
+16:54:43 | INFO: glTF import finished in 0.99s
+Warning: No mesh data to join
+APP_STAGE Clean mesh
+APP_STAGE Reduce triangle count
+APP_STAGE Unwrap UV atlas
+C:\Users\ljh\Desktop\AI 프로그램\Trellis 자동화\앱\blender_refine.py:96: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat=bpy.data.materials.new('Asset_PBR');mat.use_nodes=True;low.data.materials.clear();low.data.materials.append(mat)
+C:\Users\ljh\Desktop\AI 프로그램\Trellis 자동화\앱\blender_refine.py:101: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m.use_nodes=True;p=next((n for n in m.node_tree.nodes if n.type=='BSDF_PRINCIPLED'),None)
+APP_STAGE Bake BaseColor
+Info: Baking map saved to internal image, save it externally or pack it
+APP_STAGE Bake Roughness
+Info: Baking map saved to internal image, save it externally or pack it
+APP_STAGE Bake Metallic
+Info: Baking map saved to internal image, save it externally or pack it
+APP_STAGE Bake Normal
+Info: Baking map saved to internal image, save it externally or pack it
+APP_STAGE Export FBX and GLB
+
+FBX export starting... 'C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\P01-r2\\source\\low1\\model.fbx'
+export finished in 0.0312 sec.
+INFO Draco is available, use library at C:\Users\ljh\AppData\Local\Programs\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Users\ljh\AppData\Local\Programs\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+16:54:59 | INFO: Starting glTF 2.0 export
+16:54:59 | INFO: Extracting primitive: geometry_0.001
+16:55:00 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+16:55:00 | INFO: Primitives created: 1
+16:55:00 | INFO: Finished glTF 2.0 export in 0.3450641632080078 s
+
+APP_STAGE Render preview
+C:\Users\ljh\Desktop\AI 프로그램\Trellis 자동화\앱\blender_refine.py:140: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  world=bpy.data.worlds.new('Studio');world.use_nodes=True;world.node_tree.nodes['Background'].inputs['Strength'].default_value=.35;scene.world=world
+00:21.453  render           | Saved: 'C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\manual\P01-r2\source\low1\preview.png'
+Info: Packed 4 file(s)
+Info: Saved as "model.blend"
+APP_STAGE Saved
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit
+APP_STAGE Verify exported FBX
+FBX version: 7400
+16:55:05 | INFO: Data are loaded, start creating Blender stuff
+16:55:05 | INFO: Blender create Mesh node geometry_0.001
+16:55:05 | INFO: glTF import finished in 0.03s
+APP_STAGE Validated 14583 triangles
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

@@ -1,0 +1,9 @@
+# Highway enemy modeling contract
+
+- Deliver six rebuilt human enemies: ConeMechanic, AsphaltWorker, TrafficPatrol, TireBruiser, DeliveryRider and TollgateChief. Maintain IDs/roles; differentiate build, face, headwear and outfit rather than only palette.
+- The established user direction is cute graphic human characters at about three heads tall. Target finished, smooth, sculpted toon forms with readable noses, cheeks, brows and garment layers. Avoid the rejected identical staring faces, oversized white mittens and toy-like miniature bodies. Intentional low-poly faceting was not requested.
+- Individual generation references: unobstructed front full-body A-pose, symmetric separated legs/arms, no ground slab, empty hands, clean light background, neutral lighting. Body joints and negative spaces must be reconstructable. Hand tools are separate rigged rigid parts.
+- Runtime height: roughly 2.8-3.3m normal, 3.4m heavy/boss, with appropriate body and road-camera scale. Source meshes target 15k-25k triangles, one 2k base-color atlas per body, independent low-cost equipment. Budget is a ceiling, not a visual acceptance criterion.
+- TRELLIS supplies reconstructed geometry/texture; Blender owns cleanup, shape checks, fitted skeleton/weights, props, animation and fresh export. Retain raw and rejected candidates. Final .blend/.fbx/.glb plus source scripts and actual Unity controller/prefab integration are required.
+- Motion: legible anticipatory attack with follow-through; distinct idle body/arm/head movement; walk/run with planted feet; short hit reaction; visible death. Keep prop grips stable, actor root motion in gameplay code and final imported animation continuous.
+- Review stages: reference silhouette, neutral multi-view shape, deformation/contacts, material/texture, exported poses/actions, native gameplay camera and 1x video. Clip count and triangle checks alone do not establish success. No extra user approval gate.

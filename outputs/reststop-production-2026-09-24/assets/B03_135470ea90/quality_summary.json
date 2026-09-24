@@ -1,0 +1,23 @@
+{
+  "status": "review_needed",
+  "counts": {
+    "meshes": 3,
+    "textures": 1,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 2
+  },
+  "notes": [
+    "shape: Reject: this is drifting into a wooden shutter/door. The reference has closely spaced uniform narrow slats across the full panel, while a large left section is nearly plain and the remaining slats are fewer/wider. Rear lock/handle-like hardware is also invented. Regenerate the full-width architectural slat pattern with only plain rear support battens.",
+    "shape: Reject: invented door hardware is gone, but the clean framed front is now almost a solid flat plate. Slat relief appears only on the rear face beneath cross battens. The reference requires an unobstructed, full-width narrow-slat front, so the defining geometry is still missing.",
+    "shape: Third candidate restores uniform full-width front slat divisions while keeping the outer frame and rear support battens; invented door hardware is absent. All clay views and full hero checked. Ray-cast cross sections confirm repeated front grooves, unlike the almost flat m2 front, so the pattern is real geometry.",
+    "texture_source: Reference, contact views and full hero inspected. Warm wood tone and dark narrow joints now make the full front slat field legible and consistent with the intended panel. Rear battens and slats use coherent wood materials; no invented hardware remains.",
+    "final_compare: Reject the first reduction: front slat field gains conspicuous crumpled/faceted neutral shading and wavering edges not present in the high-density source. The accepted m3 geometry/material should be retained while the Blender reduction/normal treatment is changed.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "final_compare: Second reduction retains the same new front-face corrugated/faceted shading and wavering trim. Both bounded reduction attempts are preserved; a separate normal-correction copy is required without further TRELLIS generation.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "고밀도 원본은 통과했지만 Blender 두 방식에서도 결함이 남았습니다. 직접 수정이 필요합니다."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\0bdbc55339fe592a43467c0da69fa33f5e3297d411d65ff1095efb669340120e.json",
+  "policy": "stage_gates_v2"
+}

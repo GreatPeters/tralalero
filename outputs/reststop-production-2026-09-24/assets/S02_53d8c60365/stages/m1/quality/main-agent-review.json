@@ -1,0 +1,13 @@
+{
+  "verdict": "uncertain",
+  "confidence": 0.99,
+  "summary": "Requires manual interior/material recovery: cutaways show two intact shelves in cached decoded geometry, but the standard inner-face removal loses the upper shelf and distorts the lower one. A cache-verified postprocessing-only candidate preserving inner faces restores both without AI resampling. The glass remains to be reviewed as material, not mistaken for an empty opaque housing.",
+  "issues": [
+    {
+      "part": "interior shelves and glass treatment",
+      "problem": "Standard export loses essential internal shelf geometry; use separately reviewed recovered geometry and glass material correction.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

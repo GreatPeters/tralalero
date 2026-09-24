@@ -1,0 +1,19 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.99,
+  "summary": "Reject: this is drifting into a wooden shutter/door. The reference has closely spaced uniform narrow slats across the full panel, while a large left section is nearly plain and the remaining slats are fewer/wider. Rear lock/handle-like hardware is also invented. Regenerate the full-width architectural slat pattern with only plain rear support battens.",
+  "issues": [
+    {
+      "part": "front slat field",
+      "problem": "Substantial left portion lacks the repeated slats; overall spacing/count differs strongly from the defining reference pattern.",
+      "kind": "mesh",
+      "severity": "major"
+    },
+    {
+      "part": "rear hardware",
+      "problem": "Unrequested handle/lock-like details make the wall panel read as a door.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

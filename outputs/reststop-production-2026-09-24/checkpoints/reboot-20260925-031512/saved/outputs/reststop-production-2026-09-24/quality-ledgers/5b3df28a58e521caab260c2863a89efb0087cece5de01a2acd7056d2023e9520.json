@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "image_hash": "5b3df28a58e521caab260c2863a89efb0087cece5de01a2acd7056d2023e9520",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S02_53d8c60365\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "91f20390-3fee-46d4-9f2c-b9fdbb4ef241",
+      "review": {
+        "verdict": "uncertain",
+        "confidence": 0.99,
+        "summary": "Requires manual interior/material recovery: cutaways show two intact shelves in cached decoded geometry, but the standard inner-face removal loses the upper shelf and distorts the lower one. A cache-verified postprocessing-only candidate preserving inner faces restores both without AI resampling. The glass remains to be reviewed as material, not mistaken for an empty opaque housing.",
+        "issues": [
+          {
+            "part": "interior shelves and glass treatment",
+            "problem": "Standard export loses essential internal shelf geometry; use separately reviewed recovered geometry and glass material correction.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790254637.289136,
+  "notes": [
+    "shape: Requires manual interior/material recovery: cutaways show two intact shelves in cached decoded geometry, but the standard inner-face removal loses the upper shelf and distorts the lower one. A cache-verified postprocessing-only candidate preserving inner faces restores both without AI resampling. The glass remains to be reviewed as material, not mistaken for an empty opaque housing."
+  ],
+  "reason": "감량 전 메시 판정이 불확실합니다. 텍스처를 생성하지 않았습니다."
+}

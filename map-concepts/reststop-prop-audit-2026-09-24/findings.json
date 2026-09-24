@@ -1,0 +1,45 @@
+{
+  "basis": "Latest reststop-v4.blend, native inventory, 10 zone views, one additional restroom view, six native closeups, 69 selected PNG records, and generation sources",
+  "environment": [
+    {"id":"E01","title":"바닥 청소 로봇","zones":["08"],"status":"missing","priority":"P1","evidence":"Cleaning_robot / Robot_chassis / Robot_bumper / Robot_sensor; native count 1","image":"03-cleaning-robot.png","action":"청소 로봇 한 대를 단독 이미지로 추가. 물자국은 로봇 이미지에 합치지 않는다.","reason":"화장실의 움직이는 장애물 기믹에 필요하며 이동 카트와 다른 소품이다."},
+    {"id":"E02","title":"누수 파이프·분사구","zones":["08"],"status":"missing","priority":"P1","evidence":"Leaking_pipe_0 / Leaking_pipe_1 / Fixed_water_pipe; native count 2","image":"04-leaking-pipe.png","action":"굽은 파이프와 출구를 한 연결 물체로 제작하고 2개 배치에 재사용. 물줄기·물웅덩이는 별도 효과로 취급한다.","reason":"T07 세면대 수전은 큰 누수 파이프의 형태와 역할을 대신하지 못한다."},
+    {"id":"E03","title":"넘어지는 소형 행사 진열대","zones":["07"],"status":"partial","priority":"P1","evidence":"Domino_display_hinge / Display_base / Display_back / Display_shelf; native count 1","image":"05-tipping-display.png","action":"빈 소형 자립 진열대를 추가하거나 S07의 형태·바닥 받침을 수정. 상품은 S14, 굴러가는 캔은 S15로 분리해 재사용한다.","reason":"S06/S07은 일반 진열대 역할을 충족하지만 원본 기믹의 낮고 짧은 독립 진열대와 받침 형태는 다르다. 실제 회전 피벗은 후속 3D 작업이다."},
+    {"id":"E04","title":"음료 자판기","zones":["03","04"],"status":"missing","priority":"P1","evidence":"architecture.vending + scene.py five placements of a two-machine assembly; closeup confirms pair","image":"01-vending.png","action":"자판기 한 대의 본체만 제작해 반복 배치. 음료는 S10/S15를 사용한다.","reason":"냉장고 S08과 달리 결제부·선택부·배출구가 있는 기계다. Blender 원본에는 5쌍이 작성돼 있다."},
+    {"id":"E05","title":"주차장 가로등","zones":["02"],"status":"missing","priority":"P1","evidence":"02_PARKING__metal__ / 02_PARKING__light__; scene.py four authored lamps","image":"02-parking-light.png","action":"기둥과 등기구가 연결된 가로등 한 개를 추가. 기존 City/Lamps City/Lamp_Street_*_City.prefab도 재사용 후보다.","reason":"F05 벽등과 F06 매입등만으로는 주차장 조명 실루엣을 만들 수 없다."},
+    {"id":"E06","title":"원형 나무 화단 테두리","zones":["01","02","03","05","09","10"],"status":"missing","priority":"P2","evidence":"geometry.tree creates circular _bed and _soil; visible in v4 entry, parking, forecourt and hall views","image":"zone-03.png","action":"나무가 없는 원형 낮은 화단 테두리를 추가. F04 나무를 독립적으로 조립하고 흙은 표면 재질로 처리한다.","reason":"F02는 긴 직사각 화분, F04는 나무만 있어 Blender의 원형 화단이 빠져 있다."},
+    {"id":"E07","title":"매장·안내 간판판","zones":["03","04","05","06","07","08","09"],"status":"missing","priority":"P2","evidence":"20 native FONT objects and sign panels including Main_identity, Dining_sign, Convenience_identity, Fuel_identity and food menus","image":"06-food-signs.png","action":"긴 직사각 간판판 기본형을 준비하고 크기·목재/황토색/빨강 재질을 변형. 휴게소·식당·편의점·주유소·메뉴 글자는 별도 텍스트/데칼로 넣는다.","reason":"R05 도로 표지판과 T09 화장실 픽토그램만으로 모든 매장 간판을 충족했다고 볼 수 없다."}
+  ],
+  "equipment": [
+    {"id":"P01","title":"경찰 방패","zones":["05"],"status":"missing_png","evidence":"Defense_pool_*_shield and Route_police_*_shield; nine police actor roots","action":"방패와 인물 몸체를 분리. 기존 판타지 방패는 현대 경찰 방패로 자동 대체하지 않는다."},
+    {"id":"P02","title":"경찰 진압봉","zones":["05"],"status":"missing_png","evidence":"Defense_pool_*_wand / Route_police_*_wand","action":"검정 진압봉 한 개. 휴대 소품으로 별도 장착."},
+    {"id":"P03","title":"주차 안내봉","zones":["02","09"],"status":"missing_png","evidence":"Parking_staff_wand / Route_marshal_*_wand","action":"Blender의 주황 안내봉을 따르거나 현재 게임의 기존 정지 표지봉을 재사용. 두 형태 중 게임 기준을 먼저 정한다."},
+    {"id":"P04","title":"청소 대걸레","zones":["08"],"status":"missing_png","evidence":"Cleaner_mop / Route_cleaner_*_mop","action":"청소 인물과 분리된 도구 한 개. Blender는 막대 수준이므로 실제 대걸레 머리 형태를 보강할 필요가 있다."},
+    {"id":"P05","title":"여행객 배낭","zones":["03","04"],"status":"missing_png","evidence":"Visitor_00_backpack through Visitor_07_backpack","action":"별도 배낭 이미지 또는 기존 Backpack_Closed/Backpack_Wear 프리팹 재사용. 기존 후보의 형태·색상 적합성은 미검증."},
+    {"id":"P06","title":"테이크아웃 컵 뚜껑","zones":["03","06"],"status":"missing_png","evidence":"Barista_lid and Route_barista_*_lid; S13 is open paper cup","action":"S13 컵과 맞는 뚜껑 또는 기존 게임용 Cup_A_Movie 재사용. 컵을 통째로 또 생성할 필요는 없다."}
+  ],
+  "optional_enrichment": [
+    {"id":"O01","title":"분리수거함·쓰레기통","zones":["03","06","07"],"status":"proposal_not_native_gap","reason":"휴게 공간과 식당 가장자리의 생활감을 보강. 통 하나를 재질/라벨로 구분해 반복 사용."},
+    {"id":"O02","title":"식기 반납대","zones":["06"],"status":"proposal_not_native_gap","reason":"식당 기능을 더 명확히 표현. 이동 카트가 아닌 고정 반납 가구."},
+    {"id":"O03","title":"젖은 바닥 접이식 안내판","zones":["08"],"status":"proposal_not_native_gap","reason":"누수 구간의 예고 소품. 진행 통로를 막지 않는 가장자리에 배치."},
+    {"id":"O04","title":"벽 부착 비누 디스펜서","zones":["08"],"status":"proposal_not_native_gap","reason":"큰 화장실의 세면대 주변 세부 보강."},
+    {"id":"O05","title":"휴지 디스펜서","zones":["08"],"status":"proposal_not_native_gap","reason":"화장실 칸 내부의 기능적 세부 보강."},
+    {"id":"O06","title":"소화기","zones":["04","07","09"],"status":"proposal_not_native_gap","reason":"시설 가장자리의 시각적 세부 소품으로 제안. 이번 검토에서 새 폭발 기믹이나 규정 준수를 주장하지 않는다."}
+  ],
+  "already_covered": [
+    {"native":"Rolling_can_0..3","png":"S15","note":"캔을 복제하고 회전시키면 되며 누락 소품으로 중복 제작하지 않는다."},
+    {"native":"Vent_grating / Defense_steam_0..3","png":"F11","note":"격자는 준비됨. 증기와 적 둔화는 이미지가 아닌 후속 효과·동작 작업."},
+    {"native":"Entry_open_gate / Exit_gate_A/B","png":"R07 + R08","note":"본체/봉 분리 완료. 피벗·차단 판정은 후속 작업."},
+    {"native":"Entry_sliding_door x2","png":"B06 + B07","note":"프레임과 문짝 분리 완료. 여닫힘/충돌은 후속 작업."},
+    {"native":"Six vehicle types / 91 instances","png":"V01..V06","note":"종류별 단독 PNG가 있고 수량은 복제로 충족. v4의 게임 상대 크기는 후속 3D 배치에서 유지해야 한다."},
+    {"native":"Dining furniture / food and store equipment / restroom fixtures","png":"F07..F10, S01..S04, S06..S15, T01..T09","note":"기본 형태는 준비됨. 매장 기믹용 소형 진열대는 E03에서 별도로 다룬다."},
+    {"native":"Fuel canopy / pump / island / bollards / posts","png":"G01..G04 + B04","note":"기본 조합 가능. 원본 흰 기둥과 PNG 석재 기둥의 재질 차이는 선택·변형 대상."},
+    {"native":"Privacy_screen x2","png":"T01","note":"칸막이 패널을 크기 조정해 재사용 가능."}
+  ],
+  "non_image_work": [
+    "물줄기·증기·물웅덩이·타격·경고 원은 효과 또는 데칼로 분리한다.",
+    "노란 자동 경로와 파란 통로 경계는 검토용 표시이며 새 TRELLIS 물체가 아니다.",
+    "PNG는 치수를 포함하지 않는다. v4 차량 1.8배, 자동 전진+좌우 제한, 쿼터뷰 60초 방어·90도/초는 후속 3D/게임 배치와 동작의 보존 조건이다.",
+    "방어장 중앙과 자동 이동 통로를 소품으로 채우지 않는다. 배치는 경로와 카메라 가림을 기준으로 검토한다.",
+    "이동 카트는 사용자가 제거한 항목이며 최신 Blender에도 0개다. 누락으로 복구하지 않는다."
+  ]
+}

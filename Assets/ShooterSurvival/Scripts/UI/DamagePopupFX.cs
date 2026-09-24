@@ -32,7 +32,7 @@ namespace IndianOceanAssets.ShooterSurvival
         public static void ShowPlayerDamage(Vector3 worldPosition, float amount)
         {
             EnsurePool();
-            pool.Show(worldPosition, Mathf.Max(1, Mathf.RoundToInt(amount)), false, true);
+            pool.ShowPlayerDamage(worldPosition, amount);
         }
 
         private static void EnsurePool()

@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 1.0,
+  "summary": "All five actual GLB views show the shelf collapsed into thin radiating strands rather than solid shelves/back/base. Read-only numeric inspection confirms finite coordinates in a normal-sized bounding box, so this is malformed mesh output rather than a distant outlier distorting the camera. Use the third and final permitted AI shape attempt.",
+  "issues": [
+    {
+      "part": "entire asset",
+      "problem": "Solid shelf geometry collapsed into radiating strips; no usable shelf assembly remains.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

@@ -23,6 +23,8 @@ public sealed class ChapterProgression : MonoBehaviour
     public void BeginRun()
     {
         Elapsed = 0; Completed = false; advancing = false; ClearJewels = 0;
+        foreach (var row in FindObjectsByType<HighwayEncounterRow>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            if (row.gameObject.scene == gameObject.scene) row.ResetForRun();
         foreach (var hazard in FindObjectsByType<HighwayHazard>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             if (hazard.gameObject.scene == gameObject.scene) hazard.ResetForRun();
         foreach (var traffic in FindObjectsByType<HighwayOncomingTraffic>(FindObjectsInactive.Include, FindObjectsSortMode.None))

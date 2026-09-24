@@ -1,0 +1,105 @@
+{
+  "version": 2,
+  "image_hash": "15c307017687090f6d43da7c06db373ea1291ecc223bd16c0f88cce5b3f5057a",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E04_07cdf481ce\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E04_07cdf481ce\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E04_07cdf481ce\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.95,
+                "summary": "The 14725-triangle cabinet retains the reference silhouette, visible empty-rack texture, keypad strip, retrieval recess, seams and feet. Finished front/side/back PBR remains close to the accepted high-detail source without new broad red-panel dents. Fresh FBX and GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "window frame and lower rim",
+                    "problem": "Neutral-only surface faceting and small rim softening after reduction; finished material remains stable.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "ec663d8a-bc0a-4362-95c5-52b2ce1cbd86",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.93,
+            "summary": "All views and full-resolution hero inspected. Red cabinet, dark empty vending racks/coils, keypad/payment strip and lower retrieval opening are recognizable and separated. No large unwanted labels or material leakage appear on the sides/back.",
+            "issues": [
+              {
+                "part": "window contents",
+                "problem": "Coil rows are approximate painted surface detail with some uneven repetition and a different row layout than the reference; they are not separate internal shelf meshes.",
+                "kind": "texture",
+                "severity": "minor"
+              },
+              {
+                "part": "cabinet finish",
+                "problem": "Paler, glossier red under the review lighting.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "19d49214-4c3a-4fde-835a-34e316df68f0",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.94,
+        "summary": "Cabinet proportions, front window frame, keypad/payment column, lower retrieval recess, door seams and small feet are retained. The window interior is represented as a shallow closed surface, so the next material stage must show the reference empty rack/coil appearance. Back and side panels have no major invented structures.",
+        "issues": [
+          {
+            "part": "display window",
+            "problem": "Internal racks are shallow surface detail rather than independently open shelf geometry; verify appearance after texturing.",
+            "kind": "texture",
+            "severity": "minor"
+          },
+          {
+            "part": "rear seams",
+            "problem": "Small seam pits along the back edges.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790215915.7583494,
+  "notes": [
+    "shape: Cabinet proportions, front window frame, keypad/payment column, lower retrieval recess, door seams and small feet are retained. The window interior is represented as a shallow closed surface, so the next material stage must show the reference empty rack/coil appearance. Back and side panels have no major invented structures.",
+    "texture_source: All views and full-resolution hero inspected. Red cabinet, dark empty vending racks/coils, keypad/payment strip and lower retrieval opening are recognizable and separated. No large unwanted labels or material leakage appear on the sides/back.",
+    "final_compare: The 14725-triangle cabinet retains the reference silhouette, visible empty-rack texture, keypad strip, retrieval recess, seams and feet. Finished front/side/back PBR remains close to the accepted high-detail source without new broad red-panel dents. Fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

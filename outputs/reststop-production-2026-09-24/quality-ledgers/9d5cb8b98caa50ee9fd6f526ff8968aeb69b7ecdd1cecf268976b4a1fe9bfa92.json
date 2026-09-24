@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "9d5cb8b98caa50ee9fd6f526ff8968aeb69b7ecdd1cecf268976b4a1fe9bfa92",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F05_bc5af6415f\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F05_bc5af6415f\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F05_bc5af6415f\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.96,
+                "summary": "The 14384-triangle wall lamp retains the diffuser housing, caps, mounting plate and open connecting supports. Finished PBR remains close to the approved source across primary front/side/rear views, and fresh FBX/GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "rear housing and edges",
+                    "problem": "Neutral-only surface softening and minor fastener/edge rounding after reduction.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "af835fef-76fe-43f4-9505-75eb17d6d200",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.96,
+            "summary": "Warm pale diffuser, dark bronze housing/caps and mounting hardware are clearly separated in the primary front/opposite and side views. The rear mount remains complete with plausible inferred inner pads, and no unwanted text or broad texture defects are visible.",
+            "issues": [
+              {
+                "part": "diffuser and rear mount",
+                "problem": "Diffuser is less luminous than the lit reference and the concealed rear has pale inferred pads. This is a static material asset; runtime light/emission setup is separate.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "fde06f82-4d1a-443e-8f5a-f25a89204ca6",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Tall rectangular diffuser housing, upper/lower caps, separate mounting backplate and two connecting supports match the reference wall lamp. Both front and rear construction are complete with open spacing between housing and backplate.",
+        "issues": [
+          {
+            "part": "small mounting details",
+            "problem": "Tiny seam/fastener irregularities and softer housing corners than the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790224020.3334682,
+  "notes": [
+    "shape: Tall rectangular diffuser housing, upper/lower caps, separate mounting backplate and two connecting supports match the reference wall lamp. Both front and rear construction are complete with open spacing between housing and backplate.",
+    "texture_source: Warm pale diffuser, dark bronze housing/caps and mounting hardware are clearly separated in the primary front/opposite and side views. The rear mount remains complete with plausible inferred inner pads, and no unwanted text or broad texture defects are visible.",
+    "final_compare: The 14384-triangle wall lamp retains the diffuser housing, caps, mounting plate and open connecting supports. Finished PBR remains close to the approved source across primary front/side/rear views, and fresh FBX/GLB checks pass."
+  ],
+  "reason": ""
+}

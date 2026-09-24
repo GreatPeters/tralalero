@@ -1,0 +1,14 @@
+{
+  "verdict": "texture",
+  "confidence": 1.0,
+  "scope": "intermediate reduction before opacity restoration",
+  "summary": "Edge-fan correction reached14531triangles with zero non-manifold edges/degenerates. The baked atlas is opaque and has black misses on pane regions; this intermediate cannot be selected. Restore source opacity, then inspect the complete visible assembly and fresh exports.",
+  "issues": [
+    {
+      "part": "glazing",
+      "problem": "Canonical PBR bake omits alpha; opaque pane surface blocks both shelves.",
+      "kind": "texture",
+      "severity": "major"
+    }
+  ]
+}

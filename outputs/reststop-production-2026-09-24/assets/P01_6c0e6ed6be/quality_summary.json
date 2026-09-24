@@ -1,0 +1,17 @@
+{
+  "status": "review_needed",
+  "counts": {
+    "meshes": 1,
+    "textures": 1,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 0
+  },
+  "notes": [
+    "shape: Tall rounded rectangular curved shield, raised outer rim, central reinforcement band with fasteners and rear grip match the reference. The thin curved profile is visible from above and the grip is present in the rear view. Clear-panel appearance must be inspected in the material stage.",
+    "texture_source: The color regions and grip are coherent, but the exported panel is opaque and cannot be approved as the reference clear shield. Inspection confirms the saved graph sets texture_alpha_mode=OPAQUE and its postprocessor forces opacity to 1, so another sample under the same settings would not fix the material mode. Preserve geometry/texture and route to an explicit per-panel transparency correction without changing global settings.",
+    "고밀도 텍스처 원본 판정이 불확실합니다."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\34d89c5c7050e7daa1a09f70b3549ecd2ca04dcc234360ca1c39b4a7120bb8d0.json",
+  "policy": "stage_gates_v2"
+}

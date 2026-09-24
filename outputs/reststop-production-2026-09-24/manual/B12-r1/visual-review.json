@@ -1,0 +1,21 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "summary": "Eight actual GLB views inspected including lower oblique, bottom-flat and bottom-neutral. The rigid-surface normal correction removes the new fascia dents without moving vertices or UVs. Timber board divisions and the inset underside remain clear. Fresh FBX and GLB checks pass at 13907 triangles. Published preview uses the visible underside.",
+  "issues": [
+    {
+      "part": "concealed upper face",
+      "problem": "Source-stage patch-shaped inferred relief and dark outlines remain on the concealed upper side; all upper views are retained in review evidence.",
+      "kind": "texture",
+      "severity": "minor"
+    },
+    {
+      "part": "wood tone",
+      "problem": "Paler timber than the reference; plank lines are material features.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ],
+  "technical_validation": "validation.json",
+  "source_of_truth": "model.glb"
+}

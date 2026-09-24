@@ -1,0 +1,105 @@
+{
+  "version": 2,
+  "image_hash": "558ce560fa43dfa5c0df23601a818f6bba8a6385b5fa62f4ab4f584f85fccb2c",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E07_fedd78134f\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E07_fedd78134f\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E07_fedd78134f\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.94,
+                "summary": "The 14378-triangle board retains its long silhouette, inset blank display face and perimeter trim. Finished front PBR stays close to the source; fresh FBX and GLB checks pass. The default preview showed the reverse, so it was retained separately and the actual front hero render was selected as the published preview. All rear evidence remains available.",
+                "issues": [
+                  {
+                    "part": "front and trim",
+                    "problem": "Minor neutral-only faceting and edge softening after reduction; finished wood face remains blank.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  },
+                  {
+                    "part": "rear",
+                    "problem": "Original inferred dark patch outlines remain on the reverse and are documented in source/review images.",
+                    "kind": "texture",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "6e434484-0a72-4475-94e2-d8666a4067b5",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.93,
+            "summary": "The primary blank front has a consistent warm wood finish and raised trim, with no invented lettering or logo. Side coverage remains clean. Reverse surface irregularities are retained from the shape stage and recorded separately.",
+            "issues": [
+              {
+                "part": "rear face",
+                "problem": "Inferred shallow rear relief reads as dark irregular patch outlines; intended blank display face is clean.",
+                "kind": "texture",
+                "severity": "minor"
+              },
+              {
+                "part": "wood color",
+                "problem": "Warmer and more orange than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "9522ab3f-ad47-4dc7-a55a-9305ae7f33b1",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.94,
+        "summary": "Long thin rectangular sign board, inset blank front field and raised perimeter trim match the reference. Primary front is clean and unlettered. The reverse has shallow inferred patch-like relief, so the next material stage must keep the sign free of invented writing or logos.",
+        "issues": [
+          {
+            "part": "rear face",
+            "problem": "Shallow irregular inferred relief on the rear; primary front field is flat and blank.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790217677.339711,
+  "notes": [
+    "shape: Long thin rectangular sign board, inset blank front field and raised perimeter trim match the reference. Primary front is clean and unlettered. The reverse has shallow inferred patch-like relief, so the next material stage must keep the sign free of invented writing or logos.",
+    "texture_source: The primary blank front has a consistent warm wood finish and raised trim, with no invented lettering or logo. Side coverage remains clean. Reverse surface irregularities are retained from the shape stage and recorded separately.",
+    "final_compare: The 14378-triangle board retains its long silhouette, inset blank display face and perimeter trim. Finished front PBR stays close to the source; fresh FBX and GLB checks pass. The default preview showed the reverse, so it was retained separately and the actual front hero render was selected as the published preview. All rear evidence remains available."
+  ],
+  "reason": ""
+}

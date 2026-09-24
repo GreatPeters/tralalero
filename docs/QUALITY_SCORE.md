@@ -1,5 +1,29 @@
 # Quality Score
 
+## Earned three-chapter campaign and damage delivery — 2026-09-23
+
+Actual earned-currency progression clears Noryangjin/Highway/RestStop in30/19/7attempts at305.5/298.57/299.43seconds. All wallets reconcile and completion flags are true. The first chapter meets20–30attempts; later chapters inherit real growth. Endpoint gain per subsequent shop visit is10.026/14.209/18.717seconds, so chapter3is faster than the10–15-second target. A visit may buy several upgrades; individual purchases and random bonuses do not guarantee fixed time gains. Same-seed checks are recorded separately. No human win-rate or new device-performance claim.
+
+Universal amount/cause feedback survives hitches and popup saturation. Fatal-heal/finish races, road-following shots, strike timing, converging pairs and repeat-authoring lane drift are repaired. Native model/export evidence covers three RestStop roles;194focused tests, runtime/editor builds and harness checks pass. An existing third-party SplineSpeed warning remains. Final restoration/evidence state: `../map-concepts/campaign-balance-2026-09-23/README.md`.
+
+## Highway roster reconstruction — 2026-09-23
+
+The user rejected the earlier resize-only result. Six newly reconstructed TRELLIS bodies, fitted v3 skinning, seven actions each and authored hand tools now replace all50HighWayactors. Saved-scene checks find no duplicate rigs and34valid ranged bindings.146focused tests and both C# builds pass. Left/right/center collision probes and an ordinary gameplay capture end through the intended contact rule; four firing probes hit for exactly100HP after release from the final hand/muzzle pose. Fresh source/GLB hard gates pass; one tiny Delivery GLB degenerate-face warning is recorded. No new device FPS, full campaign balance or APK acceptance is claimed. Evidence: `map-concepts/highway-enemy-rebuild-2026-09-23/README.md`.
+
+## Selected review corrections and twenty-run matrix — 2026-09-23
+
+Selective gantry/sign fading, dangerous-contact warnings, typed defeat recap, Woman grip/apron shading, highway enemy scale/proportions and striped hazard lanes are implemented. 135 focused tests pass, both C# projects compile, harness/runtime archive checks pass, and the original 66 preferences plus tutorial absence are restored. The bonus workbook still matches the prior fixed artifact byte-for-byte. No new phone build or FPS measurement.
+
+Final matrix: 8 SR18 / 6 HighWay / 6 RestStop, 1,531 native PNG captures, 3 clears and 17 deaths. The first 12 later-chapter steering-error attempts remain archived; corrected runs preserve ordinary input/collision and use stated purchased-level saves at 3x. SR18 and HighWay clears and RestStop's 30-second holdout passage are observed. RestStop full clear, natural progression affordability and human win rate remain unverified. Repeated shop/sign/enemy layout and helper formation are intentionally retained by user instruction. Evidence: `map-concepts/review-fixes-20-runs-2026-09-22/README.md`.
+
+## Bonus amount correction — 2026-09-22
+
+The ten-run review's ATT/HP label mismatch is fixed in source and protected runtime data.45focused tests, both C# builds, harness and archive validation pass. Four actual native-collider pickups match their labels, including ATT68→80for+12andHP500→514for+14; maximum HP increases correctly. Selected camera/visual follow-up is recorded above. Evidence: `docs/exec-plans/completed/bonus-amount-fix-2026-09-22.md`. No new phone build for this correction.
+
+## Ten-run observation review — 2026-09-22
+
+Ten normal-stat Play Mode attempts captured458native PNGs. This is a review, not a repair or a human win-rate study. Confirmed open issues include repeated early SR18 camera obstruction and Ratio-bonus labels disagreeing with actual stat increments. Helper crowding, boss hand/material presentation, repeated scenery, guidance-line semantics and death recap are visual/design improvement candidates. Later highway/RestStop balance and holdout remain unverified because direct-entry attempts ended early at the current save stats. Evidence, nine annotated items and exact coverage: `map-concepts/ten-run-review-2026-09-22/README.md`.
+
 ## Mobile feedback follow-up — 2026-09-20
 
 82 focused tests, both C# builds, harness validation, native projectile-hit probes and both elevated-road traversals pass. Three chapters have native UI captures. Android ARM64 build succeeds (0 errors, 58 warnings) and the Samsung SM-S901N in-place install matches the APK SHA-256. Final phone rendering/FPS awaits unlock after an automatic timeout. The Editor start fixture improves from 327 to 296 batches and 53 to 17 enabled animators; frame-time samples vary and baked occlusion alone is not a guaranteed FPS improvement. Evidence: `map-concepts/mobile-feedback-2026-09-20/README.md`.

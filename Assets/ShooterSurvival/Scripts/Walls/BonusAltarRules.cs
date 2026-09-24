@@ -173,15 +173,6 @@ namespace IndianOceanAssets.ShooterSurvival
             return ShouldRound(row.stat) ? Mathf.Round(value) : value;
         }
 
-        public static float ResolveDisplayValue(BonusRow row, float random01)
-        {
-            float value = InterpolateRange(row, random01);
-            if (row.valueType == BonusValueType.Ratio)
-                value *= 100f;
-
-            return ShouldRound(row.stat) ? Mathf.Round(value) : value;
-        }
-
         public static bool AreNearby(
             Vector3 first,
             Vector3 second,

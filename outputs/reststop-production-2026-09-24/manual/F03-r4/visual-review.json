@@ -1,0 +1,16 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "summary": "Five actual GLB views and full-resolution hero/front comparisons inspected against the approved high source and rejected manual r1. Cleaning zero-area data before reduction, retaining original UV/PBR and restoring retained corner normals preserves the rounded leafy canopy and branching stems at 14871 triangles. Fresh FBX/GLB checks pass with no degenerate/loose/non-manifold geometry. r4 uses the available triangle budget more effectively than the valid 11970-triangle r3 baseline.",
+  "issues": [
+    {
+      "part": "fine leaves and roots",
+      "problem": "Individual leaf outlines and root fibres are more angular/simplified than the high source, while canopy coverage and material variation remain coherent.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ],
+  "technical_validation": "validation.json",
+  "source_of_truth": "model.glb",
+  "material_note": "Preserve the original double-sided material. Normal.png is an unconnected flat placeholder; see texture-extraction.json."
+}

@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "616cc6731aff288f45b6e42a0af5ec101f6020f7eb04e5f80a0525bef7fd6d80",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F10_a99031d137\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F10_a99031d137\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F10_a99031d137\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.95,
+                "summary": "The 13988-triangle tabletop plant preserves the square pot, visible soil, leaf cluster and material separation. Individual leaves remain readable and overall coverage stays close to the approved source. Fresh FBX and GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "leaf tips and pot base",
+                    "problem": "Some leaf-outline simplification and small lower-pot shading/edge softening after reduction.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "e2318f2c-62c3-48aa-af78-d77229bee6e3",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Green leaf coverage with visible vein variation, brown soil and a pale ceramic pot remain distinct across all views. No large material smears, added labels or missing coverage are present.",
+            "issues": [
+              {
+                "part": "leaf and pot finish",
+                "problem": "Leaf vein/edge contrast is stronger and ceramic grain is smoother than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "bc386dab-b19c-44cc-8230-daebae0e77cc",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Small square planter, inset soil area and a connected cluster of broad leaves match the reference tabletop plant. All views retain the pot/foliage distinction without a background platform or missing major section.",
+        "issues": [
+          {
+            "part": "foliage and pot edge",
+            "problem": "Slightly denser foliage and small lower-pot edge irregularity.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790227935.8998654,
+  "notes": [
+    "shape: Small square planter, inset soil area and a connected cluster of broad leaves match the reference tabletop plant. All views retain the pot/foliage distinction without a background platform or missing major section.",
+    "texture_source: Green leaf coverage with visible vein variation, brown soil and a pale ceramic pot remain distinct across all views. No large material smears, added labels or missing coverage are present.",
+    "final_compare: The 13988-triangle tabletop plant preserves the square pot, visible soil, leaf cluster and material separation. Individual leaves remain readable and overall coverage stays close to the approved source. Fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

@@ -1,0 +1,99 @@
+{
+  "version": 2,
+  "image_hash": "aa5870c414d2804bc3312401bb10ec9310fabae61aedcdba369d6410d9b057b8",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B06_ef927d9e46\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "8e17d4c8-17a0-4fd9-b53c-10a169e518fc",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.98,
+        "summary": "Reject: header/jambs and central opening exist, but the reference continuous thin lower guide rail is missing across the middle and replaced by irregular shelf-like stubs at both feet. This loses a visible construction element and adds malformed protrusions.",
+        "issues": [
+          {
+            "part": "lower guide rail",
+            "problem": "Middle span is missing; end fragments are broad, ragged and unlike the reference straight rail.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B06_ef927d9e46\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "513ea2f7-be93-4355-b504-49e3d2ccd388",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.99,
+        "summary": "Reject: the second candidate fills the intended open doorway with a solid panel and still has malformed foot/track fragments. The reference is a fixed open frame; a filled opening is a major functional and visual mismatch.",
+        "issues": [
+          {
+            "part": "central opening",
+            "problem": "A large solid infill blocks the doorway that must be open.",
+            "kind": "mesh",
+            "severity": "major"
+          },
+          {
+            "part": "lower track",
+            "problem": "Ragged protruding fragments remain at the feet.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B06_ef927d9e46\\stages\\m3",
+      "seed": 221803,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "67aba353-875e-4e50-8df1-a30828c1c2a9",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.98,
+        "summary": "Third candidate restores an open center but still omits most of the lower guide rail and leaves irregular end fragments. The three permitted shape attempts are exhausted. Retain all attempts and repair a separate copy of the otherwise usable generated frame.",
+        "issues": [
+          {
+            "part": "bottom guide rail",
+            "problem": "The continuous reference rail remains broken across the center with malformed end pieces.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790202841.4971766,
+  "notes": [
+    "shape: Reject: header/jambs and central opening exist, but the reference continuous thin lower guide rail is missing across the middle and replaced by irregular shelf-like stubs at both feet. This loses a visible construction element and adds malformed protrusions.",
+    "shape: Reject: the second candidate fills the intended open doorway with a solid panel and still has malformed foot/track fragments. The reference is a fixed open frame; a filled opening is a major functional and visual mismatch.",
+    "shape: Third candidate restores an open center but still omits most of the lower guide rail and leaves irregular end fragments. The three permitted shape attempts are exhausted. Retain all attempts and repair a separate copy of the otherwise usable generated frame."
+  ],
+  "reason": "메시 3회 시도에서 형상 결함이 남았습니다. 추가 텍스처 생성 없이 검토 대상으로 남깁니다."
+}

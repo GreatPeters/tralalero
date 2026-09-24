@@ -1,0 +1,17 @@
+{
+  "source": "outputs/reststop-blender-v4-2026-09-23/vehicle-validation.json",
+  "mapping_source": "tools/reststop-previs-v4/vehicles.py",
+  "axis_order": ["width_x", "length_y", "height_z"],
+  "units": "existing Blender v4 game/previs world units",
+  "v4_enlargement_factor": 1.8,
+  "applied_to_new_trellis_exports": false,
+  "purpose": "Preserve the enlarged vehicle proportions when assembling the new generated assets. TRELLIS raw exports retain the saved longest_side=0 setting.",
+  "vehicles": {
+    "V01": {"title": "흰색 크로스오버", "v4_id": "067", "target_dimensions": [4.98384, 8.40078, 3.1266]},
+    "V02": {"title": "빨간 소형차", "v4_id": "081", "target_dimensions": [4.68, 7.65, 3.114]},
+    "V03": {"title": "초록 소형 SUV", "v4_id": "082", "target_dimensions": [5.31882, 8.42544, 3.9807]},
+    "V04": {"title": "배송 트럭", "v4_id": "054", "target_dimensions": [5.4, 11.7, 5.67]},
+    "V05": {"title": "노란 박스 트럭", "v4_id": "083", "target_dimensions": [5.85, 12.24, 6.84]},
+    "V06": {"title": "대형 버스", "v4_id": "080", "target_dimensions": [6.39, 18.72, 6.66]}
+  }
+}

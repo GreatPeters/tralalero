@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "ae653e00d514b5bf8674d61fbef4f39512d023a1d5cc35ce22be8310008d0c31",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\G03_bf0b9f959c\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\G03_bf0b9f959c\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\G03_bf0b9f959c\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.96,
+                "summary": "The 14356-triangle island preserves its rounded outline, full curb thickness, top panels and four mounting positions. Finished stone PBR remains close to the approved source across all views; fresh FBX and GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "curved curb",
+                    "problem": "Minor silhouette rounding and neutral-only side faceting after reduction.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "c0b63b6b-bb4b-4a66-86fe-45eee6dbc812",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Pale stone top, darker textured curb sides, panel joints and four dark mounting plates are distinct and consistently covered. The rounded island remains free of unwanted signage or attached objects.",
+            "issues": [
+              {
+                "part": "mounting plates and stone tone",
+                "problem": "Small anchor detail is rougher and the central slab is slightly cooler than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "444f6d89-0199-4b90-a48a-11f0235e9145",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Long rounded-rectangle dispenser island, raised curb thickness, panel joints and four localized mounting positions match the reference. No dispenser or background ground surface has been added.",
+        "issues": [
+          {
+            "part": "mounting positions",
+            "problem": "Small mounting details are rough in clay and should be checked after texturing.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790233506.6575644,
+  "notes": [
+    "shape: Long rounded-rectangle dispenser island, raised curb thickness, panel joints and four localized mounting positions match the reference. No dispenser or background ground surface has been added.",
+    "texture_source: Pale stone top, darker textured curb sides, panel joints and four dark mounting plates are distinct and consistently covered. The rounded island remains free of unwanted signage or attached objects.",
+    "final_compare: The 14356-triangle island preserves its rounded outline, full curb thickness, top panels and four mounting positions. Finished stone PBR remains close to the approved source across all views; fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

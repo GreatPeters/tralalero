@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "8efd2580115689f6e249236655335c333c4a375978cc307c4ca175e7e319e609",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E05_2ef21ac9bc\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E05_2ef21ac9bc\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E05_2ef21ac9bc\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.98,
+                "summary": "The 14741-triangle lamp preserves the straight slender pole, connected cantilever, rectangular head and mounting foot. Silhouette and material appearance remain close to the source across all views; fresh FBX and GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "head corners",
+                    "problem": "Slight corner softening, with no broken thin connection.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "85822807-5bc3-404a-aef7-be241b606f87",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.98,
+            "summary": "Blue-gray metal pole/cantilever, pale lamp housing and small metallic mounting fasteners are consistently covered with clean material boundaries. No unwanted markings or texture blotches are visible.",
+            "issues": [
+              {
+                "part": "lamp finish",
+                "problem": "Lamp housing surface detail is simplified; this is a static mesh/material asset rather than a configured runtime light.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "bc9a8cfc-8e88-43b0-9f4d-759a7f721646",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.98,
+        "summary": "Tall straight pole, short cantilever, rectangular lamp head, connector collar and circular mounting foot are complete in all views. Thin connections are continuous, with no unwanted ground slab or missing head.",
+        "issues": [
+          {
+            "part": "lamp head",
+            "problem": "Lamp head is slightly thicker and more rounded than the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790216414.757007,
+  "notes": [
+    "shape: Tall straight pole, short cantilever, rectangular lamp head, connector collar and circular mounting foot are complete in all views. Thin connections are continuous, with no unwanted ground slab or missing head.",
+    "texture_source: Blue-gray metal pole/cantilever, pale lamp housing and small metallic mounting fasteners are consistently covered with clean material boundaries. No unwanted markings or texture blotches are visible.",
+    "final_compare: The 14741-triangle lamp preserves the straight slender pole, connected cantilever, rectangular head and mounting foot. Silhouette and material appearance remain close to the source across all views; fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

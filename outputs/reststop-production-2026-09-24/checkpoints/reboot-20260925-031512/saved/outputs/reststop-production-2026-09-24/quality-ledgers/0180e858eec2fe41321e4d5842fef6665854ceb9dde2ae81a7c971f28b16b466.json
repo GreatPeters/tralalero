@@ -1,0 +1,147 @@
+{
+  "version": 2,
+  "image_hash": "0180e858eec2fe41321e4d5842fef6665854ceb9dde2ae81a7c971f28b16b466",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E03_736ccc967c\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "d3b5c2ba-840a-4436-aa60-2491bf771387",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.98,
+        "summary": "The three shelf levels and base are retained, but the generated rear has a large protruding oval plate absent from the reference construction. The shelf brackets also become string-like strands instead of compact solid supports. Retry shape within the saved budget.",
+        "issues": [
+          {
+            "part": "rear panel",
+            "problem": "Large invented protruding oval plate changes the freestanding shelf silhouette and back construction.",
+            "kind": "mesh",
+            "severity": "major"
+          },
+          {
+            "part": "shelf supports",
+            "problem": "Thin string-like bracket geometry replaces the reference solid support brackets.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E03_736ccc967c\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "6a700c36-9a10-4ec1-8d16-e4b3a3a41233",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 1.0,
+        "summary": "All five actual GLB views show the shelf collapsed into thin radiating strands rather than solid shelves/back/base. Read-only numeric inspection confirms finite coordinates in a normal-sized bounding box, so this is malformed mesh output rather than a distant outlier distorting the camera. Use the third and final permitted AI shape attempt.",
+        "issues": [
+          {
+            "part": "entire asset",
+            "problem": "Solid shelf geometry collapsed into radiating strips; no usable shelf assembly remains.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E03_736ccc967c\\stages\\m3",
+      "seed": 221803,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E03_736ccc967c\\stages\\m3_t1",
+          "seed": 221803,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E03_736ccc967c\\stages\\m3_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.96,
+                "summary": "The 14524-triangle shelf preserves three levels, open compartments, solid supports, plain back panel and the three material regions. Finished front/opposite views and rear PBR stay close to the approved source. Fresh FBX and GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "plinth and panel edges",
+                    "problem": "Neutral-only faceting and modest edge softening after reduction; source plinth irregularity remains minor in the finished timber material.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "91206d29-d89c-4bcc-99d3-dd9867984f51",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.98,
+            "summary": "Warm ochre front panel, cream shelf surfaces and dark timber plinth are cleanly separated. The plain rear is consistently covered and no invented labels, oval plate or strand-like supports have returned. Front/opposite views retain the reference shelf appearance.",
+            "issues": [
+              {
+                "part": "rear finish",
+                "problem": "Rear panel is a paler inferred finish than the ochre front.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "bb816e7f-fa53-48fd-ad23-bde02fb39aaa",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Third candidate resolves the large invented rear oval and collapsed geometry. A plain back panel, three shelf levels including the base, open shelf spaces and solid support brackets are present. The front is visible in the opposite/front views because this candidate is rotated relative to the earlier one.",
+        "issues": [
+          {
+            "part": "base plinth",
+            "problem": "Small surface irregularity along the lower plinth remains.",
+            "kind": "mesh",
+            "severity": "minor"
+          },
+          {
+            "part": "brackets",
+            "problem": "Support brackets are squarer and simpler than the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790214623.0727708,
+  "notes": [
+    "shape: The three shelf levels and base are retained, but the generated rear has a large protruding oval plate absent from the reference construction. The shelf brackets also become string-like strands instead of compact solid supports. Retry shape within the saved budget.",
+    "shape: All five actual GLB views show the shelf collapsed into thin radiating strands rather than solid shelves/back/base. Read-only numeric inspection confirms finite coordinates in a normal-sized bounding box, so this is malformed mesh output rather than a distant outlier distorting the camera. Use the third and final permitted AI shape attempt.",
+    "shape: Third candidate resolves the large invented rear oval and collapsed geometry. A plain back panel, three shelf levels including the base, open shelf spaces and solid support brackets are present. The front is visible in the opposite/front views because this candidate is rotated relative to the earlier one.",
+    "texture_source: Warm ochre front panel, cream shelf surfaces and dark timber plinth are cleanly separated. The plain rear is consistently covered and no invented labels, oval plate or strand-like supports have returned. Front/opposite views retain the reference shelf appearance.",
+    "final_compare: The 14524-triangle shelf preserves three levels, open compartments, solid supports, plain back panel and the three material regions. Finished front/opposite views and rear PBR stay close to the approved source. Fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

@@ -1,0 +1,13 @@
+{
+  "verdict": "texture",
+  "confidence": 0.99,
+  "summary": "The second bounded Blender profile retains the same strong pale streaks across the black hose loops. Preserve both rejected reductions and correct from the approved textured source by retaining its original UV/PBR instead of rebaking across adjacent surfaces.",
+  "issues": [
+    {
+      "part": "hose loops",
+      "problem": "Cabinet-colored contamination remains on both lower hoses, absent in the high source.",
+      "kind": "texture",
+      "severity": "major"
+    }
+  ]
+}

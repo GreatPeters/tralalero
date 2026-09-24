@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "bc0fb91119391ab823b1ef46949abe095c38a1d341df10631ccae08e30e9075a",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B08_3eb8f4d8f6\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B08_3eb8f4d8f6\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B08_3eb8f4d8f6\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.94,
+                "summary": "14,145-triangle roof compared against source across contact views. The four broad panels, raised seams, perimeter and finished dark-metal appearance remain intact; primary face judged from opposite/front views. Fresh FBX/GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "underside and folded edges",
+                    "problem": "Source-stage inferred light underlayer and rough folded details remain; small neutral-view faceting appears after reduction.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "8f5959a5-bd9b-4dc3-8748-0ccb26e83d48",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.94,
+            "summary": "Reference and all contact views inspected. Main roof face has the intended dark metal finish, four bays and highlighted raised seams; material borders remain clean. The main face is evaluated from the opposite/front views because the standard hero is edge-on.",
+            "issues": [
+              {
+                "part": "underside",
+                "problem": "A lighter inferred underlayer and rough folded edge details remain under the panel; these differ from the mostly hidden underside in the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "fe5a71c7-723a-4a11-bfa7-91bb6fba4e13",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.93,
+        "summary": "Reference and all clay views inspected, including full-resolution opposite view of the main roof face. Four broad bays, three raised seams and folded perimeter construction are intact. The generated module is pitched, making the standard hero nearly edge-on; this is a view/orientation issue, not missing roof geometry.",
+        "issues": [
+          {
+            "part": "underside/edge folds",
+            "problem": "Some small rough inferred folds/protrusions remain beneath the edge; inspect with material and final reduction.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790206052.2436738,
+  "notes": [
+    "shape: Reference and all clay views inspected, including full-resolution opposite view of the main roof face. Four broad bays, three raised seams and folded perimeter construction are intact. The generated module is pitched, making the standard hero nearly edge-on; this is a view/orientation issue, not missing roof geometry.",
+    "texture_source: Reference and all contact views inspected. Main roof face has the intended dark metal finish, four bays and highlighted raised seams; material borders remain clean. The main face is evaluated from the opposite/front views because the standard hero is edge-on.",
+    "final_compare: 14,145-triangle roof compared against source across contact views. The four broad panels, raised seams, perimeter and finished dark-metal appearance remain intact; primary face judged from opposite/front views. Fresh FBX/GLB checks pass."
+  ],
+  "reason": ""
+}

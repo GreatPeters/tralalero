@@ -1,0 +1,21 @@
+{
+  "status": "review_needed",
+  "counts": {
+    "meshes": 1,
+    "textures": 1,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 2
+  },
+  "notes": [
+    "shape: Standard views plus dedicated lower oblique and bottom-flat renders inspected. The thin rectangular ceiling assembly, raised perimeter fascia, inset underside and upper support gap match the construction. Underside is intentionally evaluated from below. The reference plank divisions are shallow surface features; they must be present in the next material stage because the current clay field is largely smooth.",
+    "texture_source: Dedicated underside oblique and bottom-flat renders confirm clean continuous wood-board divisions, subtle grain and a warm timber perimeter matching the visible ceiling reference. Side supports remain distinct. The primary visible underside has no material smears or fake text.",
+    "final_compare: The underside board pattern and frame are retained, but the opposite/front view shows new scalloped dark dents across the long fascia that were absent in the accepted source. Try the second bounded Blender reduction; no new AI shape or texture is needed.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "final_compare: The second bounded reduction retains the same new scalloped dents in the finished fascia. Preserve the accepted AI source and repair rigid-surface shading in a separate revision. Do not reset the generation/reduction budget.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "고밀도 원본은 통과했지만 Blender 두 방식에서도 결함이 남았습니다. 직접 수정이 필요합니다."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\b12fd568526a3c6f2cfc784e8aa117efe69a17179231f2bb3260331ded960c3b.json",
+  "policy": "stage_gates_v2"
+}

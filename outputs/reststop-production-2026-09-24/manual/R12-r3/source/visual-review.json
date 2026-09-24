@@ -1,0 +1,13 @@
+{
+  "verdict": "pass",
+  "confidence": 0.98,
+  "summary": "Corrected grate retains the generated lower channel/supports and has a continuous bordered top with 35 open capsule slots. Five actual views, fresh GLB/BLEND checks at 107,564 triangles and three vertical depth profiles pass. Zero-area cleanup removed no visible surface and preserved retained corner normals.",
+  "issues": [
+    {
+      "part": "upper rim and end construction",
+      "problem": "Rebuilt rim/end joints and regular slot spacing are a local correction rather than untouched AI geometry; minor source support proportions remain.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "verdict": "texture",
+  "confidence": 0.99,
+  "summary": "Opacity restoration reveals both shelves, but front glazing and shelf surfaces have large mottled/streaked bake artifacts absent from the high source. Do not select this candidate. Keep semantic parts separate during reduction/material baking so glazing and uniform steel do not project onto each other.",
+  "issues": [
+    {
+      "part": "glazing and shelf finish",
+      "problem": "Large mottled bands and rippled-looking patches from the combined bake remain visible through the front.",
+      "kind": "texture",
+      "severity": "major"
+    }
+  ]
+}

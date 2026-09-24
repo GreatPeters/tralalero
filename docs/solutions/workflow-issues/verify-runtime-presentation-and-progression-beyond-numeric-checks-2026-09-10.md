@@ -1,7 +1,7 @@
 ---
 title: Verify Unity presentation and progression beyond numeric checks
 date: 2026-09-10
-last_updated: 2026-09-13
+last_updated: 2026-09-23
 category: workflow-issues
 module: SR18 and Highway presentation and progression
 problem_type: workflow_issue
@@ -113,6 +113,8 @@ The corrected interpolation still briefly lost its third foot near the raw endin
 Installation follow-up: replacing two5-second shots with8-second clips invalidated equal-quarter caption and seek timing. Share explicit boundaries between automatic page selection, Next and prepare-time seeks, and test the frame immediately before each boundary. A concat can have the right frame count yet report a fractional average frame rate; the corrected626-frame movie uses an explicit1/24 output timebase and frame-index timestamps. The preserved trailing242frames were compared against the scaled original (41.476dB average PSNR after re-encoding).
 
 Inspect the movie in the actual tall Game view after installation. EnvelopeParent filled a1080×2340 display by cutting off the carried shoe at the left edge, despite a correct720×1280 source. FitInParent preserves the complete frame and mandatory watermark; hiding the static illustration during movie playback prevents a duplicated background in the letterbox area. Restore that illustration on stop/error for comic fallback. Real Play verification must include natural caption transitions, asynchronous Next seeks and end-of-video cleanup, not only static time-mapping tests. [Installation evidence](../../../map-concepts/flow-opening-2026-09-12/installed/README.md).
+
+Best4 v5 replacement (2026-09-23): the new four silent720×1280/24fps inputs run8/12/10/9seconds, so the current boundaries are0/8/20/30seconds and936frames. Compatible streams can be concatenated with `-c copy`; compare every decoded frame hash against the ordered sources, not only total duration. Preserve the VideoClip `.meta` GUID and verify all three saved chapter bindings through Unity. The old full-frame-only assertion is no longer the current layout contract: `CoastalStoryLayout` now owns the approved chrome and permits up to15% edge crop. Test native aspect and retained area instead of copying the obsolete `FitInParent` assertion from the earlier verifier. [Current replacement evidence](../../../map-concepts/opening-best4-v5-2026-09-23/README.md).
 
 - [Actual Android analytics test](../../../map-concepts/analytics-smoke-2026-09-12/README.md)
 - [Flow outputs and provider-refusal boundary](../../../map-concepts/flow-opening-2026-09-12/README.md)

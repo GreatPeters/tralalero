@@ -1,0 +1,135 @@
+{
+  "version": 2,
+  "image_hash": "ed282ca4c996c546a714bcb3968f65613d8ce870cd0baae63ecc9c05d38a4c61",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B09_0a492d0f9d\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B09_0a492d0f9d\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [],
+          "prompt_id": "7ea6b3a6-29fd-48be-a04b-6b7dbed990a9",
+          "review": {
+            "verdict": "texture",
+            "confidence": 0.98,
+            "summary": "Reject this texture pass: the plain architectural fascia acquires a long dense strip of unrequested text-like marks on the rear channel. The reference has a plain painted finish and simple supports, not an engraved/printed plaque. Keep the accepted geometry and regenerate only material.",
+            "issues": [
+              {
+                "part": "rear channel",
+                "problem": "Large invented glyph/label-like strip is visually prominent and absent from the reference.",
+                "kind": "texture",
+                "severity": "major"
+              }
+            ]
+          }
+        },
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B09_0a492d0f9d\\stages\\m1_t2",
+          "seed": 12346,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B09_0a492d0f9d\\stages\\m1_t2\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "mesh",
+                "confidence": 0.98,
+                "summary": "Reject: the reduced fascia gains large triangular dent-like shading across the visible ochre front. This is visible in the finished PBR hero, not only the neutral diagnostic, and is absent from the accepted high source. Preserve source geometry/material and change the Blender treatment.",
+                "issues": [
+                  {
+                    "part": "long front fascia face",
+                    "problem": "New large shading dents/waves break the intended straight smooth painted surface.",
+                    "kind": "mesh",
+                    "severity": "major"
+                  }
+                ]
+              }
+            },
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B09_0a492d0f9d\\stages\\m1_t2\\low2",
+              "state": "generated",
+              "profile": "preserve_details",
+              "review": {
+                "verdict": "mesh",
+                "confidence": 0.98,
+                "summary": "The second reduction still introduces large dent-like shading across the visible ochre fascia. The accepted high-detail source is flat there. Preserve the source and repair this rigid surface separately without further AI generation.",
+                "issues": [
+                  {
+                    "part": "front fascia face",
+                    "problem": "New triangular shading depressions remain visible in the final PBR render.",
+                    "kind": "mesh",
+                    "severity": "major"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "6da5e708-bf93-4e73-9463-377999fdbd8c",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Second texture pass removes the invented rear glyph strip. Reference, contact views and full hero checked: warm ochre painted finish is coherent on the long fascia, end caps and rear channel without unrequested text.",
+            "issues": [
+              {
+                "part": "rear supports",
+                "problem": "Inferred rear mounting shapes differ from the partly visible reference supports, as already noted at the shape gate.",
+                "kind": "mesh",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "0e95318a-a465-4861-8762-4861dad7dc19",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.94,
+        "summary": "Reference, contact-sheet views and full hero checked. Long straight box-like fascia, thin edge lips and end construction are preserved; no major bending or missing outer face.",
+        "issues": [
+          {
+            "part": "rear mounting detail",
+            "problem": "Rear channel/mounting details are inferred and differ from the partly visible supports in the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790207436.8859963,
+  "notes": [
+    "shape: Reference, contact-sheet views and full hero checked. Long straight box-like fascia, thin edge lips and end construction are preserved; no major bending or missing outer face.",
+    "texture_source: Reject this texture pass: the plain architectural fascia acquires a long dense strip of unrequested text-like marks on the rear channel. The reference has a plain painted finish and simple supports, not an engraved/printed plaque. Keep the accepted geometry and regenerate only material.",
+    "texture_source: Second texture pass removes the invented rear glyph strip. Reference, contact views and full hero checked: warm ochre painted finish is coherent on the long fascia, end caps and rear channel without unrequested text.",
+    "final_compare: Reject: the reduced fascia gains large triangular dent-like shading across the visible ochre front. This is visible in the finished PBR hero, not only the neutral diagnostic, and is absent from the accepted high source. Preserve source geometry/material and change the Blender treatment.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "final_compare: The second reduction still introduces large dent-like shading across the visible ochre fascia. The accepted high-detail source is flat there. Preserve the source and repair this rigid surface separately without further AI generation.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다."
+  ],
+  "reason": "고밀도 원본은 통과했지만 Blender 두 방식에서도 결함이 남았습니다. 직접 수정이 필요합니다."
+}

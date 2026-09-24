@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "795af1d0b4f5ca93fb35083dbbbf8a551b3fd3e18dc5ffb1d0a714d79f6ca5b3",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P03_f7f2a464c7\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P03_f7f2a464c7\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P03_f7f2a464c7\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "The reduced wand retains its long tube, cap, collar/buttons and ribbed grip; five views and source comparison show no material bleed or new major distortion. Fresh FBX/GLB checks pass at 13,576 triangles.",
+                "issues": [
+                  {
+                    "part": "grip and light tube",
+                    "problem": "Minor ring softening/neutral-shader faceting; less luminous than the reference and no runtime light object.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "b8d8bdb0-0f7c-43c1-979f-9c32196c3de6",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.95,
+            "summary": "Orange wand, black cap and ribbed grip retain coherent material separation on all sides. Small orange collar buttons and metallic trim remain legible.",
+            "issues": [
+              {
+                "part": "light tube",
+                "problem": "Less luminous and more opaque than the reference; static PBR asset has no runtime light setup.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "8baf376c-d2ca-4a6a-9926-a40c121a4178",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Long traffic wand preserves the capped cylindrical light, separate collar/button and ribbed grip across the five geometry views. Minor grip-ring waviness is acceptable at prop scale.",
+        "issues": [
+          {
+            "part": "grip rings",
+            "problem": "Slight waviness compared with the reference",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790237869.3686497,
+  "notes": [
+    "shape: Long traffic wand preserves the capped cylindrical light, separate collar/button and ribbed grip across the five geometry views. Minor grip-ring waviness is acceptable at prop scale.",
+    "texture_source: Orange wand, black cap and ribbed grip retain coherent material separation on all sides. Small orange collar buttons and metallic trim remain legible.",
+    "final_compare: The reduced wand retains its long tube, cap, collar/buttons and ribbed grip; five views and source comparison show no material bleed or new major distortion. Fresh FBX/GLB checks pass at 13,576 triangles."
+  ],
+  "reason": ""
+}

@@ -1,0 +1,7 @@
+{
+  "state": "failed_before_export",
+  "error": "Material classification mutated the same source face material indices during sampling, causing KeyError for the newly assigned material.",
+  "fix": "Classify all faces first, then assign the material in a separate loop.",
+  "no_ai_request": true,
+  "no_reduction_attempt": true
+}

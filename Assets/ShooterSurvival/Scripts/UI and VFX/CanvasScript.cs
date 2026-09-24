@@ -240,6 +240,7 @@ namespace IndianOceanAssets.ShooterSurvival
             pauseButton.SetActive(false);
             SetAttackDebugVisible(false);
             isGameOver = true;
+            gameOverUI.GetComponent<DefeatPresentation>()?.SetDamageCause(playerScript);
             gameOverUI.GetComponent<DefeatPresentation>()?.SetResult(activeRunSeconds, Mathf.Max(0, (MoneyScript.S != null ? MoneyScript.S.Coin : 0) - runStartingCoins), rewardRoundId, progressRewardCoins);
             gameOverUI.SetActive(false);
             TimeManager.timeFactor = 0;
@@ -248,7 +249,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void YouWin()
         {
-            if (isGameOver == true) return;
+            if (isGameOver || playerScript != null && playerScript.currentHealth <= 0f) return;
             GameAudioService.Play(GameSound.Victory);
             GrantProgressReward();
             FindFirstObjectByType<ChapterProgression>()?.CompleteChapter();

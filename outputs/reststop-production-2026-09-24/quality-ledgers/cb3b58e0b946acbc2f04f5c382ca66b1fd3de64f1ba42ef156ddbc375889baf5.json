@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "cb3b58e0b946acbc2f04f5c382ca66b1fd3de64f1ba42ef156ddbc375889baf5",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R03_1d5ce5e119\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R03_1d5ce5e119\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R03_1d5ce5e119\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.98,
+                "summary": "Reduced curb retains straight silhouette, bevel, end faces and coherent concrete texture. Five-view source comparison shows no new major surface distortion; fresh FBX/GLB pass at 14,991 triangles.",
+                "issues": [
+                  {
+                    "part": "concrete finish",
+                    "problem": "Minor edge softening and inherited pronounced pores/mottling remain.",
+                    "kind": "texture",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "703c1859-dc96-4889-b94b-7ff7054ab25d",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Pale concrete material and pore/aggregate detail wrap coherently around the curb, bevel and end faces. No major texture seam or invented markings.",
+            "issues": [
+              {
+                "part": "concrete finish",
+                "problem": "More pronounced pores and faint mottled coloration than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "3e07c14e-4c25-42e2-97b8-43e09a180f43",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.98,
+        "summary": "Curb retains a straight elongated block with consistent beveled upper edge, flat sides and full end faces across five views.",
+        "issues": [
+          {
+            "part": "side surface",
+            "problem": "Minor generated shallow nicks and end-edge softening.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790243619.6861532,
+  "notes": [
+    "shape: Curb retains a straight elongated block with consistent beveled upper edge, flat sides and full end faces across five views.",
+    "texture_source: Pale concrete material and pore/aggregate detail wrap coherently around the curb, bevel and end faces. No major texture seam or invented markings.",
+    "final_compare: Reduced curb retains straight silhouette, bevel, end faces and coherent concrete texture. Five-view source comparison shows no new major surface distortion; fresh FBX/GLB pass at 14,991 triangles."
+  ],
+  "reason": ""
+}

@@ -84,6 +84,7 @@ public static class ApplyCombatRouteFixes
     Vector3 dir=clearance!=null?clearance.Direction:baseActor.transform.forward;
     if(road!=null){float d=road.NearestDistance(center);road.Sample(d,false,out var onRoad,out dir);center.x=onRoad.x;center.z=onRoad.z;}
     else if(clearance!=null){var offset=center-clearance.Corner;var onRoad=clearance.Corner+dir*Vector3.Dot(offset,dir);center.x=onRoad.x;center.z=onRoad.z;}
+    else if(name=="RestStop")center=RestStopChapterBuilder.ProjectRoadCenter(center,dir);
     var enabled=group.Where(e=>rows[e.name].enabled).ToArray();
     foreach(var e in group)
     {

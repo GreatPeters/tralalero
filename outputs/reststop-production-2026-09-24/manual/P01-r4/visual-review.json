@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.99,
+  "summary": "Direct UV/material-preserving decimation fragments the shield surface into sparse tiny triangles. Numeric triangle compliance is not sufficient. Reuse the smooth canonical low mesh and bake source opacity into its existing UV atlas.",
+  "issues": [
+    {
+      "part": "entire shield surface",
+      "problem": "Severe surface fragmentation after direct reduction of seam-separated primitives.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

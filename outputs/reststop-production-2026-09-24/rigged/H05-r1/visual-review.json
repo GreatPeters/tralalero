@@ -1,0 +1,22 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "summary": "Cleaning, attack, greeting, walking, running, hit and fallen poses inspected. Coveralls follow the limbs, gloves and head remain coherent, and soles stay level. Fresh formats and four loop endpoint checks pass; all nine actions appear in the fully decoded movie.",
+  "issues": [
+    {
+      "part": "sleeve cuffs",
+      "problem": "Small original open edge/roughness is visible close up at raised wrists.",
+      "severity": "minor"
+    }
+  ],
+  "evidence": [
+    "fresh-rig-validation.json",
+    "video-validation.json",
+    "animation-preview.mp4",
+    "poses/clean-014.png",
+    "poses/attack_once-010.png",
+    "poses/run-006.png",
+    "poses/hit-003.png",
+    "poses/die-024.png"
+  ]
+}

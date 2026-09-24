@@ -19,10 +19,19 @@ public sealed class HighwayRoute : MonoBehaviour
     public float Distance { get; private set; }
     public bool OnBypass => Array.Exists(forks, f => f.decided && f.bypass && Distance >= f.start && Distance <= f.end);
     private float recoveryFraction = .10f;
+    private HighwayEncounterLanes encounterLanes;
+
+    public float ConstrainEncounterLane(float lane)
+    {
+        if(encounterLanes==null)encounterLanes=GetComponent<HighwayEncounterLanes>();
+        return encounterLanes!=null&&encounterLanes.isActiveAndEnabled?encounterLanes.Constrain(lane,Distance,OnBypass):lane;
+    }
 
     public void BeginRun()
     {
         Distance = 0;
+        encounterLanes=GetComponent<HighwayEncounterLanes>();
+        if(encounterLanes!=null)encounterLanes.ResetForRun();
         recoveryFraction = Setting("highwayBypassHeal", .10f, 0, .3f);
         foreach (var fork in forks) fork.decided = fork.bypass = fork.rewarded = false;
         hud?.Clear(this);
@@ -45,12 +54,12 @@ public sealed class HighwayRoute : MonoBehaviour
             if (fork.bypass && !fork.rewarded && next >= (fork.start + fork.end) * .5f)
             {
                 fork.rewarded = true;
-                target.currentHealth = RecoveredHealth(target.currentHealth, target.MaxHealth, recoveryFraction);
-                target.UpdateHealth();
+                target.Heal(target.MaxHealth * recoveryFraction);
             }
             if (Distance < fork.end && next >= fork.end) hud?.Clear(this);
         }
         Distance = next;
+        lane=ConstrainEncounterLane(lane);
         Sample(Distance, OnBypass, out var center, out var forward);
         target.ApplyContinuousRoutePose(center + Vector3.up * .12f, forward, lane);
     }
@@ -116,5 +125,5 @@ public sealed class HighwayRoute : MonoBehaviour
             ? Mathf.Clamp(value, minimum, maximum) : fallback;
     }
     public static float RecoveredHealth(float current, float maximum, float fraction)
-        => Mathf.Max(current, Mathf.Min(maximum, current + maximum * Mathf.Max(0, fraction)));
+        => current <= 0 ? 0 : Mathf.Max(current, Mathf.Min(maximum, current + maximum * Mathf.Max(0, fraction)));
 }

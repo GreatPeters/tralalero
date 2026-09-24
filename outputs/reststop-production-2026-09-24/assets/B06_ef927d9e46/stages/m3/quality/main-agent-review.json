@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.98,
+  "summary": "Third candidate restores an open center but still omits most of the lower guide rail and leaves irregular end fragments. The three permitted shape attempts are exhausted. Retain all attempts and repair a separate copy of the otherwise usable generated frame.",
+  "issues": [
+    {
+      "part": "bottom guide rail",
+      "problem": "The continuous reference rail remains broken across the center with malformed end pieces.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

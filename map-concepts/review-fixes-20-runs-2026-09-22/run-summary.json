@@ -1,0 +1,6816 @@
+[
+  {
+    "scene": "Noryangjin_MapTool_Mode_SR18",
+    "policy": "attack",
+    "profile": "current",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 139.61084,
+    "health": 0.0,
+    "attack": 96.9185638,
+    "distance": 1216.07446,
+    "hits": 5,
+    "bonuses": 11,
+    "encounters": 15,
+    "movementInputs": 4314,
+    "shots": 54,
+    "fatalCause": "Crate",
+    "forks": null,
+    "events": [
+      {
+        "kind": "start",
+        "health": 500.0,
+        "attack": 68.0,
+        "speed": 8.84,
+        "policy": "attack",
+        "scene": "Noryangjin_MapTool_Mode_SR18",
+        "profile": "current",
+        "testSpeed": 3.0,
+        "levels": [
+          15,
+          8,
+          1
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "bonus",
+        "t": 16.0901356,
+        "pair": "SR18_L_B01_T009",
+        "choice": "missileDistance",
+        "label": "+21%",
+        "hp": 500.0,
+        "attack": 68.0
+      },
+      {
+        "kind": "attack",
+        "t": 28.8584919,
+        "before": 68.0,
+        "after": 77.3773956
+      },
+      {
+        "kind": "bonus",
+        "t": 28.8584919,
+        "pair": "SR18_L_B02_T021",
+        "choice": "attPercent",
+        "label": "+14%",
+        "hp": 500.0,
+        "attack": 77.3773956
+      },
+      {
+        "kind": "bonus",
+        "t": 39.74887,
+        "pair": "SR18_L_B03_T033",
+        "choice": "hp",
+        "label": "+19",
+        "hp": 519.0,
+        "attack": 77.3773956
+      },
+      {
+        "kind": "bonus",
+        "t": 52.2715149,
+        "pair": "SR18_L_B04_T045",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 519.0,
+        "attack": 77.3773956
+      },
+      {
+        "kind": "damage",
+        "t": 58.1413727,
+        "before": 519.0,
+        "after": 515.4,
+        "cause": "GuardShot",
+        "near": [
+          {
+            "name": "SR18_L_E05_T053_Enemy_Guard",
+            "hp": 0.0,
+            "range": 11.15909
+          },
+          {
+            "name": "SR18_L_E04_T041_Enemy_OldMan",
+            "hp": 143.0,
+            "range": 48.3620529
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 63.6035233,
+        "pair": "SR18_L_B05_T057",
+        "choice": "attackSpeed",
+        "label": "+9%",
+        "hp": 515.4,
+        "attack": 77.3773956
+      },
+      {
+        "kind": "bonus",
+        "t": 76.4197845,
+        "pair": "SR18_L_B06_T069",
+        "choice": "missileDistance",
+        "label": "+22%",
+        "hp": 515.4,
+        "attack": 77.3773956
+      },
+      {
+        "kind": "attack",
+        "t": 87.04554,
+        "before": 77.3773956,
+        "after": 86.16652
+      },
+      {
+        "kind": "bonus",
+        "t": 87.04554,
+        "pair": "SR18_L_B07_T081",
+        "choice": "attPercent",
+        "label": "+11%",
+        "hp": 515.4,
+        "attack": 86.16652
+      },
+      {
+        "kind": "damage",
+        "t": 91.9028549,
+        "before": 515.4,
+        "after": 415.400024,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan_Right",
+            "hp": 393.0,
+            "range": 26.4377136
+          },
+          {
+            "name": "SR18_L_E09_T101_Enemy_YllowMan_Net",
+            "hp": 209.0,
+            "range": 127.867317
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 98.74303,
+        "pair": "SR18_L_B08_T093",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 415.400024,
+        "attack": 86.16652
+      },
+      {
+        "kind": "damage",
+        "t": 106.293869,
+        "before": 415.400024,
+        "after": 206.400024,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E09_T101_Enemy_YllowMan_Net",
+            "hp": 0.0,
+            "range": 1.40507519
+          },
+          {
+            "name": "SR18_L_E10_T113_Enemy_YllowMan_Sword_Right",
+            "hp": 265.0,
+            "range": 98.32383
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 111.003433,
+        "pair": "SR18_L_B09_T105",
+        "choice": "attackSpeed",
+        "label": "+12%",
+        "hp": 206.400024,
+        "attack": 86.16652
+      },
+      {
+        "kind": "bonus",
+        "t": 122.716461,
+        "pair": "SR18_L_B10_T117",
+        "choice": "attackSpeed",
+        "label": "+10%",
+        "hp": 206.400024,
+        "attack": 86.16652
+      },
+      {
+        "kind": "damage",
+        "t": 133.011429,
+        "before": 206.400024,
+        "after": 1.56654358,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E11_T125_Enemy_OldMan_Right",
+            "hp": 0.0,
+            "range": 1.40383089
+          },
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan_Right",
+            "hp": 523.0,
+            "range": 86.4869
+          }
+        ]
+      },
+      {
+        "kind": "attack",
+        "t": 135.829514,
+        "before": 86.16652,
+        "after": 96.9185638
+      },
+      {
+        "kind": "bonus",
+        "t": 135.829514,
+        "pair": "SR18_L_B11_T129",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 1.56654358,
+        "attack": 96.9185638
+      },
+      {
+        "kind": "damage",
+        "t": 139.61084,
+        "before": 1.56654358,
+        "after": 0.0,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan",
+            "hp": 261.162842,
+            "range": 28.1513672
+          },
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan_Right",
+            "hp": 523.0,
+            "range": 28.1947117
+          }
+        ]
+      }
+    ],
+    "run": 1
+  },
+  {
+    "scene": "Noryangjin_MapTool_Mode_SR18",
+    "policy": "health",
+    "profile": "current",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 263.8459,
+    "health": 0.0,
+    "attack": 110.278854,
+    "distance": 2296.20923,
+    "hits": 6,
+    "bonuses": 21,
+    "encounters": 37,
+    "movementInputs": 8529,
+    "shots": 96,
+    "fatalCause": "EnemyContact",
+    "forks": null,
+    "events": [
+      {
+        "kind": "start",
+        "health": 500.0,
+        "attack": 68.0,
+        "speed": 8.84,
+        "policy": "health",
+        "scene": "Noryangjin_MapTool_Mode_SR18",
+        "profile": "current",
+        "testSpeed": 3.0,
+        "levels": [
+          15,
+          8,
+          1
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "bonus",
+        "t": 16.1104031,
+        "pair": "SR18_L_B01_T009",
+        "choice": "hp",
+        "label": "+16",
+        "hp": 516.0,
+        "attack": 68.0
+      },
+      {
+        "kind": "bonus",
+        "t": 28.9121151,
+        "pair": "SR18_L_B02_T021",
+        "choice": "hpPercent",
+        "label": "+13%",
+        "hp": 581.499756,
+        "attack": 68.0
+      },
+      {
+        "kind": "attack",
+        "t": 39.7357254,
+        "before": 68.0,
+        "after": 81.0
+      },
+      {
+        "kind": "bonus",
+        "t": 39.7357254,
+        "pair": "SR18_L_B03_T033",
+        "choice": "att",
+        "label": "+13",
+        "hp": 581.499756,
+        "attack": 81.0
+      },
+      {
+        "kind": "bonus",
+        "t": 52.2429047,
+        "pair": "SR18_L_B04_T045",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 581.499756,
+        "attack": 81.0
+      },
+      {
+        "kind": "damage",
+        "t": 58.2250366,
+        "before": 581.499756,
+        "after": 577.8998,
+        "cause": "GuardShot",
+        "near": [
+          {
+            "name": "SR18_L_E05_T053_Enemy_Guard",
+            "hp": 0.0,
+            "range": 10.42555
+          },
+          {
+            "name": "SR18_L_E05_T053_Enemy_Guard_Right",
+            "hp": 19.0,
+            "range": 10.7491808
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 63.62696,
+        "pair": "SR18_L_B05_T057",
+        "choice": "hpPercent",
+        "label": "+11%",
+        "hp": 642.3956,
+        "attack": 81.0
+      },
+      {
+        "kind": "bonus",
+        "t": 76.43452,
+        "pair": "SR18_L_B06_T069",
+        "choice": "hp",
+        "label": "+13",
+        "hp": 655.3956,
+        "attack": 81.0
+      },
+      {
+        "kind": "attack",
+        "t": 87.0365753,
+        "before": 81.0,
+        "after": 97.0
+      },
+      {
+        "kind": "bonus",
+        "t": 87.0365753,
+        "pair": "SR18_L_B07_T081",
+        "choice": "att",
+        "label": "+16",
+        "hp": 655.3956,
+        "attack": 97.0
+      },
+      {
+        "kind": "damage",
+        "t": 91.86376,
+        "before": 655.3956,
+        "after": 555.3956,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan",
+            "hp": 342.0,
+            "range": 26.6840382
+          },
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan_Right",
+            "hp": 393.0,
+            "range": 26.7766685
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 98.7464,
+        "pair": "SR18_L_B08_T093",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 555.3956,
+        "attack": 97.0
+      },
+      {
+        "kind": "bonus",
+        "t": 110.948151,
+        "pair": "SR18_L_B09_T105",
+        "choice": "hp",
+        "label": "+16",
+        "hp": 571.3956,
+        "attack": 97.0
+      },
+      {
+        "kind": "attack",
+        "t": 122.662849,
+        "before": 97.0,
+        "after": 110.278854
+      },
+      {
+        "kind": "bonus",
+        "t": 122.662849,
+        "pair": "SR18_L_B10_T117",
+        "choice": "attPercent",
+        "label": "+14%",
+        "hp": 571.3956,
+        "attack": 110.278854
+      },
+      {
+        "kind": "bonus",
+        "t": 135.8101,
+        "pair": "SR18_L_B11_T129",
+        "choice": "hp",
+        "label": "+13",
+        "hp": 584.3956,
+        "attack": 110.278854
+      },
+      {
+        "kind": "damage",
+        "t": 139.749588,
+        "before": 584.3956,
+        "after": 484.39563,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan",
+            "hp": 455.0,
+            "range": 26.5557213
+          },
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan_Right",
+            "hp": 523.0,
+            "range": 26.6631432
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 146.602432,
+        "pair": "SR18_L_B12_T141",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 484.39563,
+        "attack": 110.278854
+      },
+      {
+        "kind": "bonus",
+        "t": 158.329712,
+        "pair": "SR18_L_B13_T153",
+        "choice": "hpPercent",
+        "label": "+15%",
+        "hp": 584.807251,
+        "attack": 110.278854
+      },
+      {
+        "kind": "bonus",
+        "t": 166.341583,
+        "pair": "SR18_L_B14_T161",
+        "choice": "hpPercent",
+        "label": "+15%",
+        "hp": 704.9356,
+        "attack": 110.278854
+      },
+      {
+        "kind": "bonus",
+        "t": 181.64119,
+        "pair": "SR18_L_B15_T177",
+        "choice": "attackSpeed",
+        "label": "+8%",
+        "hp": 704.9356,
+        "attack": 110.278854
+      },
+      {
+        "kind": "bonus",
+        "t": 193.161667,
+        "pair": "SR18_L_B16_T189",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 704.9356,
+        "attack": 110.278854
+      },
+      {
+        "kind": "damage",
+        "t": 202.512253,
+        "before": 704.9356,
+        "after": 346.214478,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E17_T197_Enemy_Guard_Right",
+            "hp": 0.0,
+            "range": 1.61575484
+          },
+          {
+            "name": "SR18_L_E04_T041_Enemy_OldMan",
+            "hp": 143.0,
+            "range": 45.5092
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 206.146744,
+        "pair": "SR18_L_B17_T201",
+        "choice": "attackSpeed",
+        "label": "+9%",
+        "hp": 346.214478,
+        "attack": 110.278854
+      },
+      {
+        "kind": "bonus",
+        "t": 218.394943,
+        "pair": "SR18_L_B18_T213",
+        "choice": "hp",
+        "label": "+18",
+        "hp": 364.214478,
+        "attack": 110.278854
+      },
+      {
+        "kind": "bonus",
+        "t": 230.583908,
+        "pair": "SR18_L_B19_T225",
+        "choice": "hp",
+        "label": "+19",
+        "hp": 383.214478,
+        "attack": 110.278854
+      },
+      {
+        "kind": "bonus",
+        "t": 242.824585,
+        "pair": "SR18_L_B20_T237",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 383.214478,
+        "attack": 110.278854
+      },
+      {
+        "kind": "bonus",
+        "t": 255.092,
+        "pair": "SR18_L_B21_T249",
+        "choice": "hpPercent",
+        "label": "+15%",
+        "hp": 526.6693,
+        "attack": 110.278854
+      },
+      {
+        "kind": "damage",
+        "t": 255.638779,
+        "before": 526.6693,
+        "after": 516.6693,
+        "cause": "Cannon",
+        "near": [
+          {
+            "name": "SR18_L_E21_T245_Enemy_YllowMan_Net",
+            "hp": 45.6056824,
+            "range": 30.1617813
+          },
+          {
+            "name": "SR18_L_E22_T257_Enemy_OldMan_Right",
+            "hp": 756.0,
+            "range": 49.1721573
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 263.8459,
+        "before": 516.6693,
+        "after": 0.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E22_T257_Enemy_OldMan",
+            "hp": 234.657471,
+            "range": 1.47198486
+          },
+          {
+            "name": "SR18_L_E22_T257_Enemy_OldMan_Right",
+            "hp": 0.0,
+            "range": 1.76695454
+          }
+        ]
+      }
+    ],
+    "run": 2
+  },
+  {
+    "scene": "Noryangjin_MapTool_Mode_SR18",
+    "policy": "cautious",
+    "profile": "current",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 298.914154,
+    "health": 0.0,
+    "attack": 140.1771,
+    "distance": 2604.75,
+    "hits": 8,
+    "bonuses": 24,
+    "encounters": 39,
+    "movementInputs": 9835,
+    "shots": 110,
+    "fatalCause": "EnemyContact",
+    "forks": null,
+    "events": [
+      {
+        "kind": "start",
+        "health": 500.0,
+        "attack": 68.0,
+        "speed": 8.84,
+        "policy": "cautious",
+        "scene": "Noryangjin_MapTool_Mode_SR18",
+        "profile": "current",
+        "testSpeed": 3.0,
+        "levels": [
+          15,
+          8,
+          1
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "bonus",
+        "t": 16.1073418,
+        "pair": "SR18_L_B01_T009",
+        "choice": "hpPercent",
+        "label": "+14%",
+        "hp": 569.9877,
+        "attack": 68.0
+      },
+      {
+        "kind": "bonus",
+        "t": 28.8750935,
+        "pair": "SR18_L_B02_T021",
+        "choice": "attackSpeed",
+        "label": "+9%",
+        "hp": 569.9877,
+        "attack": 68.0
+      },
+      {
+        "kind": "attack",
+        "t": 39.75456,
+        "before": 68.0,
+        "after": 77.80128
+      },
+      {
+        "kind": "bonus",
+        "t": 39.75456,
+        "pair": "SR18_L_B03_T033",
+        "choice": "attPercent",
+        "label": "+14%",
+        "hp": 569.9877,
+        "attack": 77.80128
+      },
+      {
+        "kind": "bonus",
+        "t": 52.2735176,
+        "pair": "SR18_L_B04_T045",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 569.9877,
+        "attack": 77.80128
+      },
+      {
+        "kind": "damage",
+        "t": 58.2075043,
+        "before": 569.9877,
+        "after": 566.3877,
+        "cause": "GuardShot",
+        "near": [
+          {
+            "name": "SR18_L_E05_T053_Enemy_Guard",
+            "hp": 0.0,
+            "range": 10.9656992
+          },
+          {
+            "name": "SR18_L_E05_T053_Enemy_Guard_Right",
+            "hp": 25.3974457,
+            "range": 11.0536337
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 59.31223,
+        "before": 566.3877,
+        "after": 540.990234,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E05_T053_Enemy_Guard_Right",
+            "hp": 0.0,
+            "range": 1.57689846
+          },
+          {
+            "name": "SR18_L_E04_T041_Enemy_OldMan",
+            "hp": 143.0,
+            "range": 57.57237
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 63.65402,
+        "pair": "SR18_L_B05_T057",
+        "choice": "hp",
+        "label": "+18",
+        "hp": 558.990234,
+        "attack": 77.80128
+      },
+      {
+        "kind": "bonus",
+        "t": 76.44176,
+        "pair": "SR18_L_B06_T069",
+        "choice": "attackSpeed",
+        "label": "+12%",
+        "hp": 558.990234,
+        "attack": 77.80128
+      },
+      {
+        "kind": "bonus",
+        "t": 87.09027,
+        "pair": "SR18_L_B07_T081",
+        "choice": "attackSpeed",
+        "label": "+11%",
+        "hp": 558.990234,
+        "attack": 77.80128
+      },
+      {
+        "kind": "damage",
+        "t": 91.88418,
+        "before": 558.990234,
+        "after": 458.990234,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan_Right",
+            "hp": 393.0,
+            "range": 26.93789
+          },
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan",
+            "hp": 342.0,
+            "range": 27.1608677
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 94.9198,
+        "before": 458.990234,
+        "after": 116.990234,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan",
+            "hp": 0.0,
+            "range": 1.03202128
+          },
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan_Right",
+            "hp": 81.7949142,
+            "range": 2.520803
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 98.81679,
+        "pair": "SR18_L_B08_T093",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 116.990234,
+        "attack": 77.80128
+      },
+      {
+        "kind": "bonus",
+        "t": 110.989609,
+        "pair": "SR18_L_B09_T105",
+        "choice": "attackSpeed",
+        "label": "+13%",
+        "hp": 116.990234,
+        "attack": 77.80128
+      },
+      {
+        "kind": "bonus",
+        "t": 122.74308,
+        "pair": "SR18_L_B10_T117",
+        "choice": "missileDistance",
+        "label": "+18%",
+        "hp": 116.990234,
+        "attack": 77.80128
+      },
+      {
+        "kind": "bonus",
+        "t": 135.815628,
+        "pair": "SR18_L_B11_T129",
+        "choice": "attackSpeed",
+        "label": "+13%",
+        "hp": 116.990234,
+        "attack": 77.80128
+      },
+      {
+        "kind": "damage",
+        "t": 139.8172,
+        "before": 116.990234,
+        "after": 16.9902344,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan",
+            "hp": 455.0,
+            "range": 26.202076
+          },
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan_Right",
+            "hp": 523.0,
+            "range": 26.30999
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 146.633926,
+        "pair": "SR18_L_B12_T141",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 16.9902344,
+        "attack": 77.80128
+      },
+      {
+        "kind": "bonus",
+        "t": 158.338242,
+        "pair": "SR18_L_B13_T153",
+        "choice": "hpPercent",
+        "label": "+16%",
+        "hp": 113.677811,
+        "attack": 77.80128
+      },
+      {
+        "kind": "attack",
+        "t": 166.427048,
+        "before": 77.80128,
+        "after": 87.0626
+      },
+      {
+        "kind": "bonus",
+        "t": 166.427048,
+        "pair": "SR18_L_B14_T161",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 113.677811,
+        "attack": 87.0626
+      },
+      {
+        "kind": "attack",
+        "t": 181.654724,
+        "before": 87.0626,
+        "after": 97.78384
+      },
+      {
+        "kind": "bonus",
+        "t": 181.654724,
+        "pair": "SR18_L_B15_T177",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 113.677811,
+        "attack": 97.78384
+      },
+      {
+        "kind": "bonus",
+        "t": 193.1893,
+        "pair": "SR18_L_B16_T189",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 113.677811,
+        "attack": 97.78384
+      },
+      {
+        "kind": "bonus",
+        "t": 206.245941,
+        "pair": "SR18_L_B17_T201",
+        "choice": "attackSpeed",
+        "label": "+14%",
+        "hp": 113.677811,
+        "attack": 97.78384
+      },
+      {
+        "kind": "attack",
+        "t": 218.431335,
+        "before": 97.78384,
+        "after": 112.28775
+      },
+      {
+        "kind": "bonus",
+        "t": 218.431335,
+        "pair": "SR18_L_B18_T213",
+        "choice": "attPercent",
+        "label": "+15%",
+        "hp": 113.677811,
+        "attack": 112.28775
+      },
+      {
+        "kind": "attack",
+        "t": 230.653717,
+        "before": 112.28775,
+        "after": 124.097305
+      },
+      {
+        "kind": "bonus",
+        "t": 230.653717,
+        "pair": "SR18_L_B19_T225",
+        "choice": "attPercent",
+        "label": "+11%",
+        "hp": 113.677811,
+        "attack": 124.097305
+      },
+      {
+        "kind": "bonus",
+        "t": 242.945618,
+        "pair": "SR18_L_B20_T237",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 113.677811,
+        "attack": 124.097305
+      },
+      {
+        "kind": "attack",
+        "t": 255.112732,
+        "before": 124.097305,
+        "after": 140.1771
+      },
+      {
+        "kind": "bonus",
+        "t": 255.112732,
+        "pair": "SR18_L_B21_T249",
+        "choice": "attPercent",
+        "label": "+13%",
+        "hp": 113.677811,
+        "attack": 140.1771
+      },
+      {
+        "kind": "damage",
+        "t": 255.7045,
+        "before": 113.677811,
+        "after": 103.677811,
+        "cause": "Cannon",
+        "near": [
+          {
+            "name": "SR18_L_E22_T257_Enemy_OldMan_Right",
+            "hp": 756.0,
+            "range": 49.1723557
+          },
+          {
+            "name": "SR18_L_E22_T257_Enemy_OldMan",
+            "hp": 657.0,
+            "range": 50.9932632
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 267.3757,
+        "pair": "SR18_L_B22_T261",
+        "choice": "attackSpeed",
+        "label": "+10%",
+        "hp": 103.677811,
+        "attack": 140.1771
+      },
+      {
+        "kind": "bonus",
+        "t": 275.1885,
+        "pair": "SR18_L_B23_T269",
+        "choice": "hpPercent",
+        "label": "+15%",
+        "hp": 204.941132,
+        "attack": 140.1771
+      },
+      {
+        "kind": "damage",
+        "t": 285.747681,
+        "before": 204.941132,
+        "after": 104.941132,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E24_T281_Enemy_FatMan",
+            "hp": 1020.64575,
+            "range": 26.3940163
+          },
+          {
+            "name": "SR18_L_E23_T273_Enemy_OldMan_Right",
+            "hp": 831.0,
+            "range": 26.46731
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 291.408661,
+        "pair": "SR18_L_B24_T285",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 104.941132,
+        "attack": 140.1771
+      },
+      {
+        "kind": "damage",
+        "t": 298.914154,
+        "before": 104.941132,
+        "after": 0.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E25_T293_Enemy_Woman",
+            "hp": 1199.04907,
+            "range": 2.249331
+          },
+          {
+            "name": "SR18_L_E24_T281_Enemy_FatMan_Right",
+            "hp": 1355.82288,
+            "range": 90.15507
+          }
+        ]
+      }
+    ],
+    "run": 3
+  },
+  {
+    "scene": "Noryangjin_MapTool_Mode_SR18",
+    "policy": "helper",
+    "profile": "current",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 298.920166,
+    "health": 0.0,
+    "attack": 254.564453,
+    "distance": 2604.986,
+    "hits": 5,
+    "bonuses": 24,
+    "encounters": 39,
+    "movementInputs": 9956,
+    "shots": 107,
+    "fatalCause": "EnemyContact",
+    "forks": null,
+    "events": [
+      {
+        "kind": "start",
+        "health": 500.0,
+        "attack": 68.0,
+        "speed": 8.84,
+        "policy": "helper",
+        "scene": "Noryangjin_MapTool_Mode_SR18",
+        "profile": "current",
+        "testSpeed": 3.0,
+        "levels": [
+          15,
+          8,
+          1
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "attack",
+        "t": 16.1272373,
+        "before": 68.0,
+        "after": 75.4299545
+      },
+      {
+        "kind": "bonus",
+        "t": 16.1272373,
+        "pair": "SR18_L_B01_T009",
+        "choice": "attPercent",
+        "label": "+11%",
+        "hp": 500.0,
+        "attack": 75.4299545
+      },
+      {
+        "kind": "bonus",
+        "t": 28.9478436,
+        "pair": "SR18_L_B02_T021",
+        "choice": "hp",
+        "label": "+13",
+        "hp": 513.0,
+        "attack": 75.4299545
+      },
+      {
+        "kind": "attack",
+        "t": 39.74659,
+        "before": 75.4299545,
+        "after": 88.4299545
+      },
+      {
+        "kind": "bonus",
+        "t": 39.74659,
+        "pair": "SR18_L_B03_T033",
+        "choice": "att",
+        "label": "+13",
+        "hp": 513.0,
+        "attack": 88.4299545
+      },
+      {
+        "kind": "bonus",
+        "t": 52.2130127,
+        "pair": "SR18_L_B04_T045",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 513.0,
+        "attack": 88.4299545
+      },
+      {
+        "kind": "damage",
+        "t": 58.17543,
+        "before": 513.0,
+        "after": 509.4,
+        "cause": "GuardShot",
+        "near": [
+          {
+            "name": "SR18_L_E05_T053_Enemy_Guard",
+            "hp": 0.0,
+            "range": 10.9659281
+          },
+          {
+            "name": "SR18_L_E05_T053_Enemy_Guard_Right",
+            "hp": 92.5700455,
+            "range": 11.0538607
+          }
+        ]
+      },
+      {
+        "kind": "attack",
+        "t": 63.66237,
+        "before": 88.4299545,
+        "after": 100.07753
+      },
+      {
+        "kind": "bonus",
+        "t": 63.66237,
+        "pair": "SR18_L_B05_T057",
+        "choice": "attPercent",
+        "label": "+13%",
+        "hp": 509.4,
+        "attack": 100.07753
+      },
+      {
+        "kind": "bonus",
+        "t": 76.4191,
+        "pair": "SR18_L_B06_T069",
+        "choice": "hp",
+        "label": "+20",
+        "hp": 529.4,
+        "attack": 100.07753
+      },
+      {
+        "kind": "attack",
+        "t": 87.04865,
+        "before": 100.07753,
+        "after": 114.07753
+      },
+      {
+        "kind": "bonus",
+        "t": 87.04865,
+        "pair": "SR18_L_B07_T081",
+        "choice": "att",
+        "label": "+14",
+        "hp": 529.4,
+        "attack": 114.07753
+      },
+      {
+        "kind": "damage",
+        "t": 91.92681,
+        "before": 529.4,
+        "after": 429.400024,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan",
+            "hp": 342.0,
+            "range": 26.4244385
+          },
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan_Right",
+            "hp": 393.0,
+            "range": 26.5376682
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 98.78426,
+        "pair": "SR18_L_B08_T093",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 429.400024,
+        "attack": 114.07753
+      },
+      {
+        "kind": "bonus",
+        "t": 110.985008,
+        "pair": "SR18_L_B09_T105",
+        "choice": "attackSpeed",
+        "label": "+12%",
+        "hp": 429.400024,
+        "attack": 114.07753
+      },
+      {
+        "kind": "bonus",
+        "t": 122.769531,
+        "pair": "SR18_L_B10_T117",
+        "choice": "attackSpeed",
+        "label": "+8%",
+        "hp": 429.400024,
+        "attack": 114.07753
+      },
+      {
+        "kind": "attack",
+        "t": 135.821579,
+        "before": 114.07753,
+        "after": 131.07753
+      },
+      {
+        "kind": "bonus",
+        "t": 135.821579,
+        "pair": "SR18_L_B11_T129",
+        "choice": "att",
+        "label": "+17",
+        "hp": 429.400024,
+        "attack": 131.07753
+      },
+      {
+        "kind": "damage",
+        "t": 139.771408,
+        "before": 429.400024,
+        "after": 329.400024,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan",
+            "hp": 455.0,
+            "range": 26.3792152
+          },
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan_Right",
+            "hp": 523.0,
+            "range": 26.4901581
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 146.620163,
+        "pair": "SR18_L_B12_T141",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 329.400024,
+        "attack": 131.07753
+      },
+      {
+        "kind": "attack",
+        "t": 158.312347,
+        "before": 131.07753,
+        "after": 149.92189
+      },
+      {
+        "kind": "bonus",
+        "t": 158.312347,
+        "pair": "SR18_L_B13_T153",
+        "choice": "attPercent",
+        "label": "+14%",
+        "hp": 329.400024,
+        "attack": 149.92189
+      },
+      {
+        "kind": "attack",
+        "t": 166.36792,
+        "before": 149.92189,
+        "after": 165.92189
+      },
+      {
+        "kind": "bonus",
+        "t": 166.36792,
+        "pair": "SR18_L_B14_T161",
+        "choice": "att",
+        "label": "+16",
+        "hp": 329.400024,
+        "attack": 165.92189
+      },
+      {
+        "kind": "attack",
+        "t": 181.639923,
+        "before": 165.92189,
+        "after": 189.4568
+      },
+      {
+        "kind": "bonus",
+        "t": 181.639923,
+        "pair": "SR18_L_B15_T177",
+        "choice": "attPercent",
+        "label": "+14%",
+        "hp": 329.400024,
+        "attack": 189.4568
+      },
+      {
+        "kind": "bonus",
+        "t": 193.158569,
+        "pair": "SR18_L_B16_T189",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 329.400024,
+        "attack": 189.4568
+      },
+      {
+        "kind": "attack",
+        "t": 206.1867,
+        "before": 189.4568,
+        "after": 212.359131
+      },
+      {
+        "kind": "bonus",
+        "t": 206.1867,
+        "pair": "SR18_L_B17_T201",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 329.400024,
+        "attack": 212.359131
+      },
+      {
+        "kind": "bonus",
+        "t": 218.455627,
+        "pair": "SR18_L_B18_T213",
+        "choice": "missileDistance",
+        "label": "+20%",
+        "hp": 329.400024,
+        "attack": 212.359131
+      },
+      {
+        "kind": "attack",
+        "t": 230.6614,
+        "before": 212.359131,
+        "after": 225.359131
+      },
+      {
+        "kind": "bonus",
+        "t": 230.6614,
+        "pair": "SR18_L_B19_T225",
+        "choice": "att",
+        "label": "+13",
+        "hp": 329.400024,
+        "attack": 225.359131
+      },
+      {
+        "kind": "bonus",
+        "t": 242.887527,
+        "pair": "SR18_L_B20_T237",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 329.400024,
+        "attack": 225.359131
+      },
+      {
+        "kind": "attack",
+        "t": 255.095581,
+        "before": 225.359131,
+        "after": 254.564453
+      },
+      {
+        "kind": "bonus",
+        "t": 255.095581,
+        "pair": "SR18_L_B21_T249",
+        "choice": "attPercent",
+        "label": "+13%",
+        "hp": 329.400024,
+        "attack": 254.564453
+      },
+      {
+        "kind": "bonus",
+        "t": 267.2986,
+        "pair": "SR18_L_B22_T261",
+        "choice": "attackSpeed",
+        "label": "+9%",
+        "hp": 329.400024,
+        "attack": 254.564453
+      },
+      {
+        "kind": "bonus",
+        "t": 275.172241,
+        "pair": "SR18_L_B23_T269",
+        "choice": "hp",
+        "label": "+15",
+        "hp": 344.400024,
+        "attack": 254.564453
+      },
+      {
+        "kind": "damage",
+        "t": 285.6503,
+        "before": 344.400024,
+        "after": 144.400024,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E23_T273_Enemy_OldMan_Right",
+            "hp": 831.0,
+            "range": 25.1417065
+          },
+          {
+            "name": "SR18_L_E24_T281_Enemy_FatMan_Right",
+            "hp": 1496.0,
+            "range": 26.7373772
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 291.343475,
+        "pair": "SR18_L_B24_T285",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 144.400024,
+        "attack": 254.564453
+      },
+      {
+        "kind": "damage",
+        "t": 298.920166,
+        "before": 144.400024,
+        "after": 0.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E25_T293_Enemy_Woman",
+            "hp": 742.391,
+            "range": 2.110373
+          },
+          {
+            "name": "SR18_L_E24_T281_Enemy_FatMan",
+            "hp": 537.306641,
+            "range": 90.32144
+          }
+        ]
+      }
+    ],
+    "run": 4
+  },
+  {
+    "scene": "Noryangjin_MapTool_Mode_SR18",
+    "policy": "attack",
+    "profile": "harbor-growth",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 285.720062,
+    "health": 0.0,
+    "attack": 320.6222,
+    "distance": 2483.36523,
+    "hits": 9,
+    "bonuses": 23,
+    "encounters": 32,
+    "movementInputs": 8924,
+    "shots": 106,
+    "fatalCause": "Crate",
+    "forks": null,
+    "events": [
+      {
+        "kind": "start",
+        "health": 960.0,
+        "attack": 88.0,
+        "speed": 8.84,
+        "policy": "attack",
+        "scene": "Noryangjin_MapTool_Mode_SR18",
+        "profile": "harbor-growth",
+        "testSpeed": 3.0,
+        "levels": [
+          20,
+          12,
+          10
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "attack",
+        "t": 16.1359253,
+        "before": 88.0,
+        "after": 99.81545
+      },
+      {
+        "kind": "bonus",
+        "t": 16.1359253,
+        "pair": "SR18_L_B01_T009",
+        "choice": "attPercent",
+        "label": "+13%",
+        "hp": 960.0,
+        "attack": 99.81545
+      },
+      {
+        "kind": "attack",
+        "t": 28.9635677,
+        "before": 99.81545,
+        "after": 117.815453
+      },
+      {
+        "kind": "bonus",
+        "t": 28.9635677,
+        "pair": "SR18_L_B02_T021",
+        "choice": "att",
+        "label": "+18",
+        "hp": 960.0,
+        "attack": 117.815453
+      },
+      {
+        "kind": "bonus",
+        "t": 39.75157,
+        "pair": "SR18_L_B03_T033",
+        "choice": "attackSpeed",
+        "label": "+12%",
+        "hp": 960.0,
+        "attack": 117.815453
+      },
+      {
+        "kind": "damage",
+        "t": 49.40036,
+        "before": 960.0,
+        "after": 817.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E04_T041_Enemy_OldMan",
+            "hp": 0.0,
+            "range": 1.61887455
+          },
+          {
+            "name": "SR18_L_E17_T197_Enemy_Guard",
+            "hp": 408.0,
+            "range": 39.73577
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 52.26532,
+        "pair": "SR18_L_B04_T045",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 817.0,
+        "attack": 117.815453
+      },
+      {
+        "kind": "damage",
+        "t": 58.2528076,
+        "before": 817.0,
+        "after": 813.4,
+        "cause": "GuardShot",
+        "near": [
+          {
+            "name": "SR18_L_E05_T053_Enemy_Guard_Right",
+            "hp": 63.1845474,
+            "range": 10.8671541
+          },
+          {
+            "name": "SR18_L_E06_T065_Enemy_YllowMan_Net_Right",
+            "hp": 519.0,
+            "range": 87.30416
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 59.269043,
+        "before": 813.4,
+        "after": 750.215454,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E05_T053_Enemy_Guard_Right",
+            "hp": 0.0,
+            "range": 1.75619817
+          },
+          {
+            "name": "SR18_L_E06_T065_Enemy_YllowMan_Net_Right",
+            "hp": 519.0,
+            "range": 87.17993
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 63.69751,
+        "pair": "SR18_L_B05_T057",
+        "choice": "attackSpeed",
+        "label": "+14%",
+        "hp": 750.215454,
+        "attack": 117.815453
+      },
+      {
+        "kind": "attack",
+        "t": 76.44586,
+        "before": 117.815453,
+        "after": 132.130768
+      },
+      {
+        "kind": "bonus",
+        "t": 76.44586,
+        "pair": "SR18_L_B06_T069",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 750.215454,
+        "attack": 132.130768
+      },
+      {
+        "kind": "attack",
+        "t": 87.08935,
+        "before": 132.130768,
+        "after": 148.130768
+      },
+      {
+        "kind": "bonus",
+        "t": 87.08935,
+        "pair": "SR18_L_B07_T081",
+        "choice": "att",
+        "label": "+16",
+        "hp": 750.215454,
+        "attack": 148.130768
+      },
+      {
+        "kind": "damage",
+        "t": 91.9332657,
+        "before": 750.215454,
+        "after": 650.215454,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan",
+            "hp": 342.0,
+            "range": 26.4458618
+          },
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan_Right",
+            "hp": 393.0,
+            "range": 26.5473557
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 98.7771149,
+        "pair": "SR18_L_B08_T093",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 650.215454,
+        "attack": 148.130768
+      },
+      {
+        "kind": "damage",
+        "t": 106.297379,
+        "before": 650.215454,
+        "after": 589.3462,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E09_T101_Enemy_YllowMan_Net",
+            "hp": 0.0,
+            "range": 1.14607394
+          },
+          {
+            "name": "SR18_L_E10_T113_Enemy_YllowMan_Sword_Right",
+            "hp": 265.0,
+            "range": 99.05747
+          }
+        ]
+      },
+      {
+        "kind": "attack",
+        "t": 111.062439,
+        "before": 148.130768,
+        "after": 162.130768
+      },
+      {
+        "kind": "bonus",
+        "t": 111.062439,
+        "pair": "SR18_L_B09_T105",
+        "choice": "att",
+        "label": "+14",
+        "hp": 589.3462,
+        "attack": 162.130768
+      },
+      {
+        "kind": "attack",
+        "t": 122.732605,
+        "before": 162.130768,
+        "after": 174.130768
+      },
+      {
+        "kind": "bonus",
+        "t": 122.732605,
+        "pair": "SR18_L_B10_T117",
+        "choice": "att",
+        "label": "+12",
+        "hp": 589.3462,
+        "attack": 174.130768
+      },
+      {
+        "kind": "attack",
+        "t": 135.903519,
+        "before": 174.130768,
+        "after": 197.07991
+      },
+      {
+        "kind": "bonus",
+        "t": 135.903519,
+        "pair": "SR18_L_B11_T129",
+        "choice": "attPercent",
+        "label": "+13%",
+        "hp": 589.3462,
+        "attack": 197.07991
+      },
+      {
+        "kind": "damage",
+        "t": 139.830643,
+        "before": 589.3462,
+        "after": 389.3462,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan",
+            "hp": 455.0,
+            "range": 26.3900833
+          },
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan_Right",
+            "hp": 523.0,
+            "range": 26.4157658
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 146.663147,
+        "pair": "SR18_L_B12_T141",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 389.3462,
+        "attack": 197.07991
+      },
+      {
+        "kind": "bonus",
+        "t": 158.400665,
+        "pair": "SR18_L_B13_T153",
+        "choice": "missileDistance",
+        "label": "+22%",
+        "hp": 389.3462,
+        "attack": 197.07991
+      },
+      {
+        "kind": "attack",
+        "t": 166.423141,
+        "before": 197.07991,
+        "after": 210.07991
+      },
+      {
+        "kind": "bonus",
+        "t": 166.423141,
+        "pair": "SR18_L_B14_T161",
+        "choice": "att",
+        "label": "+13",
+        "hp": 389.3462,
+        "attack": 210.07991
+      },
+      {
+        "kind": "bonus",
+        "t": 181.703842,
+        "pair": "SR18_L_B15_T177",
+        "choice": "missileDistance",
+        "label": "+23%",
+        "hp": 389.3462,
+        "attack": 210.07991
+      },
+      {
+        "kind": "damage",
+        "t": 190.142578,
+        "before": 389.3462,
+        "after": 382.506,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E16_T185_Enemy_OldMan_Right",
+            "hp": 0.0,
+            "range": 0.625863552
+          },
+          {
+            "name": "SR18_L_E17_T197_Enemy_Guard",
+            "hp": 408.0,
+            "range": 84.15158
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 193.24498,
+        "pair": "SR18_L_B16_T189",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 382.506,
+        "attack": 210.07991
+      },
+      {
+        "kind": "attack",
+        "t": 206.309082,
+        "before": 210.07991,
+        "after": 234.189285
+      },
+      {
+        "kind": "bonus",
+        "t": 206.309082,
+        "pair": "SR18_L_B17_T201",
+        "choice": "attPercent",
+        "label": "+11%",
+        "hp": 382.506,
+        "attack": 234.189285
+      },
+      {
+        "kind": "bonus",
+        "t": 218.498581,
+        "pair": "SR18_L_B18_T213",
+        "choice": "hpPercent",
+        "label": "+17%",
+        "hp": 544.18634,
+        "attack": 234.189285
+      },
+      {
+        "kind": "bonus",
+        "t": 230.695541,
+        "pair": "SR18_L_B19_T225",
+        "choice": "missileDistance",
+        "label": "+21%",
+        "hp": 544.18634,
+        "attack": 234.189285
+      },
+      {
+        "kind": "bonus",
+        "t": 242.941254,
+        "pair": "SR18_L_B20_T237",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 544.18634,
+        "attack": 234.189285
+      },
+      {
+        "kind": "attack",
+        "t": 255.153534,
+        "before": 234.189285,
+        "after": 268.8648
+      },
+      {
+        "kind": "bonus",
+        "t": 255.153534,
+        "pair": "SR18_L_B21_T249",
+        "choice": "attPercent",
+        "label": "+15%",
+        "hp": 544.18634,
+        "attack": 268.8648
+      },
+      {
+        "kind": "attack",
+        "t": 267.3787,
+        "before": 268.8648,
+        "after": 285.8648
+      },
+      {
+        "kind": "bonus",
+        "t": 267.3787,
+        "pair": "SR18_L_B22_T261",
+        "choice": "att",
+        "label": "+17",
+        "hp": 544.18634,
+        "attack": 285.8648
+      },
+      {
+        "kind": "attack",
+        "t": 275.1965,
+        "before": 285.8648,
+        "after": 320.6222
+      },
+      {
+        "kind": "bonus",
+        "t": 275.1965,
+        "pair": "SR18_L_B23_T269",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 544.18634,
+        "attack": 320.6222
+      },
+      {
+        "kind": "damage",
+        "t": 281.038666,
+        "before": 544.18634,
+        "after": 141.808533,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E23_T273_Enemy_OldMan",
+            "hp": 0.0,
+            "range": 1.66283238
+          },
+          {
+            "name": "SR18_L_E24_T281_Enemy_FatMan_Right",
+            "hp": 1496.0,
+            "range": 52.3132668
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 285.720062,
+        "before": 141.808533,
+        "after": 0.0,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E24_T281_Enemy_FatMan_Right",
+            "hp": 1175.37781,
+            "range": 26.91879
+          },
+          {
+            "name": "SR18_L_E24_T281_Enemy_FatMan",
+            "hp": 1301.0,
+            "range": 26.9204159
+          }
+        ]
+      }
+    ],
+    "run": 5
+  },
+  {
+    "scene": "Noryangjin_MapTool_Mode_SR18",
+    "policy": "health",
+    "profile": "harbor-growth",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 298.9274,
+    "health": 0.0,
+    "attack": 156.880066,
+    "distance": 2602.23828,
+    "hits": 5,
+    "bonuses": 24,
+    "encounters": 31,
+    "movementInputs": 9301,
+    "shots": 107,
+    "fatalCause": "EnemyContact",
+    "forks": null,
+    "events": [
+      {
+        "kind": "start",
+        "health": 960.0,
+        "attack": 88.0,
+        "speed": 8.84,
+        "policy": "health",
+        "scene": "Noryangjin_MapTool_Mode_SR18",
+        "profile": "harbor-growth",
+        "testSpeed": 3.0,
+        "levels": [
+          20,
+          12,
+          10
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "attack",
+        "t": 16.0920219,
+        "before": 88.0,
+        "after": 100.0
+      },
+      {
+        "kind": "bonus",
+        "t": 16.0920219,
+        "pair": "SR18_L_B01_T009",
+        "choice": "att",
+        "label": "+12",
+        "hp": 960.0,
+        "attack": 100.0
+      },
+      {
+        "kind": "bonus",
+        "t": 28.87186,
+        "pair": "SR18_L_B02_T021",
+        "choice": "hpPercent",
+        "label": "+12%",
+        "hp": 1071.51587,
+        "attack": 100.0
+      },
+      {
+        "kind": "bonus",
+        "t": 39.73198,
+        "pair": "SR18_L_B03_T033",
+        "choice": "attackSpeed",
+        "label": "+13%",
+        "hp": 1071.51587,
+        "attack": 100.0
+      },
+      {
+        "kind": "bonus",
+        "t": 52.2283974,
+        "pair": "SR18_L_B04_T045",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 1071.51587,
+        "attack": 100.0
+      },
+      {
+        "kind": "attack",
+        "t": 63.63112,
+        "before": 100.0,
+        "after": 110.74025
+      },
+      {
+        "kind": "bonus",
+        "t": 63.63112,
+        "pair": "SR18_L_B05_T057",
+        "choice": "attPercent",
+        "label": "+11%",
+        "hp": 1071.51587,
+        "attack": 110.74025
+      },
+      {
+        "kind": "bonus",
+        "t": 76.4568558,
+        "pair": "SR18_L_B06_T069",
+        "choice": "hp",
+        "label": "+16",
+        "hp": 1087.51587,
+        "attack": 110.74025
+      },
+      {
+        "kind": "bonus",
+        "t": 87.0727539,
+        "pair": "SR18_L_B07_T081",
+        "choice": "hp",
+        "label": "+19",
+        "hp": 1106.51587,
+        "attack": 110.74025
+      },
+      {
+        "kind": "damage",
+        "t": 91.93381,
+        "before": 1106.51587,
+        "after": 1006.51587,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan",
+            "hp": 342.0,
+            "range": 26.3277035
+          },
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan_Right",
+            "hp": 282.259766,
+            "range": 26.4377136
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 98.80804,
+        "pair": "SR18_L_B08_T093",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 1006.51587,
+        "attack": 110.74025
+      },
+      {
+        "kind": "bonus",
+        "t": 110.991791,
+        "pair": "SR18_L_B09_T105",
+        "choice": "hpPercent",
+        "label": "+17%",
+        "hp": 1192.25708,
+        "attack": 110.74025
+      },
+      {
+        "kind": "bonus",
+        "t": 122.6942,
+        "pair": "SR18_L_B10_T117",
+        "choice": "hpPercent",
+        "label": "+15%",
+        "hp": 1391.15918,
+        "attack": 110.74025
+      },
+      {
+        "kind": "bonus",
+        "t": 135.8262,
+        "pair": "SR18_L_B11_T129",
+        "choice": "hpPercent",
+        "label": "+15%",
+        "hp": 1615.25244,
+        "attack": 110.74025
+      },
+      {
+        "kind": "damage",
+        "t": 139.606735,
+        "before": 1615.25244,
+        "after": 1415.25244,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan",
+            "hp": 455.0,
+            "range": 28.1607876
+          },
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan_Right",
+            "hp": 523.0,
+            "range": 28.1756439
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 146.6489,
+        "pair": "SR18_L_B12_T141",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 1415.25244,
+        "attack": 110.74025
+      },
+      {
+        "kind": "bonus",
+        "t": 158.382034,
+        "pair": "SR18_L_B13_T153",
+        "choice": "hp",
+        "label": "+20",
+        "hp": 1435.25244,
+        "attack": 110.74025
+      },
+      {
+        "kind": "attack",
+        "t": 166.374146,
+        "before": 110.74025,
+        "after": 127.74025
+      },
+      {
+        "kind": "bonus",
+        "t": 166.374146,
+        "pair": "SR18_L_B14_T161",
+        "choice": "att",
+        "label": "+17",
+        "hp": 1435.25244,
+        "attack": 127.74025
+      },
+      {
+        "kind": "attack",
+        "t": 181.691467,
+        "before": 127.74025,
+        "after": 141.935242
+      },
+      {
+        "kind": "bonus",
+        "t": 181.691467,
+        "pair": "SR18_L_B15_T177",
+        "choice": "attPercent",
+        "label": "+11%",
+        "hp": 1435.25244,
+        "attack": 141.935242
+      },
+      {
+        "kind": "bonus",
+        "t": 193.239731,
+        "pair": "SR18_L_B16_T189",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 1435.25244,
+        "attack": 141.935242
+      },
+      {
+        "kind": "bonus",
+        "t": 206.215271,
+        "pair": "SR18_L_B17_T201",
+        "choice": "hp",
+        "label": "+14",
+        "hp": 1449.25244,
+        "attack": 141.935242
+      },
+      {
+        "kind": "bonus",
+        "t": 218.683746,
+        "pair": "SR18_L_B18_T213",
+        "choice": "hp",
+        "label": "+16",
+        "hp": 1465.25244,
+        "attack": 141.935242
+      },
+      {
+        "kind": "attack",
+        "t": 230.764618,
+        "before": 141.935242,
+        "after": 156.880066
+      },
+      {
+        "kind": "bonus",
+        "t": 230.764618,
+        "pair": "SR18_L_B19_T225",
+        "choice": "attPercent",
+        "label": "+11%",
+        "hp": 1465.25244,
+        "attack": 156.880066
+      },
+      {
+        "kind": "bonus",
+        "t": 242.887375,
+        "pair": "SR18_L_B20_T237",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 1465.25244,
+        "attack": 156.880066
+      },
+      {
+        "kind": "bonus",
+        "t": 255.165588,
+        "pair": "SR18_L_B21_T249",
+        "choice": "hp",
+        "label": "+17",
+        "hp": 1482.25244,
+        "attack": 156.880066
+      },
+      {
+        "kind": "bonus",
+        "t": 267.339661,
+        "pair": "SR18_L_B22_T261",
+        "choice": "hp",
+        "label": "+16",
+        "hp": 1498.25244,
+        "attack": 156.880066
+      },
+      {
+        "kind": "bonus",
+        "t": 275.148621,
+        "pair": "SR18_L_B23_T269",
+        "choice": "hp",
+        "label": "+19",
+        "hp": 1517.25244,
+        "attack": 156.880066
+      },
+      {
+        "kind": "damage",
+        "t": 285.723022,
+        "before": 1517.25244,
+        "after": 1417.25244,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E23_T273_Enemy_OldMan_Right",
+            "hp": 121.747559,
+            "range": 26.03214
+          },
+          {
+            "name": "SR18_L_E24_T281_Enemy_FatMan",
+            "hp": 1301.0,
+            "range": 26.5691319
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 288.605164,
+        "before": 1417.25244,
+        "after": 586.8927,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E24_T281_Enemy_FatMan",
+            "hp": 0.0,
+            "range": 1.165155
+          },
+          {
+            "name": "SR18_L_E24_T281_Enemy_FatMan_Right",
+            "hp": 711.5995,
+            "range": 1.76524854
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 291.3874,
+        "pair": "SR18_L_B24_T285",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 586.8927,
+        "attack": 156.880066
+      },
+      {
+        "kind": "damage",
+        "t": 298.9274,
+        "before": 586.8927,
+        "after": 0.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "SR18_L_E25_T293_Enemy_Woman",
+            "hp": 1217.54578,
+            "range": 2.101081
+          },
+          {
+            "name": "SR18_L_E24_T281_Enemy_FatMan_Right",
+            "hp": 711.5995,
+            "range": 90.32256
+          }
+        ]
+      }
+    ],
+    "run": 6
+  },
+  {
+    "scene": "Noryangjin_MapTool_Mode_SR18",
+    "policy": "cautious",
+    "profile": "harbor-growth",
+    "testSpeed": 3.0,
+    "outcome": "clear",
+    "seconds": 305.459442,
+    "health": 850.811157,
+    "attack": 367.5993,
+    "distance": 2658.938,
+    "hits": 3,
+    "bonuses": 25,
+    "encounters": 33,
+    "movementInputs": 9546,
+    "shots": 107,
+    "fatalCause": "Crate",
+    "forks": null,
+    "events": [
+      {
+        "kind": "start",
+        "health": 960.0,
+        "attack": 88.0,
+        "speed": 8.84,
+        "policy": "cautious",
+        "scene": "Noryangjin_MapTool_Mode_SR18",
+        "profile": "harbor-growth",
+        "testSpeed": 3.0,
+        "levels": [
+          20,
+          12,
+          10
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "attack",
+        "t": 16.113699,
+        "before": 88.0,
+        "after": 99.0902939
+      },
+      {
+        "kind": "bonus",
+        "t": 16.113699,
+        "pair": "SR18_L_B01_T009",
+        "choice": "attPercent",
+        "label": "+13%",
+        "hp": 960.0,
+        "attack": 99.0902939
+      },
+      {
+        "kind": "attack",
+        "t": 28.9322071,
+        "before": 99.0902939,
+        "after": 113.708679
+      },
+      {
+        "kind": "bonus",
+        "t": 28.9322071,
+        "pair": "SR18_L_B02_T021",
+        "choice": "attPercent",
+        "label": "+15%",
+        "hp": 960.0,
+        "attack": 113.708679
+      },
+      {
+        "kind": "attack",
+        "t": 39.7506561,
+        "before": 113.708679,
+        "after": 130.266068
+      },
+      {
+        "kind": "bonus",
+        "t": 39.7506561,
+        "pair": "SR18_L_B03_T033",
+        "choice": "attPercent",
+        "label": "+15%",
+        "hp": 960.0,
+        "attack": 130.266068
+      },
+      {
+        "kind": "bonus",
+        "t": 52.2697,
+        "pair": "SR18_L_B04_T045",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 960.0,
+        "attack": 130.266068
+      },
+      {
+        "kind": "bonus",
+        "t": 63.66339,
+        "pair": "SR18_L_B05_T057",
+        "choice": "missileDistance",
+        "label": "+22%",
+        "hp": 960.0,
+        "attack": 130.266068
+      },
+      {
+        "kind": "attack",
+        "t": 76.4553146,
+        "before": 130.266068,
+        "after": 144.2319
+      },
+      {
+        "kind": "bonus",
+        "t": 76.4553146,
+        "pair": "SR18_L_B06_T069",
+        "choice": "attPercent",
+        "label": "+11%",
+        "hp": 960.0,
+        "attack": 144.2319
+      },
+      {
+        "kind": "attack",
+        "t": 87.05315,
+        "before": 144.2319,
+        "after": 161.2319
+      },
+      {
+        "kind": "bonus",
+        "t": 87.05315,
+        "pair": "SR18_L_B07_T081",
+        "choice": "att",
+        "label": "+17",
+        "hp": 960.0,
+        "attack": 161.2319
+      },
+      {
+        "kind": "damage",
+        "t": 91.915184,
+        "before": 960.0,
+        "after": 860.0,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan_Right",
+            "hp": 231.7681,
+            "range": 26.6079235
+          },
+          {
+            "name": "SR18_L_E09_T101_Enemy_YllowMan_Net",
+            "hp": 209.0,
+            "range": 128.044556
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 98.7720261,
+        "pair": "SR18_L_B08_T093",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 860.0,
+        "attack": 161.2319
+      },
+      {
+        "kind": "bonus",
+        "t": 111.004356,
+        "pair": "SR18_L_B09_T105",
+        "choice": "attackSpeed",
+        "label": "+11%",
+        "hp": 860.0,
+        "attack": 161.2319
+      },
+      {
+        "kind": "bonus",
+        "t": 122.720207,
+        "pair": "SR18_L_B10_T117",
+        "choice": "attackSpeed",
+        "label": "+14%",
+        "hp": 860.0,
+        "attack": 161.2319
+      },
+      {
+        "kind": "bonus",
+        "t": 135.884216,
+        "pair": "SR18_L_B11_T129",
+        "choice": "attackSpeed",
+        "label": "+14%",
+        "hp": 860.0,
+        "attack": 161.2319
+      },
+      {
+        "kind": "damage",
+        "t": 139.66864,
+        "before": 860.0,
+        "after": 660.0,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan",
+            "hp": 0.0,
+            "range": 27.8090858
+          },
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan_Right",
+            "hp": 523.0,
+            "range": 27.8201523
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 146.6305,
+        "pair": "SR18_L_B12_T141",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 660.0,
+        "attack": 161.2319
+      },
+      {
+        "kind": "bonus",
+        "t": 158.400238,
+        "pair": "SR18_L_B13_T153",
+        "choice": "hpPercent",
+        "label": "+13%",
+        "hp": 780.554443,
+        "attack": 161.2319
+      },
+      {
+        "kind": "bonus",
+        "t": 166.404114,
+        "pair": "SR18_L_B14_T161",
+        "choice": "missileDistance",
+        "label": "+18%",
+        "hp": 780.554443,
+        "attack": 161.2319
+      },
+      {
+        "kind": "bonus",
+        "t": 181.7728,
+        "pair": "SR18_L_B15_T177",
+        "choice": "hpPercent",
+        "label": "+14%",
+        "hp": 931.811157,
+        "attack": 161.2319
+      },
+      {
+        "kind": "bonus",
+        "t": 193.231445,
+        "pair": "SR18_L_B16_T189",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 931.811157,
+        "attack": 161.2319
+      },
+      {
+        "kind": "attack",
+        "t": 206.230652,
+        "before": 161.2319,
+        "after": 179.454025
+      },
+      {
+        "kind": "bonus",
+        "t": 206.230652,
+        "pair": "SR18_L_B17_T201",
+        "choice": "attPercent",
+        "label": "+11%",
+        "hp": 931.811157,
+        "attack": 179.454025
+      },
+      {
+        "kind": "attack",
+        "t": 218.581772,
+        "before": 179.454025,
+        "after": 203.82811
+      },
+      {
+        "kind": "bonus",
+        "t": 218.581772,
+        "pair": "SR18_L_B18_T213",
+        "choice": "attPercent",
+        "label": "+14%",
+        "hp": 931.811157,
+        "attack": 203.82811
+      },
+      {
+        "kind": "bonus",
+        "t": 230.72435,
+        "pair": "SR18_L_B19_T225",
+        "choice": "hp",
+        "label": "+19",
+        "hp": 950.811157,
+        "attack": 203.82811
+      },
+      {
+        "kind": "bonus",
+        "t": 242.996536,
+        "pair": "SR18_L_B20_T237",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 950.811157,
+        "attack": 203.82811
+      },
+      {
+        "kind": "attack",
+        "t": 255.299622,
+        "before": 203.82811,
+        "after": 228.4174
+      },
+      {
+        "kind": "bonus",
+        "t": 255.299622,
+        "pair": "SR18_L_B21_T249",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 950.811157,
+        "attack": 228.4174
+      },
+      {
+        "kind": "attack",
+        "t": 267.410339,
+        "before": 228.4174,
+        "after": 261.597168
+      },
+      {
+        "kind": "bonus",
+        "t": 267.410339,
+        "pair": "SR18_L_B22_T261",
+        "choice": "attPercent",
+        "label": "+15%",
+        "hp": 950.811157,
+        "attack": 261.597168
+      },
+      {
+        "kind": "attack",
+        "t": 275.194763,
+        "before": 261.597168,
+        "after": 278.597168
+      },
+      {
+        "kind": "bonus",
+        "t": 275.194763,
+        "pair": "SR18_L_B23_T269",
+        "choice": "att",
+        "label": "+17",
+        "hp": 950.811157,
+        "attack": 278.597168
+      },
+      {
+        "kind": "damage",
+        "t": 285.771027,
+        "before": 950.811157,
+        "after": 850.811157,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E23_T273_Enemy_OldMan_Right",
+            "hp": 273.805664,
+            "range": 25.0809269
+          },
+          {
+            "name": "SR18_L_E24_T281_Enemy_FatMan_Right",
+            "hp": 938.805664,
+            "range": 26.190567
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 291.551758,
+        "pair": "SR18_L_B24_T285",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 850.811157,
+        "attack": 278.597168
+      },
+      {
+        "kind": "attack",
+        "t": 303.077759,
+        "before": 278.597168,
+        "after": 367.5993
+      },
+      {
+        "kind": "bonus",
+        "t": 303.077759,
+        "pair": "SR18_L_B25_T297",
+        "choice": "attPercent",
+        "label": "+32%",
+        "hp": 850.811157,
+        "attack": 367.5993
+      }
+    ],
+    "run": 7
+  },
+  {
+    "scene": "Noryangjin_MapTool_Mode_SR18",
+    "policy": "helper",
+    "profile": "harbor-growth",
+    "testSpeed": 3.0,
+    "outcome": "clear",
+    "seconds": 305.3766,
+    "health": 786.2932,
+    "attack": 320.031464,
+    "distance": 2656.90649,
+    "hits": 3,
+    "bonuses": 25,
+    "encounters": 33,
+    "movementInputs": 9554,
+    "shots": 106,
+    "fatalCause": "Crate",
+    "forks": null,
+    "events": [
+      {
+        "kind": "start",
+        "health": 960.0,
+        "attack": 88.0,
+        "speed": 8.84,
+        "policy": "helper",
+        "scene": "Noryangjin_MapTool_Mode_SR18",
+        "profile": "harbor-growth",
+        "testSpeed": 3.0,
+        "levels": [
+          20,
+          12,
+          10
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "bonus",
+        "t": 16.1144657,
+        "pair": "SR18_L_B01_T009",
+        "choice": "attackSpeed",
+        "label": "+10%",
+        "hp": 960.0,
+        "attack": 88.0
+      },
+      {
+        "kind": "bonus",
+        "t": 28.8459549,
+        "pair": "SR18_L_B02_T021",
+        "choice": "attackSpeed",
+        "label": "+14%",
+        "hp": 960.0,
+        "attack": 88.0
+      },
+      {
+        "kind": "attack",
+        "t": 39.8840866,
+        "before": 88.0,
+        "after": 105.0
+      },
+      {
+        "kind": "bonus",
+        "t": 39.8840866,
+        "pair": "SR18_L_B03_T033",
+        "choice": "att",
+        "label": "+17",
+        "hp": 960.0,
+        "attack": 105.0
+      },
+      {
+        "kind": "bonus",
+        "t": 52.26545,
+        "pair": "SR18_L_B04_T045",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 960.0,
+        "attack": 105.0
+      },
+      {
+        "kind": "attack",
+        "t": 63.6146431,
+        "before": 105.0,
+        "after": 121.0
+      },
+      {
+        "kind": "bonus",
+        "t": 63.6146431,
+        "pair": "SR18_L_B05_T057",
+        "choice": "att",
+        "label": "+16",
+        "hp": 960.0,
+        "attack": 121.0
+      },
+      {
+        "kind": "bonus",
+        "t": 76.4240952,
+        "pair": "SR18_L_B06_T069",
+        "choice": "hpPercent",
+        "label": "+13%",
+        "hp": 1086.29321,
+        "attack": 121.0
+      },
+      {
+        "kind": "bonus",
+        "t": 87.1469,
+        "pair": "SR18_L_B07_T081",
+        "choice": "attackSpeed",
+        "label": "+12%",
+        "hp": 1086.29321,
+        "attack": 121.0
+      },
+      {
+        "kind": "damage",
+        "t": 91.9425049,
+        "before": 1086.29321,
+        "after": 986.2932,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan",
+            "hp": 342.0,
+            "range": 26.1489048
+          },
+          {
+            "name": "SR18_L_E08_T089_Enemy_FatMan_Right",
+            "hp": 393.0,
+            "range": 26.2677784
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 98.85162,
+        "pair": "SR18_L_B08_T093",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 986.2932,
+        "attack": 121.0
+      },
+      {
+        "kind": "bonus",
+        "t": 111.209137,
+        "pair": "SR18_L_B09_T105",
+        "choice": "attackSpeed",
+        "label": "+14%",
+        "hp": 986.2932,
+        "attack": 121.0
+      },
+      {
+        "kind": "attack",
+        "t": 122.86396,
+        "before": 121.0,
+        "after": 133.0
+      },
+      {
+        "kind": "bonus",
+        "t": 122.86396,
+        "pair": "SR18_L_B10_T117",
+        "choice": "att",
+        "label": "+12",
+        "hp": 986.2932,
+        "attack": 133.0
+      },
+      {
+        "kind": "bonus",
+        "t": 135.9432,
+        "pair": "SR18_L_B11_T129",
+        "choice": "attackSpeed",
+        "label": "+14%",
+        "hp": 986.2932,
+        "attack": 133.0
+      },
+      {
+        "kind": "damage",
+        "t": 139.9473,
+        "before": 986.2932,
+        "after": 886.2932,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan",
+            "hp": 455.0,
+            "range": 25.1448765
+          },
+          {
+            "name": "SR18_L_E12_T137_Enemy_FatMan_Right",
+            "hp": 523.0,
+            "range": 25.28103
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 146.702713,
+        "pair": "SR18_L_B12_T141",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 886.2932,
+        "attack": 133.0
+      },
+      {
+        "kind": "attack",
+        "t": 158.4761,
+        "before": 133.0,
+        "after": 149.0
+      },
+      {
+        "kind": "bonus",
+        "t": 158.4761,
+        "pair": "SR18_L_B13_T153",
+        "choice": "att",
+        "label": "+16",
+        "hp": 886.2932,
+        "attack": 149.0
+      },
+      {
+        "kind": "attack",
+        "t": 166.4558,
+        "before": 149.0,
+        "after": 165.0
+      },
+      {
+        "kind": "bonus",
+        "t": 166.4558,
+        "pair": "SR18_L_B14_T161",
+        "choice": "att",
+        "label": "+16",
+        "hp": 886.2932,
+        "attack": 165.0
+      },
+      {
+        "kind": "attack",
+        "t": 181.723358,
+        "before": 165.0,
+        "after": 187.9155
+      },
+      {
+        "kind": "bonus",
+        "t": 181.723358,
+        "pair": "SR18_L_B15_T177",
+        "choice": "attPercent",
+        "label": "+14%",
+        "hp": 886.2932,
+        "attack": 187.9155
+      },
+      {
+        "kind": "bonus",
+        "t": 193.289886,
+        "pair": "SR18_L_B16_T189",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 886.2932,
+        "attack": 187.9155
+      },
+      {
+        "kind": "attack",
+        "t": 206.22641,
+        "before": 187.9155,
+        "after": 215.843216
+      },
+      {
+        "kind": "bonus",
+        "t": 206.22641,
+        "pair": "SR18_L_B17_T201",
+        "choice": "attPercent",
+        "label": "+15%",
+        "hp": 886.2932,
+        "attack": 215.843216
+      },
+      {
+        "kind": "attack",
+        "t": 218.423553,
+        "before": 215.843216,
+        "after": 232.843216
+      },
+      {
+        "kind": "bonus",
+        "t": 218.423553,
+        "pair": "SR18_L_B18_T213",
+        "choice": "att",
+        "label": "+17",
+        "hp": 886.2932,
+        "attack": 232.843216
+      },
+      {
+        "kind": "attack",
+        "t": 230.80011,
+        "before": 232.843216,
+        "after": 262.031464
+      },
+      {
+        "kind": "bonus",
+        "t": 230.80011,
+        "pair": "SR18_L_B19_T225",
+        "choice": "attPercent",
+        "label": "+13%",
+        "hp": 886.2932,
+        "attack": 262.031464
+      },
+      {
+        "kind": "bonus",
+        "t": 242.928268,
+        "pair": "SR18_L_B20_T237",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 886.2932,
+        "attack": 262.031464
+      },
+      {
+        "kind": "bonus",
+        "t": 255.124359,
+        "pair": "SR18_L_B21_T249",
+        "choice": "attackSpeed",
+        "label": "+9%",
+        "hp": 886.2932,
+        "attack": 262.031464
+      },
+      {
+        "kind": "bonus",
+        "t": 267.527832,
+        "pair": "SR18_L_B22_T261",
+        "choice": "attackSpeed",
+        "label": "+12%",
+        "hp": 886.2932,
+        "attack": 262.031464
+      },
+      {
+        "kind": "attack",
+        "t": 275.1167,
+        "before": 262.031464,
+        "after": 275.031464
+      },
+      {
+        "kind": "bonus",
+        "t": 275.1167,
+        "pair": "SR18_L_B23_T269",
+        "choice": "att",
+        "label": "+13",
+        "hp": 886.2932,
+        "attack": 275.031464
+      },
+      {
+        "kind": "damage",
+        "t": 285.590179,
+        "before": 886.2932,
+        "after": 786.2932,
+        "cause": "Crate",
+        "near": [
+          {
+            "name": "SR18_L_E24_T281_Enemy_FatMan",
+            "hp": 1301.0,
+            "range": 27.31265
+          },
+          {
+            "name": "SR18_L_E24_T281_Enemy_FatMan_Right",
+            "hp": 1496.0,
+            "range": 27.4199944
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 291.3921,
+        "pair": "SR18_L_B24_T285",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 786.2932,
+        "attack": 275.031464
+      },
+      {
+        "kind": "attack",
+        "t": 302.984772,
+        "before": 275.031464,
+        "after": 320.031464
+      },
+      {
+        "kind": "bonus",
+        "t": 302.984772,
+        "pair": "SR18_L_B25_T297",
+        "choice": "att",
+        "label": "+45",
+        "hp": 786.2932,
+        "attack": 320.031464
+      }
+    ],
+    "run": 8
+  },
+  {
+    "scene": "HighWay",
+    "policy": "main",
+    "profile": "highway-entry",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 181.25975,
+    "health": 0.0,
+    "attack": 187.591324,
+    "distance": 1387.83594,
+    "hits": 8,
+    "bonuses": 15,
+    "encounters": 32,
+    "movementInputs": 6892,
+    "shots": 72,
+    "fatalCause": "EnemyContact",
+    "forks": [
+      {
+        "start": 80.0,
+        "decided": true,
+        "bypass": false
+      },
+      {
+        "start": 1680.0,
+        "decided": false,
+        "bypass": false
+      }
+    ],
+    "events": [
+      {
+        "kind": "start",
+        "health": 5660.0,
+        "attack": 116.0,
+        "speed": 7.8,
+        "policy": "main",
+        "scene": "HighWay",
+        "profile": "highway-entry",
+        "testSpeed": 3.0,
+        "levels": [
+          27,
+          32,
+          20
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "attack",
+        "t": 11.7337265,
+        "before": 116.0,
+        "after": 130.351669
+      },
+      {
+        "kind": "bonus",
+        "t": 11.7337265,
+        "pair": "HWY_B01",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 5660.0,
+        "attack": 130.351669
+      },
+      {
+        "kind": "bonus",
+        "t": 23.3440781,
+        "pair": "HWY_B02",
+        "choice": "missileDistance",
+        "label": "+21%",
+        "hp": 5660.0,
+        "attack": 130.351669
+      },
+      {
+        "kind": "attack",
+        "t": 34.9183273,
+        "before": 130.351669,
+        "after": 148.819443
+      },
+      {
+        "kind": "bonus",
+        "t": 34.9183273,
+        "pair": "HWY_B03",
+        "choice": "attPercent",
+        "label": "+14%",
+        "hp": 5660.0,
+        "attack": 148.819443
+      },
+      {
+        "kind": "bonus",
+        "t": 46.356,
+        "pair": "HWY_B04",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 5660.0,
+        "attack": 148.819443
+      },
+      {
+        "kind": "bonus",
+        "t": 60.51781,
+        "pair": "HWY_B05",
+        "choice": "missileDistance",
+        "label": "+21%",
+        "hp": 5660.0,
+        "attack": 148.819443
+      },
+      {
+        "kind": "attack",
+        "t": 69.72866,
+        "before": 148.819443,
+        "after": 167.405762
+      },
+      {
+        "kind": "bonus",
+        "t": 69.72866,
+        "pair": "HWY_B06",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 5660.0,
+        "attack": 167.405762
+      },
+      {
+        "kind": "bonus",
+        "t": 80.97946,
+        "pair": "HWY_B07",
+        "choice": "missileDistance",
+        "label": "+19%",
+        "hp": 5660.0,
+        "attack": 167.405762
+      },
+      {
+        "kind": "damage",
+        "t": 90.63089,
+        "before": 5660.0,
+        "after": 4964.81152,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E08_TrafficPatrol_Right",
+            "hp": 0.0,
+            "range": 1.10604239
+          },
+          {
+            "name": "HWY_E08_TrafficPatrol",
+            "hp": 226.376953,
+            "range": 2.99709654
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 93.86882,
+        "pair": "HWY_B08",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 4964.81152,
+        "attack": 167.405762
+      },
+      {
+        "kind": "damage",
+        "t": 100.5106,
+        "before": 4964.81152,
+        "after": 3687.21729,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E09_TollgateChief",
+            "hp": 0.0,
+            "range": 1.12079811
+          },
+          {
+            "name": "HWY_E09_TollgateChief_Right",
+            "hp": 490.159668,
+            "range": 2.72341514
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 104.115578,
+        "pair": "HWY_B09",
+        "choice": "attackSpeed",
+        "label": "+13%",
+        "hp": 3687.21729,
+        "attack": 167.405762
+      },
+      {
+        "kind": "bonus",
+        "t": 115.572784,
+        "pair": "HWY_B10",
+        "choice": "missileDistance",
+        "label": "+22%",
+        "hp": 3687.21729,
+        "attack": 167.405762
+      },
+      {
+        "kind": "bonus",
+        "t": 127.1559,
+        "pair": "HWY_B11",
+        "choice": "hp",
+        "label": "+17",
+        "hp": 3704.21729,
+        "attack": 167.405762
+      },
+      {
+        "kind": "damage",
+        "t": 135.177216,
+        "before": 3704.21729,
+        "after": 3680.05762,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E12_DeliveryRider",
+            "hp": 0.0,
+            "range": 0.7728493
+          },
+          {
+            "name": "HWY_E12_DeliveryRider_Right",
+            "hp": 370.56543,
+            "range": 2.785106
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 138.709427,
+        "pair": "HWY_B12",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 3680.05762,
+        "attack": 167.405762
+      },
+      {
+        "kind": "attack",
+        "t": 150.228683,
+        "before": 167.405762,
+        "after": 187.591324
+      },
+      {
+        "kind": "bonus",
+        "t": 150.228683,
+        "pair": "HWY_B13",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 3680.05762,
+        "attack": 187.591324
+      },
+      {
+        "kind": "damage",
+        "t": 159.680878,
+        "before": 3680.05762,
+        "after": 3525.25757,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "HWY_E14_TrafficPatrol",
+            "hp": 1195.40869,
+            "range": 1.90863657
+          },
+          {
+            "name": "HWY_E14_TrafficPatrol_Right",
+            "hp": 89.269516,
+            "range": 2.9048245
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 160.064056,
+        "before": 3525.25757,
+        "after": 2329.84888,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E14_TrafficPatrol",
+            "hp": 0.0,
+            "range": 0.7926307
+          },
+          {
+            "name": "HWY_E14_TrafficPatrol_Right",
+            "hp": 89.269516,
+            "range": 2.90780449
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 163.017761,
+        "pair": "HWY_B14",
+        "choice": "attackSpeed",
+        "label": "+11%",
+        "hp": 2329.84888,
+        "attack": 187.591324
+      },
+      {
+        "kind": "damage",
+        "t": 169.531052,
+        "before": 2329.84888,
+        "after": 2129.59888,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "HWY_E15_TollgateChief_Right",
+            "hp": 1062.26953,
+            "range": 2.54708552
+          },
+          {
+            "name": "HWY_E15_TollgateChief",
+            "hp": 1478.63477,
+            "range": 3.35019088
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 169.918152,
+        "before": 2129.59888,
+        "after": 1067.32935,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E15_TollgateChief",
+            "hp": 1478.63477,
+            "range": 1.14534771
+          },
+          {
+            "name": "HWY_E15_TollgateChief_Right",
+            "hp": 0.0,
+            "range": 1.22138977
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 173.323288,
+        "pair": "HWY_B15",
+        "choice": "hp",
+        "label": "+13",
+        "hp": 1080.32935,
+        "attack": 187.591324
+      },
+      {
+        "kind": "damage",
+        "t": 181.25975,
+        "before": 1080.32935,
+        "after": 0.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E16_TireBruiser",
+            "hp": 1129.07935,
+            "range": 1.2929703
+          },
+          {
+            "name": "HWY_E16_TireBruiser_Right",
+            "hp": 1443.86084,
+            "range": 2.50811315
+          }
+        ]
+      }
+    ],
+    "run": 9
+  },
+  {
+    "scene": "HighWay",
+    "policy": "bypass",
+    "profile": "highway-entry",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 169.91774,
+    "health": 0.0,
+    "attack": 132.0,
+    "distance": 1291.71472,
+    "hits": 7,
+    "bonuses": 11,
+    "encounters": 29,
+    "movementInputs": 4955,
+    "shots": 64,
+    "fatalCause": "EnemyContact",
+    "forks": [
+      {
+        "start": 80.0,
+        "decided": true,
+        "bypass": true
+      },
+      {
+        "start": 1680.0,
+        "decided": false,
+        "bypass": false
+      }
+    ],
+    "events": [
+      {
+        "kind": "start",
+        "health": 5660.0,
+        "attack": 116.0,
+        "speed": 7.8,
+        "policy": "bypass",
+        "scene": "HighWay",
+        "profile": "highway-entry",
+        "testSpeed": 3.0,
+        "levels": [
+          27,
+          32,
+          20
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "damage",
+        "t": 42.8185463,
+        "before": 5660.0,
+        "after": 5350.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E04_TireBruiser",
+            "hp": 0.0,
+            "range": 1.539129
+          },
+          {
+            "name": "HWY_E04_TireBruiser_Right",
+            "hp": 693.0,
+            "range": 3.516674
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 46.4180565,
+        "pair": "HWY_B04",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 5350.0,
+        "attack": 116.0
+      },
+      {
+        "kind": "bonus",
+        "t": 60.4664459,
+        "pair": "HWY_B05",
+        "choice": "hp",
+        "label": "+18",
+        "hp": 5368.0,
+        "attack": 116.0
+      },
+      {
+        "kind": "attack",
+        "t": 69.67675,
+        "before": 116.0,
+        "after": 132.0
+      },
+      {
+        "kind": "bonus",
+        "t": 69.67675,
+        "pair": "HWY_B06",
+        "choice": "att",
+        "label": "+16",
+        "hp": 5368.0,
+        "attack": 132.0
+      },
+      {
+        "kind": "bonus",
+        "t": 80.94385,
+        "pair": "HWY_B07",
+        "choice": "hp",
+        "label": "+15",
+        "hp": 5383.0,
+        "attack": 132.0
+      },
+      {
+        "kind": "damage",
+        "t": 90.58069,
+        "before": 5383.0,
+        "after": 4485.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E08_TrafficPatrol_Right",
+            "hp": 0.0,
+            "range": 1.18695629
+          },
+          {
+            "name": "HWY_E08_TrafficPatrol",
+            "hp": 236.0,
+            "range": 2.81217718
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 93.904335,
+        "pair": "HWY_B08",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 4485.0,
+        "attack": 132.0
+      },
+      {
+        "kind": "damage",
+        "t": 100.498253,
+        "before": 4485.0,
+        "after": 3040.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E09_TollgateChief",
+            "hp": 0.0,
+            "range": 1.09425175
+          },
+          {
+            "name": "HWY_E09_TollgateChief_Right",
+            "hp": 870.0,
+            "range": 2.61221933
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 104.085243,
+        "pair": "HWY_B09",
+        "choice": "hp",
+        "label": "+13",
+        "hp": 3053.0,
+        "attack": 132.0
+      },
+      {
+        "kind": "bonus",
+        "t": 115.588013,
+        "pair": "HWY_B10",
+        "choice": "attackSpeed",
+        "label": "+13%",
+        "hp": 3053.0,
+        "attack": 132.0
+      },
+      {
+        "kind": "bonus",
+        "t": 127.084106,
+        "pair": "HWY_B11",
+        "choice": "attackSpeed",
+        "label": "+14%",
+        "hp": 3053.0,
+        "attack": 132.0
+      },
+      {
+        "kind": "damage",
+        "t": 135.101959,
+        "before": 3053.0,
+        "after": 2121.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E12_DeliveryRider",
+            "hp": 0.0,
+            "range": 1.206129
+          },
+          {
+            "name": "HWY_E12_DeliveryRider_Right",
+            "hp": 847.0,
+            "range": 2.66587114
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 138.668961,
+        "pair": "HWY_B12",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 2121.0,
+        "attack": 132.0
+      },
+      {
+        "kind": "bonus",
+        "t": 150.3924,
+        "pair": "HWY_B13",
+        "choice": "hp",
+        "label": "+16",
+        "hp": 2137.0,
+        "attack": 132.0
+      },
+      {
+        "kind": "damage",
+        "t": 159.8701,
+        "before": 2137.0,
+        "after": 863.199951,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E14_TrafficPatrol",
+            "hp": 0.0,
+            "range": 1.06889033
+          },
+          {
+            "name": "HWY_E14_TrafficPatrol_Right",
+            "hp": 1062.0,
+            "range": 3.085287
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 163.004913,
+        "pair": "HWY_B14",
+        "choice": "hp",
+        "label": "+17",
+        "hp": 880.199951,
+        "attack": 132.0
+      },
+      {
+        "kind": "damage",
+        "t": 169.529587,
+        "before": 880.199951,
+        "after": 679.949951,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "HWY_E15_TollgateChief_Right",
+            "hp": 2035.0,
+            "range": 2.54711866
+          },
+          {
+            "name": "HWY_E15_TollgateChief",
+            "hp": 2097.0,
+            "range": 3.3528502
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 169.91774,
+        "before": 679.949951,
+        "after": 0.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E15_TollgateChief_Right",
+            "hp": 1355.05,
+            "range": 1.20629609
+          },
+          {
+            "name": "HWY_E15_TollgateChief",
+            "hp": 2097.0,
+            "range": 2.10759664
+          }
+        ]
+      }
+    ],
+    "run": 10
+  },
+  {
+    "scene": "HighWay",
+    "policy": "cautious",
+    "profile": "highway-entry",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 181.260757,
+    "health": 0.0,
+    "attack": 163.001358,
+    "distance": 1376.26709,
+    "hits": 4,
+    "bonuses": 13,
+    "encounters": 31,
+    "movementInputs": 5006,
+    "shots": 66,
+    "fatalCause": "EnemyContact",
+    "forks": [
+      {
+        "start": 80.0,
+        "decided": true,
+        "bypass": true
+      },
+      {
+        "start": 1680.0,
+        "decided": false,
+        "bypass": false
+      }
+    ],
+    "events": [
+      {
+        "kind": "start",
+        "health": 5660.0,
+        "attack": 116.0,
+        "speed": 7.8,
+        "policy": "cautious",
+        "scene": "HighWay",
+        "profile": "highway-entry",
+        "testSpeed": 3.0,
+        "levels": [
+          27,
+          32,
+          20
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "bonus",
+        "t": 11.7775421,
+        "pair": "HWY_B01",
+        "choice": "missileDistance",
+        "label": "+19%",
+        "hp": 5660.0,
+        "attack": 116.0
+      },
+      {
+        "kind": "bonus",
+        "t": 46.32759,
+        "pair": "HWY_B04",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 5660.0,
+        "attack": 116.0
+      },
+      {
+        "kind": "bonus",
+        "t": 60.4722481,
+        "pair": "HWY_B05",
+        "choice": "hp",
+        "label": "+17",
+        "hp": 5677.0,
+        "attack": 116.0
+      },
+      {
+        "kind": "bonus",
+        "t": 69.64813,
+        "pair": "HWY_B06",
+        "choice": "hpPercent",
+        "label": "+14%",
+        "hp": 6464.21631,
+        "attack": 116.0
+      },
+      {
+        "kind": "attack",
+        "t": 80.92413,
+        "before": 116.0,
+        "after": 131.820969
+      },
+      {
+        "kind": "bonus",
+        "t": 80.92413,
+        "pair": "HWY_B07",
+        "choice": "attPercent",
+        "label": "+14%",
+        "hp": 6464.21631,
+        "attack": 131.820969
+      },
+      {
+        "kind": "bonus",
+        "t": 93.8586655,
+        "pair": "HWY_B08",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 6464.21631,
+        "attack": 131.820969
+      },
+      {
+        "kind": "damage",
+        "t": 100.473389,
+        "before": 6464.21631,
+        "after": 5151.037,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E09_TollgateChief",
+            "hp": 0.0,
+            "range": 1.25878835
+          },
+          {
+            "name": "HWY_E09_TollgateChief_Right",
+            "hp": 475.6114,
+            "range": 2.73359513
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 104.053825,
+        "pair": "HWY_B09",
+        "choice": "attackSpeed",
+        "label": "+14%",
+        "hp": 5151.037,
+        "attack": 131.820969
+      },
+      {
+        "kind": "attack",
+        "t": 115.609413,
+        "before": 131.820969,
+        "after": 147.400345
+      },
+      {
+        "kind": "bonus",
+        "t": 115.609413,
+        "pair": "HWY_B10",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 5151.037,
+        "attack": 147.400345
+      },
+      {
+        "kind": "attack",
+        "t": 127.117538,
+        "before": 147.400345,
+        "after": 163.001358
+      },
+      {
+        "kind": "bonus",
+        "t": 127.117538,
+        "pair": "HWY_B11",
+        "choice": "attPercent",
+        "label": "+11%",
+        "hp": 5151.037,
+        "attack": 163.001358
+      },
+      {
+        "kind": "damage",
+        "t": 135.092377,
+        "before": 5151.037,
+        "after": 3955.037,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E12_DeliveryRider",
+            "hp": 0.0,
+            "range": 1.22577131
+          },
+          {
+            "name": "HWY_E12_DeliveryRider_Right",
+            "hp": 233.990585,
+            "range": 2.75675368
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 138.652451,
+        "pair": "HWY_B12",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 3955.037,
+        "attack": 163.001358
+      },
+      {
+        "kind": "bonus",
+        "t": 150.225784,
+        "pair": "HWY_B13",
+        "choice": "attackSpeed",
+        "label": "+9%",
+        "hp": 3955.037,
+        "attack": 163.001358
+      },
+      {
+        "kind": "bonus",
+        "t": 162.999542,
+        "pair": "HWY_B14",
+        "choice": "missileDistance",
+        "label": "+17%",
+        "hp": 3955.037,
+        "attack": 163.001358
+      },
+      {
+        "kind": "damage",
+        "t": 169.7052,
+        "before": 3955.037,
+        "after": 1881.0415,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E15_TollgateChief_Right",
+            "hp": 0.0,
+            "range": 1.25283241
+          },
+          {
+            "name": "HWY_E15_TollgateChief",
+            "hp": 1087.99048,
+            "range": 2.00574636
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 173.304962,
+        "pair": "HWY_B15",
+        "choice": "hp",
+        "label": "+18",
+        "hp": 1899.0415,
+        "attack": 163.001358
+      },
+      {
+        "kind": "damage",
+        "t": 181.260757,
+        "before": 1899.0415,
+        "after": 0.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E16_TireBruiser",
+            "hp": 8.954224,
+            "range": 1.29288948
+          },
+          {
+            "name": "HWY_E16_TireBruiser_Right",
+            "hp": 1289.98743,
+            "range": 2.51032615
+          }
+        ]
+      }
+    ],
+    "run": 11
+  },
+  {
+    "scene": "HighWay",
+    "policy": "main",
+    "profile": "highway-ready",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 216.000519,
+    "health": 0.0,
+    "attack": 258.8555,
+    "distance": 1636.44055,
+    "hits": 7,
+    "bonuses": 18,
+    "encounters": 37,
+    "movementInputs": 8002,
+    "shots": 83,
+    "fatalCause": "EnemyContact",
+    "forks": [
+      {
+        "start": 80.0,
+        "decided": true,
+        "bypass": false
+      },
+      {
+        "start": 1680.0,
+        "decided": true,
+        "bypass": false
+      }
+    ],
+    "events": [
+      {
+        "kind": "start",
+        "health": 7080.0,
+        "attack": 136.0,
+        "speed": 7.8,
+        "policy": "main",
+        "scene": "HighWay",
+        "profile": "highway-ready",
+        "testSpeed": 3.0,
+        "levels": [
+          32,
+          36,
+          30
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "bonus",
+        "t": 11.77437,
+        "pair": "HWY_B01",
+        "choice": "attackSpeed",
+        "label": "+12%",
+        "hp": 7080.0,
+        "attack": 136.0
+      },
+      {
+        "kind": "attack",
+        "t": 23.2988033,
+        "before": 136.0,
+        "after": 154.0
+      },
+      {
+        "kind": "bonus",
+        "t": 23.2988033,
+        "pair": "HWY_B02",
+        "choice": "att",
+        "label": "+18",
+        "hp": 7080.0,
+        "attack": 154.0
+      },
+      {
+        "kind": "attack",
+        "t": 34.8140564,
+        "before": 154.0,
+        "after": 171.0
+      },
+      {
+        "kind": "bonus",
+        "t": 34.8140564,
+        "pair": "HWY_B03",
+        "choice": "att",
+        "label": "+17",
+        "hp": 7080.0,
+        "attack": 171.0
+      },
+      {
+        "kind": "bonus",
+        "t": 46.34864,
+        "pair": "HWY_B04",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 7080.0,
+        "attack": 171.0
+      },
+      {
+        "kind": "attack",
+        "t": 60.49492,
+        "before": 171.0,
+        "after": 188.82637
+      },
+      {
+        "kind": "bonus",
+        "t": 60.49492,
+        "pair": "HWY_B05",
+        "choice": "attPercent",
+        "label": "+10%",
+        "hp": 7080.0,
+        "attack": 188.82637
+      },
+      {
+        "kind": "bonus",
+        "t": 69.6793,
+        "pair": "HWY_B06",
+        "choice": "missileDistance",
+        "label": "+17%",
+        "hp": 7080.0,
+        "attack": 188.82637
+      },
+      {
+        "kind": "damage",
+        "t": 77.47361,
+        "before": 7080.0,
+        "after": 6877.30566,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E07_ConeMechanic_Right",
+            "hp": 0.0,
+            "range": 0.9328847
+          },
+          {
+            "name": "HWY_E07_ConeMechanic",
+            "hp": 833.0,
+            "range": 2.79500628
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 80.96927,
+        "pair": "HWY_B07",
+        "choice": "missileDistance",
+        "label": "+22%",
+        "hp": 6877.30566,
+        "attack": 188.82637
+      },
+      {
+        "kind": "bonus",
+        "t": 93.83632,
+        "pair": "HWY_B08",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 6877.30566,
+        "attack": 188.82637
+      },
+      {
+        "kind": "damage",
+        "t": 99.9767761,
+        "before": 6877.30566,
+        "after": 6714.406,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "HWY_E09_TollgateChief_Right",
+            "hp": 151.388962,
+            "range": 5.23647642
+          },
+          {
+            "name": "HWY_E09_TollgateChief",
+            "hp": 1445.0,
+            "range": 5.262435
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 100.530594,
+        "before": 6714.406,
+        "after": 5269.406,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E09_TollgateChief",
+            "hp": 0.0,
+            "range": 1.04041922
+          },
+          {
+            "name": "HWY_E09_TollgateChief_Right",
+            "hp": 151.388962,
+            "range": 2.83353138
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 104.2203,
+        "pair": "HWY_B09",
+        "choice": "attackSpeed",
+        "label": "+13%",
+        "hp": 5269.406,
+        "attack": 188.82637
+      },
+      {
+        "kind": "bonus",
+        "t": 115.582779,
+        "pair": "HWY_B10",
+        "choice": "missileDistance",
+        "label": "+17%",
+        "hp": 5269.406,
+        "attack": 188.82637
+      },
+      {
+        "kind": "attack",
+        "t": 127.124565,
+        "before": 188.82637,
+        "after": 201.82637
+      },
+      {
+        "kind": "bonus",
+        "t": 127.124565,
+        "pair": "HWY_B11",
+        "choice": "att",
+        "label": "+13",
+        "hp": 5269.406,
+        "attack": 201.82637
+      },
+      {
+        "kind": "bonus",
+        "t": 138.678375,
+        "pair": "HWY_B12",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 5269.406,
+        "attack": 201.82637
+      },
+      {
+        "kind": "attack",
+        "t": 150.155228,
+        "before": 201.82637,
+        "after": 216.82637
+      },
+      {
+        "kind": "bonus",
+        "t": 150.155228,
+        "pair": "HWY_B13",
+        "choice": "att",
+        "label": "+15",
+        "hp": 5269.406,
+        "attack": 216.82637
+      },
+      {
+        "kind": "bonus",
+        "t": 163.004944,
+        "pair": "HWY_B14",
+        "choice": "missileDistance",
+        "label": "+21%",
+        "hp": 5269.406,
+        "attack": 216.82637
+      },
+      {
+        "kind": "damage",
+        "t": 169.502731,
+        "before": 5269.406,
+        "after": 5069.156,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "HWY_E15_TollgateChief_Right",
+            "hp": 1045.21509,
+            "range": 2.86261535
+          },
+          {
+            "name": "HWY_E15_TollgateChief",
+            "hp": 1144.86792,
+            "range": 3.50799417
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 169.875046,
+        "before": 5069.156,
+        "after": 3095.89917,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E15_TollgateChief",
+            "hp": 0.0,
+            "range": 0.931469262
+          },
+          {
+            "name": "HWY_E15_TollgateChief_Right",
+            "hp": 0.0,
+            "range": 1.282783
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 173.333054,
+        "pair": "HWY_B15",
+        "choice": "hp",
+        "label": "+17",
+        "hp": 3112.89917,
+        "attack": 216.82637
+      },
+      {
+        "kind": "damage",
+        "t": 181.257248,
+        "before": 3112.89917,
+        "after": 1366.37842,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E16_TireBruiser",
+            "hp": 0.0,
+            "range": 1.14305723
+          },
+          {
+            "name": "HWY_E16_TireBruiser_Right",
+            "hp": 155.0833,
+            "range": 2.592539
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 184.851822,
+        "pair": "HWY_B16",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 1366.37842,
+        "attack": 216.82637
+      },
+      {
+        "kind": "attack",
+        "t": 197.181473,
+        "before": 216.82637,
+        "after": 228.82637
+      },
+      {
+        "kind": "bonus",
+        "t": 197.181473,
+        "pair": "HWY_B17",
+        "choice": "att",
+        "label": "+12",
+        "hp": 1366.37842,
+        "attack": 228.82637
+      },
+      {
+        "kind": "attack",
+        "t": 209.34137,
+        "before": 228.82637,
+        "after": 258.8555
+      },
+      {
+        "kind": "bonus",
+        "t": 209.34137,
+        "pair": "HWY_B18",
+        "choice": "attPercent",
+        "label": "+13%",
+        "hp": 1366.37842,
+        "attack": 258.8555
+      },
+      {
+        "kind": "damage",
+        "t": 216.000519,
+        "before": 1366.37842,
+        "after": 0.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E19_ConeMechanic_Right",
+            "hp": 398.910645,
+            "range": 1.08037221
+          },
+          {
+            "name": "HWY_E18_DeliveryRider_Right",
+            "hp": 1894.17358,
+            "range": 71.3149261
+          }
+        ]
+      }
+    ],
+    "run": 12
+  },
+  {
+    "scene": "HighWay",
+    "policy": "bypass",
+    "profile": "highway-ready",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 285.23172,
+    "health": 0.0,
+    "attack": 229.335388,
+    "distance": 2154.35645,
+    "hits": 12,
+    "bonuses": 19,
+    "encounters": 45,
+    "movementInputs": 7519,
+    "shots": 105,
+    "fatalCause": "EnemyContact",
+    "forks": [
+      {
+        "start": 80.0,
+        "decided": true,
+        "bypass": true
+      },
+      {
+        "start": 1680.0,
+        "decided": true,
+        "bypass": true
+      }
+    ],
+    "events": [
+      {
+        "kind": "start",
+        "health": 7080.0,
+        "attack": 136.0,
+        "speed": 7.8,
+        "policy": "bypass",
+        "scene": "HighWay",
+        "profile": "highway-ready",
+        "testSpeed": 3.0,
+        "levels": [
+          32,
+          36,
+          30
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "bonus",
+        "t": 11.7716608,
+        "pair": "HWY_B01",
+        "choice": "hpPercent",
+        "label": "+15%",
+        "hp": 8145.828,
+        "attack": 136.0
+      },
+      {
+        "kind": "damage",
+        "t": 42.78827,
+        "before": 8145.828,
+        "after": 8091.828,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E04_TireBruiser",
+            "hp": 0.0,
+            "range": 1.52826285
+          },
+          {
+            "name": "HWY_E04_TireBruiser_Right",
+            "hp": 613.0,
+            "range": 3.40405869
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 46.453476,
+        "pair": "HWY_B04",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 8091.828,
+        "attack": 136.0
+      },
+      {
+        "kind": "bonus",
+        "t": 60.60964,
+        "pair": "HWY_B05",
+        "choice": "hpPercent",
+        "label": "+11%",
+        "hp": 8965.103,
+        "attack": 136.0
+      },
+      {
+        "kind": "bonus",
+        "t": 69.79109,
+        "pair": "HWY_B06",
+        "choice": "hp",
+        "label": "+13",
+        "hp": 8978.103,
+        "attack": 136.0
+      },
+      {
+        "kind": "bonus",
+        "t": 81.05294,
+        "pair": "HWY_B07",
+        "choice": "attackSpeed",
+        "label": "+9%",
+        "hp": 8978.103,
+        "attack": 136.0
+      },
+      {
+        "kind": "damage",
+        "t": 90.63775,
+        "before": 8978.103,
+        "after": 8220.103,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E08_TrafficPatrol_Right",
+            "hp": 0.0,
+            "range": 0.946249664
+          },
+          {
+            "name": "HWY_E08_TrafficPatrol",
+            "hp": 80.0,
+            "range": 2.86566114
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 93.9341354,
+        "pair": "HWY_B08",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 8220.103,
+        "attack": 136.0
+      },
+      {
+        "kind": "damage",
+        "t": 100.598854,
+        "before": 8220.103,
+        "after": 6911.10254,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E09_TollgateChief",
+            "hp": 0.0,
+            "range": 0.7778729
+          },
+          {
+            "name": "HWY_E09_TollgateChief_Right",
+            "hp": 438.0,
+            "range": 2.93380356
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 104.176056,
+        "pair": "HWY_B09",
+        "choice": "hpPercent",
+        "label": "+15%",
+        "hp": 8275.444,
+        "attack": 136.0
+      },
+      {
+        "kind": "bonus",
+        "t": 115.62838,
+        "pair": "HWY_B10",
+        "choice": "attackSpeed",
+        "label": "+10%",
+        "hp": 8275.444,
+        "attack": 136.0
+      },
+      {
+        "kind": "bonus",
+        "t": 127.133835,
+        "pair": "HWY_B11",
+        "choice": "hp",
+        "label": "+15",
+        "hp": 8290.444,
+        "attack": 136.0
+      },
+      {
+        "kind": "damage",
+        "t": 134.6312,
+        "before": 8290.444,
+        "after": 8145.994,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "HWY_E12_DeliveryRider",
+            "hp": 924.0,
+            "range": 4.878183
+          },
+          {
+            "name": "HWY_E12_DeliveryRider_Right",
+            "hp": 831.0,
+            "range": 4.965384
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 135.111755,
+        "before": 8145.994,
+        "after": 7493.994,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E12_DeliveryRider",
+            "hp": 0.0,
+            "range": 1.16862583
+          },
+          {
+            "name": "HWY_E12_DeliveryRider_Right",
+            "hp": 831.0,
+            "range": 2.930701
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 138.815369,
+        "pair": "HWY_B12",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 7493.994,
+        "attack": 136.0
+      },
+      {
+        "kind": "bonus",
+        "t": 150.177429,
+        "pair": "HWY_B13",
+        "choice": "hpPercent",
+        "label": "+12%",
+        "hp": 8726.251,
+        "attack": 136.0
+      },
+      {
+        "kind": "damage",
+        "t": 159.664612,
+        "before": 8726.251,
+        "after": 8571.451,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "HWY_E14_TrafficPatrol",
+            "hp": 1111.0,
+            "range": 2.03677177
+          },
+          {
+            "name": "HWY_E14_TrafficPatrol_Right",
+            "hp": 774.0,
+            "range": 3.07990313
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 159.8271,
+        "before": 8571.451,
+        "after": 7460.451,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E14_TrafficPatrol",
+            "hp": 0.0,
+            "range": 1.2368809
+          },
+          {
+            "name": "HWY_E14_TrafficPatrol_Right",
+            "hp": 774.0,
+            "range": 3.014924
+          }
+        ]
+      },
+      {
+        "kind": "attack",
+        "t": 163.031952,
+        "before": 136.0,
+        "after": 150.0
+      },
+      {
+        "kind": "bonus",
+        "t": 163.031952,
+        "pair": "HWY_B14",
+        "choice": "att",
+        "label": "+14",
+        "hp": 7460.451,
+        "attack": 150.0
+      },
+      {
+        "kind": "damage",
+        "t": 169.532135,
+        "before": 7460.451,
+        "after": 7260.201,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "HWY_E15_TollgateChief_Right",
+            "hp": 2263.0,
+            "range": 2.55515313
+          },
+          {
+            "name": "HWY_E15_TollgateChief",
+            "hp": 1179.0,
+            "range": 3.475412
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 169.731277,
+        "before": 7260.201,
+        "after": 5147.201,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E15_TollgateChief_Right",
+            "hp": 0.0,
+            "range": 1.05994427
+          },
+          {
+            "name": "HWY_E15_TollgateChief",
+            "hp": 1179.0,
+            "range": 2.029814
+          }
+        ]
+      },
+      {
+        "kind": "attack",
+        "t": 173.430038,
+        "before": 150.0,
+        "after": 167.0
+      },
+      {
+        "kind": "bonus",
+        "t": 173.430038,
+        "pair": "HWY_B15",
+        "choice": "att",
+        "label": "+17",
+        "hp": 5147.201,
+        "attack": 167.0
+      },
+      {
+        "kind": "damage",
+        "t": 181.304733,
+        "before": 5147.201,
+        "after": 2917.20117,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E16_TireBruiser",
+            "hp": 0.0,
+            "range": 0.889442563
+          },
+          {
+            "name": "HWY_E16_TireBruiser_Right",
+            "hp": 1755.0,
+            "range": 2.670612
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 185.082886,
+        "pair": "HWY_B16",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 2917.20117,
+        "attack": 167.0
+      },
+      {
+        "kind": "attack",
+        "t": 197.233017,
+        "before": 167.0,
+        "after": 186.9725
+      },
+      {
+        "kind": "bonus",
+        "t": 197.233017,
+        "pair": "HWY_B17",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 2917.20117,
+        "attack": 186.9725
+      },
+      {
+        "kind": "bonus",
+        "t": 209.280426,
+        "pair": "HWY_B18",
+        "choice": "hpPercent",
+        "label": "+10%",
+        "hp": 4125.403,
+        "attack": 186.9725
+      },
+      {
+        "kind": "attack",
+        "t": 251.992615,
+        "before": 186.9725,
+        "after": 212.335388
+      },
+      {
+        "kind": "bonus",
+        "t": 251.992615,
+        "pair": "HWY_B22",
+        "choice": "attPercent",
+        "label": "+14%",
+        "hp": 5410.59326,
+        "attack": 212.335388
+      },
+      {
+        "kind": "attack",
+        "t": 267.839722,
+        "before": 212.335388,
+        "after": 229.335388
+      },
+      {
+        "kind": "bonus",
+        "t": 267.839722,
+        "pair": "HWY_B23",
+        "choice": "att",
+        "label": "+17",
+        "hp": 5410.59326,
+        "attack": 229.335388
+      },
+      {
+        "kind": "damage",
+        "t": 274.025146,
+        "before": 5410.59326,
+        "after": 3248.59961,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_AddedLeader_2",
+            "hp": 0.0,
+            "range": 1.364317
+          },
+          {
+            "name": "HWY_AddedLeader_2_Right",
+            "hp": 3278.0,
+            "range": 3.49683857
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 277.207825,
+        "pair": "HWY_B24",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 3248.59961,
+        "attack": 229.335388
+      },
+      {
+        "kind": "damage",
+        "t": 285.23172,
+        "before": 3248.59961,
+        "after": 0.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E23_TollgateChief_Right",
+            "hp": 5911.40039,
+            "range": 1.16574943
+          },
+          {
+            "name": "HWY_E23_TollgateChief",
+            "hp": 7276.99365,
+            "range": 1.30359626
+          }
+        ]
+      }
+    ],
+    "run": 13
+  },
+  {
+    "scene": "HighWay",
+    "policy": "health",
+    "profile": "highway-ready",
+    "testSpeed": 3.0,
+    "outcome": "clear",
+    "seconds": 298.642517,
+    "health": 6564.74561,
+    "attack": 229.74736,
+    "distance": 2259.72949,
+    "hits": 9,
+    "bonuses": 24,
+    "encounters": 48,
+    "movementInputs": 9612,
+    "shots": 110,
+    "fatalCause": null,
+    "forks": [
+      {
+        "start": 80.0,
+        "decided": true,
+        "bypass": false
+      },
+      {
+        "start": 1680.0,
+        "decided": true,
+        "bypass": false
+      }
+    ],
+    "events": [
+      {
+        "kind": "start",
+        "health": 7080.0,
+        "attack": 136.0,
+        "speed": 7.8,
+        "policy": "health",
+        "scene": "HighWay",
+        "profile": "highway-ready",
+        "testSpeed": 3.0,
+        "levels": [
+          32,
+          36,
+          30
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "bonus",
+        "t": 11.8901062,
+        "pair": "HWY_B01",
+        "choice": "hpPercent",
+        "label": "+17%",
+        "hp": 8256.356,
+        "attack": 136.0
+      },
+      {
+        "kind": "attack",
+        "t": 23.3142967,
+        "before": 136.0,
+        "after": 156.15712
+      },
+      {
+        "kind": "bonus",
+        "t": 23.3142967,
+        "pair": "HWY_B02",
+        "choice": "attPercent",
+        "label": "+15%",
+        "hp": 8256.356,
+        "attack": 156.15712
+      },
+      {
+        "kind": "bonus",
+        "t": 34.86968,
+        "pair": "HWY_B03",
+        "choice": "hpPercent",
+        "label": "+14%",
+        "hp": 9442.338,
+        "attack": 156.15712
+      },
+      {
+        "kind": "bonus",
+        "t": 46.4322968,
+        "pair": "HWY_B04",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 9442.338,
+        "attack": 156.15712
+      },
+      {
+        "kind": "attack",
+        "t": 60.5863457,
+        "before": 156.15712,
+        "after": 177.015076
+      },
+      {
+        "kind": "bonus",
+        "t": 60.5863457,
+        "pair": "HWY_B05",
+        "choice": "attPercent",
+        "label": "+13%",
+        "hp": 9442.338,
+        "attack": 177.015076
+      },
+      {
+        "kind": "bonus",
+        "t": 69.83566,
+        "pair": "HWY_B06",
+        "choice": "hp",
+        "label": "+13",
+        "hp": 9455.338,
+        "attack": 177.015076
+      },
+      {
+        "kind": "bonus",
+        "t": 81.09552,
+        "pair": "HWY_B07",
+        "choice": "hp",
+        "label": "+14",
+        "hp": 9469.338,
+        "attack": 177.015076
+      },
+      {
+        "kind": "bonus",
+        "t": 93.85222,
+        "pair": "HWY_B08",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 9469.338,
+        "attack": 177.015076
+      },
+      {
+        "kind": "damage",
+        "t": 100.549942,
+        "before": 9469.338,
+        "after": 8201.354,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E09_TollgateChief",
+            "hp": 0.0,
+            "range": 0.8147938
+          },
+          {
+            "name": "HWY_E09_TollgateChief_Right",
+            "hp": 68.8641357,
+            "range": 2.80664444
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 104.140244,
+        "pair": "HWY_B09",
+        "choice": "hpPercent",
+        "label": "+17%",
+        "hp": 9800.591,
+        "attack": 177.015076
+      },
+      {
+        "kind": "bonus",
+        "t": 115.725845,
+        "pair": "HWY_B10",
+        "choice": "hp",
+        "label": "+15",
+        "hp": 9815.591,
+        "attack": 177.015076
+      },
+      {
+        "kind": "bonus",
+        "t": 127.160309,
+        "pair": "HWY_B11",
+        "choice": "hpPercent",
+        "label": "+13%",
+        "hp": 11265.8789,
+        "attack": 177.015076
+      },
+      {
+        "kind": "bonus",
+        "t": 138.726974,
+        "pair": "HWY_B12",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 11265.8789,
+        "attack": 177.015076
+      },
+      {
+        "kind": "bonus",
+        "t": 150.300339,
+        "pair": "HWY_B13",
+        "choice": "hpPercent",
+        "label": "+13%",
+        "hp": 12929.5322,
+        "attack": 177.015076
+      },
+      {
+        "kind": "bonus",
+        "t": 163.033173,
+        "pair": "HWY_B14",
+        "choice": "hpPercent",
+        "label": "+17%",
+        "hp": 15326.3965,
+        "attack": 177.015076
+      },
+      {
+        "kind": "damage",
+        "t": 169.516876,
+        "before": 15326.3965,
+        "after": 15126.1465,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "HWY_E15_TollgateChief_Right",
+            "hp": 2031.95459,
+            "range": 2.81074
+          },
+          {
+            "name": "HWY_E15_TollgateChief",
+            "hp": 812.879,
+            "range": 3.02560973
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 169.730911,
+        "before": 15126.1465,
+        "after": 14313.2676,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E15_TollgateChief",
+            "hp": 0.0,
+            "range": 1.22122264
+          },
+          {
+            "name": "HWY_E15_TollgateChief_Right",
+            "hp": 2031.95459,
+            "range": 1.74447167
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 173.428,
+        "pair": "HWY_B15",
+        "choice": "hpPercent",
+        "label": "+12%",
+        "hp": 16347.5625,
+        "attack": 177.015076
+      },
+      {
+        "kind": "damage",
+        "t": 181.484451,
+        "before": 16347.5625,
+        "after": 14835.6387,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E16_TireBruiser",
+            "hp": 0.0,
+            "range": 0.6761241
+          },
+          {
+            "name": "HWY_E16_TireBruiser_Right",
+            "hp": 986.8487,
+            "range": 2.585455
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 184.946762,
+        "pair": "HWY_B16",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 14835.6387,
+        "attack": 177.015076
+      },
+      {
+        "kind": "attack",
+        "t": 197.1299,
+        "before": 177.015076,
+        "after": 202.446548
+      },
+      {
+        "kind": "bonus",
+        "t": 197.1299,
+        "pair": "HWY_B17",
+        "choice": "attPercent",
+        "label": "+14%",
+        "hp": 14835.6387,
+        "attack": 202.446548
+      },
+      {
+        "kind": "bonus",
+        "t": 209.281189,
+        "pair": "HWY_B18",
+        "choice": "hp",
+        "label": "+12",
+        "hp": 14847.6387,
+        "attack": 202.446548
+      },
+      {
+        "kind": "bonus",
+        "t": 233.090317,
+        "pair": "HWY_B20",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 14847.6387,
+        "attack": 202.446548
+      },
+      {
+        "kind": "bonus",
+        "t": 242.589111,
+        "pair": "HWY_B21",
+        "choice": "hpPercent",
+        "label": "+12%",
+        "hp": 17007.4531,
+        "attack": 202.446548
+      },
+      {
+        "kind": "damage",
+        "t": 248.930237,
+        "before": 17007.4531,
+        "after": 13915.793,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E22_TireBruiser",
+            "hp": 0.0,
+            "range": 0.767108142
+          },
+          {
+            "name": "HWY_E22_TireBruiser_Right",
+            "hp": 1824.6416,
+            "range": 2.94746661
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 252.124649,
+        "pair": "HWY_B22",
+        "choice": "hpPercent",
+        "label": "+14%",
+        "hp": 16859.3223,
+        "attack": 202.446548
+      },
+      {
+        "kind": "attack",
+        "t": 267.913422,
+        "before": 202.446548,
+        "after": 229.74736
+      },
+      {
+        "kind": "bonus",
+        "t": 267.913422,
+        "pair": "HWY_B23",
+        "choice": "attPercent",
+        "label": "+13%",
+        "hp": 16859.3223,
+        "attack": 229.74736
+      },
+      {
+        "kind": "damage",
+        "t": 273.344757,
+        "before": 16859.3223,
+        "after": 16641.0723,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "HWY_AddedLeader_2_Right",
+            "hp": 2359.01074,
+            "range": 5.475018
+          },
+          {
+            "name": "HWY_AddedLeader_2",
+            "hp": 2390.50537,
+            "range": 5.59377766
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 274.012268,
+        "before": 16641.0723,
+        "after": 14480.3145,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_AddedLeader_2",
+            "hp": 0.0,
+            "range": 0.941777
+          },
+          {
+            "name": "HWY_AddedLeader_2_Right",
+            "hp": 2359.01074,
+            "range": 3.0250628
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 277.2228,
+        "pair": "HWY_B24",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 14480.3145,
+        "attack": 229.74736
+      },
+      {
+        "kind": "damage",
+        "t": 284.660858,
+        "before": 14480.3145,
+        "after": 14073.5146,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "HWY_E23_TollgateChief_Right",
+            "hp": 7781.5166,
+            "range": 4.906156
+          },
+          {
+            "name": "HWY_E23_TollgateChief",
+            "hp": 7505.505,
+            "range": 5.291755
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 285.170837,
+        "before": 14073.5146,
+        "after": 6521.74561,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "HWY_E23_TollgateChief_Right",
+            "hp": 0.0,
+            "range": 0.625987649
+          },
+          {
+            "name": "HWY_E23_TollgateChief",
+            "hp": 7505.505,
+            "range": 2.53476954
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 288.734955,
+        "pair": "HWY_B25",
+        "choice": "hp",
+        "label": "+43",
+        "hp": 6564.74561,
+        "attack": 229.74736
+      }
+    ],
+    "run": 14
+  },
+  {
+    "scene": "RestStop",
+    "policy": "attack",
+    "profile": "reststop-entry",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 44.7313652,
+    "health": 0.0,
+    "attack": 228.658386,
+    "distance": 354.281128,
+    "hits": 6,
+    "bonuses": 5,
+    "encounters": 10,
+    "movementInputs": 1264,
+    "shots": 25,
+    "fatalCause": "EnemyContact",
+    "forks": null,
+    "events": [
+      {
+        "kind": "start",
+        "health": 11330.0,
+        "attack": 156.0,
+        "speed": 7.8,
+        "policy": "attack",
+        "scene": "RestStop",
+        "profile": "reststop-entry",
+        "testSpeed": 3.0,
+        "levels": [
+          37,
+          46,
+          25
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "attack",
+        "t": 7.885646,
+        "before": 156.0,
+        "after": 178.79
+      },
+      {
+        "kind": "bonus",
+        "t": 7.885646,
+        "pair": "RST_B01",
+        "choice": "attPercent",
+        "label": "+15%",
+        "hp": 11330.0,
+        "attack": 178.79
+      },
+      {
+        "kind": "damage",
+        "t": 10.6319551,
+        "before": 11330.0,
+        "after": 9038.16,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E01_ParkingMarshal_Right",
+            "hp": 0.0,
+            "range": 0.63841635
+          },
+          {
+            "name": "RST_E01_ParkingMarshal",
+            "hp": 2415.21,
+            "range": 1.51334953
+          }
+        ]
+      },
+      {
+        "kind": "attack",
+        "t": 16.36921,
+        "before": 178.79,
+        "after": 200.658386
+      },
+      {
+        "kind": "bonus",
+        "t": 16.36921,
+        "pair": "RST_B02",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 9038.16,
+        "attack": 200.658386
+      },
+      {
+        "kind": "damage",
+        "t": 19.17677,
+        "before": 9038.16,
+        "after": 7984.71973,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E02_SnackChef_Right",
+            "hp": 0.0,
+            "range": 0.538961351
+          },
+          {
+            "name": "RST_E02_SnackChef",
+            "hp": 2915.0,
+            "range": 1.51226127
+          }
+        ]
+      },
+      {
+        "kind": "attack",
+        "t": 24.9490585,
+        "before": 200.658386,
+        "after": 213.658386
+      },
+      {
+        "kind": "bonus",
+        "t": 24.9490585,
+        "pair": "RST_B03",
+        "choice": "att",
+        "label": "+13",
+        "hp": 7984.71973,
+        "attack": 213.658386
+      },
+      {
+        "kind": "damage",
+        "t": 27.1516266,
+        "before": 7984.71973,
+        "after": 7671.51953,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "RST_E03_CoffeeVendor",
+            "hp": 1594.39087,
+            "range": 4.800391
+          },
+          {
+            "name": "RST_E03_CoffeeVendor_Right",
+            "hp": 3554.0,
+            "range": 5.304335
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 27.6600952,
+        "before": 7671.51953,
+        "after": 6290.787,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E03_CoffeeVendor",
+            "hp": 0.0,
+            "range": 0.8275972
+          },
+          {
+            "name": "RST_E03_CoffeeVendor_Right",
+            "hp": 3554.0,
+            "range": 1.98220456
+          }
+        ]
+      },
+      {
+        "kind": "attack",
+        "t": 33.5244064,
+        "before": 213.658386,
+        "after": 228.658386
+      },
+      {
+        "kind": "bonus",
+        "t": 33.5244064,
+        "pair": "RST_B04",
+        "choice": "att",
+        "label": "+15",
+        "hp": 6290.787,
+        "attack": 228.658386
+      },
+      {
+        "kind": "damage",
+        "t": 36.2020378,
+        "before": 6290.787,
+        "after": 2657.65381,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E04_DeliveryRider_Right",
+            "hp": 0.0,
+            "range": 0.885968
+          },
+          {
+            "name": "RST_E04_DeliveryRider",
+            "hp": 3275.0,
+            "range": 2.79959345
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 42.0793839,
+        "pair": "RST_B05",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 2657.65381,
+        "attack": 228.658386
+      },
+      {
+        "kind": "damage",
+        "t": 44.7313652,
+        "before": 2657.65381,
+        "after": 0.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E05_TireBruiser_Right",
+            "hp": 1464.16357,
+            "range": 1.34695554
+          },
+          {
+            "name": "RST_E05_TireBruiser",
+            "hp": 4064.70874,
+            "range": 2.47603774
+          }
+        ]
+      }
+    ],
+    "run": 15
+  },
+  {
+    "scene": "RestStop",
+    "policy": "health",
+    "profile": "reststop-entry",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 71.0904846,
+    "health": 0.0,
+    "attack": 228.171158,
+    "distance": 566.8739,
+    "hits": 3,
+    "bonuses": 7,
+    "encounters": 14,
+    "movementInputs": 2458,
+    "shots": 31,
+    "fatalCause": "EnemyContact",
+    "forks": null,
+    "events": [
+      {
+        "kind": "start",
+        "health": 11330.0,
+        "attack": 156.0,
+        "speed": 7.8,
+        "policy": "health",
+        "scene": "RestStop",
+        "profile": "reststop-entry",
+        "testSpeed": 3.0,
+        "levels": [
+          37,
+          46,
+          25
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "bonus",
+        "t": 7.769502,
+        "pair": "RST_B01",
+        "choice": "hp",
+        "label": "+19",
+        "hp": 11349.0,
+        "attack": 156.0
+      },
+      {
+        "kind": "damage",
+        "t": 10.6592274,
+        "before": 11349.0,
+        "after": 8654.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E01_ParkingMarshal_Right",
+            "hp": 0.0,
+            "range": 1.116523
+          },
+          {
+            "name": "RST_E01_ParkingMarshal",
+            "hp": 2750.0,
+            "range": 2.32857656
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 16.31313,
+        "pair": "RST_B02",
+        "choice": "attackSpeed",
+        "label": "+11%",
+        "hp": 8654.0,
+        "attack": 156.0
+      },
+      {
+        "kind": "attack",
+        "t": 24.877533,
+        "before": 156.0,
+        "after": 169.0
+      },
+      {
+        "kind": "bonus",
+        "t": 24.877533,
+        "pair": "RST_B03",
+        "choice": "att",
+        "label": "+13",
+        "hp": 8654.0,
+        "attack": 169.0
+      },
+      {
+        "kind": "attack",
+        "t": 33.4355659,
+        "before": 169.0,
+        "after": 189.983612
+      },
+      {
+        "kind": "bonus",
+        "t": 33.4355659,
+        "pair": "RST_B04",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 8654.0,
+        "attack": 189.983612
+      },
+      {
+        "kind": "bonus",
+        "t": 41.9643555,
+        "pair": "RST_B05",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 8654.0,
+        "attack": 189.983612
+      },
+      {
+        "kind": "damage",
+        "t": 45.02292,
+        "before": 8654.0,
+        "after": 3614.917,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E05_TireBruiser_Right",
+            "hp": 0.0,
+            "range": 1.50079215
+          },
+          {
+            "name": "RST_E05_TireBruiser",
+            "hp": 3118.18115,
+            "range": 2.91554713
+          }
+        ]
+      },
+      {
+        "kind": "attack",
+        "t": 59.7748528,
+        "before": 189.983612,
+        "after": 212.171158
+      },
+      {
+        "kind": "bonus",
+        "t": 59.7748528,
+        "pair": "RST_B06",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 3614.917,
+        "attack": 212.171158
+      },
+      {
+        "kind": "attack",
+        "t": 68.3146057,
+        "before": 212.171158,
+        "after": 228.171158
+      },
+      {
+        "kind": "bonus",
+        "t": 68.3146057,
+        "pair": "RST_B07",
+        "choice": "att",
+        "label": "+16",
+        "hp": 3614.917,
+        "attack": 228.171158
+      },
+      {
+        "kind": "damage",
+        "t": 71.0904846,
+        "before": 3614.917,
+        "after": 0.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E07_SnackChef_Right",
+            "hp": 642.9116,
+            "range": 1.1392349
+          },
+          {
+            "name": "RST_E07_SnackChef",
+            "hp": 2531.97314,
+            "range": 1.74479222
+          }
+        ]
+      }
+    ],
+    "run": 16
+  },
+  {
+    "scene": "RestStop",
+    "policy": "cautious",
+    "profile": "reststop-entry",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 96.92845,
+    "health": 0.0,
+    "attack": 156.0,
+    "distance": 768.510559,
+    "hits": 7,
+    "bonuses": 9,
+    "encounters": 18,
+    "movementInputs": 3211,
+    "shots": 43,
+    "fatalCause": "EnemyContact",
+    "forks": null,
+    "events": [
+      {
+        "kind": "start",
+        "health": 11330.0,
+        "attack": 156.0,
+        "speed": 7.8,
+        "policy": "cautious",
+        "scene": "RestStop",
+        "profile": "reststop-entry",
+        "testSpeed": 3.0,
+        "levels": [
+          37,
+          46,
+          25
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "bonus",
+        "t": 7.77752972,
+        "pair": "RST_B01",
+        "choice": "missileDistance",
+        "label": "+19%",
+        "hp": 11330.0,
+        "attack": 156.0
+      },
+      {
+        "kind": "damage",
+        "t": 10.6205368,
+        "before": 11330.0,
+        "after": 8791.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E01_ParkingMarshal_Right",
+            "hp": 0.0,
+            "range": 1.13251543
+          },
+          {
+            "name": "RST_E01_ParkingMarshal",
+            "hp": 2750.0,
+            "range": 2.25149274
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 16.3216248,
+        "pair": "RST_B02",
+        "choice": "missileDistance",
+        "label": "+18%",
+        "hp": 8791.0,
+        "attack": 156.0
+      },
+      {
+        "kind": "damage",
+        "t": 19.268301,
+        "before": 8791.0,
+        "after": 6999.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E02_SnackChef_Right",
+            "hp": 0.0,
+            "range": 1.01141
+          },
+          {
+            "name": "RST_E02_SnackChef",
+            "hp": 2915.0,
+            "range": 2.74523687
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 24.9239483,
+        "pair": "RST_B03",
+        "choice": "hpPercent",
+        "label": "+14%",
+        "hp": 8588.519,
+        "attack": 156.0
+      },
+      {
+        "kind": "bonus",
+        "t": 33.4073868,
+        "pair": "RST_B04",
+        "choice": "attackSpeed",
+        "label": "+11%",
+        "hp": 8588.519,
+        "attack": 156.0
+      },
+      {
+        "kind": "bonus",
+        "t": 42.00466,
+        "pair": "RST_B05",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 8588.519,
+        "attack": 156.0
+      },
+      {
+        "kind": "damage",
+        "t": 44.63555,
+        "before": 8588.519,
+        "after": 3536.51855,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E05_TireBruiser",
+            "hp": 0.0,
+            "range": 1.52016056
+          },
+          {
+            "name": "RST_E05_TireBruiser_Right",
+            "hp": 5209.0,
+            "range": 2.88040471
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 59.77182,
+        "pair": "RST_B06",
+        "choice": "hpPercent",
+        "label": "+11%",
+        "hp": 4915.995,
+        "attack": 156.0
+      },
+      {
+        "kind": "bonus",
+        "t": 68.35153,
+        "pair": "RST_B07",
+        "choice": "hpPercent",
+        "label": "+17%",
+        "hp": 7288.934,
+        "attack": 156.0
+      },
+      {
+        "kind": "damage",
+        "t": 71.1122742,
+        "before": 7288.934,
+        "after": 3894.934,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E07_SnackChef_Right",
+            "hp": 0.0,
+            "range": 0.712823331
+          },
+          {
+            "name": "RST_E07_SnackChef",
+            "hp": 3121.0,
+            "range": 1.09589624
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 71.21905,
+        "before": 3894.934,
+        "after": 773.9341,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E07_SnackChef_Right",
+            "hp": 0.0,
+            "range": 0.5528234
+          },
+          {
+            "name": "RST_E07_SnackChef",
+            "hp": 0.0,
+            "range": 0.577563167
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 76.90747,
+        "pair": "RST_B08",
+        "choice": "attackSpeed",
+        "label": "+12%",
+        "hp": 773.9341,
+        "attack": 156.0
+      },
+      {
+        "kind": "bonus",
+        "t": 94.18899,
+        "pair": "RST_B09",
+        "choice": "hp",
+        "label": "+12",
+        "hp": 785.9341,
+        "attack": 156.0
+      },
+      {
+        "kind": "damage",
+        "t": 96.28301,
+        "before": 785.9341,
+        "after": 400.73407,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "RST_E09_DeliveryRider_Right",
+            "hp": 2544.0,
+            "range": 5.992573
+          },
+          {
+            "name": "RST_E09_DeliveryRider",
+            "hp": 3603.0,
+            "range": 6.06563473
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 96.92845,
+        "before": 400.73407,
+        "after": 0.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E09_DeliveryRider",
+            "hp": 3202.26587,
+            "range": 1.091606
+          },
+          {
+            "name": "RST_E09_DeliveryRider_Right",
+            "hp": 2388.0,
+            "range": 2.52633953
+          }
+        ]
+      }
+    ],
+    "run": 17
+  },
+  {
+    "scene": "RestStop",
+    "policy": "attack",
+    "profile": "reststop-ready",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 62.5962372,
+    "health": 0.0,
+    "attack": 207.0,
+    "distance": 492.939178,
+    "hits": 10,
+    "bonuses": 6,
+    "encounters": 12,
+    "movementInputs": 1733,
+    "shots": 35,
+    "fatalCause": "EnemyContact",
+    "forks": null,
+    "events": [
+      {
+        "kind": "start",
+        "health": 13310.0,
+        "attack": 176.0,
+        "speed": 7.8,
+        "policy": "attack",
+        "scene": "RestStop",
+        "profile": "reststop-ready",
+        "testSpeed": 3.0,
+        "levels": [
+          42,
+          50,
+          30
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "bonus",
+        "t": 7.85637236,
+        "pair": "RST_B01",
+        "choice": "attackSpeed",
+        "label": "+14%",
+        "hp": 13310.0,
+        "attack": 176.0
+      },
+      {
+        "kind": "damage",
+        "t": 10.5917091,
+        "before": 13310.0,
+        "after": 11379.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E01_ParkingMarshal_Right",
+            "hp": 0.0,
+            "range": 0.7818081
+          },
+          {
+            "name": "RST_E01_ParkingMarshal",
+            "hp": 2398.0,
+            "range": 1.68619585
+          }
+        ]
+      },
+      {
+        "kind": "attack",
+        "t": 16.3158989,
+        "before": 176.0,
+        "after": 191.0
+      },
+      {
+        "kind": "bonus",
+        "t": 16.3158989,
+        "pair": "RST_B02",
+        "choice": "att",
+        "label": "+15",
+        "hp": 11379.0,
+        "attack": 191.0
+      },
+      {
+        "kind": "damage",
+        "t": 19.14338,
+        "before": 11379.0,
+        "after": 10611.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E02_SnackChef_Right",
+            "hp": 0.0,
+            "range": 0.832526863
+          },
+          {
+            "name": "RST_E02_SnackChef",
+            "hp": 2915.0,
+            "range": 1.13146567
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 19.2299328,
+        "before": 10611.0,
+        "after": 7696.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E02_SnackChef_Right",
+            "hp": 0.0,
+            "range": 0.6161265
+          },
+          {
+            "name": "RST_E02_SnackChef",
+            "hp": 0.0,
+            "range": 0.916934
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 24.8435211,
+        "pair": "RST_B03",
+        "choice": "missileDistance",
+        "label": "+20%",
+        "hp": 7696.0,
+        "attack": 191.0
+      },
+      {
+        "kind": "damage",
+        "t": 27.0163059,
+        "before": 7696.0,
+        "after": 7382.8,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "RST_E03_CoffeeVendor",
+            "hp": 2517.0,
+            "range": 5.8932395
+          },
+          {
+            "name": "RST_E03_CoffeeVendor_Right",
+            "hp": 2981.0,
+            "range": 6.249645
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 27.60803,
+        "before": 7382.8,
+        "after": 5247.8,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E03_CoffeeVendor",
+            "hp": 0.0,
+            "range": 1.248126
+          },
+          {
+            "name": "RST_E03_CoffeeVendor_Right",
+            "hp": 2981.0,
+            "range": 2.25489736
+          }
+        ]
+      },
+      {
+        "kind": "attack",
+        "t": 33.44399,
+        "before": 191.0,
+        "after": 207.0
+      },
+      {
+        "kind": "bonus",
+        "t": 33.44399,
+        "pair": "RST_B04",
+        "choice": "att",
+        "label": "+16",
+        "hp": 5247.8,
+        "attack": 207.0
+      },
+      {
+        "kind": "damage",
+        "t": 35.8983269,
+        "before": 5247.8,
+        "after": 4923.34961,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "RST_E04_DeliveryRider_Right",
+            "hp": 343.0,
+            "range": 3.07006979
+          },
+          {
+            "name": "RST_E04_DeliveryRider",
+            "hp": 3275.0,
+            "range": 3.811583
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 36.279747,
+        "before": 4923.34961,
+        "after": 4580.34961,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E04_DeliveryRider_Right",
+            "hp": 0.0,
+            "range": 0.727408648
+          },
+          {
+            "name": "RST_E04_DeliveryRider",
+            "hp": 3275.0,
+            "range": 2.921636
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 41.9817123,
+        "pair": "RST_B05",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 4580.34961,
+        "attack": 207.0
+      },
+      {
+        "kind": "damage",
+        "t": 44.07882,
+        "before": 4580.34961,
+        "after": 4160.94971,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "RST_E05_TireBruiser",
+            "hp": 2724.0,
+            "range": 5.86594534
+          },
+          {
+            "name": "RST_E05_TireBruiser_Right",
+            "hp": 5575.0,
+            "range": 6.285953
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 44.5796776,
+        "before": 4160.94971,
+        "after": 3741.5498,
+        "cause": "EnemyProjectile",
+        "near": [
+          {
+            "name": "RST_E05_TireBruiser",
+            "hp": 0.0,
+            "range": 1.96659768
+          },
+          {
+            "name": "RST_E05_TireBruiser_Right",
+            "hp": 5575.0,
+            "range": 2.99522877
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 59.82852,
+        "pair": "RST_B06",
+        "choice": "attackSpeed",
+        "label": "+11%",
+        "hp": 3741.5498,
+        "attack": 207.0
+      },
+      {
+        "kind": "damage",
+        "t": 62.5962372,
+        "before": 3741.5498,
+        "after": 0.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E06_ParkingMarshal",
+            "hp": 0.0,
+            "range": 0.8336504
+          },
+          {
+            "name": "RST_E06_ParkingMarshal_Right",
+            "hp": 2721.4502,
+            "range": 1.36061227
+          }
+        ]
+      }
+    ],
+    "run": 18
+  },
+  {
+    "scene": "RestStop",
+    "policy": "health",
+    "profile": "reststop-ready",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 189.644745,
+    "health": 0.0,
+    "attack": 192.0,
+    "distance": 1262.16736,
+    "hits": 5,
+    "bonuses": 13,
+    "encounters": 30,
+    "movementInputs": 4718,
+    "shots": 68,
+    "fatalCause": "Traffic",
+    "forks": null,
+    "events": [
+      {
+        "kind": "start",
+        "health": 13310.0,
+        "attack": 176.0,
+        "speed": 7.8,
+        "policy": "health",
+        "scene": "RestStop",
+        "profile": "reststop-ready",
+        "testSpeed": 3.0,
+        "levels": [
+          42,
+          50,
+          30
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "bonus",
+        "t": 7.84929562,
+        "pair": "RST_B01",
+        "choice": "attackSpeed",
+        "label": "+12%",
+        "hp": 13310.0,
+        "attack": 176.0
+      },
+      {
+        "kind": "damage",
+        "t": 10.5857372,
+        "before": 13310.0,
+        "after": 10499.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E01_ParkingMarshal_Right",
+            "hp": 0.0,
+            "range": 1.01983523
+          },
+          {
+            "name": "RST_E01_ParkingMarshal",
+            "hp": 1870.0,
+            "range": 1.91410244
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 16.3128433,
+        "pair": "RST_B02",
+        "choice": "hpPercent",
+        "label": "+14%",
+        "hp": 12365.9814,
+        "attack": 176.0
+      },
+      {
+        "kind": "damage",
+        "t": 19.3152981,
+        "before": 12365.9814,
+        "after": 11125.9814,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E02_SnackChef_Right",
+            "hp": 0.0,
+            "range": 1.08457363
+          },
+          {
+            "name": "RST_E02_SnackChef",
+            "hp": 2915.0,
+            "range": 2.70547032
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 24.940485,
+        "pair": "RST_B03",
+        "choice": "attackSpeed",
+        "label": "+12%",
+        "hp": 11125.9814,
+        "attack": 176.0
+      },
+      {
+        "kind": "bonus",
+        "t": 33.44612,
+        "pair": "RST_B04",
+        "choice": "hp",
+        "label": "+15",
+        "hp": 11140.9814,
+        "attack": 176.0
+      },
+      {
+        "kind": "bonus",
+        "t": 41.9411621,
+        "pair": "RST_B05",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 11140.9814,
+        "attack": 176.0
+      },
+      {
+        "kind": "damage",
+        "t": 44.77131,
+        "before": 11140.9814,
+        "after": 5855.98145,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E05_TireBruiser_Right",
+            "hp": 0.0,
+            "range": 0.8439361
+          },
+          {
+            "name": "RST_E05_TireBruiser",
+            "hp": 0.0,
+            "range": 2.96788335
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 59.74607,
+        "pair": "RST_B06",
+        "choice": "hpPercent",
+        "label": "+15%",
+        "hp": 8200.007,
+        "attack": 176.0
+      },
+      {
+        "kind": "bonus",
+        "t": 68.28742,
+        "pair": "RST_B07",
+        "choice": "hpPercent",
+        "label": "+16%",
+        "hp": 11019.8135,
+        "attack": 176.0
+      },
+      {
+        "kind": "damage",
+        "t": 71.20278,
+        "before": 11019.8135,
+        "after": 7646.81348,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E07_SnackChef",
+            "hp": 0.0,
+            "range": 0.7341447
+          },
+          {
+            "name": "RST_E06_ParkingMarshal_Right",
+            "hp": 4232.0,
+            "range": 66.5857544
+          }
+        ]
+      },
+      {
+        "kind": "attack",
+        "t": 76.83414,
+        "before": 176.0,
+        "after": 192.0
+      },
+      {
+        "kind": "bonus",
+        "t": 76.83414,
+        "pair": "RST_B08",
+        "choice": "att",
+        "label": "+16",
+        "hp": 7646.81348,
+        "attack": 192.0
+      },
+      {
+        "kind": "bonus",
+        "t": 94.17599,
+        "pair": "RST_B09",
+        "choice": "hp",
+        "label": "+20",
+        "hp": 7666.81348,
+        "attack": 192.0
+      },
+      {
+        "kind": "bonus",
+        "t": 102.702347,
+        "pair": "RST_B10",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 7666.81348,
+        "attack": 192.0
+      },
+      {
+        "kind": "bonus",
+        "t": 158.343063,
+        "pair": "RST_B13",
+        "choice": "hpPercent",
+        "label": "+11%",
+        "hp": 12292.3008,
+        "attack": 192.0
+      },
+      {
+        "kind": "bonus",
+        "t": 175.626938,
+        "pair": "RST_B14",
+        "choice": "hp",
+        "label": "+15",
+        "hp": 12307.3008,
+        "attack": 192.0
+      },
+      {
+        "kind": "bonus",
+        "t": 184.10144,
+        "pair": "RST_B15",
+        "choice": "tungtungAdd",
+        "label": "+1",
+        "hp": 12307.3008,
+        "attack": 192.0
+      },
+      {
+        "kind": "damage",
+        "t": 189.644745,
+        "before": 12307.3008,
+        "after": 0.0,
+        "cause": "Traffic",
+        "near": [
+          {
+            "name": "RST_E15_TireBruiser_Right",
+            "hp": 9957.0,
+            "range": 20.6996937
+          },
+          {
+            "name": "RST_E16_ParkingMarshal_Right",
+            "hp": 7580.0,
+            "range": 46.0509262
+          }
+        ]
+      }
+    ],
+    "run": 19
+  },
+  {
+    "scene": "RestStop",
+    "policy": "cautious",
+    "profile": "reststop-ready",
+    "testSpeed": 3.0,
+    "outcome": "death",
+    "seconds": 189.6859,
+    "health": 0.0,
+    "attack": 270.873047,
+    "distance": 1264.4104,
+    "hits": 6,
+    "bonuses": 13,
+    "encounters": 29,
+    "movementInputs": 4968,
+    "shots": 69,
+    "fatalCause": "Traffic",
+    "forks": null,
+    "events": [
+      {
+        "kind": "start",
+        "health": 13310.0,
+        "attack": 176.0,
+        "speed": 7.8,
+        "policy": "cautious",
+        "scene": "RestStop",
+        "profile": "reststop-ready",
+        "testSpeed": 3.0,
+        "levels": [
+          42,
+          50,
+          30
+        ],
+        "statOverrides": false
+      },
+      {
+        "kind": "bonus",
+        "t": 7.79010057,
+        "pair": "RST_B01",
+        "choice": "missileDistance",
+        "label": "+18%",
+        "hp": 13310.0,
+        "attack": 176.0
+      },
+      {
+        "kind": "bonus",
+        "t": 16.3382778,
+        "pair": "RST_B02",
+        "choice": "attackSpeed",
+        "label": "+10%",
+        "hp": 13310.0,
+        "attack": 176.0
+      },
+      {
+        "kind": "damage",
+        "t": 19.340992,
+        "before": 13310.0,
+        "after": 12070.0,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E02_SnackChef_Right",
+            "hp": 0.0,
+            "range": 1.15794754
+          },
+          {
+            "name": "RST_E02_SnackChef",
+            "hp": 2915.0,
+            "range": 2.7279675
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 24.851162,
+        "pair": "RST_B03",
+        "choice": "hpPercent",
+        "label": "+14%",
+        "hp": 13929.9277,
+        "attack": 176.0
+      },
+      {
+        "kind": "attack",
+        "t": 33.39519,
+        "before": 176.0,
+        "after": 197.381165
+      },
+      {
+        "kind": "bonus",
+        "t": 33.39519,
+        "pair": "RST_B04",
+        "choice": "attPercent",
+        "label": "+12%",
+        "hp": 13929.9277,
+        "attack": 197.381165
+      },
+      {
+        "kind": "bonus",
+        "t": 41.9461975,
+        "pair": "RST_B05",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 13929.9277,
+        "attack": 197.381165
+      },
+      {
+        "kind": "bonus",
+        "t": 59.7542458,
+        "pair": "RST_B06",
+        "choice": "attackSpeed",
+        "label": "+9%",
+        "hp": 13929.9277,
+        "attack": 197.381165
+      },
+      {
+        "kind": "attack",
+        "t": 68.3831558,
+        "before": 197.381165,
+        "after": 210.381165
+      },
+      {
+        "kind": "bonus",
+        "t": 68.3831558,
+        "pair": "RST_B07",
+        "choice": "att",
+        "label": "+13",
+        "hp": 13929.9277,
+        "attack": 210.381165
+      },
+      {
+        "kind": "damage",
+        "t": 71.0355,
+        "before": 13929.9277,
+        "after": 10049.0713,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E07_SnackChef_Right",
+            "hp": 0.0,
+            "range": 1.29707563
+          },
+          {
+            "name": "RST_E07_SnackChef",
+            "hp": 2664.71338,
+            "range": 1.75901008
+          }
+        ]
+      },
+      {
+        "kind": "damage",
+        "t": 71.1338043,
+        "before": 10049.0713,
+        "after": 7384.358,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E07_SnackChef_Right",
+            "hp": 0.0,
+            "range": 0.589122057
+          },
+          {
+            "name": "RST_E07_SnackChef",
+            "hp": 0.0,
+            "range": 1.02786529
+          }
+        ]
+      },
+      {
+        "kind": "attack",
+        "t": 76.9090347,
+        "before": 210.381165,
+        "after": 240.408768
+      },
+      {
+        "kind": "bonus",
+        "t": 76.9090347,
+        "pair": "RST_B08",
+        "choice": "attPercent",
+        "label": "+14%",
+        "hp": 7384.358,
+        "attack": 240.408768
+      },
+      {
+        "kind": "bonus",
+        "t": 94.10715,
+        "pair": "RST_B09",
+        "choice": "missileDistance",
+        "label": "+17%",
+        "hp": 7384.358,
+        "attack": 240.408768
+      },
+      {
+        "kind": "damage",
+        "t": 96.9493561,
+        "before": 7384.358,
+        "after": 4203.40137,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E09_DeliveryRider",
+            "hp": 0.0,
+            "range": 0.707848251
+          },
+          {
+            "name": "RST_E09_DeliveryRider_Right",
+            "hp": 2155.0957,
+            "range": 1.96058714
+          }
+        ]
+      },
+      {
+        "kind": "bonus",
+        "t": 102.681717,
+        "pair": "RST_B10",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 4203.40137,
+        "attack": 240.408768
+      },
+      {
+        "kind": "bonus",
+        "t": 158.522141,
+        "pair": "RST_B13",
+        "choice": "attackSpeed",
+        "label": "+8%",
+        "hp": 6023.79248,
+        "attack": 240.408768
+      },
+      {
+        "kind": "damage",
+        "t": 161.0221,
+        "before": 6023.79248,
+        "after": 1932.24463,
+        "cause": "EnemyContact",
+        "near": [
+          {
+            "name": "RST_E13_CoffeeVendor",
+            "hp": 0.0,
+            "range": 1.36918557
+          },
+          {
+            "name": "RST_E13_CoffeeVendor_Right",
+            "hp": 1796.23462,
+            "range": 2.8031106
+          }
+        ]
+      },
+      {
+        "kind": "attack",
+        "t": 175.563049,
+        "before": 240.408768,
+        "after": 270.873047
+      },
+      {
+        "kind": "bonus",
+        "t": 175.563049,
+        "pair": "RST_B14",
+        "choice": "attPercent",
+        "label": "+13%",
+        "hp": 1932.24463,
+        "attack": 270.873047
+      },
+      {
+        "kind": "bonus",
+        "t": 184.08992,
+        "pair": "RST_B15",
+        "choice": "boombarAdd",
+        "label": "+1",
+        "hp": 1932.24463,
+        "attack": 270.873047
+      },
+      {
+        "kind": "damage",
+        "t": 189.6859,
+        "before": 1932.24463,
+        "after": 0.0,
+        "cause": "Traffic",
+        "near": [
+          {
+            "name": "RST_E15_TireBruiser_Right",
+            "hp": 6661.9043,
+            "range": 20.6996937
+          },
+          {
+            "name": "RST_E15_TireBruiser",
+            "hp": 4992.03125,
+            "range": 20.8184052
+          }
+        ]
+      }
+    ],
+    "run": 20
+  }
+]

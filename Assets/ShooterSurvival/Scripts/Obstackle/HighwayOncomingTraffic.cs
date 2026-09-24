@@ -66,7 +66,12 @@ public sealed class HighwayOncomingTraffic : MonoBehaviour
                 launched[i] = true; positions[i] = launchDistance; Launched++;
                 Place(cars[i], positions[i], beat.lanes[i]); cars[i].gameObject.SetActive(true);
             }
-            if (warnings[i] != null) warnings[i].gameObject.SetActive(!launched[i]);
+            if (warnings[i] != null)
+            {
+                warnings[i].gameObject.SetActive(!hit[i]&&(!launched[i]||cars[i].gameObject.activeSelf));
+                var pulse=new Color(1,1,1,.75f+.2f*Mathf.Sin(clock*6));
+                warnings[i].startColor=warnings[i].endColor=pulse;
+            }
             if (!launched[i]) { finished = false; continue; }
             if (!cars[i].gameObject.activeSelf) continue;
             var previous = cars[i].position;
@@ -75,13 +80,13 @@ public sealed class HighwayOncomingTraffic : MonoBehaviour
             if (!hit[i] && SweptContact(previous - previousPlayer, cars[i].position - player.transform.position, 1.65f))
             {
                 hit[i] = true; Contacts++;
-                player.DieFromHazard(false);
+                player.DieFromHazard(false,PlayerDamageCause.Traffic);
             }
             if (positions[i] < route.Distance - 22 || positions[i] <= 0) cars[i].gameObject.SetActive(false);
             else finished = false;
         }
         previousPlayer = player.transform.position;
-        hud?.Show(this, beat.title, clock < WarningSeconds ? "경고 차로를 비우세요  차량 접근 중" : "빈 차로로 피하세요", 2);
+        hud?.Show(this, route.OnBypass?"안전 우회로":beat.title, route.OnBypass?"초록 경로를 따라가세요 · 본선 차량 주의":clock < WarningSeconds ? "줄무늬 차로에 차량 접근 중" : "줄무늬가 없는 차로로 피하세요", 2);
         if (finished) { Hide(); beatIndex++; clock = -1; }
     }
     private void Place(Transform car, float distance, int lane)

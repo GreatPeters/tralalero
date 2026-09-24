@@ -33,7 +33,7 @@ public sealed class CombatPresentationPoolTests
         Assert.That(original.Length, Is.EqualTo(64));
         for (int i = 0; i < 200; i++) pool.Show(Vector3.zero, i, false);
         CollectionAssert.AreEquivalent(original, pool.GetComponentsInChildren<Canvas>(true));
-        Assert.That(original.Count(c => c.gameObject.activeSelf), Is.EqualTo(64));
+        Assert.That(original.Count(c => c.gameObject.activeSelf), Is.EqualTo(63), "One slot is reserved for player damage.");
         Tick(pool, 1f);
         Assert.That(original.All(c => !c.gameObject.activeSelf), Is.True);
         Assert.That(pool.transform.childCount, Is.EqualTo(64));
@@ -61,6 +61,20 @@ public sealed class CombatPresentationPoolTests
         Assert.That(text.text, Is.EqualTo("7"));
         Assert.That(text.color, Is.EqualTo(new Color(1f, .25f, .25f, 1f)));
         Assert.That(text.canvas.transform.localScale.x, Is.EqualTo(.01f).Within(.0001f));
+    }
+
+    [Test]
+    public void PlayerLossSurvivesEnemyPopupSaturationAndCombinesExactAmounts()
+    {
+        var pool=Make("Player popup reservation").AddComponent<DamagePopupPool>();pool.Initialize(null);
+        pool.ShowPlayerDamage(Vector3.zero,100.4f);
+        for(int i=0;i<200;i++)pool.Show(Vector3.one,10,false);
+        pool.ShowPlayerDamage(Vector3.zero,25.4f);
+        var player=pool.GetComponentsInChildren<TextMeshProUGUI>().Single(t=>t.text.StartsWith("-"));
+        Assert.That(player.text,Is.EqualTo("-126"));
+        Assert.That(pool.GetComponentsInChildren<Canvas>(true).Length,Is.EqualTo(64));
+        Tick(pool,1.2f);Assert.That(player.gameObject.activeInHierarchy,Is.False);
+        pool.ShowPlayerDamage(Vector3.zero,5);Assert.That(player.text,Is.EqualTo("-5"));
     }
 
     private EnemyHitEffectPool PrepareEffect(out GameObject prefab, out Transform attachment)

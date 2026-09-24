@@ -1,0 +1,13 @@
+{
+  "verdict": "pass",
+  "confidence": 0.96,
+  "summary": "13,601-triangle reduced mesh preserves the reviewed silhouette, front facial features, apron and rear hair/boots. Front, back-oblique and neutral renders compared against the source-stage views. Fresh FBX and GLB imports pass.",
+  "issues": [
+    {
+      "part": "cap/shoes",
+      "problem": "Original source-stage strong gloss remains.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ]
+}

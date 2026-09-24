@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "14e9bf707b408bbb5198cc9e8b55f04a2767ddccd2bab9db720662cb8dc5cbe0",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E02_7750411ec8\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E02_7750411ec8\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E02_7750411ec8\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.98,
+                "summary": "The 14504-triangle pipe preserves its smooth cylindrical profile, elbow, open outlet lip, joint seams and mounting flange. Finished metal reflections and silhouette closely match the approved source across all views. Fresh FBX and GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "flange",
+                    "problem": "Minor fastener and rim softening after reduction.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "444b6225-58c3-41c9-a50f-c20471506183",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.98,
+            "summary": "Continuous silver brushed-metal appearance, clean elbow joint seams, darker outlet interior and flange fasteners match the reference. The long tube has no blotches or unwanted markings, and material continuity is retained around the elbow.",
+            "issues": [
+              {
+                "part": "elbow",
+                "problem": "Slightly stronger directional reflection streaks than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "b22ff43a-8469-400e-896a-6130c0ab02c9",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.98,
+        "summary": "Long cylindrical pipe, smooth 90-degree elbow, visibly hollow outlet lip, lower flange and bolt details match the reference construction. All views show a continuous pipe without breaks or unwanted background pieces.",
+        "issues": [
+          {
+            "part": "flange bolts",
+            "problem": "Minor irregularity around small inferred bolt shapes.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790212040.3860805,
+  "notes": [
+    "shape: Long cylindrical pipe, smooth 90-degree elbow, visibly hollow outlet lip, lower flange and bolt details match the reference construction. All views show a continuous pipe without breaks or unwanted background pieces.",
+    "texture_source: Continuous silver brushed-metal appearance, clean elbow joint seams, darker outlet interior and flange fasteners match the reference. The long tube has no blotches or unwanted markings, and material continuity is retained around the elbow.",
+    "final_compare: The 14504-triangle pipe preserves its smooth cylindrical profile, elbow, open outlet lip, joint seams and mounting flange. Finished metal reflections and silhouette closely match the approved source across all views. Fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

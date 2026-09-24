@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "9dd6a9e88d15fda14946e5258cbe35e0a4f7b2140e16503d4d4781f10be922d3",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E06_eb3ee4ca48\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E06_eb3ee4ca48\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E06_eb3ee4ca48\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.96,
+                "summary": "The 14875-triangle empty planter preserves the circular silhouette, rim width, inner recess/base and radial stone joints. Finished stone surface remains close to the source across all views, with no missing ring sections. Fresh FBX and GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "inner base junction",
+                    "problem": "The inner junction reads darker after baking, and the outer wall has minor neutral-only faceting; finished stone remains visually coherent.",
+                    "kind": "texture",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "ef63a734-98b5-48cf-80d0-cdc74628ab0a",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.98,
+            "summary": "Warm pale stone, subtle speckling and clean radial segment joints now read consistently around the rim, inner wall and outer wall. The empty inset base remains clear, without unwanted plants or background texture.",
+            "issues": [
+              {
+                "part": "segment layout",
+                "problem": "Generated radial joint spacing is more regular than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "48651b2b-eec1-406c-be01-257ff43d6568",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.98,
+        "summary": "The actual reference is an empty circular stone planter surround, not a combined tree. The generated outer ring, broad top rim, inner recess and flat inset base match that construction with no unwanted tree or background. Segment joints are shallow and should be represented in the material stage.",
+        "issues": [
+          {
+            "part": "ring segments",
+            "problem": "Segment joints are not strongly resolved in clay; verify them in the stone material.",
+            "kind": "texture",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790217159.0865846,
+  "notes": [
+    "shape: The actual reference is an empty circular stone planter surround, not a combined tree. The generated outer ring, broad top rim, inner recess and flat inset base match that construction with no unwanted tree or background. Segment joints are shallow and should be represented in the material stage.",
+    "texture_source: Warm pale stone, subtle speckling and clean radial segment joints now read consistently around the rim, inner wall and outer wall. The empty inset base remains clear, without unwanted plants or background texture.",
+    "final_compare: The 14875-triangle empty planter preserves the circular silhouette, rim width, inner recess/base and radial stone joints. Finished stone surface remains close to the source across all views, with no missing ring sections. Fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

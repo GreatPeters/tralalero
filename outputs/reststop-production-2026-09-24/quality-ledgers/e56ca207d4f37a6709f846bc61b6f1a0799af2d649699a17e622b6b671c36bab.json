@@ -1,0 +1,85 @@
+{
+  "version": 2,
+  "image_hash": "e56ca207d4f37a6709f846bc61b6f1a0799af2d649699a17e622b6b671c36bab",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F03_80353d85bf\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F03_80353d85bf\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F03_80353d85bf\\stages\\m1_t1\\low1",
+              "state": "started",
+              "profile": "parts"
+            }
+          ],
+          "prompt_id": "c666b9eb-da28-4a20-b8ec-683eaaa3e839",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Varied green/yellow-green leaves, dark branching bark and brown root fibres remain clearly separated. Front/back/top views retain detailed leaf coverage with no broad texture smears or unwanted material regions.",
+            "issues": [
+              {
+                "part": "foliage tone",
+                "problem": "Lighter yellow-green canopy and denser leaf coverage than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "26b8c670-e07f-4cd0-9db4-d5b745a7a1b2",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Rounded broadleaf shrub crown, numerous distinct leaf surfaces, branching stems and exposed root tuft match the reference subject. Low frontal view confirms the stems remain connected beneath the canopy; no planter or ground slab has been introduced.",
+        "issues": [
+          {
+            "part": "canopy/stems",
+            "problem": "Canopy is slightly fuller and conceals more of the branching stems than the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          },
+          {
+            "part": "root fibres",
+            "problem": "Fine roots are delicate and should be checked for sensible simplification after reduction.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "halted",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790221300.7733407,
+  "notes": [
+    "shape: Rounded broadleaf shrub crown, numerous distinct leaf surfaces, branching stems and exposed root tuft match the reference subject. Low frontal view confirms the stems remain connected beneath the canopy; no planter or ground slab has been introduced.",
+    "texture_source: Varied green/yellow-green leaves, dark branching bark and brown root fibres remain clearly separated. Front/back/top views retain detailed leaf coverage with no broad texture smears or unwanted material regions."
+  ],
+  "reason": "실행 오류로 반복 중단: Blender 정리 실패. 해당 결과 폴더의 blender.log를 확인하세요."
+}

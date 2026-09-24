@@ -1,0 +1,13 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "summary": "Actual front and rear renders confirm semi-transparent upper/lower panes with the rear grip mounts visible through the front. The dark rim, central reinforcement and rear grip remain opaque. Exported GLB contains a separate BLEND material with alpha 0.18. Geometry and UVs are unchanged.",
+  "issues": [
+    {
+      "part": "clear panels",
+      "problem": "Alpha-blended approximation is slightly frosted/tinted, with small opaque edge transitions retained.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ]
+}

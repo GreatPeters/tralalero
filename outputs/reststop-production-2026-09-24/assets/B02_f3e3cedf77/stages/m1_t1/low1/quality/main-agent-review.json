@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.97,
+  "summary": "Reject this reduction: broad wall faces and the dark base strip acquire conspicuous lumpy/faceted shading. The neutral comparison exposes new lobes absent from the clean high-density source, even though the baked normal map hides some in the beauty render.",
+  "issues": [
+    {
+      "part": "broad wall face and base trim",
+      "problem": "New faceting and wavy lobes after reduction; source neutral plane is substantially smoother.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

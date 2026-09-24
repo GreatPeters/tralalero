@@ -1,0 +1,14 @@
+FBX version: 7400
+03:19:15 | INFO: Data are loaded, start creating Blender stuff
+03:19:15 | INFO: Blender create Mesh node geometry_0.001
+03:19:16 | INFO: glTF import finished in 0.08s
+Traceback (most recent call last):
+  File "C:\Users\ljh\tralalero Shooter\tools\verify-reststop-rig.py", line 66, in <module>
+    assert ok, [(r['format'],r['maximum_ground_error']) for r in reports]
+           ^^
+AssertionError: [('fbx', 0.034999996423721313), ('glb', 0.0016930364072322845)]
+
+Error: script failed, file: 'C:\Users\ljh\tralalero Shooter\tools\verify-reststop-rig.py', exiting.
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

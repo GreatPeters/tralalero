@@ -1,0 +1,13 @@
+{
+  "verdict": "uncertain",
+  "confidence": 0.99,
+  "summary": "The color regions and grip are coherent, but the exported panel is opaque and cannot be approved as the reference clear shield. Inspection confirms the saved graph sets texture_alpha_mode=OPAQUE and its postprocessor forces opacity to 1, so another sample under the same settings would not fix the material mode. Preserve geometry/texture and route to an explicit per-panel transparency correction without changing global settings.",
+  "issues": [
+    {
+      "part": "clear shield panels",
+      "problem": "Configured opaque export prevents seeing the grip through the panel; a local material correction is required before acceptance.",
+      "kind": "texture",
+      "severity": "major"
+    }
+  ]
+}

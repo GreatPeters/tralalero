@@ -1,0 +1,46 @@
+{
+  "source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\P01-r2\\source\\model.glb",
+  "method": "Direct Decimate on original UV/PBR mesh without seam welding, re-unwrapping or selected-to-active baking",
+  "before": {
+    "triangles": 260958,
+    "vertices": 775284,
+    "degenerate_faces": 228,
+    "loose_vertices": 0,
+    "boundary_edges": 776270,
+    "nonmanifold_edges": 0,
+    "finite": true,
+    "uv": true
+  },
+  "reduction_metrics": [
+    {
+      "triangles": 14872,
+      "vertices": 44503,
+      "degenerate_faces": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 44514,
+      "nonmanifold_edges": 0,
+      "finite": true,
+      "uv": true
+    }
+  ],
+  "target_triangles": 15000,
+  "ai_regeneration": false,
+  "original_automatic_attempts_preserved": 1,
+  "clean_first": true,
+  "cleanup": [
+    {
+      "removed_faces": 228,
+      "removed_surface_area": 0.0,
+      "removed_wire_edges": 645,
+      "removed_unused_vertices": 0,
+      "max_retained_corner_normal_error": 0.0
+    },
+    {
+      "removed_faces": 0,
+      "removed_surface_area": 0,
+      "removed_wire_edges": 242666,
+      "removed_unused_vertices": 0,
+      "max_retained_corner_normal_error": 0.0
+    }
+  ]
+}

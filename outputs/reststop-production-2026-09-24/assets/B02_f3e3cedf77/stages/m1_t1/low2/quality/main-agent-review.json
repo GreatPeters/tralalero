@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.98,
+  "summary": "Alternate reduction still has the same broad-face faceting/lumpy neutral shading absent from source. Bounded automatic reductions are exhausted; retain review-needed status and repair a separate Blender copy.",
+  "issues": [
+    {
+      "part": "wall surface and base strip",
+      "problem": "Persistent new shading lobes after reduction; neutral wall does not read as a flat stone panel.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

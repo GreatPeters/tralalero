@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.98,
+  "summary": "Transparency is present, but selecting material regions again on the already reduced mesh creates large jagged opaque triangles along pane boundaries. Preserve the high-source material partition through reduction instead.",
+  "issues": [
+    {
+      "part": "pane boundaries",
+      "problem": "New sawtooth opaque islands at top/bottom and reinforcement borders.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

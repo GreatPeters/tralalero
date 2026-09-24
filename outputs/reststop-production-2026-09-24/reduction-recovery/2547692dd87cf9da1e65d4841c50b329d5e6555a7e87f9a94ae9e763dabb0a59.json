@@ -1,0 +1,74 @@
+{
+  "id": "F04",
+  "original_ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\2547692dd87cf9da1e65d4841c50b329d5e6555a7e87f9a94ae9e763dabb0a59.json",
+  "source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F04_477a6ddff1\\stages\\m1_t1\\model.glb",
+  "source_sha256": "ac52023f662c01450abe6463a34b38963b36b55efce5de2f651ab98f83ffbdb8",
+  "original_low_count": 1,
+  "runs": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\F04-reduction-recovery\\low2",
+      "profile": "preserve_details",
+      "started": 1790223448.580925,
+      "state": "failed",
+      "cleanup_metrics": [
+        {
+          "object": "Detailed_Source",
+          "triangles": 116311,
+          "vertices": 64499,
+          "degenerate_faces": 0,
+          "loose_vertices": 0,
+          "boundary_edges": 17835,
+          "nonmanifold_edges": 4407,
+          "finite": true,
+          "uv": true
+        },
+        {
+          "object": "Asset_Optimized",
+          "triangles": 25413,
+          "vertices": 13050,
+          "degenerate_faces": 0,
+          "loose_vertices": 0,
+          "boundary_edges": 6250,
+          "nonmanifold_edges": 1891,
+          "finite": true,
+          "uv": true
+        },
+        {
+          "object": "Asset_Optimized",
+          "triangles": 20853,
+          "vertices": 8615,
+          "degenerate_faces": 0,
+          "loose_vertices": 0,
+          "boundary_edges": 2042,
+          "nonmanifold_edges": 1835,
+          "finite": true,
+          "uv": true
+        },
+        {
+          "object": "Asset_Optimized",
+          "triangles": 20605,
+          "vertices": 8388,
+          "degenerate_faces": 0,
+          "loose_vertices": 0,
+          "boundary_edges": 1869,
+          "nonmanifold_edges": 1831,
+          "finite": true,
+          "uv": true
+        },
+        {
+          "object": "Asset_Optimized",
+          "triangles": 20578,
+          "vertices": 8366,
+          "degenerate_faces": 0,
+          "loose_vertices": 0,
+          "boundary_edges": 1850,
+          "nonmanifold_edges": 1831,
+          "finite": true,
+          "uv": true
+        }
+      ],
+      "error": "RuntimeError('Could not meet triangle budget.')",
+      "finished": 1790223451.7973473
+    }
+  ]
+}

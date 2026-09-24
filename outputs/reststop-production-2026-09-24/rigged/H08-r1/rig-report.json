@@ -1,0 +1,259 @@
+{
+  "name": "Police",
+  "source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H08_bac192c350\\stages\\m1_t1\\low1\\model.glb",
+  "height": 3.05,
+  "triangles": 13032,
+  "bones": 18,
+  "actions": {
+    "idle": 2.4,
+    "walk": 0.9,
+    "run": 0.6666666666666666,
+    "attack_loop": 1.2,
+    "attack_once": 1.2,
+    "hit": 0.3,
+    "die": 1.0,
+    "greet": 1.8,
+    "guard": 1.8
+  },
+  "skeleton": {
+    "Root": [
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0.06
+      ],
+      null
+    ],
+    "Hips": [
+      [
+        0,
+        0.025,
+        0.335
+      ],
+      [
+        0,
+        0.025,
+        0.405
+      ],
+      "Root"
+    ],
+    "Spine": [
+      [
+        0,
+        0.025,
+        0.405
+      ],
+      [
+        0,
+        0.015,
+        0.495
+      ],
+      "Hips"
+    ],
+    "Chest": [
+      [
+        0,
+        0.015,
+        0.495
+      ],
+      [
+        0,
+        0,
+        0.58
+      ],
+      "Spine"
+    ],
+    "Neck": [
+      [
+        0,
+        0,
+        0.58
+      ],
+      [
+        0,
+        0,
+        0.63
+      ],
+      "Chest"
+    ],
+    "Head": [
+      [
+        0,
+        0,
+        0.63
+      ],
+      [
+        0,
+        0,
+        0.95
+      ],
+      "Neck"
+    ],
+    "UpperArm.L": [
+      [
+        0.1,
+        0,
+        0.575
+      ],
+      [
+        0.17,
+        0,
+        0.48
+      ],
+      "Chest"
+    ],
+    "Forearm.L": [
+      [
+        0.17,
+        0,
+        0.48
+      ],
+      [
+        0.235,
+        -0.01,
+        0.4
+      ],
+      "UpperArm.L"
+    ],
+    "Hand.L": [
+      [
+        0.235,
+        -0.01,
+        0.4
+      ],
+      [
+        0.255,
+        -0.015,
+        0.325
+      ],
+      "Forearm.L"
+    ],
+    "Thigh.L": [
+      [
+        0.078,
+        0.025,
+        0.335
+      ],
+      [
+        0.087,
+        0.02,
+        0.2
+      ],
+      "Hips"
+    ],
+    "Shin.L": [
+      [
+        0.087,
+        0.02,
+        0.2
+      ],
+      [
+        0.095,
+        0.025,
+        0.085
+      ],
+      "Thigh.L"
+    ],
+    "Foot.L": [
+      [
+        0.095,
+        0.025,
+        0.085
+      ],
+      [
+        0.095,
+        -0.105,
+        0.035
+      ],
+      "Shin.L"
+    ],
+    "UpperArm.R": [
+      [
+        -0.1,
+        0,
+        0.575
+      ],
+      [
+        -0.17,
+        0,
+        0.48
+      ],
+      "Chest"
+    ],
+    "Forearm.R": [
+      [
+        -0.17,
+        0,
+        0.48
+      ],
+      [
+        -0.235,
+        -0.01,
+        0.4
+      ],
+      "UpperArm.R"
+    ],
+    "Hand.R": [
+      [
+        -0.235,
+        -0.01,
+        0.4
+      ],
+      [
+        -0.255,
+        -0.015,
+        0.325
+      ],
+      "Forearm.R"
+    ],
+    "Thigh.R": [
+      [
+        -0.078,
+        0.025,
+        0.335
+      ],
+      [
+        -0.087,
+        0.02,
+        0.2
+      ],
+      "Hips"
+    ],
+    "Shin.R": [
+      [
+        -0.087,
+        0.02,
+        0.2
+      ],
+      [
+        -0.095,
+        0.025,
+        0.085
+      ],
+      "Thigh.R"
+    ],
+    "Foot.R": [
+      [
+        -0.095,
+        0.025,
+        0.085
+      ],
+      [
+        -0.095,
+        -0.105,
+        0.035
+      ],
+      "Shin.R"
+    ]
+  },
+  "maximumGroundError": 8.940696716308594e-08,
+  "rigged": true,
+  "compact_proportions": false,
+  "materials": "original TRELLIS PBR maps retained",
+  "equipment_binding": "Separate prop assets; Grip.L/R sockets provided, equipment is not attached"
+}

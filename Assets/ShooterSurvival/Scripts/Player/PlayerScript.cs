@@ -45,6 +45,9 @@ namespace IndianOceanAssets.ShooterSurvival
         [Header("Runtime")]
         [NonSerialized] public int playerScore;
         [NonSerialized] public float currentHealth;
+        public PlayerDamageCause LastDamageCause { get; private set; }
+        public float LastDamageAmount { get; private set; }
+        public bool LastDamageWasFatal { get; private set; }
         [NonSerialized] public float originalDamage;
         [NonSerialized] public float currentDamage;
         [NonSerialized] public float moveSensitivity;               // Runtime value loaded from PlayerPrefs
@@ -142,9 +145,11 @@ namespace IndianOceanAssets.ShooterSurvival
         private bool worldYawTurnConstraintsCaptured;
         private Vector3 routeLaneOrigin;
         private HighwayRoute highwayRoute;
+        private HighwayEncounterLanes encounterLanes;
         private UnityEngine.Object stationaryCombatOwner;
         private Vector3 stationaryCombatPosition;
         public bool IsStationaryCombat => stationaryCombatOwner != null;
+        public HighwayRoute ProjectileRoute => IsStationaryCombat ? null : highwayRoute;
         public RestStopHoldout HoldoutAim { get; private set; }
 
         public void SetStationaryCombat(RestStopHoldout owner, bool active)
@@ -418,7 +423,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
 
             bool isForwardMarchScene = TimeManager.Instance != null && TimeManager.Instance.isForwardMarchScene;
-            if (CanvasScript.isGameOver || winDancePlayed) // Add winDancePlayed to stop movement
+            if (CanvasScript.isGameOver || winDancePlayed || isDead)
             {
                 CancelWorldYawTurn();
                 currentForwardMoveSpeed = 0;
@@ -522,6 +527,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 currentOffset + deltaX * moveSensitivity / sensitivityDivisor * LateralSpeedMultiplier,
                 xRange.x,
                 xRange.y);
+            if(highwayRoute!=null)targetOffset=highwayRoute.ConstrainEncounterLane(targetOffset);
             Vector3 targetPosition = transform.position + routeRight * (targetOffset - currentOffset);
             Vector3 nextPosition = Vector3.Lerp(
                 transform.position,
@@ -557,6 +563,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ApplyPlayerPosition(Vector3 position)
         {
+            if (highwayRoute == null && encounterLanes != null && TimeManager.isGameRunning && !IsStationaryCombat && !isWorldYawTurnActive)
+                position = encounterLanes.ConstrainWorldPosition(position, transform.forward);
             if (roadHeightFollower != null && roadHeightFollower.TryProjectPosition(position, transform.forward, out Vector3 supported))
                 position = supported;
             if (playerRigidbody != null)
@@ -956,7 +964,11 @@ namespace IndianOceanAssets.ShooterSurvival
             winDancePlayed = true;
         }
 
-        public void UpdateHealth()
+        public event Action<float, PlayerDamageCause> DamageTaken;
+
+        public void UpdateHealth() => UpdateHealthAfterDamage(false);
+
+        private void UpdateHealthAfterDamage(bool damageReported)
         {
             if (currentHealth <= 0 && isDead == false)
             {
@@ -972,10 +984,10 @@ namespace IndianOceanAssets.ShooterSurvival
 
             }
 
-            RefreshHealthUI();
+            RefreshHealthUI(damageReported: damageReported);
         }
 
-        private void RefreshHealthUI(bool force = false)
+        private void RefreshHealthUI(bool force = false, bool damageReported = false)
         {
             float maxHealth = MaxHealth;
             float healthBarValue = maxHealth > 0f ? currentHealth / maxHealth : 0f;
@@ -1003,10 +1015,9 @@ namespace IndianOceanAssets.ShooterSurvival
             if (!statusChanged)
                 return;
 
-            if (!force && !float.IsNaN(lastReportedCurrentHealth) && currentHealth < lastReportedCurrentHealth)
+            if (!force && !damageReported && !float.IsNaN(lastReportedCurrentHealth) && currentHealth < lastReportedCurrentHealth)
             {
-                GameAudioService.Play(currentHealth <= 0 ? GameSound.PlayerDeath : GameSound.PlayerHit);
-                damageFeedback?.Show(lastReportedCurrentHealth - currentHealth, maxHealth);
+                ReportDamage(lastReportedCurrentHealth - currentHealth, PlayerDamageCause.Other);
             }
             lastReportedCurrentHealth = currentHealth;
             lastReportedMaxHealth = maxHealth;
@@ -1019,26 +1030,54 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void ApplyHarnessHealthDelta(float delta)
         {
-            currentHealth = Mathf.Clamp(currentHealth + delta, 0f, MaxHealth);
+            if (delta < 0f) { ApplyDamage(-delta, PlayerDamageCause.Other); return; }
+            Heal(delta);
+        }
+
+        public float ApplyDamage(float amount, PlayerDamageCause cause)
+        {
+            if(currentHealth<=0||amount<=0||float.IsNaN(amount)||float.IsInfinity(amount))return 0;
+            float applied=Mathf.Min(currentHealth,amount);
+            currentHealth -= applied;
+            ReportDamage(applied, cause);
+            UpdateHealthAfterDamage(true);
+            return applied;
+        }
+
+        public float Heal(float amount)
+        {
+            if (isDead || currentHealth <= 0f || amount <= 0f || float.IsNaN(amount) || float.IsInfinity(amount)) return 0f;
+            float restored = Mathf.Min(amount, Mathf.Max(0f, MaxHealth - currentHealth));
+            if (restored <= 0f) return 0f;
+            currentHealth += restored;
             UpdateHealth();
+            return restored;
+        }
+
+        private void ReportDamage(float amount, PlayerDamageCause cause)
+        {
+            LastDamageCause = cause;
+            LastDamageAmount = amount;
+            LastDamageWasFatal = currentHealth <= 0f;
+            GameAudioService.Play(LastDamageWasFatal ? GameSound.PlayerDeath : GameSound.PlayerHit);
+            damageFeedback?.Show(amount, MaxHealth, cause);
+            DamageTaken?.Invoke(amount, cause);
         }
 
         public bool TryTakeFallenPoleDamage(float time)
         {
             if (currentHealth <= 0f || time < nextFallenPoleHitTime) return false;
             nextFallenPoleHitTime = time + 1f;
-            currentHealth = Mathf.Max(0f, currentHealth - MaxHealth * .3f);
-            UpdateHealth();
+            ApplyDamage(MaxHealth*.3f,PlayerDamageCause.Pole);
             return true;
         }
 
-        public void DieFromHazard(bool fallIntoHole)
+        public void DieFromHazard(bool fallIntoHole, PlayerDamageCause cause = PlayerDamageCause.Other)
         {
             if (currentHealth <= 0f) return;
-            currentHealth = 0f;
+            ApplyDamage(currentHealth,fallIntoHole?PlayerDamageCause.Hole:cause);
             movement = false;
             canShoot = false;
-            UpdateHealth();
             if (playerRigidbody != null && !hazardBodyFrozen)
             {
                 bodyWasKinematic = playerRigidbody.isKinematic;
@@ -1052,11 +1091,12 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (float.IsNaN(amount) || float.IsInfinity(amount) || amount < 0f)
                 throw new ArgumentOutOfRangeException(nameof(amount));
+            if (isDead || currentHealth <= 0f) return;
             float increase = percent ? MaxHealth * amount / 100f : amount;
             if (increase > 0) GameAudioService.Play(GameSound.Heal);
             runMaxHealthBonus += increase;
             maxHealthWithUpgrades = MaxHealth + increase;
-            currentHealth = Mathf.Min(maxHealthWithUpgrades, currentHealth + increase);
+            Heal(increase);
             UpdateHealth();
         }
 
@@ -1077,6 +1117,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void ResetState()
         {
+            LastDamageCause=PlayerDamageCause.None;LastDamageAmount=0;LastDamageWasFatal=false;
             nextFallenPoleHitTime = float.NegativeInfinity;
             damageFeedback?.ResetFeedback();
             if (hazardBodyFrozen && playerRigidbody != null) playerRigidbody.isKinematic = bodyWasKinematic;
@@ -1086,6 +1127,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 weapon.ResetStatBonus();
             stationaryCombatOwner = null; HoldoutAim = null;
             highwayRoute = FindFirstObjectByType<HighwayRoute>();
+            encounterLanes = highwayRoute == null ? FindFirstObjectByType<HighwayEncounterLanes>() : null;
             highwayRoute?.BeginRun();
             var slip = GetComponent<OilSteeringEffect>();
             if (slip != null) slip.Clear();
@@ -1282,11 +1324,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (!TimeManager.isGameRunning) return;
             if (healthRegenPerSecond <= 0f) return;
-
-            float maxHealth = MaxHealth;
-            if (currentHealth >= maxHealth) return;
-
-            currentHealth = Mathf.Min(maxHealth, currentHealth + healthRegenPerSecond * Time.deltaTime);
+            Heal(healthRegenPerSecond * Time.deltaTime);
         }
 
         private void EnsureCharacterDefaultsInitialized()

@@ -1,0 +1,22 @@
+{"pid": 13264, "started": 1790203707.0244172, "script": "C:\\Users\\ljh\\tralalero Shooter\\tools\\restore-reststop-door-track.py", "threads": 4, "logicalProcessors": [0, 1, 2, 3, 4, 5, 6, 7], "priority": "below-normal", "availableMemoryBytes": 22647853056}
+07:48:27 | INFO: Data are loaded, start creating Blender stuff
+07:48:27 | INFO: Blender create Mesh node geometry_0
+07:48:27 | INFO: glTF import finished in 0.07s
+Warning: No mesh data to join
+{"diagnostic": "center ray unexpectedly hit", "bounds": [[-0.03495088219642639, -0.2501831650733948, 0.0], [0.03495088219642639, 0.25018319487571716, 0.3575746417045593]], "matrix": [[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [0.0, 0.0, 0.0, 1.0]], "parent": null, "rotated": true, "hit": [0.0, 0.2500353455543518, 0.16090859472751617]}
+Traceback (most recent call last):
+  File "C:\Users\ljh\tralalero Shooter\tools\run-limited-generation.py", line 57, in <module>
+    runpy.run_path(str(args.script.resolve()),run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\ljh\tralalero Shooter\tools\restore-reststop-door-track.py", line 33, in <module>
+    assert empty[middle],'The selected source must have an open center'
+           ~~~~~^^^^^^^^
+AssertionError: The selected source must have an open center
+
+Error: script failed, file: 'C:\Users\ljh\tralalero Shooter\tools\run-limited-generation.py', exiting.
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

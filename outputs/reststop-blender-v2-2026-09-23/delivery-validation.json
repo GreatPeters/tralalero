@@ -1,0 +1,112 @@
+{
+  "ordered_clips_equal_full_decoded_frames": true,
+  "total_frames": 7200,
+  "total_seconds": 300,
+  "native_validation": {
+    "fps": 24,
+    "frames": 7200,
+    "duration": 300,
+    "defense_seconds": 60,
+    "defense_max_yaw_degrees_s": 89.98932691880543,
+    "quarter_camera": [
+      20.0,
+      16.0,
+      27.0
+    ],
+    "game_vertical_fov": 40,
+    "game_move_speed": 7.8,
+    "native_player_envelope": [
+      2.749493360519409,
+      5.1901535987854,
+      3.2624079659581184
+    ],
+    "store_dimensions": [
+      88,
+      92
+    ],
+    "restroom_dimensions": [
+      72,
+      84
+    ],
+    "triangles": 2302974,
+    "invalid_coordinates": 0,
+    "route_lengths": [
+      193.0138806059337,
+      188.14810699476357,
+      193.74911675882592,
+      193.99713658518993,
+      0.0,
+      225.58232588571352,
+      232.07333764367925,
+      226.6010182234847,
+      188.35721482317243,
+      193.05965196690255
+    ],
+    "explicit_hold_seconds": [
+      0.2546306915469607,
+      0.8784478211841567,
+      0.16036964630436756,
+      0.12857223266795614,
+      60,
+      1.0791889890110866,
+      0.24700799440009646,
+      0.9485874072455509,
+      0.8516391252343034,
+      0.24876256834582477
+    ]
+  },
+  "fresh_glb_validation": {
+    "fresh_import": true,
+    "mesh_objects": 820,
+    "triangles": 1779610,
+    "materials": 26,
+    "min": [
+      -285.0,
+      -393.0,
+      -21.0
+    ],
+    "max": [
+      455.0,
+      257.0,
+      15.0
+    ],
+    "required_zones": {
+      "01_": true,
+      "02_": true,
+      "03_": true,
+      "04_05_": true,
+      "06_": true,
+      "07_": true,
+      "08_": true,
+      "09_": true,
+      "10_": true
+    },
+    "animation": "Static environment only"
+  },
+  "source_files": {
+    "architecture.py": "1f6769bb24afc91576553f5c2115086bbd64f5c5701f327f02638cd403886143",
+    "calibrate_player.py": "70a84a539c646aa1aebec23b2a9ff7fe0c67975fdbc51d9fea88f7da9d6bddce",
+    "compare.py": "d23c02c17f040bb6f05b0e842e979d39c7ef513edc8ec1dcb141e0f6e6e9c7a5",
+    "compare_defense.py": "e6c90792d24cf20cef1c127ea2bdc5dc910d89178d951439e1fff6e5dfb6aa93",
+    "contact.py": "54129c40e2ae592f09524d898a8f49b302e80a56c901ff28cd7e4517dc32c62f",
+    "encode.py": "afc07e54fd73ff97d7942bb0d26a0d4b5bc698a846fc562d260bb82369fdbbdc",
+    "finalize_candidate.py": "1861dcae0da78a460e92829e359c1cdf951702ffd8c4b887f6eb61c057e6c809",
+    "finish_review.py": "bf54b30bbf30299971c9d4ecf441260d39ae3524fa0b7bb9d3ccde2d8ee40cce",
+    "gallery.py": "eb38bea034daf53bbb4bddb8aca951470ea20632760c3a4c78d897f3d8d7ba92",
+    "geometry.py": "139708e70e3dbdf57763235090da206f4063c110984dc1beb8fbc1c04161e810",
+    "inspect_player.py": "c79c39656dba5ef85b990b8128a5abbf75f60073a5c1df0309e5e8f915e0784c",
+    "package.py": "77081be764955e2c33fad7e2c3bc646f568e28ba7808b41f358daeec27fe0047",
+    "people.py": "e572b51878338aff131534e7363d3b824a5b03ea54293017ea178c399819fd46",
+    "post_pipeline.py": "9203efd0b98e1f35c0c97c7036b20c36b4926d4ae3b7fe0ca80cb88b26254eb5",
+    "render.py": "c3c2c47b45ce3484b98973222d9dcca999819ccde1d9f9aec399e6c3da2172db",
+    "render_pipeline.py": "c3ef877b86a511848d58fb0e4b1d1cd66eba276bed5cb6b9ba8af80b8d01478b",
+    "repair_exit.py": "9ae8b96239461f96fc81b624908d3ae5b8e4578ecd955dedb4f379e9725f913e",
+    "review_gimmicks.py": "4984fb4f6e5bc80f8fc445a73e7b7795f7baed500bd6d15c39c933b380114a7f",
+    "review_videos.py": "7987ac4eeb8dc213262669887c7d2813af22bd9c8079ac07c4fbdf7e2cb7b2b2",
+    "scene.py": "6b54df266a520da54e5ebee09716ccc2a3961de15174ee6a6e1b9d7d61abdef5",
+    "timeline.py": "98dd4af2c78645641e9b81b978fc7cfa442b05c7bd896a05b9c0859abf33e70c",
+    "validate.py": "c2df19466bf18a66e3352b3e9ba2581de5af66e3cbb17d1051fa895b223edb28",
+    "verify_export.py": "965e2668ca87f258918d8cfeebcb67e214bb2e9f3915bd3f26bffa2bf627fbe5"
+  },
+  "master_sha256": "5da352be1839c79a35b6749ca3c798a5610b9d59a3c30f6556acb61ee1ecae71"
+}

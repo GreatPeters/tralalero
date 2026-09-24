@@ -109,7 +109,7 @@ namespace IndianOceanAssets.ShooterSurvival
             // barrel touches the player
             if (other.CompareTag("Player"))
             {
-                playerScript.currentHealth -= barrelDamage;
+                playerScript.ApplyDamage(barrelDamage,PlayerDamageCause.Barrel);
                 effectOverlayVignette.NerfOverlay();
             }
 
@@ -166,7 +166,7 @@ namespace IndianOceanAssets.ShooterSurvival
                     }
 
                     // player is enar barrel
-                    if (obj.CompareTag("Player")) playerScript.currentHealth -= deathDamage;    // Damage player if within explosion range
+                    if (obj.CompareTag("Player")) playerScript.ApplyDamage(deathDamage,PlayerDamageCause.Barrel);
                 }
             }
         }

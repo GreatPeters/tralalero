@@ -1,0 +1,126 @@
+{
+  "version": 2,
+  "image_hash": "c24e09cc849b4301f8dcf7d84b56dd01a56cda6840efab791ae3573c5bc15cfe",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B02_f3e3cedf77\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B02_f3e3cedf77\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B02_f3e3cedf77\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "mesh",
+                "confidence": 0.97,
+                "summary": "Reject this reduction: broad wall faces and the dark base strip acquire conspicuous lumpy/faceted shading. The neutral comparison exposes new lobes absent from the clean high-density source, even though the baked normal map hides some in the beauty render.",
+                "issues": [
+                  {
+                    "part": "broad wall face and base trim",
+                    "problem": "New faceting and wavy lobes after reduction; source neutral plane is substantially smoother.",
+                    "kind": "mesh",
+                    "severity": "major"
+                  }
+                ]
+              }
+            },
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B02_f3e3cedf77\\stages\\m1_t1\\low2",
+              "state": "generated",
+              "profile": "preserve_details",
+              "review": {
+                "verdict": "mesh",
+                "confidence": 0.98,
+                "summary": "Alternate reduction still has the same broad-face faceting/lumpy neutral shading absent from source. Bounded automatic reductions are exhausted; retain review-needed status and repair a separate Blender copy.",
+                "issues": [
+                  {
+                    "part": "wall surface and base strip",
+                    "problem": "Persistent new shading lobes after reduction; neutral wall does not read as a flat stone panel.",
+                    "kind": "mesh",
+                    "severity": "major"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "b7146e8b-da5e-42e5-9500-9930e5cfdbe4",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.92,
+            "summary": "Reference, contact-sheet views and full hero inspected. Cream stone face and dark base trim are clean, slab remains flat and tile divisions are legible. No major material spill or missing region.",
+            "issues": [
+              {
+                "part": "tile pattern",
+                "problem": "The generated wall uses a more regular grid instead of the reference staggered joints.",
+                "kind": "texture",
+                "severity": "minor"
+              },
+              {
+                "part": "horizontal grout",
+                "problem": "Small dark pits along one grout line remain visible in the close frontal view.",
+                "kind": "mesh",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "b2d08524-77d4-47d5-b380-83a9faa9d8f1",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.91,
+        "summary": "Reference, all clay contact-sheet views and full hero checked. Thin upright rectangular wall, straight main edges, flat broad faces and base strip are retained. No major bending, missing slab or extra object.",
+        "issues": [
+          {
+            "part": "horizontal joints",
+            "problem": "Small ragged seam marks and edge pits are visible in the neutral front view; inspect their appearance after material application.",
+            "kind": "mesh",
+            "severity": "minor"
+          },
+          {
+            "part": "tile joints",
+            "problem": "Vertical staggered joints are mostly a texture-level detail and must remain legible in the next stage.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790196425.0701385,
+  "notes": [
+    "shape: Reference, all clay contact-sheet views and full hero checked. Thin upright rectangular wall, straight main edges, flat broad faces and base strip are retained. No major bending, missing slab or extra object.",
+    "texture_source: Reference, contact-sheet views and full hero inspected. Cream stone face and dark base trim are clean, slab remains flat and tile divisions are legible. No major material spill or missing region.",
+    "final_compare: Reject this reduction: broad wall faces and the dark base strip acquire conspicuous lumpy/faceted shading. The neutral comparison exposes new lobes absent from the clean high-density source, even though the baked normal map hides some in the beauty render.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "final_compare: Alternate reduction still has the same broad-face faceting/lumpy neutral shading absent from source. Bounded automatic reductions are exhausted; retain review-needed status and repair a separate Blender copy.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다."
+  ],
+  "reason": "고밀도 원본은 통과했지만 Blender 두 방식에서도 결함이 남았습니다. 직접 수정이 필요합니다."
+}

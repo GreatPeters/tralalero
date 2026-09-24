@@ -1,0 +1,79 @@
+{
+  "version": 2,
+  "image_hash": "2547692dd87cf9da1e65d4841c50b329d5e6555a7e87f9a94ae9e763dabb0a59",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F04_477a6ddff1\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F04_477a6ddff1\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F04_477a6ddff1\\stages\\m1_t1\\low1",
+              "state": "started",
+              "profile": "parts"
+            }
+          ],
+          "prompt_id": "52604386-a95d-47ac-9653-6f56cb03c2b2",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Varied green leaf coverage, brown bark and the textured root ball remain coherent across front/back/top views. Canopy openings and branching structure are legible, with no broad material smears or unrelated colored patches.",
+            "issues": [
+              {
+                "part": "foliage color",
+                "problem": "Paler yellow-green foliage than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "b1ae4d6b-f075-41aa-88e1-b33f87be3e6d",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "A distinct trunk, branching canopy with individual leaves and a round root ball match the reference tree. Front/oblique views confirm continuous trunk-to-branch connections and no unwanted planter or ground plane.",
+        "issues": [
+          {
+            "part": "canopy",
+            "problem": "Canopy is more irregular and spread than the reference, with larger visible openings between some branches.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "halted",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790223188.9766307,
+  "notes": [
+    "shape: A distinct trunk, branching canopy with individual leaves and a round root ball match the reference tree. Front/oblique views confirm continuous trunk-to-branch connections and no unwanted planter or ground plane.",
+    "texture_source: Varied green leaf coverage, brown bark and the textured root ball remain coherent across front/back/top views. Canopy openings and branching structure are legible, with no broad material smears or unrelated colored patches."
+  ],
+  "reason": "실행 오류로 반복 중단: Blender 정리 실패. 해당 결과 폴더의 blender.log를 확인하세요."
+}

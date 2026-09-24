@@ -1,0 +1,959 @@
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /02-preview.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /01-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /05-preview.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /03-preview.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /04-preview.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /06-preview.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /07-preview.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /08-preview.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /09-preview.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /10-preview.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /view-115.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /view-194.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /view-223.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /view-031.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /whole-map.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /01-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:18:49] code 404, message File not found
+127.0.0.1 - - [23/Sep/2026 21:18:49] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [23/Sep/2026 21:24:48] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /02-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /01-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /07-preview.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /09-preview.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /08-preview.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /04-preview.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /10-preview.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /05-preview.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /03-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /06-preview.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /view-115.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /view-194.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /01-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /view-223.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /whole-map.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /view-031.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /02-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:24:49] "GET /03-reststop.mp4 HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 2819)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /01-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /05-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /02-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /04-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /03-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /08-preview.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /07-preview.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /06-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /09-preview.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /10-preview.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /view-115.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /view-194.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /view-223.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /view-031.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /comparison-defense.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /01-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /whole-map.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /03-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /02-reststop.mp4 HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /05-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:32:13] "GET /04-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:32:14] "GET /06-reststop.mp4 HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 4669)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 12598)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+----------------------------------------
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+Exception occurred during processing of request from ('127.0.0.1', 4215)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+----------------------------------------
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /01-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /08-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /07-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /06-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /05-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /03-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /02-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /04-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /09-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /10-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /view-115.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /view-194.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /view-223.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /view-031.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /comparison-defense.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /comparison-store.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /comparison-restroom.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /fresh-glb-overview.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /reststop-300s.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /01-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /02-reststop.mp4 HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /03-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /04-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /05-reststop.mp4 HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /06-reststop.mp4 HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 4254)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /07-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /08-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /09-reststop.mp4 HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 11813)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+127.0.0.1 - - [23/Sep/2026 21:44:24] "GET /10-reststop.mp4 HTTP/1.1" 200 -
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 3367)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 8583)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 2531)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 13775)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 7913)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+127.0.0.1 - - [23/Sep/2026 21:45:07] "GET /reststop-300s.mp4 HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 6212)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+127.0.0.1 - - [23/Sep/2026 21:45:07] "GET /reststop-300s.mp4 HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 10354)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+127.0.0.1 - - [23/Sep/2026 21:45:07] "GET /reststop-300s.mp4 HTTP/1.1" 200 -
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /01-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /02-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /03-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /04-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /05-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /08-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /07-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /06-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /09-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /10-poster.jpg HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /view-115.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /view-194.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /view-223.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /view-031.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /comparison-defense.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /comparison-store.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /comparison-restroom.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /fresh-glb-overview.png HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /reststop-300s.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /01-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /02-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /03-reststop.mp4 HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 2250)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /04-reststop.mp4 HTTP/1.1" 200 -
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /05-reststop.mp4 HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 1411)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /06-reststop.mp4 HTTP/1.1" 200 -
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 7126)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /07-reststop.mp4 HTTP/1.1" 200 -
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 8652)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /08-reststop.mp4 HTTP/1.1" 200 -
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /09-reststop.mp4 HTTP/1.1" 200 -
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 5576)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /10-reststop.mp4 HTTP/1.1" 200 -
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 6513)
+Exception occurred during processing of request from ('127.0.0.1', 2127)
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 3885)
+Exception occurred during processing of request from ('127.0.0.1', 13553)
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 13843)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+127.0.0.1 - - [23/Sep/2026 22:07:37] code 404, message File not found
+127.0.0.1 - - [23/Sep/2026 22:07:37] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET / HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 8548)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /01-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /02-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /03-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /04-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /05-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /06-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /07-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /08-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /09-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /10-poster.jpg HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /view-115.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /view-194.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /view-223.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /view-031.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /comparison-defense.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /comparison-store.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /reststop-300s.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /comparison-restroom.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /fresh-glb-overview.png HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /01-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /02-reststop.mp4 HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /03-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /04-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:44] "GET /05-reststop.mp4 HTTP/1.1" 304 -
+127.0.0.1 - - [23/Sep/2026 22:07:45] "GET /06-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:07:45] "GET /07-reststop.mp4 HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 3707)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+127.0.0.1 - - [23/Sep/2026 22:07:45] "GET /08-reststop.mp4 HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 13632)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+----------------------------------------
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+Exception occurred during processing of request from ('127.0.0.1', 14991)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+----------------------------------------
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+Exception occurred during processing of request from ('127.0.0.1', 13294)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+127.0.0.1 - - [23/Sep/2026 22:07:45] "GET /09-reststop.mp4 HTTP/1.1" 200 -
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+127.0.0.1 - - [23/Sep/2026 22:07:45] "GET /10-reststop.mp4 HTTP/1.1" 200 -
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+----------------------------------------
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+----------------------------------------
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 13225)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 7425)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 1442)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 4867)
+Traceback (most recent call last):
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 1311, in finish_request
+    self.RequestHandlerClass(request, client_address, self,
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 672, in __init__
+    super().__init__(*args, **kwargs)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 766, in __init__
+    self.handle()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 436, in handle
+    self.handle_one_request()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 424, in handle_one_request
+    method()
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 679, in do_GET
+    self.copyfile(f, self.wfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\http\server.py", line 878, in copyfile
+    shutil.copyfileobj(source, outputfile)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 204, in copyfileobj
+    fdst_write(buf)
+  File "C:\Users\ljh\AppData\Local\Programs\Python\Python312\Lib\socketserver.py", line 845, in write
+    self._sock.sendall(b)
+ConnectionResetError: [WinError 10054] 현재 연결은 원격 호스트에 의해 강제로 끊겼습니다
+----------------------------------------
+127.0.0.1 - - [23/Sep/2026 22:07:53] "GET /01-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:08:56] "GET /03-reststop.mp4 HTTP/1.1" 200 -
+127.0.0.1 - - [23/Sep/2026 22:09:06] "GET /04-reststop.mp4 HTTP/1.1" 200 -

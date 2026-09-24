@@ -9,6 +9,17 @@ public sealed class DefeatPresentation : MonoBehaviour
     public Button rewardedButton, continueButton;
     public Button closeButton;
     public TMP_Text rewardedText, adStatusText;
+    public TMP_Text causeText, adviceText, buildText;
+    public void SetDamageCause(IndianOceanAssets.ShooterSurvival.PlayerScript player)
+    {
+        if(player==null)return;
+        var cause=player.LastDamageCause;
+        if(causeText!=null)causeText.text="마지막 피해  "+IndianOceanAssets.ShooterSurvival.PlayerDamageCauseText.Label(cause)+"\n<color=#B73034>-"+player.LastDamageAmount.ToString("0")+" HP</color>";
+        if(adviceText!=null)adviceText.text=cause==IndianOceanAssets.ShooterSurvival.PlayerDamageCause.EnemyContact && player.gameObject.scene.name=="HighWay"
+            ? "전투 통로에서는 한쪽 적을 먼저 처치하세요.\n접촉 시 남은 적 체력만큼 피해를 받습니다."
+            : IndianOceanAssets.ShooterSurvival.PlayerDamageCauseText.Advice(cause);
+        if(buildText!=null)buildText.text=$"이번 판  공격력 {player.ResolvedAttackDamage:0} · 최대 체력 {player.MaxHealth:0}";
+    }
     private readonly RewardedCoinOffer offer = new();
     private RewardedAdsService ads;
     private const string LastRewardKey = "ads_last_reward_round";

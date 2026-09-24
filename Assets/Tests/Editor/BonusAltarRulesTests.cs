@@ -94,7 +94,7 @@ public sealed class BonusAltarRulesTests
     }
 
     [Test]
-    public void RatioValue_UsesWorkbookRangeAndPlayerBaseStat()
+    public void FlatAttackValue_UsesWorkbookRange()
     {
         BonusRow attack = FindRow("Normal", "att");
 
@@ -252,13 +252,10 @@ public sealed class BonusAltarRulesTests
             valueType = BonusValueType.Ratio
         };
         float appliedValue = BonusAltarRules.ResolveValue(ratio, 0.5f, 80f);
-        float displayValue = BonusAltarRules.ResolveDisplayValue(ratio, 0.5f);
-
         Assert.That(appliedValue, Is.EqualTo(12f));
-        Assert.That(displayValue, Is.EqualTo(15f));
         Assert.That(
-            BonusAltarRules.FormatDisplayValue(displayValue, BonusValueType.Ratio),
-            Is.EqualTo("+15"));
+            BonusAltarRules.FormatDisplayValue(appliedValue, BonusValueType.Ratio),
+            Is.EqualTo("+12"));
         Assert.That(
             BonusAltarRules.FormatDisplayValue(38f, BonusValueType.Percent),
             Is.EqualTo("+38%"));

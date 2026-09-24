@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "a1673d0ad3e2087364421dc7c1f3bf4edb282479aefc106f17f1ef81306015a4",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S07_1512a566fc\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S07_1512a566fc\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S07_1512a566fc\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.96,
+                "summary": "14551triangle wall shelf keeps all five levels, open front, stops, ribbed rear panel, side wood, metal frame and green header. Five-view comparison and fresh FBX/GLB checks pass without major new geometry or material defects.",
+                "issues": [
+                  {
+                    "part": "fine edges and inferred rear/top",
+                    "problem": "Slight edge softening, less luminous wood finish and the inferred upper recess/rear panel remain minor differences.",
+                    "kind": "texture",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "30e087a5-a9ad-42d1-a154-6ab72ae904eb",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.96,
+            "summary": "Five wood display levels, ribbed wood back, light wood sides, dark metal frame and blank green header remain coherent in all PBR views. No major missing shelf or paint spill.",
+            "issues": [
+              {
+                "part": "lighting read and inferred top/rear finish",
+                "problem": "Less luminous/warm than the reference; exposed top recess and rear finish are inferred, with simplified small rail detail.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "f8e4b755-84b1-4270-893e-a64197f24e95",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Single-sided wall unit retains five display levels, open front bays, side stops, tall end panels, full rear panel, header and plinth. No missing major shelf or merged solid front in five clay views.",
+        "issues": [
+          {
+            "part": "upper rear recess and adjustment rails",
+            "problem": "Inferred exposed top recess and uneven small rail detail; check finish after texturing.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790268480.5465453,
+  "notes": [
+    "shape: Single-sided wall unit retains five display levels, open front bays, side stops, tall end panels, full rear panel, header and plinth. No missing major shelf or merged solid front in five clay views.",
+    "texture_source: Five wood display levels, ribbed wood back, light wood sides, dark metal frame and blank green header remain coherent in all PBR views. No major missing shelf or paint spill.",
+    "final_compare: 14551triangle wall shelf keeps all five levels, open front, stops, ribbed rear panel, side wood, metal frame and green header. Five-view comparison and fresh FBX/GLB checks pass without major new geometry or material defects."
+  ],
+  "reason": ""
+}

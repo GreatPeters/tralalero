@@ -203,7 +203,7 @@ public class ObstacleStats : MonoBehaviour
         if (obstaclePattern == ObstaclePattern.Oldman)
         {
             SimpleProjectile sp = transform.GetComponentInChildren<SimpleProjectile>();
-            sp.damage = value;
+            if(sp!=null){sp.damage=value;sp.damageCause=PlayerDamageCause.Paddle;}
         }
         else if (obstaclePattern == ObstaclePattern.Dolphin)
         {
@@ -411,7 +411,7 @@ public class ObstacleStats : MonoBehaviour
             case ObstaclePattern.Light:
                 if (_lampFallen && !_lampSettled) return;
                 if (_lampSettled) playerScript.TryTakeFallenPoleDamage(Time.time);
-                else playerScript.DieFromHazard(false);
+                else playerScript.DieFromHazard(false,PlayerDamageCause.Pole);
                 GetComponent<LampImpactFeedback>()?.Pulse();
                 break;
 
@@ -733,8 +733,7 @@ public class ObstacleStats : MonoBehaviour
         // Start the two independent reactions only after stopping those coroutines.
         StopAllCoroutines();
         if (shadowSprite != null) shadowSprite.enabled = false;
-        player.currentHealth = Mathf.Max(0f, player.currentHealth - player.MaxHealth * Mathf.Clamp(value, 0f, 100f) / 100f);
-        player.UpdateHealth();
+        player.ApplyDamage(player.MaxHealth*Mathf.Clamp(value,0f,100f)/100f,PlayerDamageCause.Seagull);
         StartCoroutine(SpinAndMovePlayer(player.transform, seagullSpinSeconds));
         StartCoroutine(SeagullKnockback(player.transform));
         return true;
@@ -804,6 +803,7 @@ public class ObstacleStats : MonoBehaviour
         collider.isTrigger = true;
         var sp = proj.GetComponent<SimpleProjectile>() ?? proj.AddComponent<SimpleProjectile>();
         sp.Launch(dir, 30f, value, 8f);
+        sp.damageCause=PlayerDamageCause.Cannon;
         shipShot = proj;
         if (GameManager.S != null) GameManager.S.RegisterDestroyTarget(proj.gameObject);
         return true;

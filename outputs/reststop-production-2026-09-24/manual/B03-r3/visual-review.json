@@ -1,0 +1,25 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "summary": "Front-only retopology restores the measured high-density slat profile without rebuilding the outer frame or rear supports. The crumpled front shading is removed; regular narrow grooves are visible in neutral and textured views. New 2048 PBR bake retains wood colors and tangent detail. Fresh FBX/GLB imports pass at 14,210 triangles.",
+  "issues": [
+    {
+      "part": "frame and joins",
+      "problem": "Small source edge pits and tiny lower join marks remain in close neutral views.",
+      "severity": "minor"
+    },
+    {
+      "part": "rear slats",
+      "problem": "One source-stage irregular rear slat region remains.",
+      "severity": "minor"
+    }
+  ],
+  "evidence": [
+    "repair.json",
+    "validation.json",
+    "quality/hero.png",
+    "quality/neutral.png",
+    "quality/opposite.png"
+  ],
+  "source_of_truth": "model.glb"
+}

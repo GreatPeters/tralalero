@@ -1,0 +1,19 @@
+{
+  "verdict": "pass",
+  "confidence": 0.96,
+  "summary": "Rounded broadleaf shrub crown, numerous distinct leaf surfaces, branching stems and exposed root tuft match the reference subject. Low frontal view confirms the stems remain connected beneath the canopy; no planter or ground slab has been introduced.",
+  "issues": [
+    {
+      "part": "canopy/stems",
+      "problem": "Canopy is slightly fuller and conceals more of the branching stems than the reference.",
+      "kind": "mesh",
+      "severity": "minor"
+    },
+    {
+      "part": "root fibres",
+      "problem": "Fine roots are delicate and should be checked for sensible simplification after reduction.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.97,
+  "summary": "Reject the first reduction: front slat field gains conspicuous crumpled/faceted neutral shading and wavering edges not present in the high-density source. The accepted m3 geometry/material should be retained while the Blender reduction/normal treatment is changed.",
+  "issues": [
+    {
+      "part": "front slat field and lower frame",
+      "problem": "New wrinkled/faceted shading and waviness appear after reduction, degrading the straight repeated pattern.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

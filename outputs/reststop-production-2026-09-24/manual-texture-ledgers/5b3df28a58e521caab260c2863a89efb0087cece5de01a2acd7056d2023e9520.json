@@ -1,0 +1,45 @@
+{
+  "image_hash": "5b3df28a58e521caab260c2863a89efb0087cece5de01a2acd7056d2023e9520",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "original_ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\5b3df28a58e521caab260c2863a89efb0087cece5de01a2acd7056d2023e9520.json",
+  "attempts": [
+    {
+      "number": 1,
+      "parent_mesh": 1,
+      "seed": 12345,
+      "source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\S02-r1\\source\\model.glb",
+      "shape_hash": "e32662c262e48b3422d57ad2e29f7cd552581f0dfab69978c6f1b4f5fb62a9d9",
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\S02-r1\\texture1",
+      "state": "failed",
+      "prompt_id": "ce294d1d-fdec-486b-8d7f-435858039c79",
+      "finished": 1790261214.4010682,
+      "failure_reason": "Confirmed cancellation before expected timeout; preserve consumed attempt",
+      "failure_receipt_sha256": "c620da6d256de83ae599cef89635d6a4c65d02653d39b9875fe2678bb87b6986"
+    },
+    {
+      "number": 2,
+      "parent_mesh": 1,
+      "seed": 12346,
+      "source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\S02-r3\\source\\model.glb",
+      "shape_hash": "8b2ea5f7c5ba109128e59cd11fccd6ba6245baaca2c743a0153e60aaebe6d6c2",
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\S02-r3\\texture2",
+      "state": "generated",
+      "prompt_id": "5886b2e2-be36-4068-b7be-024eccd2b7b0",
+      "finished": 1790262798.8521435,
+      "renders_ready": true
+    }
+  ]
+}

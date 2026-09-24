@@ -32,8 +32,8 @@ public sealed class OpeningStoryUI : MonoBehaviour
     public bool IsSeeking => seeking;
     public int CurrentPage => page;
     public static int MovieSceneCount => moviePageStarts.Length;
-    // Installed movie: two8-second Flow clips, followed by two121-frame/24fps clips.
-    private static readonly double[] moviePageStarts = { 0d, 8d, 16d, 505d / 24d };
+    // Best4 v5: 8s, 12s, 10s, 9s at 24fps (936 frames total).
+    private static readonly double[] moviePageStarts = { 0d, 8d, 20d, 30d };
     public static double GetMoviePageStart(int index) => moviePageStarts[Mathf.Clamp(index, 0, 3)];
     public static int GetMoviePageAtTime(double seconds)
     {

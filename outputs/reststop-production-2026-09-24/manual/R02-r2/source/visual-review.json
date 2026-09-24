@@ -1,0 +1,13 @@
+{
+  "verdict": "pass",
+  "confidence": 0.98,
+  "summary": "Five actual views show a continuous constant-width curved road, preserved asphalt/aggregate and lane markings following the bend. Fresh GLB/BLEND source checks pass at 278,696 triangles. The source is the accepted TRELLIS R01 geometry/PBR analytically bent 60 degrees.",
+  "issues": [
+    {
+      "part": "surface and layout",
+      "problem": "R01 inherited lighter asphalt/denser dashes; 60-degree bend is a local repair choice since no exact radius is specified.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ]
+}

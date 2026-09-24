@@ -1,0 +1,12 @@
+00:00.390  blend            | Read blend: "C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\rigged\H01-r4\ParkingMarshal.blend"
+Traceback (most recent call last):
+  File "C:\Users\ljh\tralalero Shooter\tools\rebind-reststop-heat.py", line 32, in <module>
+    assert all(v.groups for v in body.data.vertices), 'Bone heat left unweighted vertices'
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Bone heat left unweighted vertices
+Warning: Bone Heat Weighting: failed to find solution for one or more bones
+
+Error: script failed, file: 'C:\Users\ljh\tralalero Shooter\tools\rebind-reststop-heat.py', exiting.
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

@@ -19,6 +19,8 @@ public sealed class HighwayHazard : MonoBehaviour
     private MaterialPropertyBlock tint;
     public bool IsOpen { get; private set; }
     public bool Broken => broken;
+    public const float GateWarningSeconds = .9f;
+    public const float GateAngularSpeed = 150f;
 
     private void Awake()
     {
@@ -28,6 +30,22 @@ public sealed class HighwayHazard : MonoBehaviour
         startPosition = transform.position; ResetForRun();
     }
     public static int OpenLane(float elapsed, float cycle) => Mathf.FloorToInt(Mathf.Max(0, elapsed) / Mathf.Max(1, cycle)) % 3;
+    public static float GateTargetAngle(float elapsed, float cycle, int lane)
+    {
+        cycle = Mathf.Max(1, cycle);
+        int current = OpenLane(elapsed, cycle);
+        float remaining = cycle - Mathf.Repeat(Mathf.Max(0, elapsed), cycle);
+        // Open the incoming lane before closing the old one. There is always a
+        // passable route, including during the visible arm movement.
+        return lane == current || lane == (current + 1) % 3 && remaining <= GateWarningSeconds ? 82f : 0f;
+    }
+    public static bool GatePassable(float angle) => Mathf.DeltaAngle(0, angle) >= 65f;
+    public static PlayerDamageCause DamageCauseFor(ObstaclePattern pattern) => pattern switch
+    {
+        ObstaclePattern.HighwayTraffic => PlayerDamageCause.Traffic,
+        ObstaclePattern.HighwayToll => PlayerDamageCause.TollGate,
+        _ => PlayerDamageCause.Roadblock
+    };
     public void ResetForRun()
     {
         health = breakHealth; hitPlayer = broken = false; activatedAt = -1;
@@ -36,6 +54,12 @@ public sealed class HighwayHazard : MonoBehaviour
         if (visual != null) visual.gameObject.SetActive(true);
         if (contact != null) contact.enabled = true;
         if (warning != null) warning.SetActive(false);
+        IsOpen = stats.obstaclePattern == ObstaclePattern.HighwayToll && laneIndex == OpenLane(0, cycleSeconds);
+        if (stats.obstaclePattern == ObstaclePattern.HighwayToll)
+        {
+            if (barrierArm != null) barrierArm.localRotation = Quaternion.Euler(0, 0, IsOpen ? 82 : 0);
+            if (contact != null) contact.enabled = !IsOpen;
+        }
     }
     private void Update()
     {
@@ -43,10 +67,15 @@ public sealed class HighwayHazard : MonoBehaviour
         float clock = chapter.Elapsed;
         if (stats.obstaclePattern == ObstaclePattern.HighwayToll)
         {
-            IsOpen = laneIndex == OpenLane(clock, cycleSeconds);
-            if (barrierArm != null) barrierArm.localRotation = Quaternion.Euler(0, 0, IsOpen ? 82 : 0);
+            float targetAngle = GateTargetAngle(clock, cycleSeconds, laneIndex);
+            float angle = barrierArm != null ? Mathf.MoveTowardsAngle(barrierArm.localEulerAngles.z, targetAngle, GateAngularSpeed * Time.deltaTime) : targetAngle;
+            if (barrierArm != null) barrierArm.localRotation = Quaternion.Euler(0, 0, angle);
+            IsOpen = GatePassable(angle);
             if (contact != null) contact.enabled = !IsOpen;
-            Color color = IsOpen ? new Color(.1f,1f,.35f) : new Color(1f,.13f,.055f);
+            float remaining = Mathf.Max(1, cycleSeconds) - Mathf.Repeat(clock, Mathf.Max(1, cycleSeconds));
+            bool closingSoon = laneIndex == OpenLane(clock, cycleSeconds) && remaining <= GateWarningSeconds;
+            Color color = closingSoon ? new Color(1f, .65f, .04f) : IsOpen ? new Color(.1f,1f,.35f) : new Color(1f,.13f,.055f);
+            if (closingSoon) color *= .7f + .3f * Mathf.Abs(Mathf.Sin(clock * 12f));
             if (signal != null) { tint.SetColor("_BaseColor",color);tint.SetColor("_EmissionColor",color*2);signal.SetPropertyBlock(tint); }
         }
         else if (stats.obstaclePattern == ObstaclePattern.HighwayTraffic)
@@ -58,7 +87,7 @@ public sealed class HighwayHazard : MonoBehaviour
             }
             if (activatedAt < 0) return;
             float t = clock - activatedAt;
-            if (warning != null) warning.SetActive(t < warningSeconds);
+            if (warning != null) warning.SetActive(t < warningSeconds + Mathf.Max(1, cycleSeconds));
             if (t >= warningSeconds)
             {
                 float progress = Mathf.Clamp01((t-warningSeconds)/Mathf.Max(1,cycleSeconds));
@@ -86,7 +115,7 @@ public sealed class HighwayHazard : MonoBehaviour
         if (broken || !TimeManager.isGameRunning) return;
         if (hitPlayer || IsOpen) return;
         var target = other.GetComponentInParent<PlayerScript>(); if (target == null) return;
-        hitPlayer = true; target.DieFromHazard(false);
+        hitPlayer = true; target.DieFromHazard(false,DamageCauseFor(stats.obstaclePattern));
     }
     private void OnCollisionEnter(Collision collision) => OnTriggerEnter(collision.collider);
 }

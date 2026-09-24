@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.99,
+  "summary": "Separate material baking clears the texture mottling, but reduced glass/shelf surfaces contain large diagonal fins projecting outside the cabinet. Keep the good opaque body and replace only unstable inserts with clean fitted surfaces from the original high reference.",
+  "issues": [
+    {
+      "part": "glass and shelves",
+      "problem": "Large diagonal surfaces/fins visible from front and opposite views, absent from high source.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

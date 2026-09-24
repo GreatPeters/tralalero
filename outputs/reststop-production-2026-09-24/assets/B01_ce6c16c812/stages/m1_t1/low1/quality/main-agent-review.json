@@ -1,0 +1,19 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "summary": "14,798-triangle final module compared against source in contact sheet and full hero. Main floor body, flat four-tile top, cross joints, outer rim and lower notches are retained. Fresh FBX and GLB validation passes.",
+  "issues": [
+    {
+      "part": "lower frame corners",
+      "problem": "Minor rounding/softening after reduction, visible mainly in the neutral view.",
+      "kind": "mesh",
+      "severity": "minor"
+    },
+    {
+      "part": "stone grain",
+      "problem": "Slightly stronger pale veins than reference remain from source stage.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ]
+}

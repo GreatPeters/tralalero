@@ -1,0 +1,19 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.98,
+  "summary": "The three shelf levels and base are retained, but the generated rear has a large protruding oval plate absent from the reference construction. The shelf brackets also become string-like strands instead of compact solid supports. Retry shape within the saved budget.",
+  "issues": [
+    {
+      "part": "rear panel",
+      "problem": "Large invented protruding oval plate changes the freestanding shelf silhouette and back construction.",
+      "kind": "mesh",
+      "severity": "major"
+    },
+    {
+      "part": "shelf supports",
+      "problem": "Thin string-like bracket geometry replaces the reference solid support brackets.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

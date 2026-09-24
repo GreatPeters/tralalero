@@ -1,0 +1,19 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.99,
+  "summary": "Reject: the second candidate fills the intended open doorway with a solid panel and still has malformed foot/track fragments. The reference is a fixed open frame; a filled opening is a major functional and visual mismatch.",
+  "issues": [
+    {
+      "part": "central opening",
+      "problem": "A large solid infill blocks the doorway that must be open.",
+      "kind": "mesh",
+      "severity": "major"
+    },
+    {
+      "part": "lower track",
+      "problem": "Ragged protruding fragments remain at the feet.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

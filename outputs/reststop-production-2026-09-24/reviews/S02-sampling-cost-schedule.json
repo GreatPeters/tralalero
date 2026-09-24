@@ -1,0 +1,209 @@
+{
+  "method": "Code-derived count of model forward evaluations, not a runtime profiler trace",
+  "parameters": {
+    "seed": 12346,
+    "texture_steps": 25,
+    "texture_guidance_strength": 7.5,
+    "texture_guidance_rescale": 0.01,
+    "texture_rescale_t": 3.0,
+    "resolution": 1024,
+    "texture_size": 2048,
+    "texture_alpha_mode": "OPAQUE",
+    "double_side_material": false,
+    "texture_guidance_interval_start": 0.0,
+    "texture_guidance_interval_end": 0.9,
+    "max_views": 1,
+    "bake_on_vertices": false,
+    "use_custom_normals": false,
+    "mesh_cluster_threshold_cone_half_angle_rad": 60.0,
+    "sampler": "heun",
+    "inpainting": "telea",
+    "verbose": false,
+    "dino_lock": 0.35,
+    "dino_substeps": 2,
+    "dino_foundation_cap": 0.92
+  },
+  "source_sha256": {
+    "flow_euler.py": "03b633044d72c173e3c59d70b39278d4a793b946fb51384ca7c05cfc4f3e52b5",
+    "guidance_interval_mixin.py": "0fda15c9f30a8bd6307deeffb53805a570f946b0e461d3629401e805b69092c2",
+    "classifier_free_guidance_mixin.py": "ebc71800c924c339169cdf5710784e0530f2f0893d694a185d7c90ba58ebd15c"
+  },
+  "steps": [
+    {
+      "step": 1,
+      "t": 1.0,
+      "lock": 0.92,
+      "substeps": 2,
+      "estimated_forward_calls": 4
+    },
+    {
+      "step": 2,
+      "t": 0.9863013698630136,
+      "lock": 0.92,
+      "substeps": 2,
+      "estimated_forward_calls": 4
+    },
+    {
+      "step": 3,
+      "t": 0.9718309859154931,
+      "lock": 0.92,
+      "substeps": 2,
+      "estimated_forward_calls": 4
+    },
+    {
+      "step": 4,
+      "t": 0.9565217391304349,
+      "lock": 0.92,
+      "substeps": 2,
+      "estimated_forward_calls": 4
+    },
+    {
+      "step": 5,
+      "t": 0.9402985074626867,
+      "lock": 0.92,
+      "substeps": 2,
+      "estimated_forward_calls": 4
+    },
+    {
+      "step": 6,
+      "t": 0.9230769230769231,
+      "lock": 0.92,
+      "substeps": 2,
+      "estimated_forward_calls": 4
+    },
+    {
+      "step": 7,
+      "t": 0.9047619047619049,
+      "lock": 0.92,
+      "substeps": 2,
+      "estimated_forward_calls": 5
+    },
+    {
+      "step": 8,
+      "t": 0.8852459016393444,
+      "lock": 0.92,
+      "substeps": 2,
+      "estimated_forward_calls": 7
+    },
+    {
+      "step": 9,
+      "t": 0.864406779661017,
+      "lock": 0.92,
+      "substeps": 2,
+      "estimated_forward_calls": 7
+    },
+    {
+      "step": 10,
+      "t": 0.8421052631578946,
+      "lock": 0.92,
+      "substeps": 2,
+      "estimated_forward_calls": 7
+    },
+    {
+      "step": 11,
+      "t": 0.818181818181818,
+      "lock": 0.92,
+      "substeps": 2,
+      "estimated_forward_calls": 7
+    },
+    {
+      "step": 12,
+      "t": 0.7924528301886793,
+      "lock": 0.8917761273521895,
+      "substeps": 1,
+      "estimated_forward_calls": 3
+    },
+    {
+      "step": 13,
+      "t": 0.7647058823529412,
+      "lock": 0.8126945935297392,
+      "substeps": 1,
+      "estimated_forward_calls": 3
+    },
+    {
+      "step": 14,
+      "t": 0.7346938775510204,
+      "lock": 0.6984184661775497,
+      "substeps": 1,
+      "estimated_forward_calls": 3
+    },
+    {
+      "step": 15,
+      "t": 0.702127659574468,
+      "lock": 0.5715815338224504,
+      "substeps": 1,
+      "estimated_forward_calls": 3
+    },
+    {
+      "step": 16,
+      "t": 0.6666666666666667,
+      "lock": 0.45730540647026097,
+      "substeps": 1,
+      "estimated_forward_calls": 3
+    },
+    {
+      "step": 17,
+      "t": 0.627906976744186,
+      "lock": 0.37822387264781054,
+      "substeps": 1,
+      "estimated_forward_calls": 3
+    },
+    {
+      "step": 18,
+      "t": 0.5853658536585366,
+      "lock": 0.35,
+      "substeps": 1,
+      "estimated_forward_calls": 3
+    },
+    {
+      "step": 19,
+      "t": 0.5384615384615385,
+      "lock": 0.35,
+      "substeps": 1,
+      "estimated_forward_calls": 3
+    },
+    {
+      "step": 20,
+      "t": 0.48648648648648646,
+      "lock": 0.35,
+      "substeps": 1,
+      "estimated_forward_calls": 3
+    },
+    {
+      "step": 21,
+      "t": 0.4285714285714285,
+      "lock": 0.35,
+      "substeps": 1,
+      "estimated_forward_calls": 3
+    },
+    {
+      "step": 22,
+      "t": 0.3636363636363637,
+      "lock": 0.35,
+      "substeps": 1,
+      "estimated_forward_calls": 3
+    },
+    {
+      "step": 23,
+      "t": 0.29032258064516125,
+      "lock": 0.35,
+      "substeps": 1,
+      "estimated_forward_calls": 3
+    },
+    {
+      "step": 24,
+      "t": 0.20689655172413784,
+      "lock": 0.35,
+      "substeps": 1,
+      "estimated_forward_calls": 3
+    },
+    {
+      "step": 25,
+      "t": 0.1111111111111112,
+      "lock": 0.35,
+      "substeps": 1,
+      "estimated_forward_calls": 3
+    }
+  ],
+  "total_forward_calls": 99
+}

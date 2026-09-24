@@ -1,0 +1,23 @@
+{"pid": 53812, "started": 1790191395.2497895, "script": "C:\\Users\\ljh\\tralalero Shooter\\tools\\rig-reststop-proxy.py", "threads": 4, "logicalProcessors": [0, 1, 2, 3, 4, 5, 6, 7], "priority": "below-normal", "availableMemoryBytes": 23692455936}
+04:23:15 | INFO: Data are loaded, start creating Blender stuff
+04:23:15 | INFO: Blender create Mesh node geometry_0.001
+04:23:15 | INFO: glTF import finished in 0.03s
+Warning: No mesh data to join
+Info: No new files have been packed
+Info: Saved as "Cashier.blend"
+
+FBX export starting... 'C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\rigged\\H04-r1\\Cashier.fbx'
+(bpy.data.armatures['Cashier_Skeleton'], 'POSE')
+export finished in 0.2605 sec.
+INFO Draco is available, use library at C:\Users\ljh\AppData\Local\Programs\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Users\ljh\AppData\Local\Programs\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+04:23:19 | INFO: Starting glTF 2.0 export
+04:23:20 | INFO: Extracting primitive: geometry_0.001
+04:23:20 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+04:23:20 | INFO: Primitives created: 1
+04:23:20 | INFO: Finished glTF 2.0 export in 0.5842211246490479 s
+
+{"name": "Cashier", "source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H04_e670635d37\\stages\\m1_t1\\low1\\model.glb", "height": 3.05, "triangles": 13410, "bones": 18, "actions": {"idle": 2.4, "walk": 0.9, "run": 0.6666666666666666, "attack_loop": 1.2, "attack_once": 1.2, "hit": 0.3, "die": 1.0, "greet": 1.8, "serve": 1.8}, "skeleton": {"Root": [[0, 0, 0], [0, 0, 0.06], null], "Hips": [[0, 0.025, 0.4], [0, 0.025, 0.47], "Root"], "Spine": [[0, 0.025, 0.47], [0, 0.015, 0.56], "Hips"], "Chest": [[0, 0.015, 0.56], [0, 0, 0.65], "Spine"], "Neck": [[0, 0, 0.65], [0, 0, 0.695], "Chest"], "Head": [[0, 0, 0.695], [0, 0, 0.95], "Neck"], "UpperArm.L": [[0.1, 0, 0.63], [0.17, 0, 0.535], "Chest"], "Forearm.L": [[0.17, 0, 0.535], [0.235, -0.01, 0.46], "UpperArm.L"], "Hand.L": [[0.235, -0.01, 0.46], [0.255, -0.015, 0.39], "Forearm.L"], "Thigh.L": [[0.078, 0.025, 0.4], [0.087, 0.02, 0.245], "Hips"], "Shin.L": [[0.087, 0.02, 0.245], [0.095, 0.025, 0.085], "Thigh.L"], "Foot.L": [[0.095, 0.025, 0.085], [0.095, -0.105, 0.035], "Shin.L"], "UpperArm.R": [[-0.1, 0, 0.63], [-0.17, 0, 0.535], "Chest"], "Forearm.R": [[-0.17, 0, 0.535], [-0.235, -0.01, 0.46], "UpperArm.R"], "Hand.R": [[-0.235, -0.01, 0.46], [-0.255, -0.015, 0.39], "Forearm.R"], "Thigh.R": [[-0.078, 0.025, 0.4], [-0.087, 0.02, 0.245], "Hips"], "Shin.R": [[-0.087, 0.02, 0.245], [-0.095, 0.025, 0.085], "Thigh.R"], "Foot.R": [[-0.095, 0.025, 0.085], [-0.095, -0.105, 0.035], "Shin.R"]}, "maximumGroundError": 2.384185791015625e-07, "rigged": true, "equipmentPendingNativeBinding": true, "compact_proportions": false, "materials": "original TRELLIS PBR maps retained"}
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

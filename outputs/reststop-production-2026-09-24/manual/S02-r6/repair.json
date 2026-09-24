@@ -1,0 +1,15 @@
+{
+  "source_blend": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\S02-r5\\model.blend",
+  "method": "Bake only high-source opacity to the canonical low UV atlas; combine it with unchanged BaseColor RGB and retain the existing low geometry/PBR channels",
+  "source_alpha_values": [
+    0.03500000014901161,
+    1.0,
+    1.0
+  ],
+  "opacity_map": "textures/Opacity.png",
+  "texture_size": 2048,
+  "geometry_and_uvs_unchanged": true,
+  "extra_ai_requests": 0,
+  "extra_reduction_attempts": 0,
+  "material_note": "Use alpha blending with BaseColor alpha. The frame, base and both shelves must remain opaque; recheck visibility after fresh GLB/FBX import."
+}

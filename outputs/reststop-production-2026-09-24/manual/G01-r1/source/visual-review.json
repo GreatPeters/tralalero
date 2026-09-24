@@ -1,0 +1,19 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "summary": "Actual upper and lower renders inspected. Clean first-variant roof/fascia remain, dark underside artifacts are removed, and six geometric framed flush lights form a clear 2x3 layout. Original body vertices and UVs are unchanged; the underside material and local fixture geometry are the deliberate correction.",
+  "issues": [
+    {
+      "part": "soffit detail",
+      "problem": "Panel-joint detail is simpler/subtler than the reference and lights are unpowered static fixtures.",
+      "kind": "texture",
+      "severity": "minor"
+    },
+    {
+      "part": "upper rim",
+      "problem": "Small source seam pits remain along the upper trim.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ]
+}

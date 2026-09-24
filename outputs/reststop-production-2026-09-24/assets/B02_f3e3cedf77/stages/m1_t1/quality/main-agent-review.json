@@ -1,0 +1,19 @@
+{
+  "verdict": "pass",
+  "confidence": 0.92,
+  "summary": "Reference, contact-sheet views and full hero inspected. Cream stone face and dark base trim are clean, slab remains flat and tile divisions are legible. No major material spill or missing region.",
+  "issues": [
+    {
+      "part": "tile pattern",
+      "problem": "The generated wall uses a more regular grid instead of the reference staggered joints.",
+      "kind": "texture",
+      "severity": "minor"
+    },
+    {
+      "part": "horizontal grout",
+      "problem": "Small dark pits along one grout line remain visible in the close frontal view.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ]
+}

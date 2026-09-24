@@ -1,0 +1,18 @@
+{
+  "status": "review_needed",
+  "counts": {
+    "meshes": 3,
+    "textures": 0,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 0
+  },
+  "notes": [
+    "shape: Reject: header/jambs and central opening exist, but the reference continuous thin lower guide rail is missing across the middle and replaced by irregular shelf-like stubs at both feet. This loses a visible construction element and adds malformed protrusions.",
+    "shape: Reject: the second candidate fills the intended open doorway with a solid panel and still has malformed foot/track fragments. The reference is a fixed open frame; a filled opening is a major functional and visual mismatch.",
+    "shape: Third candidate restores an open center but still omits most of the lower guide rail and leaves irregular end fragments. The three permitted shape attempts are exhausted. Retain all attempts and repair a separate copy of the otherwise usable generated frame.",
+    "메시 3회 시도에서 형상 결함이 남았습니다. 추가 텍스처 생성 없이 검토 대상으로 남깁니다."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\aa5870c414d2804bc3312401bb10ec9310fabae61aedcdba369d6410d9b057b8.json",
+  "policy": "stage_gates_v2"
+}

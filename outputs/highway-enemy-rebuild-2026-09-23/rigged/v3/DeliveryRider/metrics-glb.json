@@ -1,0 +1,252 @@
+{
+  "actions": [
+    {
+      "frame_end": 27.2,
+      "frame_start": 0.8,
+      "name": "attack_loop",
+      "users": 2
+    },
+    {
+      "frame_end": 27.2,
+      "frame_start": 0.8,
+      "name": "attack_once",
+      "users": 1
+    },
+    {
+      "frame_end": 24.8,
+      "frame_start": 0.8,
+      "name": "die",
+      "users": 1
+    },
+    {
+      "frame_end": 8.0,
+      "frame_start": 0.8,
+      "name": "hit",
+      "users": 1
+    },
+    {
+      "frame_end": 58.4,
+      "frame_start": 0.8,
+      "name": "idle",
+      "users": 1
+    },
+    {
+      "frame_end": 16.8,
+      "frame_start": 0.8,
+      "name": "run",
+      "users": 1
+    },
+    {
+      "frame_end": 22.4,
+      "frame_start": 0.8,
+      "name": "walk",
+      "users": 1
+    }
+  ],
+  "blender": {
+    "background": true,
+    "build_hash": "9e2066aef7ef",
+    "version": "5.2.1 LTS",
+    "version_tuple": [
+      5,
+      2,
+      1
+    ]
+  },
+  "hard_gate_pass": true,
+  "input": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\highway-enemy-rebuild-2026-09-23\\rigged\\v3\\DeliveryRider\\DeliveryRider.glb",
+  "issues": [
+    {
+      "code": "degenerate_faces",
+      "count": 1,
+      "severity": "warning"
+    }
+  ],
+  "material_details": [
+    {
+      "image_texture_nodes": 1,
+      "images": [
+        "BaseColor"
+      ],
+      "name": "Asset_PBR",
+      "node_count": 3,
+      "use_nodes": true
+    }
+  ],
+  "materials": [
+    "Asset_PBR"
+  ],
+  "meshes": [
+    {
+      "boundary_edges": 22009,
+      "connected_components": 3199,
+      "data_name": "geometry_0.001",
+      "degenerate_faces": 1,
+      "edges": 41120,
+      "flat_polygons": 1298,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [
+        "Asset_PBR"
+      ],
+      "missing_material_faces": 0,
+      "modifiers": [
+        {
+          "name": "Armature",
+          "type": "ARMATURE"
+        }
+      ],
+      "name": "DeliveryRider_Body",
+      "non_manifold_edges": 22009,
+      "polygons": 20077,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.935349,
+      "smooth_polygons": 18779,
+      "source_polygons": 20077,
+      "source_vertices": 24158,
+      "triangles": 20077,
+      "uv_layers": 1,
+      "vertex_groups": 18,
+      "vertices": 24158,
+      "weighted_vertices": 24158,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.651936,
+          -0.388652,
+          -0.0
+        ],
+        [
+          0.723308,
+          0.678167,
+          2.999999
+        ]
+      ],
+      "zero_length_edges": 0
+    }
+  ],
+  "objects": [
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.375244,
+        1.066819,
+        2.999999
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "DeliveryRider_Body",
+      "parent": "Rig",
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    },
+    {
+      "action": "attack_loop",
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        1.317153,
+        0.470667,
+        2.15469
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "Rig",
+      "parent": null,
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "ARMATURE"
+    }
+  ],
+  "scene": {
+    "bounds": {
+      "dimensions": [
+        1.375244,
+        1.066819,
+        2.999999
+      ],
+      "max": [
+        0.723308,
+        0.678167,
+        2.999999
+      ],
+      "min": [
+        -0.651936,
+        -0.388652,
+        -0.0
+      ]
+    },
+    "fps": 24.0,
+    "frame_end": 250,
+    "frame_start": 1,
+    "name": "Scene"
+  },
+  "schema_version": 3,
+  "totals": {
+    "actions": 7,
+    "armatures": 1,
+    "bones": 18,
+    "boundary_edges": 22009,
+    "cameras": 0,
+    "constraints": 0,
+    "degenerate_faces": 1,
+    "edges": 41120,
+    "flat_polygons": 1298,
+    "geometry_nodes_modifiers": 0,
+    "images": 1,
+    "invalid_vertices": 0,
+    "isolated_vertices": 0,
+    "lights": 0,
+    "materials": 1,
+    "mesh_objects": 1,
+    "missing_material_faces": 0,
+    "node_materials": 1,
+    "non_manifold_edges": 22009,
+    "objects": 2,
+    "polygons": 20077,
+    "refinement_modifiers": 0,
+    "rigid_body_objects": 0,
+    "shape_keys": 0,
+    "simulation_modifiers": 0,
+    "smooth_polygons": 18779,
+    "textured_materials": 1,
+    "triangles": 20077,
+    "uv_mapped_meshes": 1,
+    "vertices": 24158,
+    "weighted_meshes": 1,
+    "wire_edges": 0,
+    "zero_length_edges": 0
+  }
+}

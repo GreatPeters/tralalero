@@ -393,6 +393,7 @@ namespace IndianOceanAssets.ShooterSurvival
             {
                 visualDistance = GetComponent<EnemyVisualDistance>();
                 if (visualDistance == null) visualDistance = gameObject.AddComponent<EnemyVisualDistance>();
+                if(GetComponent<EnemyContactWarning>()==null)gameObject.AddComponent<EnemyContactWarning>();
             }
             if (cratePose == null) cratePose = GetComponent<FatManCratePose>();
             if (enemyAnimator == null)

@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.99,
+  "summary": "Coarse voxel reconstruction meets the numeric target but creates a porous shaft/grip and speckled cord surfaces in both neutral and PBR views.",
+  "issues": [
+    {
+      "part": "whole surface",
+      "problem": "Voxel reconstruction from UV-separated triangles creates major holes and bake artifacts.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

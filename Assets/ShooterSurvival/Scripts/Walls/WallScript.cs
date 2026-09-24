@@ -201,9 +201,6 @@ namespace IndianOceanAssets.ShooterSurvival
                     selectedBonusRow,
                     random01,
                     baseValue);
-                displayBonusValue = BonusAltarRules.ResolveDisplayValue(
-                    selectedBonusRow,
-                    random01);
                 bonusValueType = selectedBonusRow.valueType;
             }
             else
@@ -231,6 +228,8 @@ namespace IndianOceanAssets.ShooterSurvival
                     _ => 0f
                 };
             }
+            // The caption describes the same resolved amount used by the pickup.
+            displayBonusValue = bonusValue;
         }
 
         private float RollBonusValue(
@@ -245,7 +244,6 @@ namespace IndianOceanAssets.ShooterSurvival
 
             bonusValueType = row.valueType;
             float random01 = Random.value;
-            displayBonusValue = BonusAltarRules.ResolveDisplayValue(row, random01);
             return BonusAltarRules.ResolveValue(row, random01, baseValue);
         }
 
@@ -319,7 +317,7 @@ namespace IndianOceanAssets.ShooterSurvival
             // player enters the wall
             else if (other.CompareTag("Player"))
             {
-                if (playerScript == null || HasInvalidAuthoredRoll())
+                if (playerScript == null || playerScript.currentHealth <= 0f || HasInvalidAuthoredRoll())
                     return;
 
                 if (Time.time - playerScript.lastWallTouchTime >= 2f)
@@ -540,8 +538,7 @@ namespace IndianOceanAssets.ShooterSurvival
                             return;
 
                         weaponScript.bulletCount += (int)bonusValue;
-                        playerScript.currentHealth = 1f;
-                        playerScript.UpdateHealth();
+                        playerScript.ApplyDamage(Mathf.Max(0, playerScript.currentHealth - 1f), PlayerDamageCause.NegativeBonus);
                     }
                     else if ((buffType == BuffType.tungtung_rare))
                     {
@@ -560,7 +557,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 case WallType.NerfWall:
                     if (nerfType == NerfType.HealthReduce)
                     {
-                        playerScript.currentHealth -= healthReduceAmt;          // Reduce player's health
+                        playerScript.ApplyDamage(healthReduceAmt,PlayerDamageCause.NegativeBonus);
                         ShowNerfOverlay();
                     }
 

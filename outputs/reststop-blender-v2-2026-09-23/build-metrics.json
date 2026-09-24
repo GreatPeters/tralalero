@@ -1,0 +1,216 @@
+{
+  "objects": 3768,
+  "mesh_objects": 2407,
+  "triangles": 2302974,
+  "vehicles": 91,
+  "parked_vehicles": 84,
+  "defense_pool": 7,
+  "defense_enemies": 54,
+  "route_enemy_encounters": 50,
+  "store_units": [
+    88,
+    92
+  ],
+  "store_area_ratio_to_v1": 7.666666666666667,
+  "restroom_units": [
+    72,
+    84
+  ],
+  "restroom_area_ratio_to_v1": 10.08,
+  "shark_blender_envelope": [
+    2.919028878211975,
+    6.19562029838562,
+    3.262378215789795
+  ],
+  "route_lengths": [
+    193.0138806059337,
+    188.14810699476357,
+    193.74911675882592,
+    193.99713658518993,
+    0.0,
+    225.58232588571352,
+    232.07333764367925,
+    226.6010182234847,
+    188.35721482317243,
+    193.05965196690255
+  ],
+  "holds": [
+    0.2546306915469607,
+    0.8784478211841567,
+    0.16036964630436756,
+    0.12857223266795614,
+    60,
+    1.0791889890110866,
+    0.24700799440009646,
+    0.9485874072455509,
+    0.8516391252343034,
+    0.24876256834582477
+  ],
+  "motion_speed": 7.8,
+  "fps": 24,
+  "frames": 7200,
+  "events": [
+    {
+      "name": "Entry_open_gate",
+      "start": 18,
+      "end": 25,
+      "kind": "hinged barrier"
+    },
+    {
+      "name": "Automatic_main_doors",
+      "start": 74,
+      "end": 99,
+      "kind": "sliding door"
+    },
+    {
+      "name": "Exit_gate_A",
+      "start": 283,
+      "end": 290,
+      "kind": "hinged barrier"
+    },
+    {
+      "name": "Exit_gate_B",
+      "start": 289,
+      "end": 299,
+      "kind": "hinged barrier"
+    },
+    {
+      "name": "reverse_car_0",
+      "start": 28.5,
+      "end": 34.3,
+      "kind": "brake lights then reversing car"
+    },
+    {
+      "name": "reverse_car_1",
+      "start": 32.5,
+      "end": 38.3,
+      "kind": "brake lights then reversing car"
+    },
+    {
+      "name": "reverse_car_2",
+      "start": 40.5,
+      "end": 46.3,
+      "kind": "brake lights then reversing car"
+    },
+    {
+      "name": "reverse_car_3",
+      "start": 44.0,
+      "end": 49.8,
+      "kind": "brake lights then reversing car"
+    },
+    {
+      "name": "cart_train_0",
+      "start": 57.5,
+      "end": 63.5,
+      "kind": "cart crossing with safe timed gap"
+    },
+    {
+      "name": "cart_train_1",
+      "start": 63,
+      "end": 69,
+      "kind": "cart crossing with safe timed gap"
+    },
+    {
+      "name": "cart_train_2",
+      "start": 168.5,
+      "end": 174.5,
+      "kind": "cart crossing with safe timed gap"
+    },
+    {
+      "name": "cart_train_3",
+      "start": 178,
+      "end": 184,
+      "kind": "cart crossing with safe timed gap"
+    },
+    {
+      "name": "cart_train_4",
+      "start": 200.5,
+      "end": 206.5,
+      "kind": "cart crossing with safe timed gap"
+    },
+    {
+      "name": "cart_train_5",
+      "start": 208,
+      "end": 214,
+      "kind": "cart crossing with safe timed gap"
+    },
+    {
+      "name": "tipping_display",
+      "start": 204.8,
+      "end": 212,
+      "kind": "hinged product display tips into side lane"
+    },
+    {
+      "name": "pipe_jet_0",
+      "start": 225,
+      "end": 231,
+      "kind": "leak warning and water jet"
+    },
+    {
+      "name": "pipe_jet_1",
+      "start": 237,
+      "end": 243,
+      "kind": "leak warning and water jet"
+    },
+    {
+      "name": "cleaning_robot",
+      "start": 220,
+      "end": 250,
+      "kind": "rotating scrubber route"
+    },
+    {
+      "name": "shuttle_bus_crossing",
+      "start": 264,
+      "end": 274,
+      "kind": "shuttle crossing and refuge gap"
+    },
+    {
+      "name": "exit_convoy_0",
+      "start": 279,
+      "end": 285,
+      "kind": "parallel exit traffic"
+    },
+    {
+      "name": "exit_convoy_1",
+      "start": 290,
+      "end": 296,
+      "kind": "parallel exit traffic"
+    },
+    {
+      "name": "Defense_vent_0",
+      "start": 107,
+      "end": 149,
+      "kind": "telegraphed vent slows approaching enemies"
+    },
+    {
+      "name": "Defense_vent_1",
+      "start": 109,
+      "end": 151,
+      "kind": "telegraphed vent slows approaching enemies"
+    },
+    {
+      "name": "Defense_vent_2",
+      "start": 111,
+      "end": 153,
+      "kind": "telegraphed vent slows approaching enemies"
+    },
+    {
+      "name": "Defense_vent_3",
+      "start": 113,
+      "end": 155,
+      "kind": "telegraphed vent slows approaching enemies"
+    }
+  ],
+  "shark_calibrated_envelope": [
+    2.74950361,
+    5.190148,
+    3.262378
+  ],
+  "visual_calibration": [
+    0.8358915448188782,
+    0.837713360786438,
+    0.9815026521682739
+  ],
+  "caption_safe_shift_y": -0.065,
+  "body_size_basis": "Evaluated body at frame 1, excluding aim indicator; gait changes posed extents."
+}

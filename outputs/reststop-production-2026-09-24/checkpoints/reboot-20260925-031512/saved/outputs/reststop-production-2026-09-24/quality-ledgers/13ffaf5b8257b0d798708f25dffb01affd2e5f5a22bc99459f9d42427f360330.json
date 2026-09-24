@@ -1,0 +1,79 @@
+{
+  "version": 2,
+  "image_hash": "13ffaf5b8257b0d798708f25dffb01affd2e5f5a22bc99459f9d42427f360330",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H06_895bf3a8aa\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H06_895bf3a8aa\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H06_895bf3a8aa\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.96,
+                "summary": "13,326-triangle reduction retains cap, face, jacket, gloves, pockets and boot silhouette. Front/rear-oblique/neutral renders compared with source stage. Fresh FBX/GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "collar",
+                    "problem": "Small dark seam/notch remains at the collar edge in close view.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "39125812-5a16-4173-a3c3-df220e4b485b",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Front and both oblique views checked. Red cap and uniform panels, charcoal jacket/trousers, black hair, white gloves and dark boots preserve the reference palette. Face features and pocket/zipper placement are coherent without major bleeding.",
+            "issues": []
+          }
+        }
+      ],
+      "prompt_id": "7cbc8bca-e058-4409-8eb0-bab0adf569bc",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Front and oblique clay views compared with the fuel-attendant input. Cap, hair, facial relief, jacket collar/pockets, trouser side pockets, gloves and boots are intact and limbs remain separate.",
+        "issues": []
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790192842.367255,
+  "notes": [
+    "shape: Front and oblique clay views compared with the fuel-attendant input. Cap, hair, facial relief, jacket collar/pockets, trouser side pockets, gloves and boots are intact and limbs remain separate.",
+    "texture_source: Front and both oblique views checked. Red cap and uniform panels, charcoal jacket/trousers, black hair, white gloves and dark boots preserve the reference palette. Face features and pocket/zipper placement are coherent without major bleeding.",
+    "final_compare: 13,326-triangle reduction retains cap, face, jacket, gloves, pockets and boot silhouette. Front/rear-oblique/neutral renders compared with source stage. Fresh FBX/GLB checks pass."
+  ],
+  "reason": ""
+}

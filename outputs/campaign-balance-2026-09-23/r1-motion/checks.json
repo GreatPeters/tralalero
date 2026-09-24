@@ -1,0 +1,8 @@
+{
+  "checks": {
+    "밸런스 조정": "{\"kind\":\"table\",\"sheet\":\"밸런스 조정\",\"address\":\"B2:H11\",\"rows\":10,\"cols\":7,\"values\":[[\"항목\",\"기본값\",\"레벨당 증가\",\"첫 가격\",\"가격 증가\",\"수치 타입\",\"가격 타입\"],[\"ATT\",0,4,10,5,\"value\",\"Coin\"],[\"HP\",0,20,10,5,\"value\",\"Coin\"],[\"ATT_SPEED\",0,5,45,20,\"percent\",\"Coin\"],[\"PROJECTILE_SPEED\",0,4,40,16,\"percent\",\"Coin\"],[\"BOSS_DAMAGE\",0,8,60,25,\"percent\",\"Coin\"],[\"COIN_BONUS\",0,8,70,35,\"percent\",\"Coin\"],[\"HP_REGEN\",0,0.1,80,35,\"value\",\"Coin\"],[\"TUNGTUNGTUNG\",95,5,450,120,\"percent\",\"Coin\"],[\"BOOMBAR\",125,5,550,150,\"percent\",\"Coin\"]]}",
+    "업그레이드": "{\"kind\":\"table\",\"sheet\":\"업그레이드\",\"address\":\"B3:J8\",\"rows\":6,\"cols\":9,\"values\":[[1,\"ATT\",1,\"공격력\",4,\"value\",\"Coin\",10,\"기본 공격력 증가\"],[1,\"ATT\",2,\"공격력\",8,\"value\",\"Coin\",15,\"기본 공격력 증가\"],[1,\"ATT\",3,\"공격력\",12,\"value\",\"Coin\",20,\"기본 공격력 증가\"],[1,\"ATT\",4,\"공격력\",16,\"value\",\"Coin\",27,\"기본 공격력 증가\"],[1,\"ATT\",5,\"공격력\",20,\"value\",\"Coin\",38,\"기본 공격력 증가\"],[1,\"ATT\",6,\"공격력\",24,\"value\",\"Coin\",53,\"기본 공격력 증가\"]]}",
+    "적 배치": "{\"kind\":\"table\",\"sheet\":\"적 배치\",\"address\":\"M3:R8\",\"rows\":6,\"cols\":6,\"values\":[[\"Normal\",8,45,0.16,0,10],[\"Normal\",8,52,0.15,0,10],[\"Normal\",8,55,0.16,0,10],[\"Normal\",8,63,0.15,0,10],[\"Normal\",8,130,0.16,0,10],[\"Normal\",8,150,0.15,0,10]]}"
+  },
+  "errors": "{\"kind\":\"match\",\"sheet\":\"밸런스 조정\",\"address\":\"C92\",\"value\":\"#NAME?\",\"formula\":\"MAX(업그레이드!D3:D62)\",\"match\":\"value\"}\n{\"kind\":\"match\",\"sheet\":\"밸런스 조정\",\"address\":\"C93\",\"value\":\"#NAME?\",\"formula\":\"MAX(업그레이드!D63:D122)\",\"match\":\"value\"}"
+}

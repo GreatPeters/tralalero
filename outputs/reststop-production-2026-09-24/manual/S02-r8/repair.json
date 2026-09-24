@@ -1,0 +1,148 @@
+{
+  "source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\S02-r4\\source\\model.glb",
+  "method": "Independently repair/reduce semantic body, glass and shelf parts; bake only the opaque TRELLIS body, retain separate constant glass and stainless materials",
+  "parts": {
+    "glass": {
+      "before": {
+        "triangles": 45362,
+        "vertices": 24981,
+        "degenerate_faces": 0,
+        "loose_vertices": 0,
+        "boundary_edges": 5807,
+        "nonmanifold_edges": 180,
+        "finite": true,
+        "uv": false
+      },
+      "split_edges": 180,
+      "budget": 1400,
+      "reduction_metrics": [
+        {
+          "triangles": 1943,
+          "vertices": 1455,
+          "degenerate_faces": 0,
+          "loose_vertices": 0,
+          "boundary_edges": 1613,
+          "nonmanifold_edges": 0,
+          "finite": true,
+          "uv": false
+        },
+        {
+          "triangles": 1399,
+          "vertices": 794,
+          "degenerate_faces": 0,
+          "loose_vertices": 0,
+          "boundary_edges": 851,
+          "nonmanifold_edges": 0,
+          "finite": true,
+          "uv": false
+        }
+      ],
+      "after": {
+        "triangles": 1399,
+        "vertices": 794,
+        "degenerate_faces": 0,
+        "loose_vertices": 0,
+        "boundary_edges": 851,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "uv": false
+      }
+    },
+    "shelves": {
+      "before": {
+        "triangles": 46867,
+        "vertices": 24474,
+        "degenerate_faces": 0,
+        "loose_vertices": 0,
+        "boundary_edges": 2544,
+        "nonmanifold_edges": 191,
+        "finite": true,
+        "uv": false
+      },
+      "split_edges": 191,
+      "budget": 1400,
+      "reduction_metrics": [
+        {
+          "triangles": 1481,
+          "vertices": 913,
+          "degenerate_faces": 0,
+          "loose_vertices": 0,
+          "boundary_edges": 653,
+          "nonmanifold_edges": 0,
+          "finite": true,
+          "uv": false
+        },
+        {
+          "triangles": 1335,
+          "vertices": 642,
+          "degenerate_faces": 0,
+          "loose_vertices": 0,
+          "boundary_edges": 399,
+          "nonmanifold_edges": 0,
+          "finite": true,
+          "uv": false
+        }
+      ],
+      "after": {
+        "triangles": 1335,
+        "vertices": 642,
+        "degenerate_faces": 0,
+        "loose_vertices": 0,
+        "boundary_edges": 399,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "uv": false
+      }
+    },
+    "body": {
+      "before": {
+        "triangles": 201611,
+        "vertices": 102670,
+        "degenerate_faces": 0,
+        "loose_vertices": 0,
+        "boundary_edges": 6662,
+        "nonmanifold_edges": 704,
+        "finite": true,
+        "uv": true
+      },
+      "split_edges": 704,
+      "budget": 11800,
+      "reduction_metrics": [
+        {
+          "triangles": 11541,
+          "vertices": 6494,
+          "degenerate_faces": 0,
+          "loose_vertices": 0,
+          "boundary_edges": 3687,
+          "nonmanifold_edges": 0,
+          "finite": true,
+          "uv": true
+        }
+      ],
+      "after": {
+        "triangles": 11541,
+        "vertices": 6494,
+        "degenerate_faces": 0,
+        "loose_vertices": 0,
+        "boundary_edges": 3687,
+        "nonmanifold_edges": 0,
+        "finite": true,
+        "uv": true
+      }
+    }
+  },
+  "final_metrics": {
+    "triangles": 14275,
+    "vertices": 7930,
+    "degenerate_faces": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 4937,
+    "nonmanifold_edges": 0,
+    "finite": true,
+    "uv": true
+  },
+  "materials": 3,
+  "original_canonical_attempts_preserved": 2,
+  "extra_ai_requests": 0,
+  "requires_fresh_import_and_visibility_review": true
+}

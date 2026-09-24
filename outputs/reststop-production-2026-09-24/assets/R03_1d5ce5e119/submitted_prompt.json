@@ -1,0 +1,116 @@
+{
+  "6": {
+    "inputs": {
+      "image": "trellis_automation/1d5ce5e119002667_m1_t1.png"
+    },
+    "class_type": "Trellis2LoadImageWithTransparency",
+    "_meta": {
+      "title": "Image with Transparency"
+    }
+  },
+  "39": {
+    "inputs": {
+      "modelname": "microsoft/TRELLIS.2-4B",
+      "backend": "sdpa",
+      "device": "cuda",
+      "low_vram": false,
+      "keep_models_loaded": false,
+      "conv_backend": "flex_gemm",
+      "sparse_backend": "flash_attn",
+      "use_reconviagen": false
+    },
+    "class_type": "Trellis2LoadModel",
+    "_meta": {
+      "title": "Trellis2 - LoadModel"
+    }
+  },
+  "194": {
+    "inputs": {
+      "padding": 10,
+      "remove_background": true,
+      "max_size": 1024,
+      "image": [
+        "6",
+        2
+      ]
+    },
+    "class_type": "Trellis2PreProcessImage",
+    "_meta": {
+      "title": "Trellis2 - PreProcess Image"
+    }
+  },
+  "261": {
+    "inputs": {
+      "seed": 12345,
+      "texture_steps": 25,
+      "texture_guidance_strength": 7.5,
+      "texture_guidance_rescale": 0.01,
+      "texture_rescale_t": 3.0,
+      "resolution": 1024,
+      "texture_size": 2048,
+      "texture_alpha_mode": "OPAQUE",
+      "double_side_material": false,
+      "texture_guidance_interval_start": 0.0,
+      "texture_guidance_interval_end": 0.9,
+      "max_views": 1,
+      "bake_on_vertices": false,
+      "use_custom_normals": false,
+      "mesh_cluster_threshold_cone_half_angle_rad": 60.0,
+      "sampler": "heun",
+      "inpainting": "telea",
+      "verbose": false,
+      "dino_lock": 0.35,
+      "dino_substeps": 2,
+      "dino_foundation_cap": 0.92,
+      "pipeline": [
+        "39",
+        0
+      ],
+      "image": [
+        "194",
+        0
+      ],
+      "trimesh": [
+        "700",
+        0
+      ]
+    },
+    "class_type": "Trellis2MeshTexturing",
+    "_meta": {
+      "title": "Trellis2 - Mesh Texturing"
+    }
+  },
+  "262": {
+    "inputs": {
+      "filename_prefix": "trellis_automation/1d5ce5e119002667/m1_t1/asset",
+      "file_format": "glb",
+      "trimesh": [
+        "261",
+        0
+      ]
+    },
+    "class_type": "Trellis2ExportMesh",
+    "_meta": {
+      "title": "Trellis2 - Export Mesh"
+    }
+  },
+  "263": {
+    "inputs": {
+      "model_file": [
+        "262",
+        0
+      ],
+      "image": ""
+    },
+    "class_type": "Preview3D",
+    "_meta": {
+      "title": "3D 미리보기"
+    }
+  },
+  "700": {
+    "class_type": "Trellis2LoadMesh",
+    "inputs": {
+      "glb_path": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R03_1d5ce5e119\\stages\\m1\\model.glb"
+    }
+  }
+}

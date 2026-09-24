@@ -122,7 +122,7 @@ namespace IndianOceanAssets.ShooterSurvival
                         enemyScript.EnemyDeath();
                     }
 
-                    if (obj.CompareTag("Player")) playerScript.currentHealth -= deathDamage;
+                    if (obj.CompareTag("Player")) playerScript.ApplyDamage(deathDamage,PlayerDamageCause.Barrel);
                 }
             }
         }

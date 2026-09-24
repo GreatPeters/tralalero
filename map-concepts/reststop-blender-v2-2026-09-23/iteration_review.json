@@ -1,0 +1,131 @@
+{
+  "contract": {
+    "critical": [
+      "larger restroom",
+      "larger convenience store",
+      "real game scale and movement reference",
+      "more vehicles",
+      "readable moving gimmicks",
+      "quarter-view stage 5"
+    ],
+    "invariants": [
+      "300 seconds",
+      "10 connected stages in the specified order",
+      "60-second stationary defense",
+      "90 degrees per second maximum aiming",
+      "existing shark identity"
+    ],
+    "exclusions": [
+      "TRELLIS generation",
+      "Seedance video",
+      "Unity scene installation"
+    ],
+    "allowed_changes": [
+      "world bounds",
+      "facility dimensions",
+      "route lengths",
+      "camera design",
+      "encounter and vehicle counts"
+    ]
+  },
+  "candidate": "outputs/reststop-blender-300s-2026-09-23/reststop-master.blend",
+  "candidate_evidence": "outputs/reststop-blender-300s-2026-09-23/review-final/",
+  "ledger_before": [
+    {
+      "requirement": "restroom and store size",
+      "status": "fail",
+      "evidence": "08-review.jpg and 07-review.jpg; user explicitly rejected perceived size"
+    },
+    {
+      "requirement": "game grounding",
+      "status": "fail",
+      "evidence": "previous route uses slow framing rather than the workbook's 7.8 units/s; native game-scale.json now measured"
+    },
+    {
+      "requirement": "quarter-view defense",
+      "status": "fail",
+      "evidence": "05-review.jpg shows a vertical bird's-eye view"
+    },
+    {
+      "requirement": "cars and gimmick variety",
+      "status": "fail",
+      "evidence": "02-review.jpg sparse parking and repeated trolley motion"
+    },
+    {
+      "requirement": "300s / 10 clips / 60s defense / continuous turn limit",
+      "status": "pass",
+      "evidence": "previous video-manifest.json and scene-validation.json"
+    }
+  ],
+  "decision": "retain_repair",
+  "selected_defect": "Facilities felt too small and the defense view was vertical instead of quarter view.",
+  "source_cause": "Previous world scale and route timing were authored without native game measurements; camera viewed the arena vertically.",
+  "repair": "Rebuilt facilities and travel route around measured game player/motion/camera references; placed 91 vehicles; authored distinct moving hazards; changed defense camera to a fixed oblique view.",
+  "final_evidence": {
+    "master": "outputs\\reststop-blender-v2-2026-09-23\\reststop-v2.blend",
+    "encoded_reviews": "outputs\\reststop-blender-v2-2026-09-23\\review-final",
+    "gimmick_sequences": "outputs\\reststop-blender-v2-2026-09-23\\gimmick-review",
+    "same_scale_comparison": "outputs\\reststop-blender-v2-2026-09-23\\comparison",
+    "native_validation": "outputs\\reststop-blender-v2-2026-09-23\\validation.json",
+    "fresh_import": "outputs\\reststop-blender-v2-2026-09-23\\fresh-glb-validation.json"
+  },
+  "ledger_after": [
+    {
+      "requirement": "larger restroom",
+      "status": "pass",
+      "evidence": "08-review.jpg, comparison-restroom.png; 72×84 versus previous 30×20 game units"
+    },
+    {
+      "requirement": "larger convenience store",
+      "status": "pass",
+      "evidence": "07-review.jpg, comparison-store.png; 88×92 versus previous 24×44 game units"
+    },
+    {
+      "requirement": "actual game reference",
+      "status": "pass",
+      "evidence": "game-scale.json, game-vehicles.json, game-settings.json, validation.json; actual shark/car assets and measured movement/camera baseline"
+    },
+    {
+      "requirement": "more cars",
+      "status": "pass",
+      "evidence": "02-review.jpg, 09-review.jpg, whole-map.png; 91 vehicles in build-metrics.json"
+    },
+    {
+      "requirement": "readable moving gimmicks",
+      "status": "pass",
+      "evidence": "gimmick-review/01-sequence.jpg through 08-sequence.jpg; before/active/after encoded frames"
+    },
+    {
+      "requirement": "quarter-view defense",
+      "status": "pass",
+      "evidence": "05-review.jpg, comparison-defense.png, actual Chrome playback; fixed oblique camera and visible character side silhouettes"
+    }
+  ],
+  "invariant_results": {
+    "duration_seconds": 300,
+    "clips": 10,
+    "fps": 24,
+    "frames": 7200,
+    "stationary_defense_seconds": 60,
+    "max_aim_degrees_per_second": 89.98932691880543,
+    "all_eight_heading_bins_visited": true,
+    "previous_v1_preserved": true,
+    "original_shark_identity_preserved": true,
+    "new_native_source_and_static_glb_reopened": true,
+    "trellis_calls": 0,
+    "seedance_calls": 0,
+    "unity_asset_writes": 0
+  },
+  "accepted_scope_changes": {
+    "store_area_ratio": 7.666666666666667,
+    "restroom_area_ratio": 10.08,
+    "expanded_world_and_routes": "Allowed by requested larger game-scale spaces",
+    "camera": "Quarter view explicitly requested"
+  },
+  "limits": [
+    "Previs, not Unity gameplay installation or performance-ready level",
+    "Authored encounters and hazards, not a verified gameplay-balance simulation",
+    "Visual sampling covers all stages and critical events, not every pixel of all 7200 frames",
+    "Body size is measured at the reference frame; posed extents vary"
+  ]
+}

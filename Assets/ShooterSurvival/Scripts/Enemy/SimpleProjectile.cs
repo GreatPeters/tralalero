@@ -9,6 +9,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private bool isAttacked;
         private bool inFlight;
         [System.NonSerialized] public float damage = 5f;
+        public PlayerDamageCause damageCause = PlayerDamageCause.GuardShot;
         private Rigidbody flightBody;
         private Vector3 launchVelocity;
         private float remainingLifetime;
@@ -70,8 +71,7 @@ namespace IndianOceanAssets.ShooterSurvival
             PlayerScript player = other.GetComponent<PlayerScript>();
             if (player == null) return;
             isAttacked = true;
-            player.currentHealth = Mathf.Max(0f, player.currentHealth - damage);
-            player.UpdateHealth();
+            player.ApplyDamage(damage,damageCause);
 
             if (TryGetComponent(out TrailRenderer trail))
                 trail.enabled = false;

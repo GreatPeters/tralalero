@@ -1,0 +1,19 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "summary": "The 14378-triangle board retains its long silhouette, inset blank display face and perimeter trim. Finished front PBR stays close to the source; fresh FBX and GLB checks pass. The default preview showed the reverse, so it was retained separately and the actual front hero render was selected as the published preview. All rear evidence remains available.",
+  "issues": [
+    {
+      "part": "front and trim",
+      "problem": "Minor neutral-only faceting and edge softening after reduction; finished wood face remains blank.",
+      "kind": "mesh",
+      "severity": "minor"
+    },
+    {
+      "part": "rear",
+      "problem": "Original inferred dark patch outlines remain on the reverse and are documented in source/review images.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "image_hash": "3b285346d0fce7787bec704a4fee25efb3a9675341e7d0f22685fa37528c1371",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B04_5cf93234f3\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B04_5cf93234f3\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B04_5cf93234f3\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.94,
+                "summary": "14,680-triangle pillar compared with source in all contact views and full hero. Textured stone appearance, silhouette, cap and base construction remain intact; fresh imports pass. No major visible PBR regression.",
+                "issues": [
+                  {
+                    "part": "base and cap corners",
+                    "problem": "Minor rounding/faceting is more apparent in the neutral diagnostic than the finished stone material.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "2b6e4414-757b-4a18-8c3d-fe2ee4316c8b",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Reference, all contact-sheet views and full hero checked. Cream stone shaft/cap, fine block joints and dark stone base match the intended pillar. Materials are coherent around corners without major bleeding or missing regions.",
+            "issues": []
+          }
+        }
+      ],
+      "prompt_id": "223a6502-0659-415f-919f-bc4d92855eaa",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Reference, five clay views and full hero inspected. Tall square pillar, straight shaft, wider base plinth and thin cap preserve the reference proportions and construction. No major deformation or missing piece.",
+        "issues": [
+          {
+            "part": "shaft surface",
+            "problem": "Small shallow pits/marks on one side remain; inspect under the stone material.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790200049.7559133,
+  "notes": [
+    "shape: Reference, five clay views and full hero inspected. Tall square pillar, straight shaft, wider base plinth and thin cap preserve the reference proportions and construction. No major deformation or missing piece.",
+    "texture_source: Reference, all contact-sheet views and full hero checked. Cream stone shaft/cap, fine block joints and dark stone base match the intended pillar. Materials are coherent around corners without major bleeding or missing regions.",
+    "final_compare: 14,680-triangle pillar compared with source in all contact views and full hero. Textured stone appearance, silhouette, cap and base construction remain intact; fresh imports pass. No major visible PBR regression."
+  ],
+  "reason": ""
+}

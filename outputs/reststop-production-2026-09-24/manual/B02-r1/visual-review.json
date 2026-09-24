@@ -1,0 +1,12 @@
+{
+  "verdict": "texture",
+  "summary": "Main face shading improved, but the unchanged baked normal map on thin side edges conflicts with the new vertex normals. Superseded by r2, which clears that input across this fully rigid panel.",
+  "issues": [
+    {
+      "part": "thin side edge",
+      "problem": "Unwanted trough-like shading remains.",
+      "kind": "texture",
+      "severity": "major"
+    }
+  ]
+}

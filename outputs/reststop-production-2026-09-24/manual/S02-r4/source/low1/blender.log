@@ -1,0 +1,21 @@
+APP_STAGE Import source GLB
+00:16:58 | INFO: Data are loaded, start creating Blender stuff
+00:16:58 | INFO: Blender create Mesh node glass exact source faces
+00:16:59 | INFO: Blender create Mesh node shelves exact source faces
+00:16:59 | INFO: Blender create Mesh node geometry_0
+00:17:00 | INFO: glTF import finished in 1.20s
+APP_STAGE Clean mesh
+APP_STAGE Reduce triangle count
+Traceback (most recent call last):
+  File "C:\Users\ljh\Desktop\AI 프로그램\Trellis 자동화\앱\blender_refine.py", line 226, in <module>
+    (verify if is_verify else refine)(req)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\ljh\Desktop\AI 프로그램\Trellis 자동화\앱\blender_refine.py", line 187, in refine
+    if tris(low)>target:raise RuntimeError('Could not meet triangle budget.')
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Could not meet triangle budget.
+
+Error: script failed, file: 'C:\Users\ljh\Desktop\AI 프로그램\Trellis 자동화\앱\blender_refine.py', exiting.
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

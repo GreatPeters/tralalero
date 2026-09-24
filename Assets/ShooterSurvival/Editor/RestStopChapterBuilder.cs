@@ -97,6 +97,28 @@ public static class RestStopChapterBuilder
         return result;
     }
 
+    public static Vector3 ProjectRoadCenter(Vector3 worldPosition, Vector3 heading)
+        => ProjectRoadCenter(worldPosition, heading, out _);
+
+    public static Vector3 ProjectRoadCenter(Vector3 worldPosition, Vector3 heading, out Vector3 roadForward)
+    {
+        if (points == null)
+            points = JObject.Parse(File.ReadAllText(Record + "/reststop-layout.json"))["points"]
+                .Select(p => new Vector3((float)p[0], (float)p[1], (float)p[2])).ToArray();
+        float best = float.PositiveInfinity; Vector3 result = worldPosition; roadForward = Vector3.zero;
+        for (int i = 0; i < points.Length - 1; i++)
+        {
+            var delta = points[i + 1] - points[i];
+            if (Mathf.Abs(Vector3.Dot(delta.normalized, heading.normalized)) < .8f) continue;
+            float t = Mathf.Clamp01(Vector3.Dot(worldPosition - points[i], delta) / delta.sqrMagnitude);
+            var candidate = points[i] + delta * t; candidate.y = worldPosition.y;
+            float error = (candidate - worldPosition).sqrMagnitude;
+            if (error < best) { best = error; result = candidate; roadForward = delta.normalized; }
+        }
+        if (float.IsPositiveInfinity(best)) throw new InvalidOperationException("No matching RestStop road direction");
+        return result;
+    }
+
     private static Vector3 Sample(float distance, out Vector3 forward)
     {
         for (int i = 0; i < points.Length - 1; i++)

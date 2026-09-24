@@ -11,6 +11,7 @@ namespace IndianOceanAssets.ShooterSurvival
         Vector3 direction;
         float elapsedDuration;
         bool returnedToPool;
+        HighwayProjectilePath roadFlight;
         public float LaunchDamage { get; private set; }
         public bool HasDamagePayload { get; private set; }
 
@@ -57,6 +58,7 @@ namespace IndianOceanAssets.ShooterSurvival
             ActiveProjectiles.Remove(this);
             routeOwner = null;
             projectileRoot = null;
+            roadFlight = default;
         }
 
         private void Start()
@@ -70,7 +72,12 @@ namespace IndianOceanAssets.ShooterSurvival
             float remainingDuration = Mathf.Max(0f, CurrentMissileDuration - elapsedDuration);
             float deltaSeconds = Mathf.Min(GetSimulationDeltaTime(), remainingDuration);
             Transform movingTransform = GetProjectileTransform();
-            movingTransform.position += direction * baseMissileSpeed * deltaSeconds;
+            if (roadFlight.IsActive)
+            {
+                movingTransform.position = roadFlight.Advance(baseMissileSpeed * deltaSeconds, out var rotation);
+                movingTransform.rotation = rotation * movingTransform.rotation;
+            }
+            else movingTransform.position += direction * baseMissileSpeed * deltaSeconds;
             AdvanceLifetime(deltaSeconds);
         }
 
@@ -92,6 +99,10 @@ namespace IndianOceanAssets.ShooterSurvival
             direction = dir;
             projectileRoot = transform.root;
             routeOwner = owner;
+            var road = owner != null ? owner.ProjectileRoute : null;
+            roadFlight = road != null && road.isActiveAndEnabled && road.centers.Length > 1
+                ? new HighwayProjectilePath(road, road.Distance, road.OnBypass, projectileRoot.position, dir)
+                : default;
             elapsedDuration = 0f;
             returnedToPool = false;
             ActiveProjectiles.Add(this);
@@ -119,6 +130,8 @@ namespace IndianOceanAssets.ShooterSurvival
                 {
                     continue;
                 }
+
+                if (projectile.roadFlight.IsActive) continue;
 
                 projectile.direction = rotationDelta * projectile.direction;
                 Transform movingTransform = projectile.GetProjectileTransform();

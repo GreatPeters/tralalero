@@ -10,16 +10,18 @@ public sealed class NoryangjinCameraOcclusionTests
     private readonly List<GameObject> objects = new();
     private GameObject Make(string name) { var go=new GameObject(name);objects.Add(go);return go; }
     [TearDown] public void Cleanup() { foreach(var go in objects)if(go!=null)Object.DestroyImmediate(go);objects.Clear(); }
-    [Test] public void GroundedCombinedGantry_HidesAsAnExplicitProp_WhileRoadStaysVisible()
+    [Test] public void SevereGantryFadesToFortyPercent_WhileRoadAndCollisionStayVisible()
     {
         var player=Make("Player");var roads=Make("Roads");
         var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);objects.Add(floor);floor.transform.SetParent(roads.transform);floor.transform.position=new Vector3(0,-.5f,0);floor.transform.localScale=new Vector3(10,1,50);
-        var gantry=GameObject.CreatePrimitive(PrimitiveType.Cube);objects.Add(gantry);gantry.transform.position=new Vector3(0,3,-5);gantry.transform.localScale=new Vector3(8,6,1);
+        var gantry=GameObject.CreatePrimitive(PrimitiveType.Cube);objects.Add(gantry);gantry.transform.position=new Vector3(0,5,-5);gantry.transform.localScale=new Vector3(8,10,1);
         var camera=Make("Camera");camera.transform.position=new Vector3(0,10,-10);
         var occlusion=camera.AddComponent<NoryangjinCameraOcclusion>();occlusion.Configure(player.transform,roads.transform);occlusion.ConfigureAdditionalOccluders(new[]{gantry.transform});occlusion.RefreshVisibility();
-        Assert.That(gantry.GetComponent<Renderer>().forceRenderingOff,Is.True);Assert.That(floor.GetComponent<Renderer>().forceRenderingOff,Is.False);
+        Assert.That(gantry.GetComponent<Renderer>().forceRenderingOff,Is.False);Assert.That(floor.GetComponent<Renderer>().forceRenderingOff,Is.False);
+        Assert.That(occlusion.SceneryOpacity(gantry.GetComponent<Renderer>()),Is.EqualTo(.4f).Within(.001f));Assert.That(gantry.GetComponent<Collider>().enabled,Is.True);
         player.transform.position=Vector3.forward*40;camera.transform.position=new Vector3(0,10,30);occlusion.RefreshVisibility();
         Assert.That(gantry.GetComponent<Renderer>().forceRenderingOff,Is.False);
+        Assert.That(occlusion.FadedCount,Is.Zero);
     }
     [Test] public void OverheadOccluder_HidesThenRestoresWithoutRemovingFloorOrColliders()
     {
@@ -43,16 +45,24 @@ public sealed class NoryangjinCameraOcclusionTests
         component.RefreshVisibility();disable.Invoke(component,null);Assert.That(b.GetComponent<Renderer>().forceRenderingOff,Is.False);
         b.GetComponent<Renderer>().forceRenderingOff=true;component.RefreshVisibility();disable.Invoke(component,null);Assert.That(b.GetComponent<Renderer>().forceRenderingOff,Is.True);
     }
-    [Test] public void AdditionalScenery_HidesWithoutMovingIt_AndRestoresWhenUnbound()
+    [Test] public void AdditionalSceneryFadesWithoutMovingIt_AndRestoresWhenUnbound()
     {
         var player=Make("Player");var roads=Make("Roads");var props=Make("Props");
-        var sign=GameObject.CreatePrimitive(PrimitiveType.Cube);objects.Add(sign);sign.transform.SetParent(props.transform);sign.transform.position=new Vector3(0,6,-5);sign.transform.localScale=new Vector3(10,1,2);
+        var sign=GameObject.CreatePrimitive(PrimitiveType.Cube);objects.Add(sign);sign.transform.SetParent(props.transform);sign.transform.position=new Vector3(0,5,-5);sign.transform.localScale=new Vector3(10,8,2);
         var cam=Make("Camera");cam.transform.position=new Vector3(0,10,-10);var component=cam.AddComponent<NoryangjinCameraOcclusion>();component.Configure(player.transform,roads.transform);
         var renderer=sign.GetComponent<Renderer>();var position=sign.transform.position;
         var lettering=GameObject.CreatePrimitive(PrimitiveType.Cube);objects.Add(lettering);lettering.transform.SetParent(sign.transform);lettering.transform.position=new Vector3(4,6,-5);lettering.transform.localScale=Vector3.one*.01f;
         component.ConfigureAdditionalOccluders(new[]{sign.transform,sign.transform});component.RefreshVisibility();
-        Assert.That(component.HiddenCount,Is.EqualTo(2));Assert.That(renderer.forceRenderingOff,Is.True);Assert.That(lettering.GetComponent<Renderer>().forceRenderingOff,Is.True);Assert.That(sign.transform.position,Is.EqualTo(position));Assert.That(sign.GetComponent<Collider>().enabled,Is.True);
+        Assert.That(component.FadedCount,Is.EqualTo(2));Assert.That(renderer.forceRenderingOff,Is.False);Assert.That(lettering.GetComponent<Renderer>().forceRenderingOff,Is.False);Assert.That(sign.transform.position,Is.EqualTo(position));Assert.That(sign.GetComponent<Collider>().enabled,Is.True);
         component.ConfigureAdditionalOccluders(System.Array.Empty<Transform>());component.RefreshVisibility();Assert.That(renderer.forceRenderingOff,Is.False);Assert.That(lettering.GetComponent<Renderer>().forceRenderingOff,Is.False);Assert.That(component.HiddenCount,Is.Zero);
+        Assert.That(component.FadedCount,Is.Zero);
+    }
+
+    [Test] public void PartialBodyOcclusionAndSideIntrusionRemainOpaque()
+    {
+        var cam=new Vector3(0,10,-10);var torso=new Vector3(0,1.4f,0);
+        Assert.That(NoryangjinCameraOcclusion.SeverelyBlocks(new Bounds(new Vector3(0,6,-5),new Vector3(10,1,1)),cam,torso,Vector3.forward,Vector3.right),Is.False,"A beam across the shark only must not erase scenic depth.");
+        Assert.That(NoryangjinCameraOcclusion.SeverelyBlocks(new Bounds(new Vector3(4,5,-5),new Vector3(1,10,1)),cam,torso,Vector3.forward,Vector3.right),Is.False);
     }
 
     [Test] public void ConnectedUphillTiles_RemainVisibleAboveTheCurrentFloor()

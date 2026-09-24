@@ -1,0 +1,19 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "summary": "Standard views and dedicated underside render inspected. The elongated rectangular canopy, deep fascia, perimeter trim and inset underside match the main reference construction. The underside is mostly flat, so panel seams and flush-light appearance must be verified after texturing.",
+  "issues": [
+    {
+      "part": "upper trim",
+      "problem": "Small source-stage seam pits and edge waviness along the upper rim.",
+      "kind": "mesh",
+      "severity": "minor"
+    },
+    {
+      "part": "underside details",
+      "problem": "Soffit panel lines and flush lights are not resolved as separate clay geometry; inspect material-stage representation.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "counts": {
+    "meshes": 1,
+    "textures": 1,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 2
+  },
+  "notes": [
+    "shape: Corner counter retains the L-shaped countertop/body, continuous plinth and small front pickup ledge. Five views show coherent primary construction without the prior counter-style projecting board stack.",
+    "texture_source: Corner counter has a coherent light stone top/ledge, vertical wood finish, dark plinth and green corner trim. Primary outward faces match the reference construction and color grouping.",
+    "final_compare: Reduced corner counter develops large new black streaks/patches on the inner short-side wood panel, absent from the accepted textured source. The primary silhouette remains intact, but this final appearance is not accepted. Unlit BaseColor-only renders confirm color-map contamination, not merely lighting.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "final_compare: Second canonical reduction removes the first pass severe black tears. L silhouette, stone top, front slats, green trim and pickup ledge remain coherent in all five inspected views. Small additional dark wood grain on the inner short panel is a minor residual difference. Hold this reviewed verdict until the S02 GPU request has completed. S02 body-only GPU texture completed successfully and the queue is empty; the held visual approval is now released."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\bcb22086207832597088ed00ebc4f9f0ac3bf96353515f1143d7939eaedfd9f2.json",
+  "policy": "stage_gates_v2"
+}

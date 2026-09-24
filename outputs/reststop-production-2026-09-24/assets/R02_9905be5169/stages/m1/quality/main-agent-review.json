@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.99,
+  "summary": "The simple continuous curved road has been reconstructed as a forked Y-shaped slab with a deep side notch and inconsistent width. Cached raw decoder stage217 shows the same defect, so this is not introduced only by final simplification.",
+  "issues": [
+    {
+      "part": "road silhouette",
+      "problem": "Invented branch and missing road area violate the unbranched curved reference.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

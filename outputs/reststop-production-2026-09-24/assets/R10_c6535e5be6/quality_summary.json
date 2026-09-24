@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "counts": {
+    "meshes": 2,
+    "textures": 1,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 1
+  },
+  "notes": [
+    "shape: Cabinet face contains long broken vertical strips and multiple jagged holes/tears below the connector. Cached raw decoder geometry shows the same damage before final postprocessing.",
+    "shape: Second charger has coherent cabinet panels with the prior tears removed, a display/connector recess, cable loop/retainer and bolted base. Five views preserve the upright charger silhouette and open cable spacing.",
+    "texture_source: Teal housing, light trim/base, dark display recess and black cable/retainer remain coherent across five views. Connector grip is distinct and no major material bleed is visible.",
+    "final_compare: Reduced charger retains cabinet, cable spacing, connector/display recesses and coherent teal/light/dark materials. No major new cable color bleed or panel shading damage in the five-view source comparison. Fresh FBX/GLB pass at 14,029 triangles."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\0b380ef986ab81c6895a63cc114f62288580cd9c0c17674f6c8c68ac68002b3c.json",
+  "policy": "stage_gates_v2"
+}

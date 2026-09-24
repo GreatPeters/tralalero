@@ -1,0 +1,27 @@
+{
+  "verdict": "pass",
+  "confidence": 0.93,
+  "summary": "Attack, greeting, serving, walking, running, hit and fallen pose renders checked. Head/cap/hair retain shape, arms and hands stay coherent, level soles retain ground contact. Nine exported clips and full movie validated.",
+  "issues": [
+    {
+      "part": "apron",
+      "problem": "Small upper bib folds/pinching at the largest arm lift.",
+      "severity": "minor"
+    },
+    {
+      "part": "right sleeve",
+      "problem": "Minor jagged generated edge at cuff seen close up in raised-arm pose.",
+      "severity": "minor"
+    }
+  ],
+  "evidence": [
+    "fresh-rig-validation.json",
+    "video-validation.json",
+    "animation-preview.mp4",
+    "poses/attack_once-010.png",
+    "poses/serve-014.png",
+    "poses/run-006.png",
+    "poses/hit-003.png",
+    "poses/die-024.png"
+  ]
+}

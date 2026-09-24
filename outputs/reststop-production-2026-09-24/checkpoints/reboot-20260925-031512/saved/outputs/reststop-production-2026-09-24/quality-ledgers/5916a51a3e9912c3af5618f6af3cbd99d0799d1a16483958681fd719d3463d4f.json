@@ -1,0 +1,79 @@
+{
+  "version": 2,
+  "image_hash": "5916a51a3e9912c3af5618f6af3cbd99d0799d1a16483958681fd719d3463d4f",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H01_e19fcef0f3\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H01_e19fcef0f3\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H01_e19fcef0f3\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.92,
+                "summary": "정적 감량본은 13,373삼각형이며 원본 대비 얼굴·안경·모자·조끼·장갑·신발의 주요 형상과 색 영역을 유지한다. 새로운 큰 균열이나 재질 손실 없이 새 FBX/GLB 임포트 검증을 통과했다. 이 판정은 정적 몸체에 대한 것이며 본·애니메이션의 변형 검증은 별도 진행 중이다.",
+                "issues": [
+                  {
+                    "part": "모자 가장자리",
+                    "problem": "중립 재질에서 고밀도 원본보다 작은 굴곡이 완만하게 단순화됐지만 주요 모자 실루엣은 유지된다.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "5bd646d3-578d-43c8-ac37-d5f338d5a3ae",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.93,
+            "summary": "주차 안내원의 안경 속 두 눈, 눈썹·입·볼, 흰 모자와 청록 띠, 밝은 조끼·남색 작업복·장갑·신발 색 영역이 정면과 뒤쪽에서 일관된다. 얼굴 중복이나 큰 번짐, 부품 누락은 확인되지 않는다. 감량 후 얼굴/손/모자 윤곽을 다시 확인한다.",
+            "issues": []
+          }
+        }
+      ],
+      "prompt_id": "ed39bf7d-d52d-425b-a80c-9c03f5788a1c",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.91,
+        "summary": "앞·뒤·상단 및 추가한 낮은 정면 렌더에서 모자, 안경 테두리, 조끼, 두 팔·장갑·분리된 다리와 신발이 확인된다. 큰 배경 조각이나 주요 신체 누락 없이 레퍼런스의 짧은 체형을 유지한다. 눈과 표정 색은 다음 재질 단계에서 검토한다.",
+        "issues": []
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790187151.595449,
+  "notes": [
+    "shape: 앞·뒤·상단 및 추가한 낮은 정면 렌더에서 모자, 안경 테두리, 조끼, 두 팔·장갑·분리된 다리와 신발이 확인된다. 큰 배경 조각이나 주요 신체 누락 없이 레퍼런스의 짧은 체형을 유지한다. 눈과 표정 색은 다음 재질 단계에서 검토한다.",
+    "texture_source: 주차 안내원의 안경 속 두 눈, 눈썹·입·볼, 흰 모자와 청록 띠, 밝은 조끼·남색 작업복·장갑·신발 색 영역이 정면과 뒤쪽에서 일관된다. 얼굴 중복이나 큰 번짐, 부품 누락은 확인되지 않는다. 감량 후 얼굴/손/모자 윤곽을 다시 확인한다.",
+    "final_compare: 정적 감량본은 13,373삼각형이며 원본 대비 얼굴·안경·모자·조끼·장갑·신발의 주요 형상과 색 영역을 유지한다. 새로운 큰 균열이나 재질 손실 없이 새 FBX/GLB 임포트 검증을 통과했다. 이 판정은 정적 몸체에 대한 것이며 본·애니메이션의 변형 검증은 별도 진행 중이다."
+  ],
+  "reason": ""
+}

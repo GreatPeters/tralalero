@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.97,
+  "summary": "Orange/cream packaging colors and sealed silhouette are correct, but the whole pouch retains conspicuous angular facets under PBR. Both exact standard source preparation and explicit custom-normal reset diagnostics retain that faceted appearance. Reject m1 texture-source for a second shape within the existing budget. Hold publication until the S08 body texture GPU request has finished.",
+  "issues": [
+    {
+      "part": "pouch folds and surface",
+      "problem": "Large angular/faceted folds throughout the pouch depart materially from the smooth crinkled plastic reference.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

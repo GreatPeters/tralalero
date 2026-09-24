@@ -1,0 +1,17 @@
+{
+  "contract":"contract.md",
+  "candidate":"outputs/reststop-blender-v3-2026-09-23/reststop-v3.blend",
+  "candidate_preserved":true,
+  "ledger_before":[{"requirement":"vehicles read large enough next to the game character","status":"fail","evidence":"user rejected v3 size; v3 02-reststop.png and measured vehicle heights"}],
+  "repair":"Uniform 1.8 scale on all 91 vehicle assemblies, clear parking repack, resized bays, earlier reversing stops.",
+  "ledger_after":[
+    {"requirement":"vehicle scale","status":"pass","evidence":"02-reststop.png, 09-reststop.png, vehicle-scale-comparison.png; unchanged character sizes and comparison camera"},
+    {"requirement":"parking clearance","status":"pass","evidence":"scale-metrics.json, source rectangle clearance checks, 01/02/03 PNGs"},
+    {"requirement":"authored moving vehicle clearance","status":"pass","evidence":"vehicle-validation.json; zero overlap samples in tested hazard intervals"},
+    {"requirement":"preserved movement and defense","status":"pass","evidence":"validation.json; fixed route, lateral constraints, 60-second holdout and turn limit"},
+    {"requirement":"delivery and export","status":"pass","evidence":"ten 1600x900 PNGs, saved native source, fresh-glb-validation.json and fresh-glb-overview.png"}
+  ],
+  "invariants":{"vehicles":91,"types":6,"carts":0,"duration_seconds":300,"fps":24,"frames":7200,"defense_seconds":60,"unity_writes":0,"trellis_calls":0,"seedance_calls":0},
+  "decision":"retain_repair",
+  "limits":["Previs, not installed Unity gameplay.","Motion clearance is sampled against the authored path; it is not a continuous collision proof or all-input physics verification."]
+}

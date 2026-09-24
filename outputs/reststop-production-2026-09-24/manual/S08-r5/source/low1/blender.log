@@ -1,0 +1,59 @@
+{"pid": 59132, "started": 1790272652.3315349, "script": "C:\\Users\\ljh\\tralalero Shooter\\tools\\refine-reststop-fridge-mesh.py", "threads": 4, "logicalProcessors": [0, 1, 2, 3, 4, 5], "priority": "below-normal", "availableMemoryBytes": 23942381568}
+02:57:32 | INFO: Data are loaded, start creating Blender stuff
+02:57:32 | INFO: Blender create Mesh node Fridge decorative light strip
+02:57:32 | INFO: Blender create Mesh node Fridge fitted door glazing
+02:57:32 | INFO: Blender create Mesh node Fridge fitted interior liner
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 1
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 1 front rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 1 rear rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 1 side rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 1 side rim.001
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 2
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 2 front rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 2 rear rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 2 side rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 2 side rim.001
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 3
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 3 front rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 3 rear rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 3 side rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 3 side rim.001
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 4
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 4 front rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 4 rear rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 4 side rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 4 side rim.001
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 5
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 5 front rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 5 rear rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 5 side rim
+02:57:32 | INFO: Blender create Mesh node Fridge perforated shelf 5 side rim.001
+02:57:32 | INFO: Blender create Mesh node geometry_0.001
+02:57:33 | INFO: glTF import finished in 0.97s
+BODY_REDUCTION {"triangles": 12108, "vertices": 6418, "degenerate_faces": 0, "loose_vertices": 0, "boundary_edges": 640, "nonmanifold_edges": 0, "finite": true, "uv": true}
+APP_STAGE Bake BaseColor
+Info: Baking map saved to internal image, save it externally or pack it
+APP_STAGE Bake Roughness
+Info: Baking map saved to internal image, save it externally or pack it
+APP_STAGE Bake Metallic
+Info: Baking map saved to internal image, save it externally or pack it
+APP_STAGE Bake Normal
+Info: Baking map saved to internal image, save it externally or pack it
+INFO Draco is available, use library at C:\Users\ljh\AppData\Local\Programs\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Users\ljh\AppData\Local\Programs\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+02:57:48 | INFO: Starting glTF 2.0 export
+02:57:48 | INFO: Extracting primitive: geometry_0.002
+02:57:48 | WARNING: More than one shader node tex image used for a texture. The resulting glTF sampler will behave like the first shader node tex image.
+02:57:48 | INFO: Primitives created: 4
+02:57:48 | INFO: Finished glTF 2.0 export in 0.38260459899902344 s
+00:22.141  render           | Saved: 'C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\manual\S08-r5\source\low1\preview.png'
+
+
+FBX export starting... 'C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\S08-r5\\source\\low1\\model.fbx'
+export finished in 0.0235 sec.
+Info: Packed 4 file(s)
+Info: Saved as "model.blend"
+{"source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\S08-r5\\source\\model.glb", "method": "Repair/reduce only the TRELLIS body; retain all fitted transparent/liner/perforated/light insert vertices and faces", "target_triangles": 15000, "body_budget": 12208, "fixed_triangles": 2664, "before": {"triangles": 231877, "vertices": 118113, "degenerate_faces": 0, "loose_vertices": 0, "boundary_edges": 4477, "nonmanifold_edges": 566, "finite": true, "uv": true}, "split_edges": 566, "reduction_metrics": [{"triangles": 12108, "vertices": 6418, "degenerate_faces": 0, "loose_vertices": 0, "boundary_edges": 640, "nonmanifold_edges": 0, "finite": true, "uv": true}], "profile": "parts", "warnings": ["Geometry-based priority: 18 small/thin components, 14305 feature vertices. Not semantic part segmentation."], "extra_ai_requests": 0, "final_metrics": {"triangles": 14772, "vertices": 9346, "degenerate_faces": 0, "loose_vertices": 0, "boundary_edges": 3568, "nonmanifold_edges": 0, "finite": true, "uv": true}, "materials": 4, "fixed_inserts_not_decimated": true}
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

@@ -1,0 +1,30 @@
+{
+  "source_folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\F03-r2",
+  "method": "Remove only nearly-zero-area faces, wire edges and unused vertices; restore retained corner normals by source-loop mapping",
+  "before": {
+    "triangles": 14872,
+    "vertices": 82845,
+    "degenerate_faces": 2902,
+    "loose_vertices": 0,
+    "boundary_edges": 26914,
+    "nonmanifold_edges": 0,
+    "finite": true,
+    "uv": true
+  },
+  "after": {
+    "triangles": 11970,
+    "vertices": 22975,
+    "degenerate_faces": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 23542,
+    "nonmanifold_edges": 0,
+    "finite": true,
+    "uv": true
+  },
+  "removed_faces": 2902,
+  "removed_surface_area": 0.0,
+  "max_retained_corner_normal_error": 0.0,
+  "uv_and_original_pbr_retained": true,
+  "ai_regeneration": false,
+  "original_automatic_attempts_preserved": 2
+}

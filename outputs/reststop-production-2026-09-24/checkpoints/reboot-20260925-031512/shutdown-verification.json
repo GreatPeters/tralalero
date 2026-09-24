@@ -1,0 +1,41 @@
+﻿{
+    "verified_at":  "2026-09-25T03:16:44.8413247+09:00",
+    "method":  "Checkpoint at completed shape review gate; OS termination of idle task-owned processes; no external graceful shutdown control in legacy runner",
+    "stopped_process_ids":  [
+                                33332,
+                                55168,
+                                43652,
+                                44980
+                            ],
+    "remaining_generation_processes":  [
+
+                                       ],
+    "listeners_8189":  [
+
+                       ],
+    "queue_before_backend_stop":  {
+                                      "queue_running":  [
+
+                                                        ],
+                                      "queue_pending":  [
+
+                                                        ]
+                                  },
+    "no_new_generation":  true,
+    "retained_read_only_gallery_processes":  [
+                                                 {
+                                                     "ProcessId":  37708,
+                                                     "CommandLine":  "\"C:\\Users\\ljh\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -m http.server 8766 --bind 127.0.0.1 --directory \"C:\\Users\\ljh\\tralalero Shooter\\tmp\\image-previews\\reststop-ppt-2026-09-23\" "
+                                                 },
+                                                 {
+                                                     "ProcessId":  31448,
+                                                     "CommandLine":  "\"C:\\Users\\ljh\\AppData\\Local\\Programs\\Python\\Python312\\python.exe\" -m http.server 8767 --bind 127.0.0.1 --directory \"C:\\Users\\ljh\\tralalero Shooter\\tmp\\image-previews\\reststop-blender-300s-2026-09-23\" "
+                                                 },
+                                                 {
+                                                     "ProcessId":  62068,
+                                                     "CommandLine":  "python -m http.server 8772 --bind 127.0.0.1 --directory \"C:\\Users\\ljh\\tralalero Shooter\\tmp\\image-previews\\reststop-production-2026-09-24\""
+                                                 }
+                                             ],
+    "first_scan_note":  "Initial broad name match included three read-only HTTP gallery servers; no generation processes remained.",
+    "passed":  true
+}

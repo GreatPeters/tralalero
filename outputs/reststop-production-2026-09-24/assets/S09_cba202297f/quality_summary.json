@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "counts": {
+    "meshes": 2,
+    "textures": 2,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 1
+  },
+  "notes": [
+    "shape: Closed inflated snack pouch has intact upper/lower crimped seams and coherent front/back volume in five clay views. Creases are stronger/angular and the lower fold is deeper than the reference, to reassess under actual PBR.",
+    "texture_source: Orange/cream packaging colors and sealed silhouette are correct, but the whole pouch retains conspicuous angular facets under PBR. Both exact standard source preparation and explicit custom-normal reset diagnostics retain that faceted appearance. Reject m1 texture-source for a second shape within the existing budget. Hold publication until the S08 body texture GPU request has finished. S08 GPU texture has now completed successfully with an empty queue; release this held rejection.",
+    "shape: Second shape has a broader smooth central pouch surface and fewer large facets than m1, while retaining inflated volume and both crimped seams. Inspect actual PBR before final acceptance.",
+    "texture_source: Second shape/texture has substantially smoother continuous plastic highlights than m1, retaining orange film, diagonal cream band, inflated volume and two crimped seams. Five views read as a flexible sealed snack pouch rather than a faceted rigid shell.",
+    "final_compare: 14375triangle second-shape pouch retains continuous flexible-film shading, inflated volume, both crimped seams and orange/cream diagonal design. Five-view comparison and fresh FBX/GLB checks pass; no major new bake defect or part loss."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\20ac592863353dc0cf71b01f07ed888d3d457d8b4459772df4b2e699478b55bf.json",
+  "policy": "stage_gates_v2"
+}

@@ -1,0 +1,135 @@
+{
+  "version": 2,
+  "image_hash": "ccb1a284635915b8bdbe421a244aa5d92562e493819ea364ac2cff919c303f28",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R05_d1bc7598d7\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "46594c72-cc03-453c-9335-1cbd159fed90",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.97,
+        "summary": "The sign face is intact, but the reverse includes two long rows of jagged repeated spikes/fragments around oversized mounting rails. These are not coherent hardware and visibly damage the top/back silhouette.",
+        "issues": [
+          {
+            "part": "rear mounting area",
+            "problem": "Invented repeated jagged tabs and fragmented-looking rear detail rather than clean bracket construction.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R05_d1bc7598d7\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "e1252dd5-f01b-4a4e-985f-ffec88663711",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.99,
+        "summary": "Second sign again invents large repeated rear hardware, now a row of hollow nozzle-like cylinders and tangled small parts behind the otherwise clean sign face.",
+        "issues": [
+          {
+            "part": "reverse of sign",
+            "problem": "Large repeated tubes and malformed mechanical details are not coherent road-sign backing.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R05_d1bc7598d7\\stages\\m3",
+      "seed": 221803,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R05_d1bc7598d7\\stages\\m3_t1",
+          "seed": 221803,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R05_d1bc7598d7\\stages\\m3_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "Reduced sign retains clean blank green face/border, rounded slab and coherent rear mounting frame. Five-view source comparison preserves material boundaries and silhouette; fresh FBX/GLB pass at 14,313 triangles.",
+                "issues": [
+                  {
+                    "part": "mounts and finish",
+                    "problem": "Small fastener/edge softening, deeper inferred rear frame and rear painted strips remain.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "f7101743-cee9-4399-b2a6-39284c4fc26d",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Sign face remains blank green with a clean continuous pale border, and rear mounting rails read as metal. No invented lettering or major color bleed.",
+            "issues": [
+              {
+                "part": "rear finish",
+                "problem": "Inferred narrow vertical rear strips, darker green face and brighter metal highlights differ from the single front reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "c2ded05c-2f7b-43d7-ad9f-23651f5812a8",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Third sign has a clean rounded rectangular plate and coherent rear rails/brackets without the repeated spikes or tubes from the prior attempts. Five views retain the flat sign face and open mounting gap.",
+        "issues": [
+          {
+            "part": "rear mounts",
+            "problem": "Inferred full-width rear mounting rails are deeper/more extensive than the two brackets visible in the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790245337.3003597,
+  "notes": [
+    "shape: The sign face is intact, but the reverse includes two long rows of jagged repeated spikes/fragments around oversized mounting rails. These are not coherent hardware and visibly damage the top/back silhouette.",
+    "shape: Second sign again invents large repeated rear hardware, now a row of hollow nozzle-like cylinders and tangled small parts behind the otherwise clean sign face.",
+    "shape: Third sign has a clean rounded rectangular plate and coherent rear rails/brackets without the repeated spikes or tubes from the prior attempts. Five views retain the flat sign face and open mounting gap.",
+    "texture_source: Sign face remains blank green with a clean continuous pale border, and rear mounting rails read as metal. No invented lettering or major color bleed.",
+    "final_compare: Reduced sign retains clean blank green face/border, rounded slab and coherent rear mounting frame. Five-view source comparison preserves material boundaries and silhouette; fresh FBX/GLB pass at 14,313 triangles."
+  ],
+  "reason": ""
+}

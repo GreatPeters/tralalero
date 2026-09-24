@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.99,
+  "summary": "Topology repair reaches 14814 triangles with zero non-manifold edges, but actual front/hero comparisons show severe canopy thinning, angular leaf fragments and lost leaf appearance. Reject this manual candidate; numeric triangle compliance alone is insufficient.",
+  "issues": [
+    {
+      "part": "foliage",
+      "problem": "Rounded leafy canopy becomes sparse angular fragments compared with the accepted high source.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

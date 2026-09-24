@@ -1,0 +1,70 @@
+{
+  "contract": "contract.md",
+  "candidate": "outputs/reststop-blender-v2-2026-09-23/reststop-v2.blend",
+  "candidate_preserved": true,
+  "ledger_before": [
+    {
+      "requirement": "no moving carts",
+      "status": "fail",
+      "evidence": "v2 03/06/07 encoded reviews contain moving carts"
+    },
+    {
+      "requirement": "vehicle variety",
+      "status": "fail",
+      "evidence": "v2 parking repeatedly uses white 067 and green 082 models"
+    },
+    {
+      "requirement": "fixed forward path with lateral input only",
+      "status": "unclear",
+      "evidence": "v2 camera follows lateral dodges; the player has world-position keys rather than an explicit constrained rail parent"
+    }
+  ],
+  "repair": "Removed all moving carts and their warnings; reused six existing vehicle meshes; introduced a native automatic rail parent, one lateral input property and local position limits; detached camera framing from lateral input; added review route guides.",
+  "ledger_after": [
+    {
+      "requirement": "no moving carts",
+      "status": "pass",
+      "evidence": "validation.json carts_remaining=0; 03/06/07 final PNGs"
+    },
+    {
+      "requirement": "vehicle variety",
+      "status": "pass",
+      "evidence": "vehicle-lineup.png and 01/02/03/09 PNGs; six models, 91 vehicles"
+    },
+    {
+      "requirement": "fixed forward path with lateral input only",
+      "status": "pass",
+      "evidence": "validation.json: native rail samples, clamped extreme input, rejected local forward input, independent camera; visible gold route and blue corridor"
+    },
+    {
+      "requirement": "preserved arena and large facilities",
+      "status": "pass",
+      "evidence": "05/07/08 PNGs; native 60-second stationary defense and turn-rate check"
+    },
+    {
+      "requirement": "ten images",
+      "status": "pass",
+      "evidence": "images.json; 01-reststop.png through 10-reststop.png"
+    }
+  ],
+  "source_corrections": [
+    "A tall truck must not be rotated according to its shortest dimension; preserve the known native up axis.",
+    "Attached source support planes distorted vehicle dimensions; isolate the body before scaling.",
+    "A small scripted offset adjusts entrance framing independently of lateral input."
+  ],
+  "invariants": {
+    "duration_seconds": 300,
+    "fps": 24,
+    "frames": 7200,
+    "defense_seconds": 60,
+    "prior_artifacts_preserved": true,
+    "unity_writes": 0,
+    "trellis_calls": 0,
+    "seedance_calls": 0
+  },
+  "decision": "retain_repair",
+  "limits": [
+    "Still images in this revision; no replacement video encode.",
+    "Blender previs, not installed Unity gameplay or final optimized game art."
+  ]
+}

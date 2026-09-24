@@ -1,0 +1,13 @@
+{
+  "verdict": "pass",
+  "confidence": 0.98,
+  "summary": "Five-view source comparison retains constant-width 60-degree curve, flat road surface, full slab thickness and lane markings. Fresh FBX/GLB pass at 14,991 triangles. Corrected source is analytically bent from the accepted TRELLIS R01 mesh/PBR.",
+  "issues": [
+    {
+      "part": "road finish",
+      "problem": "Slight edge softening, lighter asphalt and denser dashes remain; exact bend radius was a local repair choice.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ]
+}

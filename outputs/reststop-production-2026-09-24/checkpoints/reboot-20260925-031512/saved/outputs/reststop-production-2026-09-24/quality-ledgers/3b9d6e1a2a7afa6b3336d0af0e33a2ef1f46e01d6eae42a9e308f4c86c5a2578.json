@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "3b9d6e1a2a7afa6b3336d0af0e33a2ef1f46e01d6eae42a9e308f4c86c5a2578",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S06_d345d9ff06\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S06_d345d9ff06\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S06_d345d9ff06\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "14589triangle shelf retains four levels on both sides, open bays, wood end panels, dark metal lips/frame and plinth. Five-view source comparison shows coherent final PBR and no major shelf loss or bake contamination; fresh FBX/GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "small trim and wood finish",
+                    "problem": "Paler wood, shallow rib relief and slightly softened edges/brackets remain minor differences from reference.",
+                    "kind": "texture",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "7a2fac83-f72e-45ae-8f01-44982e7afbef",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Pale wood shelves, vertically ribbed wood end panels and dark metal frame/lips are coherent on both sides. All four levels per side remain open and readable in five views; no major color bleed or new geometry loss.",
+            "issues": [
+              {
+                "part": "wood tone and fine fittings",
+                "problem": "Wood is paler, rib relief is shallow and central perforation/bracket details are simplified.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "f1893f1f-e7d6-42cb-a3d6-a9096accc5e3",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Double-sided retail shelving retains four display levels per side, open bays, end panels, center spine, shelf lips/supports and plinth. Five clay views show no merged solid bay or missing major shelf.",
+        "issues": [
+          {
+            "part": "end-panel ribs and small support detail",
+            "problem": "Side rib relief is shallow/uneven and small brackets are inferred; assess the wood finish at texture stage.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790267198.4686024,
+  "notes": [
+    "shape: Double-sided retail shelving retains four display levels per side, open bays, end panels, center spine, shelf lips/supports and plinth. Five clay views show no merged solid bay or missing major shelf.",
+    "texture_source: Pale wood shelves, vertically ribbed wood end panels and dark metal frame/lips are coherent on both sides. All four levels per side remain open and readable in five views; no major color bleed or new geometry loss.",
+    "final_compare: 14589triangle shelf retains four levels on both sides, open bays, wood end panels, dark metal lips/frame and plinth. Five-view source comparison shows coherent final PBR and no major shelf loss or bake contamination; fresh FBX/GLB checks pass."
+  ],
+  "reason": ""
+}

@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 1.0,
+  "summary": "Clean fitted trays are coherent, but the front glazing profile incorrectly jumps toward the rear after a missing lower-pane ray hit; later monotonic clamping locks it there. Reject this assembly. Filter rear-fragment crossings before fitting the curved panel.",
+  "issues": [
+    {
+      "part": "front glazing fit",
+      "problem": "Incorrect rearward profile from a lower gap in the original pane.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

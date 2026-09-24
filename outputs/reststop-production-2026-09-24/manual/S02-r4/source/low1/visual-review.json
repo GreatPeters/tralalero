@@ -1,0 +1,14 @@
+{
+  "verdict": "mesh",
+  "confidence": 1.0,
+  "scope": "technical reduction failure; no completed candidate or visual pass",
+  "summary": "First canonical parts profile failed its strict15000triangle budget and exported no final model. Preserve this consumed pass and use the remaining canonical preserve_details profile.",
+  "issues": [
+    {
+      "part": "triangle budget",
+      "problem": "Canonical reducer raised Could not meet triangle budget.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

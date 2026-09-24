@@ -1,0 +1,22 @@
+{
+  "status": "review_needed",
+  "counts": {
+    "meshes": 1,
+    "textures": 2,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 2
+  },
+  "notes": [
+    "shape: Reference, contact-sheet views and full hero checked. Long straight box-like fascia, thin edge lips and end construction are preserved; no major bending or missing outer face.",
+    "texture_source: Reject this texture pass: the plain architectural fascia acquires a long dense strip of unrequested text-like marks on the rear channel. The reference has a plain painted finish and simple supports, not an engraved/printed plaque. Keep the accepted geometry and regenerate only material.",
+    "texture_source: Second texture pass removes the invented rear glyph strip. Reference, contact views and full hero checked: warm ochre painted finish is coherent on the long fascia, end caps and rear channel without unrequested text.",
+    "final_compare: Reject: the reduced fascia gains large triangular dent-like shading across the visible ochre front. This is visible in the finished PBR hero, not only the neutral diagnostic, and is absent from the accepted high source. Preserve source geometry/material and change the Blender treatment.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "final_compare: The second reduction still introduces large dent-like shading across the visible ochre fascia. The accepted high-detail source is flat there. Preserve the source and repair this rigid surface separately without further AI generation.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "고밀도 원본은 통과했지만 Blender 두 방식에서도 결함이 남았습니다. 직접 수정이 필요합니다."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\ed282ca4c996c546a714bcb3968f65613d8ce870cd0baae63ecc9c05d38a4c61.json",
+  "policy": "stage_gates_v2"
+}

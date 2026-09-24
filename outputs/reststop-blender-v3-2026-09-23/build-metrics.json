@@ -1,0 +1,36 @@
+{
+  "base": "outputs/reststop-blender-v2-2026-09-23/reststop-v2.blend",
+  "removed_cart_roots": [
+    "Cart_train_0_0",
+    "Cart_crossing_0",
+    "Cart_train_1_0",
+    "Cart_crossing_1",
+    "Cart_train_2_0",
+    "Cart_crossing_2",
+    "Cart_train_3_0",
+    "Cart_crossing_3",
+    "Cart_train_4_0",
+    "Cart_train_4_1",
+    "Cart_train_4_2",
+    "Cart_crossing_4",
+    "Cart_train_5_0",
+    "Cart_crossing_5"
+  ],
+  "moving_cart_objects_remaining": 0,
+  "vehicle_count": 91,
+  "vehicle_types": {
+    "081": 19,
+    "082": 16,
+    "067": 18,
+    "054": 13,
+    "083": 12,
+    "080": 13
+  },
+  "lane_limit": 2.2,
+  "route_source": "same fixed centerline as v2, now represented by an automatic parent rail",
+  "controller": "PLAYER_ROOT lane_offset driver; local Y/Z constrained to zero",
+  "camera": "centerline only; original v2 lateral camera displacement removed",
+  "fps": 24,
+  "frames": 7200,
+  "triangles": 2309181
+}

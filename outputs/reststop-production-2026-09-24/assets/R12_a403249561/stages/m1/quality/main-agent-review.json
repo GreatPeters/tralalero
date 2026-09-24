@@ -1,0 +1,13 @@
+{
+  "verdict": "uncertain",
+  "confidence": 0.99,
+  "summary": "Requires manual recovery: the exported grating has only five deep openings, while cached decoder and first-fill geometry have 23. Three transverse ray profiles confirm postprocessing closes most slots. Preserve the current shape attempt and recover the grating rather than blindly repeat neural sampling.",
+  "issues": [
+    {
+      "part": "top slot array",
+      "problem": "Most required drainage openings are capped by the standard postprocessing path.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.99,
+  "summary": "Direct UV-preserving reduction passes numeric checks but produces severe faceting/tears across the hard cabinet panels and trim. This successful foliage approach does not generalize unchanged to this cabinet. Retain the smooth canonical low geometry and repair only hose materials.",
+  "issues": [
+    {
+      "part": "cabinet panels and trim",
+      "problem": "New wrinkled, fragmented hard-surface appearance compared with both the source and canonical low candidates.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

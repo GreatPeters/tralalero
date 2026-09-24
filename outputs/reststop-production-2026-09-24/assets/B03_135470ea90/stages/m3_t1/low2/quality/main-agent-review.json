@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.97,
+  "summary": "Second reduction retains the same new front-face corrugated/faceted shading and wavering trim. Both bounded reduction attempts are preserved; a separate normal-correction copy is required without further TRELLIS generation.",
+  "issues": [
+    {
+      "part": "front slats and trim",
+      "problem": "Persistent reduction-induced shading wrinkles absent from the accepted source.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

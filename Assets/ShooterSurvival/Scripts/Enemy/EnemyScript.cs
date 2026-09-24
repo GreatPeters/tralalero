@@ -54,6 +54,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private Animator enemyAnimator;
         private AudioSource audioSource;
         private bool givePlayerScore = true;
+        private bool deathResolved;
 
         private void Awake()
         {
@@ -72,6 +73,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void OnEnable()
         {
+            deathResolved = false;
             // currentEnemySO = enemySOArray[(int)enemyType];
 
             // // Initializing local variables
@@ -117,6 +119,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void OnTriggerEnter(Collider other)
         {
+            if (deathResolved) return;
             // Damage player on contact
             if (other.CompareTag("Player"))
             {
@@ -125,7 +128,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 {
                     if (playerScript.currentHealth > _health)
                     {
-                        playerScript.currentHealth -= _health;
+                        playerScript.ApplyDamage(_health,PlayerDamageCause.EnemyContact);
                         _health = 0f;
 
                         givePlayerScore = false;
@@ -136,9 +139,10 @@ namespace IndianOceanAssets.ShooterSurvival
                         float playerHP = playerScript.currentHealth;
 
                         _health -= playerHP;
-                        playerScript.currentHealth = 0f;
+                        playerScript.ApplyDamage(playerHP,PlayerDamageCause.EnemyContact);
 
                         givePlayerScore = false;
+                        if (_health <= 0f) EnemyDeath();
                     }
                 }
             }
@@ -217,6 +221,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void EnemyDeath()
         {
+            if (deathResolved) return;
+            deathResolved = true;
             movement = false;
             gameObject.GetComponent<Collider>().enabled = false;
 

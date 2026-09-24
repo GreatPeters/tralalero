@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "e32c30d6a7be6da03c57dcdbaaa92d6bdd43bc489da211d36e83f7ac15df3a78",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P06_68b9cbb67a\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P06_68b9cbb67a\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P06_68b9cbb67a\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.96,
+                "summary": "Reduced lid retains concentric rim steps, raised drinking lip, sip hole and dark PBR surface. Five-view source comparison shows no new major distortion; fresh FBX/GLB checks pass at 12,599 triangles.",
+                "issues": [
+                  {
+                    "part": "rim and vent",
+                    "problem": "Minor edge softening, stronger reflection and source extra pinholes remain.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "0ba33750-708f-409d-9000-338be69ebfb8",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.94,
+            "summary": "Dark lid material retains rim steps, top inset, raised lip and sip opening; no color bleed or invented text.",
+            "issues": [
+              {
+                "part": "plastic surface",
+                "problem": "More reflective and slightly rougher rim edges than the reference; extra tiny vent holes remain.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "31443205-53ba-491a-b77d-50414156bd21",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.95,
+        "summary": "Cup lid retains circular stepped rim, shallow top panel, raised drinking lip and open sip hole across five views.",
+        "issues": [
+          {
+            "part": "vent region and rim",
+            "problem": "Extra tiny pinholes near the vent and small rim waviness differ from the single reference vent.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790241215.478922,
+  "notes": [
+    "shape: Cup lid retains circular stepped rim, shallow top panel, raised drinking lip and open sip hole across five views.",
+    "texture_source: Dark lid material retains rim steps, top inset, raised lip and sip opening; no color bleed or invented text.",
+    "final_compare: Reduced lid retains concentric rim steps, raised drinking lip, sip hole and dark PBR surface. Five-view source comparison shows no new major distortion; fresh FBX/GLB checks pass at 12,599 triangles."
+  ],
+  "reason": ""
+}

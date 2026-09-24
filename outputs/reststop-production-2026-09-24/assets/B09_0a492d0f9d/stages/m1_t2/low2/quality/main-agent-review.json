@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.98,
+  "summary": "The second reduction still introduces large dent-like shading across the visible ochre fascia. The accepted high-detail source is flat there. Preserve the source and repair this rigid surface separately without further AI generation.",
+  "issues": [
+    {
+      "part": "front fascia face",
+      "problem": "New triangular shading depressions remain visible in the final PBR render.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

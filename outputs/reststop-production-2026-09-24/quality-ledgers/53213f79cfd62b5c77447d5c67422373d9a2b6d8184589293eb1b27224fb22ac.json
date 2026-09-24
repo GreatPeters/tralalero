@@ -1,0 +1,114 @@
+{
+  "version": 2,
+  "image_hash": "53213f79cfd62b5c77447d5c67422373d9a2b6d8184589293eb1b27224fb22ac",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R07_9086977162\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R07_9086977162\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R07_9086977162\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "mesh",
+                "confidence": 0.98,
+                "summary": "Full-resolution opposite comparison reveals a new dark triangular dent on the flat yellow side panel and angular base artifacts absent from the accepted source. Numeric export checks alone are not sufficient.",
+                "issues": [
+                  {
+                    "part": "side cabinet panel and base",
+                    "problem": "Visible reduction/baked-normal distortion on previously flat rigid surfaces.",
+                    "kind": "mesh",
+                    "severity": "major"
+                  }
+                ]
+              }
+            },
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R07_9086977162\\stages\\m1_t1\\low2",
+              "state": "generated",
+              "profile": "preserve_details",
+              "review": {
+                "verdict": "mesh",
+                "confidence": 0.99,
+                "summary": "Second automatic profile also introduces conspicuous triangular side-panel dents and base shading artifacts absent from the accepted high-detail source.",
+                "issues": [
+                  {
+                    "part": "rigid yellow panel and base",
+                    "problem": "New final-material shading distortions remain after both bounded reductions.",
+                    "kind": "mesh",
+                    "severity": "major"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "90bfc018-2153-40e8-bc05-72bd4a5826bb",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Yellow cabinet, dark display/drive unit, metal hardware and grey base remain distinct across the five views. Panel seams and arm socket stay legible without major color bleed.",
+            "issues": [
+              {
+                "part": "paint and drive finish",
+                "problem": "Paler yellow and cooler grey drive casing than the reference; inferred service hardware remains.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "24b799bb-0398-4b3f-b6ce-8cf8a1af6b2b",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.95,
+        "summary": "Barrier housing retains tall rounded cabinet, upper display recess, bolted base and side drive housing with a visible arm socket. Five views show coherent construction.",
+        "issues": [
+          {
+            "part": "side drive and service hardware",
+            "problem": "Bulkier cylindrical drive and inferred small lock/connector details differ from the simpler reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790246644.4315975,
+  "notes": [
+    "shape: Barrier housing retains tall rounded cabinet, upper display recess, bolted base and side drive housing with a visible arm socket. Five views show coherent construction.",
+    "texture_source: Yellow cabinet, dark display/drive unit, metal hardware and grey base remain distinct across the five views. Panel seams and arm socket stay legible without major color bleed.",
+    "final_compare: Full-resolution opposite comparison reveals a new dark triangular dent on the flat yellow side panel and angular base artifacts absent from the accepted source. Numeric export checks alone are not sufficient.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "final_compare: Second automatic profile also introduces conspicuous triangular side-panel dents and base shading artifacts absent from the accepted high-detail source.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다."
+  ],
+  "reason": "고밀도 원본은 통과했지만 Blender 두 방식에서도 결함이 남았습니다. 직접 수정이 필요합니다."
+}

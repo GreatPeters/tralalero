@@ -1,0 +1,21 @@
+{
+  "status": "review_needed",
+  "counts": {
+    "meshes": 1,
+    "textures": 1,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 2
+  },
+  "notes": [
+    "shape: Fuel dispenser cabinet, display/payment recesses, hose loops, nozzles, side vents and upper opening are complete. Read-only X-axis ray sections at 75% and 85% height confirm the central opening is clear across all 153 tested center samples from both directions; the oblique cavity appearance is not a filled panel.",
+    "texture_source: Pale cabinet, red panels, dark display/payment area, black hose loops and distinct red/green nozzle handles match the reference palette. Front and inferred reverse coverage are consistent, with no invented branding or large texture defects.",
+    "final_compare: Full-resolution opposite renders confirm new pale cabinet-colored streaks across the black hose loops after reduction/baking, absent in the high-detail source. Try the second bounded Blender profile; do not regenerate the approved AI texture.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "final_compare: The second bounded Blender profile retains the same strong pale streaks across the black hose loops. Preserve both rejected reductions and correct from the approved textured source by retaining its original UV/PBR instead of rebaking across adjacent surfaces.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "고밀도 원본은 통과했지만 Blender 두 방식에서도 결함이 남았습니다. 직접 수정이 필요합니다."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\b11a1bd86b2dc60c12c4ffb7ea4f4158a91247dc0ec91b2f9eb217c0bbb2b2d5.json",
+  "policy": "stage_gates_v2"
+}

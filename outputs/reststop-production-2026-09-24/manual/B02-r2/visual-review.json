@@ -1,0 +1,19 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "summary": "Area-angle weighted normals remove the new broad-face lobes. Disabling the stale baked normal input on the fully rigid wall also removes r1 edge shading distortion. Hero, opposite and neutral renders checked against source and rejected reductions; vertex positions and UVs remain unchanged. Fresh FBX and GLB imports pass.",
+  "issues": [
+    {
+      "part": "grout",
+      "problem": "Small source-stage pits remain along a horizontal joint.",
+      "severity": "minor"
+    },
+    {
+      "part": "tile pattern",
+      "problem": "Source-stage regular grid differs from the staggered reference.",
+      "severity": "minor"
+    }
+  ],
+  "technical_validation": "validation.json",
+  "source_of_truth": "model.glb"
+}

@@ -1,0 +1,21 @@
+{
+  "status": "review_needed",
+  "counts": {
+    "meshes": 1,
+    "textures": 1,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 2
+  },
+  "notes": [
+    "shape: Barrier housing retains tall rounded cabinet, upper display recess, bolted base and side drive housing with a visible arm socket. Five views show coherent construction.",
+    "texture_source: Yellow cabinet, dark display/drive unit, metal hardware and grey base remain distinct across the five views. Panel seams and arm socket stay legible without major color bleed.",
+    "final_compare: Full-resolution opposite comparison reveals a new dark triangular dent on the flat yellow side panel and angular base artifacts absent from the accepted source. Numeric export checks alone are not sufficient.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "final_compare: Second automatic profile also introduces conspicuous triangular side-panel dents and base shading artifacts absent from the accepted high-detail source.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "고밀도 원본은 통과했지만 Blender 두 방식에서도 결함이 남았습니다. 직접 수정이 필요합니다."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\53213f79cfd62b5c77447d5c67422373d9a2b6d8184589293eb1b27224fb22ac.json",
+  "policy": "stage_gates_v2"
+}

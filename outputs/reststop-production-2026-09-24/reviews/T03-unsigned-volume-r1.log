@@ -1,0 +1,28 @@
+{"pid": 102388, "started": 1790310973.1356423, "script": "C:\\Users\\ljh\\tralalero Shooter\\tools\\reconstruct-reststop-toilet-volume.py", "threads": 4, "logicalProcessors": [0, 1, 2, 3, 4, 5, 6, 7], "priority": "below-normal", "availableMemoryBytes": 33167695872}
+Traceback (most recent call last):
+  File "C:\Users\ljh\tralalero Shooter\tools\run-limited-generation.py", line 57, in <module>
+    runpy.run_path(str(args.script.resolve()),run_name='__main__')
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\ljh\tralalero Shooter\tools\reconstruct-reststop-toilet-volume.py", line 18, in <module>
+    grid=mesh.voxelized(pitch,method='subdivide',max_iter=4,edge_factor=1.5)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\AI\TRELLIS2-AMD\venv\Lib\site-packages\trimesh\base.py", line 2677, in voxelized
+    return creation.voxelize(mesh=self, pitch=pitch, method=method, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\AI\TRELLIS2-AMD\venv\Lib\site-packages\trimesh\voxel\creation.py", line 318, in voxelize
+    return voxelizers(method, mesh=mesh, pitch=pitch, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\AI\TRELLIS2-AMD\venv\Lib\site-packages\trimesh\util.py", line 2476, in __call__
+    return self[key](*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\AI\TRELLIS2-AMD\venv\Lib\site-packages\trimesh\constants.py", line 151, in timed
+    result = method(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\AI\TRELLIS2-AMD\venv\Lib\site-packages\trimesh\voxel\creation.py", line 44, in voxelize_subdivide
+    v, _f, _idx = remesh.subdivide_to_size(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\AI\TRELLIS2-AMD\venv\Lib\site-packages\trimesh\remesh.py", line 172, in subdivide_to_size
+    raise ValueError("max_iter exceeded!")
+ValueError: max_iter exceeded!

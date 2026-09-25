@@ -1,0 +1,24 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "stage": "shape",
+  "reviewer": "main-agent",
+  "summary": "Five-view reference comparison plus full opposite view inspected. Reconstructed curved windshield is continuous without the prior broad hole or mid-pane seam; two slim supported wipers replace the torn ribbons. Cab, cargo box, doors, mirrors, rails and wheels retain their source positions outside the local glass region. Small irregularity at the lower gasket and source grille remains; check actual material before final selection. Fresh BLEND/GLB technical checks pass at 228547 triangles; 1485 front rays show complete coverage close to the measured glass surface.",
+  "issues": [
+    {
+      "part": "lower windshield gasket and grille",
+      "problem": "Minor retained edge irregularity; material-stage and final views must recheck it.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/opposite.png"
+  ],
+  "technical_evidence": [
+    "intermediate-validation.json",
+    "front-surface-validation.json",
+    "repair.json"
+  ]
+}

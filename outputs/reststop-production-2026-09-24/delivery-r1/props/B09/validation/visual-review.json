@@ -1,0 +1,15 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "summary": "Five actual GLB views inspected. Weighted surface normals and removal of the stale baked Normal input restore the broad flat ochre face without moving vertices or UVs. Rear mounting detail, edge lips and the long straight silhouette remain. Fresh FBX and GLB imports pass at 14440 triangles.",
+  "issues": [
+    {
+      "part": "rear rim",
+      "problem": "Minor source/reduction waviness remains on the rear mounting rim; primary visible face is now flat.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ],
+  "technical_validation": "validation.json",
+  "source_of_truth": "model.glb"
+}

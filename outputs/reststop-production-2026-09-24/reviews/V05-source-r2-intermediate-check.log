@@ -1,0 +1,22 @@
+{"pid": 22956, "started": 1790307591.1298172, "script": "C:\\Users\\ljh\\tralalero Shooter\\tools\\verify-reststop-intermediate-shape.py", "threads": 4, "logicalProcessors": [0, 1, 2, 3, 4, 5, 6, 7], "priority": "below-normal", "availableMemoryBytes": 34111479808}
+00:00.657  blend            | Read blend: "C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\manual\V05-r2\source\model.blend"
+12:39:51 | INFO: Data are loaded, start creating Blender stuff
+12:39:51 | INFO: Blender create Mesh node geometry_0
+12:39:51 | INFO: glTF import finished in 0.19s
+{"ok": false, "formats": {"blend": {"triangles": 219453, "ok": false, "invalid_meshes": [{"triangles": 219453, "vertices": 112274, "degenerate_faces": 69, "loose_vertices": 0, "boundary_edges": 6202, "nonmanifold_edges": 902, "finite": true, "uv": true, "object": "geometry_0", "validate_changed_data": false}]}, "glb": {"triangles": 219453, "ok": false, "invalid_meshes": [{"triangles": 219453, "vertices": 112378, "degenerate_faces": 69, "loose_vertices": 0, "boundary_edges": 6402, "nonmanifold_edges": 902, "finite": true, "uv": true, "object": "geometry_0", "validate_changed_data": false}]}}}
+Traceback (most recent call last):
+  File "C:\Users\ljh\tralalero Shooter\tools\run-limited-generation.py", line 57, in <module>
+    runpy.run_path(str(args.script.resolve()),run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\ljh\tralalero Shooter\tools\verify-reststop-intermediate-shape.py", line 42, in <module>
+    assert report['ok'],'Fresh intermediate checks failed; see intermediate-validation.json'
+           ~~~~~~^^^^^^
+AssertionError: Fresh intermediate checks failed; see intermediate-validation.json
+
+Error: script failed, file: 'tools/run-limited-generation.py', exiting.
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

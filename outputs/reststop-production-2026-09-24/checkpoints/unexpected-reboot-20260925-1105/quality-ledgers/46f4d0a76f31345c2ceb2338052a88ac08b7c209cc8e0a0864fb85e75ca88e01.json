@@ -1,0 +1,111 @@
+{
+  "version": 2,
+  "image_hash": "46f4d0a76f31345c2ceb2338052a88ac08b7c209cc8e0a0864fb85e75ca88e01",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F06_fe1b2d408e\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F06_fe1b2d408e\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F06_fe1b2d408e\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.94,
+                "summary": "Standard views plus full-resolution underside comparison inspected. The 14155-triangle fixture retains the square diffuser/bezel, rear enclosure and mounting tabs. The actual visible underside stays close to the approved source, with no missing diffuser or frame. Fresh FBX/GLB checks pass. Published preview shows the underside; original studio and all upper views are retained.",
+                "issues": [
+                  {
+                    "part": "outer bezel edge",
+                    "problem": "Small edge/shading nicks are visible from above after reduction; the broad underside remains smooth.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  },
+                  {
+                    "part": "inner rim",
+                    "problem": "Source-stage dark corner seams and uneven fine rim detail remain.",
+                    "kind": "texture",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "debb307c-700d-4b08-8ed1-ab3797b6799c",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.95,
+            "summary": "Dedicated underside inspection confirms a pale warm diffuser within a white square bezel. Rear views retain a separate cool metallic enclosure and mounting hardware. No unwanted labels or broad material smears are present.",
+            "issues": [
+              {
+                "part": "inner rim",
+                "problem": "Small dark corner seams and uneven rim detail are stronger than in the clean reference.",
+                "kind": "texture",
+                "severity": "minor"
+              },
+              {
+                "part": "light appearance",
+                "problem": "Diffuser is a static pale material rather than a configured runtime emitting light.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "730acb00-ff35-4f70-84c0-413e336606eb",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Standard views plus dedicated underside oblique render inspected. Square bezel, inset diffuser surface, rear enclosure and mounting tabs are complete. The intended visible face is underneath and matches the reference construction.",
+        "issues": [
+          {
+            "part": "diffuser rim",
+            "problem": "Slightly uneven inner rim edge.",
+            "kind": "mesh",
+            "severity": "minor"
+          },
+          {
+            "part": "concealed rear",
+            "problem": "Additional inferred rear cover/knockout details and a taller enclosure than the visible reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790225153.8695066,
+  "notes": [
+    "shape: Standard views plus dedicated underside oblique render inspected. Square bezel, inset diffuser surface, rear enclosure and mounting tabs are complete. The intended visible face is underneath and matches the reference construction.",
+    "texture_source: Dedicated underside inspection confirms a pale warm diffuser within a white square bezel. Rear views retain a separate cool metallic enclosure and mounting hardware. No unwanted labels or broad material smears are present.",
+    "final_compare: Standard views plus full-resolution underside comparison inspected. The 14155-triangle fixture retains the square diffuser/bezel, rear enclosure and mounting tabs. The actual visible underside stays close to the approved source, with no missing diffuser or frame. Fresh FBX/GLB checks pass. Published preview shows the underside; original studio and all upper views are retained."
+  ],
+  "reason": ""
+}

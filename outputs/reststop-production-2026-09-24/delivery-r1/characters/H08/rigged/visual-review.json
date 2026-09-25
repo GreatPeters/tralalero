@@ -1,0 +1,23 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "summary": "Guarding, attack, greeting, walking, running, hit and fallen poses inspected. Cap/head/gloves remain coherent and vest follows torso without major tearing. Fresh exports, loop endpoints and native-versus-export pose comparison pass; all nine movie clips decode.",
+  "issues": [
+    {
+      "part": "sleeves/vest",
+      "problem": "Minor stylized folds at the most raised arm pose.",
+      "severity": "minor"
+    }
+  ],
+  "evidence": [
+    "fresh-rig-validation.json",
+    "export-pose-comparison.json",
+    "video-validation.json",
+    "animation-preview.mp4",
+    "poses/guard-014.png",
+    "poses/attack_once-010.png",
+    "poses/run-006.png",
+    "poses/hit-003.png",
+    "poses/die-024.png"
+  ]
+}

@@ -1,0 +1,555 @@
+{
+  "reason": "Unexpected reboot at 2026-09-25 11:05 KST; retain original state and corrupt bytes before recovery",
+  "files": [
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\status.json",
+      "sha256": "1ba8567c2d9f90fae9e5fc2920b67ef3e02c98ab99da03338b7b4398673a34d2",
+      "bytes": 180694
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\assets\\.trellis-automation\\state.json",
+      "sha256": "9ae48d6b41934fe334e6170ff40f792bb22b4573ae8ac76f627d4bc4c719592e",
+      "bytes": 176714
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\review-pending.json",
+      "sha256": "a763538d2d8ec309c5a875c7b6f32c11e6cfa86693a9b3ffa9bc3017cfdb2466",
+      "bytes": 1541
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\runner.json",
+      "sha256": "8bc1451a6fadd08d5961c35526aa51a8575c341a7b7fc5c96f9af61e01623a3c",
+      "bytes": 124
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\backend-owner.json",
+      "sha256": "8b3eec62c5dee31dae861fb8811b9f762656000930ee2fb0e27968893f886284",
+      "bytes": 60
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\final-overrides.json",
+      "sha256": "2b3ab76e14516c98409104c00648a35d155789e98f5f5307eabcc467f0e7a706",
+      "bytes": 4424
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual-repair-queue-20260925.json",
+      "sha256": "772070e7df98153716afc2c3fc17a6987f1c15e78bd05f5fee0cf89a9800ca80",
+      "bytes": 10507
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual\\T06-r7\\verify-request.json",
+      "sha256": "3d134c4c73f071ff1bcfc7b576f680866b8b9866c694658bc4e3864b0d83a444",
+      "bytes": 151
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\reviews\\T06-r7-verify-resource.json",
+      "sha256": "fe8837bac731cba91411f9c3f3cc80bde5949c9f290bd3d9de385e9185864a35",
+      "bytes": 361
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual\\S10-r1\\source\\low1\\blender_request.json",
+      "sha256": "462d751439d622d54d6b695be2c0ed0a63b713c064a243c7a43b752174d3bd67",
+      "bytes": 383
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\015a706fac1070288e7069c3d2fa343d5c777ae81e2d419842cd2e6ff77b4c25.json",
+      "sha256": "6dd093687ab14a7e8cc1746b0c91faa25578146b7d75f11dfc732bba918949d9",
+      "bytes": 4556
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\0180e858eec2fe41321e4d5842fef6665854ceb9dde2ae81a7c971f28b16b466.json",
+      "sha256": "00fb2d26f47515ea64c0eb19141db37abdafbe224901f0f80d22481937016bcc",
+      "bytes": 7540
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\024ffd3b7a56f11bffc403d0f9142fa5969c40d76f88f9b80ed135e730a20297.json",
+      "sha256": "172509be91e2fa2cf94b467d3f954110184fc9f502977950b83d72c55a11428e",
+      "bytes": 2458
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\05f56e7c7b0cfa4173cfdb2e8071cbc599f675489c7f85b519ce4a9a826fb1dd.json",
+      "sha256": "b7043bf8866b5d28885533a552837472f295968c55ae198b3ef7c20805b1483c",
+      "bytes": 3852
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\07104e6930d2e8d3f759b4865a7c966dca23f8f9a6e2b154385bb32c8d222582.json",
+      "sha256": "e6f258b055c124cb5e3453d3b0548899a5760f9b44a60c3f53751231d084211d",
+      "bytes": 4262
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\0b380ef986ab81c6895a63cc114f62288580cd9c0c17674f6c8c68ac68002b3c.json",
+      "sha256": "0d2918391b0f0188b0d503cb3c6e7756d739ac38b8d2d6eef99779328cef1d8f",
+      "bytes": 5270
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\0bdbc55339fe592a43467c0da69fa33f5e3297d411d65ff1095efb669340120e.json",
+      "sha256": "c3aa41302b05cec7b6d4d54ef9c1ffa0ed2ecda1d0dfc1c4a09ff36ba34ec146",
+      "bytes": 9199
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\13ffaf5b8257b0d798708f25dffb01affd2e5f5a22bc99459f9d42427f360330.json",
+      "sha256": "973e6a08daed6f92a339bdedf251bce3d2cbe972194136cea62845a7b66332b6",
+      "bytes": 3558
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\14e9bf707b408bbb5198cc9e8b55f04a2767ddccd2bab9db720662cb8dc5cbe0.json",
+      "sha256": "50ef1cf92c9c96bb57c55cef450048109f79b53bf0405dc5d8e7324c7e42d08f",
+      "bytes": 4190
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\1513d01ad86f4a312d13fa8130874f5bfee856090f2fd2b2cc9b1f3008a8d502.json",
+      "sha256": "ff4b64b6d130b6ec7aa0af216964f4191742fae5b74b073eb564c6910dddd5b7",
+      "bytes": 4673
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\15c307017687090f6d43da7c06db373ea1291ecc223bd16c0f88cce5b3f5057a.json",
+      "sha256": "44b13a5f0ca63e0b96345c0151bfded5da8304b46fc2b991dfc8daf19edc4eac",
+      "bytes": 5160
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\1ec713358f2b46b6ff44cbae5fbe43c40d8463ccea85da025a72fe6a8bd089e8.json",
+      "sha256": "1e747feee38a80f561bbe4f7e7f5f77e1710ae62e8e9a122940b6fe732e885c1",
+      "bytes": 4487
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\20ac592863353dc0cf71b01f07ed888d3d457d8b4459772df4b2e699478b55bf.json",
+      "sha256": "94ad874648eb22e590798ef4b8ce10e845962dea75068a81e9b9cf24575c00b5",
+      "bytes": 7184
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\246ad6007f3424e5f613d0bd60246268676f158e761f6e3eebc4042471a22856.json",
+      "sha256": "d6d11a7c75954dc4a4a9d8d09dae7e0450b6592252ae224d44353fdf16b1c62a",
+      "bytes": 7065
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\2547692dd87cf9da1e65d4841c50b329d5e6555a7e87f9a94ae9e763dabb0a59.json",
+      "sha256": "a044a4d5fd3f6746099a3ac0ef9b5e3e75fe8f01f3a5e3006a7b899defba7e97",
+      "bytes": 3334
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\29c8106804f798949e5e37dd31f05afc1fad95a6d8dc37a3e78b122ac6709276.json",
+      "sha256": "634ed5cdb4dcbecbb544c51729ba8d93947a5d4ec8effaa48b79da8ebe5b5d2b",
+      "bytes": 8929
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\331b9e3d3f2e939177c9587f4b35d995855059e46d82707387558c028ed71a1d.json",
+      "sha256": "49cd416768cf3c0cb82fd63cac6dd9765c614aff02df1534595d1ee273cd91fa",
+      "bytes": 7191
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\33d296aa38d839bdb559f8bfb4beb9eb40f805216e47481e518eebbd16bf856b.json",
+      "sha256": "3dda91418c043f1b5025e79f5daa21f8aca8669766dea9724db3719f13972e1b",
+      "bytes": 3982
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\34bc390fd93f8001102e86e1d682f11f7a0cfc09eebe7e5df8ba5c63c218b046.json",
+      "sha256": "2cdadaaefc4991b97faa88d7e95ca614478e4580b5139ee3a123809d5655e0b7",
+      "bytes": 4059
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\34d89c5c7050e7daa1a09f70b3549ecd2ca04dcc234360ca1c39b4a7120bb8d0.json",
+      "sha256": "da736310218645c22d77a3507d1f8489f2b818e45cdcc13f8b860318e1b65354",
+      "bytes": 3635
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\35cc1733e9b66df3b42f27706b0f456754ff37752ccd316140b1d60c6949396e.json",
+      "sha256": "fbefdcb25f6341a79096e0de01d9ad3eaec4a1ed7e5e23f9821ef34a2c53c65e",
+      "bytes": 3901
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\3b285346d0fce7787bec704a4fee25efb3a9675341e7d0f22685fa37528c1371.json",
+      "sha256": "d95af4853e25b445bd46f37dccc00786b7925ebcc1fea4593bffab33f9300ff3",
+      "bytes": 3918
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\3b9d6e1a2a7afa6b3336d0af0e33a2ef1f46e01d6eae42a9e308f4c86c5a2578.json",
+      "sha256": "2ebceda10524fecb445464c506d5213055f1806bab4d2f9adf7cd2d601dfec3d",
+      "bytes": 4309
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\411f51424cf59fe3f91876d8c3ef56500f439a2bed5318839a5d0bd292e65d70.json",
+      "sha256": "c44ffbbdc28a255a6b34a4fbbbda5ae0d3f66b866691bf28848e7af575b56cee",
+      "bytes": 3878
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\4120cb50727d00ec43cc1ff921198e44aa6546e4f423a539f2f04ab3872fd340.json",
+      "sha256": "eb4250461fb0d7da18cb534026795d8ec712e4f83ba847202c625567bed401af",
+      "bytes": 4306
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\423438b00f3a411cafb396e8b9d516c66f90dc4f552c26d5c43c474dc7746da7.json",
+      "sha256": "2e3a51a2c049fc14cf6238beb2dadc480b8bc67d52a3220ecf57fec088a5fc14",
+      "bytes": 4201
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\46f4d0a76f31345c2ceb2338052a88ac08b7c209cc8e0a0864fb85e75ca88e01.json",
+      "sha256": "2b8f019c174b90984aebaa8f938cce8df45611c711034c027dfd2ffdaf9690ec",
+      "bytes": 5299
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\4f87d4f56ee233d62fbed693f6067d1285013582144cf16267ac2980ecd9ca3d.json",
+      "sha256": "55c8ee525a8bb87734e2b5ca6f89262779d464efff6f2ad43840951e5e05fca8",
+      "bytes": 4741
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\530a8ec8dfa69381473574ffb840f0af122bf9a94820f09d32737d885f878265.json",
+      "sha256": "90c6b68949d1a5857bf25273b3e63fc12cdca0b3ff03e0ca6cde5f01713f96e6",
+      "bytes": 6927
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\53213f79cfd62b5c77447d5c67422373d9a2b6d8184589293eb1b27224fb22ac.json",
+      "sha256": "92dd0925771410da9394b6c14640928a1d0a65f764d50ae6c694b51107891750",
+      "bytes": 5541
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\558ce560fa43dfa5c0df23601a818f6bba8a6385b5fa62f4ab4f584f85fccb2c.json",
+      "sha256": "4bf5787678d379ad526ceaa6a6390eedfdd9d1990e7d6e9fa4ec60b2aba8b8cd",
+      "bytes": 5151
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\5623acff49035a0dc0b6350c0230fde29a1542cf440c8241b507d0776f2a9c85.json",
+      "sha256": "eb942ec4f0af25e574acb7b21580c41264679f36cd4cf1ae15e3e71fd797db0b",
+      "bytes": 1020
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\5916a51a3e9912c3af5618f6af3cbd99d0799d1a16483958681fd719d3463d4f.json",
+      "sha256": "52357522a46270866acac3086adbda820b936f87d50a16a090e176472eaf53b7",
+      "bytes": 4382
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\5b3df28a58e521caab260c2863a89efb0087cece5de01a2acd7056d2023e9520.json",
+      "sha256": "829c308a61aabfda86b638652e64c9d8e3817658f0f3df4b5bc8680b6a21d3f4",
+      "bytes": 2282
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\616cc6731aff288f45b6e42a0af5ec101f6020f7eb04e5f80a0525bef7fd6d80.json",
+      "sha256": "8d395cc57d86185bf5b62dae58c1384962fef5509d7932410611a56e9fafdc35",
+      "bytes": 4163
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\7209caac8cfb8b0b469b5d59efa342fa394fb21b891213f6e6ce00ac97ef3f4d.json",
+      "sha256": "b1ced7aeb8c62cadd0d89d068cb63e488499c7a713de9b6863d3ea59c8a2d0fa",
+      "bytes": 4579
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\73c297e171a72d3ddcd1e98bb9a5c765165895b1d275f1c85515fca76037907a.json",
+      "sha256": "4936807a7df392e4e5d6ce77035be47a040d43ac86b4470bc9f2b005087fdcad",
+      "bytes": 3963
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\756aa27208eeb8a7e92df0a498885945a840a6f60183ec05ae3d78b8459c5835.json",
+      "sha256": "a5dc2070f7c969a925831caf8414928ecb967fe2207ee00d9f69e89db48ca478",
+      "bytes": 3761
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\795af1d0b4f5ca93fb35083dbbbf8a551b3fd3e18dc5ffb1d0a714d79f6ca5b3.json",
+      "sha256": "dcddf5192ed73c6a755461797c430f4d75eec863c01a83eb18698798dbe82728",
+      "bytes": 3948
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\8027d565cf1f009fb3ec4cf966db2324dfbd42e29bf30df59bc78439f05add6f.json",
+      "sha256": "01df9c7bfcf84e8bffc94f85bc97086cd3d820ac77b03fda46fb93c697db5b4f",
+      "bytes": 4413
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\85323d564e50d7a8ccee4f34f03ebe25e867b6626287da01e89c10723c4995f9.json",
+      "sha256": "236785f9ab23dcb06c2f79ace94007961a0af380491caa0c8be2b0b90862fe87",
+      "bytes": 3963
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\871f1581cbee80d0cd566931e396fee2c737d4695eced6227671afde785a2a55.json",
+      "sha256": "ea779e8b411c499db0754ef014c353f46b8cfcf11257282dfb3e9a4834ce1fd0",
+      "bytes": 3991
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\8c3ba615a9c494a97fa987bf01a2c3866d60fc4983afa685ef406c646464a58e.json",
+      "sha256": "3efef1ca6455218f356def6e8a82adfb42db333d523d68840d642b163ea7f63f",
+      "bytes": 6816
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\8efd2580115689f6e249236655335c333c4a375978cc307c4ca175e7e319e609.json",
+      "sha256": "e7f773819fa4cf630cc06730d4b9f47b62738720a51c6c064d7a920311fdacf4",
+      "bytes": 4141
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\9125cb669eb59859386a948d30f0cf277e097d223568358a406299435d25aa9e.json",
+      "sha256": "7a9596c421e32c4ee6fb656b25a575990b7de1d1b7bcde93178f32aad479625a",
+      "bytes": 4084
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\92c0cd546ba49344467853f3d2ebc2db95b0c48b668bcd63093bb7b271989abd.json",
+      "sha256": "f01a299e5c3bfda66fee9e3c27a061b0cca015199b4c9d3430776c5779604260",
+      "bytes": 3435
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\9823d6e1a9bfcc48f3a6b6f6e391aad86a9d182ecb968ad5d26d590dbe0ae8c4.json",
+      "sha256": "12b7f6fa8f6753628ad0d3e263037e0c9194df9008fe9f5c59c8a0cef31c7d9e",
+      "bytes": 7070
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\9d5cb8b98caa50ee9fd6f526ff8968aeb69b7ecdd1cecf268976b4a1fe9bfa92.json",
+      "sha256": "c3fec0079c789bf006755bfcecb8373fcc5e2d0530aff28bb094d08b820f1d8f",
+      "bytes": 4436
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\9dd6a9e88d15fda14946e5258cbe35e0a4f7b2140e16503d4d4781f10be922d3.json",
+      "sha256": "3cf3d5b667a20e0c1aa2ac293a3c8a997df9e3536d73a746ff9a4121db38e7b4",
+      "bytes": 4458
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\a1673d0ad3e2087364421dc7c1f3bf4edb282479aefc106f17f1ef81306015a4.json",
+      "sha256": "4d3b9d39fa0314e9aa02e6e42e0ce0566f0322d3eef94264eeeb9845b289d729",
+      "bytes": 4226
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\a2068a407b4924a6b5cb1144239ad00a8ec0de627fe5b52eb1a418ff9dac81f1.json",
+      "sha256": "23d997a2e7ec8afe7a7e8bf5928bc7770ba73bfc7f09dfc4dd0eba1c8bbec649",
+      "bytes": 4327
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\a7697fb72d78ae978a6b4f1a5bbbe030ae5a5cf3aa97e4d80c0a2df984ae0bef.json",
+      "sha256": "3a285d807eec4fa92c6a0d77563576a8477eafd6198430750b8b357c93637995",
+      "bytes": 3721
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\aa5870c414d2804bc3312401bb10ec9310fabae61aedcdba369d6410d9b057b8.json",
+      "sha256": "234930b0cb9b7620289ed09cb1cd0490fd183f59573186d453518f87ac982c0e",
+      "bytes": 4499
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\ab4baebed3a78e286b1babcf65bc10e61d7af4ffa0f21ef67e3db07dc7ed4ef0.json",
+      "sha256": "8980b78317d25c92fc168a3b0fbaedd9c280be89f9a00181dd5437ecbafdc9d1",
+      "bytes": 3990
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\ae653e00d514b5bf8674d61fbef4f39512d023a1d5cc35ce22be8310008d0c31.json",
+      "sha256": "5a81238e2163f5d323ee9c2987ab50a1e8dc4dddea0b82e6d4ea6a8d49d3c2b3",
+      "bytes": 4120
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\b11a1bd86b2dc60c12c4ffb7ea4f4158a91247dc0ec91b2f9eb217c0bbb2b2d5.json",
+      "sha256": "7389c044331a3b512594ce997894c31f3a654206c0ebd2ff0066ebedbad9d117",
+      "bytes": 6254
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\b12fd568526a3c6f2cfc784e8aa117efe69a17179231f2bb3260331ded960c3b.json",
+      "sha256": "72c5d42e393ab5de63dd644aa281b436e21c822a9df6f1c3848c039ccddcf594",
+      "bytes": 6937
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\b19251bb2671df37c4172ecbd61a14be7d3f94389a2afaae27b3536990423b92.json",
+      "sha256": "f7a13a34a5594ef6112e24d669ceacd762ce39631abd0df0740e01ac14409645",
+      "bytes": 6977
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\b3cd582103a63ee07b4a095b74ab7757dbc1e2b9afd632d4c473401cb16b78f0.json",
+      "sha256": "4b1127509a4fe09e555280ac4ffbc833471789ec8a23ced66b7776e4eb274187",
+      "bytes": 866
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\bc0fb91119391ab823b1ef46949abe095c38a1d341df10631ccae08e30e9075a.json",
+      "sha256": "eec8f64adf2134a943ab1e9e9784bbd047a609838eeabab43037ae95089e9a4a",
+      "bytes": 4660
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\bcb22086207832597088ed00ebc4f9f0ac3bf96353515f1143d7939eaedfd9f2.json",
+      "sha256": "54624e17e1aece228b6b1fd429cd4e780f0fe4176f34c0e931f221da46a03cfa",
+      "bytes": 6222
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\c24e09cc849b4301f8dcf7d84b56dd01a56cda6840efab791ae3573c5bc15cfe.json",
+      "sha256": "30a3f161a20bdb9af7ea6bfde9c05acfca182c0c37259693a8144fd427f2441e",
+      "bytes": 6414
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\c27d6faebaebc1831750f7a82aafaddc1b2184ec7a77c0c33304117373523268.json",
+      "sha256": "93ffb28969bc4c00f34cadf931c81e8db7305a4eaa63109e9f747b17a94f0db5",
+      "bytes": 4344
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\c6443397269b101817d89093aa0f7ad732acda582abc1bf08247467b3d1e753a.json",
+      "sha256": "6499a9390936b8ee71082883afbceb069f58c8bb0ec441df5eb95135306bbcc9",
+      "bytes": 4338
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\c92a4622f987ae0eb97a4ca2b43248105bdab6d435243baadd3eec0528714299.json",
+      "sha256": "59c2c38192eca581431eb9efe320e5dd2b5c92115d14cb0cb3588b8efcc9c634",
+      "bytes": 4098
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\c9f6b50cfc5053bdc1bbc93fbabe03a56c028d9901b8a0b158943e18767d61ef.json",
+      "sha256": "271cb39af901b5ec5e7fa582564e6e37b9887ae3bc507610ae9a9119ca0a7b9a",
+      "bytes": 4704
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\cb20b91d6cb3c2793bd699b1ff340463b2b5bc260ffbd0aeeb92c2c9ebe32b3c.json",
+      "sha256": "8b0bb9f25965314ff11843666e0b631a185eb18a23192779393d7a0c8726e11f",
+      "bytes": 4271
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\cb3b58e0b946acbc2f04f5c382ca66b1fd3de64f1ba42ef156ddbc375889baf5.json",
+      "sha256": "531e2b9e594607aa7558b5aa721fb20f4ad7bee2dbe919e9958e6105cc45b667",
+      "bytes": 3761
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\ccb1a284635915b8bdbe421a244aa5d92562e493819ea364ac2cff919c303f28.json",
+      "sha256": "8f143cfcb960d159bfc6440f3d7f67ae3da4c7de6ff631076effa312ae779afa",
+      "bytes": 6206
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\cde4359790a4fa6be123f75f6c981e4df33cb1c04dc76642b4a73ea8e8d67603.json",
+      "sha256": "201759ff1f77fef2b457779b3cac791375e6937fad96eedd7b9ca0274ac2990e",
+      "bytes": 5886
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\cf83200a7599d8a1392097f84e14889a582bb8475165c6dbb39a421ca327612d.json",
+      "sha256": "4f4c8c850adb4ae7dc6b9d758f050b6b534e00a4fff9ff45fbe39396d04a163f",
+      "bytes": 4143
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\d1ff1f026171710fc67e9b4888d558bc3b8750c81f54e83a66178904477af36b.json",
+      "sha256": "5f38f4a647bb2aa47aa0ed016aca81aa3368e3f235f9a55ce72997044dcecde5",
+      "bytes": 6139
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\d2cda6274878357b3eb285fb96de432c6057590b1e319d7273365fabd33fbc01.json",
+      "sha256": "2c82dd5ea6750bb030e04f66337d471aab4f951b009afeda3945c9dcc24b7a54",
+      "bytes": 5863
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\d3bd7d05936657aab255ccfa01cd4650100d2e80f1d0040fcec5c5abe3fd6a75.json",
+      "sha256": "c690aa9dfffbb5fa2719b1011945eb4629c351720e2f4144e0f9bf920cb95190",
+      "bytes": 3816
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\d54c0840660d9dcc86e24fb455c2b6ee6db132f9a42d8f720d9f319d46a4f8b0.json",
+      "sha256": "803142bf8eded595246cca461d459783e9a274439139072ed54d853815a30863",
+      "bytes": 4329
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\d5a86d61a1869652991343811d6ef2d676208141c2bd52731522561ae9bf398e.json",
+      "sha256": "dd23fa79d0c940cbbb29f39c9d0cd7ad9f2bb1a0e1ee04d4c44e02f012d6623e",
+      "bytes": 4282
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\d630ce2d3dc55cbb1f8d7ba89a31a84a90fb2a0c49ab3d4db0679162860b31d2.json",
+      "sha256": "13133ef7a84d00dde320ca0a6985ffaaf027e593de4a359a200091fae9082fd1",
+      "bytes": 6483
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\d6704ac514b2678a24fe3dd0b9415aad0523056d5e04d4065c96c4a9ebcaf3f6.json",
+      "sha256": "dfd6311b503959741b9715b278393ab8338a3fd7e89bb4d12ecfd55773b32f41",
+      "bytes": 3873
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\d6c7798a4dec51724cccd376e4e43a74d4b5f866b47d434fc965f3ad2f2741dd.json",
+      "sha256": "385065aa19fb4ed515ac54de517e8f7f191876be11ab2df987698d15404619e5",
+      "bytes": 4481
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\de0d8464eff72796f29487d8e9faedffb64d755bd46b4bb9f2686459c6a70200.json",
+      "sha256": "cc791c7ae483780e4686cbe8a7620c5c8e3c567d3da631d75d9a6de73e24da19",
+      "bytes": 2048
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\deb757a12f4170a8541668a353c46bb5121bd04e66184e78439bf6ec30b42404.json",
+      "sha256": "b05b115afddfad841b31c64310df49366b84a0bb7cf04a81599a1b8c93289efa",
+      "bytes": 4727
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\e246242f4bdc02aa9e70a6cf563259f3bcbd6a9a0e5003abd31d4ab5f59359ec.json",
+      "sha256": "a8a14169c89becf3a61f896b55caadda9f2f205c5ca011f6a5d5736b9b8aad14",
+      "bytes": 4243
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\e32c30d6a7be6da03c57dcdbaaa92d6bdd43bc489da211d36e83f7ac15df3a78.json",
+      "sha256": "9c633e9e2d185730284dc32845b4c4a9bd7c7f781c4e91d8798882ac10f21bc7",
+      "bytes": 3744
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\e56ca207d4f37a6709f846bc61b6f1a0799af2d649699a17e622b6b671c36bab.json",
+      "sha256": "e0a5e1a176a85af592ba6dbd56a14f238131ce4a74e8698a35c218c145395ebe",
+      "bytes": 3637
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\e6b5ecf6591e4351d1efb00cf00ed75b64bc5e69bb246a365fed8871ed76b90d.json",
+      "sha256": "485f82d6c0e453c2698942744603be321333e32030584f9e48f2c1ec2363377d",
+      "bytes": 9391
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\ed282ca4c996c546a714bcb3968f65613d8ce870cd0baae63ecc9c05d38a4c61.json",
+      "sha256": "32c84492f11dd096f5553e283a2b9a988339398986702c1c6cb1c4ef31faa7ac",
+      "bytes": 7292
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\f6ea9e6304cc034653e8fb1c7d44522bf76adc61369983ee9b91543a87d31b9d.json",
+      "sha256": "32350dddd6f42c03ca896d6d0457e62f9b913b08481f7daede36601d8199103e",
+      "bytes": 3429
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\quality-ledgers\\fa80812eaae66f2d5b5c6d877f09d6a3e8c41a3740426b0b71ed012174255796.json",
+      "sha256": "a9b4e7dcec458984db7921834c92f0ec590aec5332cfccea64a35eddc2c42920",
+      "bytes": 4535
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual-refinement-ledgers\\024ffd3b7a56f11bffc403d0f9142fa5969c40d76f88f9b80ed135e730a20297.json",
+      "sha256": "3566a0d02e1e47c01eb15bec10f7c6a630bdeafaf266b6f901d0f56b097ba129",
+      "bytes": 833
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual-refinement-ledgers\\34d89c5c7050e7daa1a09f70b3549ecd2ca04dcc234360ca1c39b4a7120bb8d0.json",
+      "sha256": "a207376f55ce6d7564b1245e22590170249ffd1870e935766d6741538539e095",
+      "bytes": 802
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual-refinement-ledgers\\5b3df28a58e521caab260c2863a89efb0087cece5de01a2acd7056d2023e9520.json",
+      "sha256": "54144ccb5633f7bf67394f3662b70142438c6b4e57f4d8971ee5fe4f62521714",
+      "bytes": 1186
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual-refinement-ledgers\\8c3ba615a9c494a97fa987bf01a2c3866d60fc4983afa685ef406c646464a58e.json",
+      "sha256": "f459630e8d498b1847991199a5e5565444011d5e18be0cb8475d7d5ab137f661",
+      "bytes": 802
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual-refinement-ledgers\\d3bd7d05936657aab255ccfa01cd4650100d2e80f1d0040fcec5c5abe3fd6a75.json",
+      "sha256": "4b4496ee7c6f96aa758ce4d04d75601be7848407eed8d01c43c715ff211e6448",
+      "bytes": 802
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual-refinement-ledgers\\d630ce2d3dc55cbb1f8d7ba89a31a84a90fb2a0c49ab3d4db0679162860b31d2.json",
+      "sha256": "9d11a849054d8e3f665e373a3e031696d7d05cd162daeb1cdabbdfcc0f3f1b1c",
+      "bytes": 802
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual-texture-ledgers\\024ffd3b7a56f11bffc403d0f9142fa5969c40d76f88f9b80ed135e730a20297.json",
+      "sha256": "a8a7c75ed08e32ea31a4714ee39d0c512291fda0cb71838992fbf9d14cbcda5b",
+      "bytes": 1448
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual-texture-ledgers\\5623acff49035a0dc0b6350c0230fde29a1542cf440c8241b507d0776f2a9c85.json",
+      "sha256": "23f1732991599a043aeab4eb65aa10a6338ad6a89ddd827b7f09821c3ba6fde5",
+      "bytes": 1470
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual-texture-ledgers\\5b3df28a58e521caab260c2863a89efb0087cece5de01a2acd7056d2023e9520.json",
+      "sha256": "cab48960edaf74a243c0cfff95aa9c349a47425c2eecc4d0aabbab1c8dbeb196",
+      "bytes": 1974
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual-texture-ledgers\\a7697fb72d78ae978a6b4f1a5bbbe030ae5a5cf3aa97e4d80c0a2df984ae0bef.json",
+      "sha256": "a36fa30bdfc37019340aef53b12c038f34dd1cc51e98f8e2578d72b4194ab0eb",
+      "bytes": 1697
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual-texture-ledgers\\aa5870c414d2804bc3312401bb10ec9310fabae61aedcdba369d6410d9b057b8.json",
+      "sha256": "a81a02d164f9d688e02dc7f973815e8fe18632624534f76cad88258d4541b582",
+      "bytes": 1468
+    },
+    {
+      "path": "outputs\\reststop-production-2026-09-24\\manual-texture-ledgers\\de0d8464eff72796f29487d8e9faedffb64d755bd46b4bb9f2686459c6a70200.json",
+      "sha256": "3dea26d99f8e5566de40a8bb08d4f263292023ebff65151679b8615b52556eef",
+      "bytes": 1468
+    }
+  ]
+}

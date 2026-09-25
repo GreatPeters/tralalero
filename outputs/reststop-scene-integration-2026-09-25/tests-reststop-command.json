@@ -1,0 +1,217 @@
+{
+  "success": true,
+  "command": "command run_tests",
+  "data": {
+    "command": "run_tests",
+    "parameters": {
+      "mode": "editor",
+      "filter": "RestStop"
+    },
+    "result": {
+      "Summary": {
+        "Total": 26,
+        "Passed": 20,
+        "Failed": 6,
+        "Skipped": 0,
+        "Inconclusive": 0
+      },
+      "Results": [
+        {
+          "FullName": "ChapterEquipmentRevisionTests.ChapterHasOneTwoOneCompositionAndUsableBindings(\"RestStop\")",
+          "Status": "Failed",
+          "Duration": 1.1303085,
+          "Message": "  Expected: 50\r\n  But was:  46\r\n",
+          "StackTrace": "at ChapterEquipmentRevisionTests.ChapterHasOneTwoOneCompositionAndUsableBindings (System.String name) [0x0013b] in C:\\Users\\ljh\\tralalero Shooter\\Assets\\Tests\\Editor\\ChapterEquipmentRevisionTests.cs:42\r\n"
+        },
+        {
+          "FullName": "ChapterPolishIntegrationTests.ChapterPresentationHasCompleteReferences(\"HighWay\",2,\"RestStop\")",
+          "Status": "Failed",
+          "Duration": 0.5250766,
+          "Message": "  Expected: not null\r\n  But was:  null\r\n",
+          "StackTrace": "at ChapterPolishIntegrationTests.ChapterPresentationHasCompleteReferences (System.String name, System.Int32 number, System.String next) [0x001a3] in C:\\Users\\ljh\\tralalero Shooter\\Assets\\Tests\\Editor\\ChapterPolishIntegrationTests.cs:30\r\n"
+        },
+        {
+          "FullName": "ChapterPolishIntegrationTests.ChapterPresentationHasCompleteReferences(\"RestStop\",3,\"\")",
+          "Status": "Failed",
+          "Duration": 0.4801944,
+          "Message": "  Expected: not null\r\n  But was:  null\r\n",
+          "StackTrace": "at ChapterPolishIntegrationTests.ChapterPresentationHasCompleteReferences (System.String name, System.Int32 number, System.String next) [0x001a3] in C:\\Users\\ljh\\tralalero Shooter\\Assets\\Tests\\Editor\\ChapterPolishIntegrationTests.cs:30\r\n"
+        },
+        {
+          "FullName": "ChapterPolishIntegrationTests.RestStopRoadSupportsEveryRouteSectionAndRegistersForTravel",
+          "Status": "Passed",
+          "Duration": 0.5033098,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ChapterUIThemeTests.SavedLobbyUsesItsOwnChapterSymbol(\"RestStop\",3,\"RestStopPlaque\",\"휴게소\")",
+          "Status": "Passed",
+          "Duration": 0.4968354,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "CoastalUIIntegrationTests.SavedGameplayScreensUseCoastalArtAndRealBindings(\"RestStop\")",
+          "Status": "Passed",
+          "Duration": 0.4852222,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "HarborFaithfulArtworkTests.SavedScreensUseIntegratedArtAndRetainPlaybackBindings(\"RestStop\")",
+          "Status": "Passed",
+          "Duration": 0.4918431,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "HarborFeedbackPresentationTests.SettingsKeepRealBindingsAndReadableReferenceControls(\"RestStop\")",
+          "Status": "Passed",
+          "Duration": 0.4783456,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "HarborReferenceFidelityTests.LobbyHasDisplayTypographyAndSeparatedGesture(\"RestStop\")",
+          "Status": "Failed",
+          "Duration": 0.4811311,
+          "Message": "  Expected: greater than 0.200000003f\r\n  But was:  0.200000003f\r\n",
+          "StackTrace": "at HarborReferenceFidelityTests.LobbyHasDisplayTypographyAndSeparatedGesture (System.String name) [0x0011c] in C:\\Users\\ljh\\tralalero Shooter\\Assets\\Tests\\Editor\\HarborReferenceFidelityTests.cs:24\r\n"
+        },
+        {
+          "FullName": "HarborRefinementTests.RefinedScreensAndBonusCuesAreSaved(\"RestStop\")",
+          "Status": "Failed",
+          "Duration": 0.4871939,
+          "Message": "  Expected: less than or equal to 0.0700000003f\r\n  But was:  0.139999986f\r\n",
+          "StackTrace": "at HarborRefinementTests.RefinedScreensAndBonusCuesAreSaved (System.String name) [0x001b9] in C:\\Users\\ljh\\tralalero Shooter\\Assets\\Tests\\Editor\\HarborRefinementTests.cs:53\r\n"
+        },
+        {
+          "FullName": "RestStopContactPairTests.OppositeActorFacingDoesNotReverseTheRoadTravelDirection",
+          "Status": "Passed",
+          "Duration": 0.0110217,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "RestStopContactPairTests.ProjectingTheSameRoadCenterDoesNotDriftOnRepeatedAuthoring",
+          "Status": "Passed",
+          "Duration": 0.0003102,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "RestStopContactPairTests.SavedRestStopPairsHaveOneContactClaimAndKeepPatrolsInTheirOwnLane",
+          "Status": "Passed",
+          "Duration": 0.4835935,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "RestStopEncounterLaneTests.AuthoredDisabledFoodHallRowsKeepTheirFullWidth",
+          "Status": "Passed",
+          "Duration": 0.0030624,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "RestStopEncounterLaneTests.EveryRoadHeadingKeepsEdgeInputInsideTheVisiblePassage(0,-4.4f)",
+          "Status": "Passed",
+          "Duration": 0.0007425,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "RestStopEncounterLaneTests.EveryRoadHeadingKeepsEdgeInputInsideTheVisiblePassage(0,4.4f)",
+          "Status": "Passed",
+          "Duration": 0.0002085,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "RestStopEncounterLaneTests.EveryRoadHeadingKeepsEdgeInputInsideTheVisiblePassage(90,-4.4f)",
+          "Status": "Passed",
+          "Duration": 0.0001966,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "RestStopEncounterLaneTests.EveryRoadHeadingKeepsEdgeInputInsideTheVisiblePassage(90,4.4f)",
+          "Status": "Passed",
+          "Duration": 0.0002937,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "RestStopEncounterLaneTests.EveryRoadHeadingKeepsEdgeInputInsideTheVisiblePassage(180,-4.4f)",
+          "Status": "Passed",
+          "Duration": 0.0002824,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "RestStopEncounterLaneTests.EveryRoadHeadingKeepsEdgeInputInsideTheVisiblePassage(180,4.4f)",
+          "Status": "Passed",
+          "Duration": 0.0002518,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "RestStopEncounterLaneTests.EveryRoadHeadingKeepsEdgeInputInsideTheVisiblePassage(270,-4.4f)",
+          "Status": "Passed",
+          "Duration": 0.0002618,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "RestStopEncounterLaneTests.EveryRoadHeadingKeepsEdgeInputInsideTheVisiblePassage(270,4.4f)",
+          "Status": "Passed",
+          "Duration": 0.0002067,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "RestStopEncounterLaneTests.OtherRoadsUnmarkedRowsAndDistantSectionsDoNotPullThePlayer",
+          "Status": "Passed",
+          "Duration": 0.000648,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "RestStopEncounterLaneTests.ThePlayerPositionPathEnforcesThePassageWithoutHorizontalInput",
+          "Status": "Passed",
+          "Duration": 0.000949,
+          "Message": null,
+          "StackTrace": null
+        },
+        {
+          "FullName": "ShopFidelityTests.ShopScenesPreserveTransactionsAndUseFinalPresentation(\"RestStop\")",
+          "Status": "Failed",
+          "Duration": 0.4886658,
+          "Message": "  Expected: String starting with \"Assets/ShooterSurvival/UI/CoastalFaithful/Shop\"\r\n  But was:  \"Assets/JH/UI/Upgrade/공격력.png\"\r\n",
+          "StackTrace": "at ShopFidelityTests.ShopScenesPreserveTransactionsAndUseFinalPresentation (System.String name) [0x00364] in C:\\Users\\ljh\\tralalero Shooter\\Assets\\Tests\\Editor\\ShopFidelityTests.cs:42\r\n"
+        },
+        {
+          "FullName": "UITextAlignmentTests.SavedVideoControlsHaveSymmetricLabelsAndCenteredPreviousGroup(\"RestStop\")",
+          "Status": "Passed",
+          "Duration": 0.4794761,
+          "Message": null,
+          "StackTrace": null
+        }
+      ],
+      "Duration": 7.85,
+      "StatusPath": null,
+      "Mode": "EditMode",
+      "FilterApplied": "testname: RestStop",
+      "success": true,
+      "result": null
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\ljh\\tralalero Shooter"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

@@ -1,0 +1,47 @@
+{
+  "source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\S08-r5\\source\\model.glb",
+  "method": "Repair/reduce only the TRELLIS body; retain all fitted transparent/liner/perforated/light insert vertices and faces",
+  "target_triangles": 15000,
+  "body_budget": 12208,
+  "fixed_triangles": 2664,
+  "before": {
+    "triangles": 231877,
+    "vertices": 118113,
+    "degenerate_faces": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 4477,
+    "nonmanifold_edges": 566,
+    "finite": true,
+    "uv": true
+  },
+  "split_edges": 566,
+  "reduction_metrics": [
+    {
+      "triangles": 12108,
+      "vertices": 6418,
+      "degenerate_faces": 0,
+      "loose_vertices": 0,
+      "boundary_edges": 640,
+      "nonmanifold_edges": 0,
+      "finite": true,
+      "uv": true
+    }
+  ],
+  "profile": "parts",
+  "warnings": [
+    "Geometry-based priority: 18 small/thin components, 14305 feature vertices. Not semantic part segmentation."
+  ],
+  "extra_ai_requests": 0,
+  "final_metrics": {
+    "triangles": 14772,
+    "vertices": 9346,
+    "degenerate_faces": 0,
+    "loose_vertices": 0,
+    "boundary_edges": 3568,
+    "nonmanifold_edges": 0,
+    "finite": true,
+    "uv": true
+  },
+  "materials": 4,
+  "fixed_inserts_not_decimated": true
+}

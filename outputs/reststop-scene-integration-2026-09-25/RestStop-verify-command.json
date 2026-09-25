@@ -1,0 +1,486 @@
+{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "tools/install-production-scenes.cs",
+      "entry": "InstallProductionScenes.Verify",
+      "args": "[\"RestStop\"]",
+      "timeout_ms": "120000"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 361,
+      "executeMs": 1036,
+      "assemblyName": "PipelineRunScript_install-production-scenes_e8fa436617bd4bb5a3559c8bbf4f3c87",
+      "success": true,
+      "result": {
+        "missingScripts": 0,
+        "enemies": 66,
+        "ranged": 46,
+        "singleAnimator": true,
+        "invalidMaterials": [],
+        "coverage": [
+          {
+            "id": "B01",
+            "total": 96,
+            "active": 76
+          },
+          {
+            "id": "B02",
+            "total": 24,
+            "active": 19
+          },
+          {
+            "id": "B03",
+            "total": 24,
+            "active": 19
+          },
+          {
+            "id": "B04",
+            "total": 132,
+            "active": 122
+          },
+          {
+            "id": "B05",
+            "total": 24,
+            "active": 19
+          },
+          {
+            "id": "B06",
+            "total": 8,
+            "active": 5
+          },
+          {
+            "id": "B07",
+            "total": 16,
+            "active": 10
+          },
+          {
+            "id": "B08",
+            "total": 24,
+            "active": 19
+          },
+          {
+            "id": "B09",
+            "total": 24,
+            "active": 19
+          },
+          {
+            "id": "B10",
+            "total": 44,
+            "active": 44
+          },
+          {
+            "id": "B11",
+            "total": 22,
+            "active": 22
+          },
+          {
+            "id": "B12",
+            "total": 24,
+            "active": 19
+          },
+          {
+            "id": "E01",
+            "total": 8,
+            "active": 5
+          },
+          {
+            "id": "E02",
+            "total": 8,
+            "active": 8
+          },
+          {
+            "id": "E03",
+            "total": 8,
+            "active": 5
+          },
+          {
+            "id": "E04",
+            "total": 20,
+            "active": 18
+          },
+          {
+            "id": "E05",
+            "total": 50,
+            "active": 50
+          },
+          {
+            "id": "E06",
+            "total": 22,
+            "active": 22
+          },
+          {
+            "id": "E07",
+            "total": 22,
+            "active": 22
+          },
+          {
+            "id": "F01",
+            "total": 92,
+            "active": 92
+          },
+          {
+            "id": "F02",
+            "total": 8,
+            "active": 6
+          },
+          {
+            "id": "F03",
+            "total": 134,
+            "active": 6
+          },
+          {
+            "id": "F04",
+            "total": 178,
+            "active": 178
+          },
+          {
+            "id": "F05",
+            "total": 24,
+            "active": 19
+          },
+          {
+            "id": "F06",
+            "total": 24,
+            "active": 19
+          },
+          {
+            "id": "F07",
+            "total": 37,
+            "active": 31
+          },
+          {
+            "id": "F08",
+            "total": 16,
+            "active": 10
+          },
+          {
+            "id": "F09",
+            "total": 16,
+            "active": 10
+          },
+          {
+            "id": "F10",
+            "total": 24,
+            "active": 18
+          },
+          {
+            "id": "F11",
+            "total": 8,
+            "active": 5
+          },
+          {
+            "id": "G01",
+            "total": 21,
+            "active": 21
+          },
+          {
+            "id": "G02",
+            "total": 42,
+            "active": 42
+          },
+          {
+            "id": "G03",
+            "total": 42,
+            "active": 42
+          },
+          {
+            "id": "G04",
+            "total": 84,
+            "active": 84
+          },
+          {
+            "id": "H01",
+            "total": 29,
+            "active": 27
+          },
+          {
+            "id": "H02",
+            "total": 33,
+            "active": 31
+          },
+          {
+            "id": "H03",
+            "total": 26,
+            "active": 26
+          },
+          {
+            "id": "H04",
+            "total": 8,
+            "active": 6
+          },
+          {
+            "id": "H05",
+            "total": 8,
+            "active": 8
+          },
+          {
+            "id": "H06",
+            "total": 21,
+            "active": 21
+          },
+          {
+            "id": "H07",
+            "total": 22,
+            "active": 22
+          },
+          {
+            "id": "H08",
+            "total": 17,
+            "active": 1
+          },
+          {
+            "id": "P01",
+            "total": 16,
+            "active": 0
+          },
+          {
+            "id": "P02",
+            "total": 1,
+            "active": 1
+          },
+          {
+            "id": "P03",
+            "total": 10,
+            "active": 8
+          },
+          {
+            "id": "P04",
+            "total": 8,
+            "active": 8
+          },
+          {
+            "id": "P05",
+            "total": 22,
+            "active": 22
+          },
+          {
+            "id": "P06",
+            "total": 13,
+            "active": 13
+          },
+          {
+            "id": "R01",
+            "total": 1,
+            "active": 1
+          },
+          {
+            "id": "R02",
+            "total": 1,
+            "active": 1
+          },
+          {
+            "id": "R03",
+            "total": 1,
+            "active": 1
+          },
+          {
+            "id": "R04",
+            "total": 1,
+            "active": 1
+          },
+          {
+            "id": "R05",
+            "total": 11,
+            "active": 11
+          },
+          {
+            "id": "R06",
+            "total": 11,
+            "active": 11
+          },
+          {
+            "id": "R07",
+            "total": 1,
+            "active": 1
+          },
+          {
+            "id": "R08",
+            "total": 16,
+            "active": 16
+          },
+          {
+            "id": "R09",
+            "total": 1,
+            "active": 1
+          },
+          {
+            "id": "R10",
+            "total": 42,
+            "active": 42
+          },
+          {
+            "id": "R11",
+            "total": 1,
+            "active": 1
+          },
+          {
+            "id": "R12",
+            "total": 30,
+            "active": 30
+          },
+          {
+            "id": "S01",
+            "total": 60,
+            "active": 52
+          },
+          {
+            "id": "S02",
+            "total": 47,
+            "active": 39
+          },
+          {
+            "id": "S03",
+            "total": 8,
+            "active": 6
+          },
+          {
+            "id": "S04",
+            "total": 68,
+            "active": 58
+          },
+          {
+            "id": "S05",
+            "total": 13,
+            "active": 13
+          },
+          {
+            "id": "S06",
+            "total": 8,
+            "active": 6
+          },
+          {
+            "id": "S07",
+            "total": 8,
+            "active": 6
+          },
+          {
+            "id": "S08",
+            "total": 8,
+            "active": 6
+          },
+          {
+            "id": "S09",
+            "total": 40,
+            "active": 30
+          },
+          {
+            "id": "S10",
+            "total": 40,
+            "active": 30
+          },
+          {
+            "id": "S11",
+            "total": 63,
+            "active": 49
+          },
+          {
+            "id": "S12",
+            "total": 63,
+            "active": 49
+          },
+          {
+            "id": "S13",
+            "total": 13,
+            "active": 13
+          },
+          {
+            "id": "S14",
+            "total": 40,
+            "active": 30
+          },
+          {
+            "id": "S15",
+            "total": 40,
+            "active": 30
+          },
+          {
+            "id": "T01",
+            "total": 24,
+            "active": 24
+          },
+          {
+            "id": "T02",
+            "total": 24,
+            "active": 24
+          },
+          {
+            "id": "T03",
+            "total": 24,
+            "active": 24
+          },
+          {
+            "id": "T04",
+            "total": 24,
+            "active": 24
+          },
+          {
+            "id": "T05",
+            "total": 16,
+            "active": 16
+          },
+          {
+            "id": "T06",
+            "total": 8,
+            "active": 8
+          },
+          {
+            "id": "T07",
+            "total": 8,
+            "active": 8
+          },
+          {
+            "id": "T08",
+            "total": 8,
+            "active": 8
+          },
+          {
+            "id": "T09",
+            "total": 16,
+            "active": 14
+          },
+          {
+            "id": "V01",
+            "total": 50,
+            "active": 25
+          },
+          {
+            "id": "V02",
+            "total": 45,
+            "active": 20
+          },
+          {
+            "id": "V03",
+            "total": 81,
+            "active": 50
+          },
+          {
+            "id": "V04",
+            "total": 6,
+            "active": 6
+          },
+          {
+            "id": "V05",
+            "total": 1,
+            "active": 1
+          },
+          {
+            "id": "V06",
+            "total": 5,
+            "active": 5
+          }
+        ]
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7800,
+      "projectPath": "C:\\Users\\ljh\\tralalero Shooter"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

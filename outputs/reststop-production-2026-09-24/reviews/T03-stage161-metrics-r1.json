@@ -1,0 +1,169 @@
+{
+  "actions": [],
+  "blender": {
+    "background": true,
+    "build_hash": "9e2066aef7ef",
+    "version": "5.2.1 LTS",
+    "version_tuple": [
+      5,
+      2,
+      1
+    ]
+  },
+  "hard_gate_pass": true,
+  "input": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\reviews\\T03-m3-r1-cached-stages\\stage161\\model.glb",
+  "issues": [
+    {
+      "code": "degenerate_faces",
+      "count": 8,
+      "severity": "warning"
+    },
+    {
+      "code": "zero_length_edges",
+      "count": 2,
+      "severity": "warning"
+    },
+    {
+      "code": "missing_material_faces",
+      "count": 5516602,
+      "severity": "warning"
+    }
+  ],
+  "material_details": [],
+  "materials": [],
+  "meshes": [
+    {
+      "boundary_edges": 80924,
+      "connected_components": 2,
+      "data_name": "geometry_0",
+      "degenerate_faces": 8,
+      "edges": 8315201,
+      "flat_polygons": 5516602,
+      "invalid_vertices": 0,
+      "isolated_vertices": 0,
+      "material_slots": [],
+      "missing_material_faces": 5516602,
+      "modifiers": [],
+      "name": "geometry_0",
+      "non_manifold_edges": 81105,
+      "polygons": 5516602,
+      "refinement_modifiers": [],
+      "shape_keys": 0,
+      "smooth_polygon_ratio": 0.0,
+      "smooth_polygons": 0,
+      "source_polygons": 5516602,
+      "source_vertices": 2789677,
+      "triangles": 5516602,
+      "uv_layers": 0,
+      "vertex_groups": 0,
+      "vertices": 2789677,
+      "weighted_vertices": 0,
+      "wire_edges": 0,
+      "world_bounds": [
+        [
+          -0.365576,
+          -0.451287,
+          -0.500082
+        ],
+        [
+          -0.134397,
+          -0.047193,
+          0.000521
+        ]
+      ],
+      "zero_length_edges": 2
+    }
+  ],
+  "objects": [
+    {
+      "action": null,
+      "collections": [
+        "Scene Collection"
+      ],
+      "dimensions": [
+        0.231179,
+        0.404094,
+        0.500602
+      ],
+      "hidden_render": false,
+      "location": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "geometry_0",
+      "parent": null,
+      "rotation_euler": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "transform_is_finite": true,
+      "type": "MESH"
+    }
+  ],
+  "scene": {
+    "bounds": {
+      "dimensions": [
+        0.231179,
+        0.404094,
+        0.500603
+      ],
+      "max": [
+        -0.134397,
+        -0.047193,
+        0.000521
+      ],
+      "min": [
+        -0.365576,
+        -0.451287,
+        -0.500082
+      ]
+    },
+    "fps": 24.0,
+    "frame_end": 250,
+    "frame_start": 1,
+    "name": "Scene"
+  },
+  "schema_version": 3,
+  "totals": {
+    "actions": 0,
+    "armatures": 0,
+    "bones": 0,
+    "boundary_edges": 80924,
+    "cameras": 0,
+    "constraints": 0,
+    "degenerate_faces": 8,
+    "edges": 8315201,
+    "flat_polygons": 5516602,
+    "geometry_nodes_modifiers": 0,
+    "images": 0,
+    "invalid_vertices": 0,
+    "isolated_vertices": 0,
+    "lights": 0,
+    "materials": 0,
+    "mesh_objects": 1,
+    "missing_material_faces": 5516602,
+    "node_materials": 0,
+    "non_manifold_edges": 81105,
+    "objects": 1,
+    "polygons": 5516602,
+    "refinement_modifiers": 0,
+    "rigid_body_objects": 0,
+    "shape_keys": 0,
+    "simulation_modifiers": 0,
+    "smooth_polygons": 0,
+    "textured_materials": 0,
+    "triangles": 5516602,
+    "uv_mapped_meshes": 0,
+    "vertices": 2789677,
+    "weighted_meshes": 0,
+    "wire_edges": 0,
+    "zero_length_edges": 2
+  }
+}

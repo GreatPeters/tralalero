@@ -1,0 +1,13 @@
+{
+  "verdict": "texture",
+  "confidence": 0.97,
+  "summary": "Actual multiview sheet and hero show appropriate wood and dark metal on the front, but the opposite infill face is painted as alternating dark vertical bars and narrow wood strips instead of a continuous wood panel. The accepted shape remains continuous; this is a surface interpretation defect.",
+  "issues": [
+    {
+      "part": "rear wood infill",
+      "problem": "Unwanted broad dark bands make the solid divider look like a barred/slatted panel. Keep the infill coherently wood while retaining the separate dark perimeter frame.",
+      "kind": "texture",
+      "severity": "major"
+    }
+  ]
+}

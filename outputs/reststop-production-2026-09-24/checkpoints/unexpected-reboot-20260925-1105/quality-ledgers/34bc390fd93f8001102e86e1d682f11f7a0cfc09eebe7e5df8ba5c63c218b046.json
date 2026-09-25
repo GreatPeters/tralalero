@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "34bc390fd93f8001102e86e1d682f11f7a0cfc09eebe7e5df8ba5c63c218b046",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P05_80544cba23\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P05_80544cba23\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P05_80544cba23\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "Five views and source comparison retain the backpack silhouette, handle opening, separate straps, pocket volumes and fabric/hardware boundaries. Fresh FBX/GLB checks pass at 13,984 triangles.",
+                "issues": [
+                  {
+                    "part": "straps and cloth folds",
+                    "problem": "Slight edge/strap faceting and small wrinkles are simplified by reduction, without major damage to the PBR appearance.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "0cc07bcf-40bc-44f8-9833-4895ffd32519",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Olive fabric, brown webbing and metallic zipper/buckle regions remain coherent across front, sides, back and straps. No major color bleeding or invented text is visible.",
+            "issues": [
+              {
+                "part": "fabric and rear padding",
+                "problem": "Cleaner/smoother fabric and simplified inferred back padding differ slightly from the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "8f41d219-35c1-4beb-bc2a-150599eafc5f",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.98,
+        "summary": "Backpack preserves the rounded body, front zipped pocket, side pockets/buckles, open top handle and two separated shoulder straps. Five views show coherent construction and recognizable silhouette.",
+        "issues": [
+          {
+            "part": "fabric and straps",
+            "problem": "Minor inferred wrinkles and thicker strap hardware differ from the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790240128.339477,
+  "notes": [
+    "shape: Backpack preserves the rounded body, front zipped pocket, side pockets/buckles, open top handle and two separated shoulder straps. Five views show coherent construction and recognizable silhouette.",
+    "texture_source: Olive fabric, brown webbing and metallic zipper/buckle regions remain coherent across front, sides, back and straps. No major color bleeding or invented text is visible.",
+    "final_compare: Five views and source comparison retain the backpack silhouette, handle opening, separate straps, pocket volumes and fabric/hardware boundaries. Fresh FBX/GLB checks pass at 13,984 triangles."
+  ],
+  "reason": ""
+}

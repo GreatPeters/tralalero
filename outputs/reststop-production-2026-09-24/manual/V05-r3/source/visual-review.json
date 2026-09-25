@@ -1,0 +1,19 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.97,
+  "stage": "shape",
+  "reviewer": "main-agent",
+  "summary": "Closed curved insert removes the broad hole and passes fresh intermediate checks, but its top edge makes an unsupported horizontal seam across the middle of the windshield. Extend the measured glass reconstruction to the actual top glass boundary, preserving cab/cargo geometry. Do not texture this intermediate candidate.",
+  "issues": [
+    {
+      "part": "windshield",
+      "problem": "Partial insert introduces visible mid-glass seam.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/front.png"
+  ]
+}

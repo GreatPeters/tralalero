@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "image_hash": "05f56e7c7b0cfa4173cfdb2e8071cbc599f675489c7f85b519ce4a9a826fb1dd",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H03_385da60a61\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H03_385da60a61\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H03_385da60a61\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.96,
+                "summary": "13,601-triangle reduced mesh preserves the reviewed silhouette, front facial features, apron and rear hair/boots. Front, back-oblique and neutral renders compared against the source-stage views. Fresh FBX and GLB imports pass.",
+                "issues": [
+                  {
+                    "part": "cap/shoes",
+                    "problem": "Original source-stage strong gloss remains.",
+                    "kind": "texture",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "6524bcdb-80a6-4cd0-aa98-1ee28b7d80d8",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.95,
+            "summary": "Front and both oblique views preserve the reference face, brown hair, cream cap, green shirt, lavender apron, navy trousers and cream gloves/boots. No major bleeding or misplaced face features.",
+            "issues": [
+              {
+                "part": "cap and shoes",
+                "problem": "PBR highlights are stronger than the matte reference illustration.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "b06d4172-0691-4592-abe7-d4f2d47172f0",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Reference and front, rear, oblique neutral renders inspected. Cap brim, face, twin hair bunches, apron, separated arms, gloves and boots are preserved with usable body gaps. No malformed extra limb or missing main part.",
+        "issues": []
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790190417.6396854,
+  "notes": [
+    "shape: Reference and front, rear, oblique neutral renders inspected. Cap brim, face, twin hair bunches, apron, separated arms, gloves and boots are preserved with usable body gaps. No malformed extra limb or missing main part.",
+    "texture_source: Front and both oblique views preserve the reference face, brown hair, cream cap, green shirt, lavender apron, navy trousers and cream gloves/boots. No major bleeding or misplaced face features.",
+    "final_compare: 13,601-triangle reduced mesh preserves the reviewed silhouette, front facial features, apron and rear hair/boots. Front, back-oblique and neutral renders compared against the source-stage views. Fresh FBX and GLB imports pass."
+  ],
+  "reason": ""
+}

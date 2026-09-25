@@ -1,0 +1,18 @@
+{
+  "verdict": "texture",
+  "confidence": 0.99,
+  "stage": "final_compare",
+  "reviewer": "main-agent",
+  "summary": "Five-view low/source comparison inspected. Bottle silhouette, blue cap and label pattern remain, but canonical bake exported opaque PET and lost accepted source translucency. Use local opacity-only bake into the existing low atlas; no AI regeneration or extra reduction is needed. Some neutral-only shading variation is present around label/ribs; recheck final PBR after opacity restoration.",
+  "issues": [
+    {
+      "part": "PET body",
+      "problem": "Source alpha is lost after canonical baking; exported body reads opaque.",
+      "kind": "texture",
+      "severity": "major"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png"
+  ]
+}

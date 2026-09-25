@@ -1,0 +1,1 @@
+Keep both embedded materials. The corrected exterior planes intentionally have no Normal map connection. The original Normal.png remains connected only on untreated basin, drain and other curved areas. Do not apply Normal.png to every face. Geometry and UVs were retained from the 14,679-triangle low2 candidate. See repair.json and validation.json.

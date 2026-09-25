@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "4f87d4f56ee233d62fbed693f6067d1285013582144cf16267ac2980ecd9ca3d",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S11_a2d513b8da\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S11_a2d513b8da\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S11_a2d513b8da\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "Actual final/source contact sheet and full hero show preserved open cavity, continuous rim, rounded walls and brushed metal surface. No new visible reduction crack or major dent. Fresh FBX/GLB validation passes at 14,906 triangles with finite coordinates, UVs and no degenerate faces or loose vertices.",
+                "issues": [
+                  {
+                    "part": "rim and corners",
+                    "problem": "Minor rim waviness and corner softening remain close to the source; FBX inspection reports seven nonmanifold edges while GLB reports zero, with no visible major surface break in these views.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "7a4ecb66-2103-4cba-b022-463bdffb3e3e",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.96,
+            "summary": "Actual multiview sheet and full hero retain a brushed stainless tray with a continuous bright rim, metallic inner walls and floor, and an open cavity. No major paint contamination or missing surface; modest warmer reflections are consistent with the studio/reference.",
+            "issues": [
+              {
+                "part": "rim and exterior corners",
+                "problem": "Small rim highlight waviness and dark exterior reflections; recheck reduction for newly introduced dents or cracks.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "59940853-2386-42da-8278-861144a07a88",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Actual five-view sheet and full hero show a single open rectangular tray with a continuous raised rim, rounded corners, sloped interior walls and intact flat floor. Reference proportions and hollow interior are retained; no major missing or merged component.",
+        "issues": [
+          {
+            "part": "lower outer wall",
+            "problem": "Mild vertical faceting and slightly softer corner radii than the reference; check their metallic shaded appearance and reduced output.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790278414.8291128,
+  "notes": [
+    "shape: Actual five-view sheet and full hero show a single open rectangular tray with a continuous raised rim, rounded corners, sloped interior walls and intact flat floor. Reference proportions and hollow interior are retained; no major missing or merged component.",
+    "texture_source: Actual multiview sheet and full hero retain a brushed stainless tray with a continuous bright rim, metallic inner walls and floor, and an open cavity. No major paint contamination or missing surface; modest warmer reflections are consistent with the studio/reference.",
+    "final_compare: Actual final/source contact sheet and full hero show preserved open cavity, continuous rim, rounded walls and brushed metal surface. No new visible reduction crack or major dent. Fresh FBX/GLB validation passes at 14,906 triangles with finite coordinates, UVs and no degenerate faces or loose vertices."
+  ],
+  "reason": ""
+}

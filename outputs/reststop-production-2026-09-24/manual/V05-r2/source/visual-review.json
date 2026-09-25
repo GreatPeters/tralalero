@@ -1,0 +1,19 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.99,
+  "stage": "shape",
+  "reviewer": "main-agent",
+  "summary": "New thin wipers are visible, but lower windshield reconstruction left a broad open/dark strip. Reject this source and inspect patch topology; no texture generation authorized from this candidate.",
+  "issues": [
+    {
+      "part": "lower windshield",
+      "problem": "Broad dark/open strip where reconstructed surface should be continuous.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/front.png"
+  ]
+}

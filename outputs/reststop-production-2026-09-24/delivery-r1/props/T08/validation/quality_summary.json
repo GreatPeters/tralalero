@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "counts": {
+    "meshes": 3,
+    "textures": 1,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 1
+  },
+  "notes": [
+    "shape: Actual standard views and cached decoded-stage sheet both show a large missing section of the lower rectangular frame and surface damage. The reference requires a continuous closed mirror frame. Verified cache export used zero additional AI sampling; the break was already present in the decoded geometry.",
+    "shape: Actual multiview sheet and hero show the second mirror candidate still lacks a substantial section of the lower frame, with broken lower edge remnants. The surface is cleaner than m1 but the required closed rectangular border remains incomplete.",
+    "shape: Actual multiview sheet and full hero show an intact continuous rectangular frame and broad planar pane in m3. The large missing lower-frame section from m1/m2 is resolved.",
+    "texture_source: Actual multiview sheet and full hero retain the closed dark frame and a coherent silver mirror-like pane. No major missing surface or colour contamination; reflective/softly cloudy appearance remains close to the supplied reference.",
+    "final_compare: Actual final/source sheet and full hero retain the continuous rectangular frame and accepted reflective pane. Fresh FBX/GLB verification passes at 14,758 triangles. No new major fracture, missing frame section or planar shading distortion is visible."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\530a8ec8dfa69381473574ffb840f0af122bf9a94820f09d32737d885f878265.json",
+  "policy": "stage_gates_v2"
+}

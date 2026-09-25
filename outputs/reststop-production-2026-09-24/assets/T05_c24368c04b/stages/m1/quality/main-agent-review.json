@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.98,
+  "summary": "Actual standard views and cached decoded-stage views both show large torn/complex relief across the rear face of the divider. The reference requires a simple solid privacy panel with two mounting brackets. Cache exports verified zero additional AI sampling and show this defect was already present before postprocessing.",
+  "issues": [
+    {
+      "part": "rear privacy panel",
+      "problem": "Large invented cavities and protruding fragments replace the clean rear panel. Preserve the outline, rounded corners and two mounting brackets while producing a coherent solid panel.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

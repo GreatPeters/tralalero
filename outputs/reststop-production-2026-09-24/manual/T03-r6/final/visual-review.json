@@ -1,0 +1,25 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "stage": "final_compare",
+  "reviewer": "main-agent",
+  "summary": "Five-view high/low/reference comparison and full opposite inspected. Final 14750-triangle model retains the complete lid, seat, tank, rounded ceramic shell and recessed bowl; original high PBR bake restores coherent white/cream ceramic without the canonical black shards. Fresh FBX/GLB technical checks pass. Both formats retain all cavity ray rows, with maximum median depth drift about .00913 of height. Small edge rounding, minor plinth/lid irregularity and strong underside studio reflection remain. Both failed canonical reductions and separate local reconstruction attempts are retained.",
+  "issues": [
+    {
+      "part": "edges and glossy underside",
+      "problem": "Small rounding/detail differences from local topology reconstruction; strong retained underside studio reflection.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/opposite.png"
+  ],
+  "technical_evidence": [
+    "validation.json",
+    "opening-validation.json",
+    "surface-distance-validation.json",
+    "repair.json"
+  ]
+}

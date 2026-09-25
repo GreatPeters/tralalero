@@ -1,0 +1,114 @@
+{
+  "version": 2,
+  "image_hash": "d2cda6274878357b3eb285fb96de432c6057590b1e319d7273365fabd33fbc01",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V03_412a32189a\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "d580b215-7c0b-4f3a-a939-77b465af0c02",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.97,
+        "summary": "The compact SUV silhouette, wheels and roof rails are recognizable, but the body has conspicuous rectangular gouges below the opposite-side door handles and a smaller hole on the hero-side lower door. These are unsupported panel breaks, not reference trim.",
+        "issues": [
+          {
+            "part": "side doors",
+            "problem": "Rectangular recessed gouges and small puncture interrupt otherwise solid door panels; especially obvious in opposite view.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V03_412a32189a\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V03_412a32189a\\stages\\m2_t1",
+          "seed": 117074,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V03_412a32189a\\stages\\m2_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.96,
+                "summary": "Final 14234-triangle asset matches the accepted source in all five views. Door/body contours, roof rails, four wheels, dark trim, green paint and lamps remain stable after reduction. Minor source glazing simplification persists without new visible damage; fresh GLB/FBX technical checks pass.",
+                "issues": [
+                  {
+                    "part": "glazing",
+                    "problem": "Retains accepted source's stylized bright windscreen/interior.",
+                    "kind": "texture",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "f53ae34e-6256-4874-ac6f-fa4a012bd873",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.95,
+            "summary": "Green compact SUV retains coherent green painted body, dark wheel arch trim/tires, silver wheels, glazing and red rear lamps across all five views. No broad color leakage or missing panels. Windscreen/interior are stylized and brighter than reference, a minor source limitation rather than a broken part.",
+            "issues": [
+              {
+                "part": "glazing",
+                "problem": "Simplified interior and bright windscreen reflections differ from reference but remain coherent.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "3b16ad22-7930-4afc-ae20-4b109bb2a500",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.94,
+        "summary": "Second shape removes the large rectangular door gouges. Compact SUV body, four wheels, mirrors, door divisions, grille and roof rails read consistently across all five views. Small rail/handle recesses and simplified glazing remain minor source details to check after texturing.",
+        "issues": [
+          {
+            "part": "roof rails and handles",
+            "problem": "Small irregular recesses and simplified trim remain; no broad panel break or missing major component.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790301383.9801989,
+  "notes": [
+    "shape: The compact SUV silhouette, wheels and roof rails are recognizable, but the body has conspicuous rectangular gouges below the opposite-side door handles and a smaller hole on the hero-side lower door. These are unsupported panel breaks, not reference trim.",
+    "shape: Second shape removes the large rectangular door gouges. Compact SUV body, four wheels, mirrors, door divisions, grille and roof rails read consistently across all five views. Small rail/handle recesses and simplified glazing remain minor source details to check after texturing.",
+    "texture_source: Green compact SUV retains coherent green painted body, dark wheel arch trim/tires, silver wheels, glazing and red rear lamps across all five views. No broad color leakage or missing panels. Windscreen/interior are stylized and brighter than reference, a minor source limitation rather than a broken part.",
+    "final_compare: Final 14234-triangle asset matches the accepted source in all five views. Door/body contours, roof rails, four wheels, dark trim, green paint and lamps remain stable after reduction. Minor source glazing simplification persists without new visible damage; fresh GLB/FBX technical checks pass."
+  ],
+  "reason": ""
+}

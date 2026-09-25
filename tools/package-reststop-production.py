@@ -56,21 +56,24 @@ for row in catalog:
     if not original.exists():original=Path(original_jobs[key]['folder'])/'trellis_source.glb'
     if original.exists():shutil.copy2(original,dest/'high-detail-source.glb')
     if (folder/'original-trellis-source.glb').exists():shutil.copy2(folder/'original-trellis-source.glb',dest/'original-trellis-source.glb')
-    for name in ('original-textured-body.glb','recovered-shape-before-materials.glb','original-shape.glb'):
+    for name in ('original-textured-body.glb','recovered-shape-before-materials.glb','original-shape.glb','reconstructed-low-before-bake.glb'):
         if (folder/name).exists():shutil.copy2(folder/name,dest/name)
     shutil.copy2(folder/'preview.png',dest/'preview.png')
     shutil.copy2(OUT/'inputs'/(key+'.png'),dest/'reference.png')
     if (folder/'textures').is_dir():shutil.copytree(folder/'textures',dest/'textures')
     if (folder/'README.md').exists():shutil.copy2(folder/'README.md',dest/'README.md')
+    if (folder/'MATERIALS.md').exists():shutil.copy2(folder/'MATERIALS.md',dest/'MATERIALS.md')
     evidence=dest/'validation';evidence.mkdir()
     shutil.copy2(folder/'validation.json',evidence/'static-import.json')
-    for name in ('quality_summary.json','visual-review.json','repair.json','preview-selection.json','opening-validation.json','opening-depth-glb.json','opening-depth-fbx.json','texture-extraction.json','transparency-validation.json','opacity-preservation.json','volume-reconstruction.json','completed-prompt-recovery.json','completed-prompt-history.json','glass-separation.json','visibility-validation.json','assembly-repair.json','body-topology-repair.json','body-texture-history.json','body-texture-request.json','cancelled-texture-attempt1.json','curve-fit.json','partition.json','fridge-layout.json','geometry-normalization-proof.json','cleanup.json'):
+    for name in ('quality_summary.json','visual-review.json','repair.json','source-repair.json','preview-selection.json','opening-validation.json','opening-depth-glb.json','opening-depth-fbx.json','opening-reference-depth.json','texture-extraction.json','transparency-validation.json','basecolor-rgb-validation.json','opacity-preservation.json','volume-reconstruction.json','completed-prompt-recovery.json','completed-prompt-history.json','manual-shape-recovery.json','manual-shape-ledger.json','interruption-receipt.json','glass-separation.json','visibility-validation.json','assembly-repair.json','body-topology-repair.json','body-texture-history.json','body-texture-request.json','cancelled-texture-attempt1.json','curve-fit.json','partition.json','fridge-layout.json','geometry-normalization-proof.json','cleanup.json'):
         if (folder/name).exists():shutil.copy2(folder/name,evidence/name)
     for name in ('main-agent-review.json','geometry-profile-proof.png','bottom.png','bottom-flat.png','bottom-neutral.png','opacity-proof-glb.png','opacity-proof-fbx.png'):
         if (folder/'quality'/name).exists():shutil.copy2(folder/'quality'/name,evidence/name)
     for contact in (folder/'quality').glob('review-contact*.png'):
         shutil.copy2(contact,evidence/contact.name)
     if (folder/'quality-fbx').is_dir():shutil.copytree(folder/'quality-fbx',evidence/'quality-fbx')
+    for name in ('axle-validation.json','front-surface-validation.json','front-depth.json','front-depth-glb.json','front-depth-fbx.json','surface-distance-validation.json','topology-reconstruction.json','geometry-validation.json'):
+        if (folder/name).exists():shutil.copy2(folder/name,evidence/name)
     item={'id':key,'title':row['title'],'kind':row['kind'],'category':row.get('category',''),
           'zones':row.get('zones',[]),'triangles':job.get('triangles'),
           'folder':dest.relative_to(delivery).as_posix(),'source':str(folder),'manual_repair':job.get('manual_repair',False)}
@@ -97,6 +100,7 @@ shutil.copy2(DOC/'vehicle-game-scale-reference.json',delivery/'vehicle-game-scal
 - `manifest.json`: 원본 선택 경로와 직접 보정 여부. 작은 잔여 결함은 각 시각 검토 기록에 남겼습니다.
 - `high-detail-source.glb`: 감량에 사용한 고밀도 소스이며 직접 보정이 포함될 수 있습니다. 별도의 `original-trellis-source.glb`가 있으면 수정 전 AI 결과입니다.
 - 자동 감량 `.blend`에는 `Detailed_Source`라는 숨긴 고밀도 원본이 함께 있을 수 있습니다. 게임용 최종본은 동봉된 FBX·GLB 또는 `Asset_Optimized` 메시를 사용하세요.
+- `MATERIALS.md`가 있는 모델은 그 재질 구성과 투명도 설정을 유지하세요. 투명 부품의 알파 및 일부 평면의 노멀 연결을 직접 보정한 경우가 있습니다.
 
 생성 설정은 형태1536, 텍스처2048, 목표15000삼각형, 중간300000면, 기본시드12345, 형태12/텍스처25스텝입니다. 재시도에는 기존 자동화의 파생 시드 정책을 적용했습니다. 상세 설정은 `generation-settings.json`을 확인하세요.
 

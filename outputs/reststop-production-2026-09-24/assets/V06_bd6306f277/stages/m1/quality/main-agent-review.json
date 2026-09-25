@@ -1,0 +1,19 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.99,
+  "summary": "Coach silhouette, roof HVAC, mirrors and window band are recognizable, but this source has only two axles/four wheels. The reference requires three axles with two closely spaced rear axles. Regenerate within the original shape budget.",
+  "issues": [
+    {
+      "part": "rear axle assembly",
+      "problem": "Missing second rear axle and its two wheels relative to reference.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ],
+  "stage": "shape",
+  "reviewer": "main-agent",
+  "images": [
+    "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V06_bd6306f277\\stages\\m1\\quality\\review-contact.png",
+    "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V06_bd6306f277\\stages\\m1\\quality\\hero.png"
+  ]
+}

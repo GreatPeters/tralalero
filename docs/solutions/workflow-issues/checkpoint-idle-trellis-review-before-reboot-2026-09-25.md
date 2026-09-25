@@ -33,6 +33,18 @@ The production runner was waiting for S10's first shape review. The shape and fi
 
 `python -X utf8 tools/test-reststop-pause.py` passed five tests: immediate pause, pause while awaiting review, simultaneous pause/verdict, pause with an existing verdict, and normal reuse of an existing verdict. The PowerShell resume `-CheckOnly` path also passed without starting a process. This is not an end-to-end generation test of the newly added pause behavior, and it does not retroactively make the legacy process shutdown cooperative.
 
+## Unexpected reboot and stale display status
+
+Later that day, an unexpected Windows reboot stopped the runner, backend and gallery while V04's first shape was submitted. A stale `status.json` initially led to an incorrect running-status report. Process inventory, machine boot time and System 41/6008 events established the interruption; the hardware/driver cause was not identified.
+
+Parsing 2,813 output JSON files found four NUL-filled recent files, including display status and auxiliary requests/resource receipts. The canonical job state and attempt ledgers were intact. `checkpoints/unexpected-reboot-20260925-1105` retains 110 source-state/ledger snapshots and hashes, including corrupt bytes, before recovery. The old prompt was absent from the new backend's history/queue in three observations and had no exported GLB at its recorded prefix. The unchanged installed runner then recorded a real halt. The original attempt remained consumed.
+
+`retry-reststop-interrupted-shape.py` used a separate manual shape ledger for the remaining original budget, while a real unresolved review gate kept GPU work serialized. It never relabelled the lost request as a generated or visually rejected shape. The texture helper verified exact successful manual history, source hash and combined budget before proceeding. All 90 selected models were eventually completed; the original halted record still exists.
+
+After completion, the desktop handoff was updated with final delivery paths and the old handoff was preserved separately. The S10-specific resume wrapper remains historical; its guard should reject the changed checkpoint rather than blindly restart production. A homepage unavailable after reboot requires only its read-only gallery server, not rerunning completed model generation. The final runtime receipt verifies only the task-owned backend/launcher were stopped and the 8772 gallery remained available.
+
+Do not use a saved status message or a successful atomic rename as proof of current process liveness or power-loss durability. Check real workers, backend queue/history and saved file contents before choosing a recovery action. Captured with `ce-compound mode:headless` from the later incident; original pause evidence above remains unchanged.
+
 ## Related
 
 - [Preserve attempts when cancelling a heavy texture](partition-glazed-trellis-props-without-resetting-attempts-2026-09-24.md)

@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "1513d01ad86f4a312d13fa8130874f5bfee856090f2fd2b2cc9b1f3008a8d502",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V01_1024761b90\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V01_1024761b90\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V01_1024761b90\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "Actual final/source sheet and full hero retain the crossover silhouette, four wheels, mirrors, roof rails and accepted paint/glass/tyre/light regions. Fresh FBX/GLB verification passes at 13,915 triangles. No major reduction crack, wheel loss or material regression is visible.",
+                "issues": [
+                  {
+                    "part": "fine trim and panel shading",
+                    "problem": "Small source pits and simplified grille/interior details remain. Neutral shading is softer after reduction, while the final material stays close to the inspected source.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "a4e77e75-b768-40f7-985f-ce213dcb2d2d",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.96,
+            "summary": "Actual multiview sheet and full hero retain white body paint, dark tyres/glazing, distinct alloy wheels, headlights and red rear lamps. Body colour regions follow the generated vehicle construction without major spill or missing surface.",
+            "issues": [
+              {
+                "part": "body trim and glazing",
+                "problem": "Small source pits, simplified interior/glass reflections and some softened panel/rail details remain; verify the reduction introduces no major body dents or wheel loss.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "8803d645-6052-40b4-a838-a7e54cd16a8c",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.95,
+        "summary": "Actual multiview sheet and full hero retain the crossover body, four wheels across opposite sides, window layout, mirrors, grille/lights and roof rails. No major body section or wheel is missing; colour/material separation is reviewed next.",
+        "issues": [
+          {
+            "part": "sills, wheel arches and roof rails",
+            "problem": "Small surface pits, mild panel faceting and softened rail detail remain. Check painted-body highlights and wheel-arch appearance before final acceptance.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790298442.1393216,
+  "notes": [
+    "shape: Actual multiview sheet and full hero retain the crossover body, four wheels across opposite sides, window layout, mirrors, grille/lights and roof rails. No major body section or wheel is missing; colour/material separation is reviewed next.",
+    "texture_source: Actual multiview sheet and full hero retain white body paint, dark tyres/glazing, distinct alloy wheels, headlights and red rear lamps. Body colour regions follow the generated vehicle construction without major spill or missing surface.",
+    "final_compare: Actual final/source sheet and full hero retain the crossover silhouette, four wheels, mirrors, roof rails and accepted paint/glass/tyre/light regions. Fresh FBX/GLB verification passes at 13,915 triangles. No major reduction crack, wheel loss or material regression is visible."
+  ],
+  "reason": ""
+}

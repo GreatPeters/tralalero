@@ -1,0 +1,23 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "stage": "final_compare",
+  "reviewer": "main-agent",
+  "summary": "Second bounded Blender pass removes the conspicuous front streak near the central icon. Full front and hero plus five-view source comparison inspected: male, flared-skirt and wheelchair symbols remain readable, supported and distinct; paper panel, frame and rear rails remain. Some minor inner-rail shading irregularity remains on the rear, strongest under neutral override, without broad PBR damage. Fresh FBX/GLB checks pass at 14731 triangles.",
+  "issues": [
+    {
+      "part": "rear rail inner seam",
+      "problem": "Minor irregular shading along the inner seam is strongest under neutral override; rendered dark metal remains coherent.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/front.png",
+    "quality/hero.png"
+  ],
+  "technical_evidence": [
+    "validation.json"
+  ]
+}

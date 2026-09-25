@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "counts": {
+    "meshes": 2,
+    "textures": 2,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 1
+  },
+  "notes": [
+    "shape: Inspected the actual sheet, hero and full rear-oblique view. The closed rectangular carton and front face are present, but the broad rear panel is crumpled with long crossing creases and a localized depression, unlike the clean flat cardboard construction. Reject before spending a texture attempt.",
+    "shape: Actual multiview sheet and full hero show clean broad front/back panels on the second carton shape. The large crumpled rear region of m1 is absent; closed rectangular volume, end panels and fold seams remain intact.",
+    "texture_source: Actual multiview sheet and hero show correct olive/cream treatment on one broad face, but the opposite broad face has dense vertical streaks, torn cream patches and illegible invented markings. These defects are absent from the accepted neutral shape and the clean reference.",
+    "texture_source: Actual five-view sheet and hero show clean olive/cream carton surfaces on both broad panels. The repeated streaks and scraped print from the first texture are gone; accepted planar geometry and folded edges remain intact.",
+    "final_compare: Actual final/source sheet and full hero preserve clean rectangular carton panels, folded seams and the accepted olive/cream surface. No return of the earlier rear dents or streaked texture. Fresh FBX/GLB verification passes at 14,831 triangles."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\331b9e3d3f2e939177c9587f4b35d995855059e46d82707387558c028ed71a1d.json",
+  "policy": "stage_gates_v2"
+}

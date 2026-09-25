@@ -1,0 +1,25 @@
+{
+  "verdict": "texture",
+  "confidence": 0.96,
+  "stage": "texture_source",
+  "reviewer": "main-agent",
+  "summary": "Blue cab, dark chassis and white cargo box are recognizable, but both broad cargo sidewalls contain conspicuous hard rectangular tone patches absent from the reference's continuous white panel. Retry within the remaining shared texture budget; preserve the accepted shape. Strong windshield reflection and inferred dark rear hatch treatment also need rechecking.",
+  "issues": [
+    {
+      "part": "cargo side panels",
+      "problem": "Large hard-edged rectangular tone patches break the plain white finish.",
+      "kind": "texture",
+      "severity": "major"
+    },
+    {
+      "part": "windshield",
+      "problem": "Very strong baked reflection relative to reference.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/hero.png"
+  ]
+}

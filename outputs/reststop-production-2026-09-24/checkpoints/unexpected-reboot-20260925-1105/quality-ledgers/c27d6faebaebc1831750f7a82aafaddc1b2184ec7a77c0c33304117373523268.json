@@ -1,0 +1,99 @@
+{
+  "version": 2,
+  "image_hash": "c27d6faebaebc1831750f7a82aafaddc1b2184ec7a77c0c33304117373523268",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F09_4ac705043c\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F09_4ac705043c\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F09_4ac705043c\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.96,
+                "summary": "The 14565-triangle chair preserves the seat/back cushions, open back gap, four legs and clear upholstery/metal separation. Finished PBR stays close to the accepted source across all views; fresh FBX and GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "legs and rear seam",
+                    "problem": "Minor neutral-only leg faceting and retained rear-seam waviness, without new large finished-material dents.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "e36aa9ae-69c6-46a4-96fc-aab65b3b39a6",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.96,
+            "summary": "Ochre upholstery on the seat/back, visible piping and dark metal legs remain cleanly separated across front/back/top views. No unwanted text, large blotches or missing material regions are present.",
+            "issues": [
+              {
+                "part": "upholstery finish",
+                "problem": "Smoother, glossier finish and stronger piping than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "9abbb528-fcef-4f05-b546-e19eb696c4a5",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Separate upholstered back and seat, open gap beneath the backrest, four-leg frame and slim overall dining-chair silhouette match the reference. Front/oblique views retain complete supports without a background slab.",
+        "issues": [
+          {
+            "part": "rear backrest support",
+            "problem": "Small inferred waviness in the rear seam/support region.",
+            "kind": "mesh",
+            "severity": "minor"
+          },
+          {
+            "part": "upholstery",
+            "problem": "Softer, more curved cushion edges than the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790226655.8179898,
+  "notes": [
+    "shape: Separate upholstered back and seat, open gap beneath the backrest, four-leg frame and slim overall dining-chair silhouette match the reference. Front/oblique views retain complete supports without a background slab.",
+    "texture_source: Ochre upholstery on the seat/back, visible piping and dark metal legs remain cleanly separated across front/back/top views. No unwanted text, large blotches or missing material regions are present.",
+    "final_compare: The 14565-triangle chair preserves the seat/back cushions, open back gap, four legs and clear upholstery/metal separation. Finished PBR stays close to the accepted source across all views; fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

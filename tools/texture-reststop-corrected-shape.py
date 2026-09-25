@@ -18,6 +18,7 @@ parser=argparse.ArgumentParser();parser.add_argument('--id',required=True);parse
 parser.add_argument('--parent-mesh',type=int,required=True);parser.add_argument('--attempt',type=int,required=True)
 parser.add_argument('--source',type=Path,required=True)
 parser.add_argument('--held-stage',choices=('shape','texture_source','final_compare'),default='final_compare',help='Explicit held main-batch review stage; never release it while this GPU request is active')
+parser.add_argument('--allow-current-shape-repair',action='store_true',help='Repair the same asset while its last real shape gate is held; original rejection remains unpublished until manual GPU work finishes')
 args=parser.parse_args()
 assert args.id in {f'B{i:02}' for i in range(1,13)}|{f'E{i:02}' for i in range(1,8)}|{f'F{i:02}' for i in range(1,12)}|{f'G{i:02}' for i in range(1,5)}|{f'P{i:02}' for i in range(1,7)}|{f'R{i:02}' for i in range(1,13)}|{f'S{i:02}' for i in range(1,16)}|{f'T{i:02}' for i in range(1,10)}|{f'V{i:02}' for i in range(1,7)}
 assert args.revision.startswith('r') and args.revision[1:].isdigit()
@@ -25,16 +26,41 @@ source=args.source.resolve();assert source.is_file()
 assert json.loads((source.parent/'visual-review.json').read_text(encoding='utf8'))['verdict']=='pass'
 image=OUT/'inputs'/(args.id+'.png');image_hash=engine.sha_file(image);shape_hash=engine.sha_file(source)
 original_path=OUT/'quality-ledgers'/(image_hash+'.json');original=engine.read_json(original_path,{})
-validate(original,image_hash);assert original['terminal'] in ('review_needed','halted')
+validate(original,image_hash)
+if args.allow_current_shape_repair:
+    gate=engine.read_json(OUT/'review-pending.json',{})
+    assert original['terminal'] is None and len(original['meshes'])==limits(original)['meshes']
+    assert args.held_stage=='shape' and gate.get('state')=='pending' and gate.get('stage')=='shape'
+    assert Path(gate['reference']).resolve()==image.resolve() and not Path(gate['result']).exists()
+    assert original['meshes'][-1]['state']=='generated' and not original['meshes'][-1]['textures']
+    assert Path(gate['folder']).resolve()==Path(original['meshes'][-1]['folder']).resolve()
+    assert source.is_relative_to(OUT/'manual') and (source.parent/'repair.json').is_file()
+else:
+    assert original['terminal'] in ('review_needed','halted')
 assert 1<=args.parent_mesh<=len(original['meshes']),'Invalid parent shape index'
 parent=original['meshes'][args.parent_mesh-1]
+shape_seed=parent['seed']
 if original['terminal']=='halted':
-    recovery=engine.read_json(source.parent/'completed-prompt-recovery.json',{})
+    manual_recovery=source.parent/'manual-shape-recovery.json'
+    recovery=engine.read_json(manual_recovery if manual_recovery.exists() else source.parent/'completed-prompt-recovery.json',{})
     assert recovery.get('original_prompt_id')==parent.get('prompt_id')
     assert recovery.get('image_hash')==image_hash and recovery.get('source_sha256')==shape_hash
     recovered_history=engine.read_json(source.parent/'trellis_history.json',{})
     assert recovered_history.get('status',{}).get('status_str')=='success'
-    assert recovered_history['prompt'][1]==parent['prompt_id'], 'Require proof of this exact completed shape'
+    expected_prompt=parent['prompt_id']
+    if manual_recovery.exists():
+        manual_path=OUT/'manual-shape-ledgers'/(image_hash+'.json')
+        assert Path(recovery['manual_shape_ledger']).resolve()==manual_path.resolve()
+        shape_ledger=engine.read_json(manual_path,{})
+        assert shape_ledger['image_hash']==image_hash and shape_ledger['settings']==original['settings']
+        assert shape_ledger['original_shape_count']==len(original['meshes'])
+        assert len(original['meshes'])+len(shape_ledger['attempts'])<=limits(original)['meshes']
+        match=[a for a in shape_ledger['attempts'] if Path(a['folder']).resolve()==source.parent]
+        assert len(match)==1 and match[0]['state']=='generated' and match[0]['source_sha256']==shape_hash
+        expected_prompt=match[0]['prompt_id']
+        assert expected_prompt==recovery['manual_prompt_id']
+        shape_seed=match[0]['seed']
+    assert recovered_history['prompt'][1]==expected_prompt, 'Require proof of this exact completed shape'
 original_textures=sum(len(m['textures']) for m in original['meshes']);cap=limits(original)['textures_total']
 opts=engine.read_json(ROOT/'map-concepts/reststop-production-2026-09-24/effective-settings.json',{})
 assert original['settings']=={k:opts[k] for k in original['settings']}
@@ -66,7 +92,7 @@ with engine.OutputLock(ledger_path.with_suffix('.lock')):
         assert gpu_window()==held_gate
         uploaded=client.upload(image,args.id+'_'+args.revision+'_manual_t'+str(args.attempt))
         local_index=len(parent['textures'])+sum(a['parent_mesh']==args.parent_mesh for a in ledger['attempts'])
-        seed=(parent['seed']+local_index)&0x7fffffff
+        seed=(shape_seed+local_index)&0x7fffffff
         folder=OUT/'manual'/(args.id+'-'+args.revision)/('texture'+str(args.attempt));folder.mkdir(parents=True,exist_ok=True)
         record={'number':args.attempt,'parent_mesh':args.parent_mesh,'seed':seed,'source':str(source),'shape_hash':shape_hash,'folder':str(folder),'state':'reserved','held_review_result':held_gate,'held_review_stage':args.held_stage}
         ledger['attempts'].append(record);engine.atomic_json(ledger_path,ledger)

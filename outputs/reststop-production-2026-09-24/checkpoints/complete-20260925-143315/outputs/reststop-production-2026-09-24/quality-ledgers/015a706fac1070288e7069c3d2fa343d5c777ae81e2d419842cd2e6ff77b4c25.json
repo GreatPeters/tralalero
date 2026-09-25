@@ -1,0 +1,99 @@
+{
+  "version": 2,
+  "image_hash": "015a706fac1070288e7069c3d2fa343d5c777ae81e2d419842cd2e6ff77b4c25",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B01_ce6c16c812\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B01_ce6c16c812\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B01_ce6c16c812\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.95,
+                "summary": "14,798-triangle final module compared against source in contact sheet and full hero. Main floor body, flat four-tile top, cross joints, outer rim and lower notches are retained. Fresh FBX and GLB validation passes.",
+                "issues": [
+                  {
+                    "part": "lower frame corners",
+                    "problem": "Minor rounding/softening after reduction, visible mainly in the neutral view.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  },
+                  {
+                    "part": "stone grain",
+                    "problem": "Slightly stronger pale veins than reference remain from source stage.",
+                    "kind": "texture",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "e2aa2bad-d2dd-4480-91b8-46b443e66772",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.96,
+            "summary": "Reference, full hero and all contact-sheet views checked. Four tile sections and straight cross joints remain legible. Warm cream stone top, fine pale veining and gray structural sides match the intended material family with no major smears or missing regions.",
+            "issues": [
+              {
+                "part": "stone grain",
+                "problem": "Pale marble-like veins are slightly more pronounced than the input.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "1308c821-5add-4d03-80a5-3a447713485c",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.95,
+        "summary": "Reference and all five clay views inspected in contact sheet, with full-resolution hero checked. Square tile module, flat top, shallow edge bevel, side rail and repeated lower notches are preserved; no major bowing or missing floor body.",
+        "issues": [
+          {
+            "part": "tile joints",
+            "problem": "Cross joints are shallow in geometry and must remain legible in the material stage.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790195627.3703132,
+  "notes": [
+    "shape: Reference and all five clay views inspected in contact sheet, with full-resolution hero checked. Square tile module, flat top, shallow edge bevel, side rail and repeated lower notches are preserved; no major bowing or missing floor body.",
+    "texture_source: Reference, full hero and all contact-sheet views checked. Four tile sections and straight cross joints remain legible. Warm cream stone top, fine pale veining and gray structural sides match the intended material family with no major smears or missing regions.",
+    "final_compare: 14,798-triangle final module compared against source in contact sheet and full hero. Main floor body, flat four-tile top, cross joints, outer rim and lower notches are retained. Fresh FBX and GLB validation passes."
+  ],
+  "reason": ""
+}

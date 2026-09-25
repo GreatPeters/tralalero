@@ -1,0 +1,135 @@
+{
+  "version": 2,
+  "image_hash": "530a8ec8dfa69381473574ffb840f0af122bf9a94820f09d32737d885f878265",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T08_1356f50ab2\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "221be01c-cb76-4ebc-9f36-f8c8aaf8e15c",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.99,
+        "summary": "Actual standard views and cached decoded-stage sheet both show a large missing section of the lower rectangular frame and surface damage. The reference requires a continuous closed mirror frame. Verified cache export used zero additional AI sampling; the break was already present in the decoded geometry.",
+        "issues": [
+          {
+            "part": "lower mirror frame",
+            "problem": "Restore the continuous lower frame and intact rectangular silhouette; remove the large missing segment and broken edge remnants.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T08_1356f50ab2\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "c134289e-bf4e-441d-a0da-807c0db5988c",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.98,
+        "summary": "Actual multiview sheet and hero show the second mirror candidate still lacks a substantial section of the lower frame, with broken lower edge remnants. The surface is cleaner than m1 but the required closed rectangular border remains incomplete.",
+        "issues": [
+          {
+            "part": "lower frame",
+            "problem": "Restore a continuous intact lower border; the missing segment changes the mirror's required silhouette.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T08_1356f50ab2\\stages\\m3",
+      "seed": 221803,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T08_1356f50ab2\\stages\\m3_t1",
+          "seed": 221803,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T08_1356f50ab2\\stages\\m3_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "Actual final/source sheet and full hero retain the continuous rectangular frame and accepted reflective pane. Fresh FBX/GLB verification passes at 14,758 triangles. No new major fracture, missing frame section or planar shading distortion is visible.",
+                "issues": [
+                  {
+                    "part": "pane finish and rear lower lip",
+                    "problem": "The faint source reflection patch and small rear lower lip remain minor; these were not introduced by reduction.",
+                    "kind": "texture",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "90f0ae8d-9e96-48e8-b083-59530c740f6d",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.95,
+            "summary": "Actual multiview sheet and full hero retain the closed dark frame and a coherent silver mirror-like pane. No major missing surface or colour contamination; reflective/softly cloudy appearance remains close to the supplied reference.",
+            "issues": [
+              {
+                "part": "pane reflection and rear lower edge",
+                "problem": "A faint central reflection patch and the small rear lower lip/loop remain. These are minor source differences; inspect final planar shading for new reduction distortions.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "5cf06540-6178-429c-be88-5a4219e6b4e4",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.95,
+        "summary": "Actual multiview sheet and full hero show an intact continuous rectangular frame and broad planar pane in m3. The large missing lower-frame section from m1/m2 is resolved.",
+        "issues": [
+          {
+            "part": "rear lower edge",
+            "problem": "A small thin loop/lip remains behind the lower edge; it is minor compared with the restored main frame and must be checked in the final material.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790295374.203293,
+  "notes": [
+    "shape: Actual standard views and cached decoded-stage sheet both show a large missing section of the lower rectangular frame and surface damage. The reference requires a continuous closed mirror frame. Verified cache export used zero additional AI sampling; the break was already present in the decoded geometry.",
+    "shape: Actual multiview sheet and hero show the second mirror candidate still lacks a substantial section of the lower frame, with broken lower edge remnants. The surface is cleaner than m1 but the required closed rectangular border remains incomplete.",
+    "shape: Actual multiview sheet and full hero show an intact continuous rectangular frame and broad planar pane in m3. The large missing lower-frame section from m1/m2 is resolved.",
+    "texture_source: Actual multiview sheet and full hero retain the closed dark frame and a coherent silver mirror-like pane. No major missing surface or colour contamination; reflective/softly cloudy appearance remains close to the supplied reference.",
+    "final_compare: Actual final/source sheet and full hero retain the continuous rectangular frame and accepted reflective pane. Fresh FBX/GLB verification passes at 14,758 triangles. No new major fracture, missing frame section or planar shading distortion is visible."
+  ],
+  "reason": ""
+}

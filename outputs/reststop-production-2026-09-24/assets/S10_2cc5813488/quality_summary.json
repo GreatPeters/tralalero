@@ -1,0 +1,19 @@
+{
+  "status": "review_needed",
+  "counts": {
+    "meshes": 1,
+    "textures": 3,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 0
+  },
+  "notes": [
+    "shape: Inspected the actual five-view contact sheet and full hero. Ribbed screw cap, neck ring, rounded shoulders, cylindrical label area, lower ribs and petaloid base retain the bottle reference. No missing primary part or detached background. Colour and transparent bottle appearance require material-stage review.",
+    "texture_source: Actual five views and full hero preserve blue cap and cream/blue label, but exposed PET shoulder and lower ribs read as dark chrome with strong metallic patches, unlike the clear water bottle reference. GLB material also explicitly uses OPAQUE. Keep the accepted shape; this is a material defect.",
+    "texture_source: Reviewed actual contact sheet and full hero. Second material removes much of t1 patchiness and retains a clean blue/cream label, but exposed shoulder and base still render as reflective opaque silver rather than clear PET. Shape remains usable.",
+    "texture_source: Inspected actual five-view sheet and full hero. Third material still makes exposed PET an opaque silver surface despite correct cap and cream/blue label. Retain all three texture attempts and accepted shape; select an inspected source for local selective nonmetallic/opacity correction after the generation batch.",
+    "텍스처 시도 한도(3회) 또는 선택한 메시의 텍스처 한도에 도달했습니다. 추가 메시·텍스처 생성 없이 검토 대상으로 남깁니다."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\d630ce2d3dc55cbb1f8d7ba89a31a84a90fb2a0c49ab3d4db0679162860b31d2.json",
+  "policy": "stage_gates_v2"
+}

@@ -1,0 +1,114 @@
+{
+  "version": 2,
+  "image_hash": "0b380ef986ab81c6895a63cc114f62288580cd9c0c17674f6c8c68ac68002b3c",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R10_c6535e5be6\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "eb74b142-f204-49c0-b724-409ee5e26b4a",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.99,
+        "summary": "Cabinet face contains long broken vertical strips and multiple jagged holes/tears below the connector. Cached raw decoder geometry shows the same damage before final postprocessing.",
+        "issues": [
+          {
+            "part": "cabinet panels",
+            "problem": "Large openings and torn panel fragments where the reference has coherent housing.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R10_c6535e5be6\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R10_c6535e5be6\\stages\\m2_t1",
+          "seed": 117074,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R10_c6535e5be6\\stages\\m2_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "Reduced charger retains cabinet, cable spacing, connector/display recesses and coherent teal/light/dark materials. No major new cable color bleed or panel shading damage in the five-view source comparison. Fresh FBX/GLB pass at 14,029 triangles.",
+                "issues": [
+                  {
+                    "part": "small details",
+                    "problem": "Minor connector/edge softening and inherited mirrored controls/service seams on inferred sides.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "a323e676-b4e8-4db8-84ca-29085866fa1e",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Teal housing, light trim/base, dark display recess and black cable/retainer remain coherent across five views. Connector grip is distinct and no major material bleed is visible.",
+            "issues": [
+              {
+                "part": "inferred panels",
+                "problem": "Mirrored controls and additional seam/rivet patterns on unseen reference sides; slightly brighter teal/trim.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "19e16653-5666-43d9-b771-e02b01a2f1ca",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.95,
+        "summary": "Second charger has coherent cabinet panels with the prior tears removed, a display/connector recess, cable loop/retainer and bolted base. Five views preserve the upright charger silhouette and open cable spacing.",
+        "issues": [
+          {
+            "part": "opposite-face details",
+            "problem": "Inferred mirrored panel/connector details and extra service-panel seams extend beyond the single visible reference face.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790248950.1575115,
+  "notes": [
+    "shape: Cabinet face contains long broken vertical strips and multiple jagged holes/tears below the connector. Cached raw decoder geometry shows the same damage before final postprocessing.",
+    "shape: Second charger has coherent cabinet panels with the prior tears removed, a display/connector recess, cable loop/retainer and bolted base. Five views preserve the upright charger silhouette and open cable spacing.",
+    "texture_source: Teal housing, light trim/base, dark display recess and black cable/retainer remain coherent across five views. Connector grip is distinct and no major material bleed is visible.",
+    "final_compare: Reduced charger retains cabinet, cable spacing, connector/display recesses and coherent teal/light/dark materials. No major new cable color bleed or panel shading damage in the five-view source comparison. Fresh FBX/GLB pass at 14,029 triangles."
+  ],
+  "reason": ""
+}

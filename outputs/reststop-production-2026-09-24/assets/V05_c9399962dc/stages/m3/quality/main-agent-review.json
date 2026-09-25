@@ -1,0 +1,19 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.99,
+  "summary": "Third and final original shape has a large unsupported hole in the lower windshield and a damaged cab window silhouette. Reject. Preserve all three consumed shape attempts; use the better second source for a localized windshield/wiper repair without another AI shape request.",
+  "issues": [
+    {
+      "part": "windshield",
+      "problem": "Large hole across the lower glass; cab window shape no longer matches reference.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ],
+  "stage": "shape",
+  "reviewer": "main-agent",
+  "images": [
+    "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V05_c9399962dc\\stages\\m3\\quality\\review-contact.png",
+    "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V05_c9399962dc\\stages\\m3\\quality\\hero.png"
+  ]
+}

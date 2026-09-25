@@ -1,7 +1,7 @@
 ---
 title: Preserve material regions when repairing TRELLIS normal artifacts
 date: 2026-09-24
-last_updated: 2026-09-24
+last_updated: 2026-09-25
 category: workflow-issues
 module: Rest-stop TRELLIS prop production
 problem_type: workflow_issue
@@ -68,6 +68,18 @@ Fresh FBX/GLB imports passed at 13,893 triangles, and each export passed 612 cen
 R07's two reductions created visible triangular dents in a flat yellow cabinet panel. An all-face rigid correction removed those dents, but unnecessarily exposed faceting on the rounded cap and motor barrel. R07-r2 restricts weighted normals and the stale-normal-map removal to 6,551 inspected broad cabinet/base faces, using world-space height and face orientation. Original corner normals and material links remain on the rounded cap, barrel and edges.
 
 `tools/repair-reststop-barrier-normals.py` asserts unchanged vertex positions and loop count, merges the selected weighted normals with the retained original corner normals, and preserves UVs and other PBR channels. The final 13,727-triangle result passed five actual GLB views, full-resolution source comparisons and fresh FBX/GLB checks. Keep its two embedded materials: the original Normal.png is still useful on rounded regions and must not be reapplied to the repaired flat faces. Evidence is in `manual/R07-r1` and selected `manual/R07-r2` under the production output root. Entirely rigid construction alone is not a reason to discard every region's normal bake.
+
+## Compare selective normals against a matching boundary baseline
+
+T06's sink vanity required preserving the curved basin and drain while repairing the flat stone/wood exterior. The first assertions compared raw corner-normal vectors and failed with a difference near 0.553. A no-op `normals_split_custom_set` experiment reproduced that large difference: two imported normals had length about 0.447 rather than 1. Their directions were not changing by 0.553. Compare normalized directions and record normalization of nonunit inputs.
+
+That was only one cause. Mixing weighted exterior normals with original neighboring normals without separating their smooth-fan boundary changed an untreated direction by about 0.0131. Marking only the repair boundary sharp reduced the maximum source-relative drift to 0.001778. A separate round-trip probe showed that changing sharp boundaries can itself change the represented custom normals. Do not silently enlarge a tolerance until the candidate passes.
+
+`tools/repair-reststop-vanity-normals.py` now restores the original smooth/sharp flags, separates the two treatment regions, assigns only normalized original directions, and captures this **boundary-only baseline**. It then assigns the mixed original/weighted field and asserts untreated directions match that baseline within 0.001. In the selected T06-r7, the measured difference from that baseline is zero. The baseline's 0.001778 source-relative drift and the two normalized input vectors are reported separately. This proves the local modifier does not further alter untreated directions; it does not claim bit-identical normals through every importer.
+
+The selected candidate keeps all 14,679 triangles, vertex positions, loop order and UV values. Only 4,056 exterior faces receive the corrected normal field and a material copy with the stale Normal input disconnected. Five actual views, source comparison, full front-side view and fresh GLB/FBX validation passed, including a second import check after the unexpected reboot. Retain both embedded materials. The basin and other untreated surfaces still use their original Normal map. Small source mounting marks remain documented.
+
+Evidence: `reviews/T06-normal-roundtrip-r1.json`, `T06-normal-roundtrip-r2.json`, retained failed execution logs and `manual/T06-r7/{repair.json,visual-review.json,validation.json}` under the production output root. Failed diagnostic candidates consumed no additional AI or canonical reduction attempts. Captured with `ce-compound mode:headless`; the original two reduction failures remain in the automatic ledger.
 
 ## Related references
 

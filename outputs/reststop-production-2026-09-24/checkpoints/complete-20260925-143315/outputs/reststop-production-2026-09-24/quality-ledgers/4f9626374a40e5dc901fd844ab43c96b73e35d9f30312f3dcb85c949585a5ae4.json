@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "4f9626374a40e5dc901fd844ab43c96b73e35d9f30312f3dcb85c949585a5ae4",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V05_c9399962dc\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "22ae5056-29d6-43cb-88cf-82b64a0aaa4d",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.97,
+        "summary": "Cargo box, chassis, mirrors and wheels are intact, but full front view reveals torn crossing spikes around both wipers and ragged grille/cab fascia. These unsupported deformations are conspicuous versus the clean reference front; regenerate shape within the remaining bound.",
+        "issues": [
+          {
+            "part": "cab front and windshield wipers",
+            "problem": "Torn crossing wiper shapes and ragged grille/fascia interrupt the clean truck front.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V05_c9399962dc\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "20168b78-aba1-4ed7-ac3f-0c6ee64b7153",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.96,
+        "summary": "Second truck shape improves the grille, but full front and opposite views still show the windshield wipers as torn doubled ribbons/spikes extending across the lower glass and cab seam. Cargo shell/chassis are usable; try the third and final original shape attempt before any local repair.",
+        "issues": [
+          {
+            "part": "windshield wipers and lower glass edge",
+            "problem": "Doubled torn ribbon geometry remains conspicuous in full front and oblique views.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V05_c9399962dc\\stages\\m3",
+      "seed": 221803,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "5bdad22b-6401-48ac-b294-3f32c2ff3ecd",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.99,
+        "summary": "Third and final original shape has a large unsupported hole in the lower windshield and a damaged cab window silhouette. Reject. Preserve all three consumed shape attempts; use the better second source for a localized windshield/wiper repair without another AI shape request.",
+        "issues": [
+          {
+            "part": "windshield",
+            "problem": "Large hole across the lower glass; cab window shape no longer matches reference.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790307094.4300747,
+  "notes": [
+    "shape: Cargo box, chassis, mirrors and wheels are intact, but full front view reveals torn crossing spikes around both wipers and ragged grille/cab fascia. These unsupported deformations are conspicuous versus the clean reference front; regenerate shape within the remaining bound.",
+    "shape: Second truck shape improves the grille, but full front and opposite views still show the windshield wipers as torn doubled ribbons/spikes extending across the lower glass and cab seam. Cargo shell/chassis are usable; try the third and final original shape attempt before any local repair.",
+    "shape: Third and final original shape has a large unsupported hole in the lower windshield and a damaged cab window silhouette. Reject. Preserve all three consumed shape attempts; use the better second source for a localized windshield/wiper repair without another AI shape request."
+  ],
+  "reason": "메시 3회 시도에서 형상 결함이 남았습니다. 추가 텍스처 생성 없이 검토 대상으로 남깁니다."
+}

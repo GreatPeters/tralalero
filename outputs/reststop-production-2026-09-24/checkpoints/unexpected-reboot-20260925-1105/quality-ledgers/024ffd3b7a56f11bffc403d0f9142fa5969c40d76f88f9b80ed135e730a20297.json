@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "image_hash": "024ffd3b7a56f11bffc403d0f9142fa5969c40d76f88f9b80ed135e730a20297",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S08_77dcca7f8a\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "a800c905-b653-4ddd-89ae-4bf4fd3e0523",
+      "review": {
+        "verdict": "uncertain",
+        "confidence": 0.99,
+        "summary": "Exterior cabinet, door frame/handle and vents are coherent. Read-only cutaways of both standard export and cached inner-preserving postprocess show no spanning horizontal shelves; interior horizontal-area probes are zero. The recovered version adds shallow inner-wall detail but not the five shelf plates required by the reference. Preserve this one shape and its recovery evidence for a local cavity/glazing/shelf correction; do not approve an opaque empty box as the finished fridge.",
+        "issues": [
+          {
+            "part": "interior shelves and clear door",
+            "problem": "Five real shelf plates are absent in both inspected postprocess variants; glazing must reveal a real interior.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790269097.7606604,
+  "notes": [
+    "shape: Exterior cabinet, door frame/handle and vents are coherent. Read-only cutaways of both standard export and cached inner-preserving postprocess show no spanning horizontal shelves; interior horizontal-area probes are zero. The recovered version adds shallow inner-wall detail but not the five shelf plates required by the reference. Preserve this one shape and its recovery evidence for a local cavity/glazing/shelf correction; do not approve an opaque empty box as the finished fridge."
+  ],
+  "reason": "감량 전 메시 판정이 불확실합니다. 텍스처를 생성하지 않았습니다."
+}

@@ -1,0 +1,92 @@
+{
+  "version": 2,
+  "image_hash": "8027d565cf1f009fb3ec4cf966db2324dfbd42e29bf30df59bc78439f05add6f",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B05_94b3280dc9\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B05_94b3280dc9\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B05_94b3280dc9\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.94,
+                "summary": "14,784-triangle final window compared with source in contact views and full hero. All six panes, mullions and the outer frame remain intact; the finished reflective-blue material reads cleanly and fresh FBX/GLB imports pass.",
+                "issues": [
+                  {
+                    "part": "thin inner rims",
+                    "problem": "Small edge rippling/softening appears after reduction; neutral-only shading is rougher than the source, while the PBR appearance remains close.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  },
+                  {
+                    "part": "color",
+                    "problem": "Cooler frame cast and stronger reflection bands remain from the accepted source texture.",
+                    "kind": "texture",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "93f633a4-e3c0-4695-8874-ece4178bbd0c",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.95,
+            "summary": "Reference, all contact views and full hero inspected. Six blue reflective glass regions are cleanly separated by the dark frame and mullions. Material boundaries and frame details are intact with no major spills.",
+            "issues": [
+              {
+                "part": "frame and glass color",
+                "problem": "Frame has a cooler steel-blue cast and reflection bands are stronger than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "b2089925-eeb1-4da0-953d-f896b805bbd8",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Reference, all five clay views and full hero inspected. Outer rectangular frame, three tall lower panes, three small upper panes and connecting mullions are complete, straight and coherent on both sides. Material stage will establish dark framing and blue glass appearance.",
+        "issues": []
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790201454.7164695,
+  "notes": [
+    "shape: Reference, all five clay views and full hero inspected. Outer rectangular frame, three tall lower panes, three small upper panes and connecting mullions are complete, straight and coherent on both sides. Material stage will establish dark framing and blue glass appearance.",
+    "texture_source: Reference, all contact views and full hero inspected. Six blue reflective glass regions are cleanly separated by the dark frame and mullions. Material boundaries and frame details are intact with no major spills.",
+    "final_compare: 14,784-triangle final window compared with source in contact views and full hero. All six panes, mullions and the outer frame remain intact; the finished reflective-blue material reads cleanly and fresh FBX/GLB imports pass."
+  ],
+  "reason": ""
+}

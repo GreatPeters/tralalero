@@ -1,0 +1,72 @@
+{
+  "version": 2,
+  "image_hash": "f6ea9e6304cc034653e8fb1c7d44522bf76adc61369983ee9b91543a87d31b9d",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H04_e670635d37\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H04_e670635d37\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H04_e670635d37\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "13,410-triangle reduction retains the face, layered bob, vest/pockets, gloves, legs and shoe shape. Front, rear-oblique and neutral renders compared against the source. Fresh FBX and GLB checks pass.",
+                "issues": []
+              }
+            }
+          ],
+          "prompt_id": "b12eca51-9ee2-4dfc-b086-99e04f007093",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Front and both oblique views checked against input. Brown bob, correctly placed facial features, orange vest with cream edging, blank badge, charcoal trousers, cream gloves and dark shoes are coherent. No major color bleeding or missing material regions.",
+            "issues": []
+          }
+        }
+      ],
+      "prompt_id": "f78016c9-048e-4d63-b659-700e94721473",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Reference and front, rear-oblique and front-oblique clay views compared. Bob haircut, face, vest collar/pockets, separated hands and trouser legs, cuffs and both shoes are intact. Longer torso/leg proportions match this specific input.",
+        "issues": []
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790191219.8505201,
+  "notes": [
+    "shape: Reference and front, rear-oblique and front-oblique clay views compared. Bob haircut, face, vest collar/pockets, separated hands and trouser legs, cuffs and both shoes are intact. Longer torso/leg proportions match this specific input.",
+    "texture_source: Front and both oblique views checked against input. Brown bob, correctly placed facial features, orange vest with cream edging, blank badge, charcoal trousers, cream gloves and dark shoes are coherent. No major color bleeding or missing material regions.",
+    "final_compare: 13,410-triangle reduction retains the face, layered bob, vest/pockets, gloves, legs and shoe shape. Front, rear-oblique and neutral renders compared against the source. Fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "1ec713358f2b46b6ff44cbae5fbe43c40d8463ccea85da025a72fe6a8bd089e8",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T02_57a9261e54\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T02_57a9261e54\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T02_57a9261e54\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "Actual final/source sheet and full hero preserve the door panel, two hinges, handles and wood/metal boundaries. Fresh FBX/GLB validation passes at 14,602 triangles. No major component loss or visible paint regression after reduction.",
+                "issues": [
+                  {
+                    "part": "lower panel edge",
+                    "problem": "Neutral low shading has triangular undulations near the lower edge, while the final baked material remains close to the source. Small source seam irregularities and grain stretching remain minor.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "e246d587-7bc6-4e0c-936d-638a760e22b9",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Actual multiview sheet and hero retain warm wood on both door faces, dark side stiles and distinct metal hinges/handles. No large paint spill, invented striping or loss of the accepted panel geometry.",
+            "issues": [
+              {
+                "part": "wood near far edge",
+                "problem": "Some grain stretching near the far stile and small edge colour differences remain; verify final bake preserves the material boundaries.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "5e52b9c2-8ec7-4dd0-a6ce-236472965e49",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Actual multiview sheet and hero retain a tall rectangular door panel, two side stiles, two hinges on one edge and handle hardware on the opposite edge. Both faces remain coherent with no large missing panel or invented rack structure.",
+        "issues": [
+          {
+            "part": "handle and hinge-edge seam",
+            "problem": "Handle relief is slightly shorter/softer than the reference and the hinge-side seam has small irregularities; verify material separation and preservation after reduction.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790285309.5084858,
+  "notes": [
+    "shape: Actual multiview sheet and hero retain a tall rectangular door panel, two side stiles, two hinges on one edge and handle hardware on the opposite edge. Both faces remain coherent with no large missing panel or invented rack structure.",
+    "texture_source: Actual multiview sheet and hero retain warm wood on both door faces, dark side stiles and distinct metal hinges/handles. No large paint spill, invented striping or loss of the accepted panel geometry.",
+    "final_compare: Actual final/source sheet and full hero preserve the door panel, two hinges, handles and wood/metal boundaries. Fresh FBX/GLB validation passes at 14,602 triangles. No major component loss or visible paint regression after reduction."
+  ],
+  "reason": ""
+}

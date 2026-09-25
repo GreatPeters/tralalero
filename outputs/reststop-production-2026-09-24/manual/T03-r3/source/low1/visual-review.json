@@ -1,0 +1,23 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.99,
+  "stage": "final_compare",
+  "reviewer": "main-agent",
+  "summary": "Reject: first canonical reduction severely collapses the lid, seat and rounded shell into large triangular shards and produces broad black bake damage. Basic file and sampled cavity checks pass but do not establish visual correctness. The accepted high source is intact; use only the remaining second bounded Blender preservation pass.",
+  "issues": [
+    {
+      "part": "lid, seat and ceramic shell",
+      "problem": "Severe new geometric collapse and black triangular bake damage after reduction.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/opposite.png"
+  ],
+  "technical_evidence": [
+    "validation.json",
+    "opening-validation.json"
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "cb20b91d6cb3c2793bd699b1ff340463b2b5bc260ffbd0aeeb92c2c9ebe32b3c",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F01_c53980ee73\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F01_c53980ee73\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F01_c53980ee73\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "The 14783-triangle bench retains the slat gaps, both armrests, two open support frames, fastening detail and timber/metal separation. Finished PBR and silhouette remain close to the approved source across front/back/top views. Fresh FBX and GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "slats and frame edges",
+                    "problem": "Minor neutral-only surface softening/faceting after reduction, without losing the open gaps or visible construction.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "52204874-6597-4bac-80a6-92b6d5c72b65",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.98,
+            "summary": "Warm timber seat/back/armrest surfaces, dark metal side frames and small fasteners are clearly separated. Wood grain is visible, gaps remain dark/open, and front/back coverage is consistent without smeared material boundaries.",
+            "issues": [
+              {
+                "part": "finish",
+                "problem": "Slightly glossier timber and cooler blue-gray metal than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "ffdaa6f5-1c37-4cb2-9fe7-9201d0eb803b",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "The bench retains three back slats, divided seat boards, both armrests, two open side-support frames and fastening details. Gaps between slats and within the leg frames remain open in the front/back/top views.",
+        "issues": [
+          {
+            "part": "side frames",
+            "problem": "Leg frames are slightly more splayed and softened than the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790218364.5404131,
+  "notes": [
+    "shape: The bench retains three back slats, divided seat boards, both armrests, two open side-support frames and fastening details. Gaps between slats and within the leg frames remain open in the front/back/top views.",
+    "texture_source: Warm timber seat/back/armrest surfaces, dark metal side frames and small fasteners are clearly separated. Wood grain is visible, gaps remain dark/open, and front/back coverage is consistent without smeared material boundaries.",
+    "final_compare: The 14783-triangle bench retains the slat gaps, both armrests, two open support frames, fastening detail and timber/metal separation. Finished PBR and silhouette remain close to the approved source across front/back/top views. Fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

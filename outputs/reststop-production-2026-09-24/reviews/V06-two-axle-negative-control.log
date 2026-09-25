@@ -1,0 +1,21 @@
+{"pid": 86004, "started": 1790309987.2954178, "script": "C:\\Users\\ljh\\tralalero Shooter\\tools\\verify-reststop-coach-axles.py", "threads": 4, "logicalProcessors": [0, 1, 2, 3, 4, 5, 6, 7], "priority": "below-normal", "availableMemoryBytes": 33256783872}
+13:19:47 | INFO: Data are loaded, start creating Blender stuff
+13:19:47 | INFO: Blender create Mesh node geometry_0
+13:19:47 | INFO: glTF import finished in 0.08s
+{"asset": "V06", "height_fraction": 0.04, "minimum_run_width_fraction": 0.025, "expected_centers": [0.23, 0.69744, 0.81744], "center_tolerance": 0.035, "formats": {"glb": {"source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V06_bd6306f277\\stages\\m1\\model.glb", "sides": {"left": {"all_runs": [[0.1934228515625, 0.2669140625], [0.294951171875, 0.300048828125], [0.6607080078124999, 0.7341992187499999], [0.7575634765625, 0.762236328125], [0.8161865234375, 0.8166113281249999]], "wheel_runs": [[0.1934228515625, 0.2669140625], [0.6607080078124999, 0.7341992187499999]], "centers": [0.23016845703125, 0.6974536132812499], "ok": false}, "right": {"all_runs": [[0.192998046875, 0.2669140625], [0.294951171875, 0.300048828125], [0.6607080078124999, 0.7346240234375], [0.7575634765625, 0.762236328125], [0.8157617187499999, 0.8161865234375]], "wheel_runs": [[0.192998046875, 0.2669140625], [0.6607080078124999, 0.7346240234375]], "centers": [0.2299560546875, 0.697666015625], "ok": false}}, "ok": false}}, "method": "Fresh-import side rays restricted to each near-side half; count broad tire silhouettes near ground", "limitation": "Verifies axle count and placement, not wheel rotation or suspension physics", "ok": false}
+Traceback (most recent call last):
+  File "C:\Users\ljh\tralalero Shooter\tools\run-limited-generation.py", line 57, in <module>
+    runpy.run_path(str(args.script.resolve()),run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\ljh\tralalero Shooter\tools\verify-reststop-coach-axles.py", line 55, in <module>
+    assert report['ok'],'Fresh imported wheel silhouettes do not show the required three axles'
+           ~~~~~~^^^^^^
+AssertionError: Fresh imported wheel silhouettes do not show the required three axles
+
+Error: script failed, file: 'tools/run-limited-generation.py', exiting.
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

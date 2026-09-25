@@ -1,0 +1,57 @@
+{
+  "asset": "T03",
+  "reference_profile": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\reviews\\T03-m3-r1-cached-stages\\stage161-depth.json",
+  "reference_sha256": "d902b8b9983b7214926b3107db3513cee4ba8b85a086b6c879a412f5ce37c29e",
+  "along_range": [
+    0.15,
+    0.45
+  ],
+  "cross_fractions": [
+    0.35,
+    0.5,
+    0.65
+  ],
+  "max_median_depth_drift": 0.03,
+  "minimum_ray_coverage": 0.99,
+  "method": "Three vertical-ray rows in the inspected bowl region; depth normalized by asset height",
+  "limitation": "Sampled cavity-depth preservation, not a proof of watertightness or fluid flow",
+  "formats": {
+    "glb": {
+      "source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\T03-r6\\shape\\model.glb",
+      "profile": "opening-depth-glb.json",
+      "canonical_axis_ok": true,
+      "proportions_ok": true,
+      "rows": [
+        {
+          "cross_fraction": 0.35,
+          "samples": 660,
+          "coverage": 1.0,
+          "reference_median_depth": 0.7202474771659245,
+          "candidate_median_depth": 0.7131176088092392,
+          "median_depth_drift": 0.007129868356685276,
+          "ok": true
+        },
+        {
+          "cross_fraction": 0.5,
+          "samples": 660,
+          "coverage": 1.0,
+          "reference_median_depth": 0.7697132034227738,
+          "candidate_median_depth": 0.7605861707906381,
+          "median_depth_drift": 0.009127032632135768,
+          "ok": true
+        },
+        {
+          "cross_fraction": 0.65,
+          "samples": 660,
+          "coverage": 1.0,
+          "reference_median_depth": 0.7201891944353268,
+          "candidate_median_depth": 0.7128367535401868,
+          "median_depth_drift": 0.007352440895139978,
+          "ok": true
+        }
+      ],
+      "ok": true
+    }
+  },
+  "ok": true
+}

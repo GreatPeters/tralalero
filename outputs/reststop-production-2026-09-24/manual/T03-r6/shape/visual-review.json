@@ -1,0 +1,25 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "stage": "shape",
+  "reviewer": "main-agent",
+  "summary": "Five-view/reference sheet and full opposite inspected. Unsigned thickened-surface reconstruction retains the complete toilet silhouette, upright lid, tank, oval seat and recessed bowl without the canonical shards. The 14750-triangle geometry passes fresh optimized-BLEND/GLB and cavity checks. Sampled surface distances are median about .0034-.0038 of source height, p99 below .0074; local detail/edge rounding remains. Neutral shading is uneven on some broad surfaces; judge the final PBR after baking the retained high-source normal field.",
+  "issues": [
+    {
+      "part": "small edges and neutral shading",
+      "problem": "Local edge/detail rounding and low-only shading differences; final PBR review remains required.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/opposite.png"
+  ],
+  "technical_evidence": [
+    "geometry-validation.json",
+    "opening-validation.json",
+    "surface-distance-validation.json",
+    "repair.json"
+  ]
+}

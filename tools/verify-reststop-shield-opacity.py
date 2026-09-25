@@ -1,4 +1,4 @@
-"""Fresh-import P01 opacity checks and a colored background visibility proof."""
+"""Fresh-import P01/S10 opacity checks and colored background visibility proof."""
 import argparse
 from array import array
 import json
@@ -10,10 +10,13 @@ from mathutils import Vector
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--folder', required=True)
+parser.add_argument('--asset', choices=('P01', 'S10'), default='P01')
+parser.add_argument('--clear-alpha', type=float, default=.18)
 args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
 folder = Path(args.folder).resolve()
-assert folder.name.startswith('P01')
-report = {'formats': {}, 'ok': True}
+assert any(part == args.asset or part.startswith(args.asset + '-') for part in folder.parts)
+assert 0 < args.clear_alpha < 1
+report = {'asset': args.asset, 'expected_clear_alpha': args.clear_alpha, 'formats': {}, 'ok': True}
 for extension in ('glb', 'fbx'):
     bpy.ops.wm.read_factory_settings(use_empty=True)
     path = str(folder / ('model.' + extension))
@@ -33,7 +36,7 @@ for extension in ('glb', 'fbx'):
         pixels = array('f', [0.]) * len(texture.image.pixels)
         texture.image.pixels.foreach_get(pixels)
         values = pixels[3::4]
-        clear_pixels = sum(.15 < value < .21 for value in values)
+        clear_pixels = sum(args.clear_alpha - .03 < value < args.clear_alpha + .03 for value in values)
         opaque_pixels = sum(value > .99 for value in values)
         assert clear_pixels > 100000 and opaque_pixels > 100000
         evidence.append({'material': material.name, 'alpha_socket': alpha.links[0].from_socket.name,

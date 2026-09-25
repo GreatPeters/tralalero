@@ -1,0 +1,141 @@
+[
+  {
+    "material": "Material_0",
+    "alpha_default": 1.0,
+    "linked": false,
+    "nodes": [
+      {
+        "name": "Image Texture",
+        "type": "TEX_IMAGE",
+        "operation": null,
+        "image": "Image_0",
+        "inputs": [
+          {
+            "name": "Vector",
+            "linked": false,
+            "value": null,
+            "from": []
+          }
+        ]
+      },
+      {
+        "name": "Image Texture.001",
+        "type": "TEX_IMAGE",
+        "operation": null,
+        "image": "Image_1",
+        "inputs": [
+          {
+            "name": "Vector",
+            "linked": false,
+            "value": null,
+            "from": []
+          }
+        ]
+      }
+    ],
+    "alpha_from": []
+  },
+  {
+    "material": "S10_Clear_PET",
+    "alpha_default": 1.0,
+    "linked": true,
+    "nodes": [
+      {
+        "name": "Math",
+        "type": "MATH",
+        "operation": "MULTIPLY",
+        "image": null,
+        "inputs": [
+          {
+            "name": "Value",
+            "linked": true,
+            "value": 0.5,
+            "from": [
+              [
+                "Image Texture",
+                "Alpha"
+              ]
+            ]
+          },
+          {
+            "name": "Value",
+            "linked": false,
+            "value": 0.2800000011920929,
+            "from": []
+          },
+          {
+            "name": "Value",
+            "linked": false,
+            "value": 0.5,
+            "from": []
+          }
+        ]
+      },
+      {
+        "name": "Image Texture",
+        "type": "TEX_IMAGE",
+        "operation": null,
+        "image": "Image_0",
+        "inputs": [
+          {
+            "name": "Vector",
+            "linked": false,
+            "value": null,
+            "from": []
+          }
+        ]
+      },
+      {
+        "name": "Math.001",
+        "type": "MATH",
+        "operation": "MULTIPLY",
+        "image": null,
+        "inputs": [
+          {
+            "name": "Value",
+            "linked": true,
+            "value": 0.5,
+            "from": [
+              [
+                "Separate Color",
+                "Blue"
+              ]
+            ]
+          },
+          {
+            "name": "Value",
+            "linked": false,
+            "value": 0.0,
+            "from": []
+          },
+          {
+            "name": "Value",
+            "linked": false,
+            "value": 0.5,
+            "from": []
+          }
+        ]
+      },
+      {
+        "name": "Image Texture.001",
+        "type": "TEX_IMAGE",
+        "operation": null,
+        "image": "Image_1.001",
+        "inputs": [
+          {
+            "name": "Vector",
+            "linked": false,
+            "value": null,
+            "from": []
+          }
+        ]
+      }
+    ],
+    "alpha_from": [
+      [
+        "Math",
+        "Value"
+      ]
+    ]
+  }
+]

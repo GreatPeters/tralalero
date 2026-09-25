@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.97,
+  "summary": "Actual final/source sheet and full hero show the second reduction still adds triangular lower-panel shading dents visible in the PBR, with stronger neutral-surface distortions than the source. Preserve both canonical passes and use a local surface-normal correction; do not regenerate the accepted high shape or material.",
+  "issues": [
+    {
+      "part": "lower stone sides and cabinet base",
+      "problem": "Persistent new triangular dents/dark patches remain after both reduction profiles. A local planar-surface correction is required while retaining geometry, UVs and accepted material regions.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

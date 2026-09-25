@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "07104e6930d2e8d3f759b4865a7c966dca23f8f9a6e2b154385bb32c8d222582",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B11_11edc13415\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B11_11edc13415\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B11_11edc13415\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "The 13830-triangle canopy preserves the thin barrel shell, central rib, perimeter and corner mounts. Both finished-material and neutral comparisons remain close to the approved source, without new broad dents or missing structure. Fresh FBX and GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "perimeter",
+                    "problem": "Slight edge rounding and retained minor underside-rim irregularity.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "1484b547-7504-48a7-85f4-396c296dd7f0",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Blue ribbed-looking roof fields are cleanly separated from the warm white curved frame. Both sides and the top retain consistent material coverage, with no unwanted symbols, blotches or border bleeding.",
+            "issues": [
+              {
+                "part": "roof material",
+                "problem": "Generated blue is paler than the reference; ribbing reads mainly through texture and reflection.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "71d02e47-b0dd-42ce-8d1a-d019ecc6d48b",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "The canopy retains its smooth barrel curvature, two roof fields, central curved rib, perimeter rails and corner mounting ends. Side-profile and both oblique views show a thin curved shell without a background slab or major missing section.",
+        "issues": [
+          {
+            "part": "underside end rim",
+            "problem": "Small irregularity on the inferred underside rim remains minor.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790209605.4668171,
+  "notes": [
+    "shape: The canopy retains its smooth barrel curvature, two roof fields, central curved rib, perimeter rails and corner mounting ends. Side-profile and both oblique views show a thin curved shell without a background slab or major missing section.",
+    "texture_source: Blue ribbed-looking roof fields are cleanly separated from the warm white curved frame. Both sides and the top retain consistent material coverage, with no unwanted symbols, blotches or border bleeding.",
+    "final_compare: The 13830-triangle canopy preserves the thin barrel shell, central rib, perimeter and corner mounts. Both finished-material and neutral comparisons remain close to the approved source, without new broad dents or missing structure. Fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

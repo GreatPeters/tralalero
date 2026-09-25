@@ -1,0 +1,19 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "summary": "Standard views plus full-resolution underside comparison inspected. The 14155-triangle fixture retains the square diffuser/bezel, rear enclosure and mounting tabs. The actual visible underside stays close to the approved source, with no missing diffuser or frame. Fresh FBX/GLB checks pass. Published preview shows the underside; original studio and all upper views are retained.",
+  "issues": [
+    {
+      "part": "outer bezel edge",
+      "problem": "Small edge/shading nicks are visible from above after reduction; the broad underside remains smooth.",
+      "kind": "mesh",
+      "severity": "minor"
+    },
+    {
+      "part": "inner rim",
+      "problem": "Source-stage dark corner seams and uneven fine rim detail remain.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ]
+}

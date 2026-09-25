@@ -1,0 +1,19 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.96,
+  "stage": "final_compare",
+  "reviewer": "main-agent",
+  "summary": "Pictograms retain clear skirt/wheelchair readability, but canonical low1 introduces a triangular shaded streak behind the central icon near the head and irregular rail shading in the neutral rear view compared with the accepted source. Retry only the second bounded Blender preservation profile.",
+  "issues": [
+    {
+      "part": "front panel and rear upper rail",
+      "problem": "New triangular shading defects after reduction, absent from accepted source.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/front.png"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "status": "review_needed",
+  "counts": {
+    "meshes": 3,
+    "textures": 0,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 0
+  },
+  "notes": [
+    "shape: Coach silhouette, roof HVAC, mirrors and window band are recognizable, but this source has only two axles/four wheels. The reference requires three axles with two closely spaced rear axles. Regenerate within the original shape budget.",
+    "shape: Second coach still has only two axles/four wheels, lacking the reference's tandem rear axle. Small pits also appear along the window band. Use the third and final original shape attempt; preserve the missing-axle rejection.",
+    "shape: The third original coach shape still has only two axles/four wheels instead of the reference's three axles. Its genuine rejection was held while serialized manual GPU repairs ran. All manual requests have now finished; the separately reconstructed and verified three-axle model is selected by final-overrides.json. Do not pass or regenerate this original candidate.",
+    "메시 3회 시도에서 형상 결함이 남았습니다. 추가 텍스처 생성 없이 검토 대상으로 남깁니다."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\70173c5148a1472aa86e1ba9f3ad9967abee7350f3be7475360a26497b7cb240.json",
+  "policy": "stage_gates_v2"
+}

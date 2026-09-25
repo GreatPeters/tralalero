@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "c6443397269b101817d89093aa0f7ad732acda582abc1bf08247467b3d1e753a",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S13_adb1036922\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S13_adb1036922\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S13_adb1036922\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "Actual final/source sheet and full hero retain the open cup, interior floor, rolled rim, tapered wall and warm paper surface. Fresh FBX/GLB verification passes at 14,647 triangles. No major collapse, missing rim segment or new material break.",
+                "issues": [
+                  {
+                    "part": "lower seam",
+                    "problem": "The neutral low view shows small added seam undulations; these remain subtle in the actual paper material. Original side crease remains minor.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "7dbbc4e5-2014-44c4-9f5f-0ae260fbfa36",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.98,
+            "summary": "Actual multiview sheet and hero retain the plain warm off-white paper material, continuous rolled rim, interior wall and floor, and lower seam. No unwanted logo, colour contamination or loss of the open cavity.",
+            "issues": [
+              {
+                "part": "side wall",
+                "problem": "Small source crease and subtle wall waviness remain visible in the rear oblique view, consistent with minor paper deformation.",
+                "kind": "mesh",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "189f0248-ae0f-4df8-ba06-25f4931057aa",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Actual multiview sheet and full hero retain the tapered paper-cup body, open mouth, rolled rim, visible interior floor and narrow lower seam. No missing wall or filled opening; reference proportions are close.",
+        "issues": [
+          {
+            "part": "inner and outer wall",
+            "problem": "Mild source waviness and a small lower seam irregularity remain; verify paper shading without amplifying these features.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790280071.985458,
+  "notes": [
+    "shape: Actual multiview sheet and full hero retain the tapered paper-cup body, open mouth, rolled rim, visible interior floor and narrow lower seam. No missing wall or filled opening; reference proportions are close.",
+    "texture_source: Actual multiview sheet and hero retain the plain warm off-white paper material, continuous rolled rim, interior wall and floor, and lower seam. No unwanted logo, colour contamination or loss of the open cavity.",
+    "final_compare: Actual final/source sheet and full hero retain the open cup, interior floor, rolled rim, tapered wall and warm paper surface. Fresh FBX/GLB verification passes at 14,647 triangles. No major collapse, missing rim segment or new material break."
+  ],
+  "reason": ""
+}

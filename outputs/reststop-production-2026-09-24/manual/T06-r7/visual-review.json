@@ -1,0 +1,23 @@
+{
+  "verdict": "pass",
+  "confidence": 0.96,
+  "stage": "final_compare",
+  "reviewer": "main-agent",
+  "summary": "Five-view source comparison and full opposite view inspected. New dark triangular dents in the lower stone/wood facade are removed; basin depth, drain, stone seams, wood panels and silhouette remain. Geometry/UVs match original low2, 14679 triangles. Basin/non-target normal directions match the split-boundary baseline; only tiny quantization drift from imported source remains. Fresh GLB/FBX checks pass. Small accepted-source mounting marks on top remain.",
+  "issues": [
+    {
+      "part": "top mounting area",
+      "problem": "Retains accepted-source small additional mounting mark beside the main faucet bore.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/opposite.png"
+  ],
+  "technical_evidence": [
+    "validation.json",
+    "repair.json"
+  ]
+}

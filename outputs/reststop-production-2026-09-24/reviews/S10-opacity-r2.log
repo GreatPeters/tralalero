@@ -1,0 +1,18 @@
+{"pid": 25716, "started": 1790305959.0601285, "script": "C:\\Users\\ljh\\tralalero Shooter\\tools\\bake-reststop-shield-opacity.py", "threads": 4, "logicalProcessors": [0, 1, 2, 3, 4, 5, 6, 7], "priority": "below-normal", "availableMemoryBytes": 34138132480}
+00:00.657  blend            | Read blend: "C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\manual\S10-r1\source\low1\model.blend"
+Traceback (most recent call last):
+  File "C:\Users\ljh\tralalero Shooter\tools\run-limited-generation.py", line 57, in <module>
+    runpy.run_path(str(args.script.resolve()),run_name='__main__')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\ljh\tralalero Shooter\tools\bake-reststop-shield-opacity.py", line 64, in <module>
+    assert any(value < .3 for value in alpha_values) and any(value > .99 for value in alpha_values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+
+Error: script failed, file: 'tools/run-limited-generation.py', exiting.
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

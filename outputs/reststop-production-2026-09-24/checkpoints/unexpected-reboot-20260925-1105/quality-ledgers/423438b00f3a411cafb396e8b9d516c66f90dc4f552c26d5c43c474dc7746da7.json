@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "423438b00f3a411cafb396e8b9d516c66f90dc4f552c26d5c43c474dc7746da7",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S04_b823a12e85\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S04_b823a12e85\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S04_b823a12e85\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.93,
+                "summary": "13504triangle model preserves tilted display, bezel, support and rounded base; five-view comparison and fresh FBX/GLB technical checks pass. No major silhouette or part loss.",
+                "issues": [
+                  {
+                    "part": "screen and rear stand finish",
+                    "problem": "Source frontal reflection remains stronger/more mottled than reference, with a small extra dark mark on the rear stand after baking. Minor cosmetic differences retained in the review record.",
+                    "kind": "texture",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "6d5943a6-378e-49ed-b87f-3bc7fc00b7cf",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.92,
+            "summary": "Dark inactive display, black bezel/back and silver metallic support/base remain coherent over five views, with no missing parts or painted text. The angled display reads correctly as a POS screen.",
+            "issues": [
+              {
+                "part": "screen and metal finish",
+                "problem": "Stronger mottled frontal reflection and brighter chrome finish than the reference; retain for final comparison.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "4987696e-20e7-4bd8-b0c2-101e28b71a8f",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.95,
+        "summary": "Tilted screen/bezel, single angled support and thick rounded base form a coherent POS terminal in five clay views. Open space around the stand remains; no major detached pieces or collapse.",
+        "issues": [
+          {
+            "part": "screen proportions and unseen rear details",
+            "problem": "Slightly wider screen and inferred rear port/casing details; inspect finish at texture stage.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790263877.4080856,
+  "notes": [
+    "shape: Tilted screen/bezel, single angled support and thick rounded base form a coherent POS terminal in five clay views. Open space around the stand remains; no major detached pieces or collapse.",
+    "texture_source: Dark inactive display, black bezel/back and silver metallic support/base remain coherent over five views, with no missing parts or painted text. The angled display reads correctly as a POS screen.",
+    "final_compare: 13504triangle model preserves tilted display, bezel, support and rounded base; five-view comparison and fresh FBX/GLB technical checks pass. No major silhouette or part loss."
+  ],
+  "reason": ""
+}

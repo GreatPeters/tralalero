@@ -1,0 +1,297 @@
+{
+  "prompt_id": "ce294d1d-fdec-486b-8d7f-435858039c79",
+  "requested_at": 1790260929.708886,
+  "reason": "First seven steps were outside CFG interval; step8 entered CFG and took547 seconds. With remaining foundation substeps and later CFG/positive passes, completion within the preserved120-minute limit is unlikely. Preserve consumed attempt and retry only opaque body with glass/shelves retained separately.",
+  "queue_before": {
+    "queue_running": [
+      [
+        154,
+        "ce294d1d-fdec-486b-8d7f-435858039c79",
+        {
+          "6": {
+            "inputs": {
+              "image": "trellis_automation/S02_r1_manual_t1.png"
+            },
+            "class_type": "Trellis2LoadImageWithTransparency",
+            "_meta": {
+              "title": "Image with Transparency"
+            }
+          },
+          "39": {
+            "inputs": {
+              "modelname": "microsoft/TRELLIS.2-4B",
+              "backend": "sdpa",
+              "device": "cuda",
+              "low_vram": false,
+              "keep_models_loaded": false,
+              "conv_backend": "flex_gemm",
+              "sparse_backend": "flash_attn",
+              "use_reconviagen": false
+            },
+            "class_type": "Trellis2LoadModel",
+            "_meta": {
+              "title": "Trellis2 - LoadModel"
+            }
+          },
+          "194": {
+            "inputs": {
+              "padding": 10,
+              "remove_background": true,
+              "max_size": 1024,
+              "image": [
+                "6",
+                2
+              ]
+            },
+            "class_type": "Trellis2PreProcessImage",
+            "_meta": {
+              "title": "Trellis2 - PreProcess Image"
+            }
+          },
+          "261": {
+            "inputs": {
+              "seed": 12345,
+              "texture_steps": 25,
+              "texture_guidance_strength": 7.5,
+              "texture_guidance_rescale": 0.01,
+              "texture_rescale_t": 3.0,
+              "resolution": 1024,
+              "texture_size": 2048,
+              "texture_alpha_mode": "OPAQUE",
+              "double_side_material": false,
+              "texture_guidance_interval_start": 0.0,
+              "texture_guidance_interval_end": 0.9,
+              "max_views": 1,
+              "bake_on_vertices": false,
+              "use_custom_normals": false,
+              "mesh_cluster_threshold_cone_half_angle_rad": 60.0,
+              "sampler": "heun",
+              "inpainting": "telea",
+              "verbose": false,
+              "dino_lock": 0.35,
+              "dino_substeps": 2,
+              "dino_foundation_cap": 0.92,
+              "pipeline": [
+                "39",
+                0
+              ],
+              "image": [
+                "194",
+                0
+              ],
+              "trimesh": [
+                "700",
+                0
+              ]
+            },
+            "class_type": "Trellis2MeshTexturing",
+            "_meta": {
+              "title": "Trellis2 - Mesh Texturing"
+            }
+          },
+          "262": {
+            "inputs": {
+              "filename_prefix": "trellis_automation/manual/S02/r1/texture1/asset",
+              "file_format": "glb",
+              "trimesh": [
+                "261",
+                0
+              ]
+            },
+            "class_type": "Trellis2ExportMesh",
+            "_meta": {
+              "title": "Trellis2 - Export Mesh"
+            }
+          },
+          "263": {
+            "inputs": {
+              "model_file": [
+                "262",
+                0
+              ],
+              "image": ""
+            },
+            "class_type": "Preview3D",
+            "_meta": {
+              "title": "3D 미리보기"
+            }
+          },
+          "700": {
+            "class_type": "Trellis2LoadMesh",
+            "inputs": {
+              "glb_path": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\S02-r1\\source\\model.glb"
+            }
+          }
+        },
+        {
+          "client_id": "trellis-automation-S02-r1-manual-texture1",
+          "create_time": 1790257396224
+        },
+        [
+          "261",
+          "263",
+          "262",
+          "39"
+        ]
+      ]
+    ],
+    "queue_pending": []
+  },
+  "state": "confirmed_cancelled",
+  "termination_reason": "Owned interrupt was requested but this sampler has no per-step interruption check; stop only the verified task-owned8189 worker and launcher.",
+  "worker_pid": 5604,
+  "launcher_pid": 25696,
+  "queue_at_termination": {
+    "queue_running": [
+      [
+        154,
+        "ce294d1d-fdec-486b-8d7f-435858039c79",
+        {
+          "6": {
+            "inputs": {
+              "image": "trellis_automation/S02_r1_manual_t1.png"
+            },
+            "class_type": "Trellis2LoadImageWithTransparency",
+            "_meta": {
+              "title": "Image with Transparency"
+            }
+          },
+          "39": {
+            "inputs": {
+              "modelname": "microsoft/TRELLIS.2-4B",
+              "backend": "sdpa",
+              "device": "cuda",
+              "low_vram": false,
+              "keep_models_loaded": false,
+              "conv_backend": "flex_gemm",
+              "sparse_backend": "flash_attn",
+              "use_reconviagen": false
+            },
+            "class_type": "Trellis2LoadModel",
+            "_meta": {
+              "title": "Trellis2 - LoadModel"
+            }
+          },
+          "194": {
+            "inputs": {
+              "padding": 10,
+              "remove_background": true,
+              "max_size": 1024,
+              "image": [
+                "6",
+                2
+              ]
+            },
+            "class_type": "Trellis2PreProcessImage",
+            "_meta": {
+              "title": "Trellis2 - PreProcess Image"
+            }
+          },
+          "261": {
+            "inputs": {
+              "seed": 12345,
+              "texture_steps": 25,
+              "texture_guidance_strength": 7.5,
+              "texture_guidance_rescale": 0.01,
+              "texture_rescale_t": 3.0,
+              "resolution": 1024,
+              "texture_size": 2048,
+              "texture_alpha_mode": "OPAQUE",
+              "double_side_material": false,
+              "texture_guidance_interval_start": 0.0,
+              "texture_guidance_interval_end": 0.9,
+              "max_views": 1,
+              "bake_on_vertices": false,
+              "use_custom_normals": false,
+              "mesh_cluster_threshold_cone_half_angle_rad": 60.0,
+              "sampler": "heun",
+              "inpainting": "telea",
+              "verbose": false,
+              "dino_lock": 0.35,
+              "dino_substeps": 2,
+              "dino_foundation_cap": 0.92,
+              "pipeline": [
+                "39",
+                0
+              ],
+              "image": [
+                "194",
+                0
+              ],
+              "trimesh": [
+                "700",
+                0
+              ]
+            },
+            "class_type": "Trellis2MeshTexturing",
+            "_meta": {
+              "title": "Trellis2 - Mesh Texturing"
+            }
+          },
+          "262": {
+            "inputs": {
+              "filename_prefix": "trellis_automation/manual/S02/r1/texture1/asset",
+              "file_format": "glb",
+              "trimesh": [
+                "261",
+                0
+              ]
+            },
+            "class_type": "Trellis2ExportMesh",
+            "_meta": {
+              "title": "Trellis2 - Export Mesh"
+            }
+          },
+          "263": {
+            "inputs": {
+              "model_file": [
+                "262",
+                0
+              ],
+              "image": ""
+            },
+            "class_type": "Preview3D",
+            "_meta": {
+              "title": "3D 미리보기"
+            }
+          },
+          "700": {
+            "class_type": "Trellis2LoadMesh",
+            "inputs": {
+              "glb_path": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\S02-r1\\source\\model.glb"
+            }
+          }
+        },
+        {
+          "client_id": "trellis-automation-S02-r1-manual-texture1",
+          "create_time": 1790257396224
+        },
+        [
+          "261",
+          "263",
+          "262",
+          "39"
+        ]
+      ]
+    ],
+    "queue_pending": []
+  },
+  "worker_command": [
+    "C:\\Users\\ljh\\AppData\\Local\\Programs\\Python\\Python312\\python.exe",
+    "C:\\Users\\ljh\\tralalero Shooter\\tools\\run-trellis-uv-math.py"
+  ],
+  "terminated_at": 1790261028.6304843,
+  "history_before_termination": {},
+  "consumed_attempt": 1,
+  "worker_terminated": true,
+  "queue_after": {
+    "queue_running": [],
+    "queue_pending": []
+  },
+  "confirmed_at": 1790261214.3928177,
+  "new_backend_owner": {
+    "pid": 43652,
+    "port": 8189,
+    "task_owned": true
+  }
+}

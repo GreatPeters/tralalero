@@ -1,0 +1,133 @@
+{
+  "version": 2,
+  "image_hash": "8c3ba615a9c494a97fa987bf01a2c3866d60fc4983afa685ef406c646464a58e",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\G01_a8ac572400\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\G01_a8ac572400\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [],
+          "prompt_id": "5f2c3b43-0252-4c12-b988-61da720a8341",
+          "review": {
+            "verdict": "texture",
+            "confidence": 0.93,
+            "summary": "Red fascia, white stripe and gray trim are coherent, but dedicated underside render shows the reference framed flush lights reduced to numerous soft dark dots with an irregular duplicated layout. Retry texture on the accepted canopy shape to improve the visible soffit details.",
+            "issues": [
+              {
+                "part": "underside light fixtures",
+                "problem": "Recognizable framed light panels become blurry dark marks and duplicated pairs instead of the reference arrangement.",
+                "kind": "texture",
+                "severity": "major"
+              }
+            ]
+          }
+        },
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\G01_a8ac572400\\stages\\m1_t2",
+          "seed": 12346,
+          "state": "generated",
+          "lows": [],
+          "prompt_id": "0e5420d0-0c06-4b72-bd84-4b814258b430",
+          "review": {
+            "verdict": "texture",
+            "confidence": 0.98,
+            "summary": "Second texture introduces large mottled white patches and unrelated stripe damage across the upper roof. Underside has some clearer framed lights but also duplicated and broken L-shaped marks. Use the third and final permitted texture attempt on the same approved shape.",
+            "issues": [
+              {
+                "part": "upper roof surface",
+                "problem": "Large invented mottled paint/stripe pattern breaks the clean reference finish.",
+                "kind": "texture",
+                "severity": "major"
+              },
+              {
+                "part": "underside lights",
+                "problem": "Duplicated panels and malformed L-shaped fixture marks remain.",
+                "kind": "texture",
+                "severity": "major"
+              }
+            ]
+          }
+        },
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\G01_a8ac572400\\stages\\m1_t3",
+          "seed": 12347,
+          "state": "generated",
+          "lows": [],
+          "prompt_id": "715519a3-2883-4f43-87c0-947772bf5b50",
+          "review": {
+            "verdict": "texture",
+            "confidence": 0.99,
+            "summary": "Third texture adds two large black torn-hole-like marks on the upper roof. The underside still duplicates fixtures and has extra dark marks. All three permitted texture attempts are exhausted; preserve the records and correct the first variant locally without another AI request.",
+            "issues": [
+              {
+                "part": "upper roof",
+                "problem": "Large invented black hole/tear graphics on an intact roof surface.",
+                "kind": "texture",
+                "severity": "major"
+              },
+              {
+                "part": "underside fixtures",
+                "problem": "Duplicated light marks and irregular layout remain.",
+                "kind": "texture",
+                "severity": "major"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "a4b62356-fad8-43b4-a4a0-60d94f73dbc5",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.94,
+        "summary": "Standard views and dedicated underside render inspected. The elongated rectangular canopy, deep fascia, perimeter trim and inset underside match the main reference construction. The underside is mostly flat, so panel seams and flush-light appearance must be verified after texturing.",
+        "issues": [
+          {
+            "part": "upper trim",
+            "problem": "Small source-stage seam pits and edge waviness along the upper rim.",
+            "kind": "mesh",
+            "severity": "minor"
+          },
+          {
+            "part": "underside details",
+            "problem": "Soffit panel lines and flush lights are not resolved as separate clay geometry; inspect material-stage representation.",
+            "kind": "texture",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790230835.6429644,
+  "notes": [
+    "shape: Standard views and dedicated underside render inspected. The elongated rectangular canopy, deep fascia, perimeter trim and inset underside match the main reference construction. The underside is mostly flat, so panel seams and flush-light appearance must be verified after texturing.",
+    "texture_source: Red fascia, white stripe and gray trim are coherent, but dedicated underside render shows the reference framed flush lights reduced to numerous soft dark dots with an irregular duplicated layout. Retry texture on the accepted canopy shape to improve the visible soffit details.",
+    "texture_source: Second texture introduces large mottled white patches and unrelated stripe damage across the upper roof. Underside has some clearer framed lights but also duplicated and broken L-shaped marks. Use the third and final permitted texture attempt on the same approved shape.",
+    "texture_source: Third texture adds two large black torn-hole-like marks on the upper roof. The underside still duplicates fixtures and has extra dark marks. All three permitted texture attempts are exhausted; preserve the records and correct the first variant locally without another AI request."
+  ],
+  "reason": "텍스처 시도 한도(3회) 또는 선택한 메시의 텍스처 한도에 도달했습니다. 추가 메시·텍스처 생성 없이 검토 대상으로 남깁니다."
+}

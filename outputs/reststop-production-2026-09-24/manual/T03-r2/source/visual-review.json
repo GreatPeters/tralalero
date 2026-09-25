@@ -1,0 +1,24 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "stage": "shape",
+  "reviewer": "main-agent",
+  "summary": "Inspected reference contact sheet and full opposite view. Open lid, cistern, oval seat and recessed bowl retained. Top view shows genuinely recessed interior; three-row depth proof stays within 0.000019 asset height of cached stage161, not the capped export. Fresh blend/glb intermediate checks pass. Minor source faceting on lower bowl and rear plumbing recess remain; examine ceramic material and final reduction before delivery.",
+  "issues": [
+    {
+      "part": "lower bowl exterior",
+      "problem": "Some source surface faceting, especially neutral front; no loss of bowl interior.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ],
+  "technical_evidence": [
+    "intermediate-validation.json",
+    "opening-validation.json"
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/opposite.png"
+  ],
+  "require_final_cavity_check": true
+}

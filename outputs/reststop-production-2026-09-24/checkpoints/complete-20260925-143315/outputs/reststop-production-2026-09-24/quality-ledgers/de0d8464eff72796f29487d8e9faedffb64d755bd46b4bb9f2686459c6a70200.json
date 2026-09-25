@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "image_hash": "de0d8464eff72796f29487d8e9faedffb64d755bd46b4bb9f2686459c6a70200",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R12_a403249561\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "67adfcc0-2d26-4135-93bd-9989b9eebabe",
+      "review": {
+        "verdict": "uncertain",
+        "confidence": 0.99,
+        "summary": "Requires manual recovery: the exported grating has only five deep openings, while cached decoder and first-fill geometry have 23. Three transverse ray profiles confirm postprocessing closes most slots. Preserve the current shape attempt and recover the grating rather than blindly repeat neural sampling.",
+        "issues": [
+          {
+            "part": "top slot array",
+            "problem": "Most required drainage openings are capped by the standard postprocessing path.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790250185.3251863,
+  "notes": [
+    "shape: Requires manual recovery: the exported grating has only five deep openings, while cached decoder and first-fill geometry have 23. Three transverse ray profiles confirm postprocessing closes most slots. Preserve the current shape attempt and recover the grating rather than blindly repeat neural sampling."
+  ],
+  "reason": "감량 전 메시 판정이 불확실합니다. 텍스처를 생성하지 않았습니다."
+}

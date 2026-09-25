@@ -1,0 +1,23 @@
+{
+  "status": "review_needed",
+  "counts": {
+    "meshes": 3,
+    "textures": 1,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 2
+  },
+  "notes": [
+    "shape: Actual multiview sheet, hero and full top view retain the vanity cabinet and recessed basin, but the basin floor contains two extra holes flanking the central drain. The reference has one central drain and a separate rear countertop faucet opening.",
+    "shape: Actual multiview sheet and full hero show the basin's extra floor holes removed in m2, but the rear cabinet contains large crumpled slab fragments and a twisted central structure rather than a coherent service back. Broad side seams are also irregular. Preserve the correct front cabinet and recessed basin.",
+    "shape: Actual multiview sheet and full hero show a coherent vanity with two front doors, supported countertop, recessed rectangular basin, central drain and one rear faucet mounting mark. The extra bowl holes and torn rear construction from earlier attempts are absent.",
+    "texture_source: Actual multiview sheet and hero preserve the pale stone countertop/sides, two wood cabinet doors, recessed basin and distinct metal drain. The rear is a coherent plain stone enclosure, with no earlier torn structure or extra holes inside the basin.",
+    "final_compare: Actual final/source sheet and full hero show new triangular/shadow dents along the lower stone sides and cabinet base after reduction. They are strong in the neutral view and remain visible in the final PBR, unlike the smoother accepted high source. Keep the generated shape/material and retry Blender-only refinement.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "final_compare: Actual final/source sheet and full hero show the second reduction still adds triangular lower-panel shading dents visible in the PBR, with stronger neutral-surface distortions than the source. Preserve both canonical passes and use a local surface-normal correction; do not regenerate the accepted high shape or material.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "고밀도 원본은 통과했지만 Blender 두 방식에서도 결함이 남았습니다. 직접 수정이 필요합니다."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\e6b5ecf6591e4351d1efb00cf00ed75b64bc5e69bb246a365fed8871ed76b90d.json",
+  "policy": "stage_gates_v2"
+}

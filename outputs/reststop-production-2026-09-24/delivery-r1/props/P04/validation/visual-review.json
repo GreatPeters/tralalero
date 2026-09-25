@@ -1,0 +1,13 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "summary": "Five actual GLB views and source comparison retain shaft, blue grip, clamp, flared cord bundle and coherent PBR appearance after unsigned-volume reconstruction. Fresh FBX/GLB pass at 14,799 triangles with zero nonmanifold edges and zero degenerate faces.",
+  "issues": [
+    {
+      "part": "cords, grip and shaft",
+      "problem": "Narrow spaces between cords are partly merged; small grip/shaft surface marks and slight rounding remain. Tangent normal detail preserves the visible cord pattern at game scale.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ]
+}

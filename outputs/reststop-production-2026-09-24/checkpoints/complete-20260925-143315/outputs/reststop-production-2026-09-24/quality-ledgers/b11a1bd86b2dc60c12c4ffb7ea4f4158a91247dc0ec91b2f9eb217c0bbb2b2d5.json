@@ -1,0 +1,114 @@
+{
+  "version": 2,
+  "image_hash": "b11a1bd86b2dc60c12c4ffb7ea4f4158a91247dc0ec91b2f9eb217c0bbb2b2d5",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\G02_bc883ec0a0\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\G02_bc883ec0a0\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\G02_bc883ec0a0\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "texture",
+                "confidence": 0.99,
+                "summary": "Full-resolution opposite renders confirm new pale cabinet-colored streaks across the black hose loops after reduction/baking, absent in the high-detail source. Try the second bounded Blender profile; do not regenerate the approved AI texture.",
+                "issues": [
+                  {
+                    "part": "hose loops",
+                    "problem": "Strong new light-color contamination from adjacent cabinet surfaces across both lower hose loops.",
+                    "kind": "texture",
+                    "severity": "major"
+                  }
+                ]
+              }
+            },
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\G02_bc883ec0a0\\stages\\m1_t1\\low2",
+              "state": "generated",
+              "profile": "preserve_details",
+              "review": {
+                "verdict": "texture",
+                "confidence": 0.99,
+                "summary": "The second bounded Blender profile retains the same strong pale streaks across the black hose loops. Preserve both rejected reductions and correct from the approved textured source by retaining its original UV/PBR instead of rebaking across adjacent surfaces.",
+                "issues": [
+                  {
+                    "part": "hose loops",
+                    "problem": "Cabinet-colored contamination remains on both lower hoses, absent in the high source.",
+                    "kind": "texture",
+                    "severity": "major"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "df2e6877-785c-4be8-8927-ec6e55c11247",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.98,
+            "summary": "Pale cabinet, red panels, dark display/payment area, black hose loops and distinct red/green nozzle handles match the reference palette. Front and inferred reverse coverage are consistent, with no invented branding or large texture defects.",
+            "issues": [
+              {
+                "part": "red finish",
+                "problem": "Some red areas read more orange/pale than the reference under the review lighting.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "fb30a99a-da73-4e40-bc17-106c5517dfc3",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Fuel dispenser cabinet, display/payment recesses, hose loops, nozzles, side vents and upper opening are complete. Read-only X-axis ray sections at 75% and 85% height confirm the central opening is clear across all 153 tested center samples from both directions; the oblique cavity appearance is not a filled panel.",
+        "issues": [
+          {
+            "part": "inferred reverse and hose details",
+            "problem": "Reverse-side controls and hose details are inferred; small pipe/joint shapes and cabinet corners are softer than the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790232302.0250652,
+  "notes": [
+    "shape: Fuel dispenser cabinet, display/payment recesses, hose loops, nozzles, side vents and upper opening are complete. Read-only X-axis ray sections at 75% and 85% height confirm the central opening is clear across all 153 tested center samples from both directions; the oblique cavity appearance is not a filled panel.",
+    "texture_source: Pale cabinet, red panels, dark display/payment area, black hose loops and distinct red/green nozzle handles match the reference palette. Front and inferred reverse coverage are consistent, with no invented branding or large texture defects.",
+    "final_compare: Full-resolution opposite renders confirm new pale cabinet-colored streaks across the black hose loops after reduction/baking, absent in the high-detail source. Try the second bounded Blender profile; do not regenerate the approved AI texture.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "final_compare: The second bounded Blender profile retains the same strong pale streaks across the black hose loops. Preserve both rejected reductions and correct from the approved textured source by retaining its original UV/PBR instead of rebaking across adjacent surfaces.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다."
+  ],
+  "reason": "고밀도 원본은 통과했지만 Blender 두 방식에서도 결함이 남았습니다. 직접 수정이 필요합니다."
+}

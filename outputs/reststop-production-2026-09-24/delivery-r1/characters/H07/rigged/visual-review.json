@@ -1,0 +1,23 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "summary": "Scared, attack, greeting, walking, running, hit and fallen poses inspected. Layered hair retains volume; jacket, hands and trouser legs follow the skeleton without tearing. Fresh exports, loop endpoints and native-versus-export pose comparison pass; the nine-action movie fully decodes.",
+  "issues": [
+    {
+      "part": "hair",
+      "problem": "A few sharp tips and small gaps between overlapping rear locks remain from the generated body.",
+      "severity": "minor"
+    }
+  ],
+  "evidence": [
+    "fresh-rig-validation.json",
+    "export-pose-comparison.json",
+    "video-validation.json",
+    "animation-preview.mp4",
+    "poses/scared-014.png",
+    "poses/attack_once-010.png",
+    "poses/run-006.png",
+    "poses/hit-003.png",
+    "poses/die-024.png"
+  ]
+}

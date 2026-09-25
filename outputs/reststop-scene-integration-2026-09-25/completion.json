@@ -1,0 +1,46 @@
+{
+  "status": "complete",
+  "scenes": {
+    "RestStop": {
+      "path": "Assets/ShooterSurvival/Scenes/Tools/RestStop.unity",
+      "types": 90,
+      "enemies": 66,
+      "ranged": 46,
+      "missingScripts": 0,
+      "invalidMaterials": [],
+      "sha256": "34cef8f2fc40ca460890d4a2447db0dae2550714b8fd378c99e5338361940310"
+    },
+    "HighWay": {
+      "path": "Assets/ShooterSurvival/Scenes/Tools/HighWay.unity",
+      "types": 83,
+      "enemies": 50,
+      "ranged": 34,
+      "missingScripts": 0,
+      "invalidMaterials": [],
+      "sha256": "034cf18b36abad5485137e409c1377b2c19021adcab54d755fcd737be6df7669"
+    }
+  },
+  "models": 90,
+  "materials": 99,
+  "clips": 72,
+  "gallery": "http://127.0.0.1:8772/applied-scenes/",
+  "gallery_pid": 149388,
+  "editor_pid": 153256,
+  "preferencesRestoredExactly": true,
+  "tests": {
+    "reststopFilter": {
+      "passed": 20,
+      "failedUnchangedBaseline": 6
+    },
+    "highwayRebuild": {
+      "passed": 3,
+      "failed": 0
+    }
+  },
+  "report": "map-concepts/reststop-scene-integration-2026-09-25/README.md",
+  "editor_exit_requested": true,
+  "harness": "passed",
+  "solution_frontmatter": "passed",
+  "saved_scene_hashes_final_verified": true,
+  "task_editor_closed": true
+}

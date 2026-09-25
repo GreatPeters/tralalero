@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "7209caac8cfb8b0b469b5d59efa342fa394fb21b891213f6e6ce00ac97ef3f4d",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V02_1ce31eabc6\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V02_1ce31eabc6\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V02_1ce31eabc6\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "Actual final/source sheet and full hero preserve the red hatchback body, four wheels, antenna, glazing and light/trim regions. Fresh FBX/GLB verification passes at 13,875 triangles. No new major body break or wheel/material loss after reduction.",
+                "issues": [
+                  {
+                    "part": "small rear recess and fine trim",
+                    "problem": "The source rear lamp recess, simplified glazing and softened small trim remain; the final material stays close to the approved high source.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "5f82e4ba-4ac6-4c78-8610-824ab958ad16",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.95,
+            "summary": "Actual multiview sheet and full hero retain the red hatchback paint, dark tyres, alloy wheels, glazing and distinct lights/trim. No major paint spill or missing surface. The earlier small rear recess reads within the lamp/trim area rather than a lost body section.",
+            "issues": [
+              {
+                "part": "rear lamp junction and glazing",
+                "problem": "A small rear recess and simplified grey glazing/interior remain, with stronger studio highlights than the reference. Check for new reduction dents or wheel/trim loss.",
+                "kind": "mesh",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "1fd4840d-f2f8-4f37-90c9-6ae95b666c97",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.95,
+        "summary": "Actual multiview sheet and full hero retain the compact hatchback body, four wheels across both sides, windows, mirrors, antenna and front lighting/grille forms. No major missing vehicle section.",
+        "issues": [
+          {
+            "part": "rear lamp recess and panel detail",
+            "problem": "A small dark notch near the rear lamp region and simplified panel/wheel details remain. Inspect the coloured material to distinguish trim/recess appearance from a distracting defect.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790299739.0524013,
+  "notes": [
+    "shape: Actual multiview sheet and full hero retain the compact hatchback body, four wheels across both sides, windows, mirrors, antenna and front lighting/grille forms. No major missing vehicle section.",
+    "texture_source: Actual multiview sheet and full hero retain the red hatchback paint, dark tyres, alloy wheels, glazing and distinct lights/trim. No major paint spill or missing surface. The earlier small rear recess reads within the lamp/trim area rather than a lost body section.",
+    "final_compare: Actual final/source sheet and full hero preserve the red hatchback body, four wheels, antenna, glazing and light/trim regions. Fresh FBX/GLB verification passes at 13,875 triangles. No new major body break or wheel/material loss after reduction."
+  ],
+  "reason": ""
+}

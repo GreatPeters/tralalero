@@ -1,0 +1,16 @@
+{"pid": 60928, "started": 1790301862.1152174, "script": "C:\\Users\\ljh\\tralalero Shooter\\tools\\reststop-production-review-render.py", "threads": 4, "logicalProcessors": [0, 1, 2, 3, 4, 5], "priority": "below-normal", "availableMemoryBytes": 21975224320}
+11:04:22 | INFO: Data are loaded, start creating Blender stuff
+11:04:22 | INFO: Blender create Mesh node geometry_0.001
+11:04:22 | INFO: glTF import finished in 0.03s
+C:\Users\ljh\tralalero Shooter\tools\reststop-production-review-render.py:30: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  world=bpy.data.worlds.new('Review studio');world.use_nodes=True;world.node_tree.nodes['Background'].inputs['Strength'].default_value=.6;scene.world=world
+00:03.438  render           | Saved: 'C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\manual\S10-r1\source\low1\quality\hero.png'
+00:06.063  render           | Saved: 'C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\manual\S10-r1\source\low1\quality\top.png'
+00:08.875  render           | Saved: 'C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\manual\S10-r1\source\low1\quality\opposite.png'
+00:11.797  render           | Saved: 'C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\manual\S10-r1\source\low1\quality\front.png'
+C:\Users\ljh\tralalero Shooter\tools\reststop-production-review-render.py:44: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m=bpy.data.materials.new('Geometry only');m.use_nodes=True;p=m.node_tree.nodes.get('Principled BSDF');p.inputs['Base Color'].default_value=(.35,.35,.35,1);p.inputs['Roughness'].default_value=.75;scene.view_layers[0].material_override=m
+00:14.578  render           | Saved: 'C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\manual\S10-r1\source\low1\quality\neutral.png'
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

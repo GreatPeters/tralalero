@@ -1,6 +1,10 @@
 # Docs Index
 
-- `../map-concepts/reststop-production-2026-09-24/README.md`: **진행 중** — 저장된 TRELLIS 자동화 값으로 소품82종+인물8종 제작, 인물 리깅·애니메이션. 입력90종·진행 갤러리·원본 보존·단계별 검토 기록.
+- `../map-concepts/reststop-scene-integration-2026-09-25/README.md`: **휴게소·고속도로 적용 완료** — 90종 Unity 라이브러리, 휴게소90종/고속도로83종 연결, 99재질·72동작 네이티브 검사, 저장 후 재검증, 이동·사격 증거와 적용 전후 백업.
+- `exec-plans/completed/reststop-scene-integration-2026-09-25.md`: 두 씬 모델 적용의 완료 범위와 검증 한계.
+- `solutions/integration-issues/fit-generated-fbx-in-parent-space-before-scene-installation-2026-09-25.md`: FBX 축 변환과 크기 보정, 의미에 맞는 방향·배치, 실제 Unity 렌더 검증.
+- `../map-concepts/reststop-production-2026-09-24/README.md`: **90종 제작 완료** — 소품82종+인물8종, 8리그/72동작, 새 FBX·GLB 검증과 6.3GB 전체 ZIP/다운로드 검증. 후속 Unity 적용은 위 별도 기록 참고.
+- `../map-concepts/reststop-production-2026-09-24/COMPLETED-2026-09-25.md`: 최종 폴더·갤러리·ZIP·검증 영수증과 읽기 전용 갤러리 재시작 안내.
 - `exec-plans/active/reststop-trellis-production.md`: 같은 제작 작업의 범위·실행 상태·완료 조건을 연결하는 실행 계획.
 
 - `../map-concepts/reststop-prop-audit-2026-09-24/README.md`: 최신 Blender v4와 69종 PNG의 누락 검토. 환경 6종 누락·진열대 1종 보완·인물 장비 6종, 재사용 후보와 별도 보강 제안. 실제 원본 근접 렌더·인벤토리·구간 대응표.

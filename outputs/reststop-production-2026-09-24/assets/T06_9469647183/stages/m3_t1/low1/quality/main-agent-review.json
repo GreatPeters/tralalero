@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.96,
+  "summary": "Actual final/source sheet and full hero show new triangular/shadow dents along the lower stone sides and cabinet base after reduction. They are strong in the neutral view and remain visible in the final PBR, unlike the smoother accepted high source. Keep the generated shape/material and retry Blender-only refinement.",
+  "issues": [
+    {
+      "part": "lower stone panels and cabinet base",
+      "problem": "New localized triangular depressions/dark dents appear after reduction and are not present at the same severity in the source. Preserve broad planar surface shading and the existing basin/doors.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

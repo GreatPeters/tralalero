@@ -1,10 +1,15 @@
-# 휴게소 TRELLIS 소품·인물 제작 — 재부팅 대기 중지
+# 휴게소 TRELLIS 소품·인물 제작 — 90종 완료
 
-2026-09-25: 사용자 요청으로 생성 작업을 중지했다. 선택 모델 69/90종과 인물 8종/72동작 저장, S10 첫 형태 생성 후 검토 대기다. **[재부팅 체크포인트와 재개 방법](REBOOT-RESUME.md)**을 먼저 읽는다. 생성 프로세스와 전용 8189 포트 종료를 확인했으며 자동 재개는 설정하지 않았다.
+후속 업데이트 — 2026-09-25: 별도 승인된 **휴게소 → 고속도로 씬 적용도 완료**했다. [Unity 적용 결과와 검증](../reststop-scene-integration-2026-09-25/README.md), [사진·동작 영상](http://127.0.0.1:8772/applied-scenes/)을 참고한다. 아래 내용과 배포 ZIP은 독립 에셋 제작 단계의 기록이다.
 
-사용자가 기존 자동화의 저장값으로 소품 제작과 인물 본·애니메이션 추가를 요청했다. [제작 계약](contract.md)에 범위를 기록했다. 전체 완료 전이다.
+2026-09-25: **모델 90/90종, 인물 8종/72동작 완료**. 남은 21종의 생성·보정·실제 시각 검토와 새 FBX/GLB 검증을 마쳤다. [완료 안내](COMPLETED-2026-09-25.md)에 최종 폴더, ZIP과 검증 영수증을 연결했다. 작업 전용 생성 실행기와 8189 백엔드는 종료했고 8772 갤러리는 유지한다. 이전 실패 원장과 후보는 보존하며, 이미 완료된 항목을 다시 생성하지 않는다. **[재부팅 체크포인트](REBOOT-RESUME.md)**는 이전 S10 중지 당시의 역사적 기록이다.
+
+사용자가 기존 자동화의 저장값으로 소품 제작과 인물 본·애니메이션 추가를 요청했다. [제작 계약](contract.md)의 전체 범위를 완료했다. 이번 에셋을 기존 Unity 씬에 적용하는 작업은 포함하지 않았다.
 
 - 작업 갤러리: http://127.0.0.1:8772/
+- 최종 전체 ZIP: [reststop-assets-r1.zip](http://127.0.0.1:8772/reststop-assets-r1.zip), 6,319,598,606 bytes.
+- 최종 폴더: `outputs/reststop-production-2026-09-24/delivery-r1/` — 1,444개 파일, 목록/재질/원본/검증 기록 포함.
+- ZIP CRC 검사, JSON 377개 파싱, 갤러리 자원 402개 및 원본 PNG 90개 HTTP 검사, 전체 ZIP 다운로드 SHA-256 일치 확인. 연결된 브라우저가 없어 화면 조작 검증은 수행하지 않았다.
 - 입력: `outputs/reststop-production-2026-09-24/inputs/` — 90종 준비/디코딩 확인 완료.
 - 작업 상태: 같은 폴더의 `status.json`, `assets/.trellis-automation/state.json`.
 - 최종 소품 선택본: 자동화 통과 결과 + `final-overrides.json`의 직접 수정 선택본. 자동화에서 거절된 후보를 최종본으로 사용하지 않는다.
@@ -16,17 +21,23 @@
 
 ## 실행
 
+아래는 완료 전 실행 방식의 기록이다. 현재 90종이 선택 완료되어 새 생성이나 재개는 필요하지 않다. 예전 자동 후보의 `review_needed`/`halted`는 실패 이력을 보존한 상태이며 최종 선택은 `final-overrides.json`과 함께 판단한다. 재부팅 뒤 홈페이지가 닫혔다면 [완료 안내](COMPLETED-2026-09-25.md)의 읽기 전용 갤러리만 재시작한다.
+
 `tools/run-reststop-trellis-production.py`가 설치된 자동화 엔진을 불러온다. 저장값은 `saved-settings.json`, 실제 작업값은 `effective-settings.json`이다. 입력/출력/작업 전용 포트만 변경하고 주요 생성·품질·재시도·60초 휴식 설정은 유지한다.
 
 시각 검토는 주 에이전트가 수행한다. `review-pending.json`의 실제 다각도 이미지를 열고 `result` 경로에 원래 스키마의 JSON 판정을 작성하면 자동화가 이어진다. 현재 실행 프로세스가 종료되어도 시도 원장으로 재개한다. 출력 폴더의 잠금을 무시해 중복 배치를 실행하지 않는다.
 
+검토 도구에도 전용 Python 환경과 `-X utf8`을 사용한다. [Windows 실행 환경·한글 기록 주의점](../../docs/solutions/workflow-issues/preserve-python-runtime-and-unicode-through-powershell-2026-09-25.md)을 참고한다.
+
 `tools/watch-reststop-review.py`는 최대 45초 동안 실제 검토 대기 상태를 확인하고 비교 시트 경로를 반환한다. 판정을 자동 승인하지 않는다. 판정 JSON은 같은 폴더의 임시 파일에 완성한 뒤 원자적으로 교체해 실행기가 부분 기록을 읽지 않도록 한다. 천장처럼 아래가 실제 사용 면인 부품은 `reststop-production-review-render.py --underside-only`로 하부 렌더도 확인한다. 현재 범위와 완료 조건은 [실행 계획](../../docs/exec-plans/active/reststop-trellis-production.md)에 연결했다.
 
 ```powershell
-python tools/run-limited-generation.py --script tools/run-reststop-trellis-production.py --record map-concepts/reststop-production-2026-09-24/runner-resource.json --
+$reststopResumeStamp = Get-Date -Format 'yyyyMMdd-HHmmss'
+$reststopResumeRecord = "outputs/reststop-production-2026-09-24/runner-resume-$reststopResumeStamp-resource.json"
+& 'C:/AI/TRELLIS2-AMD/venv/Scripts/python.exe' -X utf8 tools/run-limited-generation.py --script tools/run-reststop-trellis-production.py --record $reststopResumeRecord -- --only V05,V06 --defer F03,F04,R11,V04 --resume
 ```
 
-F03·F04의 자동 감량 중단 기록과 R11의 완료 상태 조회 오류 기록은 보존하고 별도 복구한다. 현재 배치를 다시 시작할 때는 `-- --defer F03,F04,R11`을 사용한다. 먼저 `runner.json`의 실제 실행 PID가 종료됐는지 확인하고 새 리비전의 로그/자원 기록을 사용한다. 최신 로그는 `runner-resume-3.log`와 `.err.log`다. `--defer`는 명시한 기존 중단 항목만 별도 처리 대상으로 남기며, 실패 판정이나 원장을 통과로 바꾸지 않는다. [후처리 복구](../../docs/solutions/workflow-issues/preserve-uv-seams-and-corner-normals-for-trellis-foliage-2026-09-24.md)와 [완료 기록 재확인](../../docs/solutions/integration-issues/recheck-comfy-history-before-replaying-lost-prompts-2026-09-24.md)을 참고한다.
+F03·F04 자동 감량 중단, R11 완료 상태 조회 오류와 V04 비정상 재부팅 중단 기록을 보존한다. 현재 재개 인자는 `--only V05,V06 --defer F03,F04,R11,V04 --resume`이다. 먼저 `runner.json`의 실제 실행 PID가 종료됐는지 확인하고 새 리비전의 로그/자원 기록을 사용한다. `--defer`는 명시한 기존 중단 항목만 별도 처리 대상으로 남기며, 실패 판정이나 원장을 통과로 바꾸지 않는다. V04 첫 시도는 소비된 상태를 유지하며 `tools/retry-reststop-interrupted-shape.py`가 별도 원장으로 남은 최대 2회만 허용한다. 설치된 자동화 파일과 작업 ID를 바꾸지 않는다. [후처리 복구](../../docs/solutions/workflow-issues/preserve-uv-seams-and-corner-normals-for-trellis-foliage-2026-09-24.md)와 [완료 기록 재확인](../../docs/solutions/integration-issues/recheck-comfy-history-before-replaying-lost-prompts-2026-09-24.md)을 참고한다.
 
 진행 갤러리는 상태 변경 시 자동 갱신하며, 브라우저에서 새로고침해 확인할 수 있다. 모델 다운로드는 실제 완료된 항목에만 나타난다.
 
@@ -43,7 +54,7 @@ F03·F04의 자동 감량 중단 기록과 R11의 완료 상태 조회 오류 �
 TRELLIS 검토 대기 구간에서 후보 하나를 제작하는 명령은 다음과 같다. 완료 명단에 자동 추가하지 않으며, 실제 동작 렌더를 확인한 뒤 시각 검토 기록을 별도로 작성해야 한다.
 
 ```powershell
-python tools/build-reststop-rig-candidate.py --id H05 --revision r2 --source "outputs/reststop-production-2026-09-24/assets/H05_102aff5a49/stages/m1_t1/low1/model.glb"
+& 'C:/AI/TRELLIS2-AMD/venv/Scripts/python.exe' -X utf8 tools/build-reststop-rig-candidate.py --id H05 --revision r2 --source "outputs/reststop-production-2026-09-24/assets/H05_102aff5a49/stages/m1_t1/low1/model.glb"
 ```
 
 예시 명령은 새 수정 후보가 필요한 경우에만 사용한다. 기존 승인본을 다시 만들 필요는 없다. 동일 리비전의 `.blend`가 있으면 덮어쓰지 않고 중단한다.

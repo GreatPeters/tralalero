@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "70173c5148a1472aa86e1ba9f3ad9967abee7350f3be7475360a26497b7cb240",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V06_bd6306f277\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "4168110c-1b5f-48b4-93cc-ae3bd1336af5",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.99,
+        "summary": "Coach silhouette, roof HVAC, mirrors and window band are recognizable, but this source has only two axles/four wheels. The reference requires three axles with two closely spaced rear axles. Regenerate within the original shape budget.",
+        "issues": [
+          {
+            "part": "rear axle assembly",
+            "problem": "Missing second rear axle and its two wheels relative to reference.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V06_bd6306f277\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "ca08b925-ee4a-45fc-bfc0-d381b870f335",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.99,
+        "summary": "Second coach still has only two axles/four wheels, lacking the reference's tandem rear axle. Small pits also appear along the window band. Use the third and final original shape attempt; preserve the missing-axle rejection.",
+        "issues": [
+          {
+            "part": "rear axle assembly",
+            "problem": "Second rear axle and wheel pair still absent.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V06_bd6306f277\\stages\\m3",
+      "seed": 221803,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "8f7f876a-0b35-4c9d-9c3c-a127322a2a50",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.99,
+        "summary": "The third original coach shape still has only two axles/four wheels instead of the reference's three axles. Its genuine rejection was held while serialized manual GPU repairs ran. All manual requests have now finished; the separately reconstructed and verified three-axle model is selected by final-overrides.json. Do not pass or regenerate this original candidate.",
+        "issues": [
+          {
+            "part": "rear axle assembly",
+            "problem": "Second rear axle and wheel pair absent in this original candidate.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790308535.4549487,
+  "notes": [
+    "shape: Coach silhouette, roof HVAC, mirrors and window band are recognizable, but this source has only two axles/four wheels. The reference requires three axles with two closely spaced rear axles. Regenerate within the original shape budget.",
+    "shape: Second coach still has only two axles/four wheels, lacking the reference's tandem rear axle. Small pits also appear along the window band. Use the third and final original shape attempt; preserve the missing-axle rejection.",
+    "shape: The third original coach shape still has only two axles/four wheels instead of the reference's three axles. Its genuine rejection was held while serialized manual GPU repairs ran. All manual requests have now finished; the separately reconstructed and verified three-axle model is selected by final-overrides.json. Do not pass or regenerate this original candidate."
+  ],
+  "reason": "메시 3회 시도에서 형상 결함이 남았습니다. 추가 텍스처 생성 없이 검토 대상으로 남깁니다."
+}

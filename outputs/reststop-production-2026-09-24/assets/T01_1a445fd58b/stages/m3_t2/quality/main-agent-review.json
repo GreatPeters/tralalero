@@ -1,0 +1,13 @@
+{
+  "verdict": "texture",
+  "confidence": 0.98,
+  "summary": "Actual multiview sheet and hero retain the correct front wood and metal frame, but the second texture changes the entire rear panel into silver/dark vertical metal striping. This still contradicts the solid wood infill and is a material defect, not missing geometry.",
+  "issues": [
+    {
+      "part": "rear infill material",
+      "problem": "Rear surface is rendered as corrugated metal bars rather than continuous wood. Preserve the front wood and perimeter metal while correcting only the rear infill.",
+      "kind": "texture",
+      "severity": "major"
+    }
+  ]
+}

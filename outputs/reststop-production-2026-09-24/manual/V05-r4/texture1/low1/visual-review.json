@@ -1,0 +1,24 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "stage": "final_compare",
+  "reviewer": "main-agent",
+  "summary": "All five final/source comparison views and full opposite checked. Repaired dark windshield stays continuous with slim wipers; yellow cargo/cab, silver trim, four wheels, rails and rear doors remain intact. Wheel rims and some edges show expected low-poly faceting versus the high source, without large panel damage. Fresh GLB/FBX technical validation passes at 14332 triangles, and all 1485 windshield rays in each format retain front coverage close to the measured surface.",
+  "issues": [
+    {
+      "part": "wheels and trim",
+      "problem": "Visible low-poly rim/edge faceting; source glazing remains stylized and dark.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/opposite.png"
+  ],
+  "technical_evidence": [
+    "validation.json",
+    "front-surface-validation.json",
+    "geometry-normalization-proof.json"
+  ]
+}

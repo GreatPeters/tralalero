@@ -1,0 +1,22 @@
+{
+  "source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\T03-r3\\source\\model.glb",
+  "candidate": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\T03-r6\\shape\\model.glb",
+  "source_sha256": "c7085050b66ef948ded66818c2996bcef594cbcfc7020c38c8389947826a110e",
+  "candidate_sha256": "d32e60e0c005a8a61c57825bbe3298ef98420fcced52eb88823cab0386e3c82d",
+  "method": "Deterministic triangle-centroid samples in both directions and every candidate vertex, nearest triangle distance normalized by source height",
+  "limitation": "Sampled surface fidelity; not an exhaustive Hausdorff bound or substitute for visual review",
+  "source_to_candidate": {
+    "samples": 12417,
+    "median": 0.0033713344005751192,
+    "p95": 0.005077112083424919,
+    "p99": 0.007314196231065216,
+    "maximum": 0.015215753204914237
+  },
+  "candidate_to_source": {
+    "samples": 23944,
+    "median": 0.003784237721119055,
+    "p95": 0.005228141032133598,
+    "p99": 0.006939936846681847,
+    "maximum": 0.009441866091400585
+  }
+}

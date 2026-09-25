@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "image_hash": "411f51424cf59fe3f91876d8c3ef56500f439a2bed5318839a5d0bd292e65d70",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B07_034781cea7\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B07_034781cea7\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B07_034781cea7\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.95,
+                "summary": "14,795-triangle leaf preserves the roller brackets, pull handles, frame and reflective pane. All contact views and full hero compared with source; fresh FBX/GLB validation passes.",
+                "issues": [
+                  {
+                    "part": "fine frame edges",
+                    "problem": "Minor softening/chipping at small frame corners after reduction; no major finished-material regression.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "e5168797-de72-4dfd-b2bd-69519a0e39d3",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.96,
+            "summary": "Reference, contact-sheet views and full hero checked. Blue reflective pane, dark frame, metal pull handles and roller hardware are coherent and closely match the intended sliding glass leaf. No major material spill or missing part.",
+            "issues": [
+              {
+                "part": "glass reflection",
+                "problem": "Diagonal reflection bands are stronger than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "2edfec07-bba2-429c-802a-e06e4b4d1012",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Reference, contact-sheet views and full hero checked. Narrow framed glass leaf, side pull handles and two upper roller brackets are complete and proportionally coherent. No missing main part or major deformation.",
+        "issues": []
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790203845.249968,
+  "notes": [
+    "shape: Reference, contact-sheet views and full hero checked. Narrow framed glass leaf, side pull handles and two upper roller brackets are complete and proportionally coherent. No missing main part or major deformation.",
+    "texture_source: Reference, contact-sheet views and full hero checked. Blue reflective pane, dark frame, metal pull handles and roller hardware are coherent and closely match the intended sliding glass leaf. No major material spill or missing part.",
+    "final_compare: 14,795-triangle leaf preserves the roller brackets, pull handles, frame and reflective pane. All contact views and full hero compared with source; fresh FBX/GLB validation passes."
+  ],
+  "reason": ""
+}

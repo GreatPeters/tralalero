@@ -1,0 +1,73 @@
+{
+  "version": 2,
+  "image_hash": "34d89c5c7050e7daa1a09f70b3549ecd2ca04dcc234360ca1c39b4a7120bb8d0",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P01_6c0e6ed6be\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P01_6c0e6ed6be\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [],
+          "prompt_id": "f7aa104e-87d5-4893-8d41-56828ebbdb4f",
+          "review": {
+            "verdict": "uncertain",
+            "confidence": 0.99,
+            "summary": "The color regions and grip are coherent, but the exported panel is opaque and cannot be approved as the reference clear shield. Inspection confirms the saved graph sets texture_alpha_mode=OPAQUE and its postprocessor forces opacity to 1, so another sample under the same settings would not fix the material mode. Preserve geometry/texture and route to an explicit per-panel transparency correction without changing global settings.",
+            "issues": [
+              {
+                "part": "clear shield panels",
+                "problem": "Configured opaque export prevents seeing the grip through the panel; a local material correction is required before acceptance.",
+                "kind": "texture",
+                "severity": "major"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "80e5f247-3ba8-4ac2-b179-6ee8e0624a2a",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Tall rounded rectangular curved shield, raised outer rim, central reinforcement band with fasteners and rear grip match the reference. The thin curved profile is visible from above and the grip is present in the rear view. Clear-panel appearance must be inspected in the material stage.",
+        "issues": [
+          {
+            "part": "lower panel and grip",
+            "problem": "Small panel faceting and simplified grip detail.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790235200.31999,
+  "notes": [
+    "shape: Tall rounded rectangular curved shield, raised outer rim, central reinforcement band with fasteners and rear grip match the reference. The thin curved profile is visible from above and the grip is present in the rear view. Clear-panel appearance must be inspected in the material stage.",
+    "texture_source: The color regions and grip are coherent, but the exported panel is opaque and cannot be approved as the reference clear shield. Inspection confirms the saved graph sets texture_alpha_mode=OPAQUE and its postprocessor forces opacity to 1, so another sample under the same settings would not fix the material mode. Preserve geometry/texture and route to an explicit per-panel transparency correction without changing global settings."
+  ],
+  "reason": "고밀도 텍스처 원본 판정이 불확실합니다."
+}

@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "73c297e171a72d3ddcd1e98bb9a5c765165895b1d275f1c85515fca76037907a",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R06_05399e55b9\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R06_05399e55b9\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R06_05399e55b9\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.98,
+                "summary": "Reduced gantry retains both posts, complete truss lattice/openings, base bracing and metal finish. Five-view source comparison shows no lost members or major bake distortion. Fresh FBX/GLB pass at 13,917 triangles.",
+                "issues": [
+                  {
+                    "part": "small connectors",
+                    "problem": "Minor flange/bolt and slender-member edge softening.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "d42da3ae-eeba-4768-899e-1fe3845513ce",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.98,
+            "summary": "Silver metal finish remains consistent across posts, lattice members, brackets, bolts and braced bases. No major material bleed or invented labels.",
+            "issues": [
+              {
+                "part": "metal finish",
+                "problem": "Slightly darker/more mottled posts and cooler reflective bases than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "67cbfac3-bc17-4a52-a178-fd442c052bdb",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.98,
+        "summary": "Gantry retains two tall round posts, braced base plates, complete top/bottom truss rails and diagonal/vertical web members with open spaces. Five views show no missing thin members or filled central opening.",
+        "issues": [
+          {
+            "part": "connections",
+            "problem": "Minor softened bolt/flange details relative to the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790245876.3793592,
+  "notes": [
+    "shape: Gantry retains two tall round posts, braced base plates, complete top/bottom truss rails and diagonal/vertical web members with open spaces. Five views show no missing thin members or filled central opening.",
+    "texture_source: Silver metal finish remains consistent across posts, lattice members, brackets, bolts and braced bases. No major material bleed or invented labels.",
+    "final_compare: Reduced gantry retains both posts, complete truss lattice/openings, base bracing and metal finish. Five-view source comparison shows no lost members or major bake distortion. Fresh FBX/GLB pass at 13,917 triangles."
+  ],
+  "reason": ""
+}

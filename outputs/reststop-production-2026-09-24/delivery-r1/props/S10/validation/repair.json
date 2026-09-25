@@ -1,0 +1,23 @@
+{
+  "source_blend": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\S10-r1\\source\\low1\\model.blend",
+  "method": "Bake only high-source opacity to the canonical low UV atlas; combine it with unchanged BaseColor RGB and retain the existing low geometry/PBR channels",
+  "source_alpha_values": [
+    1.0,
+    0.2800000011920929
+  ],
+  "opacity_map": "textures/Opacity.png",
+  "texture_size": 2048,
+  "linked_source_alpha_ranges": [
+    {
+      "material": "S10_Clear_PET",
+      "range": [
+        0.0,
+        0.2800000011920929
+      ]
+    }
+  ],
+  "geometry_and_uvs_unchanged": true,
+  "extra_ai_requests": 0,
+  "extra_reduction_attempts": 0,
+  "material_note": "Use alpha blending with BaseColor alpha. The cap and label remain opaque; exposed PET is nonmetallic and translucent. Verify both formats on contrasting backgrounds."
+}

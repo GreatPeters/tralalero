@@ -1,4 +1,4 @@
-"""Preserve reviewed P01/S02 opacity through the canonical low UV atlas."""
+"""Preserve reviewed P01/S02/S10 opacity through the canonical low UV atlas."""
 import argparse
 from array import array
 import json
@@ -13,7 +13,7 @@ from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
-parser.add_argument('--asset', choices=('P01','S02'), default='P01')
+parser.add_argument('--asset', choices=('P01','S02','S10'), default='P01')
 parser.add_argument('--source-blend', required=True)
 parser.add_argument('--output', required=True)
 args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
@@ -44,6 +44,7 @@ target.image = opacity
 material.node_tree.nodes.active = target
 temporary = []
 alpha_values = []
+linked_alpha_ranges = []
 try:
     for high_material in high.data.materials:
         if high_material is None:
@@ -55,6 +56,23 @@ try:
         alpha = high_shader.inputs['Alpha']
         if alpha.is_linked:
             high_material.node_tree.links.new(alpha.links[0].from_socket, emission.inputs['Color'])
+            if args.asset == 'S10':
+                # Fresh GLB import represents the inspected .28 factor as
+                # texture Alpha multiplied by the factor, not a socket default.
+                node = alpha.links[0].from_node
+                assert node.type == 'MATH' and node.operation == 'MULTIPLY'
+                assert node.inputs[0].is_linked and not node.inputs[1].is_linked
+                link = node.inputs[0].links[0]
+                assert link.from_node.type == 'TEX_IMAGE' and link.from_socket.name == 'Alpha'
+                factor = float(node.inputs[1].default_value)
+                assert abs(factor - .28) < 1e-5
+                pixels = array('f', [0.]) * len(link.from_node.image.pixels)
+                link.from_node.image.pixels.foreach_get(pixels)
+                values = pixels[3::4]
+                alpha_range = [min(values) * factor, max(values) * factor]
+                assert 0 <= alpha_range[0] <= alpha_range[1] <= .3
+                linked_alpha_ranges.append({'material': high_material.name, 'range': alpha_range})
+                alpha_values.append(alpha_range[1])
         else:
             value = float(alpha.default_value)
             alpha_values.append(value)
@@ -128,9 +146,11 @@ shutil.copy2(source.parent / 'trellis_source.glb', output / 'trellis_source.glb'
 (output / 'repair.json').write_text(json.dumps({'source_blend': str(source),
     'method': 'Bake only high-source opacity to the canonical low UV atlas; combine it with unchanged BaseColor RGB and retain the existing low geometry/PBR channels',
     'source_alpha_values': alpha_values, 'opacity_map': 'textures/Opacity.png', 'texture_size': 2048,
+    'linked_source_alpha_ranges': linked_alpha_ranges,
     'geometry_and_uvs_unchanged': True, 'extra_ai_requests': 0, 'extra_reduction_attempts': 0,
-    'material_note': ('Use alpha blending with BaseColor alpha. The center reinforcement/rim/grip remain opaque in the map.'
-                      if args.asset=='P01' else 'Use alpha blending with BaseColor alpha. The frame, base and both shelves must remain opaque; recheck visibility after fresh GLB/FBX import.')}, indent=2), encoding='utf8')
+    'material_note': {'P01': 'Use alpha blending with BaseColor alpha. The center reinforcement/rim/grip remain opaque in the map.',
+                     'S02': 'Use alpha blending with BaseColor alpha. The frame, base and both shelves must remain opaque; recheck visibility after fresh GLB/FBX import.',
+                     'S10': 'Use alpha blending with BaseColor alpha. The cap and label remain opaque; exposed PET is nonmetallic and translucent. Verify both formats on contrasting backgrounds.'}[args.asset]}, indent=2), encoding='utf8')
 script = ROOT / 'tools/reststop-production-review-render.py'
 sys.argv = [str(script), '--', str(output)]
 runpy.run_path(str(script), run_name='__main__')

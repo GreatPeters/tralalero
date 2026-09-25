@@ -1,0 +1,157 @@
+{
+  "version": 2,
+  "image_hash": "29c8106804f798949e5e37dd31f05afc1fad95a6d8dc37a3e78b122ac6709276",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T01_1a445fd58b\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "d15c80b7-dbd2-40c6-beb5-627b91e7eaf9",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.96,
+        "summary": "Actual multiview sheet and full hero retain the front divider panel, two posts and feet, but the opposite face invents multiple horizontal rails and nine hook-like protrusions, turning the clean partition into a rack. These are substantial added construction rather than minor surface detail.",
+        "issues": [
+          {
+            "part": "rear partition face",
+            "problem": "Remove the invented hanging hooks and extra horizontal rack structure; retain the simple framed panel and two supported posts from the reference.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T01_1a445fd58b\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "3ad12be8-f30c-4249-ac3a-d0260a8d034f",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.95,
+        "summary": "Actual multiview sheet and hero show the m1 rack rails removed, but m2 still adds two conspicuous rectangular fixtures across the rear panel and an isolated protrusion on the front. The reference is a clean framed wood divider, so the added surface hardware remains a construction mismatch.",
+        "issues": [
+          {
+            "part": "front and rear infill panel",
+            "problem": "Remove the isolated central front nub and two large rear fixtures; retain the clean panel, perimeter frame, posts and feet.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T01_1a445fd58b\\stages\\m3",
+      "seed": 221803,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T01_1a445fd58b\\stages\\m3_t1",
+          "seed": 221803,
+          "state": "generated",
+          "lows": [],
+          "prompt_id": "3c3554e3-d94f-4fb6-ab8c-3d86a2d37b80",
+          "review": {
+            "verdict": "texture",
+            "confidence": 0.97,
+            "summary": "Actual multiview sheet and hero show appropriate wood and dark metal on the front, but the opposite infill face is painted as alternating dark vertical bars and narrow wood strips instead of a continuous wood panel. The accepted shape remains continuous; this is a surface interpretation defect.",
+            "issues": [
+              {
+                "part": "rear wood infill",
+                "problem": "Unwanted broad dark bands make the solid divider look like a barred/slatted panel. Keep the infill coherently wood while retaining the separate dark perimeter frame.",
+                "kind": "texture",
+                "severity": "major"
+              }
+            ]
+          }
+        },
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T01_1a445fd58b\\stages\\m3_t2",
+          "seed": 221804,
+          "state": "generated",
+          "lows": [],
+          "prompt_id": "83ada9db-caae-4029-9a4e-db5ccce66afd",
+          "review": {
+            "verdict": "texture",
+            "confidence": 0.98,
+            "summary": "Actual multiview sheet and hero retain the correct front wood and metal frame, but the second texture changes the entire rear panel into silver/dark vertical metal striping. This still contradicts the solid wood infill and is a material defect, not missing geometry.",
+            "issues": [
+              {
+                "part": "rear infill material",
+                "problem": "Rear surface is rendered as corrugated metal bars rather than continuous wood. Preserve the front wood and perimeter metal while correcting only the rear infill.",
+                "kind": "texture",
+                "severity": "major"
+              }
+            ]
+          }
+        },
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T01_1a445fd58b\\stages\\m3_t3",
+          "seed": 221805,
+          "state": "generated",
+          "lows": [],
+          "prompt_id": "a66aa2a0-04c6-4798-91a4-8db95c9ecf96",
+          "review": {
+            "verdict": "texture",
+            "confidence": 0.98,
+            "summary": "Actual multiview sheet and hero show the third material still paints the rear infill as alternating pale/wood strips rather than a continuous wood panel. Retain the accepted third shape and all bounded attempts; local rear-material correction is required after the generation batch.",
+            "issues": [
+              {
+                "part": "rear wood panel",
+                "problem": "Persistent invented stripe/bar pattern remains across the entire rear panel. Preserve correct front wood and frame, and locally correct rear mapping without further AI texture attempts.",
+                "kind": "texture",
+                "severity": "major"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "0464485c-148a-4c09-8e11-83b2ffd2b1a2",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Actual multiview sheet and hero show the third candidate retains a clean divider panel, perimeter frame, two posts, feet and upper mounting tabs. The added racks/hooks/large rear fixtures from m1 and m2 are absent.",
+        "issues": [
+          {
+            "part": "rear panel and fasteners",
+            "problem": "Light vertical rear grooves and small fastener/top-tab differences remain; verify that the wood/metal material preserves a coherent plain divider.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790284669.2815204,
+  "notes": [
+    "shape: Actual multiview sheet and full hero retain the front divider panel, two posts and feet, but the opposite face invents multiple horizontal rails and nine hook-like protrusions, turning the clean partition into a rack. These are substantial added construction rather than minor surface detail.",
+    "shape: Actual multiview sheet and hero show the m1 rack rails removed, but m2 still adds two conspicuous rectangular fixtures across the rear panel and an isolated protrusion on the front. The reference is a clean framed wood divider, so the added surface hardware remains a construction mismatch.",
+    "shape: Actual multiview sheet and hero show the third candidate retains a clean divider panel, perimeter frame, two posts, feet and upper mounting tabs. The added racks/hooks/large rear fixtures from m1 and m2 are absent.",
+    "texture_source: Actual multiview sheet and hero show appropriate wood and dark metal on the front, but the opposite infill face is painted as alternating dark vertical bars and narrow wood strips instead of a continuous wood panel. The accepted shape remains continuous; this is a surface interpretation defect.",
+    "texture_source: Actual multiview sheet and hero retain the correct front wood and metal frame, but the second texture changes the entire rear panel into silver/dark vertical metal striping. This still contradicts the solid wood infill and is a material defect, not missing geometry.",
+    "texture_source: Actual multiview sheet and hero show the third material still paints the rear infill as alternating pale/wood strips rather than a continuous wood panel. Retain the accepted third shape and all bounded attempts; local rear-material correction is required after the generation batch."
+  ],
+  "reason": "텍스처 시도 한도(3회) 또는 선택한 메시의 텍스처 한도에 도달했습니다. 추가 메시·텍스처 생성 없이 검토 대상으로 남깁니다."
+}

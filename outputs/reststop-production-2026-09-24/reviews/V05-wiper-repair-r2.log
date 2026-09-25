@@ -1,0 +1,30 @@
+{"pid": 48068, "started": 1790307514.7144022, "script": "C:\\Users\\ljh\\tralalero Shooter\\tools\\repair-reststop-truck-wipers.py", "threads": 4, "logicalProcessors": [0, 1, 2, 3, 4, 5, 6, 7], "priority": "below-normal", "availableMemoryBytes": 33455079424}
+12:38:34 | INFO: Data are loaded, start creating Blender stuff
+12:38:34 | INFO: Blender create Mesh node geometry_0
+12:38:34 | INFO: glTF import finished in 0.09s
+INFO Draco is available, use library at C:\Users\ljh\AppData\Local\Programs\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Users\ljh\AppData\Local\Programs\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+12:38:36 | INFO: Starting glTF 2.0 export
+12:38:36 | INFO: Extracting primitive: geometry_0
+12:38:36 | INFO: Primitives created: 1
+12:38:36 | INFO: Finished glTF 2.0 export in 0.20144867897033691 s
+
+Info: Saved as "model.blend"
+12:38:36 | INFO: Data are loaded, start creating Blender stuff
+12:38:36 | INFO: Blender create Mesh node geometry_0
+12:38:36 | INFO: glTF import finished in 0.19s
+C:\Users\ljh\tralalero Shooter\tools\reststop-production-review-render.py:12: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  mat=bpy.data.materials.new('Pre-texture geometry');mat.use_nodes=True;mat.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value=(.35,.35,.35,1)
+C:\Users\ljh\tralalero Shooter\tools\reststop-production-review-render.py:30: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  world=bpy.data.worlds.new('Review studio');world.use_nodes=True;world.node_tree.nodes['Background'].inputs['Strength'].default_value=.6;scene.world=world
+00:06.375  render           | Saved: 'C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\manual\V05-r2\source\quality\hero.png'
+00:10.063  render           | Saved: 'C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\manual\V05-r2\source\quality\top.png'
+00:13.844  render           | Saved: 'C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\manual\V05-r2\source\quality\opposite.png'
+00:17.282  render           | Saved: 'C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\manual\V05-r2\source\quality\front.png'
+C:\Users\ljh\tralalero Shooter\tools\reststop-production-review-render.py:44: DeprecationWarning: 'Material.use_nodes' is expected to be removed in Blender 6.0
+  m=bpy.data.materials.new('Geometry only');m.use_nodes=True;p=m.node_tree.nodes.get('Principled BSDF');p.inputs['Base Color'].default_value=(.35,.35,.35,1);p.inputs['Roughness'].default_value=.75;scene.view_layers[0].material_override=m
+00:21.063  render           | Saved: 'C:\Users\ljh\tralalero Shooter\outputs\reststop-production-2026-09-24\manual\V05-r2\source\quality\neutral.png'
+{"folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\V05-r2\\source", "triangles": 219453}
+Blender 5.2.1 LTS (hash 9e2066aef7ef built 2026-08-25 02:38:20)
+
+Blender quit

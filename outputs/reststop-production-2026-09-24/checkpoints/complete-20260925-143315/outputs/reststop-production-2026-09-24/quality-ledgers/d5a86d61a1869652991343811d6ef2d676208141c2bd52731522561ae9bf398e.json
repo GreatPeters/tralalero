@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "d5a86d61a1869652991343811d6ef2d676208141c2bd52731522561ae9bf398e",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F02_9fd230bc06\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F02_9fd230bc06\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F02_9fd230bc06\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.95,
+                "summary": "The 14251-triangle planter retains the open cavity, thick rim, wall divisions and straight overall silhouette. Finished stone PBR remains close to the accepted source across all views without new broad visible dents; fresh FBX and GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "walls and rim",
+                    "problem": "Pronounced neutral-only normal variation and modest corner rounding after reduction; the baked PBR normal channel compensates the visible wall shading in the actual material views.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "52baa6d6-ebdb-472a-9357-b8409bae709b",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Pale speckled stone exterior, darker recessed interior, mitered rim and panel joints remain distinct and consistently covered across all views. No plants, labels or background texture were introduced.",
+            "issues": [
+              {
+                "part": "stone grain",
+                "problem": "Some larger dark speckles and small warm stains are stronger than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "5592975d-87fe-4e48-9a54-a87c02a2a517",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.98,
+        "summary": "Long rectangular stone planter retains its open recessed cavity, thick mitered rim, straight outer walls and panel joints. Front/back/top views show a complete container without unwanted contents or background slabs.",
+        "issues": [
+          {
+            "part": "wall joints",
+            "problem": "Panel divisions are fewer and less evenly spaced than the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790219063.1493335,
+  "notes": [
+    "shape: Long rectangular stone planter retains its open recessed cavity, thick mitered rim, straight outer walls and panel joints. Front/back/top views show a complete container without unwanted contents or background slabs.",
+    "texture_source: Pale speckled stone exterior, darker recessed interior, mitered rim and panel joints remain distinct and consistently covered across all views. No plants, labels or background texture were introduced.",
+    "final_compare: The 14251-triangle planter retains the open cavity, thick rim, wall divisions and straight overall silhouette. Finished stone PBR remains close to the accepted source across all views without new broad visible dents; fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

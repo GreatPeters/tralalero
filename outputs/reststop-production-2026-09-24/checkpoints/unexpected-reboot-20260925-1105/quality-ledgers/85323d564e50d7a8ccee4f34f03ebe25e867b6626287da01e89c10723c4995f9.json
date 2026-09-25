@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "85323d564e50d7a8ccee4f34f03ebe25e867b6626287da01e89c10723c4995f9",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R04_af3f43f3fb\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R04_af3f43f3fb\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R04_af3f43f3fb\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "Reduced guardrail retains profiled beam, posts, open lower space, base fasteners, end wraps and distinct reflector. Five-view source comparison preserves PBR appearance; fresh FBX/GLB pass at 14,079 triangles.",
+                "issues": [
+                  {
+                    "part": "small hardware and finish",
+                    "problem": "Minor bolt/end-edge softening, mottled cool metal and orange reflector inherited from the source.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "ab0a5f47-abe0-4f46-b70d-56f73fd2a2cf",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Galvanized metal finish is coherent across beam, end wraps, posts, bolts and bases; central reflector remains distinct with no major material bleed.",
+            "issues": [
+              {
+                "part": "metal and reflector",
+                "problem": "More mottled/cool metal and a more orange reflector than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "ac5df71a-795e-4497-b259-d15fa314ed10",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Guardrail retains its long profiled beam, two posts, open lower span, base plates, bolt details and central reflector mount. Five views show coherent connected construction.",
+        "issues": [
+          {
+            "part": "beam ends and bolts",
+            "problem": "Softer/thicker rolled ends and simplified fastener profiles than the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790244158.3031132,
+  "notes": [
+    "shape: Guardrail retains its long profiled beam, two posts, open lower span, base plates, bolt details and central reflector mount. Five views show coherent connected construction.",
+    "texture_source: Galvanized metal finish is coherent across beam, end wraps, posts, bolts and bases; central reflector remains distinct with no major material bleed.",
+    "final_compare: Reduced guardrail retains profiled beam, posts, open lower space, base fasteners, end wraps and distinct reflector. Five-view source comparison preserves PBR appearance; fresh FBX/GLB pass at 14,079 triangles."
+  ],
+  "reason": ""
+}

@@ -1,0 +1,156 @@
+{
+  "version": 2,
+  "image_hash": "e6b5ecf6591e4351d1efb00cf00ed75b64bc5e69bb246a365fed8871ed76b90d",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T06_9469647183\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "58fe27bc-c3fe-4b6c-b532-76a649dd2c3f",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.97,
+        "summary": "Actual multiview sheet, hero and full top view retain the vanity cabinet and recessed basin, but the basin floor contains two extra holes flanking the central drain. The reference has one central drain and a separate rear countertop faucet opening.",
+        "issues": [
+          {
+            "part": "basin floor",
+            "problem": "Remove the two invented side holes while retaining the central drain, recessed basin walls and rear faucet mounting location.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T06_9469647183\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "e049912d-654d-437b-917f-4cda7dbee369",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.97,
+        "summary": "Actual multiview sheet and full hero show the basin's extra floor holes removed in m2, but the rear cabinet contains large crumpled slab fragments and a twisted central structure rather than a coherent service back. Broad side seams are also irregular. Preserve the correct front cabinet and recessed basin.",
+        "issues": [
+          {
+            "part": "rear cabinet structure",
+            "problem": "Large torn/crumpled regions and tangled protrusions make the rear construction unusable. Retain a coherent cabinet/service back without these fragments.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T06_9469647183\\stages\\m3",
+      "seed": 221803,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T06_9469647183\\stages\\m3_t1",
+          "seed": 221803,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T06_9469647183\\stages\\m3_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "mesh",
+                "confidence": 0.96,
+                "summary": "Actual final/source sheet and full hero show new triangular/shadow dents along the lower stone sides and cabinet base after reduction. They are strong in the neutral view and remain visible in the final PBR, unlike the smoother accepted high source. Keep the generated shape/material and retry Blender-only refinement.",
+                "issues": [
+                  {
+                    "part": "lower stone panels and cabinet base",
+                    "problem": "New localized triangular depressions/dark dents appear after reduction and are not present at the same severity in the source. Preserve broad planar surface shading and the existing basin/doors.",
+                    "kind": "mesh",
+                    "severity": "major"
+                  }
+                ]
+              }
+            },
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T06_9469647183\\stages\\m3_t1\\low2",
+              "state": "generated",
+              "profile": "preserve_details",
+              "review": {
+                "verdict": "mesh",
+                "confidence": 0.97,
+                "summary": "Actual final/source sheet and full hero show the second reduction still adds triangular lower-panel shading dents visible in the PBR, with stronger neutral-surface distortions than the source. Preserve both canonical passes and use a local surface-normal correction; do not regenerate the accepted high shape or material.",
+                "issues": [
+                  {
+                    "part": "lower stone sides and cabinet base",
+                    "problem": "Persistent new triangular dents/dark patches remain after both reduction profiles. A local planar-surface correction is required while retaining geometry, UVs and accepted material regions.",
+                    "kind": "mesh",
+                    "severity": "major"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "0b499d2a-c3f5-417f-b2b1-62a942b5065a",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.96,
+            "summary": "Actual multiview sheet and hero preserve the pale stone countertop/sides, two wood cabinet doors, recessed basin and distinct metal drain. The rear is a coherent plain stone enclosure, with no earlier torn structure or extra holes inside the basin.",
+            "issues": [
+              {
+                "part": "countertop finish",
+                "problem": "Stone veining is somewhat stronger than the reference and a small extra dark mark appears beside the faucet mounting socket; these remain minor surface differences outside the basin.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "149e127c-f3cb-4e6c-b045-40617fbf0d67",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Actual multiview sheet and full hero show a coherent vanity with two front doors, supported countertop, recessed rectangular basin, central drain and one rear faucet mounting mark. The extra bowl holes and torn rear construction from earlier attempts are absent.",
+        "issues": [
+          {
+            "part": "cabinet seams and faucet mount",
+            "problem": "The cabinet's upper/lower gaps are slightly wider and the mounting depression is shallow; these minor differences do not remove the basin or main assembly.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790292521.2906713,
+  "notes": [
+    "shape: Actual multiview sheet, hero and full top view retain the vanity cabinet and recessed basin, but the basin floor contains two extra holes flanking the central drain. The reference has one central drain and a separate rear countertop faucet opening.",
+    "shape: Actual multiview sheet and full hero show the basin's extra floor holes removed in m2, but the rear cabinet contains large crumpled slab fragments and a twisted central structure rather than a coherent service back. Broad side seams are also irregular. Preserve the correct front cabinet and recessed basin.",
+    "shape: Actual multiview sheet and full hero show a coherent vanity with two front doors, supported countertop, recessed rectangular basin, central drain and one rear faucet mounting mark. The extra bowl holes and torn rear construction from earlier attempts are absent.",
+    "texture_source: Actual multiview sheet and hero preserve the pale stone countertop/sides, two wood cabinet doors, recessed basin and distinct metal drain. The rear is a coherent plain stone enclosure, with no earlier torn structure or extra holes inside the basin.",
+    "final_compare: Actual final/source sheet and full hero show new triangular/shadow dents along the lower stone sides and cabinet base after reduction. They are strong in the neutral view and remain visible in the final PBR, unlike the smoother accepted high source. Keep the generated shape/material and retry Blender-only refinement.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "final_compare: Actual final/source sheet and full hero show the second reduction still adds triangular lower-panel shading dents visible in the PBR, with stronger neutral-surface distortions than the source. Preserve both canonical passes and use a local surface-normal correction; do not regenerate the accepted high shape or material.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다."
+  ],
+  "reason": "고밀도 원본은 통과했지만 Blender 두 방식에서도 결함이 남았습니다. 직접 수정이 필요합니다."
+}

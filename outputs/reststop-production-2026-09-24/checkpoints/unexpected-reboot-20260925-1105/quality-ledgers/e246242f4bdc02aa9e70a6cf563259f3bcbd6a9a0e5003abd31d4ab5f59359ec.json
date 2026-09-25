@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "e246242f4bdc02aa9e70a6cf563259f3bcbd6a9a0e5003abd31d4ab5f59359ec",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E01_5491cdf6e5\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E01_5491cdf6e5\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\E01_5491cdf6e5\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.96,
+                "summary": "The 13109-triangle cleaner retains its circular silhouette, sensor apertures, panel divisions, dark bumper and indicators. Finished PBR remains close to the accepted high-detail source across the review views; fresh FBX/GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "rim and sensor",
+                    "problem": "Small edge softening and neutral-only faceting after reduction, with the source dome unevenness retained.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "c2f77432-f67f-4150-93c3-65a3f1379a61",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.96,
+            "summary": "Teal body, dark rubber bumper and sensor dome, panel seams, screws and control indicators remain distinct across all rendered views. Color boundaries are clean with no large texture smears or invented text.",
+            "issues": [
+              {
+                "part": "body finish",
+                "problem": "Paler teal and slightly uneven sensor-dome finish compared with the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "a1c7f951-0045-4b52-b77b-aae789b17f25",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Circular low-profile cleaner body, offset sensor dome with apertures, bumper band, top access panels and small underside wheel elements are retained. Oblique, top and low frontal views show a complete disk without background geometry.",
+        "issues": [
+          {
+            "part": "lower bumper",
+            "problem": "Small source-stage edge chips and irregularities along the bumper are visible.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790211561.3019319,
+  "notes": [
+    "shape: Circular low-profile cleaner body, offset sensor dome with apertures, bumper band, top access panels and small underside wheel elements are retained. Oblique, top and low frontal views show a complete disk without background geometry.",
+    "texture_source: Teal body, dark rubber bumper and sensor dome, panel seams, screws and control indicators remain distinct across all rendered views. Color boundaries are clean with no large texture smears or invented text.",
+    "final_compare: The 13109-triangle cleaner retains its circular silhouette, sensor apertures, panel divisions, dark bumper and indicators. Finished PBR remains close to the accepted high-detail source across the review views; fresh FBX/GLB checks pass."
+  ],
+  "reason": ""
+}

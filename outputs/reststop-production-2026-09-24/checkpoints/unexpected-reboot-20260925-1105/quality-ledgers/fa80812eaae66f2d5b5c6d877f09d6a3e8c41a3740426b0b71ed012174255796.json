@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "fa80812eaae66f2d5b5c6d877f09d6a3e8c41a3740426b0b71ed012174255796",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T07_229d974534\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T07_229d974534\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T07_229d974534\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "Actual final/source sheet and full hero preserve the faucet lever gap, curved spout/outlet collar, cylindrical stem and base with coherent reflective metal. Fresh FBX/GLB verification passes at 14,575 triangles. No major component loss or visible material regression.",
+                "issues": [
+                  {
+                    "part": "neck seam and base",
+                    "problem": "The existing neck seam and fine lever lines remain; neutral low shading has slight base/edge undulations that are largely compensated in the final metal appearance.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "30a13111-10cf-4bdd-92df-95c93c9ff400",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.96,
+            "summary": "Actual multiview sheet and full hero retain a coherent polished metal faucet, lever clearance, spout collar and base. No major material spill or lost component. Warm reflected tones vary from the reference but still read as metal.",
+            "issues": [
+              {
+                "part": "lever top and neck",
+                "problem": "Thin source surface lines and small neck irregularities remain visible under reflective shading; verify reduction does not amplify them or add dents.",
+                "kind": "mesh",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "d4175d17-4898-4f66-9b42-723123df094f",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Actual multiview sheet and full hero retain the cylindrical body/base, separate upper lever, clearance above the curved spout and the outlet collar. All main components remain connected and the reference silhouette is recognizable.",
+        "issues": [
+          {
+            "part": "lever edge and neck seam",
+            "problem": "Small edge nicks and a slightly uneven lever-to-body seam remain; inspect their chrome appearance and reduced output.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790293529.240909,
+  "notes": [
+    "shape: Actual multiview sheet and full hero retain the cylindrical body/base, separate upper lever, clearance above the curved spout and the outlet collar. All main components remain connected and the reference silhouette is recognizable.",
+    "texture_source: Actual multiview sheet and full hero retain a coherent polished metal faucet, lever clearance, spout collar and base. No major material spill or lost component. Warm reflected tones vary from the reference but still read as metal.",
+    "final_compare: Actual final/source sheet and full hero preserve the faucet lever gap, curved spout/outlet collar, cylindrical stem and base with coherent reflective metal. Fresh FBX/GLB verification passes at 14,575 triangles. No major component loss or visible material regression."
+  ],
+  "reason": ""
+}

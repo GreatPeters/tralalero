@@ -1,0 +1,16 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "summary": "Five actual GLB views and full-resolution front/back comparisons inspected. Local source-color classification removes the large light cabinet-color streaks from the black lower hoses while retaining smooth canonical cabinet geometry and the original non-hose materials. Saturated colors are excluded and the region ends below the source-derived green-nozzle height. Fresh FBX/GLB checks pass at 13893 triangles; both exports retain the clear upper opening in independent ray sections.",
+  "issues": [
+    {
+      "part": "hose edges and small controls",
+      "problem": "Some small edge/shading differences and simplified coupler/control detail remain; repaired rubber is more uniform than the source.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ],
+  "technical_validation": "validation.json",
+  "semantic_validation": "opening-validation.json",
+  "source_of_truth": "model.glb"
+}

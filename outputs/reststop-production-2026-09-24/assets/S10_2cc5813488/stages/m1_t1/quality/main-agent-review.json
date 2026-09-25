@@ -1,0 +1,13 @@
+{
+  "verdict": "texture",
+  "confidence": 0.98,
+  "summary": "Actual five views and full hero preserve blue cap and cream/blue label, but exposed PET shoulder and lower ribs read as dark chrome with strong metallic patches, unlike the clear water bottle reference. GLB material also explicitly uses OPAQUE. Keep the accepted shape; this is a material defect.",
+  "issues": [
+    {
+      "part": "exposed PET shoulder and lower bottle",
+      "problem": "Dark metallic/chrome appearance and opaque export do not preserve clear plastic. Cap and label must remain opaque while exposed bottle body needs nonmetallic transparent material.",
+      "kind": "texture",
+      "severity": "major"
+    }
+  ]
+}

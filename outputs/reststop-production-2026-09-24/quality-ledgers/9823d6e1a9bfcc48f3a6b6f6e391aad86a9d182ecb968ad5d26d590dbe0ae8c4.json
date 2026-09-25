@@ -1,0 +1,135 @@
+{
+  "version": 2,
+  "image_hash": "9823d6e1a9bfcc48f3a6b6f6e391aad86a9d182ecb968ad5d26d590dbe0ae8c4",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T05_c24368c04b\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "da368ad9-0f13-4a0b-b7b7-90f503ac2cb5",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.98,
+        "summary": "Actual standard views and cached decoded-stage views both show large torn/complex relief across the rear face of the divider. The reference requires a simple solid privacy panel with two mounting brackets. Cache exports verified zero additional AI sampling and show this defect was already present before postprocessing.",
+        "issues": [
+          {
+            "part": "rear privacy panel",
+            "problem": "Large invented cavities and protruding fragments replace the clean rear panel. Preserve the outline, rounded corners and two mounting brackets while producing a coherent solid panel.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T05_c24368c04b\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "f1c8677f-d1ad-472c-9558-4a7c8c13140f",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.95,
+        "summary": "Actual multiview sheet and hero show the large torn rear relief removed in m2, but a conspicuous central handle-like strip remains on the rear privacy panel. The intended asset is a plain divider supported by two edge brackets, not an additional handled panel.",
+        "issues": [
+          {
+            "part": "rear panel centre",
+            "problem": "Remove the invented central handle/strip and retain a clean rear face with the required two edge mounting brackets.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T05_c24368c04b\\stages\\m3",
+      "seed": 221803,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T05_c24368c04b\\stages\\m3_t1",
+          "seed": 221803,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T05_c24368c04b\\stages\\m3_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "Actual final/source sheet and full hero retain clean front/rear panel surfaces, rounded corners, dark edging and both metallic mounting brackets. Fresh FBX/GLB verification passes at 14,825 triangles; no major regression or extra rear fixture appears.",
+                "issues": [
+                  {
+                    "part": "lower edge and bracket detail",
+                    "problem": "Minor neutral-shading edge undulations and softened screw detail remain subtle in the final material; the overall divider construction is preserved.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "89270bdc-89dd-442e-992d-50fcaef8a1c1",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Actual multiview sheet and full hero show consistent pale panel surfaces, a dark perimeter edge and metallic mounting brackets on both faces. No return of the earlier torn rear structure or invented handle.",
+            "issues": [
+              {
+                "part": "panel finish and brackets",
+                "problem": "A faint patterned texture and slightly heavier brackets differ from the reference but preserve the intended clean divider appearance.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "15b31ef2-e04a-4b40-9feb-3adfe41fca21",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Actual multiview sheet and full hero show a clean solid privacy panel with rounded outer corners and exactly two edge mounting brackets. The torn rear relief and central handle from earlier shapes are absent.",
+        "issues": [
+          {
+            "part": "mounting brackets",
+            "problem": "Bracket plates and fastener relief are slightly thicker than the reference, while the mounting relationship and panel silhouette remain coherent.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790289130.088321,
+  "notes": [
+    "shape: Actual standard views and cached decoded-stage views both show large torn/complex relief across the rear face of the divider. The reference requires a simple solid privacy panel with two mounting brackets. Cache exports verified zero additional AI sampling and show this defect was already present before postprocessing.",
+    "shape: Actual multiview sheet and hero show the large torn rear relief removed in m2, but a conspicuous central handle-like strip remains on the rear privacy panel. The intended asset is a plain divider supported by two edge brackets, not an additional handled panel.",
+    "shape: Actual multiview sheet and full hero show a clean solid privacy panel with rounded outer corners and exactly two edge mounting brackets. The torn rear relief and central handle from earlier shapes are absent.",
+    "texture_source: Actual multiview sheet and full hero show consistent pale panel surfaces, a dark perimeter edge and metallic mounting brackets on both faces. No return of the earlier torn rear structure or invented handle.",
+    "final_compare: Actual final/source sheet and full hero retain clean front/rear panel surfaces, rounded corners, dark edging and both metallic mounting brackets. Fresh FBX/GLB verification passes at 14,825 triangles; no major regression or extra rear fixture appears."
+  ],
+  "reason": ""
+}

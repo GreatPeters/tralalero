@@ -1,0 +1,22 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.96,
+  "stage": "texture_source",
+  "reviewer": "main-agent",
+  "summary": "White/cream ceramic, lid/seat, flush button and open bowl are retained; fresh cavity check passes. Actual glossy material makes lower exterior bowl faceting conspicuous, also visible in neutral. Correct only the local smooth normal field before canonical baking, preserving geometry/UV/material maps and the retained cavity.",
+  "issues": [
+    {
+      "part": "outer bowl surface",
+      "problem": "Conspicuous faceted shading across rounded lower ceramic shell.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/opposite.png"
+  ],
+  "technical_evidence": [
+    "opening-validation.json"
+  ]
+}

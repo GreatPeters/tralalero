@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "c9f6b50cfc5053bdc1bbc93fbabe03a56c028d9901b8a0b158943e18767d61ef",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T03_f64d904f28\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "9364f5a7-90c2-48ef-a79e-6b20d857eb39",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.98,
+        "summary": "Actual multiview sheet and full hero retain the tank, raised lid, seat outline and pedestal, but the seat opening is filled by an almost flat oval surface. The reference clearly shows a recessed open bowl with interior walls; this primary negative space is missing.",
+        "issues": [
+          {
+            "part": "seat opening and bowl interior",
+            "problem": "Restore a visibly recessed bowl cavity below the open seat instead of the solid flat insert; keep the tank, raised lid and outer body.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T03_f64d904f28\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "27e31526-b1bb-4d88-a619-3b42322d06da",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.98,
+        "summary": "Actual multiview sheet and full hero show the second output still fills the seat opening with a shallow solid oval. The tank, raised lid and outer body are usable, but the reference's recessed bowl interior remains absent.",
+        "issues": [
+          {
+            "part": "bowl cavity",
+            "problem": "The open seat must reveal a recessed internal bowl rather than the current flat cap-like surface. Preserve the otherwise coherent outer toilet geometry.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T03_f64d904f28\\stages\\m3",
+      "seed": 221803,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "43749074-00a1-4d98-8a3c-4da325140e94",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.98,
+        "summary": "Actual multiview sheet and hero show the third standard export still caps the seat opening with a shallow flat surface. All three bounded shape attempts are retained. Cached decoded/first-fill/reconstruction models were exported with verified cache reuse for later diagnosis; no extra AI shape was generated and the exact closure stage remains unproven.",
+        "issues": [
+          {
+            "part": "bowl interior",
+            "problem": "A recessed open bowl is still missing. Investigate the retained intermediates and recover/correct this region without additional neural shape attempts.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790286750.9660413,
+  "notes": [
+    "shape: Actual multiview sheet and full hero retain the tank, raised lid, seat outline and pedestal, but the seat opening is filled by an almost flat oval surface. The reference clearly shows a recessed open bowl with interior walls; this primary negative space is missing.",
+    "shape: Actual multiview sheet and full hero show the second output still fills the seat opening with a shallow solid oval. The tank, raised lid and outer body are usable, but the reference's recessed bowl interior remains absent.",
+    "shape: Actual multiview sheet and hero show the third standard export still caps the seat opening with a shallow flat surface. All three bounded shape attempts are retained. Cached decoded/first-fill/reconstruction models were exported with verified cache reuse for later diagnosis; no extra AI shape was generated and the exact closure stage remains unproven."
+  ],
+  "reason": "메시 3회 시도에서 형상 결함이 남았습니다. 추가 텍스처 생성 없이 검토 대상으로 남깁니다."
+}

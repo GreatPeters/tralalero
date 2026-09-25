@@ -1,0 +1,115 @@
+{
+  "version": 2,
+  "image_hash": "d1ff1f026171710fc67e9b4888d558bc3b8750c81f54e83a66178904477af36b",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T09_f4be794a6e\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T09_f4be794a6e\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [],
+          "prompt_id": "82cf4551-6d54-4cc2-9b90-1e1ad1744d17",
+          "review": {
+            "verdict": "mesh",
+            "confidence": 0.98,
+            "summary": "Full front material and untextured views reveal that the central pictogram lacks the reference's flared skirt silhouette and instead reads as a second trousered figure. The frame and wheelchair icon are usable, but the central symbol's geometry is incorrect, not merely low contrast.",
+            "issues": [
+              {
+                "part": "central pictogram",
+                "problem": "Restore the reference's distinct flared skirt-shaped symbol so the first two icons are visually differentiated as supplied. Preserve the framed sign and accessible symbol.",
+                "kind": "mesh",
+                "severity": "major"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "fd0feb42-92a4-4ccc-a207-543bb74bda85",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Actual multiview sheet and hero retain the framed rectangular sign, three distinct male/female/wheelchair pictograms and connected mounting structure. Main sign geometry is intact; pictogram contrast/readability is judged at the material stage.",
+        "issues": [
+          {
+            "part": "mounting structure and icon relief",
+            "problem": "Rear rails/additional side mounting tabs differ from the visible two-tab reference, and icon relief is slightly softened; these are minor construction/detail differences.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T09_f4be794a6e\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "a03e87c9-96f9-44bc-bbcc-fcad2fff6a9c",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.98,
+        "summary": "Actual multiview sheet and full front shape view show m2 still lacks the reference's flared central skirt silhouette; the two standing symbols remain too similar and their lower-body separation is softened. Preserve the otherwise coherent frame and wheelchair symbol.",
+        "issues": [
+          {
+            "part": "central standing pictogram",
+            "problem": "Restore the distinct flared skirt outline shown in the reference rather than another narrow trousered silhouette.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T09_f4be794a6e\\stages\\m3",
+      "seed": 221803,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "4a298e1f-7a0b-4a8a-97c0-303007140cda",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.98,
+        "summary": "Actual multiview and full front shape view show m3 still lacks the required flared central skirt symbol and additionally softens/fuses upper icon details. All three bounded shape attempts are retained. Use the earlier textured candidate as a local pictogram-correction source rather than generating another neural shape.",
+        "issues": [
+          {
+            "part": "central pictogram",
+            "problem": "The reference skirt silhouette is not reproduced; the two standing icons remain insufficiently differentiated. A targeted local symbol correction is required.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790297295.249333,
+  "notes": [
+    "shape: Actual multiview sheet and hero retain the framed rectangular sign, three distinct male/female/wheelchair pictograms and connected mounting structure. Main sign geometry is intact; pictogram contrast/readability is judged at the material stage.",
+    "texture_source: Full front material and untextured views reveal that the central pictogram lacks the reference's flared skirt silhouette and instead reads as a second trousered figure. The frame and wheelchair icon are usable, but the central symbol's geometry is incorrect, not merely low contrast.",
+    "shape: Actual multiview sheet and full front shape view show m2 still lacks the reference's flared central skirt silhouette; the two standing symbols remain too similar and their lower-body separation is softened. Preserve the otherwise coherent frame and wheelchair symbol.",
+    "shape: Actual multiview and full front shape view show m3 still lacks the required flared central skirt symbol and additionally softens/fuses upper icon details. All three bounded shape attempts are retained. Use the earlier textured candidate as a local pictogram-correction source rather than generating another neural shape."
+  ],
+  "reason": "메시 3회 시도에서 형상 결함이 남았습니다. 추가 텍스처 생성 없이 검토 대상으로 남깁니다."
+}

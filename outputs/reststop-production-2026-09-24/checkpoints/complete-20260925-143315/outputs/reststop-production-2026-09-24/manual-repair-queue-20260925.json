@@ -1,0 +1,266 @@
+{
+  "scope": "Complete: all 90 selected models and 8 rigs / 72 clips verified and packaged",
+  "items": [
+    {
+      "id": "S10",
+      "state": "complete",
+      "category": "selective nonmetallic transparency",
+      "evidence": "assets/S10_2cc5813488/stages/m1_t2/quality/review-contact.png",
+      "reason": "Two inspected textures retained opaque metallic PET regions; preserve cap and label while correcting exposed bottle material after generation batch.",
+      "preferred_source": "assets/S10_2cc5813488/stages/m1_t2/model.glb",
+      "generation_counts": {
+        "meshes": 1,
+        "textures": 3,
+        "blender_runs": 0
+      },
+      "repair_plan": {
+        "extra_ai_requests": 0,
+        "approach": "Keep inspected m1_t2 shape and cap/label RGB; derive clear PET regions from actual model bounds and surface colours; locally remove metallic response and set selective opacity. Review corrected high source before using the bounded manual reduction. Preserve source opacity in the final atlas and verify fresh GLB/FBX on coloured backgrounds.",
+        "existing_tools": [
+          "refine-reststop-corrected-texture.py",
+          "bake-reststop-shield-opacity.py",
+          "verify-reststop-shield-opacity.py"
+        ],
+        "tool_changes": "Opacity tools currently restrict asset IDs to earlier cases; extend only after inspecting S10 material layout.",
+        "status": "Completed; see selected folder visual-review.json and validation.json"
+      },
+      "material_profile": {
+        "report": "reviews/S10-material-height-profile-r1.json",
+        "source_sha256": "b2ea0a77c4fb0d688dd7ea334113d1e5da57c127121926b8c245c394532d026f",
+        "height_axis_gltf": "Y",
+        "height_axis_blender": "Z after standard glTF import; verify actual bounds",
+        "observed_regions": "Label colours dominate normalized heights about 0.38..0.62; cap blue about 0.90..1.0; boundary rings need precise visual fitting.",
+        "candidate_material_mask": "Preserve original opaque label approximately 0.37..0.625 and cap >=0.887; apply selective nonmetallic alpha only outside these ranges after boundary inspection. These thresholds are provisional, not a visual pass."
+      },
+      "selected": {
+        "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\S10-r3",
+        "status": "done",
+        "triangles": 13697,
+        "manual_repair": true,
+        "review": "visual-review.json"
+      },
+      "next": "No further production required; use selected folder or delivery-r1"
+    },
+    {
+      "id": "T01",
+      "state": "complete",
+      "category": "rear panel material projection",
+      "preferred_source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T01_1a445fd58b\\stages\\m3_t1\\model.glb",
+      "evidence": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T01_1a445fd58b\\stages\\m3_t3\\quality\\review-contact.png",
+      "generation_counts": {
+        "meshes": 3,
+        "textures": 3,
+        "blender_runs": 0
+      },
+      "reason": "Third shape removes unwanted rear hardware, but all three materials paint the rear infill as alternating bars instead of wood.",
+      "repair_plan": {
+        "extra_ai_requests": 0,
+        "approach": "Retain the clean m3 geometry and front wood/frame. Inspect actual bounds, front/back normals and material samples, then transfer the front wood mapping to the rear infill only. Preserve perimeter metal and geometry. Review corrected high source before bounded manual reduction; inspect final/source views and fresh FBX/GLB.",
+        "status": "Completed; see selected folder visual-review.json and validation.json"
+      },
+      "material_profile": {
+        "report": "reviews/T01-material-plane-profile-r2.json",
+        "supersedes": "r1 height/width labels; original evidence retained",
+        "source_sha256": "359bb1f282f487c0203837d3235f11cfdb6f3398f02678caea6b2409a5035aa0",
+        "note": "GLB Y is vertical even though X is the longest extent; negative-Z face is the coherent front wood. Translate axes explicitly when importing into Blender."
+      },
+      "selected": {
+        "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\T01-r2\\source\\low1",
+        "status": "done",
+        "triangles": 14791,
+        "manual_repair": true,
+        "review": "visual-review.json"
+      },
+      "next": "No further production required; use selected folder or delivery-r1"
+    },
+    {
+      "id": "T03",
+      "state": "complete",
+      "category": "bowl cavity recovery",
+      "best_standard_source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T03_f64d904f28\\stages\\m2\\model.glb",
+      "cached_stages": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\reviews\\T03-m3-r1-cached-stages",
+      "generation_counts": {
+        "meshes": 3,
+        "textures": 0,
+        "blender_runs": 0
+      },
+      "reason": "All three standard exports cap the bowl opening. Cached decoded, first-fill and reconstruction GLBs were saved with histories proving no additional AI generation. Exact failure stage is not yet determined.",
+      "repair_plan": {
+        "extra_ai_shape_requests": 0,
+        "approach": "Recover the retained stage161 mesh before the downstream closure; inspect/clean topology and preserve the actual existing cavity within the saved intermediate budget. Review source shape before remaining-budget texturing and bounded final reduction. Do not remodel an already recovered cavity unless verification shows it is necessary.",
+        "requires_texture_generation": true,
+        "status": "planned; no recovered source accepted yet",
+        "first_local_steps": "Inspect/weld coincident untextured vertices and clean invalid faces/edges, establish smooth surface normals, then reduce a copy to the saved 300000-face intermediate ceiling while retaining the existing cavity. Verify depth and actual views before accepting or considering stronger reconstruction."
+      },
+      "preferred_source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\reviews\\T03-m3-r1-cached-stages\\stage161\\model.glb",
+      "observed_diagnosis": {
+        "raw_stage217": "Actual five-view sheet and hero show an open bowl with recessed interior walls. The later standard m3 export caps this region.",
+        "evidence": "reviews/T03-m3-r1-cached-stages/stage217/quality/review-contact.png",
+        "remaining_checks": "Source topology, surface smoothing and measured bowl-depth preservation through local intermediate cleanup, texturing and final exports.",
+        "extra_ai_generations_for_diagnosis": 0,
+        "stages193_and161": "Actual five-view sheets also retain the recessed bowl. Closure occurs after stage161 and before the standard final export; the exact node inside that interval has not been isolated."
+      },
+      "depth_verification": {
+        "script": "tools/verify-reststop-toilet-cavity.py",
+        "reference_profile": "reviews/T03-m3-r1-cached-stages/stage161-depth.json",
+        "regression_proof": "reviews/T03-cavity-regression-r1",
+        "open_source_passed": true,
+        "capped_export_rejected": true,
+        "region": "Lower-Y bowl, along fractions 0.15..0.45; cross fractions 0.35,0.5,0.65",
+        "maximum_median_depth_drift_in_asset_heights": 0.03,
+        "final_check": "Run on fresh GLB and FBX and retain opening-validation.json plus both opening-depth profiles. Visual review remains required."
+      },
+      "raw_metrics": {
+        "report": "reviews/T03-stage161-metrics-r1.json",
+        "blender_version": "5.2.1 LTS",
+        "triangles": 5516602,
+        "degenerate_faces": 8,
+        "zero_length_edges": 2,
+        "boundary_edges": 80924,
+        "non_manifold_edges_including_boundaries": 81105,
+        "note": "Untextured high source, not an accepted deliverable. Clean invalid faces/edges, inspect smooth shading/topology and preserve the measured cavity during intermediate reduction.",
+        "gltf_attributes": "POSITION only in cached 217/193/161 exports; no NORMAL or TEXCOORD attributes"
+      },
+      "reviewed_source": "manual/T03-r6/shape",
+      "next": "No further production required; use selected folder or delivery-r1",
+      "canonical_reductions_consumed": 2,
+      "accepted_high_source": "manual/T03-r3/source",
+      "unsigned_volume": "manual/T03-volume-r4",
+      "selected": {
+        "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\T03-r6\\final",
+        "status": "done",
+        "triangles": 14750,
+        "manual_repair": true,
+        "review": "visual-review.json"
+      }
+    },
+    {
+      "id": "T06",
+      "state": "complete",
+      "category": "rigid planar normal correction",
+      "preferred_source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T06_9469647183\\stages\\m3_t1\\low2\\model.glb",
+      "accepted_high_source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T06_9469647183\\stages\\m3_t1\\model.glb",
+      "evidence": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T06_9469647183\\stages\\m3_t1\\low2\\quality\\review-contact.png",
+      "generation_counts": {
+        "meshes": 3,
+        "textures": 1,
+        "blender_runs": 2
+      },
+      "triangles": 14679,
+      "reason": "Both canonical reductions introduced lower-panel triangular shading dents visible in the final PBR; high source is smoother.",
+      "repair_plan": {
+        "extra_ai_requests": 0,
+        "extra_canonical_reduction_attempts": 0,
+        "approach": "Retain low2 geometry, UVs, colour and other PBR maps. Inspect broad rigid panels and repair their normals/stale baked-normal interaction, retaining curved drain and basin details. Use actual source/final multiview comparison and fresh FBX/GLB checks.",
+        "status": "Completed; see selected folder visual-review.json and validation.json"
+      },
+      "selected": {
+        "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\T06-r7",
+        "status": "done",
+        "triangles": 14679,
+        "manual_repair": true,
+        "review": "visual-review.json"
+      },
+      "next": "No further production required; use selected folder or delivery-r1"
+    },
+    {
+      "id": "T09",
+      "state": "complete",
+      "category": "reference pictogram silhouette correction",
+      "preferred_source": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T09_f4be794a6e\\stages\\m1_t1\\model.glb",
+      "evidence": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\T09_f4be794a6e\\stages\\m3\\quality\\front.png",
+      "generation_counts": {
+        "meshes": 3,
+        "textures": 1,
+        "blender_runs": 0
+      },
+      "reason": "All shape attempts lose the distinct flared central skirt icon; m1_t1 retains usable frame/paper/black materials and the other symbols.",
+      "repair_plan": {
+        "extra_ai_shape_requests": 0,
+        "approach": "Reuse the existing textured frame/panel and correct only the central embossed pictogram to the reference skirt outline. Preserve the other symbols and material regions; prefer no additional AI texturing. Inspect actual full front readability and fresh exports before selection.",
+        "status": "Completed; see selected folder visual-review.json and validation.json"
+      },
+      "selected": {
+        "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\T09-r1\\source\\low2",
+        "status": "done",
+        "triangles": 14731,
+        "manual_repair": true,
+        "review": "visual-review.json"
+      },
+      "next": "No further production required; use selected folder or delivery-r1"
+    },
+    {
+      "id": "V04",
+      "state": "complete",
+      "interruption_receipt": "reviews/V04-interrupted-shape-20260925-1105.json",
+      "original_shape_attempts": 1,
+      "remaining_shape_attempts": 1,
+      "helper": "tools/retry-reststop-interrupted-shape.py",
+      "next": "No further production required; use selected folder or delivery-r1",
+      "reviewed_source": "manual/V04-r1/shape2",
+      "manual_texture_attempts_consumed": 1,
+      "selected": {
+        "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\V04-r1\\texture2\\low1",
+        "status": "done",
+        "triangles": 14331,
+        "manual_repair": true,
+        "recovered_interruption": true,
+        "review": "visual-review.json"
+      }
+    },
+    {
+      "id": "V05",
+      "state": "complete",
+      "original_shape_attempts": 3,
+      "original_texture_attempts": 0,
+      "preferred_source": "assets/V05_c9399962dc/stages/m2/model.glb",
+      "reason": "m1 and m2 torn wiper ribbon geometry; m3 large windshield hole. Preserve all original attempts, use m2 local repair with no extra AI shape requests. Remaining texture budget is 3 shared attempts.",
+      "diagnostic": "reviews/V05-m2-front-profile-r1.json",
+      "reviewed_source": "manual/V05-r4/source",
+      "next": "No further production required; use selected folder or delivery-r1",
+      "selected": {
+        "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\V05-r4\\texture1\\low1",
+        "status": "done",
+        "triangles": 14332,
+        "manual_repair": true,
+        "review": "visual-review.json"
+      }
+    },
+    {
+      "id": "V06",
+      "state": "complete",
+      "original_shape_attempts": 3,
+      "original_texture_attempts": 0,
+      "reviewed_source": "manual/V06-r4/source",
+      "source_triangles": 215697,
+      "validation": [
+        "intermediate-validation.json",
+        "axle-validation.json"
+      ],
+      "next": "No further production required; use selected folder or delivery-r1",
+      "selected": {
+        "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\manual\\V06-r4\\texture1\\low1",
+        "status": "done",
+        "triangles": 13846,
+        "manual_repair": true,
+        "review": "visual-review.json"
+      }
+    }
+  ],
+  "gpu_repair_gate_plan": "Complete: all GPU requests finished; actual V06 m3 rejection published; original runner and task-owned backend stopped. Gallery stays up.",
+  "held_gate": {
+    "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V06_bd6306f277\\stages\\m3",
+    "result": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\V06_bd6306f277\\stages\\m3\\quality\\main-agent-review.json",
+    "stage": "shape",
+    "eventual_verdict": "mesh",
+    "reason": "m3 has two axles, reference requires three; missing rear pair",
+    "release_only_after": "All manual GPU requests finished and queue empty",
+    "released": true,
+    "final_original_verdict": "mesh"
+  },
+  "delivery": {
+    "receipt": "delivery-r1-receipt.json",
+    "verification": "delivery-r1-verification.json",
+    "runtime": "completion-runtime.json"
+  }
+}

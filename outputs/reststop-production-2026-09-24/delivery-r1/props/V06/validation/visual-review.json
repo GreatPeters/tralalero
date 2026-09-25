@@ -1,0 +1,24 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "stage": "final_compare",
+  "reviewer": "main-agent",
+  "summary": "Five-view final/source comparison and full opposite confirm the coach body, HVAC, dark glazing, lamps, mirrors and all six wheel positions remain. Fresh FBX/GLB tests pass at 13846 triangles; independent side-ray checks show all three axles in both formats near the measured .23/.697/.817 positions. Neutral override reveals low-poly body/wheel faceting, but actual blue PBR remains coherent without broad new damage. Lighter paint and small trim irregularities are retained minor notes.",
+  "issues": [
+    {
+      "part": "body and wheel shading",
+      "problem": "Low-poly faceting is strongest in neutral override; minor trim/arch irregularity and lighter blue paint remain.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/opposite.png"
+  ],
+  "technical_evidence": [
+    "validation.json",
+    "axle-validation.json",
+    "geometry-normalization-proof.json"
+  ]
+}

@@ -29,15 +29,23 @@ for face,key in zip(a.faces,map(tuple,source_keys)):
     if remaining.get(key,0):
         p=mapped[face];areas.append(float(np.linalg.norm(np.cross(p[1]-p[0],p[2]-p[0]))*.5));remaining[key]-=1
 diagonal=float(np.linalg.norm(newhi-newlo));max_distance=float(distances.max())
+source_points=a.vertices[a.faces]
+source_areas=np.linalg.norm(np.cross(source_points[:,1]-source_points[:,0],source_points[:,2]-source_points[:,0]),axis=1)*.5
+surface_vertices=np.unique(a.faces[source_areas>0])
+assert len(surface_vertices)>0,'Source has no area-bearing surface'
+max_surface_distance=float(distances[surface_vertices].max())
 max_area=max(areas,default=0.)
 report={'source':str(source),'textured':str(textured),'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
         'textured_sha256':hashlib.sha256(textured.read_bytes()).hexdigest(),
         'source_triangles':len(a.faces),'textured_triangles':len(b.faces),'scale':scale,
         'all_source_vertices_checked':len(mapped),'max_normalized_vertex_distance':max_distance,
+        'area_bearing_source_vertices_checked':len(surface_vertices),'max_surface_vertex_distance':max_surface_distance,
+        'zero_area_or_unused_vertices_excluded_from_surface_gate':len(mapped)-len(surface_vertices),
         'missing_triangle_count':sum(missing.values()),'extra_triangle_count':sum(extra.values()),
         'missing_triangle_areas_normalized':areas,'max_missing_area':max_area,'missing_area_total':sum(areas),
         'diagonal':diagonal,'method':'Nearest exact target position IDs for every source vertex, then triangle multiset comparison after uniform normalization; no geometry or file edits'}
-report['ok']=max_distance<diagonal*1e-6 and not extra and max_area<diagonal**2*1e-10
+report['surface_gate_note']='Retain all-vertex diagnostics, but vertices referenced only by exactly zero-area faces or no faces cannot prove surface deformation. No positive-area face is excluded.'
+report['ok']=max_surface_distance<diagonal*1e-6 and not extra and max_area<diagonal**2*1e-10
 output.write_text(json.dumps(report,indent=2),encoding='utf8')
 print(json.dumps(report),flush=True)
 assert report['ok'],'Texture changed more than numerically collapsed faces; inspect before assembly'

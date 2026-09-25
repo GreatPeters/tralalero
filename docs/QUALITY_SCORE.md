@@ -1,5 +1,13 @@
 # Quality Score
 
+## Rest-stop production models installed in two scenes — 2026-09-25
+
+The selected 90 models are imported with 99 material regions and 72 moving, bound clips. Saved scene coverage is 90 types in RestStop and 83 in HighWay. Reopened scenes preserve the recorded enemy/collider/camera/bonus contracts and have no missing scripts/materials or duplicated enemy Animators. Native movement/contact probes and H03/H08 firing probes pass; 66 saved preferences are restored exactly. RestStop-filter tests pass20/26; six old UI/workbook assertions fail identically against the original scene values. HighwayRebuildContractTests pass3/3. Scene photos and runtime recordings are available, but no mobile device FPS/memory/build or complete level-clear acceptance is claimed. Report: `../map-concepts/reststop-scene-integration-2026-09-25/README.md`.
+
+## Independent rest-stop asset library — 2026-09-25
+
+All 90 selected static models pass actual multi-view review and fresh Blender FBX/GLB validation at no more than 15,000 triangles each. Eight character rigs retain 18 bones and nine clips each, with pose/video checks. The final 1,444-file package passes ZIP CRC, 377 JSON member parses and a complete 6,319,598,606-byte HTTP download with matching SHA-256. Gallery resources and 90 reference PNGs respond correctly; browser interaction was not tested because no browser connection was available. Minor source/LOD differences are recorded per asset, including approximate alpha transparency, simplified vehicle glazing and local topology rounding. Packaging preceded the separate Unity installation recorded above; the archive itself is still the independent library. Evidence: `../map-concepts/reststop-production-2026-09-24/COMPLETED-2026-09-25.md`.
+
 ## Earned three-chapter campaign and damage delivery — 2026-09-23
 
 Actual earned-currency progression clears Noryangjin/Highway/RestStop in30/19/7attempts at305.5/298.57/299.43seconds. All wallets reconcile and completion flags are true. The first chapter meets20–30attempts; later chapters inherit real growth. Endpoint gain per subsequent shop visit is10.026/14.209/18.717seconds, so chapter3is faster than the10–15-second target. A visit may buy several upgrades; individual purchases and random bonuses do not guarantee fixed time gains. Same-seed checks are recorded separately. No human win-rate or new device-performance claim.

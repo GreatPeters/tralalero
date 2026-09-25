@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "d6c7798a4dec51724cccd376e4e43a74d4b5f866b47d434fc965f3ad2f2741dd",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S12_b90342a678\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S12_b90342a678\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S12_b90342a678\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "The actual final/source sheet and full hero preserve the oval bread silhouette, raised crust split, exposed crumb and flour colouring. No new visible crack, missing lobe or material loss after reduction. Fresh FBX/GLB validation passes at 13,283 triangles.",
+                "issues": [
+                  {
+                    "part": "fine crust relief",
+                    "problem": "Neutral view loses some fine source bump detail, while the baked material retains its visible bread texture; stronger-than-reference flour dusting remains a minor source difference.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "fd33ebb4-0544-43bc-b314-8162de44942d",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.96,
+            "summary": "Actual multiview sheet and hero show a warm baked crust, pale exposed crumb aligned with the long split and a coherent oval roll. No large colour misplacement or missing textured surface.",
+            "issues": [
+              {
+                "part": "flour and crust",
+                "problem": "Flour dusting is stronger and broader than the reference; slightly coarser split texture remains, without obscuring the bread form.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "a7df8e47-4bc3-41bd-9e59-6176329a231c",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.95,
+        "summary": "Actual five-view sheet and hero preserve one oval bread roll, a domed crust, flattened resting base and a long raised split exposing uneven crumb. No disconnected parts or large background remnant. Judge crust/crumb colour in the material stage.",
+        "issues": [
+          {
+            "part": "crust split and side",
+            "problem": "The split has coarser deeper pockets than the reference and a faint side crease; check whether final material keeps these readable as bread texture.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790279037.0620632,
+  "notes": [
+    "shape: Actual five-view sheet and hero preserve one oval bread roll, a domed crust, flattened resting base and a long raised split exposing uneven crumb. No disconnected parts or large background remnant. Judge crust/crumb colour in the material stage.",
+    "texture_source: Actual multiview sheet and hero show a warm baked crust, pale exposed crumb aligned with the long split and a coherent oval roll. No large colour misplacement or missing textured surface.",
+    "final_compare: The actual final/source sheet and full hero preserve the oval bread silhouette, raised crust split, exposed crumb and flour colouring. No new visible crack, missing lobe or material loss after reduction. Fresh FBX/GLB validation passes at 13,283 triangles."
+  ],
+  "reason": ""
+}

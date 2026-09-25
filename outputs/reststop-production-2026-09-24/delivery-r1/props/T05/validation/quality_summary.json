@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "counts": {
+    "meshes": 3,
+    "textures": 1,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 1
+  },
+  "notes": [
+    "shape: Actual standard views and cached decoded-stage views both show large torn/complex relief across the rear face of the divider. The reference requires a simple solid privacy panel with two mounting brackets. Cache exports verified zero additional AI sampling and show this defect was already present before postprocessing.",
+    "shape: Actual multiview sheet and hero show the large torn rear relief removed in m2, but a conspicuous central handle-like strip remains on the rear privacy panel. The intended asset is a plain divider supported by two edge brackets, not an additional handled panel.",
+    "shape: Actual multiview sheet and full hero show a clean solid privacy panel with rounded outer corners and exactly two edge mounting brackets. The torn rear relief and central handle from earlier shapes are absent.",
+    "texture_source: Actual multiview sheet and full hero show consistent pale panel surfaces, a dark perimeter edge and metallic mounting brackets on both faces. No return of the earlier torn rear structure or invented handle.",
+    "final_compare: Actual final/source sheet and full hero retain clean front/rear panel surfaces, rounded corners, dark edging and both metallic mounting brackets. Fresh FBX/GLB verification passes at 14,825 triangles; no major regression or extra rear fixture appears."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\9823d6e1a9bfcc48f3a6b6f6e391aad86a9d182ecb968ad5d26d590dbe0ae8c4.json",
+  "policy": "stage_gates_v2"
+}

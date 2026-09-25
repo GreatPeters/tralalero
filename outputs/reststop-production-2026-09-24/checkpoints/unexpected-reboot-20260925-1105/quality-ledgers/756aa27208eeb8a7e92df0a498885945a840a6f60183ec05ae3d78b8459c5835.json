@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "image_hash": "756aa27208eeb8a7e92df0a498885945a840a6f60183ec05ae3d78b8459c5835",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H08_bac192c350\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H08_bac192c350\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\H08_bac192c350\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.96,
+                "summary": "13,032-triangle reduction preserves cap/emblem, face, armored vest, black gloves and boots. Front/rear-oblique/neutral views compared against source stage; fresh FBX/GLB imports pass.",
+                "issues": [
+                  {
+                    "part": "pouch and hair details",
+                    "problem": "Source-stage simplified pouch layout and inferred rear hair remain.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "b01c8708-6790-4791-a479-2a5dce9b5bc2",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Front and oblique views preserve navy cap/armor/trousers, pale-blue shirt, gold badge/buttons, brown hair, black gloves and boots. Face placement and material boundaries remain clean.",
+            "issues": []
+          }
+        }
+      ],
+      "prompt_id": "9bd3d0a5-673b-419c-8c38-6699027ffa6b",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Front and oblique clay views retain police cap/emblem, face, hair, armored vest/pouches, cargo trousers, separate gloves and boots. Body is suitable for skinning; carried equipment is intentionally separate.",
+        "issues": [
+          {
+            "part": "rear hair and vest pockets",
+            "problem": "Unseen rear hair is inferred as paired bunches and small pouch arrangement is simplified.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790194514.1151652,
+  "notes": [
+    "shape: Front and oblique clay views retain police cap/emblem, face, hair, armored vest/pouches, cargo trousers, separate gloves and boots. Body is suitable for skinning; carried equipment is intentionally separate.",
+    "texture_source: Front and oblique views preserve navy cap/armor/trousers, pale-blue shirt, gold badge/buttons, brown hair, black gloves and boots. Face placement and material boundaries remain clean.",
+    "final_compare: 13,032-triangle reduction preserves cap/emblem, face, armored vest, black gloves and boots. Front/rear-oblique/neutral views compared against source stage; fresh FBX/GLB imports pass."
+  ],
+  "reason": ""
+}

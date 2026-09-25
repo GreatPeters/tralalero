@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.99,
+  "summary": "Actual standard views and cached decoded-stage sheet both show a large missing section of the lower rectangular frame and surface damage. The reference requires a continuous closed mirror frame. Verified cache export used zero additional AI sampling; the break was already present in the decoded geometry.",
+  "issues": [
+    {
+      "part": "lower mirror frame",
+      "problem": "Restore the continuous lower frame and intact rectangular silhouette; remove the large missing segment and broken edge remnants.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

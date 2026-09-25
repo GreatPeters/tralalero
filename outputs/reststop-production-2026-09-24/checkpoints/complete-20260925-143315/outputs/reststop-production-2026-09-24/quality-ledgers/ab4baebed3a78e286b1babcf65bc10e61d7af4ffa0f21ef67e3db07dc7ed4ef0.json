@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "ab4baebed3a78e286b1babcf65bc10e61d7af4ffa0f21ef67e3db07dc7ed4ef0",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P02_2862eb934b\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P02_2862eb934b\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P02_2862eb934b\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.98,
+                "summary": "The 14309-triangle game baton prop preserves the long rounded shaft, grip rings, guard and end cap. Finished black material and silhouette remain close to the source across all views. Fresh FBX and GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "grip rings",
+                    "problem": "Minor ring-edge softening after reduction.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "cdc15aa9-c693-40d1-94fb-9c3bff6c7554",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.98,
+            "summary": "Dark shaft, ribbed grip, guard and rounded ends are consistently covered without unwanted labels or material bleeding. The black finish and grip highlights remain close to the reference.",
+            "issues": [
+              {
+                "part": "finish",
+                "problem": "Slightly cooler blue-black highlights than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "f8a374be-93d6-48e9-8e2c-11c2e5fcda86",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.98,
+        "summary": "The game baton prop retains its long rounded shaft, ribbed grip, guard ring and flared end cap. Top and side views show the full length without missing sections; the hero view is naturally foreshortened.",
+        "issues": [
+          {
+            "part": "grip rings",
+            "problem": "Small ring profiles are softer and less regular than the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790236459.423676,
+  "notes": [
+    "shape: The game baton prop retains its long rounded shaft, ribbed grip, guard ring and flared end cap. Top and side views show the full length without missing sections; the hero view is naturally foreshortened.",
+    "texture_source: Dark shaft, ribbed grip, guard and rounded ends are consistently covered without unwanted labels or material bleeding. The black finish and grip highlights remain close to the reference.",
+    "final_compare: The 14309-triangle game baton prop preserves the long rounded shaft, grip rings, guard and end cap. Finished black material and silhouette remain close to the source across all views. Fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

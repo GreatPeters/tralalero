@@ -1,0 +1,126 @@
+{
+  "version": 2,
+  "image_hash": "b12fd568526a3c6f2cfc784e8aa117efe69a17179231f2bb3260331ded960c3b",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B12_04cca75d6c\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B12_04cca75d6c\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B12_04cca75d6c\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "mesh",
+                "confidence": 0.97,
+                "summary": "The underside board pattern and frame are retained, but the opposite/front view shows new scalloped dark dents across the long fascia that were absent in the accepted source. Try the second bounded Blender reduction; no new AI shape or texture is needed.",
+                "issues": [
+                  {
+                    "part": "long outer fascia",
+                    "problem": "New repeated dent-like shading and edge scalloping on the finished PBR side face.",
+                    "kind": "mesh",
+                    "severity": "major"
+                  }
+                ]
+              }
+            },
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\B12_04cca75d6c\\stages\\m1_t1\\low2",
+              "state": "generated",
+              "profile": "preserve_details",
+              "review": {
+                "verdict": "mesh",
+                "confidence": 0.98,
+                "summary": "The second bounded reduction retains the same new scalloped dents in the finished fascia. Preserve the accepted AI source and repair rigid-surface shading in a separate revision. Do not reset the generation/reduction budget.",
+                "issues": [
+                  {
+                    "part": "outer fascia",
+                    "problem": "Repeated dark triangular dents remain in the final PBR material, absent in the high-detail source.",
+                    "kind": "mesh",
+                    "severity": "major"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "a8f0b9f1-defa-4b83-85c0-909640537b96",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.94,
+            "summary": "Dedicated underside oblique and bottom-flat renders confirm clean continuous wood-board divisions, subtle grain and a warm timber perimeter matching the visible ceiling reference. Side supports remain distinct. The primary visible underside has no material smears or fake text.",
+            "issues": [
+              {
+                "part": "hidden upper face",
+                "problem": "Patch-shaped inferred relief is emphasized by dark texture on the concealed top; intended ceiling underside is clean.",
+                "kind": "texture",
+                "severity": "minor"
+              },
+              {
+                "part": "timber tone",
+                "problem": "Paler and lower-contrast timber than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "464ea902-0248-4c8d-842e-9010f1f2db02",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.93,
+        "summary": "Standard views plus dedicated lower oblique and bottom-flat renders inspected. The thin rectangular ceiling assembly, raised perimeter fascia, inset underside and upper support gap match the construction. Underside is intentionally evaluated from below. The reference plank divisions are shallow surface features; they must be present in the next material stage because the current clay field is largely smooth.",
+        "issues": [
+          {
+            "part": "underside field",
+            "problem": "Plank divisions are not resolved in clay geometry; verify recognizable wood-board divisions in the material stage.",
+            "kind": "texture",
+            "severity": "minor"
+          },
+          {
+            "part": "hidden upper face",
+            "problem": "Inferred shallow patch-like relief on the concealed upper side.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790210535.9917243,
+  "notes": [
+    "shape: Standard views plus dedicated lower oblique and bottom-flat renders inspected. The thin rectangular ceiling assembly, raised perimeter fascia, inset underside and upper support gap match the construction. Underside is intentionally evaluated from below. The reference plank divisions are shallow surface features; they must be present in the next material stage because the current clay field is largely smooth.",
+    "texture_source: Dedicated underside oblique and bottom-flat renders confirm clean continuous wood-board divisions, subtle grain and a warm timber perimeter matching the visible ceiling reference. Side supports remain distinct. The primary visible underside has no material smears or fake text.",
+    "final_compare: The underside board pattern and frame are retained, but the opposite/front view shows new scalloped dark dents across the long fascia that were absent in the accepted source. Try the second bounded Blender reduction; no new AI shape or texture is needed.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다.",
+    "final_compare: The second bounded reduction retains the same new scalloped dents in the finished fascia. Preserve the accepted AI source and repair rigid-surface shading in a separate revision. Do not reset the generation/reduction budget.",
+    "후처리 재시도: 고밀도 원본은 통과했으므로 TRELLIS를 다시 생성하지 않고 Blender 처리만 변경합니다."
+  ],
+  "reason": "고밀도 원본은 통과했지만 Blender 두 방식에서도 결함이 남았습니다. 직접 수정이 필요합니다."
+}

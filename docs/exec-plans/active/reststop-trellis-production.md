@@ -1,6 +1,6 @@
 # 휴게소 TRELLIS 소품·인물 제작
 
-상태: 사용자 요청으로 재부팅 전 일시 중지. 선택 모델 69/90종, 인물 8종/72동작 저장. S10 첫 형태 생성과 검토 이미지 저장 후 생성 프로세스 및 전용 8189 포트 종료를 확인했다. [체크포인트와 재개 절차](../../../map-concepts/reststop-production-2026-09-24/REBOOT-RESUME.md)를 따른다. 새 생성/재질 단계는 시작하지 않았으며 전체 제작 완료는 아니다.
+상태: **2026-09-25 완료** — 선택 모델 90/90종, 인물 8종/72동작. 남은 21종을 포함해 실제 시각 검토·새 FBX/GLB 검증과 최종 ZIP CRC/다운로드 검증을 마쳤다. 생성 실행기와 작업 전용 8189 백엔드는 종료했고 갤러리 8772는 유지한다. 최종 폴더는 `outputs/reststop-production-2026-09-24/delivery-r1`, ZIP은 `reststop-assets-r1.zip`이다. [완료 안내](../../../map-concepts/reststop-production-2026-09-24/COMPLETED-2026-09-25.md). 사용자 Git 업로드와 기존 Unity 씬은 변경하지 않았다.
 
 ## 범위와 실행 상태
 
@@ -9,7 +9,7 @@
 - [실행 기록](../../../map-concepts/reststop-production-2026-09-24/execution-log.md): 단계별 승인·거절과 보정 이력.
 - [진행 수치](../../../map-concepts/reststop-production-2026-09-24/progress.json) 및 [제작 갤러리](http://127.0.0.1:8772/): 현재 결과.
 - 실제 선택본은 출력 폴더의 자동화 상태와 `final-overrides.json`, 인물은 `accepted-rigs.json`으로 결정한다. 거절된 자동 후보와 재시도 원장은 보존한다.
-- F03·F04 자동 감량 중단과 R11 완료 상태 조회 오류 기록을 보존해 별도 복구한다. 재개 시 `--defer F03,F04,R11`가 필요하며, 현재 실제 실행 PID와 새 로그 경로는 `runner.json`과 작업 안내를 확인한다. 저장된 생성 설정은 유지했다.
+- F03·F04 자동 감량 중단, R11 완료 상태 조회 오류와 V04 재부팅 중단 기록은 보존했다. 마지막 실행 인자는 `--only V05,V06 --defer F03,F04,R11,V04 --resume`이었다. 실제 종료는 `completion-runtime.json`, 마지막 로그는 `runner-post-reboot-*.log`에서 확인한다. 저장된 생성 설정과 설치된 자동화 엔진은 유지했다. 추가 재개는 필요하지 않다.
 
 ## 별도 복구 현황
 
@@ -21,9 +21,9 @@
 
 ## 완료 조건
 
-- 90종의 선택 모델이 실제 다각도 렌더와 새 FBX·GLB 임포트 검증을 통과한다.
-- 인물 8종은 본·동작, 새 임포트 포즈 비교와 실제 미리보기 영상 검증을 통과한다.
-- `tools/package-reststop-production.py --check-only`가 전체 완료를 확인하고, 최종 ZIP의 CRC와 다운로드를 검증한다.
-- 갤러리와 관련 안내 문서를 전체 완료 상태로 갱신한다.
+- [x] 90종의 선택 모델이 실제 다각도 렌더와 새 FBX·GLB 임포트 검증을 통과했다.
+- [x] 인물 8종은 본·동작, 새 임포트 포즈 비교와 실제 미리보기 영상 검증을 통과했다.
+- [x] `tools/package-reststop-production.py --check-only`가 90종/8리그 완료를 확인했다. ZIP CRC와 전체 다운로드 SHA-256이 일치한다.
+- [x] 갤러리와 안내 문서를 전체 완료 상태로 갱신했다. 브라우저 연결 부재로 UI 조작 대신 HTTP 자원/다운로드를 검증했다.
 
 기존 Unity 씬과 Blender v4는 이 독립 에셋 제작 과정에서 변경하지 않는다. 차량 조립 크기 기준은 별도 JSON으로 함께 제공한다.

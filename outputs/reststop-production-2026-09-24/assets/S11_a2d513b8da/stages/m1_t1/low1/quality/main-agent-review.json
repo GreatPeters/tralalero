@@ -1,0 +1,13 @@
+{
+  "verdict": "pass",
+  "confidence": 0.97,
+  "summary": "Actual final/source contact sheet and full hero show preserved open cavity, continuous rim, rounded walls and brushed metal surface. No new visible reduction crack or major dent. Fresh FBX/GLB validation passes at 14,906 triangles with finite coordinates, UVs and no degenerate faces or loose vertices.",
+  "issues": [
+    {
+      "part": "rim and corners",
+      "problem": "Minor rim waviness and corner softening remain close to the source; FBX inspection reports seven nonmanifold edges while GLB reports zero, with no visible major surface break in these views.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ]
+}

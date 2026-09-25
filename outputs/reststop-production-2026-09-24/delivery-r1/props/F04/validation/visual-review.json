@@ -1,0 +1,16 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "summary": "Five actual GLB views compared against the approved high source. Original UV/PBR and corner normals preserve the branching tree, canopy openings, leaf color variation and root ball after cleanup-first reduction to 14872 triangles. Fresh FBX/GLB checks pass with no degenerate faces, unused vertices or non-manifold edges.",
+  "issues": [
+    {
+      "part": "fine foliage and roots",
+      "problem": "Small leaf tips and root-ball detail are more angular than the high source; overall canopy coverage and main branching remain intact.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ],
+  "technical_validation": "validation.json",
+  "source_of_truth": "model.glb",
+  "material_note": "Keep the original double-sided material. Normal.png is an unconnected flat placeholder; see texture-extraction.json."
+}

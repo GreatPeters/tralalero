@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "a2068a407b4924a6b5cb1144239ad00a8ec0de627fe5b52eb1a418ff9dac81f1",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F11_0686783877\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F11_0686783877\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F11_0686783877\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "The 14703-triangle grille preserves the repeated geometric grid, square frame, corner fasteners and lower housing. Grid openings remain readable in neutral and material views, with finished PBR close to the approved source. Fresh FBX and GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "grid corners and rim",
+                    "problem": "Minor aperture-corner and rim softening after reduction.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "3b6cfed4-5cdb-41ed-aa92-58d43ddfb4e9",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.98,
+            "summary": "Silver metal frame and grid, dark aperture interiors, four corner fasteners and darker lower housing remain clearly separated. The regular grille pattern reads cleanly across top and oblique views without unwanted writing or broad texture defects.",
+            "issues": [
+              {
+                "part": "metal finish",
+                "problem": "Brighter, cooler metal finish and slightly different fastener detail than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "0954e110-dd06-4261-90fe-ce2a83e77669",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Square grille frame, dense regular grid of visible apertures/recesses, four corner fasteners and lower housing match the reference. Top and oblique views confirm the grid is geometric relief rather than a blank plate.",
+        "issues": [
+          {
+            "part": "lower housing and apertures",
+            "problem": "Housing is somewhat deeper and some small aperture corners are less regular than the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790229677.8043761,
+  "notes": [
+    "shape: Square grille frame, dense regular grid of visible apertures/recesses, four corner fasteners and lower housing match the reference. Top and oblique views confirm the grid is geometric relief rather than a blank plate.",
+    "texture_source: Silver metal frame and grid, dark aperture interiors, four corner fasteners and darker lower housing remain clearly separated. The regular grille pattern reads cleanly across top and oblique views without unwanted writing or broad texture defects.",
+    "final_compare: The 14703-triangle grille preserves the repeated geometric grid, square frame, corner fasteners and lower housing. Grid openings remain readable in neutral and material views, with finished PBR close to the approved source. Fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

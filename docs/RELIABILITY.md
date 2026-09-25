@@ -1,5 +1,9 @@
 # Reliability
 
+## Rest-stop production import and scene preservation — 2026-09-25
+
+Keep FBX axis conversion below neutral Fit/Orientation parents; nonuniform scaling must use the axes in which bounds were measured. Preserve GLB material slots and intended alpha/normal connections. The installed scenes contain new visual children and replacement combat Bodies; old scene rebuilders can erase those changes. Validate saved instances and ranged ownership after reopening. Do not treat a scenery group's origin as its geometric center, or a successful outer Pipeline response as a successful script. Reproduction scripts, before-scene backups and known unchanged legacy test failures: `../map-concepts/reststop-scene-integration-2026-09-25/README.md`.
+
 ## Damage visibility and campaign calibration — 2026-09-23
 
 A new hit must not consume frame time that elapsed before it was received. Player damage notices skip their receipt frame and cap presentation decay during hitches; enemy popup saturation cannot replace the reserved player slot. Ordinary healing and HP bonuses cannot revive a committed death, and a zero-health finish callback cannot grant a clear. See `docs/solutions/ui-bugs/keep-player-damage-visible-through-hitches-and-recovery-2026-09-23.md`.
@@ -228,6 +232,7 @@ Open observation: after the final97-second gameplay run reset, two stackless Edi
 
 ## Verification
 
+- An unexpected Windows reboot can leave recently replaced JSON files filled with NUL bytes. A stale `status.json` is not evidence that TRELLIS is still running: check the actual worker, backend queue and machine boot time. Preserve corrupt bytes and intact ledgers before rebuilding display status. Confirm the exact old prompt history and output prefix before any bounded retry; consumed attempts remain consumed. The rest-stop 2026-09-25 interruption audit is recorded in its execution log and `checkpoints/unexpected-reboot-20260925-1105`.
 - TRELLIS/ComfyUI completion can race between separate history and queue reads. A missing queue entry is not proof that generation was lost. The task-owned rest-stop client rechecks the same history ID before preserving the halt; it never resubmits automatically in that recovery path. Preserve original attempt ledgers and verify exact completed-output provenance. See [completion polling recovery](solutions/integration-issues/recheck-comfy-history-before-replaying-lost-prompts-2026-09-24.md).
 - A ComfyUI interrupt response does not prove that a custom sampler stopped. Confirm its request is inactive before retrying; stop a backend process only after checking the exact task-owned worker/launcher and exclusive queue. Cancelled requests still consume their original attempt. DINO substeps and the rescaled-time CFG interval also change per-step cost, so early timing alone can understate a long texture request. See [glazed-prop partitioning and confirmed cancellation](solutions/workflow-issues/partition-glazed-trellis-props-without-resetting-attempts-2026-09-24.md).
 

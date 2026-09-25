@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "9125cb669eb59859386a948d30f0cf277e097d223568358a406299435d25aa9e",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\G04_6652477b6c\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\G04_6652477b6c\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\G04_6652477b6c\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "The 14330-triangle bollard retains the rounded cap, cylindrical body, full mounting plate, four fasteners and continuous black band. Finished PBR remains close to the approved source and fresh FBX/GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "base and lower seam",
+                    "problem": "Small edge softening and neutral-only lower-seam faceting after reduction.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "329447b9-10ba-433f-ae7e-06340290198d",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.98,
+            "summary": "Yellow painted shaft/base, continuous black lower band, metallic fasteners and restrained wear marks match the reference palette and remain cleanly separated. No unwanted labels or large texture blotches appear.",
+            "issues": [
+              {
+                "part": "paint finish",
+                "problem": "Paler yellow and stronger smooth cap highlights than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "bcec1add-5284-46b2-b793-50a06d4d71af",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.98,
+        "summary": "Cylindrical bollard with rounded cap, square mounting plate and four corner fasteners matches the reference construction. The shaft and base remain complete with no added ground slab.",
+        "issues": [
+          {
+            "part": "fasteners and shaft seam",
+            "problem": "Small fasteners are simplified and a shallow lower shaft seam is slightly uneven.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790234468.1958756,
+  "notes": [
+    "shape: Cylindrical bollard with rounded cap, square mounting plate and four corner fasteners matches the reference construction. The shaft and base remain complete with no added ground slab.",
+    "texture_source: Yellow painted shaft/base, continuous black lower band, metallic fasteners and restrained wear marks match the reference palette and remain cleanly separated. No unwanted labels or large texture blotches appear.",
+    "final_compare: The 14330-triangle bollard retains the rounded cap, cylindrical body, full mounting plate, four fasteners and continuous black band. Finished PBR remains close to the approved source and fresh FBX/GLB checks pass."
+  ],
+  "reason": ""
+}

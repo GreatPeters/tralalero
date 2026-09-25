@@ -1,0 +1,19 @@
+{
+  "verdict": "texture",
+  "confidence": 0.99,
+  "stage": "texture_source",
+  "reviewer": "main-agent",
+  "summary": "Original front wood is intact, but the remapped rear panel has dense dark speckles from UV projection across source atlas seams. Reject this correction. Retain geometry and use a continuous planar capture of the actual front material instead.",
+  "issues": [
+    {
+      "part": "rear wood panel",
+      "problem": "Dense scattered dark speckles absent from the reference and original good front.",
+      "kind": "texture",
+      "severity": "major"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/hero.png"
+  ]
+}

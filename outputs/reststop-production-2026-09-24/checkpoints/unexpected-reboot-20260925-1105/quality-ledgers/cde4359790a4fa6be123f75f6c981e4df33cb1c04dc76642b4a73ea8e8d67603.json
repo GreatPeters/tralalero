@@ -1,0 +1,114 @@
+{
+  "version": 2,
+  "image_hash": "cde4359790a4fa6be123f75f6c981e4df33cb1c04dc76642b4a73ea8e8d67603",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S15_5510cf5bdd\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S15_5510cf5bdd\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [],
+          "prompt_id": "128a0714-0195-42b6-a2b9-f6d5d7318cfc",
+          "review": {
+            "verdict": "texture",
+            "confidence": 0.94,
+            "summary": "Inspected actual sheet, hero and full opposite view. Red/cream body and metallic lid are present, but the far side carries a conspicuous vertical black/red contaminated strip across the otherwise plain cream region, plus a sharp wrap seam. This is not a shape defect.",
+            "issues": [
+              {
+                "part": "side paint wrap",
+                "problem": "Unwanted black/red vertical markings interrupt the clean unbranded two-colour reference. Remove the contamination while retaining the red/cream boundary and metallic lid.",
+                "kind": "texture",
+                "severity": "major"
+              }
+            ]
+          }
+        },
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S15_5510cf5bdd\\stages\\m1_t2",
+          "seed": 12346,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S15_5510cf5bdd\\stages\\m1_t2\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "Actual final/source sheet and full hero retain the can silhouette, red/cream wrap, metallic lid and pull tab after reduction. Fresh FBX/GLB validation passes at 14,471 triangles. No major missing rim, paint contamination or new crack is visible.",
+                "issues": [
+                  {
+                    "part": "lower body and fine surface",
+                    "problem": "Neutral low shading shows small lower-wall undulations; the actual material largely compensates them. A few tiny surface specks and softened tab relief remain minor.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "2714945b-d4c2-4ae5-90e6-ff74bdd961bd",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.97,
+            "summary": "Actual multiview sheet and full hero show a clean red/cream wrap and coherent metallic lid, tab and rims. The conspicuous black/red side contamination from t1 is absent. No major colour spill or new geometry defect.",
+            "issues": [
+              {
+                "part": "paint boundary and shoulder",
+                "problem": "The curved paint boundary differs slightly from the reference and shoulder highlights remain stronger; no major surface contamination is visible.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "55424a0b-69e5-4cb9-a18e-2ded5b8b7bed",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Actual multiview sheet, full hero and top view show the can cylinder, tapered shoulder, continuous upper/lower rims, recessed lid and raised pull tab/rivet. The reference silhouette and principal lid details are retained.",
+        "issues": [
+          {
+            "part": "pull tab and base seam",
+            "problem": "The finger-slot relief is shallower/softer than the reference and the lower seam is slightly uneven; inspect metal shading and reduction for further loss.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790282753.9155962,
+  "notes": [
+    "shape: Actual multiview sheet, full hero and top view show the can cylinder, tapered shoulder, continuous upper/lower rims, recessed lid and raised pull tab/rivet. The reference silhouette and principal lid details are retained.",
+    "texture_source: Inspected actual sheet, hero and full opposite view. Red/cream body and metallic lid are present, but the far side carries a conspicuous vertical black/red contaminated strip across the otherwise plain cream region, plus a sharp wrap seam. This is not a shape defect.",
+    "texture_source: Actual multiview sheet and full hero show a clean red/cream wrap and coherent metallic lid, tab and rims. The conspicuous black/red side contamination from t1 is absent. No major colour spill or new geometry defect.",
+    "final_compare: Actual final/source sheet and full hero retain the can silhouette, red/cream wrap, metallic lid and pull tab after reduction. Fresh FBX/GLB validation passes at 14,471 triangles. No major missing rim, paint contamination or new crack is visible."
+  ],
+  "reason": ""
+}

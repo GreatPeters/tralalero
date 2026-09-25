@@ -1,0 +1,22 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "stage": "texture_source",
+  "reviewer": "main-agent",
+  "summary": "All five views and full opposite inspected. Yellow cab/cargo panels, silver box trim, dark chassis/tires and red rear lights are coherent. Repaired windshield/wipers read as a continuous dark window with slim blades; no torn ribbons or open glass remain. Cargo sides are clean. Reference yellow is brighter and the glazing is darker/more stylized, retained as minor differences. Geometry normalization audit preserves the reviewed construction.",
+  "issues": [
+    {
+      "part": "paint and glazing",
+      "problem": "Yellow is slightly muted under studio lighting and glazing is darker/stylized versus reference.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/opposite.png"
+  ],
+  "technical_evidence": [
+    "geometry-normalization-proof.json"
+  ]
+}

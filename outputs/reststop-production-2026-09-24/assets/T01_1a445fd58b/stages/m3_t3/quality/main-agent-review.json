@@ -1,0 +1,13 @@
+{
+  "verdict": "texture",
+  "confidence": 0.98,
+  "summary": "Actual multiview sheet and hero show the third material still paints the rear infill as alternating pale/wood strips rather than a continuous wood panel. Retain the accepted third shape and all bounded attempts; local rear-material correction is required after the generation batch.",
+  "issues": [
+    {
+      "part": "rear wood panel",
+      "problem": "Persistent invented stripe/bar pattern remains across the entire rear panel. Preserve correct front wood and frame, and locally correct rear mapping without further AI texture attempts.",
+      "kind": "texture",
+      "severity": "major"
+    }
+  ]
+}

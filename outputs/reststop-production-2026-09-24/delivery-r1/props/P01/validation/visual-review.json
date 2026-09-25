@@ -1,0 +1,13 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "summary": "Five actual GLB views and high-source comparison retain curved shield, rim, reinforcement and grip. Fresh GLB/FBX colored-background renders verify transparent panes with opaque central band, rim and grip. Alpha correction preserves accepted low geometry/UV and RGB.",
+  "issues": [
+    {
+      "part": "pane and edge",
+      "problem": "Slightly frosted panes and minor generated edge/grip irregularities remain; GLB and FBX importer shading differs. Alpha blending is an approximation, not physical refraction.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ]
+}

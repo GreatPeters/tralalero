@@ -1,0 +1,26 @@
+{
+  "verdict": "pass",
+  "confidence": 0.96,
+  "stage": "final_compare",
+  "reviewer": "main-agent",
+  "summary": "Five-view high/low comparison, full hero and fresh GLB/FBX contrasting-background proofs inspected. Exposed PET remains translucent and nonmetallic; cap and cream/blue label remain opaque and readable. Low silhouette/ribs preserve source form. Opacity-only bake keeps BaseColor RGB byte-identical. Minor neutral-only low shading and importer-specific specular response remain; FBX and GLB both preserve alpha segmentation. Fresh technical validation passes at 13697 triangles.",
+  "issues": [
+    {
+      "part": "shading",
+      "problem": "Minor neutral-only low shading; FBX importer specular response differs from GLB while opacity segmentation is preserved.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/hero.png",
+    "quality/opacity-proof-glb.png",
+    "quality/opacity-proof-fbx.png"
+  ],
+  "technical_evidence": [
+    "validation.json",
+    "transparency-validation.json",
+    "repair.json"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "status": "passed",
+  "counts": {
+    "meshes": 3,
+    "textures": 1,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 1
+  },
+  "notes": [
+    "shape: The three shelf levels and base are retained, but the generated rear has a large protruding oval plate absent from the reference construction. The shelf brackets also become string-like strands instead of compact solid supports. Retry shape within the saved budget.",
+    "shape: All five actual GLB views show the shelf collapsed into thin radiating strands rather than solid shelves/back/base. Read-only numeric inspection confirms finite coordinates in a normal-sized bounding box, so this is malformed mesh output rather than a distant outlier distorting the camera. Use the third and final permitted AI shape attempt.",
+    "shape: Third candidate resolves the large invented rear oval and collapsed geometry. A plain back panel, three shelf levels including the base, open shelf spaces and solid support brackets are present. The front is visible in the opposite/front views because this candidate is rotated relative to the earlier one.",
+    "texture_source: Warm ochre front panel, cream shelf surfaces and dark timber plinth are cleanly separated. The plain rear is consistently covered and no invented labels, oval plate or strand-like supports have returned. Front/opposite views retain the reference shelf appearance.",
+    "final_compare: The 14524-triangle shelf preserves three levels, open compartments, solid supports, plain back panel and the three material regions. Finished front/opposite views and rear PBR stay close to the approved source. Fresh FBX and GLB checks pass."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\0180e858eec2fe41321e4d5842fef6665854ceb9dde2ae81a7c971f28b16b466.json",
+  "policy": "stage_gates_v2"
+}

@@ -1,0 +1,13 @@
+{
+  "verdict": "pass",
+  "confidence": 0.97,
+  "summary": "Actual final/source sheet and full hero preserve the door panel, two hinges, handles and wood/metal boundaries. Fresh FBX/GLB validation passes at 14,602 triangles. No major component loss or visible paint regression after reduction.",
+  "issues": [
+    {
+      "part": "lower panel edge",
+      "problem": "Neutral low shading has triangular undulations near the lower edge, while the final baked material remains close to the source. Small source seam irregularities and grain stretching remain minor.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ]
+}

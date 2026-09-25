@@ -129,6 +129,7 @@ if humans_archive.exists() and counts['rigged_complete']==8:
 if archives:
     filename=archives[-1].name
     page=page.replace('<div class="grid">',f'<p><a href="{esc(filename)}" download>전체 에셋 ZIP 다운로드</a></p><div class="grid">',1)
+page=page.replace('<a href="http://127.0.0.1:8771/">← 원래 소품 갤러리</a>', '<a href="inputs/">원본 입력 PNG 90종</a>')
 page=page.replace('시드 12345','기본 시드 12345')
 page=page.replace('<div class="status">','<div class="status" aria-live="polite">',1)
 page=page.replace('<div class="grid">','<button id="new-results" type="button" hidden style="margin:0 0 18px;padding:8px 14px;font:inherit;color:#24382c;background:#dce5d6;border:1px solid #829879;cursor:pointer">새 모델 보기 · 새로고침</button><div class="grid">',1)

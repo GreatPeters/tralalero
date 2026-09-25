@@ -1,0 +1,24 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "stage": "shape",
+  "reviewer": "main-agent",
+  "summary": "Inspected all five views and full hero after numerical cleanup. Both sides now have a front axle and tandem rear axles matching reference construction; donor wheel/arch style and radius remain consistent. Roof HVAC, window band, mirrors, body and rear vent are retained. Minor original pits and arch-edge unevenness remain for material review. Fresh BLEND/GLB validation passes at 215697 triangles; side-ray proof independently confirms three tire groups on each side at approximately .23/.697/.817 of length.",
+  "issues": [
+    {
+      "part": "body trim and wheel arches",
+      "problem": "Minor retained pits and irregular arch edges; recheck under actual material.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/hero.png"
+  ],
+  "technical_evidence": [
+    "intermediate-validation.json",
+    "axle-validation.json",
+    "repair.json"
+  ]
+}

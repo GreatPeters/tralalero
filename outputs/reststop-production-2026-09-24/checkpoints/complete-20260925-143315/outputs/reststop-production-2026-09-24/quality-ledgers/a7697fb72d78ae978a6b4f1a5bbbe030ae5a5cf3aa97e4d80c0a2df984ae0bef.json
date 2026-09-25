@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "a7697fb72d78ae978a6b4f1a5bbbe030ae5a5cf3aa97e4d80c0a2df984ae0bef",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P04_78984b77cd\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "9b3767fc-3460-4aba-b43d-40646ca97fac",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.99,
+        "summary": "The mop is not reconstructed: all five views show a tiny jagged fragment and loose spikes, with no long shaft, grip or recognizable cord bundle.",
+        "issues": [
+          {
+            "part": "whole mop",
+            "problem": "Missing shaft/grip and collapsed jagged head make the silhouette unusable.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P04_78984b77cd\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "018614af-eb4b-4455-bed0-9b51777e2dae",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.99,
+        "summary": "Second shape also collapses to a spiky head fragment with the shaft and grip absent. It does not match the mop silhouette.",
+        "issues": [
+          {
+            "part": "whole mop",
+            "problem": "Missing handle and incoherent head geometry across every view.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\P04_78984b77cd\\stages\\m3",
+      "seed": 221803,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "0a3e16d4-456f-43c7-b7fa-3c41792e4c94",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.99,
+        "summary": "Third standard pipeline output again collapses into a jagged head fragment; shaft and grip are absent. Cached pre/post-reconstruction stages have been exported without AI sampling for separate diagnosis.",
+        "issues": [
+          {
+            "part": "whole mop",
+            "problem": "Missing handle and severely malformed head remain after all three saved shape attempts.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790239022.3494656,
+  "notes": [
+    "shape: The mop is not reconstructed: all five views show a tiny jagged fragment and loose spikes, with no long shaft, grip or recognizable cord bundle.",
+    "shape: Second shape also collapses to a spiky head fragment with the shaft and grip absent. It does not match the mop silhouette.",
+    "shape: Third standard pipeline output again collapses into a jagged head fragment; shaft and grip are absent. Cached pre/post-reconstruction stages have been exported without AI sampling for separate diagnosis."
+  ],
+  "reason": "메시 3회 시도에서 형상 결함이 남았습니다. 추가 텍스처 생성 없이 검토 대상으로 남깁니다."
+}

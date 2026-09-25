@@ -1,0 +1,25 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "stage": "texture_source",
+  "reviewer": "main-agent",
+  "summary": "Five-view/reference sheet and full opposite view confirm the outer bowl's angular shading has been smoothed while preserving the open lid, seat, tank and recessed interior. Geometry audit checks all 218816 source vertices with zero movement and identical 297999 triangles; UVs/maps retained. Fresh BLEND/GLB and cavity checks pass. Emission-only front diagnostic shows normal cream ceramic base color: strong underside studio reflection is not a black albedo stain. Minor source plinth/lid edge irregularity and glossy underside shading remain.",
+  "issues": [
+    {
+      "part": "ceramic shading and lower plinth",
+      "problem": "Glossy underside is dark in this studio view; small retained source edge/faceting details remain on the plinth.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/opposite.png"
+  ],
+  "technical_evidence": [
+    "intermediate-validation.json",
+    "opening-validation.json",
+    "geometry-normalization-proof.json",
+    "repair.json"
+  ]
+}

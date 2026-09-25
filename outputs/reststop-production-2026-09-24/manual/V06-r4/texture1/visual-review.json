@@ -1,0 +1,23 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "stage": "texture_source",
+  "reviewer": "main-agent",
+  "summary": "Five-view/reference sheet and full hero inspected. Blue coach body, dark window band, roof HVAC, silver wheels, red tail lamps and rear vent remain coherent. Both tandem rear axle pairs remain present; fresh side rays and geometry normalization proof pass. Paint appears lighter than the reference under this studio and small source trim/arch irregularities remain minor.",
+  "issues": [
+    {
+      "part": "paint and trim",
+      "problem": "Lighter blue appearance and minor retained trim/arch-edge irregularity.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/hero.png"
+  ],
+  "technical_evidence": [
+    "geometry-normalization-proof.json",
+    "axle-validation.json"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.98,
+  "summary": "Actual multiview sheet and hero show the third standard export still caps the seat opening with a shallow flat surface. All three bounded shape attempts are retained. Cached decoded/first-fill/reconstruction models were exported with verified cache reuse for later diagnosis; no extra AI shape was generated and the exact closure stage remains unproven.",
+  "issues": [
+    {
+      "part": "bowl interior",
+      "problem": "A recessed open bowl is still missing. Investigate the retained intermediates and recover/correct this region without additional neural shape attempts.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

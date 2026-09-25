@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "d3bd7d05936657aab255ccfa01cd4650100d2e80f1d0040fcec5c5abe3fd6a75",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R02_9905be5169\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "96420529-75c8-4df7-8970-f2b1bd7b6112",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.99,
+        "summary": "The simple continuous curved road has been reconstructed as a forked Y-shaped slab with a deep side notch and inconsistent width. Cached raw decoder stage217 shows the same defect, so this is not introduced only by final simplification.",
+        "issues": [
+          {
+            "part": "road silhouette",
+            "problem": "Invented branch and missing road area violate the unbranched curved reference.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R02_9905be5169\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "df7819c1-b7cf-4c1c-924b-9a9e5662d764",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.99,
+        "summary": "Second shape is a broad triangular/funnel slab tapering into a narrow stalk, not a constant-width curved road.",
+        "issues": [
+          {
+            "part": "road silhouette",
+            "problem": "Missing curved strip and severe width mismatch make the segment unusable for the reference route.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R02_9905be5169\\stages\\m3",
+      "seed": 221803,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "fec4acd9-e8f9-44c7-8f05-2b72a2df2e59",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.99,
+        "summary": "Third shape remains a strongly tapered/notched V-like slab, with a broad central body and narrow ends rather than an even-width curved road.",
+        "issues": [
+          {
+            "part": "road plan",
+            "problem": "Major width inconsistency and missing road area; all three original shape attempts are exhausted.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "review_needed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790242996.0457995,
+  "notes": [
+    "shape: The simple continuous curved road has been reconstructed as a forked Y-shaped slab with a deep side notch and inconsistent width. Cached raw decoder stage217 shows the same defect, so this is not introduced only by final simplification.",
+    "shape: Second shape is a broad triangular/funnel slab tapering into a narrow stalk, not a constant-width curved road.",
+    "shape: Third shape remains a strongly tapered/notched V-like slab, with a broad central body and narrow ends rather than an even-width curved road."
+  ],
+  "reason": "메시 3회 시도에서 형상 결함이 남았습니다. 추가 텍스처 생성 없이 검토 대상으로 남깁니다."
+}

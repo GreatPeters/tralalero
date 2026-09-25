@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "871f1581cbee80d0cd566931e396fee2c737d4695eced6227671afde785a2a55",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R09_8806667bc7\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R09_8806667bc7\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\R09_8806667bc7\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.98,
+                "summary": "Reduced parking wheel stop retains trapezoidal body, sloped ends, reflector recesses, top fixings and coherent concrete finish. Five-view source comparison and fresh FBX/GLB pass at 14,897 triangles.",
+                "issues": [
+                  {
+                    "part": "finish and small details",
+                    "problem": "Minor edge/fixing softening and inherited lighter concrete/paler reflectors.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "64aed2b1-1791-44c1-894c-de259d1d743d",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.98,
+            "summary": "Concrete wheel stop retains coherent porous finish, two orange reflector inserts and readable top anchor/bolt details on the trapezoidal body.",
+            "issues": [
+              {
+                "part": "finish and fixings",
+                "problem": "Lighter concrete, paler orange reflectors and more exposed top bolt heads than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "af88775c-b386-48dd-8a03-d8ca2d430023",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.96,
+        "summary": "Parking wheel stop retains its long trapezoidal body, sloping ends, two front reflector recesses and two top fixing features. Five views match the actual input, which is a wheel stop rather than a barrel.",
+        "issues": [
+          {
+            "part": "top fixing recesses",
+            "problem": "Top anchor details are shallower and edges slightly softer than the reference.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790247929.8168273,
+  "notes": [
+    "shape: Parking wheel stop retains its long trapezoidal body, sloping ends, two front reflector recesses and two top fixing features. Five views match the actual input, which is a wheel stop rather than a barrel.",
+    "texture_source: Concrete wheel stop retains coherent porous finish, two orange reflector inserts and readable top anchor/bolt details on the trapezoidal body.",
+    "final_compare: Reduced parking wheel stop retains trapezoidal body, sloped ends, reflector recesses, top fixings and coherent concrete finish. Five-view source comparison and fresh FBX/GLB pass at 14,897 triangles."
+  ],
+  "reason": ""
+}

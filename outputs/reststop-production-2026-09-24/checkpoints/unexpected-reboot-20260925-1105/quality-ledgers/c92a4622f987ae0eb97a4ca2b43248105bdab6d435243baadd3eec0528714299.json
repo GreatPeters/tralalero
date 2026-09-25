@@ -1,0 +1,93 @@
+{
+  "version": 2,
+  "image_hash": "c92a4622f987ae0eb97a4ca2b43248105bdab6d435243baadd3eec0528714299",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F07_bc5716b6f8\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F07_bc5716b6f8\\stages\\m1_t1",
+          "seed": 12345,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\F07_bc5716b6f8\\stages\\m1_t1\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.98,
+                "summary": "The 14673-triangle dining table retains the flat rectangular top, both open side frames, lower bars and corner supports. Finished wood/metal appearance and silhouette remain close to the approved source across all views. Fresh FBX and GLB checks pass.",
+                "issues": [
+                  {
+                    "part": "frame and tabletop corners",
+                    "problem": "Minor edge softening after reduction.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "f940afdb-3e2b-4d14-9575-d5bfb8e3ce7c",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.98,
+            "summary": "Light wood-grain tabletop and dark metal support frames remain clearly separated across front/back/top views. The top is clean and empty, with no unwanted printed objects, labels or material bleeding.",
+            "issues": [
+              {
+                "part": "wood tone",
+                "problem": "Paler and slightly pinker timber than the reference.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "2ae33890-3d03-45ad-94b9-8f0a208f3e00",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.98,
+        "summary": "Rectangular tabletop, two open metal side frames, lower crossbars and underside corner supports match the reference construction. The tabletop is clear and the space between/within supports remains open.",
+        "issues": [
+          {
+            "part": "corners and feet",
+            "problem": "Slightly softened corners and small inferred foot details.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790225888.281841,
+  "notes": [
+    "shape: Rectangular tabletop, two open metal side frames, lower crossbars and underside corner supports match the reference construction. The tabletop is clear and the space between/within supports remains open.",
+    "texture_source: Light wood-grain tabletop and dark metal support frames remain clearly separated across front/back/top views. The top is clean and empty, with no unwanted printed objects, labels or material bleeding.",
+    "final_compare: The 14673-triangle dining table retains the flat rectangular top, both open side frames, lower bars and corner supports. Finished wood/metal appearance and silhouette remain close to the approved source across all views. Fresh FBX and GLB checks pass."
+  ],
+  "reason": ""
+}

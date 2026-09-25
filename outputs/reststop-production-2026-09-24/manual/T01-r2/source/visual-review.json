@@ -1,0 +1,19 @@
+{
+  "verdict": "pass",
+  "confidence": 0.96,
+  "stage": "texture_source",
+  "reviewer": "main-agent",
+  "summary": "Five-view sheet and full rear-facing front render inspected. Dense dark speckles from r1 are removed. Both infill faces read as coherent warm vertical wood grain, with original metal frame, bolts and feet retained. Center-sampled high-source triangles soften micrograin slightly; no obvious patchwork at inspection scale. Geometry unchanged; proceed to bounded canonical bake/reduction.",
+  "issues": [
+    {
+      "part": "rear wood",
+      "problem": "Micrograin slightly softened by per-source-triangle material sampling.",
+      "kind": "texture",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/front.png"
+  ]
+}

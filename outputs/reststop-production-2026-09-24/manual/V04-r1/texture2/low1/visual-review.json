@@ -1,0 +1,24 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "stage": "final_compare",
+  "reviewer": "main-agent",
+  "summary": "Five-view final/source sheet and full opposite inspected. Blue cab, continuous windshield, white cargo box, four wheels, mirrors and rails remain after reduction without the first texture's rectangular blotches. Minor wheel/trim faceting and strong source glazing reflections remain. Fresh FBX/GLB technical checks pass at 14331 triangles. The original reboot-interrupted request remains consumed in its separate ledger.",
+  "issues": [
+    {
+      "part": "wheels, trim and glazing",
+      "problem": "Minor low-poly faceting and strong retained glazing reflections; inferred dark rear hatch panels remain.",
+      "kind": "mesh",
+      "severity": "minor"
+    }
+  ],
+  "images": [
+    "quality/review-contact.png",
+    "quality/opposite.png"
+  ],
+  "technical_evidence": [
+    "validation.json",
+    "manual-shape-recovery.json",
+    "interruption-receipt.json"
+  ]
+}

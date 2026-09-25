@@ -1,0 +1,135 @@
+{
+  "version": 2,
+  "image_hash": "331b9e3d3f2e939177c9587f4b35d995855059e46d82707387558c028ed71a1d",
+  "settings": {
+    "resolution": 1536,
+    "texture_size": 2048,
+    "target_triangles": 15000,
+    "intermediate_faces": 300000,
+    "low_vram": false,
+    "keep_models_loaded": false,
+    "use_tiled_decoder": true,
+    "remove_floor": true,
+    "seed": 12345,
+    "steps": 12,
+    "texture_steps": 25,
+    "longest_side": 0.0
+  },
+  "meshes": [
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S14_ec868ef48d\\stages\\m1",
+      "seed": 12345,
+      "state": "generated",
+      "textures": [],
+      "prompt_id": "f89a0442-2653-49dd-a951-2b6b8055d8e8",
+      "review": {
+        "verdict": "mesh",
+        "confidence": 0.96,
+        "summary": "Inspected the actual sheet, hero and full rear-oblique view. The closed rectangular carton and front face are present, but the broad rear panel is crumpled with long crossing creases and a localized depression, unlike the clean flat cardboard construction. Reject before spending a texture attempt.",
+        "issues": [
+          {
+            "part": "broad rear panel",
+            "problem": "Large invented wrinkles and a distinct dent interrupt the otherwise planar carton face. Preserve folded edges while restoring a clean broad panel.",
+            "kind": "mesh",
+            "severity": "major"
+          }
+        ]
+      }
+    },
+    {
+      "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S14_ec868ef48d\\stages\\m2",
+      "seed": 117074,
+      "state": "generated",
+      "textures": [
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S14_ec868ef48d\\stages\\m2_t1",
+          "seed": 117074,
+          "state": "generated",
+          "lows": [],
+          "prompt_id": "1b71181a-33c6-4fbf-add5-e89b306c71f1",
+          "review": {
+            "verdict": "texture",
+            "confidence": 0.98,
+            "summary": "Actual multiview sheet and hero show correct olive/cream treatment on one broad face, but the opposite broad face has dense vertical streaks, torn cream patches and illegible invented markings. These defects are absent from the accepted neutral shape and the clean reference.",
+            "issues": [
+              {
+                "part": "opposite broad panel",
+                "problem": "Large repeated vertical streaks and scraped/missing-looking print contaminate both olive and cream regions; a clean carton surface is required.",
+                "kind": "texture",
+                "severity": "major"
+              }
+            ]
+          }
+        },
+        {
+          "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S14_ec868ef48d\\stages\\m2_t2",
+          "seed": 117075,
+          "state": "generated",
+          "lows": [
+            {
+              "folder": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\assets\\S14_ec868ef48d\\stages\\m2_t2\\low1",
+              "state": "generated",
+              "profile": "parts",
+              "review": {
+                "verdict": "pass",
+                "confidence": 0.97,
+                "summary": "Actual final/source sheet and full hero preserve clean rectangular carton panels, folded seams and the accepted olive/cream surface. No return of the earlier rear dents or streaked texture. Fresh FBX/GLB verification passes at 14,831 triangles.",
+                "issues": [
+                  {
+                    "part": "corners and label boundary",
+                    "problem": "Minor corner pinching and a straighter-than-reference cream boundary remain from the accepted source; no major reduction regression is visible.",
+                    "kind": "mesh",
+                    "severity": "minor"
+                  }
+                ]
+              }
+            }
+          ],
+          "prompt_id": "2b46846c-30c7-4453-b5a9-ae416e08e90b",
+          "review": {
+            "verdict": "pass",
+            "confidence": 0.96,
+            "summary": "Actual five-view sheet and hero show clean olive/cream carton surfaces on both broad panels. The repeated streaks and scraped print from the first texture are gone; accepted planar geometry and folded edges remain intact.",
+            "issues": [
+              {
+                "part": "label border and finish",
+                "problem": "The cream boundary is straighter and the surface slightly glossier than the reference; these are minor design/finish differences without large paint defects.",
+                "kind": "texture",
+                "severity": "minor"
+              }
+            ]
+          }
+        }
+      ],
+      "prompt_id": "272d83d7-1f92-4217-8788-1fce81cb9466",
+      "review": {
+        "verdict": "pass",
+        "confidence": 0.97,
+        "summary": "Actual multiview sheet and full hero show clean broad front/back panels on the second carton shape. The large crumpled rear region of m1 is absent; closed rectangular volume, end panels and fold seams remain intact.",
+        "issues": [
+          {
+            "part": "fold corners",
+            "problem": "Small pinched points and slightly raised end-flap seams remain; check material and reduction without treating these minor fold details as missing panels.",
+            "kind": "mesh",
+            "severity": "minor"
+          }
+        ]
+      }
+    }
+  ],
+  "terminal": "passed",
+  "limits": {
+    "meshes": 3,
+    "textures_per_mesh": 3,
+    "textures_total": 3
+  },
+  "last_finished": 1790281417.4005027,
+  "notes": [
+    "shape: Inspected the actual sheet, hero and full rear-oblique view. The closed rectangular carton and front face are present, but the broad rear panel is crumpled with long crossing creases and a localized depression, unlike the clean flat cardboard construction. Reject before spending a texture attempt.",
+    "shape: Actual multiview sheet and full hero show clean broad front/back panels on the second carton shape. The large crumpled rear region of m1 is absent; closed rectangular volume, end panels and fold seams remain intact.",
+    "texture_source: Actual multiview sheet and hero show correct olive/cream treatment on one broad face, but the opposite broad face has dense vertical streaks, torn cream patches and illegible invented markings. These defects are absent from the accepted neutral shape and the clean reference.",
+    "texture_source: Actual five-view sheet and hero show clean olive/cream carton surfaces on both broad panels. The repeated streaks and scraped print from the first texture are gone; accepted planar geometry and folded edges remain intact.",
+    "final_compare: Actual final/source sheet and full hero preserve clean rectangular carton panels, folded seams and the accepted olive/cream surface. No return of the earlier rear dents or streaked texture. Fresh FBX/GLB verification passes at 14,831 triangles."
+  ],
+  "reason": ""
+}

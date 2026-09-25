@@ -1,0 +1,13 @@
+{
+  "verdict": "texture",
+  "confidence": 0.97,
+  "summary": "Reviewed actual contact sheet and full hero. Second material removes much of t1 patchiness and retains a clean blue/cream label, but exposed shoulder and base still render as reflective opaque silver rather than clear PET. Shape remains usable.",
+  "issues": [
+    {
+      "part": "exposed bottle body",
+      "problem": "Persistent opaque metallic finish on the PET regions; material must be nonmetallic and selectively transparent without making the cap or paper label transparent.",
+      "kind": "texture",
+      "severity": "major"
+    }
+  ]
+}

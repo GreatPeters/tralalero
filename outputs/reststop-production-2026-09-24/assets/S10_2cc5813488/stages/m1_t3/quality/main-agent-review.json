@@ -1,0 +1,13 @@
+{
+  "verdict": "texture",
+  "confidence": 0.98,
+  "summary": "Inspected actual five-view sheet and full hero. Third material still makes exposed PET an opaque silver surface despite correct cap and cream/blue label. Retain all three texture attempts and accepted shape; select an inspected source for local selective nonmetallic/opacity correction after the generation batch.",
+  "issues": [
+    {
+      "part": "exposed PET body",
+      "problem": "The clear bottle material remains opaque and metallic; selective opacity and nonmetallic response need local correction while retaining cap/label colours and existing geometry.",
+      "kind": "texture",
+      "severity": "major"
+    }
+  ]
+}

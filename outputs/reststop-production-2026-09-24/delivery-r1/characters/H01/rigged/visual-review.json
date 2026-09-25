@@ -1,0 +1,27 @@
+{
+  "verdict": "pass",
+  "confidence": 0.94,
+  "summary": "Refitted shoulder/elbow/wrist and central skeleton eliminate the former arm strips and garment dragging. Idle, attack, greet, hit, walking, running and fallen pose renders inspected. Flat-foot compensation corrected both feet tilting up. All nine actions export and the full 338-frame movie decodes.",
+  "issues": [
+    {
+      "part": "neckline",
+      "problem": "Small original mesh roughness visible in the extreme hit pose close-up.",
+      "severity": "minor"
+    },
+    {
+      "part": "death",
+      "problem": "Stylized fall is supported by the oversized head/helmet, not a physics ragdoll.",
+      "severity": "minor"
+    }
+  ],
+  "evidence": [
+    "fresh-rig-validation.json",
+    "video-validation.json",
+    "animation-preview.mp4",
+    "poses/attack_once-010.png",
+    "poses/walk-008.png",
+    "poses/run-006.png",
+    "poses/hit-003.png",
+    "poses/die-024.png"
+  ]
+}

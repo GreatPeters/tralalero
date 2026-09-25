@@ -46,6 +46,10 @@ skills-lock.json
 /Assets/_Recovery/
 /Assets/_Recovery.meta
 
+# Locally distributed rest-stop bundles exceed GitHub's per-file LFS limit.
+# Keep individual Unity assets and production records versioned.
+/outputs/reststop-production-*/reststop-assets-*.zip
+
 # Local signing material
 **/GameDataSigningKey.json
 

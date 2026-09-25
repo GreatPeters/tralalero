@@ -1,0 +1,13 @@
+{
+  "verdict": "mesh",
+  "confidence": 0.98,
+  "summary": "Actual multiview and full front shape view show m3 still lacks the required flared central skirt symbol and additionally softens/fuses upper icon details. All three bounded shape attempts are retained. Use the earlier textured candidate as a local pictogram-correction source rather than generating another neural shape.",
+  "issues": [
+    {
+      "part": "central pictogram",
+      "problem": "The reference skirt silhouette is not reproduced; the two standing icons remain insufficiently differentiated. A targeted local symbol correction is required.",
+      "kind": "mesh",
+      "severity": "major"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "status": "passed",
+  "counts": {
+    "meshes": 2,
+    "textures": 1,
+    "mesh_limit": 3,
+    "texture_limit": 3,
+    "blender_runs": 1
+  },
+  "notes": [
+    "shape: The compact SUV silhouette, wheels and roof rails are recognizable, but the body has conspicuous rectangular gouges below the opposite-side door handles and a smaller hole on the hero-side lower door. These are unsupported panel breaks, not reference trim.",
+    "shape: Second shape removes the large rectangular door gouges. Compact SUV body, four wheels, mirrors, door divisions, grille and roof rails read consistently across all five views. Small rail/handle recesses and simplified glazing remain minor source details to check after texturing.",
+    "texture_source: Green compact SUV retains coherent green painted body, dark wheel arch trim/tires, silver wheels, glazing and red rear lamps across all five views. No broad color leakage or missing panels. Windscreen/interior are stylized and brighter than reference, a minor source limitation rather than a broken part.",
+    "final_compare: Final 14234-triangle asset matches the accepted source in all five views. Door/body contours, roof rails, four wheels, dark trim, green paint and lamps remain stable after reduction. Minor source glazing simplification persists without new visible damage; fresh GLB/FBX technical checks pass."
+  ],
+  "ledger": "C:\\Users\\ljh\\tralalero Shooter\\outputs\\reststop-production-2026-09-24\\quality-ledgers\\d2cda6274878357b3eb285fb96de432c6057590b1e319d7273365fabd33fbc01.json",
+  "policy": "stage_gates_v2"
+}

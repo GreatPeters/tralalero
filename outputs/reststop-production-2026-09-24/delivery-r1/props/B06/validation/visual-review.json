@@ -1,0 +1,23 @@
+{
+  "verdict": "pass",
+  "confidence": 0.95,
+  "summary": "Corrected generated frame retains an open passage and one continuous thin guide rail after texture generation, reduction and export. Finished PBR appearance remains close to the accepted high source. Fresh FBX/GLB checks pass at 14,491 triangles; all nine opening rays and five rail probes pass in both formats.",
+  "issues": [
+    {
+      "part": "finish",
+      "problem": "Cooler/shinier frame and brighter simpler guide finish than reference.",
+      "severity": "minor"
+    },
+    {
+      "part": "small frame details",
+      "problem": "Minor source marks and reduction softening remain.",
+      "severity": "minor"
+    }
+  ],
+  "evidence": [
+    "repair.json",
+    "validation.json",
+    "opening-validation.json",
+    "quality/review-contact.png"
+  ]
+}

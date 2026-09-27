@@ -179,6 +179,9 @@ namespace IndianOceanAssets.ShooterSurvival
                         bullet.transform.rotation = BuildProjectileRotation(direction);
                         bullet.GetComponentInChildren<BulletScript>()
                             .SetDirection(direction, aimOwner, damage);
+                        bullet.GetComponentInChildren<BulletScript>().ProjectileKind = bulletKind;
+                        // Holdout uses a high quarter view; enlarge and trail shots so the player sees them.
+                        ProjectileEmphasis.Apply(bullet, aimOwner != null && aimOwner.HoldoutAim != null);
                         TotalProjectilesSpawned++; // Count a successfully initialized shot, not just a rental.
                     }
                 }

@@ -1,0 +1,135 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>보너스 월 시안 10</title><style>
+:root{--paper:#f4f3ee;--card:#fcfbf7;--ink:#1f2d3a;--soft:#51606d;--muted:#7c8894;--line:#1f2d3a24;--head:#1b2a4a;--accent:#d2552b;--bad:#b73a2f;--good:#2c7a4b}
+@media (prefers-color-scheme:dark){:root{--paper:#10151b;--card:#171f27;--ink:#e3e9ef;--soft:#b4c0cb;--muted:#8896a3;--line:#e3e9ef22;--head:#1c2c4c;--accent:#ee7a4c;--bad:#ef6a5a;--good:#63b784;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif;line-height:1.75;padding:0 18px 80px}
+.wrap{max-width:1120px;margin:0 auto}header{background:var(--head);color:#eef2f8;margin:0 -18px;padding:34px 18px 28px;border-bottom:5px solid var(--accent)}
+.eyebrow{font:600 12px ui-monospace,Consolas,monospace;letter-spacing:.14em;opacity:.8}h1{font-size:clamp(26px,4.5vw,40px);line-height:1.25;margin:6px 0 8px;letter-spacing:-.03em}header p{max-width:72ch;margin:0;opacity:.92}
+h2{font-size:23px;margin:48px 0 12px;letter-spacing:-.02em}p{max-width:76ch}
+.row{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:22px;align-items:start;margin:14px 0}
+figure{margin:0}figure img,.pair img{width:100%;display:block;border-radius:8px;border:1px solid var(--line)}figcaption{font-size:13px;color:var(--soft);margin-top:6px}
+.tbl{overflow-x:auto;border:1px solid var(--line);background:var(--card);margin:10px 0}table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{font-size:12px;color:var(--muted);white-space:nowrap}tr:last-child td{border-bottom:none}
+.bad{color:var(--bad);font-weight:700}
+.c{border-top:1px solid var(--line);padding:22px 0}.t{display:flex;gap:10px;align-items:baseline}.n{font:600 13px ui-monospace,Consolas,monospace;color:var(--accent)}.c h3{margin:0;font-size:20px}.c p{margin:4px 0}.m{font-size:14px;color:var(--soft)}
+.pair{display:grid;grid-template-columns:minmax(0,2.8fr) minmax(0,1fr);gap:12px;margin-top:10px;align-items:start}.cap{display:grid;grid-template-columns:2.8fr 1fr;gap:12px;font-size:12px;color:var(--muted)}
+.note{border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);padding:10px 14px;margin:12px 0}
+ol li,ul li{margin:4px 0}footer{margin-top:44px;padding-top:12px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}a{color:inherit}a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media (max-width:640px){.row{grid-template-columns:1fr}.pair{grid-template-columns:1fr 1fr}}
+.rand{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:900px}@media (max-width:760px){.rand,.games{grid-template-columns:1fr}}</style></head><body>
+<header><div class="wrap"><div class="eyebrow">TRALALERO SHOOTER · BONUS WALL · 시안 10</div>
+<h1>보너스 월, 무엇이 문제이고 어떻게 바꿀까</h1>
+<p>맵툴의 보너스 월(좌우 두 개 중 하나를 골라 지나가는 선택형 보너스)에 대한 시안입니다. 지금 게임 화면, 앞서 Codex 시안이 왜 엉뚱하게 나왔는지, 새 시안 10개와 각각의 게임 적용 예시를 정리했습니다. 게임에는 적용하지 않았습니다.</p></div></header>
+<main class="wrap">
+
+<h2>1. 지금 맵의 보너스 월</h2>
+<div class="row"><figure><img src="current-full.jpg" alt="현재 고속도로 플레이 화면, 차로 위 베이지색 부적 카드 두 장"><figcaption>현재 게임 화면</figcaption></figure>
+<div><figure><img src="current-zoom.jpg" alt="확대: 베이지색 종이 부적 카드, 작은 아이콘과 남색 라벨"><figcaption>확대: 종이 부적 카드와 아래 작은 남색 라벨</figcaption></figure>
+<div class="tbl"><table><tr><th>문제</th><th>왜 그런가</th></tr>
+<tr><td class="bad">멀리서 안 읽힘</td><td>카드가 작고 아이콘이 가는 선 그림이라, 휴대폰 화면에서는 가까이 와서야 무엇인지 보입니다. 수치는 카드 아래 작은 라벨에만 있습니다.</td></tr>
+<tr><td class="bad">종류 구분이 안 됨</td><td>모든 보너스가 같은 베이지색 종이입니다. 공격·체력·공속이 색으로 구분되지 않아 매번 글자를 읽어야 합니다.</td></tr>
+<tr><td class="bad">좋은지 나쁜지 안 보임</td><td>체력 감소 같은 나쁜 보너스도 같은 모양이라 실수로 먹기 쉽습니다.</td></tr>
+<tr><td class="bad">고속도로와 안 맞음</td><td>노량진(무속·제단) 테마의 부적을 도로 위에 그대로 세워 두었습니다. 차·전광판·표지판 사이에서 혼자 튑니다.</td></tr>
+<tr><td class="bad">볼품없음</td><td>납작한 판 하나에 약한 주황 빛뿐이고 받침·그림자·입체감이 없어, 바닥에 붙은 스티커처럼 보입니다.</td></tr>
+<tr><td class="bad">지나가는 문 같지 않음</td><td>통과하는 물체가 아니라 세워 둔 종이라서, 부딪히면 막히는지 먹는 건지 헷갈립니다.</td></tr>
+</table></div></div></div>
+
+<h2>2. 앞서 Codex 시안이 왜 엉뚱하게 나왔나</h2>
+<div class="row"><figure><img src="codex-hearts.jpg" alt="Codex가 만든 시안 10개: 모두 도로 위 작은 하트 아이템"><figcaption>Codex 시안 10개: 전부 작은 하트</figcaption></figure>
+<div><p>요청은 <b>맵툴 보너스 월의 다양한 시안</b>이었는데, 10개 모두 <b>도로 위에 떠 있는 작은 하트 아이템</b>으로 나왔습니다. 원인은 그림 실력이 아니라 <b>프롬프트</b>입니다(생성 기록 manifest.json 확인).</p>
+<ol>
+<li><b>보너스를 잘못 해석:</b> 프롬프트에 "보너스 월·좌우 선택·통과하는 문"이라는 말이 없고 "BONUS PICKUP(줍는 아이템)"이라고 적혀 있습니다. 그래서 줍는 아이템을 그렸습니다.</li>
+<li><b>금지 조건이 보너스 월 자체를 막음:</b> "간판·판·게이트·벽·배너·기둥 금지, 도로를 가로지르는 것 금지, 차보다 훨씬 작게"가 들어 있습니다. 요금소 차단기·유도 화살표를 빼 달라던 피드백을 보너스에까지 과하게 적용한 것입니다. 이 조건으로는 보너스 월을 그릴 수 없습니다.</li>
+<li><b>주제를 하나로 고정:</b> "빨간 하트 = 체력 보너스"를 10개 모두에 넣어, 달라질 수 있는 건 하트 주변 빛 효과뿐이었습니다.</li>
+<li><b>수수하게 강제:</b> "understated, economical VFX(소박하게, 효과 최소화)"를 넣어 개성 있는 안이 나올 여지를 없앴습니다.</li>
+</ol>
+<p class="note"><b>시안대로 안 나오는 이유:</b> 그림 AI는 프롬프트 문장을 그대로 따릅니다. 원하는 것(선택형 문, 좌우 한 쌍, 종류별 색, 멀리서 읽힘)은 쓰지 않고 금지 조건만 많이 쓰면, 금지 조건을 만족하는 가장 무난한 그림이 나옵니다. 또 실제 게임 적용 단계에서는 지금 있는 부적 프리팹과 코드로 만들 수 있는 것만 들어가서, 그림과 결과가 한 번 더 멀어집니다. 시안 단계에서 새로 만들 것(모델·재질·아이콘·UI)을 같이 정해야 시안대로 나옵니다.</p>
+</div></div>
+
+<h2>3. 좋은 보너스 월의 조건</h2>
+<div class="tbl"><table><tr><th>조건</th><th>기준</th></tr>
+<tr><td>멀리서 읽힘</td><td>18 m 앞에서 아이콘과 숫자가 보일 것. 아이콘은 판의 절반 이상, 숫자는 굵은 테두리 글씨</td></tr>
+<tr><td>종류는 색으로</td><td>공격 빨강 · 체력 초록 · 공속 노랑 · 미사일 파랑. 글자를 안 읽어도 구분</td></tr>
+<tr><td>나쁜 보너스는 다르게</td><td>보라/회색, 금 간 모양, 경고 표시. 모양부터 달라야 함</td></tr>
+<tr><td>통과하는 문</td><td>좌우 한 쌍, 사이에 틈. 지나가면 먹는 것으로 바로 읽히는 모양</td></tr>
+<tr><td>장소에 맞는 톤</td><td>고속도로에서는 전광판·게이트·표지판 계열, 노량진은 부적 유지</td></tr>
+<tr><td>만들 수 있을 것</td><td>프리팹 1개 + 종류별 재질·아이콘 교체. 효과는 가벼운 빛 정도</td></tr>
+</table></div>
+
+<h2>4. 새 시안 10개와 게임 적용 예시</h2>
+<p>왼쪽은 디자인 시안(좌우 한 쌍, 종류별 4색, 나쁜 보너스 예), 오른쪽은 같은 디자인을 지금 게임 화면에 넣은 예시 그림입니다. 둘 다 그림이며 실제로 만든 것은 아닙니다. 그림을 누르면 원본이 열립니다.</p>
+<section class="c"><div class="t"><span class="n">01</span><h3>도로 전광판</h3></div><p>LED 화면에 픽셀 아이콘과 큰 숫자. 한국 고속도로 전광판을 그대로 빌려 와 고속도로와 가장 잘 어울립니다.</p><p class="m">고속도로 전용. 멀리서도 숫자가 선명</p>
+<div class="pair"><a href="01-vms-sheet.png" target="_blank" rel="noopener"><img src="01-vms-sheet.jpg" alt="도로 전광판 디자인 시안" loading="lazy"></a><a href="01-vms-game.png" target="_blank" rel="noopener"><img src="01-vms-game.jpg" alt="도로 전광판 게임 적용 예시" loading="lazy"></a></div>
+<div class="cap"><span>디자인 시안</span><span>게임 적용 예시</span></div></section><section class="c"><div class="t"><span class="n">02</span><h3>미니 하이패스 게이트</h3></div><p>작은 요금소 캐노피 두 개. 통과하는 문이라 '골라서 지나간다'가 바로 읽힙니다.</p><p class="m">요금소 출구 유니크 보너스와 같은 계열로 쓰기 좋음</p>
+<div class="pair"><a href="02-hipass-sheet.png" target="_blank" rel="noopener"><img src="02-hipass-sheet.jpg" alt="미니 하이패스 게이트 디자인 시안" loading="lazy"></a><a href="02-hipass-game.png" target="_blank" rel="noopener"><img src="02-hipass-game.jpg" alt="미니 하이패스 게이트 게임 적용 예시" loading="lazy"></a></div>
+<div class="cap"><span>디자인 시안</span><span>게임 적용 예시</span></div></section><section class="c"><div class="t"><span class="n">03</span><h3>초록 도로 표지판</h3></div><p>초록 이정표 판에 흰 글씨. 가장 한국 고속도로다운 모양입니다.</p><p class="m">판 색이 모두 초록이라 종류 구분은 아이콘 크기에 의존</p>
+<div class="pair"><a href="03-roadsign-sheet.png" target="_blank" rel="noopener"><img src="03-roadsign-sheet.jpg" alt="초록 도로 표지판 디자인 시안" loading="lazy"></a><a href="03-roadsign-game.png" target="_blank" rel="noopener"><img src="03-roadsign-game.jpg" alt="초록 도로 표지판 게임 적용 예시" loading="lazy"></a></div>
+<div class="cap"><span>디자인 시안</span><span>게임 적용 예시</span></div></section><section class="c"><div class="t"><span class="n">04</span><h3>에너지 게이트</h3></div><p>반투명 색 판 속에 아이콘과 숫자. 러너 게임에서 익숙한 방식이라 규칙 설명이 필요 없습니다.</p><p class="m">뒤 차량이 비쳐 보여 시야를 덜 가림</p>
+<div class="pair"><a href="04-hologate-sheet.png" target="_blank" rel="noopener"><img src="04-hologate-sheet.jpg" alt="에너지 게이트 디자인 시안" loading="lazy"></a><a href="04-hologate-game.png" target="_blank" rel="noopener"><img src="04-hologate-game.jpg" alt="에너지 게이트 게임 적용 예시" loading="lazy"></a></div>
+<div class="cap"><span>디자인 시안</span><span>게임 적용 예시</span></div></section><section class="c"><div class="t"><span class="n">05</span><h3>공사 바리케이드 배너</h3></div><p>주황 바리케이드 위에 색 배너. 공사 구간과 섞여도 자연스럽습니다.</p><p class="m">공사 기믹(콘)과 헷갈리지 않게 배너 색을 강하게</p>
+<div class="pair"><a href="05-construction-sheet.png" target="_blank" rel="noopener"><img src="05-construction-sheet.jpg" alt="공사 바리케이드 배너 디자인 시안" loading="lazy"></a><a href="05-construction-game.png" target="_blank" rel="noopener"><img src="05-construction-game.jpg" alt="공사 바리케이드 배너 게임 적용 예시" loading="lazy"></a></div>
+<div class="cap"><span>디자인 시안</span><span>게임 적용 예시</span></div></section><section class="c"><div class="t"><span class="n">06</span><h3>개업 풍선 아치</h3></div><p>통통한 풍선 아치. 가장 귀엽고 눈에 띕니다.</p><p class="m">고속도로 한가운데라 장소 맥락은 약함</p>
+<div class="pair"><a href="06-balloon-sheet.png" target="_blank" rel="noopener"><img src="06-balloon-sheet.jpg" alt="개업 풍선 아치 디자인 시안" loading="lazy"></a><a href="06-balloon-game.png" target="_blank" rel="noopener"><img src="06-balloon-game.jpg" alt="개업 풍선 아치 게임 적용 예시" loading="lazy"></a></div>
+<div class="cap"><span>디자인 시안</span><span>게임 적용 예시</span></div></section><section class="c"><div class="t"><span class="n">07</span><h3>대형 레어 카드</h3></div><p>테두리로 등급(은·금·무지개)을 보여 줍니다. 랜덤 보너스 월·유니크 보너스와 한 세트로 쓰기 좋습니다.</p><p class="m">지금 부적 카드의 자연스러운 업그레이드</p>
+<div class="pair"><a href="07-cards-sheet.png" target="_blank" rel="noopener"><img src="07-cards-sheet.jpg" alt="대형 레어 카드 디자인 시안" loading="lazy"></a><a href="07-cards-game.png" target="_blank" rel="noopener"><img src="07-cards-game.jpg" alt="대형 레어 카드 게임 적용 예시" loading="lazy"></a></div>
+<div class="cap"><span>디자인 시안</span><span>게임 적용 예시</span></div></section><section class="c"><div class="t"><span class="n">08</span><h3>바닥 패드+홀로그램</h3></div><p>바닥 패드 위에 떠 있는 아이콘. 길을 막지 않아 앞 차량이 가장 잘 보입니다.</p><p class="m">세우는 물체가 없어 '문' 느낌은 약함</p>
+<div class="pair"><a href="08-floorpad-sheet.png" target="_blank" rel="noopener"><img src="08-floorpad-sheet.jpg" alt="바닥 패드+홀로그램 디자인 시안" loading="lazy"></a><a href="08-floorpad-game.png" target="_blank" rel="noopener"><img src="08-floorpad-game.jpg" alt="바닥 패드+홀로그램 게임 적용 예시" loading="lazy"></a></div>
+<div class="cap"><span>디자인 시안</span><span>게임 적용 예시</span></div></section><section class="c"><div class="t"><span class="n">09</span><h3>대형 메달</h3></div><p>세워진 금메달에 아이콘, 리본에 수치. 보상 느낌이 가장 강합니다.</p><p class="m">금색이 많아 종류 구분은 가운데 색으로</p>
+<div class="pair"><a href="09-medal-sheet.png" target="_blank" rel="noopener"><img src="09-medal-sheet.jpg" alt="대형 메달 디자인 시안" loading="lazy"></a><a href="09-medal-game.png" target="_blank" rel="noopener"><img src="09-medal-game.jpg" alt="대형 메달 게임 적용 예시" loading="lazy"></a></div>
+<div class="cap"><span>디자인 시안</span><span>게임 적용 예시</span></div></section><section class="c"><div class="t"><span class="n">10</span><h3>신호등 게이트</h3></div><p>초록불 = 좋은 보너스, 빨간불 = 나쁜 보너스. 좋고 나쁨이 한눈에 보입니다.</p><p class="m">나쁜 보너스를 섞을 때 가장 유리</p>
+<div class="pair"><a href="10-signal-sheet.png" target="_blank" rel="noopener"><img src="10-signal-sheet.jpg" alt="신호등 게이트 디자인 시안" loading="lazy"></a><a href="10-signal-game.png" target="_blank" rel="noopener"><img src="10-signal-game.jpg" alt="신호등 게이트 게임 적용 예시" loading="lazy"></a></div>
+<div class="cap"><span>디자인 시안</span><span>게임 적용 예시</span></div></section>
+
+
+<h2 id="pad">6. 선택안: 바닥 패드 + 홀로그램 (노량진·고속도로 공용)</h2>
+<p>08번 바닥 패드 안을 기준으로, 직접 그리신 아이콘 9종(공격력·공격속도·미사일속도·보스피해·체력·체력회복·코인업·붐바르딜로·퉁퉁퉁사후르)을 그대로 넣었습니다. 도로 표시·표지판 같은 고속도로 전용 요소를 빼서 노량진 시장 바닥에서도 어색하지 않게 했습니다.</p>
+<figure><a href="pad/normal-sheet.png" target="_blank" rel="noopener"><img src="pad/normal-sheet.jpg" alt="일반 보너스 바닥 패드 시안: 종류별 색 패드와 직접 그린 아이콘, 나쁜 보너스 예"></a><figcaption><b>일반 보너스</b> — 패드 색으로 종류 구분(공격 빨강, 체력 초록, 공속 노랑, 미사일 파랑, 코인 금색, 붐바르딜로 하늘색, 퉁퉁퉁 주황). 나쁜 보너스는 금 간 보라 패드 + 경고 표시.</figcaption></figure>
+
+<h3 style="margin-top:26px">랜덤 보너스 3안 (같은 톤)</h3>
+<div class="rand">
+<figure><a href="pad/random-a-sheet.png" target="_blank" rel="noopener"><img src="pad/random-a-sheet.jpg" alt="랜덤 보너스 A 슬롯 홀로그램"></a><figcaption><b>A · 슬롯 홀로그램</b> — 무지개 테두리 패드 위 큰 "?" 안에서 아이콘이 슬롯처럼 돌다가, 밟는 순간 멈춰 결과가 나옵니다. 일반 패드와 모양이 같아 규칙 설명이 필요 없습니다.</figcaption></figure>
+<figure><a href="pad/random-b-sheet.png" target="_blank" rel="noopener"><img src="pad/random-b-sheet.jpg" alt="랜덤 보너스 B 홀로그램 주사위"></a><figcaption><b>B · 홀로그램 주사위</b> — 면마다 아이콘이 붙은 반투명 큐브가 천천히 돌다가 한 면이 튀어나옵니다. 가장 입체적이고 눈에 띕니다.</figcaption></figure>
+<figure><a href="pad/random-c-sheet.png" target="_blank" rel="noopener"><img src="pad/random-c-sheet.jpg" alt="랜덤 보너스 C 뒤집힌 카드"></a><figcaption><b>C · 뒤집힌 카드</b> — 뒤집힌 홀로그램 카드가 밟으면 뒤집힙니다. 테두리로 등급(일반 은·희귀 금·전설 무지개)을 보여 줄 수 있어 요금소 유니크 보너스와도 이어집니다.</figcaption></figure>
+</div>
+
+<h3 style="margin-top:26px">게임 적용 예시</h3>
+<div class="games">
+<figure><a href="pad/game-highway.png" target="_blank" rel="noopener"><img src="pad/game-highway.jpg" alt="고속도로: 일반 패드 두 개와 뒤쪽 랜덤 패드"></a><figcaption>고속도로 · 일반 한 쌍 + 뒤쪽 랜덤(A)</figcaption></figure>
+<figure><a href="pad/game-noryangjin.png" target="_blank" rel="noopener"><img src="pad/game-noryangjin.jpg" alt="노량진 시장 통로: 공격속도와 체력회복 패드"></a><figcaption>노량진 · 일반 한 쌍</figcaption></figure>
+<figure><a href="pad/game-noryangjin-random.png" target="_blank" rel="noopener"><img src="pad/game-noryangjin-random.jpg" alt="노량진: 랜덤 패드를 밟아 붐바르딜로 소환"></a><figcaption>노량진 · 랜덤(A)을 밟아 "붐바르딜로 소환!"</figcaption></figure>
+</div>
+<div class="tbl"><table><tr><th>추천</th><th>이유</th></tr>
+<tr><td><b>랜덤은 A 슬롯 홀로그램</b></td><td>일반 패드와 같은 모양에 "?"만 바뀌어 가장 자연스럽고, 기존 부적 프리팹 구조(패드 + 떠 있는 아이콘)로 만들기도 가장 쉽습니다.</td></tr>
+<tr><td>등급이 필요하면 C</td><td>요금소 유니크 보너스처럼 등급을 보여 줄 때 카드 테두리를 섞어 씁니다.</td></tr>
+<tr><td>만들 것</td><td>육각 패드 모델 1개, 종류별 색 재질, 떠 있는 아이콘(기존 스프라이트 그대로), 수치 글씨, 랜덤용 무지개 테두리와 슬롯 연출. 새 3D 모델은 패드 하나면 됩니다.</td></tr>
+</table></div>
+
+<h2 id="build">6-2. 제작 계획대로 만들면 이런 모습 (예시)</h2>
+<p>Meshy로는 받침만 만들고, 빛 띠·빛 기둥·아이콘·글씨·파티클은 Unity에서 붙이는 계획을 그대로 그린 예시입니다. 실제로 만든 것은 아닙니다.</p>
+<figure><a href="pad/build/3view.png" target="_blank" rel="noopener"><img src="pad/build/3view.jpg" alt="보너스 패드 3면도: 위·정면·옆·3/4와 조립 높이"></a><figcaption><b>3면도</b> — 바깥 2.6 m, 안쪽 2.0 m, 높이 0.22 m, 가운데 발광판 0.9 m, 빛 기둥 2.2 m, 아이콘 1.6~1.8 m, 글씨 2.6 m. 평평한 변이 플레이어 쪽.</figcaption></figure>
+<figure style="margin-top:14px"><a href="pad/build/layers.png" target="_blank" rel="noopener"><img src="pad/build/layers.jpg" alt="보너스 패드 조립 구조: 층별 분해와 만드는 곳"></a><figcaption><b>조립 구조</b> — 받침(Meshy) · 빛 띠(Unity 재질, 색 교체) · 그림자 원 · 빛 기둥(반투명) · 아이콘(기존 스프라이트) · 글씨(TMP) · 파티클. 아래 줄은 같은 받침에 색만 바꾼 종류들, 금 간 받침(Meshy 변형), 랜덤(무지개 재질).</figcaption></figure>
+<div class="games" style="margin-top:14px">
+<figure><a href="pad/build/game-highway.png" target="_blank" rel="noopener"><img src="pad/build/game-highway.jpg" alt="고속도로 적용 예시"></a><figcaption>고속도로 · 공격력/체력 한 쌍 + 뒤쪽 랜덤</figcaption></figure>
+<figure><a href="pad/build/game-noryangjin.png" target="_blank" rel="noopener"><img src="pad/build/game-noryangjin.jpg" alt="노량진 적용 예시"></a><figcaption>노량진 · 나쁜 보너스(금 간 보라) / 코인업</figcaption></figure>
+</div>
+
+<h2 id="applied">6-3. 실제 적용 (Unity 플레이 화면)</h2>
+<p>Meshy로 만든 육각 받침 2종(일반·금 간 받침, 60크레딧)에 Unity에서 빛 띠·빛 기둥·그림자와 직접 그리신 아이콘을 붙였습니다. 노량진 SR18·고속도로·휴게소의 모든 일반 보너스와 고속도로 랜덤 보너스 2곳에 들어가 있습니다.</p>
+<div class="rand" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+<figure><a href="pad/applied/highway-pair.png" target="_blank" rel="noopener"><img src="pad/applied/highway-pair.jpg" alt="고속도로 · 공격력(빨강) / 체력(초록) 한 쌍"></a><figcaption>고속도로 · 공격력(빨강) / 체력(초록) 한 쌍</figcaption></figure>
+<figure><a href="pad/applied/highway-random.png" target="_blank" rel="noopener"><img src="pad/applied/highway-random.jpg" alt="고속도로 · 랜덤 보너스 (무지개 패드 + ? + 아이콘 슬롯)"></a><figcaption>고속도로 · 랜덤 보너스 (무지개 패드 + ? + 아이콘 슬롯)</figcaption></figure>
+<figure><a href="pad/applied/noryangjin.png" target="_blank" rel="noopener"><img src="pad/applied/noryangjin.jpg" alt="노량진 SR18 · 좁은 간격이라 폭 2.58 m로 자동 축소"></a><figcaption>노량진 SR18 · 좁은 간격이라 폭 2.58 m로 자동 축소</figcaption></figure>
+<figure><a href="pad/applied/reststop.png" target="_blank" rel="noopener"><img src="pad/applied/reststop.jpg" alt="휴게소 매장 안 · 체력"></a><figcaption>휴게소 매장 안 · 체력</figcaption></figure>
+</div>
+
+<h2>7. 추천 (보너스 월 전체)</h2>
+<ul>
+<li><b>최종 선택: 08 바닥 패드 + 홀로그램</b>(6번 섹션). 아래는 처음 비교할 때의 의견입니다.</li>
+<li><b>고속도로 기본 보너스 월: 01 도로 전광판.</b> 장소와 가장 잘 맞고 숫자가 멀리서 선명합니다.</li>
+<li><b>등급이 있는 보너스(랜덤 보너스 월·요금소 유니크): 07 대형 레어 카드.</b> 테두리 색으로 등급이 보이고, 지금 부적 카드의 자연스러운 업그레이드입니다.</li>
+<li><b>나쁜 보너스를 섞는다면 10 신호등 게이트</b>의 초록/빨강 규칙을 01에도 빌려 쓰면 좋습니다.</li>
+<li>게임 적용 예시에서 보이듯 18 m 앞에서는 여전히 작습니다. 어떤 안이든 <b>지금보다 약 1.5배 크게</b> 만들어야 합니다.</li>
+</ul>
+
+<footer>그림: Codex(내장 이미지 생성). 참고 이미지는 현재 게임 캡처와 캐릭터 설정화. 게임·씬 변경 없음. Codex 사용량: 시안 20장 345,859 토큰 + 바닥 패드·랜덤 7장 142,616 토큰 + 제작 예시 4장 76,999 토큰 + Meshy용 받침 시안 4회 81,076 토큰.</footer>
+</main></body></html>

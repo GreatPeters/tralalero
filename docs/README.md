@@ -1,5 +1,36 @@
 # Docs Index
 
+- **고속도로 한국 요금소·만화 집중선·보너스10시안 — 최신**: `exec-plans/completed/highway-toll-manga-2026-09-27.md`. 곡선 지붕·전광판·초록 화살표·하이패스 장비, 화면 가장자리 집중선96개. [실제 적용 화면](http://127.0.0.1:8776/highway/toll-manga/) · [보너스10개 이미지 전용 갤러리](http://127.0.0.1:8776/highway/toll-manga/bonus/). 보너스는 게임 미적용, 신규 Meshy 생성 없음. 기존25개 검사 직접 호출·14개 런타임 검증·설정 복원 완료.
+- `solutions/ui-bugs/refresh-native-mesh-buffers-and-reserve-camera-hud-space-2026-09-27.md`: 반복 생성 메시의 실제 렌더 버퍼 갱신, 카메라 HUD와 오버레이 효과의 그리기 순서, 네이티브 화면 검증.
+
+- **고속도로 필수 차량 파괴·보너스 개편 — 2026-09-27 최신**: `exec-plans/completed/highway-combat-revision-2026-09-27.md`. 차량351대(+50.6%), 파괴 후 통과, 체력 표시·예상 피해 경고 정리, 요금소 직접 획득, 새 랜덤 게이트·한국 경찰차·통나무1.5배·상어1.5배 가속. 정상 스탯 좌우 경로 완주, 무사격 회피 실패 확인,82개 검사·16개 런타임 검증·원본 설정 복원. [실제 게임 화면과 일반 보너스 시안](http://127.0.0.1:8776/highway/combat-revision/).
+- `solutions/runtime-errors/use-world-clearance-and-preserve-opened-slots-in-highway-combat-2026-09-27.md`: 곡선에서의 실제 충돌 모양 간격 검사, 이미 파괴한 차로를 유지하는 검증 조작, 실제 피해와 예고 문구 구분, 씬/저장값 검증.
+
+- **고속도로 스크린샷 후속 수정 — 2026-09-27**: `exec-plans/completed/highway-visual-fixes-2026-09-27.md`. 차량 변형 제거·접지 보정, 초록/빨강 분기, 초반8대 추가와1.5초 빠른 등장, 차체를 숨기던 거리 제한 수정, 경차/SUV 추가.72개 테스트, 좌우2경로 완주, 설정 복원 완료. [최신 실제 화면 비교](http://127.0.0.1:8776/highway/fixes/).
+- `solutions/runtime-errors/keep-highway-vehicle-visibility-out-of-pedestrian-culling-2026-09-27.md`: 비활성 레거시 컨트롤러의 런타임 초기화, 차체/체력 숫자의 서로 다른 표시 소유자, 네이티브 검증으로 발견한 후속 보정.
+
+- **2챕터 고속도로 기획 실제 적용 — 2026-09-27**: `exec-plans/completed/highway-chapter2-2026-09-27.md`. 차량 적 225대, 두 번의 팝업 선택, 사고 정체·탱크로리·통나무·공사·유니크 보너스. 일반 성장 스탯으로 네 경로 모두 약 298초 완주, 첫 진입 사고 통과, 63개 테스트·14개 런타임 검사 통과. 실제 화면 비교: `http://127.0.0.1:8776/highway/implementation/`. 상세 한계·복원 기록: `../outputs/highway-chapter2-2026-09-27/README.md`. 아래 고속도로 기록은 이전 구현 이력.
+
+- `solutions/workflow-issues/preserve-workbook-contracts-when-converting-highway-actors-to-vehicles-2026-09-27.md`: 차량 전투 재사용, 엑셀 보존, 실제 투사체·저체력 방패 회귀, 곡선 도로에서의 자동 조작 검증과 PlayerPrefs 원본 복원.
+
+- **실제 고속도로 3차선 적용 완료**: `exec-plans/completed/highway-three-lane-rebuild-2026-09-26.md`. 현재 네이티브 미리보기 기준의 등폭3차선·중앙분리대·정면 차량·우회로 시야 정리. 본선/두 우회로 테스트 모드 완주, 재시작·종료와 설정 복원 검증. 실제 화면: `http://127.0.0.1:8776/three-lanes/applied/`. 아래 미리보기/기획은 이전 기록.
+
+- `solutions/workflow-issues/validate-highway-traffic-across-play-sessions-and-live-hazards-2026-09-26.md`: 차량 생성 중지 상태의 Play 세션 누수, workbook 재활성화 장애물, 통나무 경고·회피 검증, 네이티브 씬 저장 재검증.
+
+- 실제 게임 그래픽의 3차선 미리보기: `../tmp/image-previews/highway-native-three-lanes-2026-09-26/README.md`. 기존 에셋·HUD·카메라의 네이티브 촬영과 같은 위치 원본 비교. Play Mode 임시 배치 후 복원, 원본 씬 미저장.
+
+- 최신 고속도로 방향: 기존 5안은 사용자에게 거절됨. 일반적인 한국 고속도로·3차선·모든 차량 정면 접근의 기본 콘셉트 그림은 `../tmp/image-previews/korean-highway-three-lanes-2026-09-26/README.md`. 게임 미적용.
+
+- `ideation/2026-09-26-highway-five-concepts.md`: 고속도로 5안의 쉬운 그림 설명. 각 안은 상황→행동→결과 3장, 짧은 전체 진행, 대표 좌우 선택으로 요약. 원래 상세안은 `ideation/2026-09-26-highway-five-concepts-detailed.md` 및 홈페이지의 `details.html`에 보존. 게임 미적용. 홈페이지: `../outputs/highway-concepts-2026-09-26/site/index.html`.
+
+- `solutions/workflow-issues/audit-highway-branches-with-combat-and-coverage-separated-2026-09-26.md`: 고속도로 일반 전투 10판 + 별도 경로 관찰 2회. 첫 우회로 산 모델 겹침과 좌·우 분기 분석. 웹 분석서: `../outputs/highway-analysis-2026-09-26/site/index.html`.
+
+- `solutions/runtime-errors/create-combat-harness-after-scene-setup-2026-09-26.md`: 고속도로 Play Mode 진입 시 Combat Harness 씬 정리 오류 수정. 조기 생성 콜백 제거, 실제 시작·종료 2회와 빌드 검증.
+
+- `exec-plans/completed/maptool-start-stage-2026-09-25.md`: 맵툴 편의의 `데이터 / 1 / 2 / 3` 시작 맵 치트와 첫 동영상 `ON / OFF`. 세 맵 연결·시작 설정 복원 8개, 영상 자동 재생 제어 5개 네이티브 assertion 검사.
+
+- `../map-concepts/meshy-highway-2026-09-25/README.md`: **고속도로 한국형 보정 완료** — 도시 빌딩 101개 → 아파트·논·비닐하우스·산, 적 6종 교체(요금소 직원·레커 기사 신규), 차량 40대 교체, 공사 구간 4·레커 추월 2·굴러오는 타이어 2, 반대편 교통 16대. Meshy 360크레딧, 전 구간 298.6초 확인.
+- `../map-concepts/meshy-reststop-2026-09-25/README.md`: **휴게소 한국형 재구성 완료** — 본선·파일론 진입, 주차장·캐노피·본관 관통(푸드코트 30초 방어→식당→편의점→화장실)·주유소·연결로, Meshy 사람 17·차량 8·소품 12(1,708크레딧), 적 역할 5종·신규 기믹 5개, 30초 배너·밸런스 실제 플레이 검증.
 - `../map-concepts/reststop-scene-integration-2026-09-25/README.md`: **휴게소·고속도로 적용 완료** — 90종 Unity 라이브러리, 휴게소90종/고속도로83종 연결, 99재질·72동작 네이티브 검사, 저장 후 재검증, 이동·사격 증거와 적용 전후 백업.
 - `exec-plans/completed/reststop-scene-integration-2026-09-25.md`: 두 씬 모델 적용의 완료 범위와 검증 한계.
 - `solutions/integration-issues/fit-generated-fbx-in-parent-space-before-scene-installation-2026-09-25.md`: FBX 축 변환과 크기 보정, 의미에 맞는 방향·배치, 실제 Unity 렌더 검증.

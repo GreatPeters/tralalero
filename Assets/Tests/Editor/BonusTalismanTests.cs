@@ -85,7 +85,10 @@ public sealed class BonusTalismanTests
         var wall=child.AddComponent<WallScript>();var view=BonusTalismanPresentation.Refresh(wall).Visual;
         Assert.That(view.transform.parent,Is.EqualTo(root.transform));
         Assert.That(Vector3.Distance(view.transform.lossyScale,Vector3.one),Is.LessThan(.01f));
-        Assert.That(view.transform.position.y,Is.EqualTo(root.transform.position.y+2.2f).Within(.01f));
+        // Floor-pad presentation: hologram 1.75 m above a full-width pad; the pad keeps world size too.
+        Assert.That(view.transform.position.y,Is.EqualTo(root.transform.position.y+1.75f).Within(.01f));
+        var pad=root.transform.Find("BonusPad");Assert.That(pad,Is.Not.Null);
+        Assert.That(Vector3.Distance(pad.lossyScale,Vector3.one),Is.LessThan(.01f));
     }
 
     [Test]

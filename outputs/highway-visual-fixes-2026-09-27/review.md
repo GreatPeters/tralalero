@@ -1,0 +1,13 @@
+# Focused review
+
+Reviewed this task's shared-runtime changes against before/ snapshots, new native tools, placement migration, current user requirements and actual captured frames. Unrelated dirty files are outside the review. Repository instructions require sequential main-thread work; no subagents or commits.
+
+- Scope: legacy EnemyEventController only skips its pedestrian distance-culler/contact-warning bootstrap when HighwayVehicleEnemy exists. Other chapter actors retain their prior path; MobileCombatFeedbackTests pass7/7.
+- Visibility: source activation alone was insufficient. Native inspection identified active/enabled renderers with forceRenderingOff=true at80–90m. The corrected run records hiddenBodyFrames and does not hide active vehicle bodies through the legacy culler.
+- Data:225existing IDs, health and coin values are unchanged. Starting stations compensate1.5seconds of earlier movement; eight appended entries intentionally add early traffic. ZIP/other-chapter rows are preserved.
+- Meshes: the accident dent operation was removed rather than deforming wheels again. Variant colliders use measured bounds, and cosmetic wreck pools key by the actual variant.
+- Road: independent line sets are clipped in shared asphalt; the main edge returns when carriageways separate. First-fork geometry uses a smooth transition/plateau. The initial180mtransition failed the established continuity contract;220mpasses. No test tolerance was relaxed.
+- Scenery: ray checks move the long wall panels off actual road surfaces; the first10msearch limit was insufficient at one curve, while the final bounded32msearch cleared all walls, maximum movement13m.
+- Tool correction: RoadMaterials initially called GetFloat on the shader color property. Six diagnostic errors triggered the Editor's error pause; the probe now filters property types. The paused game was resumed, preserving game time. This is a diagnostic failure, not a gameplay exception; console history was retained.
+
+Runtime/Editor builds, harness validation and72focused tests pass. play-v2 passes the entry accident and clears jam/hi-pass plus open/cash at normal growth stats. All three measured direction/overlap/hidden-body/wall counters are zero. play-v3 confirms the saved non-outline asphalt and continued guide strips through750m; it is a visual review, not another full clear. All preference restorations are byte-identical and the final scene is clean. Protected other-chapter scene hashes match. No unresolved implementation finding was retained. Human difficulty, every random combination and phone performance remain unverified.

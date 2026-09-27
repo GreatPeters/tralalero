@@ -211,8 +211,19 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (!collected && collector != null && collectionRadius > 0 && TimeManager.isGameRunning)
             {
+                float radius = collectionRadius;
+                var chapter = HighwayChapter2Controller.For(collector.GetComponent<PlayerScript>());
+                if (chapter != null && chapter.MagnetRadius > 0)
+                {
+                    radius = chapter.MagnetRadius;
+                    if (Vector3.Distance(collector.position, transform.position) < radius)
+                    {
+                        bobTween?.Kill(); bobTween = null;
+                        transform.position = Vector3.MoveTowards(transform.position, collector.position + Vector3.up, HighwayChapter2Data.Value("magnetSpeed") * Time.deltaTime);
+                    }
+                }
                 Vector3 delta = collector.position - transform.position;
-                if (Mathf.Abs(delta.y) < 2.5f && delta.x * delta.x + delta.z * delta.z <= collectionRadius * collectionRadius) Collect();
+                if (Mathf.Abs(delta.y) < 2.5f && delta.x * delta.x + delta.z * delta.z <= (chapter != null && chapter.MagnetRadius > 0 ? 1f : radius * radius)) Collect();
             }
             transform.Rotate(Vector3.up, RotateSpeed * Time.deltaTime, Space.World);
 

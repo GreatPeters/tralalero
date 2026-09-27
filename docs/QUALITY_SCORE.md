@@ -1,5 +1,50 @@
 # Quality Score
 
+## Korean toll and manga rush visual iteration — 2026-09-27
+
+The follow-up replaces the slab canopy with a three-bay curved Korean toll plaza, LED arrows/signs, scanners, islands and delineators.96animated manga rays replace sparse streaks while excluding the HUD and centre. Ten separate image-only bonus concepts supersede the rejected A/Bproposal; none is installed. Existing police provenance is the previously generated Meshy sedan plus native livery, not a new police generation.
+
+Both builds/harness pass.25existing NUnit cases pass by direct invocation after the background async runner stalled;14directed lifecycle/pickup/mesh checks pass. Actual native captures were visually reviewed, including a stale mesh-buffer correction. Original preferences/start scene restored, six protected scene hashes unchanged. This task did not repeat full combat playthroughs or measure physical phone performance. [Native revision and image gallery](http://127.0.0.1:8776/highway/toll-manga/).
+
+## Compulsory vehicle combat / reward presentation — 2026-09-27
+
+The current HighWay has351enemy placements(+50.6%), shoot-through rows, synchronized body/HP visibility, physical toll reward selection, rebuilt random gates/toll canopy/Korean police, a5.1mlog and a1.5xplayer rush segment with scoped streaks. General bonus artwork is a separate A/Bconcept proposal, not an applied redesign.
+
+Normal-stat first entry passes; jam/hi-pass clears298.3swith171observed cars (previous110), open/cash clears268.3swith153(previous103). Both have0vehicle overlap/direction/hidden-body/label-without-body/warning-component/unsupported-damage records. The rush returns from11.7to7.8after merge. A goal-stat no-fire weaving attempt fires0projectiles and dies at72.8s;16directed physical contact/visibility/pickup/lifecycle assertions pass.82focused test cases pass, with the final15workbook methods directly invoked after an async runner stall. Both builds/harness pass; original preferences and start scene restore byte-identically. Other scene hashes remain unchanged. No new Meshy credits or commit. Phone performance, human win rate and earned-purchase timing remain unverified. [Latest native report](http://127.0.0.1:8776/highway/combat-revision/).
+
+## Highway screenshot corrections — 2026-09-27 follow-up
+
+HighWay now has233vehicle placements, including eight extra entry cars and24mint compact/24black SUV variants. Rejected wheel/nose deformation is removed. Branch paint no longer overlaps; left-green/right-red guides follow the smoother first split, and internal asphalt outline seams are removed. Pedestrian distance culling had hidden vehicle bodies while leaving HP labels visible; vehicle actors now skip that bootstrap. Activation is1.5seconds earlier with compensated starting positions.
+
+72focused tests, both builds and harness checks pass. Native normal-stat first entry passes without damage; jam/hi-pass and open/cash clear at298.3seconds with0recorded direction/overlap/hidden-body/moving-wall frames. A separate750mvisual review verifies the final cosmetic pass. All preference snapshots are restored byte-identically and protected scenes match their before hashes. No new model credits or commits. Human difficulty/earned economy/phone performance are not certified. [Actual screenshots](http://127.0.0.1:8776/highway/fixes/) and receipts: ../outputs/highway-visual-fixes-2026-09-27/README.md.
+
+## Chapter 2 vehicle Highway — 2026-09-27
+
+The saved scene now uses 4.4 m lanes, 225 car enemies, two popup choices and the requested accident/tanker/log/construction/toll patterns. All four normal-growth routes clear in approximately 298.3 seconds at initial HP 3300 / ATT 88 with ordinary collision and input. First-entry HP 960 / ATT 48 passes the first accident without damage. Accepted records show zero direction errors, vehicle-overlap frames or moving three-lane walls. Earlier failed drivers remain documented, separate from successful evidence.
+
+Runtime/Editor builds, 63 focused EditMode tests, 14 directed runtime assertions, harness checks and workbook preservation pass. PlayerPrefs bytes and the original start-scene setting are restored; protected RestStop/Noryangjin scene hashes match the before state. Native screenshots and reference comparison: `http://127.0.0.1:8776/highway/implementation/`; receipts: `../outputs/highway-chapter2-2026-09-27/README.md`.
+
+Limits: automated route acceptance does not establish human difficulty, earned-purchase first-clear timing, every random combination or physical phone FPS/memory. The authored RestStop destination is verified, but isolated QA retained each completed run without loading the next scene. Earlier entries below describe historical implementations.
+
+## Three-lane Highway implementation — 2026-09-26
+
+The current native v3 road is authored in HighWay with3.6m lanes, yellow median lines, an empty adjacent road and all moving cars/trucks head-on. Enemy/reward counts are preserved. Final mainline(v5) and both-bypass(v6) runs reached actual chapter completion with collisions enabled;21cars and20logs each, all3lanes,0observed direction errors/roadblock overlaps/three-lane vehicle walls. Failed intermediate cohorts remain recorded. Focused22+existing5tests and runtime/Editor builds pass; repeated Play without recompilation resets suppression and leaves no Combat Harness after exit. Test-mode9999 does not certify human difficulty, earned30-attempt progression or mobile performance. Existing camera can crop the opposite outer lane when the shark moves to an edge. Evidence: `outputs/highway-three-lane-rebuild-2026-09-26/`; visual report at `/three-lanes/applied/` on8776.
+
+## Highway branch analysis — 2026-09-26
+
+- Historical analysis finding, resolved by the three-lane implementation above: the first right recovery bypass was obscured by a merged Mountain_Ridge model (bounds overlap around135–285m). The later implementation disables the intersecting ridge/grove units and verifies the cleared route in native play.
+- Ten normal automated combat attempts at HP500/ATT68 ended around65m (left intent, before branch) or334m (right branch, after merge), all by enemy contact. This is a single 3x-speed driver, not human difficulty acceptance. Two separate collider-disabled, HP-pinned surveys covered2820m and both forks; they do not count as combat clears. [Report and limits](solutions/workflow-issues/audit-highway-branches-with-combat-and-coverage-separated-2026-09-26.md).
+
+## Korean highway pass — 2026-09-25
+
+- Strong: skyline now reads as leaving Seoul into farmland and mountains; enemies and vehicles share the rest-stop Meshy style; work zones and tow-truck chases add readable highway-specific beats.
+- Gaps: difficulty was only checked by a coverage bot with instant-death hazards disabled; oncoming-car and roadblock instant deaths remain as before. Opposing traffic uses a fixed speed and does not yield around forks.
+
+## Korean rest-stop re-dress with Meshy models — 2026-09-25
+
+- Strong: every section now reads as a Korean expressway rest area in the gameplay camera; people/vehicles share one Meshy style with the Noryangjin outline; 30-second holdout has a themed banner and completes in live play.
+- Gaps: holdout balance is tuned with a nearest-target bot at one upgrade level (ends ~24% HP), not with a human or the 30-run cohort. About 360 parked and traffic vehicles at ~2.5k triangles each are unmeasured on a phone. Legacy crossing/toll hazards remain instant-death. Divider signs over interior doorways appear large for a moment when the camera passes. Hand dryer wind and speed-bump jump gimmicks were planned but not built (no public lateral/jump API).
+
 ## Rest-stop production models installed in two scenes — 2026-09-25
 
 The selected 90 models are imported with 99 material regions and 72 moving, bound clips. Saved scene coverage is 90 types in RestStop and 83 in HighWay. Reopened scenes preserve the recorded enemy/collider/camera/bonus contracts and have no missing scripts/materials or duplicated enemy Animators. Native movement/contact probes and H03/H08 firing probes pass; 66 saved preferences are restored exactly. RestStop-filter tests pass20/26; six old UI/workbook assertions fail identically against the original scene values. HighwayRebuildContractTests pass3/3. Scene photos and runtime recordings are available, but no mobile device FPS/memory/build or complete level-clear acceptance is claimed. Report: `../map-concepts/reststop-scene-integration-2026-09-25/README.md`.

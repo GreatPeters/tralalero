@@ -1,0 +1,41 @@
+﻿{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "tools/install-highway-chapter2.cs",
+      "entry": "InstallHighwayChapter2.Apply"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 697,
+      "executeMs": 166,
+      "assemblyName": "PipelineRunScript_install-highway-chapter2_c14539f6bb224730b7fc0a602da5a81f",
+      "success": true,
+      "result": {
+        "scene": "Assets/ShooterSurvival/Scenes/Tools/HighWay.unity",
+        "clean": true,
+        "length": 2340,
+        "laneWidth": 4.4,
+        "vehicles": 225,
+        "rangedEnemies": 0,
+        "meshes": 351,
+        "normalBonusPairs": 12,
+        "randomGates": 2,
+        "oppositeCars": 18,
+        "playerScale": 0.8,
+        "cameraScale": 1.15,
+        "font": "GmarketHarbor SDF",
+        "nextScene": "RestStop"
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7801,
+      "projectPath": "C:\\Users\\ljh\\tralalero Shooter"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

@@ -1,0 +1,22 @@
+﻿{
+    "success":  true,
+    "command":  "command test_status",
+    "data":  {
+                 "command":  "test_status",
+                 "parameters":  {
+
+                                },
+                 "result":  "{\r\n  \"status\": \"completed\",\r\n  \"duration\": 0.74,\r\n  \"summary\": {\r\n    \"total\": 8,\r\n    \"passed\": 8,\r\n    \"failed\": 0,\r\n    \"skipped\": 0,\r\n    \"inconclusive\": 0\r\n  },\r\n  \"results\": [\r\n    {\r\n      \"FullName\": \"EncounterPlacementTablesTests.DuplicateIds_AreRejectedBeforeAnySceneMutation\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.0228065,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"EncounterPlacementTablesTests.InvalidSpeed_IsRejected(-1.0f)\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.0030191,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"EncounterPlacementTablesTests.InvalidSpeed_IsRejected(float.NaN)\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.0009341,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"EncounterPlacementTablesTests.InvalidSpeed_IsRejected(float.PositiveInfinity)\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.0009571,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"EncounterPlacementTablesTests.Movement_RequiresPositiveSpeedAndDistance\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.0020311,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"EncounterPlacementTablesTests.Schema_ValidatesTheWholeProtectedWorkbook\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.3863055,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"EncounterPlacementTablesTests.UnknownMode_IsNotSilentlyConvertedToAttack\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.0031653,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"EncounterPlacementTablesTests.Workbook_ContainsThreeBalancedChaptersAndTheirRoles\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.1311964,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    }\r\n  ]\r\n}",
+                 "target":  {
+                                "host":  "127.0.0.1",
+                                "port":  7801,
+                                "projectPath":  "C:\\Users\\ljh\\tralalero Shooter"
+                            }
+             },
+    "errors":  [
+
+               ],
+    "warnings":  [
+
+                 ]
+}

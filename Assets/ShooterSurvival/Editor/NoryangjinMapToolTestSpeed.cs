@@ -9,7 +9,7 @@ internal static class NoryangjinMapToolTestSpeed
 {
     private const string SelectionKey = "NoryangjinMapTool.TestTimeScale";
     private const string AppliedKey = "NoryangjinMapTool.TestTimeScaleApplied";
-    internal static readonly string[] Labels = { "1배 (기본)", "3배 (테스트)" };
+    internal static readonly string[] Labels = { "1배 (기본)", "2배 (테스트)", "3배 (테스트)" };
 
     static NoryangjinMapToolTestSpeed()
     {
@@ -17,12 +17,19 @@ internal static class NoryangjinMapToolTestSpeed
         EditorApplication.delayCall += ApplySelectedSpeed;
     }
 
-    internal static float SelectedTimeScale => SessionState.GetFloat(SelectionKey, 1f) == 3f ? 3f : 1f;
+    internal static float SelectedTimeScale
+    {
+        get
+        {
+            float value = SessionState.GetFloat(SelectionKey, 1f);
+            return value == 2f || value == 3f ? value : 1f;
+        }
+    }
 
     internal static void SelectTimeScale(float value)
     {
-        if (value != 1f && value != 3f)
-            throw new ArgumentOutOfRangeException(nameof(value), "Choose 1x or 3x test speed.");
+        if (value != 1f && value != 2f && value != 3f)
+            throw new ArgumentOutOfRangeException(nameof(value), "Choose 1x, 2x or 3x test speed.");
         SessionState.SetFloat(SelectionKey, value);
         ApplySelectedSpeed();
     }

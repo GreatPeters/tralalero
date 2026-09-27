@@ -9,6 +9,8 @@ namespace IndianOceanAssets.ShooterSurvival
     {
         private const string HarnessRootName = "Combat Harness";
 
+        // Runs after scene setup, including when Enter Play Mode reloads are disabled.
+        // Creating objects in InitializeOnEnterPlayMode races the outgoing scene cleanup.
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         private static void Bootstrap()
         {
@@ -232,12 +234,6 @@ namespace IndianOceanAssets.ShooterSurvival
         }
 
 #if UNITY_EDITOR
-        [InitializeOnEnterPlayMode]
-        private static void EnsureOnEnterPlayMode(EnterPlayModeOptions _)
-        {
-            EnsureHarnessInstance();
-        }
-
         [MenuItem("Tools/Combat Harness/Select Runtime Harness")]
         private static void SelectHarness()
         {

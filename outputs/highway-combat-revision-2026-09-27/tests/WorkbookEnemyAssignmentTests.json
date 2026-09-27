@@ -1,0 +1,22 @@
+﻿{
+    "success":  true,
+    "command":  "command test_status",
+    "data":  {
+                 "command":  "test_status",
+                 "parameters":  {
+
+                                },
+                 "result":  "{\r\n  \"status\": \"completed\",\r\n  \"duration\": 0.25,\r\n  \"summary\": {\r\n    \"total\": 5,\r\n    \"passed\": 5,\r\n    \"failed\": 0,\r\n    \"skipped\": 0,\r\n    \"inconclusive\": 0\r\n  },\r\n  \"results\": [\r\n    {\r\n      \"FullName\": \"WorkbookEnemyAssignmentTests.CorruptGroup_IsRejectedBeforeAnyMutation\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.0141976,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"WorkbookEnemyAssignmentTests.EmptyDestination_MovesOwnershipWithoutDuplication\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.1085742,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"WorkbookEnemyAssignmentTests.OccupiedSpots_SwapTargetsAndUndoTogether\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.0119825,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"WorkbookEnemyAssignmentTests.ReclickingAssignedTarget_DoesNotLeaveItWithoutASpot\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.0016984,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    },\r\n    {\r\n      \"FullName\": \"WorkbookEnemyAssignmentTests.ReplacingWithAnUnassignedActor_DoesNotOrphanThePreviousActor\",\r\n      \"Status\": \"Passed\",\r\n      \"Duration\": 0.0037724,\r\n      \"Message\": null,\r\n      \"StackTrace\": null\r\n    }\r\n  ]\r\n}",
+                 "target":  {
+                                "host":  "127.0.0.1",
+                                "port":  7801,
+                                "projectPath":  "C:\\Users\\ljh\\tralalero Shooter"
+                            }
+             },
+    "errors":  [
+
+               ],
+    "warnings":  [
+
+                 ]
+}

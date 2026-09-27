@@ -127,13 +127,15 @@ namespace IndianOceanAssets.ShooterSurvival
         }
         public static bool SeverelyBlocks(Bounds bounds,Vector3 camera,Vector3 torso,Vector3 forward,Vector3 side)
         {
-            int body=0,road=0;
+            int body=0,road=0,ahead=0;
             for(int i=-1;i<=1;i++)
             {
                 if(IntersectsView(bounds,camera,torso+side*(i*.65f)))body++;
                 if(IntersectsView(bounds,camera,torso+forward*6+side*(i*1.2f)))road++;
+                if(IntersectsView(bounds,camera,torso+forward*12+side*(i*1.2f)))ahead++;
             }
-            return body>=2&&road>=2;
+            // Covering the shark, or hanging across the lanes just ahead where enemies and bonuses are read.
+            return body>=2&&road>=2||road>=2&&ahead>=2;
         }
         private void CacheTraversedRoads(Vector3 forward)
         {

@@ -26,21 +26,26 @@ public sealed class HighwayRebuildContractTests
         }
     }
     [Test]
-    public void SavedHighwayHasNoDuplicateModelsOrBrokenRangedOverrides()
+    public void SavedHighwayUsesWorkbookVehicleEnemiesWithoutPedestrianRangedBindings()
     {
         string path="Assets/ShooterSurvival/Scenes/Tools/HighWay.unity";var scene=SceneManager.GetSceneByPath(path);bool opened=!scene.IsValid()||!scene.isLoaded;
         if(opened)scene=EditorSceneManager.OpenScene(path,OpenSceneMode.Additive);
         try
         {
             var actors=scene.GetRootGameObjects().SelectMany(g=>g.GetComponentsInChildren<EnemyScript_space>(true)).ToArray();
-            Assert.That(actors.Length,Is.EqualTo(50));
+            // The351car combat revision increases233placements by approximately50%.
+            // Humans are now non-combat construction/booth scenery; no enemy projectile rigs remain.
+            Assert.That(actors.Length,Is.EqualTo(351));
             foreach(var actor in actors)
             {
-                Assert.That(actor.GetComponentsInChildren<Animator>(true).Length,Is.EqualTo(1),actor.name);
-                var member=actor.GetComponent<HighwayEncounterMember>();Assert.That(member,Is.Not.Null,actor.name);Assert.That(member.row,Is.Not.Null,actor.name);
-                var controller=actor.GetComponent<EnemyEventController>();if(controller.EventMode==EnemyEventMode.PatrolBetweenStartAndTarget)Assert.That(controller.PatrolAcrossRoad,Is.False,actor.name);
+                var vehicle=actor.GetComponent<HighwayVehicleEnemy>(); Assert.That(vehicle,Is.Not.Null,actor.name);
+                Assert.That(vehicle.body,Is.Not.Null,actor.name);
+                Assert.That(vehicle.body.GetComponentsInChildren<SkinnedMeshRenderer>(true),Is.Empty,actor.name);
+                Assert.That(vehicle.healthNumber.font.name,Is.EqualTo("GmarketHarbor SDF"));
+                Assert.That(actor.GetComponent<BoxCollider>(),Is.Not.Null,actor.name);
+                Assert.That(actor.GetComponent<EnemyEventController>().enabled,Is.False,actor.name);
             }
-            Assert.That(actors.Count(a=>a.HasConfiguredProjectile),Is.EqualTo(34));
+            Assert.That(actors.Count(a=>a.HasConfiguredProjectile),Is.Zero);
             foreach(var actor in actors.Where(a=>a.HasConfiguredProjectile))
             {
                 var data=new SerializedObject(actor);var held=data.FindProperty("heldProjectile").objectReferenceValue as Transform;var muzzle=data.FindProperty("throwPoint").objectReferenceValue as Transform;

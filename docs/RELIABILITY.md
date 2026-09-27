@@ -1,5 +1,65 @@
 # Reliability
 
+## Native Highway presentation updates — 2026-09-27
+
+Repeated procedural Mesh edits must refresh native channels/render buffers, not only serialize CPU state. Keep hidden canopy meshes in a separate combined group so runtime roof toggles do not enable the pre-combination source renderers. Overlay Canvas sorting order does not put graphics behind a camera-space HUD; reserve its screen region explicitly and verify native screenshots. See solutions/ui-bugs/refresh-native-mesh-buffers-and-reserve-camera-hud-space-2026-09-27.md. Pipeline run_script static fields do not survive separate compiled invocations; use SessionState for small cross-call capture state. Reload the saved owned scene after tests if the test run dirtied it; do not save test-generated scene changes.
+
+## Compulsory Highway traffic and physical exit rewards — 2026-09-27
+
+Stage progress gaps do not prove separation on a curved lane. Admit full rows atomically, keep their member motion coupled and compare their proposed collider poses in world space before moving. Tests must include the coordinates between lane centres. QA must retain already-destroyed slots; choosing only living enemies can steer a bot out of a safe opening.
+
+Vehicle health labels use the gameplay camera, minimum projected size and occlusion tests. The predictive contact-warning component must not render on vehicles, even if attached accidentally. Actual damage is logged with the overlapping vehicle IDs. Exit pickups require a living player in the physical trigger and consume both choices after one award; no bonus is granted merely by reaching a progress value. Rush speed/effects are scoped to the open segment and reset on merge/disable.
+
+Check inner Pipeline success before dependent operations and verify clean Edit Mode after test execution. One later asynchronous workbook run stalled; it was cancelled, and the same15existing NUnit methods were invoked directly and passed. This is separately recorded, not counted as an asynchronous-runner success. All task-wide preferences are restored against the original snapshot at completion. See solutions/runtime-errors/use-world-clearance-and-preserve-opened-slots-in-highway-combat-2026-09-27.md.
+
+## Highway screenshot follow-up — 2026-09-27
+
+EnemyEventController's runtime-reference resolution also ran on disabled vehicle controllers and added the pedestrian75mvisual culler. This left distant HP labels visible while car bodies had forceRenderingOff=true. Vehicle actors now skip that bootstrap (including its pedestrian contact warning); HighwayChapter2Controller owns vehicle visibility. See solutions/runtime-errors/keep-highway-vehicle-visibility-out-of-pedestrian-culling-2026-09-27.md.
+
+Do not deform every mesh vertex near an accident car's nose: the same mesh can contain wheels, so a dent operator also distorts tire contact. Reuse the intact silhouette and communicate the accident with pose/lamps/smoke/triangle. Road forks share asphalt at their entrance; independently drawing every line from both carriageways creates crossings. Clip branch paint to the region outside the main carriageway and hide the obsolete main outer edge while the roads overlap. Left-green/right-red guidance is explicitly allowed by the latest user request.
+
+Earlier vehicle visibility must account for motion: advancing spawn time alone changes difficulty and collision timing. Move its starting station by speed×leadSeconds while advancing player-progress activation by runSpeed×leadSeconds. Preserve original placement IDs and HP/rewards. Audit both the data equation and native admission/visibility. Ground-pivot correctness alone does not establish tire clearance on the curved road; compare transformed low mesh vertices against authored road colliders. The follow-up records before/after sweeps and native captures in outputs/highway-visual-fixes-2026-09-27.
+
+## Chapter2 vehicle combat and verification boundaries — 2026-09-27
+
+Vehicle-specific hooks must remain conditional so other chapters retain their contact/reward behavior. A shield needs the full incoming car health before PlayerScript clamps damage to remaining player HP; qualifying the shield after that clamp fails at low health. The actual default projectile is BulletKind.Water, so restricting chain/shatter to Bomb makes both rewards inert. Directed runtime probes cover the actual default shot, low-health shield, fatal-hole exclusion, single consumption, magnet pickup, tanker chains and effect expiry.
+
+Match traffic clearance to the live player capsule (observed1.38mwide), not a guessed visual radius. Automated driving must commit to an accident's weak lane and stay in the opened corridor until past its queue. It must also account for projectile flight time and its finite range. Editor callbacks can see a zero movement delta before the next game update; that does not prove an approaching car stopped. Use a conservative configured closing-speed bound in the driver.
+
+The offset branch can compress world distance relative to the route-progress parameter. Do not compare a world-space collider half-length directly with a progress-distance difference for predictive driving. Sample both future world poses and project the relative vector into the car's frame. Include PlayerMove's Lerp smoothing; raw input delta is not the immediate displacement.
+
+PlayerPrefs in this Windows Editor are registry values. Preserve kinds and exact value bits: Mono may return an unsigned DWORD as Int64. The QA snapshot serializes every value canonically, restores known cached keys and native values, and byte-compares before/after. Keep these files outside the public report folder. Restore the exact playModeStartScene as well as the map-tool selector.
+
+Native appearance matters: fitting a log by width makes a metre-wide log many metres long; fit its long axis. FlatKit's inherited white shadow/rim colors can wash out untextured native props even when BaseColor is correct. Compare captures with the reference, including vehicle noses/tails. For curved scenery, world AABBs are only a broad phase; transform corridor samples into each renderer's local bounds before treating an overlap as real.
+
+## Three-lane Highway lifecycle and collision boundaries — 2026-09-26
+
+`EncounterPlacementController` re-applies workbook enable flags at run start. An authored roadblock disabled in Edit Mode may therefore be active during play. Incoming traffic checks live hazard/collider state before accepting its path; a saved active flag alone is not a corridor test. Centre traffic is also excluded from the actual forced combat passage at its predicted meeting station. Car spacing must use measured inactive-template geometry, not a three-metre fallback for a long vehicle's first spawn.
+
+Highway's log trucks use an opt-in head-on mode and unregister their blocker on cleanup/disable. Rear-chase and adjacent ambient controllers stay disabled in the saved scene. The road and hazard update is HighWay-only; preserve the existing RestStop serialized directions and workbook.
+
+Pipeline `run_script` may time out while a large native mesh import/install continues. Inspect its retained receipt and live state; do not rerun an authoring mutation blindly. Reopen the saved scene and verify mesh references/configuration. The map-tool's play-start scene can differ from the currently open Editor scene; select HighWay for QA and restore the prior choice afterward.
+
+Traffic suppression/clearance use `Time.time` deadlines. With domain reload disabled, reset them on subsystem registration and new-run initialization, or a later Play session can spawn no cars at all. Explicitly repeat Play without recompilation to exercise this boundary. A centre log truck also needs the left corridor clear of static props; sixteen roadblocks are spaced away from event windows. [Retained failures and verification guidance](solutions/workflow-issues/validate-highway-traffic-across-play-sessions-and-live-hazards-2026-09-26.md).
+
+## Combat Harness play-entry lifecycle — 2026-09-26
+
+Do not create runtime scene objects from `InitializeOnEnterPlayMode`: HighWay's start-scene transition with reloads disabled left `Combat Harness` in scene cleanup. Its existing `AfterSceneLoad` runtime bootstrap owns automatic creation. Verify both a single live harness and zero objects after stopping; see [diagnosis and two-cycle verification](solutions/runtime-errors/create-combat-harness-after-scene-setup-2026-09-26.md).
+
+## Korean highway pass — 2026-09-25
+
+- Parenting a new visual under a non-uniformly scaled instance and rotating it skews the mesh (oversized oncoming cars). Place replacements beside the old instance and size them from `Mesh.bounds`; `Renderer.bounds` is empty for inactive objects.
+- Cloning an authored roadblock for an enemy ability also clones its instant-death contact. Strip hazard components from runtime clones.
+- Oncoming traffic still kills on contact by design; route-coverage runs disable `HighwayOncomingTraffic` as well as `HighwayHazard`.
+
+## Meshy generation and Korean rest-stop install — 2026-09-25
+
+- Meshy ledger (`outputs/meshy-reststop-2026-09-25/ledger.json`) is shared by parallel workers through `ledger.lock`; each process overrides only rows it created or advanced. Stopping a worker mid-step can leave a server task without a local id or file: run `tools/meshy_ledger_repair.py` then `tools/meshy_fetch_missing.py` before restarting, and restart only pipelines that resume pending tasks. 41 credits were duplicated before these guards existed.
+- Meshy action FBX files carry per-file bone scale keys (idle about 17% taller than walk); the character importer strips scale curves. Meshy vehicles come out nose toward -Z. A remesh has new UVs and its own textures; re-extract and pick the base-color map, never the largest file (it can be the normal map).
+- A nested body prefab silently refuses re-parenting of its hand props; unpack nested instances before moving props, or they are destroyed with the old body.
+- `NoryangjinCameraOcclusion` only fades explicit scenery to 40%; a full roof needs `RestStopBuildingVisibility`. The holdout disables that occlusion and hides only its own `overheadOccluders`.
+- Existing crossing/toll hazards still kill on contact. Route-coverage playtests (`tools/reststop-korean-playtest.cs`, endurance) disable their colliders and components; that run is not a difficulty result.
+
 ## Rest-stop production import and scene preservation — 2026-09-25
 
 Keep FBX axis conversion below neutral Fit/Orientation parents; nonuniform scaling must use the axes in which bounds were measured. Preserve GLB material slots and intended alpha/normal connections. The installed scenes contain new visual children and replacement combat Bodies; old scene rebuilders can erase those changes. Validate saved instances and ranged ownership after reopening. Do not treat a scenery group's origin as its geometric center, or a successful outer Pipeline response as a successful script. Reproduction scripts, before-scene backups and known unchanged legacy test failures: `../map-concepts/reststop-scene-integration-2026-09-25/README.md`.
@@ -33,6 +93,8 @@ Detached Guard/FatMan shots must survive shooter deactivation; register them wit
 ## Common Bonus feedback — 2026-09-20
 
 WallScript deactivates its lifetime root immediately after applying the reward; the talisman transfer therefore runs in a separate scene-owned visual object. It must never apply a second reward and must cancel on player loss/death/run exit or claim-timestamp reset. Generated glow textures require explicit Single sprite import; a PNG with Multiple mode and no slices yields a null runtime Sprite. Rebuild only from clean Edit Mode. See `map-concepts/common-talisman-applied-2026-09-20/README.md`.
+
+Bonus floor pad (2026-09-27): `RefreshContent` disables every renderer under a Bonus root that is not part of the talisman or `BonusPadVisual`; a new child visual must be added to that exclusion, or the second refresh silently hides it (seen first as "icons lying on the road"). Do not set `TMP_Text.outlineWidth/outlineColor` on bonus captions: in Edit Mode it instances a material per label and fails the talisman tests; use the shared `OutlinedCaption` copy. Pad visibility follows the talisman's active state, because pickup and invalid rolls hide only that object. HighWay random gates keep 214 disabled legacy renderers so `MysteryGate.questions/icons` stay valid; rerunning `InstallHighwayChapter2.Interface` re-applies `MysteryPads`. Random gate outcome is still decided by route distance, not by which of the two pads the player crosses.
 
 ## Codex image-click blank panel — 2026-09-19
 
@@ -229,6 +291,28 @@ Open observation: after the final97-second gameplay run reset, two stackless Edi
 - Every Forward enemy prefab must reference `Assets/ShooterSurvival/Prefabs/Walls/New/Box_left.prefab` in `EnemyScript_space.bonusWall`. A stale `random_wall_normal` reference restores the retired wall only for enemy-death drops even when the map-tool palette is correct; verify all five prefab references with `EnemyScriptSpace_UsesOnlyTheNoryangjinAuthoringContract`.
 - Enemy-death `Box_left` instances must override the prefab root transform to the map-tool result: local scale `(3,3,3)` and world Y rotation `180°`. Instantiating the prefab without that override restores its smaller nonuniform authoring scale `(1.964...,1.35,1)`.
 - Keep the enemy-drop `RuntimeBonusWall` marker on the `Box_left` root so stage cleanup destroys the complete composite altar. Child `WallScript` instances must resolve that marker through their parent hierarchy before deciding whether to use the legacy global post-processing overlay.
+
+## Road Oncoming-Lane Traffic Clearance (2026-09-26)
+
+- `OncomingLaneTraffic` cars (lanes ±4.2) have no colliders and follow route distance, so anything static in their corridor (|lane| 2.5–6.0) is driven through. `tools/install-traffic-clearance.cs` (`DryRun`, `Run`, `Signs`) removes such props/roadblocks inside the active ranges, moves potholes to lanes 0/±0.8 with their sign on the shoulder, and cuts toll plazas (±14) out of `activeRanges`. Re-run `DryRun` after adding any road prop in HighWay or RestStop.
+- Cars keep a per-lane gap (sorted by distance, leader clamp) and refuse to spawn onto an occupied gap; they brake for anything in `OncomingLaneTraffic.Blockers` (deer via `DeerHop`, rolling logs via `LogTruckSpill`). New moving hazards that share the side lanes must register there.
+- The legacy `HighwayOncomingTraffic` is disabled in HighWay (component kept for tests): its Refine2-rebuilt Meshy cars were pitched 270° and it killed on contact. Do not re-enable without rebuilding its car visuals.
+- Lane directions (`OncomingLaneTraffic.laneDirections`, user-set 2026-09-26): left lane -1 head-on, right lane +1 the shark's way (spawn behind, overtake, queue behind the shark while it holds the lane, no rear-end damage).
+- Deer hazards run through `WaterDeerCrossing` (right-to-left, continuous, 20% max-health + model spin via `CosmeticHitSpin`, cause `Wildlife`); their `HighwayHazard` is disabled and `HighwayHazard.OnTriggerEnter` now ignores disabled components (physics messages reach disabled behaviours). The coverage harness's endurance mode no longer affects deer damage.
+- The log truck drives in the centre lane (`truckLane` 0.4) so it never overlaps oncoming cars.
+- Bonus talismans at ±3 still overlap the car corridor edge; cars can visually clip them. Known gap.
+- `EditorSceneManager.playModeStartScene` is reset by domain reloads; set it immediately before `editor_play` when a playtest must start in a specific scene.
+
+## RestStop / HighWay Stage Split (2026-09-26)
+
+- RestStop keeps only route d 380-1430 (deceleration lane -> parking -> building -> fuel exit road). Gameplay outside was deleted (inactive enemies still count in stat progression) and its placement rows pruned from `Data.xlsx` with `tools/prune-reststop-placements.py` (XML-level, other parts byte-identical). `EncounterPlacementController` aborts all data placement for a scene if any row names a missing object: re-export ids and prune after deleting authored gameplay.
+- The remaining RestStop 90-degree corners are `RouteArcDriver` arcs; their turn spots are inactive but stay in the scene for stat ordering.
+- HighWay's route is 2820 (was 2340): a straight extension with the d 1650-1990 block replayed at +740, 한울휴게소 approach signs, pylon and exit ramp. `HighwayRebuildContractTests` now expects 58 enemies / 40 ranged.
+- Meshy vehicle visuals nested under non-uniformly scaled `Fit` transforms cannot be rotated in place (shear). `InstallTrafficClearance.RebuildVehicles` replaces them under the vehicle root.
+- HighWay recovery bypass branches right (`fork.offset > 0`, `HighwayRoute.BypassChosen`); it used to cross the centre line and the opposing carriageway. Only `AmbientTrafficPath` drives the opposing carriageway (northbound per the user); `HighwayAmbientTraffic` is disabled because both used the same lanes.
+- Road markings are world-space LineRenderers: copying a road tile by moving its transform leaves the markings behind (`install-highway-korean.cs` Refine10 repairs the copies). Shift positions when duplicating.
+- Difficulty check: `RestStopKoreanPlaytest.Difficulty0926` (ATT37/HP46, fixed lane -1.2, endurance) records `damage.json`. HighWay went from 16 hits / 2.7x max HP to 23 hits / 3.8x after Refine8 (72 enemies, +5 deer, +2 log trucks, denser side traffic).
+- Scene backups before the split: `outputs/restructure-2026-09-26/backup/`.
 
 ## Verification
 

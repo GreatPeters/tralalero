@@ -14,6 +14,7 @@ namespace IndianOceanAssets.ShooterSurvival
         HighwayProjectilePath roadFlight;
         public float LaunchDamage { get; private set; }
         public bool HasDamagePayload { get; private set; }
+        public BulletKind ProjectileKind { get; set; }
 
         private static readonly HashSet<BulletScript> ActiveProjectiles = new();
 
@@ -94,6 +95,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void SetDirection(Vector3 dir, PlayerScript owner)
         {
+            ProjectileKind = BulletKind.Water;
             HasDamagePayload = owner != null;
             LaunchDamage = owner != null ? owner.ResolvedAttackDamage : 0f;
             direction = dir;

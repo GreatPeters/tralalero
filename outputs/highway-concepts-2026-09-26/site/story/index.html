@@ -1,0 +1,177 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>트랄랄레오 풀 스토리 기획서</title>
+<style>
+:root{--paper:#f5f2e8;--card:#fcfaf3;--ink:#1f3a4a;--soft:#4f6570;--muted:#7d8a8f;--line:#1f3a4a26;--sea:#123f55;--accent:#c4582a;--gold:#b88a1e;--green:#2f7d4f;--road:#3d4a52}
+@media (prefers-color-scheme:dark){:root{--paper:#0f1a20;--card:#152229;--ink:#e3ebee;--soft:#b2c1c7;--muted:#8a9aa0;--line:#e3ebee22;--sea:#173f52;--accent:#e2804f;--gold:#e0b54a;--green:#63b784;--road:#9fb0b8;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif;line-height:1.8;padding:0 18px 80px}
+.wrap{max-width:1060px;margin:0 auto}
+header{background:var(--sea);color:#eef5f7;margin:0 -18px;padding:40px 18px 34px;border-bottom:5px solid var(--accent)}
+.eyebrow{font:600 12px ui-monospace,Consolas,monospace;letter-spacing:.14em;opacity:.8}
+h1{font-size:clamp(28px,5vw,44px);line-height:1.25;margin:6px 0 10px;letter-spacing:-.04em;text-wrap:balance}
+header p{max-width:66ch;margin:0;opacity:.92}
+h2{font-size:24px;margin:52px 0 12px;letter-spacing:-.03em;display:flex;gap:12px;align-items:baseline;text-wrap:balance}
+h2 .n{font:600 13px ui-monospace,Consolas,monospace;color:var(--accent)}
+h3{font-size:19px;margin:22px 0 6px;letter-spacing:-.02em}
+p{max-width:72ch}
+.tbl{overflow-x:auto;border:1px solid var(--line);background:var(--card);margin:12px 0}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:12px;color:var(--muted);letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+.c{white-space:nowrap}
+.pill{display:inline-block;font-size:12px;padding:1px 8px;border-radius:3px;font-weight:700;white-space:nowrap}
+.pill.del{border:1px solid var(--muted);color:var(--muted);text-decoration:line-through}
+.pill.keep{border:1px solid var(--green);color:var(--green)}
+.pill.new{background:var(--accent);color:#fff}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:3px;margin-right:6px;font-weight:700}
+.tag.req{border:1px solid var(--soft);color:var(--soft)}.tag.new{border:1px solid var(--accent);color:var(--accent)}
+.ch{border-top:1px solid var(--line);padding:18px 0}
+.ch h3{margin:0 0 4px}
+.quote{border-left:3px solid var(--gold);padding:4px 14px;margin:8px 0;font-size:15px;background:color-mix(in srgb,var(--gold) 10%,transparent)}
+.flowwrap{overflow-x:auto;border:1px solid var(--line);background:var(--card);margin:14px 0;padding:8px 0}
+.flowwrap svg{display:block;min-width:900px;width:100%;height:auto}
+.popup{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start;margin:16px 0}
+.popup img{width:100%;border-radius:8px;border:1px solid var(--line)}
+.rules{padding-left:20px;margin:0}.rules li{margin:5px 0}
+.fungrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;margin:14px 0}
+.funcard{margin:0;background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
+.funcard img{width:100%;aspect-ratio:9/16;object-fit:cover;display:block}
+.funcard figcaption{padding:12px 14px}.funcard b{font-size:16px}.funcard p{margin:4px 0 0;font-size:14px}.funcard small{display:block;margin-top:6px;color:var(--muted);font-size:12px}
+.wide{margin:16px 0;background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.wide img{width:100%;display:block}.wide figcaption{padding:12px 16px;font-size:14px}
+.lines{columns:2 300px;column-gap:24px;font-size:15px}.lines p{break-inside:avoid;margin:0 0 10px}.lines b{color:var(--accent)}
+ol.dec{padding-left:22px}ol.dec li{margin:6px 0}
+footer{margin-top:50px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+a{color:inherit;text-underline-offset:4px}a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media (max-width:680px){.popup{grid-template-columns:1fr}.popup img{max-width:260px}}
+</style></head><body>
+<header><div class="wrap">
+<div class="eyebrow">TRALALERO SHOOTER · 풀 스토리 기획서 · 2판</div>
+<h1>신발 한 켤레의 배상</h1>
+<p>신발을 훔쳤다가 저주받은 상어 트랄랄레오가, 가브릴렐로가 만족할 "더 좋은 신발"을 찾아 서울까지 올라가는 동안 온 동네가 그를 쫓습니다. 이번 판은 피드백을 반영해 재미 요소를 정리하고, 분기 팝업으로 경로를 고르는 게임 흐름을 새로 넣었습니다.</p>
+</div></header>
+<main class="wrap">
+
+<p style="margin-top:22px"><span class="tag req">기존 요구</span>노량진 → 고속도로 → 휴게소, 총 5챕터, 챕터당 약 20판, 프롤로그, 휴게소 30초 방어전. <span class="tag new">제안</span>4·5챕터, 악당 설정, 대사, 재미 요소, 게임 흐름. 게임에는 반영하지 않았습니다.</p>
+
+<h2><span class="n">00</span>이번 판에서 바뀐 것</h2>
+<div class="tbl"><table>
+<tr><th>요소</th><th>결정</th><th>내용</th></tr>
+<tr><td>현상금 게이지</td><td><span class="pill del">삭제</span> → <span class="pill new">우르르 패턴</span></td><td>순찰차·견인차가 떼로 몰려오는 하나의 패턴으로</td></tr>
+<tr><td>탱크로리</td><td><span class="pill keep">유지</span></td><td>체력이 높고, 부수면 인접한 차를 모조리 폭발로 날림</td></tr>
+<tr><td>교통방송 예고</td><td><span class="pill del">삭제</span></td><td>패턴은 예고 없이 온다</td></tr>
+<tr><td>통나무 트럭</td><td><span class="pill keep">수정</span></td><td>좌측 상행선(반대편 도로)에서 북쪽으로 가다가 통나무가 우측(내 도로)으로 쏟아짐</td></tr>
+<tr><td>공물 도감 · 먹방 버프 · 도망가는 운전자 · 개조업자 한마디 · 피버 · 고사상 룰렛 · 졸음쉼터 보너스</td><td><span class="pill del">삭제</span></td><td>고사상 컨셉도 폐기</td></tr>
+<tr><td>휴게소 건물</td><td><span class="pill new">채택</span></td><td>먹방 그림의 휴게소 건물 외형을 모델 방향으로</td></tr>
+<tr><td>하이패스</td><td><span class="pill keep">수정</span></td><td>차단기 없음. 하이패스/현금 차로에서 유니크 보너스 선택</td></tr>
+<tr><td>랜덤 보너스 월</td><td><span class="pill new">신설</span></td><td>기존 보너스 월과 별개, 통과할 때 결과가 정해짐</td></tr>
+<tr><td>게임 흐름</td><td><span class="pill new">신설</span></td><td>분기 팝업으로 경로를 고름</td></tr>
+</table></div>
+
+<h2><span class="n">01</span>등장인물과 챕터</h2>
+<div class="tbl"><table>
+<tr><th>챕터</th><th>장소</th><th>찾는 신발</th><th>쫓는 쪽</th><th>보스</th></tr>
+<tr><td class="c">1</td><td>노량진 수산시장</td><td>방수 장화</td><td>시장 상인</td><td>횟집 사장님</td></tr>
+<tr><td class="c">2</td><td>고속도로</td><td>레이싱 슈즈</td><td>렉카 견인 조직 + 경찰</td><td>렉카 대장</td></tr>
+<tr><td class="c">3</td><td>한울휴게소</td><td>할머니의 고무신</td><td>경찰 현상수배</td><td>푸드코트 30초 포위</td></tr>
+<tr><td class="c">4 · 제안</td><td>한강</td><td>한정판 운동화</td><td>방송국 생중계</td><td>중계 헬기</td></tr>
+<tr><td class="c">5 · 제안</td><td>성수동 수제화 거리</td><td>직접 만든 한 켤레</td><td>가브릴렐로의 시험</td><td>가브릴렐로의 사자</td></tr>
+</table></div>
+<p>주인공 트랄랄레오(꼬리가 발), 저주를 내린 신 가브릴렐로, 챕터마다 제단 옆에 먼저 와 있는 불법 신발 개조업자(정체는 5챕터에서 공개), 조력자 퉁퉁퉁 사후르·붐바르딜로. 각 챕터는 진입 영상 → 제단 → 본편(분기 팝업) → 보스 → 공물 장면(퇴짜와 다음 단서) 순서입니다.</p>
+
+<h2><span class="n">02</span>챕터별 이야기</h2>
+<div class="ch"><h3>프롤로그</h3><span class="tag req">기존</span> 신발을 물고 도망 → 저주로 변신 → "절대 벗겨지지 않는다" → "더 좋은 신발을 바치면 풀린다". 첫 목적지 노량진.</div>
+<div class="ch"><h3>1챕터 · 노량진 — 장화의 시장</h3>젖은 신발이 무거운 트랄랄레오가 상인들의 장화를 노립니다. 상인들이 길을 막고, 칼 든 횟집 사장님이 장화를 지킵니다. 시장 TV 속보 구석에 "경부고속도로, 한정판 레이싱 슈즈 운송 중".<div class="quote">가브릴렐로: "비린내가 난다. 퇴짜."</div></div>
+<div class="ch"><h3>2챕터 · 고속도로 — 정체의 끝에서</h3>쌩쌩 달리는 차들을 보고 겁먹는 트랄랄레오(기존 요구). 현상금을 노린 렉카 견인 조직이 레이싱 슈즈 트럭을 가로채고 차들로 고속도로를 막습니다(<a href="../cars-only/">차량전 기획</a>의 정체 관문). 경찰까지 가세해 순찰차·견인차가 떼로 몰려옵니다. 렉카 대장을 쓰러뜨리면 화물칸에서 레이싱 슈즈가 떨어집니다.<div class="quote">가브릴렐로: "빠르긴 한데 너무 빨리 닳는다. 퇴짜."</div></div>
+<div class="ch"><h3>3챕터 · 한울휴게소 — 포위된 휴게소</h3>호두과자를 먹던 사람들이 거대한 상어를 보고 도망가고(기존 요구), 푸드코트에서 30초 동안 경찰 포위를 버팁니다(기존 요구). 도망가지 않은 호두과자 가게 할머니가 낡은 고무신을 줍니다. "진짜 좋은 신발은 성수동 가서 만들어 달래야지."<div class="quote">가브릴렐로(처음 망설이며): "…정성은 있다. 하지만 네 것이 아니다."</div></div>
+<div class="ch"><h3>4챕터 · 한강 — 생중계 <span class="tag new">제안</span></h3>서울에 들어오자 방송국이 생중계를 시작합니다. 중계 드론·배달 오토바이·중계차, 보스는 탐조등을 비추는 중계 헬기. 경품 한정판 운동화.<div class="quote">가브릴렐로: "공장에서 찍어낸 수천 켤레 중 하나. 퇴짜."</div></div>
+<div class="ch"><h3>5챕터 · 성수동 — 한 켤레의 배상 <span class="tag new">제안</span></h3>수제화 공방의 장인은 사실 챕터마다 제단 옆에 있던 개조업자였습니다. 가죽·밑창·실을 모아 직접 만든 한 켤레를 바치자 저주가 풀립니다. 바다로 돌아간 상어의 꼬리에는 작은 신발 한 짝이 그대로 남아 있습니다.<div class="quote">가브릴렐로: "처음으로 훔치지 않은 신발이구나."</div></div>
+
+<h2><span class="n">03</span>게임 흐름: 분기 팝업으로 고르는 경로</h2>
+<div class="popup">
+<img src="v2/popup.jpg" alt="분기 팝업: 어디로 갈까? 본선 직진(정체·코인 많음)과 우측 출구 국도(적 적음·회복) 두 카드, 5초 타이머">
+<div>
+<h3 style="margin-top:0">팝업 규칙</h3>
+<ul class="rules">
+<li>분기점 약 60 m 앞에서 게임이 느려지고(0.2배속) 화면이 어두워지며 팝업이 뜹니다.</li>
+<li>선택 카드 2장. 각 카드에 "무엇이 나오는지"와 "무엇을 얻는지"를 짧게 보여 줍니다.</li>
+<li>5초 안에 고르지 않으면 기본값(본선)으로 갑니다.</li>
+<li>고르면 상어가 자동으로 그 길로 빠집니다. 좌우로 끼어들어 정하는 방식이 아닙니다.</li>
+<li>판이 끝나면 결과 화면에 "이번 경로"를 보여 줍니다.</li>
+<li>목적: 20판 동안 성장 상태에 따라 다른 길을 고르게 만들기. 약할 때는 살아남는 길, 강해지면 돈 버는 길.</li>
+</ul>
+</div></div>
+
+<h3>고속도로 한 판 흐름 (약 300초, 조합 8가지)</h3>
+<div class="flowwrap" role="img" aria-label="고속도로 한 판 흐름도: 진입 후 분기1 본선/국도, 합류, 분기2 하이패스/현금, 본선 사건, 분기3 렉카 대장/공사 우회로, 휴게소 진입">
+<svg viewBox="0 0 1000 300" font-family="Malgun Gothic, sans-serif" font-size="13">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--road)"/></marker></defs>
+<g stroke="var(--road)" stroke-width="2.5" fill="none" marker-end="url(#ar)">
+<path d="M120 150H160"/><path d="M200 150L240 85"/><path d="M200 150L240 215"/>
+<path d="M370 85L410 150"/><path d="M370 215L410 150"/>
+<path d="M500 150L530 85"/><path d="M500 150L530 215"/><path d="M630 85L660 150"/><path d="M630 215L660 150"/>
+<path d="M770 150L800 85"/><path d="M770 150L800 215"/><path d="M920 85L950 140"/><path d="M920 215L950 160"/>
+</g>
+<g fill="var(--card)" stroke="var(--line)" stroke-width="1.5">
+<rect x="10" y="120" width="110" height="60" rx="6"/><rect x="240" y="55" width="130" height="60" rx="6"/><rect x="240" y="185" width="130" height="60" rx="6"/>
+<rect x="410" y="120" width="90" height="60" rx="6"/><rect x="530" y="55" width="100" height="60" rx="6"/><rect x="530" y="185" width="100" height="60" rx="6"/>
+<rect x="660" y="120" width="110" height="60" rx="6"/><rect x="800" y="55" width="120" height="60" rx="6"/><rect x="800" y="185" width="120" height="60" rx="6"/>
+</g>
+<g fill="var(--accent)"><circle cx="180" cy="150" r="18"/><circle cx="515" cy="150" r="0"/></g>
+<g fill="var(--ink)">
+<text x="65" y="146" text-anchor="middle" font-weight="700">진입 본선</text><text x="65" y="165" text-anchor="middle" font-size="11" fill="var(--soft)">0–60초</text>
+<text x="180" y="155" text-anchor="middle" fill="#fff" font-weight="700">①</text>
+<text x="305" y="81" text-anchor="middle" font-weight="700">본선 직진</text><text x="305" y="100" text-anchor="middle" font-size="11" fill="var(--soft)">정체 관문·우르르·코인↑</text>
+<text x="305" y="211" text-anchor="middle" font-weight="700">우측 출구 국도</text><text x="305" y="230" text-anchor="middle" font-size="11" fill="var(--soft)">고라니·경운기·회복</text>
+<text x="455" y="146" text-anchor="middle" font-weight="700">IC 합류</text><text x="455" y="165" text-anchor="middle" font-size="11" fill="var(--soft)">150초</text>
+<text x="580" y="81" text-anchor="middle" font-weight="700">하이패스</text><text x="580" y="100" text-anchor="middle" font-size="11" fill="var(--soft)">유니크 보너스 A</text>
+<text x="580" y="211" text-anchor="middle" font-weight="700">현금 차로</text><text x="580" y="230" text-anchor="middle" font-size="11" fill="var(--soft)">유니크 보너스 B</text>
+<text x="715" y="140" text-anchor="middle" font-weight="700">본선 사건</text><text x="715" y="158" text-anchor="middle" font-size="11" fill="var(--soft)">통나무·탱크로리</text><text x="715" y="173" text-anchor="middle" font-size="11" fill="var(--soft)">랜덤 보너스 월</text>
+<text x="860" y="81" text-anchor="middle" font-weight="700">렉카 대장 추격</text><text x="860" y="100" text-anchor="middle" font-size="11" fill="var(--soft)">보스전·보상 큼</text>
+<text x="860" y="211" text-anchor="middle" font-weight="700">공사 우회로</text><text x="860" y="230" text-anchor="middle" font-size="11" fill="var(--soft)">보스 없음·보상 작음</text>
+<text x="975" y="155" text-anchor="middle" font-weight="700" font-size="12">휴게소</text>
+</g>
+<g fill="var(--accent)" font-weight="700" font-size="12"><text x="515" y="40" text-anchor="middle">② 톨게이트 팝업</text><text x="785" y="40" text-anchor="middle">③ 팝업 (230초)</text><text x="180" y="112" text-anchor="middle">① 팝업 (60초)</text></g>
+</svg></div>
+<div class="tbl"><table>
+<tr><th>시각</th><th>팝업</th><th>선택지</th></tr>
+<tr><td class="c">60초</td><td>① 어디로 갈까?</td><td><b>본선 직진</b> — 정체 관문·우르르 패턴, 코인 많음 / <b>우측 출구 국도</b> — 경운기·고라니 떼·과수원 길, 적 약함, 체력 회복, 코인 적음. 둘 다 IC에서 본선 합류</td></tr>
+<tr><td class="c">150초</td><td>② 어느 차로로?</td><td><b>하이패스</b> / <b>현금 차로</b> — 차로마다 다른 유니크 보너스. 차단기 없음</td></tr>
+<tr><td class="c">230초</td><td>③ 끝까지 쫓을까?</td><td><b>렉카 대장 추격</b> — 보스전, 클리어 보상 큼 / <b>공사 우회로</b> — 보스 없이 공사 구간 교전, 회복, 보상 작음. 둘 다 휴게소 진입</td></tr>
+</table></div>
+<p>다른 챕터에도 같은 틀을 씁니다. 노량진: 시장 골목(상인 많음·코인) / 부둣가(갈매기·기름·회복). 휴게소: 주차장 정면(경찰 많음) / 주유소 뒤편(차 사이 좁은 길). 4·5챕터: 다리 위 / 한강공원, 큰길 / 골목 공방.</p>
+
+<h2><span class="n">04</span>재미 요소</h2>
+<p>그림은 실제 게임 화면과 캐릭터 설정화를 참고해 Codex로 그린 목업이고, 탱크로리는 게임 에셋으로 임시 배치해 찍은 화면입니다. 게임에 들어간 화면이 아닙니다.</p>
+<div class="fungrid">
+<figure class="funcard"><img src="v2/swarm.jpg" alt="순찰차와 견인차 떼가 세 차로를 채우며 몰려온다" loading="lazy"><figcaption><b>순찰차·견인차 우르르</b><p>예고 없이 순찰차와 견인차 떼가 세 차로를 채우며 몰려옵니다. 틈을 찾아 빠지거나, 부숴서 뚫습니다.</p><small>2챕터 패턴 · 현상금 게이지 대체</small></figcaption></figure>
+<figure class="funcard"><img src="v2/tanker.jpg" alt="탱크로리 폭발로 옆 차가 날아가며 차로가 열린다" loading="lazy"><figcaption><b>탱크로리</b><p>체력이 높습니다. 대신 부수면 폭발로 인접한 차를 모조리 날려 버려, 정체 관문을 한 번에 뚫는 열쇠가 됩니다.</p><small>2챕터 · 정체 관문</small></figcaption></figure>
+<figure class="funcard"><img src="v2/logtruck.jpg" alt="반대편 상행선의 통나무 트럭에서 통나무가 분리대를 넘어 내 도로로 굴러온다" loading="lazy"><figcaption><b>통나무 트럭</b><p>좌측 상행선(반대편 도로)에서 북쪽으로 달리던 트럭의 통나무가 예고 없이 분리대를 넘어 우측 내 도로로 굴러 쏟아집니다.</p><small>2챕터 · 예고 없음</small></figcaption></figure>
+<figure class="funcard"><img src="v2/hipass.jpg" alt="차단기 없는 톨게이트, 하이패스와 현금 차로 위에 유니크 보너스 카드" loading="lazy"><figcaption><b>하이패스·현금 유니크 보너스</b><p>톨게이트에 차단기가 없습니다. 하이패스 차로와 현금 차로에 서로 다른 유니크 보너스가 걸려 있고, 팝업에서 하나를 고릅니다.</p><small>2챕터 · 분기 ②</small></figcaption></figure>
+<figure class="funcard"><img src="v2/randomwall.jpg" alt="물음표 카드 안에서 아이콘이 도는 랜덤 보너스 월" loading="lazy"><figcaption><b>랜덤 보너스 월</b><p>기존 보너스 월과 별개입니다. 물음표 카드 안에서 체력·공격·미사일·코인 아이콘이 돌다가 통과하는 순간 결과가 정해집니다.</p><small>전 챕터 · 운 요소</small></figcaption></figure>
+<figure class="funcard"><img src="fun/01-news.jpg" alt="뉴스 속보 자막" loading="lazy"><figcaption><b>뉴스 속보 자막</b><p>화면 위 뉴스 자막이 내가 한 일에 반응합니다. "상어, 탱크로리 3대 연쇄 폭파".</p><small>전 챕터 · 만들기 쉬움</small></figcaption></figure>
+<figure class="funcard"><img src="fun/11-claw.jpg" alt="휴게소 인형뽑기 조력자 소환" loading="lazy"><figcaption><b>인형뽑기 조력자 소환</b><p>휴게소 인형뽑기 기계를 쏴서 퉁퉁퉁·붐바르딜로 인형을 뽑으면 잠시 함께 싸웁니다.</p><small>3챕터</small></figcaption></figure>
+</div>
+<figure class="wide"><img src="v2/reststop-building.jpg" alt="휴게소 건물: 큰 휴게소 간판, 푸드코트 입구, 호두과자·알감자·핫바 현수막, 주차·화장실 표지"><figcaption><b>휴게소 건물 모델 방향</b> — 큰 "휴게소" 간판, 푸드코트 입구, 양옆 호두과자·알감자·핫바 현수막, P·화장실 표지. 이 외형을 3챕터 휴게소 모델 방향으로 채택합니다. 버프 아이템은 쓰지 않습니다.</figcaption></figure>
+
+<h2><span class="n">05</span>대사 샘플</h2>
+<div class="lines">
+<p><b>가브릴렐로(장화)</b> "비린내가 난다. 퇴짜."</p>
+<p><b>가브릴렐로(레이싱 슈즈)</b> "빠르긴 한데 너무 빨리 닳는다. 퇴짜."</p>
+<p><b>가브릴렐로(고무신)</b> "…정성은 있다. 하지만 네 것이 아니다."</p>
+<p><b>가브릴렐로(결말)</b> "처음으로 훔치지 않은 신발이구나."</p>
+<p><b>렉카 대장</b> "그 상어 잡으면 견인비 평생 공짜다!"</p>
+<p><b>휴게소 할머니</b> "배고프지? 먹고 가."</p>
+</div>
+
+<h2><span class="n">06</span>정해야 할 것</h2>
+<ol class="dec">
+<li>분기 팝업 동안 게임을 느리게(0.2배속) 할지, 완전히 멈출지.</li>
+<li>분기 ③에서 보스를 건너뛰는 길(공사 우회로)을 허용할지.</li>
+<li>4·5챕터 장소(한강·성수동)와 개조업자 = 장인 반전을 쓸지.</li>
+<li>유니크 보너스와 랜덤 보너스 월에 넣을 효과 목록.</li>
+</ol>
+
+<footer>기존 세계관: GAME_DESIGN_OVERVIEW.md §3, 사용자 요구 원장. 그림: Codex 목업(게임 화면·캐릭터 설정화 참고), 탱크로리는 플레이 모드 임시 배치 촬영. 게임·씬 변경 없음.<br>문서 원문: <a href="트랄랄레오-풀스토리-기획서.md">트랄랄레오-풀스토리-기획서.md</a></footer>
+</main></body></html>

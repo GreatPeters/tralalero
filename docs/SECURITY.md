@@ -1,5 +1,9 @@
 # Security
 
+## Meshy API key — 2026-09-25
+
+- The Meshy API key is read from `MESHY_API_KEY` or `%USERPROFILE%/.meshy/api_key` (ACL limited to the user). It is never written to the repository, ledgers or task logs. The key was pasted into a chat on 2026-09-25; rotating it in the Meshy dashboard is recommended. Meshy task JSON under `outputs/` contains signed, expiring asset URLs only.
+
 ## Trust Boundaries
 - The installed rewarded-ad integration uses official test identifiers. Rewards are local soft currency, granted only through the SDK earned callback and a round/attempt guard, including a late-earned callback after UI destruction. PlayerPrefs guards are not server-authoritative anti-fraud. Production activation needs real AdMob app/unit IDs and the applicable consent/audience configuration; the verified Editor placeholder does not certify production ads or physical-device consent behavior.
 - Repeated chapter tests use a separate real-file Unity project with distinct company/product preferences and analytics disabled. Do not merge its QA bootstrap, product settings or player preferences into the original project.

@@ -1,0 +1,117 @@
+{
+  "runs": [
+    {
+      "route": "jam-hipass",
+      "cohort": "play-v4",
+      "elapsed": 298.3,
+      "hp": 204,
+      "attack": 88,
+      "startHp": 3300,
+      "cars": 101,
+      "wrong": 0,
+      "overlaps": 0,
+      "walls": 0
+    },
+    {
+      "route": "jam-cash",
+      "cohort": "play-v5",
+      "elapsed": 298.3,
+      "hp": 1372,
+      "attack": 88,
+      "startHp": 3300,
+      "cars": 101,
+      "wrong": 0,
+      "overlaps": 0,
+      "walls": 0
+    },
+    {
+      "route": "open-hipass",
+      "cohort": "play-v4",
+      "elapsed": 298.3,
+      "hp": 1851,
+      "attack": 88,
+      "startHp": 3300,
+      "cars": 95,
+      "wrong": 0,
+      "overlaps": 0,
+      "walls": 0
+    },
+    {
+      "route": "open-cash",
+      "cohort": "play-v6",
+      "elapsed": 298.3,
+      "hp": 1511,
+      "attack": 88,
+      "startHp": 3300,
+      "cars": 95,
+      "wrong": 0,
+      "overlaps": 0,
+      "walls": 0
+    }
+  ],
+  "gallery": [
+    {
+      "key": "accident",
+      "title": "첫 사고 정체",
+      "description": "가로로 선 사고차와 옆 차. 약한 옆 차를 부수면 그 차로가 열립니다.",
+      "native": "accident.png",
+      "reference": "accident-reference.jpg"
+    },
+    {
+      "key": "fork",
+      "title": "두 갈래 선택",
+      "description": "60m 앞에서 느려지고, 카드로 길을 고릅니다. 5초 무응답이면 정체 구간입니다.",
+      "native": "fork.png",
+      "reference": "fork-reference.jpg"
+    },
+    {
+      "key": "jam",
+      "title": "정체 구간",
+      "description": "느린 차를 상대하며 전진합니다. 접촉 피해는 남은 체력, 코인은 1.5배입니다.",
+      "native": "jam.png",
+      "reference": "jam-reference.jpg"
+    },
+    {
+      "key": "open",
+      "title": "뻥 뚫린 길",
+      "description": "차량은 빠르게 남쪽으로 다가옵니다. 접촉은 최대 체력의 25%, 코인은 0.8배입니다.",
+      "native": "open.png",
+      "reference": "open-reference.jpg"
+    },
+    {
+      "key": "swarm",
+      "title": "순찰차·견인차",
+      "description": "경광등을 켠 차량들이 예고 없이 엇갈려 접근합니다.",
+      "native": "swarm.png",
+      "reference": "swarm-reference.jpg"
+    },
+    {
+      "key": "log",
+      "title": "통나무 한 개",
+      "description": "반대편에서 북쪽으로 가는 트럭의 통나무 한 개가 넘어옵니다. 내 도로 차는 잠시 멈춥니다.",
+      "native": "log.png",
+      "reference": "log-reference.jpg"
+    },
+    {
+      "key": "work",
+      "title": "공사 구간",
+      "description": "콘으로 닫힌 차로와 작업자 둘, 신호수, LED 작업차를 배치했습니다.",
+      "native": "work.png",
+      "reference": "work-reference.jpg"
+    },
+    {
+      "key": "random",
+      "title": "랜덤 보너스",
+      "description": "물음표 카드가 지나가는 순간 결과를 정합니다. 한 판에 두 번 등장합니다.",
+      "native": "random.png",
+      "reference": "random-reference.jpg"
+    },
+    {
+      "key": "exit",
+      "title": "요금소 출구",
+      "description": "하이패스·현금 중 선택하고 유니크 보너스를 받습니다. 차단기는 없습니다.",
+      "native": "exit.png",
+      "reference": "exit-reference.jpg"
+    }
+  ]
+}

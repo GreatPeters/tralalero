@@ -890,6 +890,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     {
         convenienceScroll = EditorGUILayout.BeginScrollView(convenienceScroll);
         EditorGUILayout.Space(8f);
+        DrawTestStartStageControls();
+        DrawOpeningVideoControls();
         DrawTestTimeScaleControls();
         MapToolCurrencyCheats.Draw();
         using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
@@ -917,15 +919,55 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         EditorGUILayout.EndScrollView();
     }
 
+    private static void DrawTestStartStageControls()
+    {
+        using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+        {
+            EditorGUILayout.LabelField("시작 스테이지 (테스트)", EditorStyles.boldLabel);
+            int selected = NoryangjinMapToolTestStartStage.SelectedStage;
+            using (new EditorGUI.DisabledScope(EditorApplication.isPlayingOrWillChangePlaymode))
+            {
+                int next = GUILayout.Toolbar(selected, NoryangjinMapToolTestStartStage.Labels, GUILayout.Height(30f));
+                if (next >= 0 && next != selected) NoryangjinMapToolTestStartStage.SelectStage(next);
+            }
+            EditorGUILayout.LabelField("1 노량진  ·  2 고속도로  ·  3 휴게소", EditorStyles.miniLabel);
+            EditorGUILayout.LabelField(
+                EditorApplication.isPlayingOrWillChangePlaymode ? "플레이를 종료하면 시작 스테이지를 변경할 수 있습니다." :
+                selected == 0 ? "데이터: 원래 시작 설정으로 실행합니다." : $"다음 Play: {selected} · {NoryangjinMapToolTestStartStage.Names[selected]}",
+                EditorStyles.wordWrappedMiniLabel);
+            EditorGUILayout.LabelField("편집 중인 씬과 데이터는 유지합니다. 선택한 맵은 Play를 누르면 열립니다.", EditorStyles.wordWrappedMiniLabel);
+        }
+        EditorGUILayout.Space(6f);
+    }
+
+    private static readonly string[] OpeningVideoLabels = { "ON", "OFF" };
+
+    private static void DrawOpeningVideoControls()
+    {
+        using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
+        {
+            EditorGUILayout.LabelField("첫 시작 동영상 (테스트)", EditorStyles.boldLabel);
+            int selected = OpeningStoryUI.EditorAutoPlayEnabled ? 0 : 1;
+            using (new EditorGUI.DisabledScope(EditorApplication.isPlayingOrWillChangePlaymode))
+            {
+                int next = GUILayout.Toolbar(selected, OpeningVideoLabels, GUILayout.Height(30f));
+                if (next >= 0 && next != selected) OpeningStoryUI.EditorAutoPlayEnabled = next == 0;
+            }
+            EditorGUILayout.LabelField("OFF: 동영상을 건너뛰고 시작 화면으로 이동합니다.", EditorStyles.wordWrappedMiniLabel);
+            EditorGUILayout.LabelField("다음 Play부터 적용 · 에디터 테스트 전용", EditorStyles.miniLabel);
+        }
+        EditorGUILayout.Space(6f);
+    }
+
     private static void DrawTestTimeScaleControls()
     {
         using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
         {
             EditorGUILayout.LabelField("테스트 속도 (TimeScale)", EditorStyles.boldLabel);
-            int selected = NoryangjinMapToolTestSpeed.SelectedTimeScale == 3f ? 1 : 0;
+            int selected = (int)NoryangjinMapToolTestSpeed.SelectedTimeScale - 1;
             int next = GUILayout.Toolbar(selected, NoryangjinMapToolTestSpeed.Labels, GUILayout.Height(30f));
             if (next != selected && next >= 0)
-                NoryangjinMapToolTestSpeed.SelectTimeScale(next == 1 ? 3f : 1f);
+                NoryangjinMapToolTestSpeed.SelectTimeScale(next + 1f);
             EditorGUILayout.LabelField(
                 EditorApplication.isPlaying
                     ? $"현재 TimeScale: {Time.timeScale:0.#}배"

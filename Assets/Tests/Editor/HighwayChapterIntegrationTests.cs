@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public sealed class HighwayChapterIntegrationTests
 {
-    [Test] public void AuthoredChapter_MatchesWorkbookAndHasAllSixCombatModels()
+    [Test] public void AuthoredChapter_MatchesVehicleWorkbookAndSupportsBothForkRoads()
     {
         var previous=SceneManager.GetActiveScene();var scene=SceneManager.GetSceneByPath(HighwaySceneBuilder.ScenePath);
         bool opened=!scene.IsValid()||!scene.isLoaded;if(opened)scene=EditorSceneManager.OpenScene(HighwaySceneBuilder.ScenePath,OpenSceneMode.Additive);
@@ -16,9 +16,11 @@ public sealed class HighwayChapterIntegrationTests
         {
             var map=scene.GetRootGameObjects().Single(g=>g.name=="Noryangjin_MapTool").transform;
             var actors=map.Find("Enemies").GetComponentsInChildren<EnemyScript_space>(true);
-            Assert.That(actors.Length,Is.EqualTo(50));
-            Assert.That(actors.Select(a=>PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(a.gameObject)).Distinct().Count(),Is.EqualTo(6));
-            var rows=EncounterPlacementTables.Rows.Where(r=>r.scene=="HighWay").ToArray();Assert.That(rows.Length,Is.EqualTo(100));
+            Assert.That(actors.Length,Is.EqualTo(351),"Vehicle-specific placements replace the prior pedestrian contract.");
+            Assert.That(actors.Select(a=>a.GetComponent<HighwayVehicleEnemy>().kind).Distinct().Count(),Is.EqualTo(9));
+            EncounterPlacementTables.Reload();
+            var rows=EncounterPlacementTables.Rows.Where(r=>r.scene=="HighWay").ToArray();
+            Assert.That(rows.Count(r=>r.hasHighwayVehicle),Is.EqualTo(351));
             foreach(var row in rows)
             {
                 var parent=map.Find(row.kind=="적 배치"?"Enemies":row.kind=="보너스 배치"?"Bonuses":"Props");
@@ -26,9 +28,10 @@ public sealed class HighwayChapterIntegrationTests
                 if(row.kind=="적 배치")
                 {
                     Assert.That(row.hasCombatStats&&row.health>0,Is.True,row.id);
+                    Assert.That(row.hasHighwayVehicle,Is.True,row.id);
                     if(row.mode==EnemyEventMode.Shoot)Assert.That(placement.GetComponent<EnemyScript_space>().HasConfiguredProjectile,Is.True,row.id);
                 }
-                else if(row.kind=="기믹 배치")
+                else if(row.kind=="기믹 배치"&&row.enabled)
                 {var parts=placement.GetComponentsInChildren<ObstacleStats>(true).Where(p=>p.gameObject.activeSelf).ToArray();Assert.That(parts.Length,Is.GreaterThan(0));Assert.That(parts.All(p=>p.obstaclePattern==row.pattern),Is.True);Assert.That(row.hasHighwaySettings,Is.True);}
             }
             var colliders=map.Find("Roads").GetComponentsInChildren<MeshCollider>();
@@ -39,6 +42,12 @@ public sealed class HighwayChapterIntegrationTests
             Assert.That(new SerializedObject(occlusion).FindProperty("roadRoot").objectReferenceValue,Is.SameAs(map.Find("Roads")));
             Assert.That(new SerializedObject(occlusion).FindProperty("additionalOccluderGroups").arraySize,Is.GreaterThan(0),"Overhead scenery must join camera visibility checks.");
             var continuous=map.GetComponent<HighwayRoute>();
+            Assert.That(continuous.length,Is.EqualTo(2340));
+            Assert.That(continuous.popupBranches,Is.True);
+            Assert.That(continuous.forks.Length,Is.EqualTo(2));
+            var chapter2=map.GetComponent<HighwayChapter2Controller>();Assert.That(chapter2,Is.Not.Null);
+            Assert.That(chapter2.ui.jamPicture,Is.Not.Null);Assert.That(chapter2.ui.openPicture,Is.Not.Null);
+            Assert.That(chapter2.mysteryGates.Length,Is.EqualTo(2));
             Vector3 SampleAuthored(float distance,out Vector3 forward)
             {
                 if(continuous==null)return HighwaySceneBuilder.Sample(distance,out forward);
@@ -58,6 +67,12 @@ public sealed class HighwayChapterIntegrationTests
                 var p=SampleAuthored(distance,out _);
                 Assert.That(colliders.Any(c=>c.Raycast(new Ray(p+Vector3.up*2,Vector3.down),out _,4)),Is.True,"Missing road support at "+distance);
             }
+            foreach(var fork in continuous.forks)
+                for(float d=fork.start;d<fork.end;d+=10)
+                {
+                    continuous.Sample(d,true,out var p,out _);
+                    Assert.That(colliders.Any(c=>c.Raycast(new Ray(p+Vector3.up*2,Vector3.down),out _,4)),Is.True,"Branch road support at "+d);
+                }
             Assert.That(EditorBuildSettings.scenes.Any(s=>s.path==HighwaySceneBuilder.ScenePath&&s.enabled),Is.True);
         }
         finally{if(previous.IsValid()&&previous.isLoaded)SceneManager.SetActiveScene(previous);if(opened)EditorSceneManager.CloseScene(scene,true);}

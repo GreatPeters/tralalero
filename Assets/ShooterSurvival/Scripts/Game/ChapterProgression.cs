@@ -29,8 +29,14 @@ public sealed class ChapterProgression : MonoBehaviour
             if (hazard.gameObject.scene == gameObject.scene) hazard.ResetForRun();
         foreach (var traffic in FindObjectsByType<HighwayOncomingTraffic>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             if (traffic.gameObject.scene == gameObject.scene) traffic.BeginRun();
+        foreach (var traffic in FindObjectsByType<OncomingLaneTraffic>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            if (traffic.gameObject.scene == gameObject.scene) traffic.ResetForRun();
+        foreach (var spill in FindObjectsByType<LogTruckSpill>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+            if (spill.gameObject.scene == gameObject.scene) spill.ResetForRun();
         foreach (var holdout in FindObjectsByType<RestStopHoldout>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             if (holdout.gameObject.scene == gameObject.scene) holdout.BeginRun();
+        foreach (var highway in FindObjectsByType<HighwayChapter2Controller>(FindObjectsSortMode.None))
+            if (highway.gameObject.scene == gameObject.scene) highway.BeginRun();
     }
     public void CompleteChapter()
     {

@@ -1,0 +1,212 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace IndianOceanAssets.ShooterSurvival
+{
+    public class BulletScript : MonoBehaviour
+    {
+        BulletPooler bulletPooler;
+        Transform projectileRoot;
+        PlayerScript routeOwner;
+        Vector3 direction;
+        float elapsedDuration;
+        bool returnedToPool;
+        HighwayProjectilePath roadFlight;
+        public float LaunchDamage { get; private set; }
+        public bool HasDamagePayload { get; private set; }
+
+        private static readonly HashSet<BulletScript> ActiveProjectiles = new();
+
+        private const float FallbackMissileSpeed = 16f;
+        private const float FallbackMissileDuration = 1f;
+        private const float MinimumMissileDuration = 0.01f;
+        private static float baseMissileSpeed = FallbackMissileSpeed;
+        private static float baseMissileDuration = FallbackMissileDuration;
+        private static float upgradeDurationFlatBonus;
+        private static float upgradeDurationPercentBonus;
+        private static float runDurationPercentBonus;
+
+        public static float BaseMissileSpeed => baseMissileSpeed;
+        public static float BaseMissileDuration => baseMissileDuration;
+        public static float CurrentMissileDuration => Mathf.Max(
+            MinimumMissileDuration,
+            baseMissileDuration *
+            (1f + (upgradeDurationPercentBonus + runDurationPercentBonus) / 100f) +
+            upgradeDurationFlatBonus);
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void ResetStatics()
+        {
+            baseMissileSpeed = FallbackMissileSpeed;
+            baseMissileDuration = FallbackMissileDuration;
+            upgradeDurationFlatBonus = 0f;
+            upgradeDurationPercentBonus = 0f;
+            runDurationPercentBonus = 0f;
+            ActiveProjectiles.Clear();
+        }
+
+        private void OnEnable()
+        {
+            returnedToPool = false;
+            ActiveProjectiles.Add(this);
+        }
+
+        private void OnDisable()
+        {
+            // Retain damage until the next launch so the paired physics callback
+            // can read it even if this callback returned the object first.
+            returnedToPool = true;
+            ActiveProjectiles.Remove(this);
+            routeOwner = null;
+            projectileRoot = null;
+            roadFlight = default;
+        }
+
+        private void Start()
+        {
+            bulletPooler = FindFirstObjectByType<BulletPooler>();
+        }
+
+        private void FixedUpdate()
+        {
+            if (returnedToPool) return;
+            float remainingDuration = Mathf.Max(0f, CurrentMissileDuration - elapsedDuration);
+            float deltaSeconds = Mathf.Min(GetSimulationDeltaTime(), remainingDuration);
+            Transform movingTransform = GetProjectileTransform();
+            if (roadFlight.IsActive)
+            {
+                movingTransform.position = roadFlight.Advance(baseMissileSpeed * deltaSeconds, out var rotation);
+                movingTransform.rotation = rotation * movingTransform.rotation;
+            }
+            else movingTransform.position += direction * baseMissileSpeed * deltaSeconds;
+            AdvanceLifetime(deltaSeconds);
+        }
+
+        public static void ConfigureMissileDefaults(float missileSpeed, float missileDuration)
+        {
+            baseMissileSpeed = Mathf.Max(0.01f, missileSpeed);
+            baseMissileDuration = Mathf.Max(MinimumMissileDuration, missileDuration);
+        }
+
+        public void SetDirection(Vector3 dir)
+        {
+            SetDirection(dir, null);
+        }
+
+        public void SetDirection(Vector3 dir, PlayerScript owner)
+        {
+            HasDamagePayload = owner != null;
+            LaunchDamage = owner != null ? owner.ResolvedAttackDamage : 0f;
+            direction = dir;
+            projectileRoot = transform.root;
+            routeOwner = owner;
+            var road = owner != null ? owner.ProjectileRoute : null;
+            roadFlight = road != null && road.isActiveAndEnabled && road.centers.Length > 1
+                ? new HighwayProjectilePath(road, road.Distance, road.OnBypass, projectileRoot.position, dir)
+                : default;
+            elapsedDuration = 0f;
+            returnedToPool = false;
+            ActiveProjectiles.Add(this);
+        }
+
+        public void SetDirection(Vector3 dir, PlayerScript owner, float damage)
+        {
+            SetDirection(dir, owner);
+            HasDamagePayload = true;
+            LaunchDamage = float.IsNaN(damage) || float.IsInfinity(damage) ? 0f : Mathf.Max(0f, damage);
+        }
+
+        internal static void ApplyRouteTurn(
+            PlayerScript owner,
+            Quaternion rotationDelta)
+        {
+            if (owner == null || Quaternion.Angle(Quaternion.identity, rotationDelta) <= 0.001f)
+                return;
+
+            foreach (BulletScript projectile in ActiveProjectiles)
+            {
+                if (projectile == null ||
+                    !projectile.isActiveAndEnabled ||
+                    projectile.routeOwner != owner)
+                {
+                    continue;
+                }
+
+                if (projectile.roadFlight.IsActive) continue;
+
+                projectile.direction = rotationDelta * projectile.direction;
+                Transform movingTransform = projectile.GetProjectileTransform();
+                movingTransform.rotation = rotationDelta * movingTransform.rotation;
+            }
+        }
+
+        private static float GetSimulationDeltaTime()
+        {
+            bool isForwardMarch =
+                TimeManager.Instance != null &&
+                TimeManager.Instance.isForwardMarchScene;
+            float timeScale = isForwardMarch
+                ? Mathf.Max(0f, TimeManager.timeFactor)
+                : 1f;
+            return Time.fixedDeltaTime * timeScale;
+        }
+
+        private void AdvanceLifetime(float deltaSeconds)
+        {
+            elapsedDuration += Mathf.Max(0f, deltaSeconds);
+            if (elapsedDuration < CurrentMissileDuration)
+                return;
+
+            ReturnToPool();
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (returnedToPool) return;
+            // Deliver obstacle impact before this pooled projectile is deactivated.
+            // Unity does not guarantee which participant receives its callback first.
+            var obstacle = other.GetComponentInParent<ObstacleStats>();
+            obstacle?.ReactToProjectile();
+            if (obstacle != null)
+            {
+                var highway = obstacle.GetComponent<HighwayHazard>();
+                if (highway != null) highway.ReactToProjectile(this);
+            }
+            bool hitLamp = obstacle != null && obstacle.enabled && obstacle.obstaclePattern == ObstaclePattern.Light;
+            if (hitLamp || other.CompareTag("EnemyTag") ||
+                other.CompareTag("BarrelTag") ||
+                other.CompareTag("Obstacle"))
+            {
+                ReturnToPool();
+            }
+        }
+
+        private void ReturnToPool()
+        {
+            if (returnedToPool) return;
+            returnedToPool = true; // Claim before SetActive(false) invokes OnDisable.
+            bulletPooler.ReturnObjectToPool_Bullet(GetProjectileTransform().gameObject);
+        }
+
+        private Transform GetProjectileTransform()
+        {
+            return projectileRoot != null ? projectileRoot : transform;
+        }
+
+        // Reset only temporary in-run duration bonuses. Permanent upgrades remain applied.
+        public static void ResetStatBonus()
+        {
+            runDurationPercentBonus = 0f;
+        }
+
+        public static void AddMissileDurationPercent(float percentValue)
+        {
+            runDurationPercentBonus += percentValue;
+        }
+
+        public static void ApplyMissileDurationUpgrade(float flatValue, float percentValue)
+        {
+            upgradeDurationFlatBonus = flatValue;
+            upgradeDurationPercentBonus = percentValue;
+        }
+    }
+}

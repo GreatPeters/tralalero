@@ -1,0 +1,119 @@
+{
+  "status": "complete",
+  "scene": {
+    "scene": "Assets/ShooterSurvival/Scenes/Tools/HighWay.unity",
+    "clean": true,
+    "length": 2340.0,
+    "laneWidth": 4.4,
+    "vehicles": 351,
+    "rangedEnemies": 0,
+    "meshes": 365,
+    "normalBonusPairs": 12,
+    "randomGates": 2,
+    "oppositeCars": 18,
+    "playerScale": 0.8,
+    "cameraScale": 1.15,
+    "font": "GmarketHarbor SDF",
+    "nextScene": "RestStop"
+  },
+  "acceptedRuns": [
+    {
+      "cohort": "play-v4",
+      "route": "first-accident",
+      "outcome": "first-accident-passed",
+      "elapsed": 35.7909546,
+      "initialHp": 960.0,
+      "initialAttack": 48.0,
+      "health": 960.0,
+      "seenCars": 21,
+      "VehicleProjectileHits": 18,
+      "maximumRushSpeed": 0.0,
+      "postRushSpeed": 0.0,
+      "popupCount": 0,
+      "GrantedBonus": null
+    },
+    {
+      "cohort": "play-v4",
+      "route": "jam-hipass",
+      "outcome": "clear",
+      "elapsed": 298.304626,
+      "initialHp": 3300.0,
+      "initialAttack": 88.0,
+      "health": 1755.9884,
+      "seenCars": 171,
+      "VehicleProjectileHits": 199,
+      "maximumRushSpeed": 0.0,
+      "postRushSpeed": 0.0,
+      "popupCount": 1,
+      "GrantedBonus": 0
+    },
+    {
+      "cohort": "play-v5",
+      "route": "open-cash",
+      "outcome": "clear",
+      "elapsed": 268.303833,
+      "initialHp": 3300.0,
+      "initialAttack": 88.0,
+      "health": 2208.20972,
+      "seenCars": 153,
+      "VehicleProjectileHits": 208,
+      "maximumRushSpeed": 11.7000008,
+      "postRushSpeed": 7.8,
+      "popupCount": 1,
+      "GrantedBonus": 2
+    }
+  ],
+  "noFire": {
+    "outcome": "death",
+    "elapsed": 72.79658,
+    "distance": 617.7773,
+    "shots": 0,
+    "hits": 0
+  },
+  "testCases": 82,
+  "directedAssertions": 16,
+  "restoration": {
+    "restored": {
+      "restored": 66,
+      "coin": 37113,
+      "jewel": 0
+    },
+    "registryByteIdentical": true,
+    "startScene": "Assets/ShooterSurvival/Scenes/Tools/HighWay.unity",
+    "sceneClean": true,
+    "timeScale": 1.0
+  },
+  "protectedScenes": [
+    {
+      "path": "Assets\\ShooterSurvival\\Scenes\\Tools\\Noryangjin_MapTool_Mode.unity",
+      "unchanged": true,
+      "sha256": "c24d0cd8372f23b9b4433d24a07d16976035ebbca6c5aa9a837214bb377eee18"
+    },
+    {
+      "path": "Assets\\ShooterSurvival\\Scenes\\Tools\\Noryangjin_MapTool_Mode_2.unity",
+      "unchanged": true,
+      "sha256": "f7c8f2e0b39f2e515c5a237ed8e18e14ca60eca5170914f10c01ec128a8c61e1"
+    },
+    {
+      "path": "Assets\\ShooterSurvival\\Scenes\\Tools\\Noryangjin_MapTool_Mode_SR18.unity",
+      "unchanged": true,
+      "sha256": "21b08e4e8829f9af29d753872342a18ac02ab6bbbfec43e30340f6c08cbf76b0"
+    },
+    {
+      "path": "Assets\\ShooterSurvival\\Scenes\\Tools\\RestStop.unity",
+      "unchanged": true,
+      "sha256": "50506c4022a1dc364a8879cff6912c64e64420c56f006410efadf927b9eef60a"
+    }
+  ],
+  "meshyCredits": 0,
+  "normalBonus": "A/B concept proposal only",
+  "report": "http://127.0.0.1:8776/highway/combat-revision/",
+  "sceneSha256": "3bbd3a6ad80e52d407fc2d3c4ea107fa541ce1131f85c55b3015059d4f15f704",
+  "finalCosmeticCapture": "toll-final.png (directed layout capture; pickup and combat unchanged)",
+  "browserVerification": {
+    "dom": true,
+    "screenshot": true,
+    "sceneSwitch": true,
+    "imagesLoaded": true
+  }
+}

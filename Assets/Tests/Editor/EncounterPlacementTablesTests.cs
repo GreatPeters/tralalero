@@ -11,8 +11,14 @@ public sealed class EncounterPlacementTablesTests
     {
         using var stream = GameDataWorkbook.OpenRead("Data.xlsx");
         var all = EncounterPlacementTables.Read(stream);
-        Assert.That(all.Count, Is.EqualTo(300));
-        Assert.That(all.GroupBy(r => r.scene).Select(g => g.Count()), Is.EquivalentTo(new[] { 100, 100, 100 }));
+        // Chapter2 now has351car placements; the RestStop split already reduced that chapter
+        // before this task. Validate scene ownership and the new vehicle contract, not a stale100/100/100 grid.
+        Assert.That(all.Select(r => r.scene).Distinct(), Is.EquivalentTo(new[] { "Noryangjin_MapTool_Mode_SR18", "HighWay", "RestStop" }));
+        var highway = all.Where(r => r.scene == "HighWay").ToArray();
+        Assert.That(highway.Count(r => r.hasHighwayVehicle), Is.EqualTo(351));
+        Assert.That(highway.Where(r => r.kind == "적 배치").All(r => r.hasHighwayVehicle && r.hasCombatStats && r.health > 0), Is.True);
+        Assert.That(highway.Count(r => r.kind == "보너스 배치" && r.enabled), Is.EqualTo(12));
+        Assert.That(highway.Where(r => r.kind == "기믹 배치").All(r => !r.enabled), Is.True);
         var rows=all.Where(r=>r.scene=="Noryangjin_MapTool_Mode_SR18").ToArray();
         Assert.That(rows.Length, Is.EqualTo(100));
         Assert.That(rows.Count(r => r.kind == "적 배치"), Is.EqualTo(50));

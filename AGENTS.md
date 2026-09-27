@@ -44,7 +44,7 @@ Unity editor automation:
 - Treat `unity status --project-path .` as supplemental diagnostics. It can report `STATUS_NO_INSTANCES` while Pipeline commands still work; when signals disagree, a reachable entry from `unity pipeline list` plus a successful narrow `unity command` is authoritative.
 - Let the Unity CLI discover the authenticated per-editor Pipeline endpoint. Do not hardcode its transient localhost port in docs or scripts.
 - The repository does not ship the legacy CoderGamester `mcp-unity` package or `ProjectSettings/McpUnitySettings.json`. Do not restore that bridge as a fallback.
-- The pre-existing `com.youngwoocho02.unity-cli-connector` HTTP package is separate from CoderGamester, is not registered as a Codex MCP server, and is outside that removal. Do not treat it as the supported Codex editor-control path.
+- The `com.youngwoocho02.unity-cli-connector` HTTP package is a separate connector, not registered as a Codex MCP server. Leave it installed, but do not use it as the editor-control path.
 - If the official connection is unavailable, run `unity pipeline list` and a narrow `unity command`; check Safe Mode and compiler errors before changing project files.
 
 Documentation rules:
@@ -56,10 +56,10 @@ Documentation rules:
 - Put trust boundaries and risky assumptions in `docs/SECURITY.md`.
 
 Generated image previews:
-- Do not rely only on the desktop app's inline `Canvas` viewer when presenting generated images.
-- Copy preview images that the user may want to inspect into `tmp/image-previews/<topic>/` without overwriting existing files.
-- Include clickable absolute PNG links in the final response so the full-resolution files remain accessible even if the inline viewer fails.
-- This user's Codex VS Code panel has gone blank after image clicks. Use a verified external gallery as the primary browsing link; local PNG links are secondary. The local thumbnail safeguard, activation/rollback commands, and verification limits are in `docs/solutions/workflow-issues/protect-codex-image-clicks-without-changing-thread-state-2026-09-19.md`. Do not claim the native panel is fixed from a browser fixture alone or reset conversation data to repair a display issue.
+- The user's Codex VS Code panel can go blank when an inline image is clicked, so the inline `Canvas` viewer is not a reliable way to present generated images.
+- Copy preview images the user may want to inspect into `tmp/image-previews/<topic>/` without overwriting existing files.
+- In the final response, give a verified external gallery link first and clickable absolute local PNG links second, so the full-resolution files stay reachable either way.
+- The local thumbnail safeguard, activation/rollback commands, and verification limits are in `docs/solutions/workflow-issues/protect-codex-image-clicks-without-changing-thread-state-2026-09-19.md`. A browser fixture alone does not show the native panel is fixed, and resetting conversation data is not an acceptable repair for a display issue.
 
 Definition of done for repo-shaping work:
 - Code change implemented.

@@ -1,8 +1,8 @@
 ---
 title: Protect Active Unity Scenes from Broad EditMode Test Runs
 date: 2026-07-18
-last_updated: 2026-09-07
-category: docs/solutions/workflow-issues
+last_updated: 2026-09-25
+category: workflow-issues
 module: Unity Noryangjin map tooling
 problem_type: workflow_issue
 component: testing_framework
@@ -45,6 +45,12 @@ Two tempting signals were insufficient:
 - `get_scene_info` reporting a clean scene meant the in-memory scene was saved, not that the saved asset still matched the repository baseline.
 
 ## Guidance
+
+### Small session-setting controls can be checked without switching scenes
+
+The September 25 map-tool start-stage selector was implemented while HighWay had unsaved authoring work. Its eight immediate tests touch only `SessionState` and `EditorSceneManager.playModeStartScene`; they create no scene objects and restore the previous selection/default in teardown. `tools/verify-maptool-start-stage.cs` invokes those exact NUnit assertion methods in the already-open Editor, retaining a live-scene copy and checking that the active scene and dirty state remain unchanged.
+
+This is a narrowly scoped native assertion run, not a Unity Test Runner result or a real Play Mode scene-launch test. Do not extend the approach to coroutine tests, tests that depend on runner lifecycle/log assertions, or fixtures that mutate scene objects. Explicitly report the distinction and keep the fixture executable through the normal runner when a clean authoring state is available.
 
 For current Codex work, verify the supported path with `unity pipeline list`
 and a narrow read command, then run only the required test filter with

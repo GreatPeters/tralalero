@@ -1,0 +1,212 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2챕터 고속도로 기획서</title>
+<style>
+:root{--paper:#f3f4ee;--card:#fcfcf8;--ink:#1d3530;--soft:#4c625c;--muted:#7b8a85;--line:#1d353026;--sign:#0f5a3a;--accent:#d06a1f;--jam:#b8452f;--open:#1f6fb2;--road:#3b4a46}
+@media (prefers-color-scheme:dark){:root{--paper:#0f1714;--card:#16211d;--ink:#e2ebe6;--soft:#b1c2ba;--muted:#869891;--line:#e2ebe622;--sign:#136c46;--accent:#ee8a3c;--jam:#e0735c;--open:#5aa2e0;--road:#a9bab3;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Malgun Gothic","Apple SD Gothic Neo",sans-serif;line-height:1.75;padding:0 18px 80px}
+.wrap{max-width:1100px;margin:0 auto}
+header{background:var(--sign);color:#f1f7f3;margin:0 -18px;padding:36px 18px 30px;border-bottom:6px solid #f2c230}
+.eyebrow{font:600 12px ui-monospace,Consolas,monospace;letter-spacing:.14em;opacity:.85}
+h1{font-size:clamp(28px,5vw,44px);line-height:1.25;margin:6px 0 10px;letter-spacing:-.04em}
+header p{max-width:70ch;margin:0;opacity:.93}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.stats span{border:1px solid #ffffff55;padding:3px 10px;font-size:13px}
+h2{font-size:24px;margin:56px 0 12px;letter-spacing:-.03em;display:flex;gap:12px;align-items:baseline}
+h2 .n{font:600 13px ui-monospace,Consolas,monospace;color:var(--accent)}
+h3{font-size:18px;margin:0 0 6px}
+p{max-width:74ch}
+img{max-width:100%}
+.shot{margin:0;border-radius:8px;overflow:hidden;border:1px solid var(--line);background:var(--card)}
+.shot img{display:block;width:100%}
+.shot figcaption{padding:8px 12px;font-size:13px;color:var(--soft)}
+.row{display:grid;gap:18px;margin:14px 0;align-items:start}
+.r2{grid-template-columns:repeat(2,minmax(0,1fr))}.r3{grid-template-columns:repeat(3,minmax(0,1fr))}.r4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.side{display:grid;grid-template-columns:minmax(0,300px) 1fr;gap:26px;align-items:start;margin:16px 0}
+.tbl{overflow-x:auto;border:1px solid var(--line);background:var(--card);margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:8px 12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:12px;color:var(--muted);letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+.num{font-family:ui-monospace,Consolas,monospace;white-space:nowrap}
+.jam{color:var(--jam);font-weight:700}.open{color:var(--open);font-weight:700}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.card.jam{border-top:4px solid var(--jam)}.card.open{border-top:4px solid var(--open)}
+.card h3{color:inherit}
+ul.tight{padding-left:18px;margin:6px 0}ul.tight li{margin:3px 0;font-size:14.5px}
+.flowwrap{overflow-x:auto;border:1px solid var(--line);background:var(--card);margin:14px 0;padding:8px 0}
+.flowwrap svg{display:block;min-width:940px;width:100%;height:auto}
+.strip{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin:12px 0}
+.strip figure{margin:0}.strip img{width:100%;aspect-ratio:9/16;object-fit:cover;object-position:top;border-radius:6px;border:1px solid var(--line);display:block}
+.strip figcaption{font-size:12px;color:var(--soft);margin-top:4px}
+.strip b{display:block;font:600 11px ui-monospace,Consolas,monospace;color:var(--accent)}
+.note{border-left:3px solid var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent);padding:10px 14px;margin:12px 0}
+ol.dec{padding-left:22px}ol.dec li{margin:5px 0}
+footer{margin-top:50px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+a{color:inherit;text-underline-offset:4px}a:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+@media (max-width:860px){.r4{grid-template-columns:repeat(2,minmax(0,1fr))}.r3{grid-template-columns:repeat(2,minmax(0,1fr))}.strip{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:620px){.side,.r2{grid-template-columns:1fr}.side .shot{max-width:320px}}
+</style></head><body>
+<header><div class="wrap">
+<div class="eyebrow">TRALALERO SHOOTER · CHAPTER 2 · 기획서 · 2판</div>
+<h1>2챕터 고속도로 — 정체의 끝에서</h1>
+<p>상어를 잡으려는 견인차·순찰차와 꽉 막힌 차들로 가득한 고속도로를 뚫고, 요금소를 빠져나가 휴게소로 향하는 챕터입니다. 사람 적은 없고 적은 모두 차입니다. 사람은 공사 구간 작업자만 나옵니다.</p>
+<div class="stats"><span>한 판 약 300초</span><span>3차로 × 4.4 m</span><span>선택 팝업 2회 · 경로 4가지</span><span>요금소 출구로 마무리</span><span>챕터당 약 20판</span></div>
+</div></header>
+<main class="wrap">
+<p style="padding:16px 18px;border:2px solid #112342;background:#e0ad35"><strong>최신 반영: 차량 파괴·보너스 개편</strong> · <a href="combat-revision/">351대 차량, 직접 획득, 가속과 새 보너스 화면 보기 →</a></p>
+<p style="padding:14px 18px;border:2px solid #112342;background:#fff9e5"><strong>최신 차량·분기 수정</strong> · <a href="fixes/">사고 차량, 초록·빨강 갈림길, 초반 교통의 수정 전후 보기 →</a></p>
+<p style="padding:14px 18px;border:2px solid #112342;background:#fff9e5"><strong>실제 HighWay 적용 완료</strong> · <a href="implementation/">기획 그림과 실제 Unity 화면 나란히 보기 →</a></p>
+
+<h2><span class="n">01</span>한 판 흐름</h2>
+<div class="strip">
+<figure><img src="accident-gate.jpg" alt=""><b>0–60초</b><figcaption>진입 · 첫 사고 정체</figcaption></figure>
+<figure><img src="fork-popup.jpg" alt=""><b>60초</b><figcaption>분기 팝업</figcaption></figure>
+<figure><img src="left-jam.jpg" alt=""><b>60–150초</b><figcaption>좌측 정체 / 우측 뻥 뚫림</figcaption></figure>
+<figure><img src="swarm.jpg" alt=""><b>150–250초</b><figcaption>본선 사건: 우르르</figcaption></figure>
+<figure><img src="log-single.jpg" alt=""><b>150–250초</b><figcaption>본선 사건: 통나무 한 개</figcaption></figure>
+<figure><img src="toll-exit.jpg?v=3" alt=""><b>250–300초</b><figcaption>요금소 출구 → 휴게소</figcaption></figure>
+</div>
+<div class="flowwrap" role="img" aria-label="흐름도: 진입, 분기 팝업 좌측 정체와 우측 뻥 뚫림, 합류, 본선 사건, 요금소 출구 하이패스와 현금, 휴게소">
+<svg viewBox="0 0 1000 260" font-family="Malgun Gothic, sans-serif" font-size="13">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--road)"/></marker></defs>
+<g stroke="var(--road)" stroke-width="2.5" fill="none" marker-end="url(#ar)">
+<path d="M130 135H168"/><path d="M208 135L246 72"/><path d="M208 135L246 198"/><path d="M386 72L424 135"/><path d="M386 198L424 135"/>
+<path d="M514 135H552"/><path d="M702 135H728"/><path d="M768 135L790 72"/><path d="M768 135L790 198"/><path d="M910 72L940 126"/><path d="M910 198L940 144"/></g>
+<g stroke="var(--line)" stroke-width="1.5"><rect x="10" y="105" width="120" height="60" rx="6" fill="var(--card)"/>
+<rect x="246" y="42" width="140" height="60" rx="6" fill="var(--card)" stroke="var(--jam)" stroke-width="2"/><rect x="246" y="168" width="140" height="60" rx="6" fill="var(--card)" stroke="var(--open)" stroke-width="2"/>
+<rect x="424" y="105" width="90" height="60" rx="6" fill="var(--card)"/><rect x="552" y="98" width="150" height="74" rx="6" fill="var(--card)"/>
+<rect x="790" y="42" width="120" height="60" rx="6" fill="var(--card)"/><rect x="790" y="168" width="120" height="60" rx="6" fill="var(--card)"/></g>
+<circle cx="188" cy="135" r="18" fill="var(--accent)"/><circle cx="748" cy="135" r="18" fill="var(--accent)"/>
+<g fill="var(--ink)" text-anchor="middle">
+<text x="70" y="131" font-weight="700">진입 본선</text><text x="70" y="150" font-size="11" fill="var(--soft)">0–60초 · 첫 사고</text>
+<text x="188" y="140" fill="#fff" font-weight="700">①</text><text x="748" y="140" fill="#fff" font-weight="700">②</text>
+<text x="316" y="68" font-weight="700" fill="var(--jam)">좌측 · 정체</text><text x="316" y="87" font-size="11" fill="var(--soft)">차 많음 · 느림 · 코인↑</text>
+<text x="316" y="194" font-weight="700" fill="var(--open)">우측 · 뻥 뚫림</text><text x="316" y="213" font-size="11" fill="var(--soft)">차 적음 · 빠름</text>
+<text x="469" y="131" font-weight="700">합류</text><text x="469" y="150" font-size="11" fill="var(--soft)">150초</text>
+<text x="627" y="124" font-weight="700">본선 사건</text><text x="627" y="142" font-size="11" fill="var(--soft)">우르르 · 통나무 · 탱크로리</text><text x="627" y="157" font-size="11" fill="var(--soft)">공사 · 랜덤 보너스 월</text>
+<text x="850" y="68" font-weight="700">하이패스 출구</text><text x="850" y="87" font-size="11" fill="var(--soft)">유니크 보너스 A</text>
+<text x="850" y="194" font-weight="700">현금 출구</text><text x="850" y="213" font-size="11" fill="var(--soft)">유니크 보너스 B</text>
+<text x="972" y="139" font-weight="700" font-size="12">휴게소</text></g>
+<g fill="var(--accent)" font-weight="700" font-size="12" text-anchor="middle"><text x="188" y="98">① 분기 팝업 60초</text><text x="748" y="30">② 요금소 출구 팝업 약 250초</text></g>
+</svg></div>
+
+<h2><span class="n">02</span>분기 팝업 — 좌측 정체 / 우측 뻥 뚫림</h2>
+<div class="side">
+<figure class="shot"><img src="fork-popup.jpg" alt="어디로 갈까? 팝업, 좌측 정체와 우측 뻥 뚫림 두 카드와 5초 타이머"><figcaption>분기점 60 m 앞 팝업</figcaption></figure>
+<div>
+<h3>팝업 규칙</h3>
+<ul class="tight">
+<li>분기점 약 60 m 앞에서 게임이 느려지고(0.2배속) 화면이 어두워지며 팝업이 뜹니다.</li>
+<li>카드 2장 중 하나를 누릅니다. 5초가 지나면 좌측(정체)으로 갑니다.</li>
+<li>고르면 상어가 자동으로 그 길로 빠집니다. 도로에 화살표 같은 표시는 없습니다.</li>
+<li>두 길은 약 90초 뒤 다시 합류합니다.</li>
+</ul>
+<p>핵심은 <b>"부술 수 있으면 좌측, 피할 수 있으면 우측"</b>입니다. 공격력이 강해지면 좌측에서 코인을 벌고, 아직 약하면 우측에서 피하는 실력으로 버팁니다.</p>
+</div></div>
+<div class="row r2">
+<div class="card jam"><h3>좌측 · 정체</h3>
+<figure class="shot" style="margin:8px 0"><img src="left-jam.jpg" alt="세 차로를 가득 채운 정체 차량을 쏘며 전진"></figure>
+<div class="tbl"><table>
+<tr><td>차 속도</td><td class="num">3–5 m/s (상어 7.8 m/s)</td></tr>
+<tr><td>차 수</td><td>차로마다 20–25 m 간격, 빈틈이 좁음</td></tr>
+<tr><td>사고 정체</td><td>2회, 뒤에 탱크로리 섞임</td></tr>
+<tr><td>부딪히면</td><td>그 차의 남은 체력만큼 피해</td></tr>
+<tr><td>코인</td><td class="num">×1.5</td></tr>
+<tr><td>필요한 것</td><td>공격력 (못 부수면 막힘)</td></tr>
+</table></div></div>
+<div class="card open"><h3>우측 · 뻥 뚫림</h3>
+<figure class="shot" style="margin:8px 0"><img src="right-open.jpg" alt="텅 빈 도로에 차가 아주 빠르게 스쳐 지나감"></figure>
+<div class="tbl"><table>
+<tr><td>차 속도</td><td class="num">22–26 m/s</td></tr>
+<tr><td>차 수</td><td>차로마다 3–5초에 한 대</td></tr>
+<tr><td>사고 정체</td><td>없음</td></tr>
+<tr><td>부딪히면</td><td class="num">최대 체력 25%</td></tr>
+<tr><td>코인</td><td class="num">×0.8</td></tr>
+<tr><td>필요한 것</td><td>반응 (좌우 회피)</td></tr>
+</table></div></div>
+</div>
+
+<h2><span class="n">03</span>사고 정체와 탱크로리</h2>
+<p>앞에서 사고가 나 차 한 대가 <b>가로로 멈춰 서서</b> 차로를 막고 있고, 그 때문에 뒤에서 오던 차들이 밀려 서 있습니다. 차들이 이유 없이 멈춰 있는 게 아니라 사고 때문에 못 오는 모습입니다.</p>
+<div class="row r2">
+<figure class="shot"><img src="accident-gate.jpg" alt="가로로 선 사고 차량과 그 뒤에 밀려 선 차들, 체력 숫자"><figcaption><b>사고 정체</b> — 가로로 선 사고 차량이 두 차로를 막고, 옆 차로는 사고를 피하려다 멈춘 택시가 막습니다. 사고 차량이나 택시 중 하나를 부수면 그 자리로 지나갈 수 있습니다.</figcaption></figure>
+<figure class="shot"><img src="accident-tanker.jpg" alt="밀려 서 있던 탱크로리가 폭발해 사고 차량과 택시가 날아가고 길이 열림"><figcaption><b>탱크로리</b> — 사고 뒤에 밀려 선 탱크로리를 터뜨리면, 폭발로 인접한 사고 차량과 택시까지 한꺼번에 날아가 세 차로가 모두 열립니다.</figcaption></figure>
+</div>
+<div class="tbl"><table>
+<tr><th>차종</th><th>체력 배수</th><th>역할</th></tr>
+<tr><td>사고 차량 (가로로 선 차)</td><td class="num">×2.5</td><td>두 차로를 막음. 단단하지만 부수면 두 차로가 한 번에 열림</td></tr>
+<tr><td>승용차 · 택시</td><td class="num">×1.0</td><td>가장 약함. 사고 옆 차로를 막은 차</td></tr>
+<tr><td>1톤 트럭</td><td class="num">×1.3</td><td>약간 단단함</td></tr>
+<tr><td>박스 트럭</td><td class="num">×1.6</td><td>단단함, 부서지면 짐과 코인이 쏟아짐</td></tr>
+<tr><td>탱크로리</td><td class="num">×2.0</td><td>사고 뒤에 밀려 서 있음. 폭발 시 인접 차(사고 차량 포함) 모두 즉시 파괴</td></tr>
+<tr><td>관광버스</td><td class="num">×3.0</td><td>두 차로를 막는 가장 단단한 차</td></tr>
+<tr><td>순찰차 · 견인차</td><td class="num">×1.2</td><td>우르르 패턴 전용</td></tr>
+</table></div>
+<p class="note">사고 정체 구성: 앞줄 = 가로로 선 사고 차량(두 차로) + 옆 차로의 멈춘 차 한 대, 뒷줄 = 사고 때문에 밀려 선 차들(탱크로리가 섞이면 연쇄 폭발 기회). 앞줄 중 하나만 부수면 통과합니다. 체력 = 목표 초당 피해 × 3.8초(사격 거리 30 m ÷ 상어 속도 7.8 m/s). 첫 사고는 첫 도전 스탯으로 옆 차로 택시만 부술 수 있게 맞춥니다. 사고 차량 옆에는 비상 삼각대가 있고 비상등이 깜빡입니다.</p>
+
+<h2><span class="n">04</span>예고 없이 오는 패턴</h2>
+<div class="row r3">
+<figure class="shot"><img src="swarm.jpg" alt="순찰차와 견인차 떼가 몰려옴"><figcaption><b>순찰차·견인차 우르르</b> — 예고 없이 8대 안팎이 두세 줄로 엇갈려 세 차로를 채우며 몰려옵니다. 틈으로 빠지거나 부숴서 뚫습니다.</figcaption></figure>
+<figure class="shot"><img src="log-single.jpg" alt="반대편 트럭에서 통나무 한 개가 불규칙하게 튀며 내 도로로 굴러옴"><figcaption><b>통나무 트럭</b> — 좌측 상행선(반대편 도로)에서 북쪽으로 가던 트럭에서 예고 없이 <b>통나무 한 개</b>만 떨어집니다. 분리대를 넘어 불규칙하게 튀며 굴러오므로 어느 차로로 올지 끝까지 봐야 합니다. 그동안 내 도로의 차는 멈춥니다.</figcaption></figure>
+<figure class="shot"><img src="work.jpg" alt="공사 구간, 작업자 뒤에서 차가 멈추고 옆 차로로 비킴"><figcaption><b>공사 구간</b> — 콘으로 한 차로가 닫히고 작업자가 콘을 던집니다. 차는 사람을 치지 않고, 앞에 사람이 있으면 멈추거나 옆 차로로 비킵니다.</figcaption></figure>
+</div>
+
+<h2><span class="n">05</span>요금소 출구 — 유니크 보너스</h2>
+<div class="side">
+<figure class="shot"><img src="toll-exit.jpg?v=3" alt="차단기 없는 요금소 출구, 하이패스와 현금 출구 위 유니크 보너스"><figcaption>고속도로를 나가는 요금소, 차단기 없음</figcaption></figure>
+<div>
+<p>챕터 끝, 고속도로를 <b>빠져나가는 요금소</b>입니다. 도착 전 팝업에서 하이패스 출구와 현금 출구 중 하나를 고르고, 그 차로에 걸린 <b>유니크 보너스</b>를 얻습니다. 차단기는 없고, 요금소를 빠져나온 차들이 남쪽(플레이어 쪽)으로 계속 달려옵니다. 통과하면 바로 휴게소 진입로로 이어집니다.</p>
+<div class="tbl"><table>
+<tr><th>유니크 보너스 예</th><th>효과</th></tr>
+<tr><td>연쇄 미사일</td><td>미사일이 맞은 적 옆까지 튕김</td></tr>
+<tr><td>황금 방패</td><td>큰 피해를 한 번 막음</td></tr>
+<tr><td>파쇄탄</td><td>폭발 범위 2배</td></tr>
+<tr><td>코인 자석</td><td>코인을 멀리서 끌어옴</td></tr>
+</table></div>
+<p>두 차로에는 판마다 다른 두 가지가 무작위로 걸립니다.</p>
+</div></div>
+
+<h2><span class="n">06</span>랜덤 보너스 월</h2>
+<div class="side">
+<figure class="shot"><img src="randomwall.jpg?v=3" alt="물음표 카드 두 장의 랜덤 보너스 월"><figcaption>기존 보너스 월과 별개</figcaption></figure>
+<div>
+<p>물음표 카드 안에서 체력·공격·미사일·코인 아이콘이 돌다가, 통과하는 순간 결과가 정해집니다. 기존 보너스 월(내용이 보이는 선택)과 번갈아 나옵니다.</p>
+<div class="tbl"><table>
+<tr><th>결과</th><th>확률(초안)</th></tr>
+<tr><td>큰 보너스 (공격 +30% 등)</td><td class="num">20%</td></tr>
+<tr><td>보통 보너스</td><td class="num">55%</td></tr>
+<tr><td>코인 묶음</td><td class="num">20%</td></tr>
+<tr><td>꽝 (체력 −5%)</td><td class="num">5%</td></tr>
+</table></div>
+<p>한 판에 2–3번, 본선 사건 구간(150–250초)에 둡니다.</p>
+</div></div>
+
+<h2><span class="n">07</span>뉴스 속보 자막</h2>
+<div class="row" style="grid-template-columns:minmax(0,520px)">
+<figure class="shot"><img src="news.jpg" alt="뉴스 속보 자막"><figcaption>화면 위 뉴스가 방금 한 일에 반응합니다. "상어, 탱크로리 3대 연쇄 폭파", "경부선 상어 출몰로 정체 극심".</figcaption></figure>
+</div>
+
+<h2><span class="n">08</span>수치 요약 (초안)</h2>
+<div class="tbl"><table>
+<tr><th>항목</th><th>값</th></tr>
+<tr><td>한 판 길이</td><td class="num">약 300초 · 약 2,340 m</td></tr>
+<tr><td>도로</td><td>3차로 × 4.4 m, 상어 0.8배, 카메라 15% 뒤</td></tr>
+<tr><td>선택</td><td>분기 팝업(60초) + 요금소 출구 팝업(약 250초) = 경로 4가지</td></tr>
+<tr><td>사고 정체</td><td>진입 1 + 좌측 정체 2 + 본선 사건 2 = 최대 5곳</td></tr>
+<tr><td>우르르 패턴</td><td>본선 사건 구간 1–2회</td></tr>
+<tr><td>통나무 트럭</td><td>본선 사건 구간 1회, 통나무 한 개</td></tr>
+<tr><td>공사 구간</td><td>진입 본선 1회 + 본선 사건 1회</td></tr>
+<tr><td>보너스</td><td>일반 보너스 월 + 랜덤 보너스 월 2–3회 + 요금소 유니크 1회</td></tr>
+<tr><td>난이도 목표</td><td>챕터 약 20판에 첫 완주</td></tr>
+</table></div>
+
+<h2><span class="n">09</span>정해야 할 것</h2>
+<ol class="dec">
+<li>분기 팝업 동안 느리게(0.2배속) 할지, 완전히 멈출지.</li>
+<li>팝업을 5초 안에 안 누르면 어느 쪽으로 보낼지 (지금 안: 좌측 정체).</li>
+<li>요금소 유니크 보너스를 휴게소까지 이어갈지, 고속도로 안에서만 쓸지.</li>
+<li>유니크 보너스 4종과 랜덤 보너스 월 확률.</li>
+</ol>
+
+<footer>이 페이지의 그림은 적용 전 기획 자료입니다. 분기·차량·통나무·요금소·보너스·뉴스·사고 그림은 Codex 목업, 공사 구간은 게임 에셋 임시 배치 촬영입니다. <a href="implementation/">현재 실제 게임 화면과 검증 결과</a>는 별도 비교 페이지에서 확인할 수 있습니다.<br>문서 원문: <a href="2챕터-고속도로-기획서.md">2챕터-고속도로-기획서.md</a> · 이전 판: <a href="index.v1.html">v1</a></footer>
+</main></body></html>

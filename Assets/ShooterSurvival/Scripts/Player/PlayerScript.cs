@@ -179,13 +179,18 @@ namespace IndianOceanAssets.ShooterSurvival
 #endif
         public float MaxHealth => maxHealthWithUpgrades > 0f ? maxHealthWithUpgrades : originalHealth;
         public float ResolvedAttackDamage => currentWeaponScript != null ? currentWeaponScript.damage : currentDamage;
+        public void ApplyRunAttackPercent(float percent)
+        {
+            if (currentWeaponScript != null && !float.IsNaN(percent) && !float.IsInfinity(percent))
+                currentWeaponScript.damage *= Mathf.Max(0, 1 + percent / 100);
+        }
         public bool UseExcelCharacterDefaults => useExcelCharacterDefaults;
         public float ForwardMoveSpeed
         {
             get
             {
                 EnsureCharacterDefaultsInitialized();
-                return currentForwardMoveSpeed;
+                return currentForwardMoveSpeed * (HighwayChapter2Controller.For(this)?.SpeedMultiplier ?? 1f);
             }
         }
         public float DefaultAttackDamage
@@ -515,6 +520,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void PlayerMove(float deltaX)
         {
+            if (HighwayChapter2Controller.For(this)?.PopupPending == true) return;
             if (!movement || isWorldYawTurnActive || IsStationaryCombat)
                 return;
 
@@ -540,9 +546,12 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (highwayRoute != null && highwayRoute.isActiveAndEnabled)
             {
-                highwayRoute.Advance(this, currentForwardMoveSpeed * Time.fixedDeltaTime * TimeManager.timeFactor);
+                highwayRoute.Advance(this, ForwardMoveSpeed * Time.fixedDeltaTime * TimeManager.timeFactor);
                 return;
             }
+            // Curved ramps (RestStop entrance) keep the shark moving while it turns.
+            if (RouteArcDriver.TryAdvance(this, currentForwardMoveSpeed * Time.fixedDeltaTime * TimeManager.timeFactor))
+                return;
             if (roadHeightFollower != null && roadHeightFollower.isActiveAndEnabled &&
                 roadHeightFollower.AdvancePitch(Time.fixedDeltaTime * TimeManager.timeFactor, out float pitch))
             {
@@ -1037,6 +1046,7 @@ namespace IndianOceanAssets.ShooterSurvival
         public float ApplyDamage(float amount, PlayerDamageCause cause)
         {
             if(currentHealth<=0||amount<=0||float.IsNaN(amount)||float.IsInfinity(amount))return 0;
+            if (HighwayChapter2Controller.For(this)?.ConsumeShield(amount, cause) == true) return 0;
             float applied=Mathf.Min(currentHealth,amount);
             currentHealth -= applied;
             ReportDamage(applied, cause);

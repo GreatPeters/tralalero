@@ -112,7 +112,8 @@ public sealed class HighwayHazard : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (broken || !TimeManager.isGameRunning) return;
+        // Physics messages reach disabled behaviours; a disabled hazard (e.g. a deer handed to WaterDeerCrossing) must not kill.
+        if (!enabled || broken || !TimeManager.isGameRunning) return;
         if (hitPlayer || IsOpen) return;
         var target = other.GetComponentInParent<PlayerScript>(); if (target == null) return;
         hitPlayer = true; target.DieFromHazard(false,DamageCauseFor(stats.obstaclePattern));

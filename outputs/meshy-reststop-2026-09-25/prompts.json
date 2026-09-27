@@ -1,0 +1,321 @@
+{
+ "C01_patrol_police": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a Korean highway patrol police officer. Navy blue uniform shirt and trousers, fluorescent yellow-green reflective safety vest with plain silver reflective stripes, navy police cap with a small gold badge, a red LED traffic baton in the right hand, silver whistle on a cord, black shoes. Middle-aged Korean man with a stern frown."
+ },
+ "C02_road_worker": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a Korean expressway road maintenance worker. Bright orange safety vest with silver reflective stripes over a grey work jacket, white hard hat, white cotton work gloves, dark work trousers, safety boots. Tanned middle-aged Korean man, squinting, focused."
+ },
+ "C03_hiker_woman": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a cheerful Korean middle-aged woman on a group bus tour. Wide-brim sun visor cap, big sunglasses pushed on the visor, bright magenta outdoor hiking jacket, purple hiking pants, small backpack, colorful scarf around the neck, hiking shoes, holding one trekking pole."
+ },
+ "C04_hiker_leader": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a Korean middle-aged man leading a hiking club bus tour. Red outdoor hiking jacket, beige hiking hat, black hiking pants, big backpack, holding a small triangular tour guide flag on a short pole in the right hand, loud confident expression with open mouth."
+ },
+ "C05_truck_driver": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a burly Korean cargo truck driver. Faded navy baseball cap, dark green work vest over a grey t-shirt, white towel draped around the neck, rolled-up sleeves, cotton work gloves, cargo pants, heavy boots. Big belly, thick arms, stubble, grumpy."
+ },
+ "C06_snack_clerk": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a Korean highway rest stop snack counter clerk. Teal staff cap and teal short apron over a white polo shirt, black trousers, holding a paper bag of walnut cakes in the right hand. Young Korean woman with a ponytail and a busy, flustered smile."
+ },
+ "C07_riot_police": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a young Korean riot police officer. Navy uniform with fluorescent yellow-green vest, black helmet with a raised clear visor, holding a tall clear riot shield in the left hand, black gloves and boots. Determined serious face."
+ },
+ "A01_dad": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a Korean dad on a family road trip. Beige cotton jacket over a checked shirt, jeans, U-shaped travel neck pillow around the neck, car key in hand, tired but kind face, slightly chubby."
+ },
+ "A02_mom": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a Korean mom on a family road trip. Light cardigan over a striped top, wide trousers, cross-body bag, sunglasses on her head, holding an iced coffee cup. Friendly face."
+ },
+ "A03_kid": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a Korean elementary school kid on a road trip. Yellow hoodie, shorts, sneakers, small cartoon backpack, holding a fish-cake skewer snack. Very short, big round head, excited face."
+ },
+ "A04_soldier": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a young Korean soldier on leave. Korean digital camouflage military uniform, patrol cap, black combat boots, duffel bag over one shoulder, buzz cut, shy smile."
+ },
+ "A05_student": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a Korean university student. Oversized grey hoodie, black joggers, white sneakers, wireless earphones, holding a smartphone, sleepy expression."
+ },
+ "A06_grandma": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a Korean grandmother. Short curly permed grey hair, floral print quilted vest over a pastel blouse, wide comfortable trousers, cloth handbag, gentle smile, slightly hunched."
+ },
+ "A07_parking_guide": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a Korean parking attendant. Fluorescent yellow-green vest, navy cap, white gloves, holding a glowing red traffic baton in the right hand, whistle, dark trousers. Older Korean man, energetic pose-ready."
+ },
+ "A08_fuel_attendant": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a Korean gas station attendant. Red and white staff jacket with plain panels, red cap, dark trousers, work gloves. Young Korean man with a big welcoming grin."
+ },
+ "A09_street_cleaner": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a Korean environmental sanitation worker. Fluorescent orange uniform jacket and trousers with reflective stripes, cap, rubber gloves, holding a long broom. Older Korean man."
+ },
+ "A10_cashier": {
+  "kind": "person",
+  "refs": [
+   "refs/noryangjin_style_sheet.png"
+  ],
+  "prompt": "New character: a Korean convenience store cashier. Green and white striped staff vest over a white shirt, name badge without text, black trousers. Young Korean man with glasses, polite smile."
+ },
+ "V01_compact_car": {
+  "kind": "vehicle",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": true,
+  "model": "nano-banana-2",
+  "poly": 8000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A small Korean city compact car (light car class), mint green body, round headlights, five doors, compact boxy cute shape. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters, no logos, no license plate characters. "
+ },
+ "V02_white_sedan": {
+  "kind": "vehicle",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": true,
+  "model": "nano-banana-2",
+  "poly": 8000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A white Korean mid-size four-door family sedan, modern smooth shape, chrome grille, alloy wheels. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters, no logos, no license plate characters. "
+ },
+ "V03_black_suv": {
+  "kind": "vehicle",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": true,
+  "model": "nano-banana-2",
+  "poly": 8000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A black Korean mid-size SUV, roof rails, tall boxy modern shape, alloy wheels. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters, no logos, no license plate characters. "
+ },
+ "V04_1ton_truck": {
+  "kind": "vehicle",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": false,
+  "model": "nano-banana-2",
+  "poly": 8000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A blue Korean one-ton cab-over light pickup truck with a flat low-sided cargo bed at the back, tarp-covered boxes in the bed, flat front cab. Single object, three-quarter front view showing the flat front cab face and the left side, plain white background, no people, no ground shadow, no text, no letters, no logos, no license plate characters. "
+ },
+ "V05_tour_bus": {
+  "kind": "vehicle",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": true,
+  "model": "nano-banana-2",
+  "poly": 10000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A Korean highway tour coach bus, white body with colorful sweeping pink and purple swoosh livery, big tinted side windows, luggage doors. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters, no logos, no license plate characters. "
+ },
+ "V06_patrol_car": {
+  "kind": "vehicle",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": true,
+  "model": "nano-banana-2",
+  "poly": 8000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A Korean highway patrol police car: white sedan with dark navy doors and fluorescent yellow-green side stripe, blue and red light bar on the roof. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters, no logos, no license plate characters. "
+ },
+ "V07_taxi": {
+  "kind": "vehicle",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": true,
+  "model": "nano-banana-2",
+  "poly": 8000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A Korean city taxi: orange-yellow mid-size sedan with a small white rooftop taxi light box with no lettering. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters, no logos, no license plate characters. "
+ },
+ "V08_box_truck": {
+  "kind": "vehicle",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": true,
+  "model": "nano-banana-2",
+  "poly": 10000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A Korean 2.5-ton delivery box truck: white cab-over truck with a tall white aluminium cargo box with a blue stripe. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters, no logos, no license plate characters. "
+ },
+ "P01_pylon_sign": {
+  "kind": "prop",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": false,
+  "model": "nano-banana-2",
+  "poly": 3000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A tall slim freestanding Korean highway rest area pylon sign tower, about 15 meters tall and 2.5 meters wide, rounded top, white panels, a red and blue curved swoosh stripe near the bottom, blank empty white panels with no writing. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters."
+ },
+ "P02_walnut_cake_stall": {
+  "kind": "prop",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": false,
+  "model": "nano-banana-2",
+  "poly": 9000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A small Korean street snack stall cart selling walnut-shaped cakes (hodu-gwaja): wooden cart with glass display case full of small brown walnut cakes, a small striped awning, paper bags stacked, cast-iron waffle-style mold on top, wheels. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters."
+ },
+ "P03_fishcake_stall": {
+  "kind": "prop",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": false,
+  "model": "nano-banana-2",
+  "poly": 9000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A small Korean street food stall cart with a steaming stainless steel tray of fish cake skewers in broth and grilled hot bar sausage skewers on a grill, red and white striped awning, wheels. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters."
+ },
+ "P04_coffee_truck": {
+  "kind": "prop",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": false,
+  "model": "nano-banana-2",
+  "poly": 10000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A small cute coffee food truck with a side service window open, an espresso machine inside, pastel teal paint, a little awning, menu board with no text. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters."
+ },
+ "P05_smoking_booth": {
+  "kind": "prop",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": false,
+  "model": "nano-banana-2",
+  "poly": 6000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. An outdoor glass smoking booth enclosure for a highway rest area: grey steel frame, large glass panels, flat roof with vents, standing ash tray inside, sliding glass door. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters."
+ },
+ "P06_recycle_bins": {
+  "kind": "prop",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": false,
+  "model": "nano-banana-2",
+  "poly": 6000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A Korean outdoor recycling bin station: a row of four colored bins (blue, green, yellow, grey) under a small wooden roof, round openings, simple pictogram shapes but no text. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters."
+ },
+ "P07_walnut_bag": {
+  "kind": "prop",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": false,
+  "model": "nano-banana-2",
+  "poly": 2500,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A small paper bag full of walnut-shaped Korean walnut cakes, top of the bag folded open, cakes visible. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters."
+ },
+ "P08_suitcase": {
+  "kind": "prop",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": false,
+  "model": "nano-banana-2",
+  "poly": 3000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A hard-shell rolling carry-on suitcase with four spinner wheels and an extended handle, teal color, luggage tag, travel stickers without text. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters."
+ },
+ "P09_mountain_backdrop": {
+  "kind": "prop",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": false,
+  "model": "nano-banana-2",
+  "poly": 8000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A long wide forested mountain ridge silhouette for a distant game backdrop: two or three rounded green hill peaks covered with dense pine trees, soft layered slopes, no buildings, no structures, no pavilions, no people, no roads, no cliffs, no square base; the ridge rises gently from the ground at both ends. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters."
+ },
+ "P10_hand_dryer": {
+  "kind": "prop",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": false,
+  "model": "nano-banana-2",
+  "poly": 2500,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A wall-mounted jet hand dryer unit for a public restroom, white and silver, with the hand slot open and blue indicator light. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters."
+ },
+ "P11_tray_return": {
+  "kind": "prop",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": false,
+  "model": "nano-banana-2",
+  "poly": 8000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. A cafeteria tray return station: stainless steel rack counter with stacked brown plastic food trays, small conveyor opening, trash and leftover bins. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters."
+ },
+ "P12_parasol_table": {
+  "kind": "prop",
+  "refs": [
+   "refs/noryangjin_prop_style_sheet.png"
+  ],
+  "multi_view": false,
+  "model": "nano-banana-2",
+  "poly": 6000,
+  "prompt": "Match the exact 3D art style of the reference props: stylized hand-painted mobile-game 3D, chunky bold simplified shapes, slightly worn painted texture, matte colors. An outdoor picnic table set for a highway rest area: round table with a green and white striped parasol and four simple chairs. Single object, three-quarter front view, plain white background, no people, no ground shadow, no text, no letters."
+ }
+}

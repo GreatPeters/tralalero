@@ -23,6 +23,23 @@ public sealed class OpeningStoryUI : MonoBehaviour
     public Image[] sceneIndicators;
     public Sprite activeSceneSprite, inactiveSceneSprite;
     public bool autoPlayMovie = true;
+#if UNITY_EDITOR
+    private const string EditorAutoPlayKey = "NoryangjinMapTool.OpeningVideoEnabled";
+    public static bool EditorAutoPlayEnabled
+    {
+        get => UnityEditor.SessionState.GetBool(EditorAutoPlayKey, true);
+        set => UnityEditor.SessionState.SetBool(EditorAutoPlayKey, value);
+    }
+
+    // Run before ShowPage/PlayMovie so OFF never starts decoder preparation.
+    public bool SkipEditorAutoOpeningIfDisabled(bool playing)
+    {
+        if (!playing || !autoPlayMovie || manualOpen || EditorAutoPlayEnabled) return false;
+        StopMovie();
+        gameObject.SetActive(false);
+        return true;
+    }
+#endif
     private int page;
     private float elapsed;
     private RenderTexture videoTexture;
@@ -64,6 +81,9 @@ public sealed class OpeningStoryUI : MonoBehaviour
     }
     private void OnEnable()
     {
+#if UNITY_EDITOR
+        if (SkipEditorAutoOpeningIfDisabled(Application.isPlaying)) return;
+#endif
         if (Application.isPlaying && autoPlayMovie)
         {
             if (shownThisSession && !manualOpen) { gameObject.SetActive(false); return; }

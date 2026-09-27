@@ -75,6 +75,13 @@ namespace IndianOceanAssets.ShooterSurvival
                     var enemy = placement.GetComponent<EnemyEventController>();
                     var combat = placement.GetComponent<EnemyScript_space>();
                     if (enemy == null || combat == null) throw new InvalidDataException(row.id + ": 적 컴포넌트 없음");
+                    if (row.hasHighwayVehicle)
+                    {
+                        var vehicle = placement.GetComponent<HighwayVehicleEnemy>();
+                        if (vehicle == null) throw new InvalidDataException(row.id + ": 차량 컴포넌트 없음");
+                        changes.Add(() => { vehicle.ConfigurePlacement(row); placement.gameObject.SetActive(row.enabled); });
+                        continue; // Vehicle path/activation belongs to the chapter director, not a pedestrian trigger spot.
+                    }
                     if ((row.mode == EnemyEventMode.Shoot || row.mode == EnemyEventMode.AmbushMoveThenShoot) && !combat.HasConfiguredProjectile)
                         throw new InvalidDataException(row.id + ": 경비원/뚱보 등 투사체가 있는 모델만 사격할 수 있습니다.");
                     var matchingSpots = map.Find("Props").GetComponentsInChildren<EnemyEventActivationSpot>(true).Where(s => s.Targets.Contains(enemy)).ToArray();

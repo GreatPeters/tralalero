@@ -1,0 +1,76 @@
+{
+  "status": "complete",
+  "scene": {
+    "scene": "Assets/ShooterSurvival/Scenes/Tools/HighWay.unity",
+    "clean": true,
+    "length": 2340.0,
+    "laneWidth": 4.4,
+    "vehicles": 233,
+    "rangedEnemies": 0,
+    "meshes": 365,
+    "normalBonusPairs": 12,
+    "randomGates": 2,
+    "oppositeCars": 18,
+    "playerScale": 0.8,
+    "cameraScale": 1.15,
+    "font": "GmarketHarbor SDF",
+    "nextScene": "RestStop"
+  },
+  "testsPassed": 72,
+  "runs": [
+    {
+      "label": "first-accident",
+      "outcome": "first-accident-passed",
+      "elapsed": 35.7714233,
+      "initialHp": 960.0,
+      "initialAttack": 48.0,
+      "health": 960.0,
+      "seenCars": 17,
+      "wrongDirection": 0,
+      "overlapFrames": 0,
+      "hiddenBodyFrames": 0,
+      "fullWallFrames": 0
+    },
+    {
+      "label": "jam-hipass",
+      "outcome": "clear",
+      "elapsed": 298.2975,
+      "initialHp": 3300.0,
+      "initialAttack": 88.0,
+      "health": 3036.0,
+      "seenCars": 110,
+      "wrongDirection": 0,
+      "overlapFrames": 0,
+      "hiddenBodyFrames": 0,
+      "fullWallFrames": 0
+    },
+    {
+      "label": "open-cash",
+      "outcome": "clear",
+      "elapsed": 298.301361,
+      "initialHp": 3300.0,
+      "initialAttack": 88.0,
+      "health": 3419.89771,
+      "seenCars": 103,
+      "wrongDirection": 0,
+      "overlapFrames": 0,
+      "hiddenBodyFrames": 0,
+      "fullWallFrames": 0
+    }
+  ],
+  "visualPass": "visual-range-covered",
+  "restoration": {
+    "restored": {
+      "restored": 66,
+      "coin": 37113,
+      "jewel": 0
+    },
+    "registryByteIdentical": true,
+    "startScene": "Assets/ShooterSurvival/Scenes/Tools/HighWay.unity",
+    "sceneClean": true,
+    "timeScale": 1.0
+  },
+  "protectedScenes": 4,
+  "externalGenerationCredits": 0,
+  "report": "http://127.0.0.1:8776/highway/fixes/"
+}

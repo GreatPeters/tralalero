@@ -1,0 +1,53 @@
+{
+  "success": true,
+  "command": "job wait",
+  "data": {
+    "jobId": "13f2b7b5cd394ce0969cbb5fa654fa0a",
+    "command": "run_script",
+    "state": "completed",
+    "cancellationRequested": false,
+    "result": {
+      "diagnostics": [],
+      "compileMs": 860,
+      "executeMs": 3395,
+      "assemblyName": "PipelineRunScript_install-highway-korean_b1a10e8700104b16882f0ce9e25d1831",
+      "success": true,
+      "command": "run_script",
+      "result": {
+        "piersLowered": 58,
+        "vehiclesGrounded": 43,
+        "bypassCorridorCleared": 60,
+        "deerAdded": [
+          430,
+          650,
+          1010,
+          1260,
+          2270
+        ],
+        "logTrucksAdded": [
+          1330,
+          2210
+        ],
+        "enemyRowsAdded": [
+          391,
+          483,
+          562,
+          919,
+          1099,
+          1196,
+          2181
+        ]
+      },
+      "executionTimeMs": 4272,
+      "message": null,
+      "error": null,
+      "errorDetails": null,
+      "executedAt": "2026-09-26T05:46:56.0083636Z"
+    },
+    "error": null,
+    "errorDetails": null,
+    "progress": null
+  },
+  "errors": [],
+  "warnings": []
+}

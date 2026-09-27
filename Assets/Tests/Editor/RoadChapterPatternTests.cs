@@ -79,7 +79,7 @@ public sealed class RoadChapterPatternTests
         finally {Object.DestroyImmediate(root);}
     }
     [Test]
-    public void StationaryHoldoutKeepsNormalCameraWhileBodyAimsAroundFullCircle()
+    public void StationaryHoldoutShowsEveryApproachAndRestoresTravelCamera()
     {
         var scene = EditorSceneManager.NewPreviewScene();
         var flags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic;
@@ -98,27 +98,39 @@ public sealed class RoadChapterPatternTests
             var ownerObject = new GameObject("Open hall"); SceneManager.MoveGameObjectToScene(ownerObject, scene);
             var owner = ownerObject.AddComponent<RestStopHoldout>(); owner.center = ownerObject.transform;
             owner.police = System.Array.Empty<EnemyEventController>();
+            owner.entrances = System.Array.Empty<Transform>();
+            var roofObject = GameObject.CreatePrimitive(PrimitiveType.Cube); SceneManager.MoveGameObjectToScene(roofObject, scene);
+            var roof = roofObject.GetComponent<Renderer>(); owner.overheadOccluders = new[] { roof };
             typeof(RestStopHoldout).GetField("player", flags).SetValue(owner, player);
             typeof(RestStopHoldout).GetField("battleCamera", flags).SetValue(owner, camera);
             typeof(RestStopHoldout).GetMethod("BeginEncounter", flags).Invoke(owner, null);
-            var enemyObject = new GameObject("Human police target"); SceneManager.MoveGameObjectToScene(enemyObject, scene);
-            var enemy = enemyObject.AddComponent<EnemyScript_space>();
-            typeof(EnemyScript_space).GetField("_health", flags).SetValue(enemy, 700f);
-            typeof(RestStopHoldout).GetField("target", flags).SetValue(owner, enemy);
+            Assert.That(roof.forceRenderingOff, Is.True, "Roof must not cover the quarter-view arena");
+            typeof(RestStopHoldout).GetField("<Elapsed>k__BackingField", flags).SetValue(owner, 1f);
+            camera.aspect = 9f / 19.5f;
+            typeof(RestStopHoldout).GetMethod("LateUpdate", flags).Invoke(owner, null);
+            var quarterRotation = camera.transform.rotation;
             foreach (var direction in new[] { Vector3.left, Vector3.right, Vector3.back, Vector3.forward })
             {
-                enemyObject.transform.position = playerPosition + direction * 8;
+                Vector3 screen = camera.WorldToViewportPoint(playerPosition + direction * 12);
+                Assert.That(screen.z, Is.GreaterThan(0));
+                Assert.That(screen.x, Is.InRange(.03f, .97f));
+                Assert.That(screen.y, Is.InRange(.08f, .85f));
+                owner.RotateAim(1, 1);
                 typeof(RestStopHoldout).GetMethod("LateUpdate", flags).Invoke(owner, null);
-                Assert.That(Vector3.Distance(camera.transform.localPosition, cameraPosition), Is.LessThan(.0001f));
-                Assert.That(Quaternion.Angle(camera.transform.localRotation, cameraRotation), Is.LessThan(.0001f));
-                Assert.That(camera.fieldOfView, Is.EqualTo(40));
-                Assert.That(Vector3.Angle(visual.forward, direction), Is.LessThan(.001f));
+                Assert.That(Quaternion.Angle(camera.transform.rotation, quarterRotation), Is.LessThan(.0001f));
+                Assert.That(Vector3.Angle(visual.forward, owner.AimDirection), Is.LessThan(.001f));
+                Assert.That(owner.TryAim(playerPosition, out var shot), Is.True);
+                Assert.That(Vector3.Angle(shot, owner.AimDirection), Is.LessThan(.001f));
                 Assert.That(Vector3.Distance(player.transform.position, playerPosition), Is.LessThan(.0001f));
                 Assert.That(Quaternion.Angle(player.transform.rotation, playerRotation), Is.LessThan(.0001f));
             }
             typeof(RestStopHoldout).GetMethod("End", flags).Invoke(owner, new object[] { false });
+            Assert.That(roof.forceRenderingOff, Is.False, "Travel restores the original roof visibility");
             Assert.That(player.IsStationaryCombat, Is.False);
             Assert.That(Quaternion.Angle(visual.localRotation, Quaternion.identity), Is.LessThan(.0001f));
+            Assert.That(Vector3.Distance(camera.transform.localPosition, cameraPosition), Is.LessThan(.0001f));
+            Assert.That(Quaternion.Angle(camera.transform.localRotation, cameraRotation), Is.LessThan(.0001f));
+            Assert.That(camera.fieldOfView, Is.EqualTo(40));
         }
         finally { EditorSceneManager.ClosePreviewScene(scene); }
     }
@@ -126,15 +138,33 @@ public sealed class RoadChapterPatternTests
     public void BypassSeparatesAndRejoinsWithoutAJump(float distance, float expected)
         => Assert.That(HighwayRoute.BranchOffset(distance, 0, 100, -30), Is.EqualTo(expected).Within(.0001));
 
-    [TestCase(0, 0)] [TestCase(9.99f, 0)] [TestCase(10, 1)] [TestCase(20, 2)] [TestCase(30, 2)]
-    public void HoldoutHasThreeTenSecondPhases(float time, int expected)
-        => Assert.That(RestStopHoldout.Phase(time, 30), Is.EqualTo(expected));
+    [TestCase(1.5f, 30f, true)] [TestCase(-1.5f, 30f, false)] [TestCase(-1.5f, -30f, true)] [TestCase(1.5f, -30f, false)]
+    public void BypassIsChosenOnTheSideItBranches(float lane, float offset, bool expected)
+        => Assert.That(HighwayRoute.BypassChosen(lane, offset), Is.EqualTo(expected));
+
+    [TestCase(0, 0)] [TestCase(19.99f, 0)] [TestCase(20, 1)] [TestCase(40, 2)] [TestCase(60, 2)]
+    public void HoldoutHasThreeTwentySecondPhases(float time, int expected)
+        => Assert.That(RestStopHoldout.Phase(time, 60), Is.EqualTo(expected));
+
+    [TestCase(1, .1f, 9)] [TestCase(-1, .1f, 351)]
+    [TestCase(1, 1, 90)] [TestCase(8, .1f, 9)] [TestCase(0, 1, 0)] [TestCase(1, 0, 0)]
+    public void HoldoutTurnIsContinuousAndCapped(float input, float seconds, float expected)
+        => Assert.That(RestStopHoldout.AdvanceYaw(0, input, seconds), Is.EqualTo(expected).Within(.0001));
 
     [Test]
-    public void PoliceUseDifferentOppositeDoorsThenAllFour()
+    public void HoldoutTurnIsFrameRateIndependentAndWraps()
     {
-        Assert.That(Enumerable.Range(0, 4).Select(i => RestStopHoldout.Door(i, 0)).Distinct(), Is.EquivalentTo(new[] { 0, 1 }));
-        Assert.That(Enumerable.Range(0, 4).Select(i => RestStopHoldout.Door(i, 1)).Distinct(), Is.EquivalentTo(new[] { 2, 3 }));
+        float yaw = 0;
+        for (int i = 0; i < 240; i++) yaw = RestStopHoldout.AdvanceYaw(yaw, 1, 1f / 60);
+        Assert.That(Mathf.Abs(Mathf.DeltaAngle(0, yaw)), Is.LessThan(.005));
+        Assert.That(RestStopHoldout.AdvanceYaw(359, 1, .1f), Is.EqualTo(8).Within(.0001));
+    }
+
+    [Test]
+    public void PoliceApproachFromAllFourDoorsThroughoutDefense()
+    {
+        Assert.That(Enumerable.Range(0, 4).Select(i => RestStopHoldout.Door(i, 0)).Distinct(), Is.EquivalentTo(new[] { 0, 1, 2, 3 }));
+        Assert.That(Enumerable.Range(0, 4).Select(i => RestStopHoldout.Door(i, 1)).Distinct(), Is.EquivalentTo(new[] { 0, 1, 2, 3 }));
         Assert.That(Enumerable.Range(0, 4).Select(i => RestStopHoldout.Door(i, 2)).Distinct(), Is.EquivalentTo(new[] { 0, 1, 2, 3 }));
     }
     [Test]
@@ -167,13 +197,12 @@ public sealed class RoadChapterPatternTests
                     Assert.That(Vector3.Distance(p, next), Is.LessThan(2), "No centerline discontinuity");
                     Assert.That(Vector3.Angle(f, tangent), Is.LessThan(12), "No abrupt heading snap");
                 }
-            var traffic = map.GetComponentInChildren<HighwayOncomingTraffic>();
-            Assert.That(traffic.cars.Length, Is.EqualTo(4));
-            foreach (var beat in traffic.beats)
-            {
-                Assert.That(beat.lanes.Length, Is.EqualTo(beat.delays.Length));
-                Assert.That(beat.lanes.Distinct().Count(), Is.LessThan(3), "At least one whole lane remains free");
-            }
+            // Chapter2 replaces the four-template warning-beat spawner with workbook vehicle combat.
+            var chapter2 = map.GetComponent<HighwayChapter2Controller>();
+            Assert.That(chapter2, Is.Not.Null);
+            Assert.That(route.popupBranches, Is.True);
+            Assert.That(map.GetComponentsInChildren<HighwayVehicleEnemy>(true).Length, Is.EqualTo(351)); // Approximately50%more traffic, now shoot-through rows.
+            Assert.That(map.GetComponentsInChildren<HighwayOncomingTraffic>().Any(t => t.isActiveAndEnabled), Is.False);
         });
     }
     [Test]

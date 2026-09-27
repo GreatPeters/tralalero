@@ -21,6 +21,12 @@ public sealed class EncounterPlacementRow
     public float durability, warningSeconds, operationSeconds, crossingDistance;
     public bool dropBonusAltar=true;
     public int coinReward=-1;
+    public bool hasHighwayVehicle;
+    public HighwayVehicleKind vehicleKind;
+    public HighwayVehicleRoute vehicleRoute;
+    public float vehicleStation, vehicleLane, vehicleSpawnAt;
+    public int vehicleGroup;
+    public bool vehicleFront;
 }
 
 // One atomic snapshot. Placed combat stats override legacy chapter growth; bonus effects remain in BonusTables.
@@ -76,6 +82,20 @@ public static class EncounterPlacementTables
                     string drop=OptionalReward("보너스드롭"),coins=OptionalReward("코인보상");
                     if(drop.Length>0){if(drop!="0"&&drop!="1")throw new InvalidDataException(row.id+": 보너스드롭은 0 또는 1이어야 합니다.");row.dropBonusAltar=drop=="1";}
                     if(coins.Length>0 && (!int.TryParse(coins,NumberStyles.Integer,CultureInfo.InvariantCulture,out row.coinReward)||row.coinReward<0))throw new InvalidDataException(row.id+": 코인보상은 0 이상 정수여야 합니다.");
+                    string vehicle = OptionalReward("차종");
+                    if (vehicle.Length > 0)
+                    {
+                        row.hasHighwayVehicle = true;
+                        if (!Enum.TryParse(vehicle, out row.vehicleKind) || !Enum.IsDefined(typeof(HighwayVehicleKind), row.vehicleKind)) throw new InvalidDataException(row.id + ": 잘못된 차종");
+                        if (!Enum.TryParse(OptionalReward("차량경로"), out row.vehicleRoute) || !Enum.IsDefined(typeof(HighwayVehicleRoute), row.vehicleRoute)) throw new InvalidDataException(row.id + ": 잘못된 차량경로");
+                        row.vehicleStation = Number(OptionalReward("차량거리"), "차량거리");
+                        row.vehicleLane = Number(OptionalReward("차로번호"), "차로번호");
+                        row.vehicleSpawnAt = Number(OptionalReward("등장거리"), "등장거리");
+                        if (!int.TryParse(OptionalReward("사건ID"), out row.vehicleGroup)) throw new InvalidDataException(row.id + ": 잘못된 사건ID");
+                        string front = OptionalReward("사고앞줄");
+                        if (front != "0" && front != "1") throw new InvalidDataException(row.id + ": 사고앞줄은 0 또는 1");
+                        row.vehicleFront = front == "1";
+                    }
                     row.mode = ParseMode(Text("이벤트"));
                     row.moveSpeed = Number(Text("이동속도"), "이동속도");
                     row.moveDistance = Number(Text("이동거리"), "이동거리");
@@ -129,6 +149,8 @@ public static class EncounterPlacementTables
                 throw new InvalidDataException("맵/배치ID는 비어 있거나 중복될 수 없습니다.");
             if (row.kind == SheetNames[0])
             {
+                if (row.hasHighwayVehicle && (row.scene != "HighWay" || !row.hasCombatStats || row.vehicleLane > 2 || row.vehicleGroup < 0 || row.vehicleSpawnAt > row.vehicleStation))
+                    throw new InvalidDataException(row.id + ": 고속도로 차량 배치 범위/전투 수치 오류");
                 if(row.coinReward < -1)throw new InvalidDataException(row.id+": 잘못된 코인보상");
                 if (!Enum.IsDefined(typeof(EnemyEventMode), row.mode)) throw new InvalidDataException(row.id + ": 잘못된 적 이벤트");
                 if (row.hasCombatStats && (!Enum.IsDefined(typeof(EnemyTier), row.tier) ||

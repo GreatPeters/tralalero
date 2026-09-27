@@ -15,8 +15,9 @@ public sealed class NoryangjinMapToolTestSpeedTests
         Assert.That(NoryangjinMapToolTestSpeed.CanApply(playing, path), Is.EqualTo(expected));
     }
 
-    [Test]
-    public void SelectingThreeInEditMode_PreservesClockPhysicsAndGameTimeFactor()
+    [TestCase(2f)]
+    [TestCase(3f)]
+    public void SelectingTestSpeedInEditMode_PreservesClockPhysicsAndGameTimeFactor(float value)
     {
         float selected = NoryangjinMapToolTestSpeed.SelectedTimeScale;
         float scale = Time.timeScale;
@@ -24,8 +25,8 @@ public sealed class NoryangjinMapToolTestSpeedTests
         float gameFactor = TimeManager.timeFactor;
         try
         {
-            NoryangjinMapToolTestSpeed.SelectTimeScale(3f);
-            Assert.That(NoryangjinMapToolTestSpeed.SelectedTimeScale, Is.EqualTo(3f));
+            NoryangjinMapToolTestSpeed.SelectTimeScale(value);
+            Assert.That(NoryangjinMapToolTestSpeed.SelectedTimeScale, Is.EqualTo(value));
             Assert.That(Time.timeScale, Is.EqualTo(scale));
             Assert.That(Time.fixedDeltaTime, Is.EqualTo(physicsStep));
             Assert.That(TimeManager.timeFactor, Is.EqualTo(gameFactor));
@@ -42,7 +43,7 @@ public sealed class NoryangjinMapToolTestSpeedTests
     public void UnsupportedSpeed_IsRejectedWithoutChangingTheSelection()
     {
         float selected = NoryangjinMapToolTestSpeed.SelectedTimeScale;
-        Assert.Throws<ArgumentOutOfRangeException>(() => NoryangjinMapToolTestSpeed.SelectTimeScale(2f));
+        Assert.Throws<ArgumentOutOfRangeException>(() => NoryangjinMapToolTestSpeed.SelectTimeScale(4f));
         Assert.That(NoryangjinMapToolTestSpeed.SelectedTimeScale, Is.EqualTo(selected));
     }
 }

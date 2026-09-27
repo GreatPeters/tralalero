@@ -14,6 +14,9 @@ namespace IndianOceanAssets.ShooterSurvival
         public static string Label(float enemyHealth,float playerHealth)=>enemyHealth>=playerHealth?"접촉 시\n사망":"충돌\n-"+Mathf.CeilToInt(enemyHealth)+" HP";
         void LateUpdate()
         {
+            // Vehicle HP is already shown by its combat presentation. This predictive label
+            // must never impersonate a real damage event, even if an old scene adds the component.
+            if(GetComponent<HighwayVehicleEnemy>()!=null){if(text!=null)text.gameObject.SetActive(false);return;}
             if(Time.unscaledTime<nextCheck)return;nextCheck=Time.unscaledTime+.1f;
             if(player==null)player=FindFirstObjectByType<PlayerScript>();if(viewCamera==null)viewCamera=Camera.main;
             bool show=TimeManager.isGameRunning&&enemy!=null&&player!=null&&IsDangerous(enemy.CurrentHealth,player.currentHealth,player.MaxHealth);

@@ -389,7 +389,9 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ResolveRuntimeReferences()
         {
-            if (Application.isPlaying && visualDistance == null)
+            // Vehicle activation/visibility belongs to HighwayChapter2Controller. The pedestrian
+            // 75m culler otherwise hides the body while its separately-created HP canvas stays visible.
+            if (Application.isPlaying && visualDistance == null && GetComponent<HighwayVehicleEnemy>() == null)
             {
                 visualDistance = GetComponent<EnemyVisualDistance>();
                 if (visualDistance == null) visualDistance = gameObject.AddComponent<EnemyVisualDistance>();

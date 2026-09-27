@@ -1,6 +1,6 @@
 namespace IndianOceanAssets.ShooterSurvival
 {
-    public enum PlayerDamageCause { None, EnemyContact, GuardShot, Crate, Cannon, Seagull, Hole, Pole, Traffic, Roadblock, Barrel, NegativeBonus, Other, EnemyProjectile, TollGate, Paddle }
+    public enum PlayerDamageCause { None, EnemyContact, GuardShot, Crate, Cannon, Seagull, Hole, Pole, Traffic, Roadblock, Barrel, NegativeBonus, Other, EnemyProjectile, TollGate, Paddle, Wildlife }
     public static class PlayerDamageCauseText
     {
         public static string Label(PlayerDamageCause cause) => cause switch
@@ -12,6 +12,7 @@ namespace IndianOceanAssets.ShooterSurvival
             PlayerDamageCause.EnemyProjectile=>"적의 투척물",
             PlayerDamageCause.TollGate=>"닫힌 차단기",
             PlayerDamageCause.Paddle=>"노에 맞음",
+            PlayerDamageCause.Wildlife=>"고라니와 충돌",
             _=>"체력 감소"
         };
         public static string Advice(PlayerDamageCause cause) => cause switch
@@ -21,6 +22,7 @@ namespace IndianOceanAssets.ShooterSurvival
             PlayerDamageCause.Traffic or PlayerDamageCause.Roadblock=>"주황색 위험 표시를 보고 빈 차로로 이동하세요.",
             PlayerDamageCause.TollGate=>"초록불이 켜지고 차단기가 올라간 통로로 이동하세요.",
             PlayerDamageCause.Paddle=>"노를 휘두르는 쪽에서 미리 떨어지세요.",
+            PlayerDamageCause.Wildlife=>"고라니가 뛰어가는 방향을 보고 지나간 뒤쪽으로 비켜 가세요.",
             PlayerDamageCause.Seagull=>"검은 착지 표시가 없는 쪽으로 피하세요.",
             PlayerDamageCause.Hole or PlayerDamageCause.Pole=>"앞길의 빈 공간을 먼저 확보하세요.",
             _=>"이번 판의 체력과 공격력을 보고 다음 강화를 골라보세요."

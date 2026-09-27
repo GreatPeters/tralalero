@@ -1,0 +1,42 @@
+{
+  "success": true,
+  "command": "job wait",
+  "data": {
+    "jobId": "6dde2820abe840cb98b9fe397a15fdd7",
+    "command": "run_script",
+    "state": "completed",
+    "cancellationRequested": false,
+    "result": {
+      "diagnostics": [],
+      "compileMs": 5863,
+      "executeMs": 7998,
+      "assemblyName": "PipelineRunScript_install-traffic-clearance_2d68b5673e404b53b02242d2261881bb",
+      "success": true,
+      "command": "run_script",
+      "result": [
+        "== Assets/ShooterSurvival/Scenes/Tools/HighWay.unity",
+        "deer crossings 6",
+        "lanes -4.2,4.2 dirs 1,-1",
+        "pothole d=335 lane 0.8: sign centred in front",
+        "pothole d=2235 lane 0.0: sign centred in front",
+        "pothole d=1150 lane -0.8: sign centred in front",
+        "== Assets/ShooterSurvival/Scenes/Tools/RestStop.unity",
+        "deer crossings 8",
+        "lanes -4.2,4.2 dirs 1,-1",
+        "pothole d=2010 lane 0.0: sign centred in front",
+        "pothole d=1600 lane -0.8: sign centred in front",
+        "pothole d=270 lane 0.8: sign centred in front"
+      ],
+      "executionTimeMs": 13876,
+      "message": null,
+      "error": null,
+      "errorDetails": null,
+      "executedAt": "2026-09-25T17:17:38.8024947Z"
+    },
+    "error": null,
+    "errorDetails": null,
+    "progress": null
+  },
+  "errors": [],
+  "warnings": []
+}

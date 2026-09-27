@@ -29,6 +29,9 @@ public sealed class CoastalTutorialUI : MonoBehaviour
     }
     private void Update()
     {
+        // The holdout provides its own manual-turn instructions. Travel hints
+        // would cover the arena and describe the wrong control scheme here.
+        if (player != null && player.IsStationaryCombat) { if (panel.activeSelf) Close(); return; }
         if(panel.activeSelf && Time.unscaledTime>=hideAt)Close();
         if(complete||player==null||!TimeManager.isGameRunning||panel.activeSelf||Time.unscaledTime<nextHint||Time.unscaledTime<nextProbe)return;
         nextProbe=Time.unscaledTime+.3f;

@@ -1,0 +1,102 @@
+{
+  "status": "complete",
+  "scene": {
+    "scene": "Assets/ShooterSurvival/Scenes/Tools/HighWay.unity",
+    "clean": true,
+    "length": 2340.0,
+    "laneWidth": 4.4,
+    "vehicles": 225,
+    "rangedEnemies": 0,
+    "meshes": 351,
+    "normalBonusPairs": 12,
+    "randomGates": 2,
+    "oppositeCars": 18,
+    "playerScale": 0.8,
+    "cameraScale": 1.15,
+    "font": "GmarketHarbor SDF",
+    "nextScene": "RestStop"
+  },
+  "runs": [
+    {
+      "route": "jam-hipass",
+      "cohort": "play-v4",
+      "elapsed": 298.3084,
+      "health": 203.956055,
+      "initialHp": 3300.0,
+      "initialAttack": 88.0
+    },
+    {
+      "route": "jam-cash",
+      "cohort": "play-v5",
+      "elapsed": 298.2994,
+      "health": 1372.1897,
+      "initialHp": 3300.0,
+      "initialAttack": 88.0
+    },
+    {
+      "route": "open-hipass",
+      "cohort": "play-v4",
+      "elapsed": 298.3164,
+      "health": 1851.31567,
+      "initialHp": 3300.0,
+      "initialAttack": 88.0
+    },
+    {
+      "route": "open-cash",
+      "cohort": "play-v6",
+      "elapsed": 298.3031,
+      "health": 1511.11255,
+      "initialHp": 3300.0,
+      "initialAttack": 88.0
+    }
+  ],
+  "testsPassed": 63,
+  "directedAssertions": 14,
+  "protectedScenes": [
+    {
+      "file": "RestStop.unity",
+      "unchanged": true,
+      "sha256": "50506C4022A1DC364A8879CFF6912C64E64420C56F006410EFADF927B9EEF60A"
+    },
+    {
+      "file": "Noryangjin_MapTool_Mode.unity",
+      "unchanged": true,
+      "sha256": "C24D0CD8372F23B9B4433D24A07D16976035EBBCA6C5AA9A837214BB377EEE18"
+    },
+    {
+      "file": "Noryangjin_MapTool_Mode_2.unity",
+      "unchanged": true,
+      "sha256": "F7C8F2E0B39F2E515C5A237ED8E18E14CA60ECA5170914F10C01EC128A8C61E1"
+    },
+    {
+      "file": "Noryangjin_MapTool_Mode_SR18.unity",
+      "unchanged": true,
+      "sha256": "21B08E4E8829F9AF29D753872342A18AC02AB6BBBFEC43E30340F6C08CBF76B0"
+    }
+  ],
+  "restoration": {
+    "restored": {
+      "restored": 66,
+      "coin": 36431,
+      "jewel": 0
+    },
+    "registryByteIdentical": true,
+    "startScene": "Assets/ShooterSurvival/Scenes/Tools/RestStop.unity",
+    "sceneClean": true,
+    "timeScale": 1.0
+  },
+  "installerIdempotent": true,
+  "report": "http://127.0.0.1:8776/highway/implementation/",
+  "reportBrowserChecks": {
+    "dom": true,
+    "imagesLoaded": true,
+    "sceneSwitch": true,
+    "screenshot": false,
+    "screenshotLimit": "Browser CDP capture timed out; native recovery stopped because current browser URL could not be verified."
+  },
+  "limits": [
+    "Human difficulty and earned-purchase progression unverified",
+    "No phone performance/build acceptance",
+    "Isolated QA verified exit binding without entering RestStop"
+  ]
+}

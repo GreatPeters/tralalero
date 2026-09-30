@@ -67,7 +67,7 @@ public sealed class GameAudioService : MonoBehaviour
         foreach(var source in voices) source.Stop();
         Array.Clear(nextAllowed,0,nextAllowed.Length);
         ambience.Stop(); ambienceStarted = false;
-        ambience.clip=scene.name=="HighWay"?traffic:scene.name=="Noryangjin_MapTool_Mode_SR18"?harbor:null;
+        ambience.clip=scene.name=="HighWay"?traffic:ChapterSceneKey.Resolve(scene.name)=="Noryangjin_MapTool_Mode_SR18"?harbor:null;
         if(focused&&!applicationPaused) ResumeLoops();
     }
     private void Update()

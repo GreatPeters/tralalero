@@ -5,7 +5,7 @@ import bpy
 from mathutils import Vector
 
 
-ROOT = Path(r"C:\Users\ljh\tralalero Shooter")
+ROOT = Path(r"D:\Tralalero Shooter\Tralalero Shooter D")
 FBX_PATH = ROOT / "Assets" / "ShooterSurvival" / "Models" / "MeshyAI" / "TestFolder" / "Road_Left90.fbx"
 BACKUP_PATH = FBX_PATH.with_suffix(".fbx.before_wood_cap_material_backup")
 Z_EPSILON = 0.002

@@ -166,6 +166,13 @@ namespace IndianOceanAssets.ShooterSurvival
             if (returnedToPool) return;
             // Deliver obstacle impact before this pooled projectile is deactivated.
             // Unity does not guarantee which participant receives its callback first.
+            var breakable = other.GetComponentInParent<NoryangjinBreakable>();
+            if (breakable != null && breakable.Alive)
+            {
+                breakable.ReceiveProjectile(this);
+                ReturnToPool();
+                return;
+            }
             var obstacle = other.GetComponentInParent<ObstacleStats>();
             obstacle?.ReactToProjectile();
             if (obstacle != null)

@@ -12,7 +12,7 @@ Fit("hat_goggles",.94f,new Vector3(0,.15f,-.12f),new Vector3(-12,0,0));
 Fit("hat_diver",.82f,new Vector3(0,-.22f,-.07f),new Vector3(-8,0,0));
 Fit("hat_pirate",1.02f,new Vector3(0,.16f,.02f),new Vector3(0,0,-5));
 Fit("hat_relic",1.02f,new Vector3(0,.07f,.08f),new Vector3(0,0,3));
-var folder="C:/Users/ljh/tralalero Shooter/tmp/image-previews/harbor-polish-2026-09-15/hats-after";System.IO.Directory.CreateDirectory(folder);
+var folder="D:/Tralalero Shooter/Tralalero Shooter D/tmp/image-previews/harbor-polish-2026-09-15/hats-after";System.IO.Directory.CreateDirectory(folder);
 var go=new GameObject("Hat fit review");var preview=go.AddComponent<CosmeticPreview>();preview.catalog=catalog;
 try
 {

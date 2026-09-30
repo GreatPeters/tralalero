@@ -5,7 +5,7 @@ import bpy
 import bmesh
 
 
-ROOT = Path(r"C:\Users\ljh\tralalero Shooter")
+ROOT = Path(r"D:\Tralalero Shooter\Tralalero Shooter D")
 FBX_PATH = ROOT / "Assets" / "ShooterSurvival" / "Models" / "MeshyAI" / "TestFolder" / "Road_Left90.fbx"
 BACKUP_PATH = FBX_PATH.with_suffix(".fbx.before_cap_backup")
 Z_EPSILON = 0.002

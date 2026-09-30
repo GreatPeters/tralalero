@@ -11,14 +11,19 @@ namespace IndianOceanAssets.ShooterSurvival
         [SerializeField] private Transform player;
         [SerializeField] private Transform roadRoot;
         [SerializeField] private Transform[] additionalOccluderGroups = System.Array.Empty<Transform>();
+        [SerializeField] private Transform[] clearViewGroups = System.Array.Empty<Transform>();
+        [SerializeField] private bool inspectCombinedRoads;
+        [SerializeField] private bool feedbackTransparency;
+        [SerializeField,Range(.05f,.5f)] private float feedbackOpacity=.18f;
         [SerializeField, Min(0f)] private float viewAhead = 18f;
         [SerializeField, Min(0f)] private float clearance = 2f;
-        private readonly List<(Renderer[] renderers, bool explicitScenery)> candidateGroups = new();
+        private readonly List<(Renderer[] renderers, bool explicitScenery, bool fullyHide)> candidateGroups = new();
         private readonly Dictionary<Renderer, bool> hidden = new();
         private readonly List<Renderer> restored = new();
         private readonly HashSet<Transform> traversedRoads = new();
         private readonly Dictionary<Renderer, TemporarySceneryFade> faded = new();
         private NoryangjinRoadHeightFollower heightFollower;
+        private static readonly float[] FeedbackLookAhead={0,8,18,32,45};
         public int HiddenCount => hidden.Count;
         public int FadedCount => faded.Count;
         public float SceneryOpacity(Renderer renderer) => faded.TryGetValue(renderer,out var fade)?fade.Opacity:1f;
@@ -31,21 +36,35 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             RestoreAll(); additionalOccluderGroups = groups ?? System.Array.Empty<Transform>(); CacheRenderers();
         }
+        public void ConfigureClearViewOccluders(Transform[] groups,bool combinedRoads)
+        {
+            RestoreAll();clearViewGroups=groups??System.Array.Empty<Transform>();inspectCombinedRoads=combinedRoads;CacheRenderers();
+        }
+        public void ConfigureFeedbackTransparency(Transform[] groups)
+        {
+            feedbackTransparency=true;feedbackOpacity=.25f;ConfigureClearViewOccluders(groups,true);
+        }
         private void OnEnable() => CacheRenderers();
         private void OnDisable() => RestoreAll();
         private void OnDestroy() => RestoreAll();
         private void CacheRenderers()
         {
             candidateGroups.Clear();var seen = new HashSet<Renderer>();
+            foreach(var group in clearViewGroups)
+            {
+                if(group==null)continue;var renderers=new List<Renderer>();
+                foreach(var renderer in group.GetComponentsInChildren<Renderer>(true))if(seen.Add(renderer))renderers.Add(renderer);
+                if(renderers.Count>0)candidateGroups.Add((renderers.ToArray(),true,true));
+            }
             if (additionalOccluderGroups != null) foreach (var group in additionalOccluderGroups)
             {
                 if (group == null) continue;
                 var renderers = new List<Renderer>();
                 foreach (var renderer in group.GetComponentsInChildren<Renderer>(true)) if (seen.Add(renderer)) renderers.Add(renderer);
-                if (renderers.Count > 0) candidateGroups.Add((renderers.ToArray(),true));
+                if (renderers.Count > 0) candidateGroups.Add((renderers.ToArray(),true,false));
             }
             if (roadRoot != null) foreach (var renderer in roadRoot.GetComponentsInChildren<Renderer>(true))
-                if (seen.Add(renderer)) candidateGroups.Add((new[]{renderer},false));
+                if (seen.Add(renderer)) candidateGroups.Add((new[]{renderer},false,false));
         }
         private void LateUpdate() { if (Application.isPlaying) RefreshVisibility(); }
 
@@ -67,7 +86,7 @@ namespace IndianOceanAssets.ShooterSurvival
                     Bounds bounds = renderer.bounds;
                     if(candidate.explicitScenery)
                     {
-                        blocks=SeverelyBlocks(bounds,transform.position,head,forward,side);
+                        blocks=feedbackTransparency?FeedbackBlocksView(bounds,head,forward,side):SeverelyBlocks(bounds,transform.position,head,forward,side);
                         if(blocks)break;
                         continue;
                     }
@@ -85,16 +104,49 @@ namespace IndianOceanAssets.ShooterSurvival
                             blocks = IntersectsView(bounds, transform.position, target);
                         }
                     }
+                    else if(inspectCombinedRoads&&bounds.max.y>player.position.y+clearance&&renderer.TryGetComponent<Collider>(out var collider))
+                    {
+                        for(int i=0;i<3&&!blocks;i++)
+                        {
+                            var target=head+forward*(i==0?0:viewAhead)+side*(i==1?-2:i==2?2:0);
+                            var delta=target-transform.position;
+                            blocks=delta.sqrMagnitude>.001f&&IntersectsView(bounds,transform.position,target)&&collider.Raycast(new Ray(transform.position,delta.normalized),out _,delta.magnitude);
+                        }
+                    }
                     if (blocks) break;
+                }
+                if(candidate.fullyHide)
+                {
+                    bool any=false;var combined=new Bounds();
+                    foreach(var renderer in group)
+                    {
+                        if(renderer==null||!renderer.enabled||!renderer.gameObject.activeInHierarchy)continue;
+                        if(!any){combined=renderer.bounds;any=true;}else combined.Encapsulate(renderer.bounds);
+                    }
+                    blocks=any&&(feedbackTransparency?FeedbackBlocksView(combined,head,forward,side):SeverelyBlocks(combined,transform.position,head,forward,side));
+                    // A portal is hollow. Its collision mesh, unlike its AABB, preserves the opening.
+                    bool hasMesh=false,meshBlocks=false;
+                    if(feedbackTransparency&&blocks)foreach(var renderer in group)
+                    {
+                        if(renderer==null||!renderer.enabled||!renderer.gameObject.activeInHierarchy||!renderer.TryGetComponent<MeshCollider>(out var geometry))continue;
+                        hasMesh=true;
+                        for(int i=0;i<3&&!meshBlocks;i++)
+                        {
+                            var target=head+forward*(i==0?0:viewAhead)+side*(i==1?-1.5f:i==2?1.5f:0);
+                            var delta=target-transform.position;
+                            meshBlocks=geometry.Raycast(new Ray(transform.position,delta.normalized),out _,delta.magnitude);
+                        }
+                    }
+                    if(hasMesh)blocks=meshBlocks;
                 }
                 // Treat an authored sign/arch as one visual: its lettering and beam
                 // must not remain floating when a panel hides.
                 foreach (var renderer in group)
                 {
                     if (renderer == null || !renderer.enabled || !renderer.gameObject.activeInHierarchy) continue;
-                    if(candidate.explicitScenery)
+                    if(feedbackTransparency||candidate.explicitScenery&&!candidate.fullyHide)
                     {
-                        if(blocks&&!renderer.forceRenderingOff&&!faded.ContainsKey(renderer))faded.Add(renderer,new TemporarySceneryFade(renderer));
+                        if(blocks&&!renderer.forceRenderingOff&&!faded.ContainsKey(renderer))faded.Add(renderer,new TemporarySceneryFade(renderer,feedbackTransparency?feedbackOpacity:.4f));
                         if(faded.TryGetValue(renderer,out var fade))
                         {
                             fade.Advance(blocks,deltaTime);
@@ -136,6 +188,16 @@ namespace IndianOceanAssets.ShooterSurvival
             }
             // Covering the shark, or hanging across the lanes just ahead where enemies and bonuses are read.
             return body>=2&&road>=2||road>=2&&ahead>=2;
+        }
+        private bool FeedbackBlocksView(Bounds bounds,Vector3 head,Vector3 forward,Vector3 side)
+        {
+            if(bounds.SqrDistance(transform.position)>70*70)return false;
+            // A small roof tile can cover the shark without also covering the road six metres ahead.
+            // Sample the body and upcoming aisle separately; side walls parallel to travel stay solid.
+            foreach(float ahead in FeedbackLookAhead)
+                for(int lateral=-1;lateral<=1;lateral++)
+                    if(IntersectsView(bounds,transform.position,head+forward*ahead+side*lateral*.8f))return true;
+            return false;
         }
         private void CacheTraversedRoads(Vector3 forward)
         {

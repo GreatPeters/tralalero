@@ -32,6 +32,17 @@ public static class ImportMeshyObjects
         { "I04_dining_set", (1.25f, false) }, { "I05_order_kiosk", (2.3f, false) },
         // 2026-09-27 bonus pad bases: 3.0 m corner to corner = 2.6 m flat to flat. BonusPad prefab refits exactly.
         { "B01_bonus_pad", (3f, true) }, { "B02_bonus_pad_cracked", (3.1f, true) },
+        // 2026-09-27 Noryangjin revamp: market turret truck and LPG cylinder, ~1.3x real like the characters.
+        { "N01_turret_truck", (3.8f, true) }, { "N02_lpg_cylinder", (1.35f, false) },
+        { "N03_forklift", (4.2f, true) }, { "N04_livefish_truck", (5.8f, true) },
+        { "N05_harbor_crane", (17f, false) }, { "N06_red_lighthouse", (18f, false) },
+        { "N07_market_cat", (.8f, false) }, { "N08_frozen_tuna", (2.4f, true) },
+        { "N09_driven_turret", (4.7f, true) }, { "N10_crab_aquarium", (3.4f, true) },
+        { "N11_fish_counter", (3.35f, true) }, { "N12_foam_box", (1.15f, true) },
+        { "N15_refrigeration_unit", (3.8f, true) }, { "N16_auction_counter", (3.8f, true) },
+        { "N17_tuna_ice_pallet", (3.2f, true) }, { "N18_coldstore_gateway", (15.5f, true) },
+        // 2026-09-29 live-fish auction basin (Claude Code feedback pass).
+        { "N19_live_fish_tub", (1.05f, true) },
     };
     // Visual review result: yaw (degrees) that turns each model's front toward +Z after length alignment.
     public static readonly Dictionary<string, float> FrontYaw = new();
@@ -39,6 +50,13 @@ public static class ImportMeshyObjects
     public static object Interior0926() => Main("outputs/meshy-interior-2026-09-26", "I01_snack_gondola,I02_drink_fridge,I03_food_counter,I04_dining_set,I05_order_kiosk");
 
     public static object BonusPad0927() => Main("outputs/meshy-bonuspad-2026-09-27", "B01_bonus_pad,B02_bonus_pad_cracked");
+
+    public static object Noryangjin0927() => Main("outputs/meshy-noryangjin-2026-09-27", "N01_turret_truck,N02_lpg_cylinder");
+    public static object Noryangjin0928() => Main("outputs/meshy-noryangjin-fix-2026-09-28", "N03_forklift,N04_livefish_truck,N05_harbor_crane,N06_red_lighthouse,N07_market_cat,N08_frozen_tuna");
+    public static object NoryangjinInteriorV2() => Main("outputs/meshy-noryangjin-interior-v2-2026-09-28", "N09_driven_turret,N10_crab_aquarium,N11_fish_counter,N12_foam_box");
+    public static object NoryangjinFeedbackV3() => Main("outputs/meshy-noryangjin-feedback-v3-2026-09-28", "N15_refrigeration_unit,N16_auction_counter,N17_tuna_ice_pallet,N18_coldstore_gateway");
+
+    public static object NoryangjinClaude0929() => Main("outputs/meshy-noryangjin-claude-2026-09-29", "N19_live_fish_tub");
 
     public static object Main(string runDir, string idList)
     {

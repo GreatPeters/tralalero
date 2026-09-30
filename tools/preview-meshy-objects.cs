@@ -4,6 +4,7 @@ using UnityEngine;
 // Renders Meshy object prefabs from the +Z side (their intended front) in a preview scene.
 public static class PreviewMeshyObjects
 {
+    public static object Noryangjin0928() => Main("N03_forklift,N04_livefish_truck,N05_harbor_crane,N06_red_lighthouse,N07_market_cat,N08_frozen_tuna", "tmp/image-previews/noryangjin-revamp-fix-2026-09-28/meshy-native-six.png");
     public static object Main(string idList, string outPath)
     {
         var ids = idList.Split(',');

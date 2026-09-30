@@ -1,5 +1,27 @@
 # Quality Score
 
+## Noryangjin screenshot feedback v3 — 2026-09-28 (current)
+
+Applied four new Meshy props and three bidding/calling actions (129 credits), an industrial cold auction hall, actual coin death drops, persistent wet floors with lateral displacement, roller shutter/near-door boxes, connected decks and transparent occlusion. Retired numbered pickups, unmanned crossing carts, side box toss and the reversing truck that clipped the new hall.
+
+Actual Claude Code read the report, code and native images, identified a warehouse-crossing truck and coplanar floor flicker, and confirmed both fixes in a second bounded review. Final 9999/fast-lateral1x inside completed304.728s with zero Error/Exception/Assert; earlier inside/outside completed305.854/298.215s. Nine native component checks and19focused camera/feature tests pass. Broad Noryangjin regression remains360/386;26failures are preserved without an unsupported pre-existing-failure claim. Save66keys and three protected hashes match, scene clean, requested options ON. No mobile-device FPS, natural-player balance or deployment claim. [Report](../outputs/noryangjin-feedback-v3-2026-09-28/TEST-REPORT.md).
+
+## Noryangjin requested debug play review — 2026-09-28
+
+With9999 and fast lateral enabled, live baseline runs exposed a bullet-width/player-width gap at the auction, unreachable-height/oversized cargo coins, inverted TV UVs, solid hose visuals and mismatched shutter clearance. Implemented the reviewed plan and passed38 EditMode checks plus6 native shutter/reward fixtures. First corrected1x inside completed306.67s; final outside completed302.25s at3x. The last final inside3x attempt stopped at an existing instant-death hole at243.16s and is explicitly not reported as a clear. Prior failed bot attempts remain preserved. Source/save protection and final requested toggle state are verified in `outputs/noryangjin-debug-review-2026-09-28/`. No natural-player balance or mobile-device performance claim.
+
+## Noryangjin reference interior V2 — 2026-09-28
+
+Replaced six unsuitable asset roles using new Meshy models, including rigged male/female merchants. Reviewed all six fresh-import heroes/contact sheets, ten source FBX action phase sheets, actual portrait Play captures, 70 Unity pose samples and the complete 2.5s native death lifecycle. New gameplay tests2 + existing mechanics13/mobile feedback7/start selector8 pass. Both routes completed at about302s with purchased growth and debug overrides off, before the final visual-only pose/Canvas finishing pass. Final pose and UI captures are separately recorded. The previous reuse-heavy interior did not meet the user's visual reference; successful mechanics alone was insufficient. No mobile-device FPS or natural-player win-rate claim. Rebuild-only URP exceptions remain documented in RELIABILITY.md.
+
+## Noryangjin enclosed market and physical branch — 2026-09-28
+
+The revamp safe copy now has an enclosed tile market, an actual outside-pier fork, scoped encounter replacement, six imported Meshy props (180 credits), added market incidents and Korean synthetic voice cues. Both normal-growth routes (ATT37/HP46/fire-rate30, no9999 or scripted health pin) clear in301.9/302.0seconds. ATT20/HP12/fire-rate10 reaches203.5seconds on the outside route before an ordinary late enemy contact defeat; the change retains progression rather than promising first-entry completion.
+
+Runtime/editor builds and the repository harness check pass.13new mechanics tests,8existing map-tool start tests and7mobile combat regression tests pass;8directed native checks cover the default choice, coin-only merchant contact, exact hose drain, denied cat reward, closed shutter blocking/drain and both sides of the fatal wave. Native screenshots/model renders were reviewed. Later orientation/sky/per-box/crossing-rail refinements are checked by separately labelled branch-capture fixtures. Two early runs with mid-run9999activation are retained but excluded from balance evidence.
+
+The images are native game output, not a claim of matching the generated concept's cinematic detail. Human win rates, earned-purchase pacing and physical-phone performance remain unmeasured. The ordinary data workbook, original SR18 and Build Settings stay unchanged; original test preferences/start selection are restored at handoff. [Applied report](http://127.0.0.1:8786/applied/) · `outputs/noryangjin-revamp-fix-2026-09-28/README.md`.
+
 ## Korean toll and manga rush visual iteration — 2026-09-27
 
 The follow-up replaces the slab canopy with a three-bay curved Korean toll plaza, LED arrows/signs, scanners, islands and delineators.96animated manga rays replace sparse streaks while excluding the HUD and centre. Ten separate image-only bonus concepts supersede the rejected A/Bproposal; none is installed. Existing police provenance is the previously generated Meshy sedan plus native livery, not a new police generation.

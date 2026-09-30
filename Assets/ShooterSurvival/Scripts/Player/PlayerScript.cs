@@ -190,7 +190,7 @@ namespace IndianOceanAssets.ShooterSurvival
             get
             {
                 EnsureCharacterDefaultsInitialized();
-                return currentForwardMoveSpeed * (HighwayChapter2Controller.For(this)?.SpeedMultiplier ?? 1f);
+                return currentForwardMoveSpeed * (HighwayChapter2Controller.For(this)?.SpeedMultiplier ?? 1f) * NoryangjinRevampDirector.ForwardMultiplier(this);
             }
         }
         public float DefaultAttackDamage
@@ -521,6 +521,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private void PlayerMove(float deltaX)
         {
             if (HighwayChapter2Controller.For(this)?.PopupPending == true) return;
+            if (NoryangjinRevampDirector.LateralLocked(this)) return;
             if (!movement || isWorldYawTurnActive || IsStationaryCombat)
                 return;
 
@@ -544,6 +545,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ApplyForwardMovement()
         {
+            if (NoryangjinRevampDirector.AdvanceBranch(this, Time.fixedDeltaTime * TimeManager.timeFactor))
+                return;
             if (highwayRoute != null && highwayRoute.isActiveAndEnabled)
             {
                 highwayRoute.Advance(this, ForwardMoveSpeed * Time.fixedDeltaTime * TimeManager.timeFactor);
@@ -564,10 +567,20 @@ namespace IndianOceanAssets.ShooterSurvival
 
             Vector3 nextPosition = transform.position +
                                    routeForward.normalized *
-                                   currentForwardMoveSpeed *
+                                   currentForwardMoveSpeed * NoryangjinRevampDirector.ForwardMultiplier(this) *
                                    Time.fixedDeltaTime *
                                    TimeManager.timeFactor;
             ApplyPlayerPosition(nextPosition);
+        }
+
+        // Wet floor displacement uses the same route frame and support projection as player input.
+        public void ApplySurfaceSlip(float metres)
+        {
+            if(!TimeManager.isGameRunning||isDead||currentHealth<=0||!movement||isWorldYawTurnActive||IsStationaryCombat||NoryangjinRevampDirector.LateralLocked(this))return;
+            EnsureRouteFrame();
+            float lane=Vector3.Dot(transform.position-routeLaneOrigin,routeRight);
+            float next=Mathf.Clamp(lane+metres,xRange.x,xRange.y);
+            ApplyPlayerPosition(transform.position+routeRight*(next-lane));
         }
 
         private void ApplyPlayerPosition(Vector3 position)
@@ -1047,6 +1060,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if(currentHealth<=0||amount<=0||float.IsNaN(amount)||float.IsInfinity(amount))return 0;
             if (HighwayChapter2Controller.For(this)?.ConsumeShield(amount, cause) == true) return 0;
+            if (NoryangjinRevampDirector.ConsumeShield(this, amount, cause)) return 0;
             float applied=Mathf.Min(currentHealth,amount);
             currentHealth -= applied;
             ReportDamage(applied, cause);
@@ -1141,6 +1155,7 @@ namespace IndianOceanAssets.ShooterSurvival
             highwayRoute?.BeginRun();
             var slip = GetComponent<OilSteeringEffect>();
             if (slip != null) slip.Clear();
+            GetComponent<NoryangjinWetSteering>()?.Clear();
             foreach (var spin in GetComponentsInChildren<CosmeticHitSpin>(true)) spin.ResetPose();
             ClearRunHealthBonuses();
             bucketShootBlockers.Clear();
@@ -1375,7 +1390,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 {
                     moveSpeed = speedValue;
                 }
-                if(EnvironmentVariableTables.TryGetFloat(PlayerSpeedVariableKey+"_"+gameObject.scene.name,out var chapterSpeed)
+                if(EnvironmentVariableTables.TryGetFloat(PlayerSpeedVariableKey+"_"+ChapterSceneKey.Resolve(gameObject.scene.name),out var chapterSpeed)
                     && chapterSpeed>=0f && !float.IsInfinity(chapterSpeed))moveSpeed=chapterSpeed;
 
                 bool hasMissileSpeed = EnvironmentVariableTables.TryGetFloat(

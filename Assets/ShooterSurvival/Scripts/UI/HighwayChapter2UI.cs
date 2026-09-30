@@ -129,6 +129,22 @@ public sealed class HighwayChapter2UI : MonoBehaviour
         popup.gameObject.SetActive(true);
     }
 
+    // Reuse the chapter choice presentation without importing Highway balance/reward rules.
+    public void OpenCustom(string heading, string leftName, string rightName, string leftDetail,
+        string rightDetail, Sprite leftImage, Sprite rightImage, float seconds = 5)
+    {
+        Build();
+        if (Pending) return;
+        TollChoice = false; Pending = true; PopupCount++;
+        duration = Remaining = Mathf.Max(.1f, seconds);
+        title.text = heading;
+        labels[0].text = leftName; labels[1].text = rightName;
+        descriptions[0].text = leftDetail; descriptions[1].text = rightDetail;
+        pictures[0].sprite = leftImage; pictures[1].sprite = rightImage;
+        timer.fillAmount = 1; countdown.text = Mathf.CeilToInt(Remaining).ToString();
+        popup.gameObject.SetActive(true);
+    }
+
     public static string BonusName(HighwayUniqueBonus value) => value switch
     {
         HighwayUniqueBonus.ChainMissile => "연쇄 미사일", HighwayUniqueBonus.GoldenShield => "황금 방패",

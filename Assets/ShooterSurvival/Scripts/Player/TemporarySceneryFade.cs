@@ -11,10 +11,12 @@ namespace IndianOceanAssets.ShooterSurvival
         readonly Color[] colors;
         readonly Color[] outlines;
         readonly string[] colorProperties;
+        readonly float obstructedOpacity;
         public float Opacity { get; private set; } = 1f;
 
-        public TemporarySceneryFade(Renderer target)
+        public TemporarySceneryFade(Renderer target,float minimumOpacity=.4f)
         {
+            obstructedOpacity=Mathf.Clamp(minimumOpacity,.05f,.9f);
             renderer=target;original=target.sharedMaterials;transparent=new Material[original.Length];
             colors=new Color[original.Length];outlines=new Color[original.Length];colorProperties=new string[original.Length];
             for(int i=0;i<original.Length;i++)
@@ -37,7 +39,7 @@ namespace IndianOceanAssets.ShooterSurvival
         }
         public void Advance(bool obstructing,float deltaTime)
         {
-            Opacity=Mathf.MoveTowards(Opacity,obstructing?.4f:1f,Mathf.Max(0,deltaTime)*3f);
+            Opacity=Mathf.MoveTowards(Opacity,obstructing?obstructedOpacity:1f,Mathf.Max(0,deltaTime)*4f);
             for(int i=0;i<transparent.Length;i++)if(transparent[i]!=null&&transparent[i].HasProperty(colorProperties[i]))
             {var color=colors[i];color.a*=Opacity;transparent[i].SetColor(colorProperties[i],color);if(transparent[i].HasProperty("_OutlineColor")){var outline=outlines[i];outline.a*=Opacity;transparent[i].SetColor("_OutlineColor",outline);}}
         }

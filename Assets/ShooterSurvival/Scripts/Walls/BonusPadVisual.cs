@@ -118,6 +118,8 @@ namespace IndianOceanAssets.ShooterSurvival
             Color c = mode == Mode.Random ? Color.HSVToRGB(Mathf.Repeat(t * .18f, 1), .75f, 1)
                 : mode == Mode.Negative ? new Color(.52f, .28f, .78f) : color;
             float pulse = .85f + .15f * Mathf.Sin(t * 3.1f);
+            // Script reloads restore the part renderers but not this non-serializable block.
+            block ??= new MaterialPropertyBlock();
             block.Clear(); block.SetColor("_BaseColor", c * (1.25f * pulse)); band.SetPropertyBlock(block); disc.SetPropertyBlock(block);
             block.Clear(); block.SetColor("_BaseColor", new Color(c.r, c.g, c.b, (mode == Mode.Negative ? .32f : .5f) * pulse)); column.SetPropertyBlock(block);
             block.Clear(); block.SetColor("_BaseColor", new Color(0, 0, 0, .42f)); shadow.SetPropertyBlock(block);

@@ -1,5 +1,50 @@
 # Reliability
 
+## Noryangjin feedback pass — 2026-09-29
+
+- Snapshot PlayerPrefs at the start of every session that runs Play bots (`ChapterPlaytestPreferences.SnapshotAt`). Restoring an older snapshot would erase the user's own play between sessions; this pass left coin/jewel as found because no fresh snapshot existed.
+- `codex exec` 0.149 fails with the default model ("requires a newer version of Codex"); pass `-m gpt-5.5` for concept images.
+- Scene builders that attach a body under an existing object must delete the body from the previous install first, or reinstalls stack hidden copies (the N20 boss did).
+- The stationary capture tool disables enemies; add `#keep-enemies` to `tmp/claude-probe/shots.txt` to frame the boss.
+
+## Noryangjin grade separation and editor reload — 2026-09-28
+
+- This project enters Play without a domain reload. After a script recompile Unity restores private UnityEngine.Object fields but not plain C# objects, so `BonusPadVisual` kept its part renderers with a null `MaterialPropertyBlock` and threw every frame. Error Pause then froze Play-mode capture tools. The block is now recreated lazily. Treat any "first Play after recompile" exception flood as this class of bug first.
+- Exception stack traces are off in this project (`StackTraceLogType.None`), so the console and editor log show bare `NullReferenceException`. For diagnosis, set `Application.SetStackTraceLogType(LogType.Exception, StackTraceLogType.ScriptOnly)` from a `run_script`, hook `Application.logMessageReceived`, then set it back to `None`.
+- The running editor writes its log to the `-logFile` path on its command line, not `%LOCALAPPDATA%\Unity\Editor\Editor.log`.
+- `run_script` of the installer fails with a network error while a recompile is still running. Poll `recompile_status` until `completed`, then install; confirm `crossing lift 9m` in the report before playtesting.
+- The market lift is a post-process (`NoryangjinCrossingLiftBuilder`) over the finished layout. Any new builder that places market objects must run before it inside `InstallNoryangjinRevamp.Main`, or its objects stay at ground level inside the raised span.
+
+## Noryangjin feedback v3 verification
+
+Before official Pipeline `run_tests`, require a saved clean scene and await the test result before starting a builder. Temporary importer objects can dirty the scene and the Unity test runner may open a hidden save dialog. Preserve recovery backups before restarting a confirmed task-owned D Editor. A30s Pipeline timeout can occur after a builder actually saved its scene; inspect the scene and task-specific audit before repeating a mutation. Read nested command success, not only the transport envelope.
+
+The feedback scene's combined road renderer split preserves each original collision mesh and uses shared generated partitions. Rebuild only through the installer; do not replace the source collider with its floor-only visual mesh. See [native occlusion diagnosis](solutions/ui-bugs/verify-native-occlusion-after-splitting-road-renderers-2026-09-28.md).
+
+## Noryangjin debug review protocol — 2026-09-28
+
+The user explicitly requests the9999 and fast-lateral test selectors ON. Use `NoryangjinDebugReview.Prepare` and `Finish`; `Finish` restores the save snapshot, then intentionally selects stage1,1x speed and both toggles ON. The older normal-growth reproduction entry points intentionally turn overrides off and must not be mistaken for this requested protocol. These toggles are session-only and apply at run preparation, not authored default stats.
+
+Automated steering must use active collider bounds instead of a prop pivot. A fallen lamp's root and collision center were on different sides of the route. Aim along an enemy's actual lane when testing shooting: a center-only bot can miss an intentional pair of enemies. Preserve unsuccessful attempts and distinguish driver limitations from product faults. See `outputs/noryangjin-debug-review-2026-09-28/`.
+
+## Noryangjin interior V2 generation and editor rebuilding — 2026-09-28
+
+- Meshy generation uses a durable paid-task ledger. Resume known IDs; never automatically resubmit unknown/failed paid creation requests. N09–N14 consumed214credits. New imports use existing folder conventions but do not replace earlier IDs.
+- Use the official Unity CLI installer, then check inner `data.result.success`. Rebuilding the large scene emitted an Editor-only null exception followed by three URP `ZBinningJob` NativeArray job-conflict errors with empty stacks. Skipping cached reflection-cubemap imports did not eliminate them. The saved scene and subsequent native Play runs worked and showed no new runtime exceptions. Do not claim this engine/editor issue is fixed; inspect post-install console and Play separately.
+- Old combined road meshes contain very tall posts. Disable only their renderers during indoor travel, preserve colliders, restore on exit/disable. Near-camera hanging displays must be suppressed as groups; the ordinary 40% scenery fade is inadequate for a screen next to the camera.
+- Blender evidence renders use absolute output paths and `--python-exit-code 1`; the Blender4.4 `wm.fbx_import` operator proxy is not proof that the operator exists. The working FBX entry is `bpy.ops.import_scene.fbx`.
+- Report: `outputs/noryangjin-interior-v2-2026-09-28/README.md`; related learning: `docs/solutions/workflow-issues/validate-reference-interiors-and-retargeted-poses-in-native-camera-2026-09-28.md`.
+
+## Noryangjin branch and event isolation — 2026-09-28
+
+Spatial event triggers are not enough: a triggered periodic hose must still check facing, height and lateral/along bounds on every damage tick. Otherwise a later perpendicular road at the same projected station can be hit. Hose completion is latched after passing the stretch, spin drain clamps to its remaining active duration, and wave resets preserve the authored crest scale. Large incident spacing must outlast the preceding quiet window; the original 50m truck/toss gap skipped the toss and was increased to 96m with a 7s reservation.
+
+Legacy road modules combine decks and tall rails. Clearing nearby `Props` by root position left rails intersecting the new pier and old shops in the curved approach. The installer checks renderer bounds against sampled bypass corridors; `NoryangjinCrossingVisibility` hides only intersecting old road renderers during outside travel, then restores their recorded state. Walkable colliders stay under the original road root and original SR18 remains untouched.
+
+A native `run_script` response can have outer success while its inner compilation result failed. After adding runtime types, wait for `recompile_status` completion and inspect `data.result.success` before treating installation as complete. Use saved TMP outline material assets in editor installers; setting TMP's per-instance outline properties generated four edit-mode material leak errors. The corrected installer reports no console errors.
+
+QA records must inspect debug flags throughout a run. Two early Noryangjin runs had the 9999 option enabled around the fork and are explicitly excluded from difficulty evidence. Later normal-growth runs clear both routes without that override. Route-scoped mechanic fixtures must select the relevant route before invoking an event; an initial unselected fixture incorrectly failed the cat/shutter checks. See `outputs/noryangjin-revamp-fix-2026-09-28/`.
+
 ## Native Highway presentation updates — 2026-09-27
 
 Repeated procedural Mesh edits must refresh native channels/render buffers, not only serialize CPU state. Keep hidden canopy meshes in a separate combined group so runtime roof toggles do not enable the pre-combination source renderers. Overlay Canvas sorting order does not put graphics behind a camera-space HUD; reserve its screen region explicitly and verify native screenshots. See solutions/ui-bugs/refresh-native-mesh-buffers-and-reserve-camera-hud-space-2026-09-27.md. Pipeline run_script static fields do not survive separate compiled invocations; use SessionState for small cross-call capture state. Reload the saved owned scene after tests if the test run dirtied it; do not save test-generated scene changes.

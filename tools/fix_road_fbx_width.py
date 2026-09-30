@@ -4,7 +4,7 @@ import bpy
 from mathutils import Vector
 
 
-ROAD_ROOT = Path(r"C:\Users\ljh\tralalero Shooter\Assets\ShooterSurvival\Models\MeshyAI\Stage01_Noryangjin")
+ROAD_ROOT = Path(r"D:\Tralalero Shooter\Tralalero Shooter D\Assets\ShooterSurvival\Models\MeshyAI\Stage01_Noryangjin")
 
 ROADS = [
     {

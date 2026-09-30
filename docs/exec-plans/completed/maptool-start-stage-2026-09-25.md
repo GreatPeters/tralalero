@@ -1,5 +1,9 @@
 # 맵툴 시작 스테이지 선택
 
+## 2026-09-28: 1(노량진)을 개편 씬으로 변경
+
+사용자 요청으로 시작 스테이지 1이 `Noryangjin_MapTool_Mode_SR18_Revamp.unity`를 Play 시작 씬으로 쓴다(`NoryangjinMapToolTestStartStage.ScenePathForStage`). 원본 SR18 씬과 Build Settings는 그대로라, 실제 빌드와 휴게소→노량진 같은 챕터 이동은 여전히 원본 SR18을 연다. 테스트 `NoryangjinMapToolTestStartStageTests`의 1번 기대값을 개편 씬으로 바꿨다.
+
 ## 2026-09-26: 테스트 속도 2배 추가
 
 편의 탭의 테스트 속도를 `1배 (기본) / 2배 (테스트) / 3배 (테스트)`로 확장했다. 세션 값 검증·읽기와 버튼 인덱스 매핑을 함께 수정했다. 편집 모드에서는 선택만 저장하고, 기존 Play 적용 및 종료 시 1배 복원을 유지한다. 에디터 어셈블리 빌드 오류·경고 0, 2배/3배 선택 보존과 4배 거절의 네이티브 assertion 3개를 통과했다.

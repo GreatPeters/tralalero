@@ -1,7 +1,7 @@
 if (!EditorApplication.isPlaying) throw new InvalidOperationException("Play Mode required.");
 var canvas = UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.CanvasScript>();
 var dim = canvas.buttons.transform.Find("LobbyDim").GetComponent<UnityEngine.UI.Image>();
-var folder = "C:/Users/ljh/tralalero Shooter/tmp/image-previews/harbor-lobby-dim-2026-09-15";
+var folder = "D:/Tralalero Shooter/Tralalero Shooter D/tmp/image-previews/harbor-lobby-dim-2026-09-15";
 System.IO.Directory.CreateDirectory(folder);
 var report = folder + "/verification.txt";
 System.IO.File.WriteAllText(report, "");

@@ -1,5 +1,55 @@
 # ARCHITECTURE.md
 
+## Noryangjin 2026-09-29 feedback (current)
+
+`Editor/NoryangjinClaudeFeedbackBuilder` runs in `InstallNoryangjinRevamp.Main` after the V2/V3 builders and before `NoryangjinCrossingLiftBuilder`. It replaces the container incident with clones of the SR18 seagull gimmick (`ObstacleStats`, pattern Seagull). It caps the two connector corners and rebuilds the cold-store `LiveAuction`: Meshy N19 basins, an aisle crowd driven by the runtime `NoryangjinAuctionScatter` (bidders flee sideways as the shark comes down the aisle, and `NoryangjinAuctionActivity` skips fled members). It restores the FlatKit outline material on skinned characters, adds the `K_MerchantUnionCharge` rush and swaps the final boss body for the Meshy N20 prefab at a uniform `BossHeight`. The underpass camera (`NoryangjinMarketAtmosphere.lowerUnderDecks`) now defaults off. `NoryangjinShutterEvent.announceVoice` and `NoryangjinBannerEvent.voice` add optional PA lines.
+
+## Noryangjin grade separation, waves and wet floor (2026-09-28)
+
+`NoryangjinMarketBranch` owns a height profile (`liftHeight`, eased linear ramps). `Point/Sample` include it, so both the market route and the outside pier climb over the S3 east pier. `AimForward` pitches the shark (and its straight shots) toward the highest floor within 30 m ahead. `HeightAt`/`OnMarketFloor` let runtime code follow the raised market floor; `NoryangjinRushEvent` uses them for merchants.
+
+`Editor/NoryangjinCrossingLiftBuilder` runs last in `InstallNoryangjinRevamp.Main`, after the V2 and V3 builders. It subdivides and bends built-in Cube/Quad meshes, including the `IndoorTileSurface` walking collider, along the profile. It moves rigid units (prefab roots, text, lights, events, breakables) by the height at their centre, stretches reflection probes and hides old S6 road visuals under the raised span. Deformed meshes live in one sub-asset file that is rebuilt on every install.
+
+`NoryangjinMarketAtmosphere` lowers the camera wherever a walkable deck lies overhead and the shark's own level continues underneath (`HasDeckAbove`). On the market ramp it keeps the camera above its own floor. `NoryangjinWaveEvent` implements Side/Gap/Hunter crests with SrRubfish FX and exposes `SafeLateral`/`IsCrashing` for review bots. `NoryangjinWetPatch` starts a director spin (`PlayerDamageCause.WetFloor`) before falling back to the slide.
+
+Review tools: `tools/claude-noryangjin-shots.cs` (stationary poses, including branch-distance poses) and `tools/claude-noryangjin-run.cs` (real run bot). Record: `docs/exec-plans/completed/noryangjin-claude-feedback-2026-09-28.md`.
+
+## Noryangjin screenshot feedback v3 (2026-09-28)
+
+`NoryangjinFeedbackV3Builder` runs after the base and V2 installers in the SR18 safe copy. It replaces the cold warehouse with an industrial auction hall using Meshy N15–N18, adds noncombat `NoryangjinAuctionActivity` actors and new bid/call clips, and removes the old shooting row, numbered pickups, unmanned carts, box toss and the reversing truck that crossed the new auction hall. Merchant contact no longer spends coins; death uses the normal reward amount through an actual `CoinPickup`. Earlier sections below describe the previous iteration where they differ.
+
+`NoryangjinCameraOcclusion.ConfigureFeedbackTransparency` opts this scene into temporary transparency instead of hard hiding. Ceiling pieces are grouped per bay. Bodies and upcoming aisle rays are independent, and hollow frames use exact mesh raycasts. `NoryangjinRoadScenerySplit` retains the original collision mesh/source while the installer separates low floor and tall scenery rendering; geometry partitions share generated assets by source and triangle partition. Reinstallation restores the source before splitting, and the scene's walking collider remains unchanged. The camera stays below the market roof through the loading-bay exit.
+
+`NoryangjinWetPatch` owns persistent visual wetness and refreshes `NoryangjinWetSteering`; `PlayerScript.ApplySurfaceSlip` projects actual route-relative drift onto the existing support surface. `NoryangjinRollerShutterVisual` retracts slats into the housing while `NoryangjinShutterEvent` retains the blocking/damage contract. Container warnings use a black ground footprint and 0.22s fall after 1.05s anticipation. The original scenes, Build Settings and workbook remain outside this installer.
+
+The cold warehouse keeps its existing y0.1 collider and uses a separate shortened visible surface at y0.111 to avoid coplanar fighting with the connector deck. Auction activity counts bid/call commands separately from all animator state transitions and does not restart an already idle actor each beat. Merchant animation grounding measures evaluated hips-translation response, accounting for generic-rig bind scale rather than assuming a one-to-one displacement.
+
+Reproduction: `tools/install-noryangjin-revamp.cs`; validation/capture: `tools/noryangjin-feedback-v3-review.cs`, `tools/probe-noryangjin-feedback-v3.cs`, `tools/play-noryangjin-feedback-v3.cs`. Report and actual Claude Code handoff receipts: `outputs/noryangjin-feedback-v3-2026-09-28/`.
+
+## Noryangjin live review fixes (2026-09-28)
+
+The revamp installer now aligns the auction wall to a center target, uses an explicit-UV TV plane and `NoryangjinHoseSprayVisual`, and configures compact breakable readouts. Breakable coin drops use floor-relative Y and a smaller visual without changing amounts or pickup colliders. `NoryangjinShutterEvent` keeps passable clearance during the countdown and arms the blocker after its closing motion.
+
+`NoryangjinCameraOcclusion.ConfigureClearViewOccluders` is an opt-in hard-hide policy for the safe copy; default scenery fading remains unchanged. It supports grouped curtains and actual collider checks for road meshes whose long support posts defeat a minimum-height bound check. The cold-store replacement floor covers the transition around hidden legacy tiles. `tools/noryangjin-debug-review.cs` snapshots saves, drives the official test selectors and leaves9999/fast lateral ON after restoration. Plan/report: `docs/exec-plans/completed/noryangjin-debug-playtest-fixes-2026-09-28.md`, `outputs/noryangjin-debug-review-2026-09-28/README.md`.
+
+## Reference market interior and merchant assets (2026-09-28)
+
+`NoryangjinInteriorV2Builder.Apply` runs after the revamp mechanics installer and replaces presentation under `MarketHall/ReferenceMarketInterior`. New Meshy N09–N14 assets replace the driver/tricycle, tanks, fish counters, foam cargo and male/female merchants. Events keep their existing combat/route contracts. `NoryangjinInteriorDetailVisibility` manages scenery distance, near-camera displays, indoor fog and temporary old-road renderer suppression; road colliders remain live. Materials, textures and reflection cubemaps are scoped under `Models/Generated/NoryangjinInteriorV2`.
+
+`ImportMeshyCharacters.NoryangjinInteriorV2` finishes only N13/N14: evaluated idle height fit, per-clip hips translation corrections from sampled skin bounds, and the shared seven-state controller. `EnemyScript_space` reads the opt-in merchant die duration; ordinary enemy lifetime remains unchanged. Reproduction, 214-credit ledger and native evidence: `outputs/noryangjin-interior-v2-2026-09-28/README.md`.
+
+## Noryangjin revamp completion (2026-09-28)
+
+`tools/install-noryangjin-revamp.cs` now also rebuilds `Roads/NoryangjinRevampSurfaces` for the enclosed tile hall and physical outside pier. `NoryangjinMarketBranch` owns only the 378m local branch; it reuses Highway offset math and `HighwayChapter2UI.OpenCustom`, while `PlayerScript` delegates branch movement through the scene-gated director. Remaining SR18 turns and workbook placement contracts remain in place. Route-scoped events plus quiet windows separate the hall/pier hazards. The post-merge 1.3 movement multiplier compensates for branch travel time; ordinary test-speed controls remain independent.
+
+`NoryangjinMarketIncident` authors cart convoys, box tosses, reversing seafood trucks, falling containers, escaping tank carts and gull flocks. `NoryangjinMerchant` opts only new rush actors into coin-loss contact; numbered hats improve the auction's additional coin reward without replacing its shield/heal choices. `NoryangjinCatEvent`, `NoryangjinWetSteering`, `NoryangjinMarketAtmosphere` and `NoryangjinShopTint` own the guardian reward, short steering lag, time/TV/voice/camera presentation and serialized instance tint. `NoryangjinCrossingVisibility` temporarily hides combined plank/rail renderers only while travelling the outside branch, preserving their colliders and restoring prior visibility. The installer suppresses overlapping legacy props by renderer bounds along the bypass as well as hall/event zones.
+
+New Meshy N03–N08 assets share the existing outlined import path; generation receipts and the 180-credit ledger live in `outputs/meshy-noryangjin-fix-2026-09-28/`. Korean synthetic voice assets are generated locally from the UTF-8 script `tools/create-noryangjin-voice.ps1`. `tools/verify-noryangjin-revamp-fix.cs` keeps current/growth runs, directed mechanics and relocated capture fixtures distinct. Record: `outputs/noryangjin-revamp-fix-2026-09-28/README.md`.
+
+## Noryangjin revamp safe copy (2026-09-28)
+
+`Noryangjin_MapTool_Mode_SR18_Revamp.unity` is a copy of SR18 built by `tools/install-noryangjin-revamp.cs`; SR18 itself is untouched and remains the Build Settings chapter 1. `Scripts/Game/NoryangjinRevamp/` holds `NoryangjinRevampDirector` (scene-name gated, started by `ChapterProgression.BeginRun`) and one `NoryangjinRevampEvent` subclass per set piece. `PlayerScript` asks the director for forward stops (box walls, hose spin), lateral locks and the one-hit shield; `BulletScript` hands hits to `NoryangjinBreakable` first. `ChapterSceneKey.Resolve` maps the copy to SR18 for Data.xlsx rows and per-scene environment keys. Record: `outputs/noryangjin-revamp-2026-09-27/README.md`.
+
 ## Chapter2 vehicle Highway (2026-09-27)
 
 - Compulsory-combat revision:351placements(+50.6%over233). HighwayChapter2Controller admits complete front rows and couples their braking, with sampled world collider clearance on bends. Destroyed slots remain open. Physical HighwayUniquePickup volumes select the second fork and award one bonus; the toll popup is no longer part of production flow. Open-road speed is a run/branch/distance-derived multiplier on PlayerScript.ForwardMoveSpeed, with HighwayRushLines managed by the existing UI. Health labels additionally track body projection/occlusion, and the log uses its fitted collider. Native geometry/livery/toll/gate work is in tools/refine-highway-combat-presentation.cs. Detailed evidence: outputs/highway-combat-revision-2026-09-27; previous bullets below are history.

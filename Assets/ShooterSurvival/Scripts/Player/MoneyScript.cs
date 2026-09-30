@@ -185,7 +185,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private void Awake()
         {
             collectionRadius = 3.5f;
-            if (EnvironmentVariableTables.TryGetFloat("coinPickupRadius_" + gameObject.scene.name, out float configured) && !float.IsNaN(configured) && !float.IsInfinity(configured))
+            if (EnvironmentVariableTables.TryGetFloat("coinPickupRadius_" + ChapterSceneKey.Resolve(gameObject.scene.name), out float configured) && !float.IsNaN(configured) && !float.IsInfinity(configured))
             {
                 collectionRadius = Mathf.Clamp(configured, 0f, 6f);
             }

@@ -3,7 +3,7 @@ var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();
 var map=scene.GetRootGameObjects().Single(g=>g.name=="Noryangjin_MapTool").transform;
 var canvas=scene.GetRootGameObjects().Single(g=>g.name=="Canvas").GetComponent<IndianOceanAssets.ShooterSurvival.CanvasScript>();
 var player=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.PlayerScript>();
-var folder="C:/Users/ljh/tralalero Shooter/tmp/image-previews/sr18-placement-repair-2026-09-15/final";System.IO.Directory.CreateDirectory(folder);
+var folder="D:/Tralalero Shooter/Tralalero Shooter D/tmp/image-previews/sr18-placement-repair-2026-09-15/final";System.IO.Directory.CreateDirectory(folder);
 var report=folder+"/verification.txt";System.IO.File.WriteAllText(report,"");
 void Check(bool success,string message){System.IO.File.AppendAllText(report,(success?"PASS: ":"FAIL: ")+message+"\n");if(!success)throw new Exception(message);}
 System.Collections.IEnumerator Shot(string name)

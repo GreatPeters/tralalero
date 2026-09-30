@@ -83,5 +83,38 @@ public sealed class NoryangjinCameraOcclusionTests
         Physics.SyncTransforms();occlusion.RefreshVisibility();
         foreach(var renderer in renderers)Assert.That(renderer.forceRenderingOff,Is.False,"Connected uphill road must not expose the lower deck");
     }
+    [Test] public void CombinedTallRoadUsesColliderAndPreservesOrdinaryFloor()
+    {
+        var p=Make("Player");var roads=Make("Roads");
+        var combined=GameObject.CreatePrimitive(PrimitiveType.Cube);objects.Add(combined);combined.transform.SetParent(roads.transform);
+        combined.transform.position=new Vector3(0,4,-5);combined.transform.localScale=new Vector3(10,12,1);
+        var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);objects.Add(floor);floor.transform.SetParent(roads.transform);floor.transform.position=Vector3.down*.5f;floor.transform.localScale=new Vector3(10,1,50);
+        var camera=Make("Camera");camera.transform.position=new Vector3(0,10,-10);
+        var view=camera.AddComponent<NoryangjinCameraOcclusion>();view.Configure(p.transform,roads.transform);view.ConfigureClearViewOccluders(null,true);
+        Physics.SyncTransforms();view.RefreshVisibility();
+        Assert.That(combined.GetComponent<Renderer>().forceRenderingOff,Is.True);
+        Assert.That(combined.GetComponent<Collider>().enabled,Is.True);Assert.That(floor.GetComponent<Renderer>().forceRenderingOff,Is.False);
+        view.ConfigureClearViewOccluders(null,false);Assert.That(combined.GetComponent<Renderer>().forceRenderingOff,Is.False);
+    }
+    [Test] public void ExplicitClearViewShopHidesAllChildrenAndRestoresWhenUnbound()
+    {
+        var p=Make("Player");var roads=Make("Roads");var shop=GameObject.CreatePrimitive(PrimitiveType.Cube);objects.Add(shop);shop.transform.position=new Vector3(0,5,-5);shop.transform.localScale=new Vector3(10,10,1);
+        var camera=Make("Camera");camera.transform.position=new Vector3(0,10,-10);
+        var view=camera.AddComponent<NoryangjinCameraOcclusion>();view.Configure(p.transform,roads.transform);view.ConfigureClearViewOccluders(new[]{shop.transform},true);view.RefreshVisibility();
+        Assert.That(shop.GetComponent<Renderer>().forceRenderingOff,Is.True);Assert.That(shop.GetComponent<Collider>().enabled,Is.True);
+        view.ConfigureClearViewOccluders(null,false);Assert.That(shop.GetComponent<Renderer>().forceRenderingOff,Is.False);
+    }
+    [Test] public void CurtainStripsAreConsideredTogetherForClearView()
+    {
+        var p=Make("Player");var roads=Make("Roads");var curtain=Make("Curtain");var strips=new List<Renderer>();
+        for(int i=0;i<16;i++)
+        {
+            var strip=GameObject.CreatePrimitive(PrimitiveType.Cube);objects.Add(strip);strip.transform.SetParent(curtain.transform);strip.transform.position=new Vector3((i-7.5f)*.65f,5,-5);strip.transform.localScale=new Vector3(.6f,10,.08f);strips.Add(strip.GetComponent<Renderer>());
+        }
+        var camera=Make("Camera");camera.transform.position=new Vector3(0,10,-10);
+        var view=camera.AddComponent<NoryangjinCameraOcclusion>();view.Configure(p.transform,roads.transform);view.ConfigureClearViewOccluders(new[]{curtain.transform},true);view.RefreshVisibility();
+        foreach(var strip in strips)Assert.That(strip.forceRenderingOff,Is.True);
+        view.ConfigureClearViewOccluders(null,false);foreach(var strip in strips)Assert.That(strip.forceRenderingOff,Is.False);
+    }
 }
 #endif

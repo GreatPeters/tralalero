@@ -25,7 +25,7 @@ public sealed class NoryangjinMapToolTestStartStageTests
         NoryangjinMapToolTestStartStage.SelectStage(originalSelection);
     }
 
-    [TestCase(1, "Noryangjin_MapTool_Mode_SR18")]
+    [TestCase(1, "Noryangjin_MapTool_Mode_SR18_Revamp")]
     [TestCase(2, "HighWay")]
     [TestCase(3, "RestStop")]
     public void SelectionChangesPlayStartWithoutOpeningOrDirtyingTheAuthoringScene(int stage, string expected)

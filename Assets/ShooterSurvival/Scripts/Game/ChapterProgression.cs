@@ -37,6 +37,8 @@ public sealed class ChapterProgression : MonoBehaviour
             if (holdout.gameObject.scene == gameObject.scene) holdout.BeginRun();
         foreach (var highway in FindObjectsByType<HighwayChapter2Controller>(FindObjectsSortMode.None))
             if (highway.gameObject.scene == gameObject.scene) highway.BeginRun();
+        foreach (var revamp in FindObjectsByType<NoryangjinRevampDirector>(FindObjectsSortMode.None))
+            if (revamp.gameObject.scene == gameObject.scene) revamp.BeginRun();
     }
     public void CompleteChapter()
     {
@@ -46,7 +48,7 @@ public sealed class ChapterProgression : MonoBehaviour
         {
             string rewardKey = "chapter_rewarded_" + chapter;
             bool firstClear = PlayerPrefs.GetInt(rewardKey, 0) == 0;
-            string setting = (firstClear ? "firstClearJewels_" : "replayClearJewels_") + gameObject.scene.name;
+            string setting = (firstClear ? "firstClearJewels_" : "replayClearJewels_") + ChapterSceneKey.Resolve(gameObject.scene.name);
             if (EnvironmentVariableTables.TryGetFloat(setting, out float configured) && !float.IsNaN(configured) && !float.IsInfinity(configured))
             {
                 ClearJewels = Mathf.Min(Mathf.FloorToInt(Mathf.Clamp(configured, 0, 100)), int.MaxValue - MoneyScript.S.Jewel);

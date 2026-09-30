@@ -212,8 +212,13 @@ namespace IndianOceanAssets.ShooterSurvival
                     _ => Vector3.zero
                 };
                 Vector3 routeOffset =
+                    // The market preview requires the aircraft silhouette beside the shark.
+                    // Keep the original formation for all other chapters.
                     playerTransform.right * offset.x +
                     playerTransform.forward * offset.z;
+                if (NoryangjinRevampDirector.Active != null && NoryangjinRevampDirector.Active.Running)
+                    routeOffset = playerTransform.right * ((spawnIndex % 2 == 0 ? -1 : 1) * (2.8f + spawnIndex / 2 * .65f))
+                        - playerTransform.forward * 2.6f;
                 targetPosition = playerTransform.position + routeOffset;
                 targetPosition.y = playerTransform.position.y + 2f;
 

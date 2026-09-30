@@ -27,7 +27,8 @@ internal static class NoryangjinMapToolTestStartStage
         switch (stage)
         {
             case 0: return string.Empty;
-            case 1: return NoryangjinMapToolWindow.Sr18MapToolScenePath;
+            // Stage 1 plays the Noryangjin revamp safe copy; the original SR18 scene stays untouched.
+            case 1: return NoryangjinMapToolWindow.Sr18RevampMapToolScenePath;
             case 2: return NoryangjinMapToolWindow.HighwayMapToolScenePath;
             case 3: return NoryangjinMapToolWindow.RestStopMapToolScenePath;
             default: throw new ArgumentOutOfRangeException(nameof(stage), "Choose Data or stage 1–3.");

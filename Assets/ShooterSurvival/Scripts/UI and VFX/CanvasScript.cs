@@ -282,7 +282,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (progressRewardGranted || string.IsNullOrEmpty(rewardRoundId) || MoneyScript.S == null) return;
             progressRewardGranted = true;
-            if (!EnvironmentVariableTables.TryGetFloat("progressCoinPerCheckpoint_" + gameObject.scene.name, out var rate)) return;
+            if (!EnvironmentVariableTables.TryGetFloat("progressCoinPerCheckpoint_" + ChapterSceneKey.Resolve(gameObject.scene.name), out var rate)) return;
             float interval = EnvironmentVariableTables.TryGetFloat("progressRewardInterval", out var configuredInterval) ? configuredInterval : 15;
             int maximum = EnvironmentVariableTables.TryGetFloat("progressRewardMaximum", out var configuredMaximum) ? Mathf.Clamp(Mathf.FloorToInt(configuredMaximum), 0, 1000) : 20;
             int earned = RunProgressReward.Calculate(activeRunSeconds, interval, Mathf.Clamp(Mathf.FloorToInt(rate), 0, 10000), maximum);

@@ -1,6 +1,6 @@
 if(!EditorApplication.isPlaying)throw new Exception("Play Mode required");
 var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();var c=scene.GetRootGameObjects().Single(g=>g.name=="Canvas").GetComponent<IndianOceanAssets.ShooterSurvival.CanvasScript>();
-var folder="C:/Users/ljh/tralalero Shooter/tmp/image-previews/harbor-polish-2026-09-15/final/"+scene.name;System.IO.Directory.CreateDirectory(folder);
+var folder="D:/Tralalero Shooter/Tralalero Shooter D/tmp/image-previews/harbor-polish-2026-09-15/final/"+scene.name;System.IO.Directory.CreateDirectory(folder);
 System.Collections.IEnumerator Verify()
 {
     yield return new WaitForSecondsRealtime(.3f);c.GetComponentInChildren<OpeningStoryUI>(true).Skip();

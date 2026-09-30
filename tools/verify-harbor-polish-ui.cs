@@ -3,7 +3,7 @@ var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();
 var c=scene.GetRootGameObjects().Single(g=>g.name=="Canvas").GetComponent<IndianOceanAssets.ShooterSurvival.CanvasScript>();
 var p=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.PlayerScript>();
 var phase=SessionState.GetString("Harbor.PolishCapturePhase","first-pass");
-var folder="C:/Users/ljh/tralalero Shooter/tmp/image-previews/harbor-polish-2026-09-15/"+phase+"/"+scene.name;
+var folder="D:/Tralalero Shooter/Tralalero Shooter D/tmp/image-previews/harbor-polish-2026-09-15/"+phase+"/"+scene.name;
 System.IO.Directory.CreateDirectory(folder);var report=folder+"/checks.txt";System.IO.File.WriteAllText(report,"");
 void Check(bool ok,string message){System.IO.File.AppendAllText(report,(ok?"PASS: ":"FAIL: ")+message+"\n");if(!ok)throw new Exception(message);}
 System.Collections.IEnumerator Shot(string name)

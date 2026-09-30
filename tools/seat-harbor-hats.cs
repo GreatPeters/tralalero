@@ -1,6 +1,6 @@
 if(EditorApplication.isPlaying)throw new Exception("Edit Mode required");
 var catalog=AssetDatabase.LoadAssetAtPath<CosmeticVisualCatalog>("Assets/ShooterSurvival/Resources/Cosmetics/Catalog.asset");
-var folder="C:/Users/ljh/tralalero Shooter/tmp/image-previews/harbor-polish-2026-09-15/hats-fitted";System.IO.Directory.CreateDirectory(folder);
+var folder="D:/Tralalero Shooter/Tralalero Shooter D/tmp/image-previews/harbor-polish-2026-09-15/hats-fitted";System.IO.Directory.CreateDirectory(folder);
 var go=new GameObject("Hat surface fitting");var preview=go.AddComponent<CosmeticPreview>();preview.catalog=catalog;
 var changes=new System.Collections.Generic.List<object>();
 try

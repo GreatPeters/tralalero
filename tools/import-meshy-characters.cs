@@ -27,8 +27,89 @@ public static class ImportMeshyCharacters
         { "anim_idle", "idle" }, { "anim_walking", "walk" }, { "anim_running", "run" },
         { "anim_attack_once", "attack_once" }, { "anim_hit", "hit" }, { "anim_die", "die" },
         { "anim_scared", "scared" }, { "anim_wave", "signal" }, { "anim_cheer", "greet" },
+        { "anim_bid", "bid" }, { "anim_call", "call" },
     };
     static readonly HashSet<string> Looping = new() { "idle", "walk", "run", "attack_loop", "scared", "signal", "greet" };
+    public static object NoryangjinInteriorV2()
+    {
+        var result=Main("outputs/meshy-noryangjin-interior-v2-2026-09-28", "N13_merchant_male,N14_merchant_female");
+        foreach(var id in new[]{"N13_merchant_male","N14_merchant_female"})FinishMarketMerchant(id);
+        AssetDatabase.SaveAssets();return result;
+    }
+    public static object NoryangjinFeedbackV3()
+    {
+        var result=Main("outputs/meshy-noryangjin-feedback-v3-2026-09-28", "N13_merchant_male,N14_merchant_female");
+        foreach(var id in new[]{"N13_merchant_male","N14_merchant_female"})FinishMarketMerchant(id,"outputs/noryangjin-feedback-v3-2026-09-28");
+        AssetDatabase.SaveAssets();return result;
+    }
+    // 2026-09-29 final boss (Claude Code feedback pass); the scene builder scales it uniformly to the boss height.
+    public static object NoryangjinClaudeBoss0929()
+    {
+        var result=Main("outputs/meshy-noryangjin-claude-2026-09-29","N20_ajumma_boss");
+        FinishMarketMerchant("N20_ajumma_boss","outputs/meshy-noryangjin-claude-2026-09-29");
+        AssetDatabase.SaveAssets();return result;
+    }
+    public static object CorrectFeedbackGrounding()
+    {
+        foreach(var id in new[]{"N13_merchant_male","N14_merchant_female"})FinishMarketMerchant(id,"outputs/noryangjin-feedback-v3-2026-09-28");
+        AssetDatabase.SaveAssets();return new{corrected=true};
+    }
+
+    // Scope retarget cleanup to the new merchants. Fit the evaluated idle pose, then lift
+    // only penetrating pose samples through the hips curves, preserving jumps and root motion.
+    static void FinishMarketMerchant(string id,string report="outputs/noryangjin-interior-v2-2026-09-28")
+    {
+        string path=PrefabRoot+"/"+id+".prefab";
+        var root=PrefabUtility.LoadPrefabContents(path);
+        try
+        {
+            var animator=root.GetComponentInChildren<Animator>();animator.enabled=false;
+            var model=animator.transform;var fit=model.parent;
+            var clips=animator.runtimeAnimatorController.animationClips.Distinct().ToArray();
+            var idle=clips.First(c=>c.name=="idle");idle.SampleAnimation(model.gameObject,0);
+            var b=Bounds(model,root.transform);float beforeHeight=b.size.y;
+            // Re-evaluate after each scale adjustment: imported generic skins can include
+            // the parent scale in their evaluated vertex positions as well as the transform.
+            for(int pass=0;pass<8&&Mathf.Abs(b.size.y-CharacterHeight)>.002f;pass++)
+            {fit.localScale*=Mathf.Sqrt(CharacterHeight/b.size.y);b=Bounds(model,root.transform);}
+            b=Bounds(model,root.transform);fit.localPosition-=new Vector3(b.center.x,b.min.y,b.center.z);
+            float fittedHeight=b.size.y;
+            foreach(var clip in clips)
+            {
+                var hips=model.Find("Armature/Hips");
+                if(hips==null)throw new Exception(id+": missing hips for ground correction");
+                var curves=new[]{new AnimationCurve(),new AnimationCurve(),new AnimationCurve()};
+                int count=Mathf.CeilToInt(clip.length*30);
+                for(int frame=0;frame<=count;frame++)
+                {
+                    float time=Mathf.Min(clip.length,frame/30f);clip.SampleAnimation(model.gameObject,time);
+                    b=Bounds(model,root.transform);
+                    // Generic rig/bind scales can amplify a hips translation. Measure its evaluated
+                    // effect before correcting; a raw metre-for-metre shift can bury a collapsed body.
+                    var original=hips.localPosition;float correction=clip.name=="die"?.025f-b.min.y:Mathf.Max(0,.005f-b.min.y);
+                    var unit=hips.parent.InverseTransformVector(root.transform.TransformVector(Vector3.up));
+                    hips.localPosition=original+unit*.1f;
+                    float response=(Bounds(model,root.transform).min.y-b.min.y)/.1f;
+                    hips.localPosition=original;
+                    if(response<=.001f)throw new Exception(id+": invalid measured hips response");
+                    var position=original+unit*(correction/response);
+                    curves[0].AddKey(time,position.x);curves[1].AddKey(time,position.y);curves[2].AddKey(time,position.z);
+                }
+                for(int axis=0;axis<3;axis++)
+                {
+                    for(int k=0;k<curves[axis].length;k++)
+                    {AnimationUtility.SetKeyLeftTangentMode(curves[axis],k,AnimationUtility.TangentMode.Linear);AnimationUtility.SetKeyRightTangentMode(curves[axis],k,AnimationUtility.TangentMode.Linear);}
+                    AnimationUtility.SetEditorCurve(clip,EditorCurveBinding.FloatCurve("Armature/Hips",typeof(Transform),"m_LocalPosition."+"xyz"[axis]),curves[axis]);
+                }
+                EditorUtility.SetDirty(clip);
+            }
+            idle.SampleAnimation(model.gameObject,0);animator.enabled=true;
+            var after=Bounds(model,root.transform);
+            File.WriteAllText(report+"/"+id+"-fit.txt",$"before={beforeHeight} fitted={fittedHeight} after={after.size.y} fitScale={fit.localScale} modelScale={model.localScale}");
+            PrefabUtility.SaveAsPrefabAsset(root,path);
+        }
+        finally{PrefabUtility.UnloadPrefabContents(root);}
+    }
 
     public static object Main(string runDir, string idList)
     {

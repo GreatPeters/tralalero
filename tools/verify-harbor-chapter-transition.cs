@@ -3,7 +3,7 @@ var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();
 var canvas=scene.GetRootGameObjects().Single(g=>g.name=="Canvas").GetComponent<IndianOceanAssets.ShooterSurvival.CanvasScript>();
 var chapter=canvas.GetComponent<ChapterProgression>();
 var transition=chapter.transitionUI;
-var folder="C:/Users/ljh/tralalero Shooter/tmp/image-previews/harbor-ui-live-2026-09-15/transitions";
+var folder="D:/Tralalero Shooter/Tralalero Shooter D/tmp/image-previews/harbor-ui-live-2026-09-15/transitions";
 var report="map-concepts/harbor-ui-live-2026-09-15/transition-"+scene.name+".txt";
 System.IO.Directory.CreateDirectory(folder);
 canvas.GetComponentInChildren<OpeningStoryUI>(true).Skip();

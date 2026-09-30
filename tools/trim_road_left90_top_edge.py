@@ -6,7 +6,7 @@ import bmesh
 from mathutils import Vector
 
 
-ROOT = Path(r"C:\Users\ljh\tralalero Shooter")
+ROOT = Path(r"D:\Tralalero Shooter\Tralalero Shooter D")
 FBX_PATH = ROOT / "Assets" / "ShooterSurvival" / "Models" / "MeshyAI" / "TestFolder" / "Road_Left90.fbx"
 BACKUP_PATH = FBX_PATH.with_suffix(".fbx.before_top_trim_backup")
 CUT_Z = -0.025

@@ -3,7 +3,7 @@ var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();
 var canvas=scene.GetRootGameObjects().Single(g=>g.name=="Canvas").GetComponent<IndianOceanAssets.ShooterSurvival.CanvasScript>();
 var root=canvas.transform;
 var phase=SessionState.GetString("Harbor.LiveCapturePhase","cohort");
-var folder="C:/Users/ljh/tralalero Shooter/tmp/image-previews/harbor-ui-live-2026-09-15/"+phase+"/"+scene.name;
+var folder="D:/Tralalero Shooter/Tralalero Shooter D/tmp/image-previews/harbor-ui-live-2026-09-15/"+phase+"/"+scene.name;
 var report="map-concepts/harbor-ui-live-2026-09-15/"+phase+"-"+scene.name+".txt";
 System.IO.Directory.CreateDirectory(folder);System.IO.File.WriteAllText(report,"");
 var shop=canvas.GetComponentInChildren<CosmeticShopUI>(true);

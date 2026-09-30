@@ -1,5 +1,19 @@
 # Docs Index
 
+- [C→D 프로젝트 이전 및 C 원본 삭제 완료](solutions/workflow-issues/finish-unity-drive-migration-before-source-deletion-2026-09-28.md): 도구18개·미리보기4개 경로 전환, Codex 체크포인트 보존 및 삭제 검증.
+
+- **노량진 9항목 피드백 — 2026-09-29 최신 (Claude Code)**: [기록](exec-plans/completed/noryangjin-claude-feedback-2026-09-29.md). 초반 카메라 유지, 젖은 자국 -20%, 셔터 안내 문구, 모서리 판자 제거, 가운데에서 흩어지는 활어 경매(Meshy 대야·아웃라인), SR18 갈매기 급강하, 끝부분 복원과 상인 돌격, Meshy 새 보스(균일 비율). 실내 완주·테스트 83개 통과.
+- **노량진 입체 교차·큰 파도·젖은 바닥 — 2026-09-28 (Claude Code)**: [기록](exec-plans/completed/noryangjin-claude-feedback-2026-09-28.md). 바깥 부두와 시장동이 S3 위를 9m 오르막으로 넘고 아래층은 낮은 카메라, SrRubfish FX 파도 16번(한쪽/틈/추격), 검은 젖은 자국 회전+체력 감소, 보너스 패드 재컴파일 예외 수정. 양 경로 봇 실행과 테스트 83개 통과.
+- **노량진 스크린샷 피드백 v3**: [적용 홈페이지](http://127.0.0.1:8786/feedback-v3/), [기획/후속 수정](exec-plans/completed/noryangjin-feedback-v3-2026-09-28.md), [테스트 보고서](../outputs/noryangjin-feedback-v3-2026-09-28/TEST-REPORT.md), [실제 Claude Code 검증](../outputs/noryangjin-feedback-v3-2026-09-28/CLAUDE-REVIEW.md)·[지적 반영 재검증](../outputs/noryangjin-feedback-v3-2026-09-28/CLAUDE-FOLLOWUP.md). 번호 수집/무인 카트/옆 박스/경매장 후진차 제거, 사망 코인, 반투명 시야, 물바닥/미끄러짐, 셔터/연결 다리, Meshy4종+동작3종과 실내 경매. 최종9999 실내304.728초 완주, 기능9/집중19개 통과; 넓은 회귀26건 미통과도 공개.
+- `solutions/ui-bugs/verify-native-occlusion-after-splitting-road-renderers-2026-09-28.md`: 도로 표시/충돌 분리, 작은 천장 가림, 같은 높이 바닥 겹침, 리그 이동 배율 및 실제 Claude 검증 교훈. 아래 노량진 기록은 이전 단계의 이력이다.
+
+- **노량진9999 플레이 검수·후속 수정 — 2026-09-28**: [기획서](exec-plans/completed/noryangjin-debug-playtest-fixes-2026-09-28.md), [검수 기록](../outputs/noryangjin-debug-review-2026-09-28/README.md), [전후 화면](http://127.0.0.1:8786/debug-review/). 공격력/체력9999·빠른 좌우 이동ON, 경매 중앙 사격·코인/숫자·TV/물청소·시야/냉동창고·셔터 표현 수정.
+
+- **노량진 실내·새 모델 재작업 — 2026-09-28**: [최신 실제 화면](http://127.0.0.1:8786/interior-v2/). 신규 Meshy6종·214크레딧, 연속 수조/생선 진열대, 남녀 상인 리깅·클립 보정, 운전자가 탄 터렛트. [실행 기록](exec-plans/completed/noryangjin-interior-v2-2026-09-28.md), [상세 보고서](../outputs/noryangjin-interior-v2-2026-09-28/README.md).
+
+- **노량진 실내·갈림길·사건 완성 — 2026-09-28**: [실제 적용 결과](http://127.0.0.1:8786/applied/). 개편 안전본의 천장·벽·젖은 타일, 60초 물리분기, 겹침 정리, Meshy6종(180크레딧), 카트/상자/활어차/크레인/고양이/방송. 실제 성장 수치로 양쪽 약302초 완주. [상세 기록](../outputs/noryangjin-revamp-fix-2026-09-28/README.md). 원본 SR18·Build Settings·Data.xlsx 보존.
+- `exec-plans/completed/noryangjin-revamp-fix-2026-09-28.md`: 완료된 적용 계획. `solutions/workflow-issues/validate-noryangjin-branches-beyond-trigger-and-root-position-2026-09-28.md`: 분기 경계·주기 이벤트·실제 렌더 경계·네이티브 검증 교훈.
+
 - **고속도로 한국 요금소·만화 집중선·보너스10시안 — 최신**: `exec-plans/completed/highway-toll-manga-2026-09-27.md`. 곡선 지붕·전광판·초록 화살표·하이패스 장비, 화면 가장자리 집중선96개. [실제 적용 화면](http://127.0.0.1:8776/highway/toll-manga/) · [보너스10개 이미지 전용 갤러리](http://127.0.0.1:8776/highway/toll-manga/bonus/). 보너스는 게임 미적용, 신규 Meshy 생성 없음. 기존25개 검사 직접 호출·14개 런타임 검증·설정 복원 완료.
 - `solutions/ui-bugs/refresh-native-mesh-buffers-and-reserve-camera-hud-space-2026-09-27.md`: 반복 생성 메시의 실제 렌더 버퍼 갱신, 카메라 HUD와 오버레이 효과의 그리기 순서, 네이티브 화면 검증.
 
@@ -291,6 +305,7 @@ Available documents:
 - `exec-plans/completed/noryangjin-enemy-event-controller.md`: completed migration from mixed movement/fire controls to the five-mode Enemy Event authoring and six-state animation contract.
 - `exec-plans/active/firebase-analytics-bigquery.md`: analytics implementation, verification status, and the remaining external Firebase/BigQuery console steps.
 - `design/stage_prop_rebuild_20260510.md`: stage-reference prop reuse and missing-image rebuild record.
+- `exec-plans/completed/noryangjin-revamp-fix-2026-09-28.md`: 노량진 개편 씬(SR18_Revamp)의 실내 건물화·기존 기물 겹침 수정과 미적용 기획 항목 적용 기록. 이후 실내 미술 재작업은 `noryangjin-interior-v2-2026-09-28.md`를 따른다.
 - `exec-plans/active/codex-harness-foundation.md`: current repo-shaping plan for agent harness engineering.
 
 Editor shortcuts:

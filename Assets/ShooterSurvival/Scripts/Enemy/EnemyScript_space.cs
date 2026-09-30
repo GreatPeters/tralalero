@@ -248,6 +248,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (_health > 0f)
             {
                 if(TryGetComponent<HighwayEnemyAnimation>(out var reaction))reaction.ReactToHit();
+                if(TryGetComponent<NoryangjinMerchant>(out var merchantReaction))merchantReaction.ReactToHit();
                 RefreshHealthText();
                 return;
             }
@@ -294,7 +295,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
             int baseCoin=placementCoinReward>=0?placementCoinReward:CoinDropUtility.GetCoinAmount(enemyTier);
             int coinAmount = baseCoin>0?CoinDropUtility.ApplyCoinBonus(baseCoin):0;
-            CoinDropUtility.SpawnWorldCoinDrop(transform.position, coinAmount);
+            if(TryGetComponent<NoryangjinMerchant>(out var merchant))merchant.SpawnDeathCoins(coinAmount);
+            else CoinDropUtility.SpawnWorldCoinDrop(transform.position, coinAmount);
         }
 
         private GameObject SpawnBonusAltar()
@@ -318,6 +320,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 healthText.enabled = false;
 
             float remaining=TryGetComponent<HighwayEnemyAnimation>(out var presentation)?Mathf.Max(.25f,presentation.deathSeconds-.25f):.25f;
+            if (TryGetComponent<NoryangjinMerchant>(out var merchant)) remaining = Mathf.Max(.25f, merchant.DeathSeconds - .25f);
             yield return new WaitForSeconds(remaining);
             gameObject.SetActive(false);
         }

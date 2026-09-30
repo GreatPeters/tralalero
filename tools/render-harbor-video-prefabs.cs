@@ -42,7 +42,7 @@ foreach (var variant in new[] { "A", "B" })
         var samplePixels = capture.GetPixels32();
         if(samplePixels.Count(p => p.r > 40 || p.g > 40 || p.b > 40) < samplePixels.Length / 5)
             throw new Exception("Native render is blank/dark; inspect preview-scene culling before accepting evidence");
-        string path = "C:/Users/ljh/tralalero Shooter/tmp/image-previews/harbor-video-ui-2026-09-15/production/" + variant + "-unity-prefab.png";
+        string path = "D:/Tralalero Shooter/Tralalero Shooter D/tmp/image-previews/harbor-video-ui-2026-09-15/production/" + variant + "-unity-prefab.png";
         System.IO.File.WriteAllBytes(path,capture.EncodeToPNG());
         var fit = root.GetComponentInChildren<UnityEngine.UI.AspectRatioFitter>();
         var display = root.GetComponentInChildren<UnityEngine.UI.RawImage>();

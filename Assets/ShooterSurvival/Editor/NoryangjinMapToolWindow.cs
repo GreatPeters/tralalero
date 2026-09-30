@@ -372,6 +372,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string MapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode.unity";
     internal const string MapToolScene2Path = "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_2.unity";
     internal const string Sr18MapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_SR18.unity";
+    internal const string Sr18RevampMapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_SR18_Revamp.unity";
 
     private const string PaletteDefaultsPath = "Assets/ShooterSurvival/Editor/NoryangjinMapToolPaletteDefaults.asset";
     private const string WorkFloorMaterialPath = "Assets/ShooterSurvival/Materials/Generated/MapTool_Work_Floor.mat";
@@ -7002,6 +7003,7 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         return string.Equals(scenePath, MapToolScenePath, StringComparison.OrdinalIgnoreCase) ||
                string.Equals(scenePath, MapToolScene2Path, StringComparison.OrdinalIgnoreCase) ||
                string.Equals(scenePath, Sr18MapToolScenePath, StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(scenePath, Sr18RevampMapToolScenePath, StringComparison.OrdinalIgnoreCase) ||
                string.Equals(scenePath, HighwayMapToolScenePath, StringComparison.OrdinalIgnoreCase) ||
                string.Equals(scenePath, RestStopMapToolScenePath, StringComparison.OrdinalIgnoreCase);
     }

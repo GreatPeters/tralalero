@@ -51,7 +51,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (applied) return; // Settings are a run-start snapshot, never reset an active fight.
             EncounterPlacementTables.ValidateRows(allRows);
-            var rows = allRows.Where(r => r.scene == gameObject.scene.name).ToArray();
+            var rows = allRows.Where(r => r.scene == ChapterSceneKey.Resolve(gameObject.scene.name)).ToArray();
             if (rows.Length == 0) { disabledEnemies.Clear(); combatRows.Clear(); AppliedCount = 0; applied = true; return; }
             var changes = new List<Action>();
             var map = transform;

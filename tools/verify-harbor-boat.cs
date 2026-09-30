@@ -5,7 +5,7 @@ var p=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival
 var props=scene.GetRootGameObjects().Single(g=>g.name=="Noryangjin_MapTool").transform.Find("Props");
 var ship=props.Find("SR18_Polish_Ship_2").GetComponent<ObstacleStats>();
 var station=props.Cast<Transform>().Single(t=>t.name.StartsWith("SR18_L_G21_"));
-var folder="C:/Users/ljh/tralalero Shooter/tmp/image-previews/harbor-polish-2026-09-15/final/boat-final";System.IO.Directory.CreateDirectory(folder);
+var folder="D:/Tralalero Shooter/Tralalero Shooter D/tmp/image-previews/harbor-polish-2026-09-15/final/boat-final";System.IO.Directory.CreateDirectory(folder);
 System.Collections.IEnumerator Capture()
 {
     c.GetComponentInChildren<OpeningStoryUI>(true).Skip();c.settingsMenuUI.SetActive(false);c.pauseMenuUI.SetActive(false);c.gameOverUI.SetActive(false);

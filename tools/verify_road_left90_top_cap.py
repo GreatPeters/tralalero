@@ -2,7 +2,7 @@ import bmesh
 import bpy
 
 
-FBX_PATH = r"C:\Users\ljh\tralalero Shooter\Assets\ShooterSurvival\Models\MeshyAI\TestFolder\Road_Left90.fbx"
+FBX_PATH = r"D:\Tralalero Shooter\Tralalero Shooter D\Assets\ShooterSurvival\Models\MeshyAI\TestFolder\Road_Left90.fbx"
 Z_EPSILON = 0.002
 
 

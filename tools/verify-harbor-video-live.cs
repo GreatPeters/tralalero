@@ -1,7 +1,7 @@
 if(!EditorApplication.isPlaying)throw new InvalidOperationException("Play Mode required");
 var canvas=UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects().Single(g=>g.name=="Canvas").GetComponent<IndianOceanAssets.ShooterSurvival.CanvasScript>();
 var story=canvas.GetComponentInChildren<OpeningStoryUI>(true);
-string folder="C:/Users/ljh/tralalero Shooter/tmp/image-previews/harbor-ui-live-2026-09-15/video-verification";
+string folder="D:/Tralalero Shooter/Tralalero Shooter D/tmp/image-previews/harbor-ui-live-2026-09-15/video-verification";
 string report="map-concepts/harbor-ui-live-2026-09-15/video-verification.tsv";
 System.IO.Directory.CreateDirectory(folder);
 if(System.IO.File.Exists("map-concepts/harbor-ui-live-2026-09-15/video-complete.txt"))System.IO.File.Delete("map-concepts/harbor-ui-live-2026-09-15/video-complete.txt");

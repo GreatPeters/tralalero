@@ -2,7 +2,7 @@ if(!EditorApplication.isPlaying)throw new Exception("Play Mode required");
 var player=UnityEngine.Object.FindFirstObjectByType<IndianOceanAssets.ShooterSurvival.PlayerScript>();
 var customizer=player.GetComponent<PlayerCosmeticCustomizer>();var catalog=customizer.visuals;
 var phase=SessionState.GetString("Wearables.ProbePhase","before-live");
-var folder="C:/Users/ljh/tralalero Shooter/tmp/image-previews/wearable-placement-2026-09-15/"+phase;System.IO.Directory.CreateDirectory(folder);
+var folder="D:/Tralalero Shooter/Tralalero Shooter D/tmp/image-previews/wearable-placement-2026-09-15/"+phase;System.IO.Directory.CreateDirectory(folder);
 var data=new System.Collections.Generic.List<object>();
 System.Collections.IEnumerator Probe()
 {

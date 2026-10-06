@@ -1,0 +1,2 @@
+using System.Linq;using UnityEngine;
+public static class InspectChoice14 {public static object Main(){var d=Object.FindFirstObjectByType<Chapter45Director>();return new{choices=d.choices.Select(c=>new{c.name,kind=c.kind.ToString(),c.floor,c.distance,c.rewardDistance}).ToArray(),segments=d.route.segments.Select((s,i)=>new{index=i,s.floor,start=i==0?0:d.route.SegmentEnd(i-1),end=d.route.SegmentEnd(i)}).ToArray()};}}

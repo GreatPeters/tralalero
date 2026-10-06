@@ -33,7 +33,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 if(material.HasProperty("_ZWrite"))material.SetFloat("_ZWrite",0);
                 material.SetOverrideTag("RenderType","Transparent");material.renderQueue=3000;
                 material.DisableKeyword("_ALPHATEST_ON");material.DisableKeyword("_ALPHAPREMULTIPLY_ON");material.EnableKeyword("_ALPHABLEND_ON");material.EnableKeyword("_SURFACE_TYPE_TRANSPARENT");
-                foreach(string pass in new[]{"Outline","ShadowCaster","DepthOnly","DepthNormals"})material.SetShaderPassEnabled(pass,false);
+                foreach(string pass in new[]{"Outline","OutlineLegacy","ShadowCaster","DepthOnly","DepthNormals"})material.SetShaderPassEnabled(pass,false);
             }
             renderer.sharedMaterials=transparent;
         }

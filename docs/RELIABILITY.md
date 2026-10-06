@@ -1,4 +1,87 @@
+- 2026-10-03: 도메인 재로드 없는 Editor Play의 Visual Scripting 구독 누적은 [좁은 Editor 보완과 실제 재진입 검증](solutions/runtime-errors/deduplicate-visual-scripting-editor-play-subscriptions-2026-10-03.md)으로 처리했다. Unity/패키지 업그레이드 때 backing-field/callback 호환성 재검증 필요.
+
+## Thin trigger spawn overlap and Play-time reload — cycle17
+
+A player muzzle inside a Chapter45 panel could step through its thin trigger before contact. BulletScript now resolves an existing admitted eligible overlap before positive movement, preserving shield/deck/pooling rules. Native before/after and30 directed guard cases verify the bounded correction. Separately, a delayed source compile after Play entry invalidated an ephemeral QA callback; finish compilation in Edit and verify before starting. Wait for restoration to finish before another runner; preference guards correctly rejected premature overlap. [Evidence](reviews/chapter45-validation-cycle17-2026-10-04.md).
+
+## Small world prop labels must be checked in actual Play · 2026-10-04
+
+Cycle16 popcorn TMP labels passed the static gameplay-component contract check but rendered oversized during actual Play; captured fontSize was-99. No root cause in shared fonts is claimed. Four new label objects were retained inactive and replaced with a small native printed texture on fitted paper panels. Actual same-frame and13second Play retests passed. Original shared font/prefab hashes remained unchanged. Static component preservation alone does not certify render scale. [Failure, correction and capture limits](reviews/chapter45-content-cycle16-2026-10-04.md).
+
 # Reliability
+
+## Account connection, saving and deletion — 2026-10-06
+
+- Missing PGS game ID or an unsupported platform leaves local play available. Login/read timeouts release the start gate after 20 seconds; late callbacks are rejected by operation tokens. Save/delete requests retain their gate until their native task completes, to prevent an in-flight write from racing deletion.
+- Reconcile at a real lobby, with debounced local backups and 60-second failed-sync retry. Offline SDK commit success can represent a locally accepted save; it is not a demonstrated server acknowledgement. Conflict choices replace entire saves, never add currencies or purchase levels.
+- Delete requires connectivity and non-stale refreshed metadata, journals intent before networking, and clears local progress only after deletion/absence verification. Failures retain preferences and disable re-upload. On restart the journal directs the UI to deletion retry.
+- The first UI fixture's ephemeral JsonUtility snapshot was `{}`. Known fake account keys/cache were removed and wallet values remained 33,031/30, but exact restoration of all original keys is not provable from it. The corrected round-tripped snapshot verified all 89 captured keys after the second fixture; its baseline is explicitly later. [Prevention](solutions/workflow-issues/round-trip-check-preference-snapshots-before-unity-play-2026-10-06.md).
+
+## Detailed mall lifecycle and current failures — 2026-10-03 11:51 UTC
+
+The current1–7F+B1 plan supersedes older route assertions. Lifecycle fixtures derive deck IDs and transfer duration from authored links and pass `BeginLift(lift,destinationSegment)` explicitly. They use the existing validated preference snapshot reference, preserve key absence and restore editor state. Ordinary input runs and directed position/death/transaction fixtures are labeled separately.
+
+New warning/HUD strings previously mutated the shared GmarketHarbor font. Preserve the changed file before recovery, bind all558chapter text components to owned static fonts, then restore/verify the approved208shared-file hashes. Before every focused run, record current `PT_ResourcesCleanup` existence/value and restore it; the historical unknown value remains unknown. A preflight mismatch stops tests until inspected. Never claim the old1135-test result proves the current scene.
+
+Real campaign transitions exposed four `incompatible keyword space` assertions between `ArchitecturalGlazingFinish` andURP/Lit. Its complete URP pass now uses `Fallback Off`; forward glazing remains supported. Original shader and failed run are preserved. A fresh actual transition/reward fixture passed57/57 with zero errors and exact preference restoration. [Fallback semantics](https://docs.unity3d.com/Manual/SL-Fallback.html); the concrete diagnosis is supported by local before/after receipts, not by assuming every Unity keyword assertion has this cause.
+
+Pipeline `recompile_status` may return a serialized JSON string. Decode it before reading `status`; a tool-format error does not imply the underlying compile or scene mutation failed. After a partial runner failure, inspect content hashes and saved receipts and resume only the unfinished step. Do not resubmit scene installers blindly.
+
+Evidence: `outputs/chapter45-detailed-design-2026-10-03/`, especially `hud-font-isolation-restoration.json`, `glazing-fallback-fix.json`, current directed and ordinary receipts. APK/mobile FPS,52historical broad-suite failures, paid role-body art and final art quality remain separate outstanding scopes.
+
+
+## Ch4/Ch5 environment art and Meshy towel - 2026-10-03
+
+Current saved environment and towel pass four normal routes and focused/directed regression. Shared 208 asset hashes match; 210 local recovery copies are valid. No existing product paths were removed. Fine tower glazing is distance-gated. A Pipeline 30-second response timeout can leave authoring running: verify completion receipt and idle saved-scene state before the next action; never duplicate the installer. [Lessons](solutions/workflow-issues/validate-native-art-against-game-camera-and-safe-mesh-surgery-2026-10-03.md). Historical PT_ResourcesCleanup remains unknown; current before/after values are recorded.
+
+## Current retail production — 2026-10-03
+
+- Local task-owned TRELLIS8189 completed real generation; no install, new authentication or paid call. The original GUI/runtime settings were left unchanged. Resource bounds and exact prompt IDs are recorded. A task-owned stalled job was stopped only after confirming no other queue item; it must not be blindly resubmitted.
+- Generated mesh validation requires actual reimport and four views. Low polygon counts, closed-edge statistics or a good front image alone did not establish usable towels. Delivery candidates with holes or bad shading were excluded.
+- Copied combined decorative meshes remove only twelve verified cube triangles per placeholder. Original assets remain intact. Native receipt files are authoritative after a Pipeline30-second response timeout; both delayed operations completed and were verified rather than duplicated.
+- Final test before/after records preserve the currently observed PT_ResourcesCleanup state (Editor present/false; Player absent). Its historical value before earlier broad tests remains unknown.
+- [Current report and operational evidence](reviews/chapter45-model-production-2026-10-03.md).
+
+
+## Generation access diagnosis boundaries — 2026-10-02
+
+Treat refused local status connections, process creation denied, missing client Python dependencies and forbidden external sockets as separate failures. Existing local TRELLIS and Meshy paths exist even when no callable connector is exposed. Do not claim invalid Meshy credentials or zero balance without an HTTP response. No elevation/alternate route may bypass a specifically denied generator path; report the exact time, target and minimum user action. [Recorded diagnosis](reviews/department-generation-diagnosis-2026-10-02.md). Warm-light appearance claims require same-camera geometry-preserving ON/OFF evidence, not emissive material values alone.
+
+## Chapters 4–5 operational boundaries
+
+- Department-store QA copies use the current verified-snapshot-reference protocol, not the obsolete assumption that each Prepare writes `before-prefs.tsv`. `test_status` may return JSON encoded in a string; parse it and wait for completion before restoring state. The final focused run records current `EditorPrefs/PT_ResourcesCleanup=false`; this does not recover an unknown historical value.
+- The department-store installer checks protected gameplay both before save and after reopen. Do not rerun the initial chapter or street builder over it. Mid-install interruption requires inspecting per-scene progress/receipt files before retry. New models still require a working authorized TRELLIS/Meshy path; native primitives are not evidence of AI generation.
+- The initial chapter builder creates the base scenes; later fold, crown, hazard-fit and polish steps are not interchangeable. Preserve current scene backups and receipts before rerunning any authoring tool. `refine-chapters45.cs` is a one-time migration and must not be blindly repeated.
+- `run_script` can finish inside Unity after the CLI response timeout. Check the native receipt, editor state and output timestamps before deciding whether to retry a mutation.
+- Run native tests and Play Mode serially with imports. Importing runtime scripts during a test or play run can reload its domain and invalidate the evidence.
+- `chapters45-playtest.cs` requires preference restoration after every stopped run. Check `restored.json` for zero mismatches before preparing another. Baseline stats and ordinary inputs are recorded separately from directed lifecycle fixtures.
+- Lift ownership and projectile deck checks must be retested after movement, helper or weapon changes. A pause must freeze warning/transfer clocks and prevent queued trigger damage; an overlapping goal may claim once after resume.
+- Editor draw counts do not establish Galaxy S22 frame rate or thermals. Device evidence remains unverified whenever ADB has no connected authorized device.
+
+## Startup keyword-state assertions — 2026-10-02
+
+- Unity 6000.2.6f1 reproduced `State comes from an incompatible keyword space` / `Keyword state size mismatch (71 vs 75 keywords)` while constructing a fresh legacy FlatKit material. Local pass declarations fix the ownership mismatch; do not reintroduce cross-shader `UsePass` merely because SRP Batcher compatibility remains 0. Run `LegacyOutlineShaderTests` and `python tools/sync-legacy-outline-passes.py --check` after FlatKit updates.
+- The selected original opening was High-profile H.264. Its normalized Baseline replacement retains 936 frames/39 seconds, the original fourth scene and the same asset GUID. If replacing the movie again, validate actual startup/seek warnings in addition to duration; preserve the newest source before re-encoding. `tools/encode-startup-opening-baseline.py` rejects a source changed since its dated snapshot.
+- Firebase's Editor/desktop delivery-unavailable message is an informational `Debug.Log` guarded by the platform conditional, not a Firebase initialization failure. Do not disable mobile analytics or hide shader assertions to clean the console.
+- This session's fresh preference snapshot is `outputs/startup-errors-2026-10-02/preferences-before.tsv` (40,228 coins/30 jewels). Older snapshots in the sections below are historical and must not be used for this correction.
+
+[Cause, fix and verification](solutions/runtime-errors/own-flatkit-passes-to-avoid-keyword-space-assertions-2026-10-02.md).
+
+## S22 implementation — 2026-10-01
+
+- Restore the current task's snapshot with `S22PolishVerification`, not an older audit snapshot. No phone is connected; Editor measurements are not device or thermal measurements.
+- Movie UI keeps the camera enabled and temporarily uses a zero world culling mask. Restore its mask, clear flags and background after EOF, skip, replay, failure and disable. Inspect a visible movie frame in addition to decoder logs. `ScreenCapture.CaptureScreenshot` is deferred: skipping in the same coroutine frame records the lobby instead.
+- Disable temporary preview cameras before releasing their targets. A stale solid-color backbuffer after offscreen experiments required an Editor restart; domain reload was insufficient. Reject those captures as evidence.
+- Aggressive LOD2 candidates broke roof/UV structure and were removed from all installed groups. Only original and reviewed LOD1 remain. Prop colors require correct FBX color-space conversion, and triangle winding must be inspected independently of counts.
+- A full historical market rebuild can overwrite later presentation patches. Reapply the S22 scoped patch tools using their receipts/backups. Do not blindly rerun the guarded presentation installer, which removes duplicate roots and varies actor scales.
+
+The diagnostic section below is the pre-fix state. [Applied report](reviews/s22-improvements-applied-2026-10-01.md), [implementation lesson](solutions/performance-issues/cache-occluder-group-bounds-and-verify-native-output-2026-10-01.md).
+
+## S22 audit measurement limits - 2026-10-01
+
+The current Revamp camera occlusion traverses1,310groups per rendered update and has a demonstrated large Editor CPU cost. The report and repeatable tools are in [the S22 audit](reviews/s22-performance-visual-audit-2026-10-01.md); the mitigation has not been implemented. Preserve the user's requested transparency behavior when narrowing candidates.
+
+Do not infer current APK scenes from EditorBuildSettings: the2026-09-30build script supplies its own four-scene list. Keep packed asset size, APK compressed size and runtime RAM distinct. Native camera-only screenshots may omit overlay UI; invalid immediate skinned-mesh captures must not be diagnosed as gameplay deformations. [Evidence-handling lesson](solutions/workflow-issues/qualify-build-and-capture-evidence-in-mobile-audits-2026-10-01.md).
 
 ## Noryangjin feedback pass — 2026-09-29
 
@@ -382,3 +465,61 @@ Open observation: after the final97-second gameplay run reset, two stackless Edi
 - Run `unity command --project-path . list_open_scenes` and confirm the expected active scene.
 - Optionally run `unity status --project-path .` for extra diagnostics; do not fail an otherwise successful reachability check only because it reports `STATUS_NO_INSTANCES`.
 - Use `tools/validate-agent-harness.ps1` to sanity-check repo-side harness prerequisites.
+
+Legacy outline pass (2026-10-01): `FlatKit/Stylized Surface With Outline` draws its outline only through the "Legacy Outline" RenderObjects feature (LightMode `OutlineLegacy`). A new URP renderer or quality level without that feature silently loses outlines on 162 materials; rerun `tools/install-legacy-outline-feature.cs` and check `LegacyOutlineFeatureInstall.Status` (SRP Batcher code 0). `tools/encode-s22-cinematics.py` overwrites `tmp/image-previews/s22-polish-2026-10-01/cinematics-motion.png`; back up first. Moving `HighwayRoute.Distance` by reflection in tests also requires moving the player onto the route, or the next `Advance` reads a huge lateral offset.
+
+
+## Chapters 4/5 final validation - 2026-10-02
+
+Corrected saved-state route matrix4/4, Chapter45 tests26/26, actual actor animation21/21, lifecycle35/35, cityhazard9/9, towerhazard25/25 and lift-disposal9/9 pass. Previously accepted campaign57/57 and workshop36/36 remain separately documented. Staged callbacks and held-position fixtures are not represented as ordinary gameplay or human testing. Every preference snapshot restores with zero mismatches.
+
+Full EditMode remains53 failures (1073/1126pass): zero new failures or changed signatures relative to the1124-case receipt. All20 previously unclassified failures have current source/mesh diagnosis without an unsupported historical-baseline claim. C08 city actor animation was a real new issue and was corrected with matching C07 visuals before the final route matrix.
+
+Final ARM64 debug-signed review APK succeeds with0errors/58warnings; complete package verification and all51,746preexisting product hashes pass, plus two independently approved generated linker files. Broad tests regenerate shared assets; the preservation investigation, restored dynamic font and bounded prior dirty-checkpoint proof are retained. Do not rerun those generators in a dirty worktree without exact byte backups. S22 FPS/thermal and human enjoyment remain unverified. See [final evidence](../outputs/chapters45-2026-10-02/FINAL-VERIFICATION.md).
+
+
+## Ch4/5 cold Editor restart — cycle06
+
+Ten directed save boundaries passed across fresh native Unity processes. The game persists permanent wallet/reward/unlock/upgrade/cosmetic/settings data but has no mid-run route/floor/cinema checkpoint; a QA-selected fresh scene is not Continue evidence. Capture preferences from the actual native Unity process: the same named HKCU key returned DIFFERENT data from the tool shell and native Editor in cycle06, even with escalated execution. Shell registry hashes alone did not establish game-save restoration. Restore narrowly through native PlayerPrefs and verify after another normal process restart; full native registry must be captured before future tests to cover unknown keys. This cycle restored all78 originally observed entries, but cannot compare unknown native keys with pretest values. Normal Editor exit loses SessionState, so preserve that separately. Check clean scenes and no new desktop input before each exit. The Windows launcher can retain inherited PIPE handles; use output files and Pipeline readiness, waiting through startup503 Busy without another launch. Failed fixture attempts and bounded test-reward rollback remain recorded. See [cycle06 evidence](reviews/chapter45-restart-cycle06-2026-10-03.md).
+
+
+## 2026-10-04 Unity dynamic QA callbacks — cycle11
+
+Each `run_script` invocation may compile a different dynamic assembly. Calling a newly compiled class's static Stop does not prove that delegates registered by an older assembly were removed. After a failed fixture, inspect the real Editor event invocation lists; remove only the exact QA-owned delegates in stopped Edit mode and verify zero remaining callbacks. Do not clear unrelated subscribers or rewrite engine session identity.
+
+Serializing raw Unity Vector3 through the generic JSON path can recurse through `.normalized`, raise JsonSerializationException and trigger ErrorPause. Emit explicit float arrays. The cycle11 failure retained six owned callbacks; bounded cleanup and fixed serialization were followed by successful native rear-contact and lifecycle fixtures. All failed attempts and permitted-setting restoration receipts are retained. See [cycle11 review](reviews/chapter45-telegraph-cycle11-2026-10-04.md).
+
+
+## 2026-10-04 Deferred screenshots and native scene preservation — cycle12
+
+ScreenCapture.CaptureScreenshot is deferred. Calling Replay in the same frame can produce a lobby image under a defeat filename. Hold the native defeat state across a frame and inspect both the PNG and active UI text before claiming visual coverage.
+
+Saving a scene can add unsaved URP light-data components and serialize TMP style/color caches. Compare against a pre-save recovery copy; restore only the exact added components/changed cache fields through the Editor, save, then verify all original scene lines. Never broadly delete original components or raw-edit scene YAML. Cycle12 retained the failed helper/partial-route evidence and repeated the corrected checks. See [cycle12 review](reviews/chapter45-validation-cycle12-2026-10-04.md).
+
+
+## 2026-10-04 Protect QA preparation with restoration — cycle13
+
+Preparation that writes a captured game item must be inside the restoration boundary. Putting TutorialDone preparation and Editor Configure before try can leak the prepared value if Configure rejects a busy/changed-input Editor. The cycle13 runner now tracks successful preparation and Play requests inside try/finally. A native invalid-scene rejection, before any Editor mutation or Play request, restored TutorialDone and matched all78observed preferences. Do not rewrite engine session identity or restore uncaptured keys. The historical unsafe runner is retained as evidence, not a runnable recommendation. See [cycle13 review](reviews/chapter45-validation-cycle13-2026-10-04.md).
+
+
+## 2026-10-04 Frame edges and reload click-through — cycle14
+
+Capture press edges in Update so a physics frame cannot miss the new anchor. Judge lobby start against cumulative horizontal displacement from the current press origin; clear armed state on release/cancel. A reload can expose a different lobby button under the pointer, so guard the new Canvas briefly and through pointer release. Native OS burst timing must be measured outside the Editor main thread when synchronous scene loading blocks that thread. Preserve exact view/cursor state and distinguish test fixture failures from product failures. See [cycle14 review](reviews/chapter45-validation-cycle14-2026-10-04.md).
+
+
+## 2026-10-04 Native input observations — cycle15
+
+Do not treat same-Editor-tick mouse release plus immediate pointer recenter as equivalent to observed-release sequencing. Preserve raw timing and unresolved product attribution. Compare consecutive samples on every floor, excluding only transfer/cross-floor edges; exact lane equality across a route bend is not a valid invariant. Release-only cleanup is distinct from new pointer movement and must stay within the owned Unity foreground. [Cycle15 evidence](reviews/chapter45-validation-cycle15-2026-10-04.md).
+
+
+## Chapter45 initial overlap and paused trigger contacts — cycle18
+
+A shot already inside an ordinary enemy could leave its collider before native contact. Physics contacts also continued while the custom game clock was paused. Initial/resumed flight now resolves existing live enemy overlap through the existing damage transaction, and Chapter45 hit eligibility waits for a running clock. Native112 conditions, six high-health conditions,30 synchronous guards and two ordinary routes passed. [Evidence](reviews/chapter45-bullet-regression-cycle18-final-2026-10-04.md).
+
+## 2026-10-06 Name-keyed generated materials and in-play recompiles
+
+- Never cache generated materials by texture *name*: every Meshy/TRELLIS atlas is `texture_0`. `NoryangjinClaudeFeedbackBuilder` did, so unrelated characters shared one atlas and showed camouflage patches on phones (photo 3). Key by asset GUID; `CharacterTextureMismatchRepair.Scan` and `EssentialProposalsTests` now guard all five chapter scenes.
+- Editing scripts while the Editor is in Play Mode triggers "recompile and continue playing"; the reload throws a burst of NullReferenceExceptions (e.g. `FatManCratePose.OnEnable`) and Error Pause freezes the frame counter. Exception stack traces are disabled in ProjectSettings (`m_StackTraceTypes`), so these look stackless. Stop Play before editing; enable `Application.SetStackTraceLogType(LogType.Exception, ScriptOnly)` temporarily to diagnose.
+- Pipeline `eval_file` has a 5 s main-thread limit; multi-scene installers report a timeout while still saving. Run one scene per call and verify file timestamps.
+- `capture_game_view --save_path` resolves relative to the authoring root (`Assets/`). Save under `Assets/tmp/...` only transiently, then move to repo `tmp/` and delete the asset folder.
+- URP renderScale applies to RenderTexture game cameras. With Vulkan native render passes the 0.75 intermediate mismatched the 1024×768 cosmetic preview target. `CosmeticPreview` now renders that camera at scale 1 between Begin/EndCameraRendering.

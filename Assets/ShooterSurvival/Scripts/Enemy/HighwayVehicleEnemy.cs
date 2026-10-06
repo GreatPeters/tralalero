@@ -38,6 +38,10 @@ public sealed class HighwayVehicleEnemy : MonoBehaviour
     private Vector3 lastPosition;
     private MeshRenderer mainRenderer;
     private Camera viewCamera;
+    private float nextVisibilityCheck;
+    private int displayedHealth=int.MinValue;
+    private bool labelVisible;
+    public int VisibilityChecks { get; private set; }
     public bool HealthLabelVisible => healthNumber!=null&&healthNumber.transform.parent.gameObject.activeSelf;
     public Collider ContactCollider => contact;
 
@@ -93,6 +97,7 @@ public sealed class HighwayVehicleEnemy : MonoBehaviour
 
     private void Show(bool visible)
     {
+        nextVisibilityCheck=0;displayedHealth=int.MinValue;labelVisible=false;
         if (body != null) body.gameObject.SetActive(visible);
         // LateUpdate enables the label only after the actual body passes the visibility checks.
         if (healthNumber != null) healthNumber.transform.parent.gameObject.SetActive(false);
@@ -154,10 +159,18 @@ public sealed class HighwayVehicleEnemy : MonoBehaviour
             }
         if (healthNumber != null)
         {
-            healthNumber.transform.parent.gameObject.SetActive(BodyVisibleToPlayer());
-            healthNumber.text = Mathf.CeilToInt(Combat.CurrentHealth).ToString("N0");
-            healthNumber.color = kind == HighwayVehicleKind.Tanker ? new Color(1, .86f, .1f) : Color.white;
-            if (Camera.main != null) healthNumber.transform.parent.rotation = Camera.main.transform.rotation;
+            bool bodyHidden=mainRenderer==null||!mainRenderer.enabled||mainRenderer.forceRenderingOff||!mainRenderer.gameObject.activeInHierarchy;
+            if(bodyHidden)labelVisible=false;
+            else if(Time.unscaledTime>=nextVisibilityCheck)
+            {
+                labelVisible=BodyVisibleToPlayer();VisibilityChecks++;
+                nextVisibilityCheck=Time.unscaledTime+.12f+Mathf.Abs(GetInstanceID()%7)*.005f;
+            }
+            var labelRoot=healthNumber.transform.parent;
+            if(labelRoot.gameObject.activeSelf!=labelVisible)labelRoot.gameObject.SetActive(labelVisible);
+            int health=Mathf.CeilToInt(Combat.CurrentHealth);
+            if(health!=displayedHealth){displayedHealth=health;healthNumber.text=health.ToString("N0");healthNumber.color=kind==HighwayVehicleKind.Tanker?new Color(1,.86f,.1f):Color.white;}
+            if(labelVisible&&viewCamera!=null)labelRoot.rotation=viewCamera.transform.rotation;
         }
         if (lamps.Length == 0) return;
         if (tint == null) tint = new MaterialPropertyBlock();
@@ -176,7 +189,8 @@ public sealed class HighwayVehicleEnemy : MonoBehaviour
         if(viewCamera==null)viewCamera=Camera.main;
         if(mainRenderer==null||viewCamera==null||!mainRenderer.enabled||mainRenderer.forceRenderingOff||!mainRenderer.gameObject.activeInHierarchy)return false;
         var chapter=HighwayChapter2Controller.Active;
-        if(chapter==null||chapter.Player==null||Vector3.Distance(transform.position,chapter.Player.transform.position)>HighwayChapter2Data.Value("healthLabelDistance"))return false;
+        float labelDistance=HighwayChapter2Data.Value("healthLabelDistance");
+        if(chapter==null||chapter.Player==null||(transform.position-chapter.Player.transform.position).sqrMagnitude>labelDistance*labelDistance)return false;
         var bounds=mainRenderer.bounds;float left=float.PositiveInfinity,right=float.NegativeInfinity,bottom=float.PositiveInfinity,top=float.NegativeInfinity;
         for(int i=0;i<8;i++)
         {
@@ -189,7 +203,7 @@ public sealed class HighwayVehicleEnemy : MonoBehaviour
         if(Physics.Raycast(viewCamera.transform.position,ray.normalized,out var hit,Mathf.Max(0,ray.magnitude-.1f),~0,QueryTriggerInteraction.Ignore)
             &&hit.collider.GetComponentInParent<PlayerScript>()==null)return false;
         var sight=new Ray(viewCamera.transform.position,ray.normalized);
-        foreach(var other in chapter.Vehicles)
+        foreach(var other in chapter.ActiveVehicles)
             if(other!=this&&other.Active&&!other.Dead&&other.ContactCollider!=null&&other.ContactCollider.enabled
                 &&other.ContactCollider.Raycast(sight,out _,Mathf.Max(0,ray.magnitude-.1f)))return false;
         return true;

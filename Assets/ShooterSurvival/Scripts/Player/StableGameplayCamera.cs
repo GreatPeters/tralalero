@@ -26,6 +26,16 @@ public sealed class StableGameplayCamera : MonoBehaviour
         if (target != null) lastTarget = target.position;
         heightVelocity = 0;
     }
+    // An explicitly authored camera-mode change must not glide through floor geometry.
+    // Ordinary height changes keep their existing smoothing in LateUpdate.
+    public void SnapToTarget()
+    {
+        if (target == null) return;
+        var yaw = Quaternion.Euler(0, target.eulerAngles.y, 0);
+        var position = target.position + yaw * yawRelativeOffset;
+        height = position.y; heightVelocity = 0; lastTarget = target.position;
+        transform.SetPositionAndRotation(position, yaw * yawRelativeRotation);
+    }
     private void LateUpdate()
     {
         if (target == null) return;

@@ -1,0 +1,42 @@
+using System;using System.IO;using System.Linq;using System.Collections.Generic;using UnityEngine;using UnityEditor;using UnityEditor.SceneManagement;using UnityEngine.SceneManagement;using IndianOceanAssets.ShooterSurvival;using Object=UnityEngine.Object;
+public static class PolishMallPresentation05 {
+ const string ScenePath="Assets/ShooterSurvival/Scenes/Tools/ShoeTower.unity",Base="Assets/ShooterSurvival/Models/Chapters/Chapters45/DetailedMall-20261003T092859667/";
+ static Material ivory,wood,warm,metal;static int added;
+ static Transform Group(Transform p,string n){var g=new GameObject(n);g.transform.SetParent(p,false);return g.transform;}
+ static GameObject Box(Transform p,string n,Vector3 pos,Vector3 scale,Material m){var g=GameObject.CreatePrimitive(PrimitiveType.Cube);g.name=n;g.transform.SetParent(p,false);g.transform.localPosition=pos;g.transform.localScale=scale;g.GetComponent<Renderer>().sharedMaterial=m;g.GetComponent<Renderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;Object.DestroyImmediate(g.GetComponent<Collider>());added++;return g;}
+ static Vector3 Polar(float r,float angle,float y){float a=angle*Mathf.Deg2Rad;return new Vector3(r*Mathf.Cos(a),y,r*Mathf.Sin(a));}
+ static Mesh Ring(float inner,float outer,float y){var vv=new List<Vector3>();var tt=new List<int>();for(int i=0;i<128;i++){int k=vv.Count;vv.AddRange(new[]{Polar(inner,i*360f/128,y),Polar(inner,(i+1)*360f/128,y),Polar(outer,i*360f/128,y),Polar(outer,(i+1)*360f/128,y)});tt.AddRange(new[]{k+2,k+1,k,k+3,k+1,k+2});}var m=new Mesh();m.SetVertices(vv);m.SetTriangles(tt,0);m.RecalculateNormals();m.RecalculateBounds();return m;}
+ static void RingObject(Transform p,string n,Mesh mesh,Material mat){var g=new GameObject(n);g.transform.SetParent(p,false);g.AddComponent<MeshFilter>().sharedMesh=mesh;var rr=g.AddComponent<MeshRenderer>();rr.sharedMaterial=mat;rr.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;added++;}
+ public static object Main(){
+  if(EditorApplication.isPlayingOrWillChangePlaymode||EditorApplication.isCompiling)throw new Exception("Idle required");for(int i=0;i<SceneManager.sceneCount;i++)if(SceneManager.GetSceneAt(i).isDirty)throw new Exception("Dirty scene");EditorSceneManager.OpenScene(ScenePath);var d=Object.FindFirstObjectByType<Chapter45Director>();var root=d.transform.Find("DetailedMall_20261003");if(root.Find("Presentation revision 05")!=null)throw new Exception("Already applied");
+  File.Copy(ScenePath,"outputs/chapter45-detailed-design-2026-10-03/scene-recovery/ShoeTower-before-presentation05.unity",false);Directory.CreateDirectory(Base+"Presentation05");AssetDatabase.Refresh();ivory=AssetDatabase.LoadAssetAtPath<Material>(Base+"Porcelain.mat");wood=AssetDatabase.LoadAssetAtPath<Material>(Base+"Warm oak.mat");warm=AssetDatabase.LoadAssetAtPath<Material>(Base+"Warm shop light.mat");metal=AssetDatabase.LoadAssetAtPath<Material>(Base+"Satin champagne metal.mat");
+  var ceilingMat=new Material(ivory){name="Soft ivory ceiling"};ceilingMat.SetColor("_BaseColor",new Color(.86f,.84f,.77f));ceilingMat.EnableKeyword("_EMISSION");ceilingMat.SetColor("_EmissionColor",new Color(.14f,.135f,.12f));AssetDatabase.CreateAsset(ceilingMat,Base+"Presentation05/Ceiling.mat");
+  var ceiling=Ring(21,49.2f,7.25f);ceiling.name="Curved connected soffit";AssetDatabase.CreateAsset(ceiling,Base+"Presentation05/Curved ceiling.asset");var cove=Ring(22,22.16f,7.17f);cove.name="Curved warm cove";AssetDatabase.CreateAsset(cove,Base+"Presentation05/Cove.asset");
+  var scenery=root.Find("Scenery");int shops=0,lights=0,ceilingFloors=0,landingSupports=0;
+  foreach(var floor in scenery.Cast<Transform>().Where(t=>t.GetComponent<Chapter45SceneryGroup>()?.floor>=0).ToArray()){
+   int f=floor.GetComponent<Chapter45SceneryGroup>().floor;if(f==6)continue;
+   var roof=Group(scenery,f+"F curved ceiling presentation");roof.localPosition=floor.localPosition;var vis=roof.gameObject.AddComponent<Chapter45SceneryGroup>();vis.floor=f;vis.alwaysVisible=true;vis.hideDuringTransfer=true;RingObject(roof,"Continuous ivory ceiling underside",ceiling,ceilingMat);RingObject(roof,"Warm atrium perimeter cove",cove,warm);ceilingFloors++;
+   // A solid collar above the existing clerestory joins its glass to the soffit.
+   for(int i=0;i<72;i++){var panel=Box(floor,"Clerestory head to ceiling",Polar(49,i*5,6.85f),new Vector3(4.36f,.9f,.24f),ceilingMat);panel.transform.localRotation=Quaternion.Euler(0,90-i*5,0);}
+   foreach(var shop in floor.Cast<Transform>().Where(t=>t.name.Contains("storefront"))){
+    Box(shop,"Connected shop ceiling",new Vector3(0,5.02f,.2f),new Vector3(18,.22f,11.3f),ceilingMat);
+    Box(shop,"Deep ivory storefront fascia",new Vector3(0,5.4f,5.72f),new Vector3(18,.72f,.6f),ivory);
+    Box(shop,"Recessed warm shop soffit",new Vector3(0,4.87f,4.85f),new Vector3(16.7f,.055f,.22f),warm);
+    // One unshadowed pool per store is enough to warm products and their floor.
+    var lamp=Group(shop,"Warm retail downlight");lamp.localPosition=new Vector3(0,4.35f,1.1f);lamp.localRotation=Quaternion.Euler(90,0,0);var light=lamp.gameObject.AddComponent<Light>();light.type=LightType.Spot;light.color=new Color(1,.84f,.63f);light.intensity=2.2f;light.range=8;light.spotAngle=115;light.innerSpotAngle=70;light.shadows=LightShadows.None;lights++;shops++;
+   }
+   // Recessed wall arcs connect the empty bays between the eight store portals.
+   for(int bay=0;bay<8;bay++)for(int k=0;k<4;k++){float angle=bay*45+15+k*5;var wall=Box(floor,"Connected retail bay wall",Polar(43,angle,2.6f),new Vector3(3.9f,5.2f,.25f),ivory);wall.transform.localRotation=Quaternion.Euler(0,90-angle,0);var strip=Box(floor,"Retail bay timber reveal",Polar(42.82f,angle,2.6f),new Vector3(.10f,5.15f,.08f),wood);strip.transform.localRotation=wall.transform.localRotation;}
+  }
+  foreach(var lift in d.lifts.Where(l=>l.escalator)){
+   int dest=lift.Destination(lift.afterSegment);int floor=d.route.segments[dest].floor;var group=Group(scenery,floor+"F retained lower escalator structure");var vis=group.gameObject.AddComponent<Chapter45SceneryGroup>();vis.floor=floor;vis.alwaysVisible=true;vis.hideDuringTransfer=true;
+   var a=d.route.segments[lift.afterSegment].end;var b=d.route.segments[dest].start;var dir=(b-a).normalized;var horizontal=Vector3.ProjectOnPlane(dir,Vector3.up).normalized;var side=Vector3.Cross(Vector3.up,horizontal);var support=Box(group,"Escalator enclosed underside",(a+b)*.5f-Vector3.up*.43f,new Vector3(5.35f,.65f,Vector3.Distance(a,b)+.6f),metal);support.transform.rotation=Quaternion.LookRotation(dir);
+   // Keep treads/rails below the arrival opening visible when the old floor hides.
+   foreach(var child in lift.transform.Cast<Transform>().Where(t=>t.GetComponent<Renderer>()!=null)) {var copy=Object.Instantiate(child.gameObject,group,true);copy.name="Arrival continuity / "+child.name;foreach(var col in copy.GetComponentsInChildren<Collider>(true))Object.DestroyImmediate(col);landingSupports++;}
+   var bottom=Box(group,"Visible lower concourse under arrival opening",(a+b)*.5f+Vector3.up*(a.y-(a.y+b.y)*.5f-.22f),new Vector3(14,.3f,Vector3.Distance(a,b)+15),ivory);bottom.transform.rotation=Quaternion.LookRotation(horizontal);
+   foreach(int sign in new[]{-1,1}){var edge=Box(group,"Escalator well lining",(a+b)*.5f+side*sign*4.0f-Vector3.up*.25f,new Vector3(.18f,1.8f,Vector3.Distance(a,b)+2),ivory);edge.transform.rotation=Quaternion.LookRotation(dir);}
+  }
+  var player=Object.FindFirstObjectByType<PlayerScript>();var cam=Camera.main;var stable=cam.GetComponent<StableGameplayCamera>();var before=stable.yawRelativeOffset;stable.yawRelativeOffset=new Vector3(0,5.8f,-12);stable.yawRelativeRotation=Quaternion.Euler(19,0,0);cam.fieldOfView=68;stable.SnapToTarget();
+  new GameObject("Presentation revision 05").transform.SetParent(root,false);EditorUtility.SetDirty(stable);EditorSceneManager.MarkSceneDirty(d.gameObject.scene);if(!EditorSceneManager.SaveScene(d.gameObject.scene))throw new Exception("Save failed");AssetDatabase.SaveAssets();return new{ceilingFloors,shops,lights,addedObjects=added,landingVisualCopies=landingSupports,newColliders=0,ordinaryCameraBefore=before,ordinaryCameraAfter=stable.yawRelativeOffset,fov=cam.fieldOfView,combatAndRouteChanged=false,source="Native architectural finish around the already generated retail assets. No new paid generation.",artStatus="Actual camera A/B and ordinary replays pending"};
+ }
+}

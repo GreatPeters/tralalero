@@ -1,0 +1,15 @@
+using System;using System.IO;using System.Linq;using System.Collections.Generic;using UnityEngine;using UnityEditor;using UnityEditor.Animations;using UnityEditor.SceneManagement;
+public static class RepairDetailedAnimations {
+ public static object Main(){if(EditorApplication.isPlayingOrWillChangePlaymode||EditorApplication.isCompiling)throw new Exception("Idle required");var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();if(scene.name!="ShoeTower"||scene.isDirty)throw new Exception("Clean ShoeTower required");var root=UnityEngine.Object.FindFirstObjectByType<Chapter45Director>().transform.Find("DetailedMall_20261003");var animators=root.GetComponentsInChildren<Animator>(true);const string dest="Assets/ShooterSurvival/Models/Chapters/Chapters45/DetailedMall-20261003T092859667/Animation";if(AssetDatabase.IsValidFolder(dest))throw new Exception("Already applied");Directory.CreateDirectory(dest);AssetDatabase.Refresh();var rows=new List<object>();
+  foreach(var set in animators.GroupBy(a=>AssetDatabase.GetAssetPath(a.avatar))){string folder=Path.GetDirectoryName(set.Key).Replace('\\','/'),name=Path.GetFileNameWithoutExtension(set.Key);var controller=AnimatorController.CreateAnimatorControllerAtPath(dest+"/"+name+".controller");var stateMachine=controller.layers[0].stateMachine;var copied=new Dictionary<string,AnimationClip>();
+   foreach(string state in new[]{"idle","walk","run","attack_loop","attack_once","die"}){
+    string source=state=="attack_loop"?"attack_once":state;string sourcePath=folder+"/"+name+"@"+source+".fbx";
+    if(!File.Exists(sourcePath)){source="scared";sourcePath=folder+"/"+name+"@scared.fbx";}
+    var clip=AssetDatabase.LoadAllAssetsAtPath(sourcePath).OfType<AnimationClip>().FirstOrDefault(c=>!c.name.StartsWith("__preview__"));if(clip==null||clip.empty)throw new Exception("Missing rig-compatible motion "+sourcePath);
+    var copy=UnityEngine.Object.Instantiate(clip);copy.name=name+"_"+state;var settings=AnimationUtility.GetAnimationClipSettings(copy);settings.loopTime=state=="idle"||state=="walk"||state=="run"||state=="attack_loop";AnimationUtility.SetAnimationClipSettings(copy,settings);AssetDatabase.CreateAsset(copy,dest+"/"+name+"_"+state+".anim");AssetDatabase.SaveAssetIfDirty(copy);var node=stateMachine.AddState(state);node.motion=copy;if(state=="idle")stateMachine.defaultState=node;rows.Add(new{model=name,state,source=sourcePath,reactionFallback=source=="scared",scope="private copied motion; original shared import unchanged"});
+   }
+   foreach(var animator in set){animator.runtimeAnimatorController=controller;animator.applyRootMotion=false;}AssetDatabase.SaveAssetIfDirty(controller);
+  }
+  EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);return new{actors=animators.Length,models=animators.Select(a=>AssetDatabase.GetAssetPath(a.avatar)).Distinct().Count(),motions=rows.ToArray(),limitation="Scared reactions are crowd-only provisional reactions, not final phone/grab/golf/basketball actions"};
+ }
+}

@@ -13,17 +13,9 @@ MonoBehaviour:
   m_Name: Catalog
   m_EditorClassIdentifier: Assembly-CSharp::CosmeticVisualCatalog
   sourceSharkMesh: {fileID: -6734620852318575487, guid: 45767e28200fd99489514a5c09f6df15, type: 3}
-  splitSharkMesh: {fileID: 4300000, guid: 4280682975d456d45b9d14c20dece1bb, type: 2}
-  bodyOnlyMesh: {fileID: 4300000, guid: 05d0cbceef8230b4eaf298539201290d, type: 2}
+  splitSharkMesh: {fileID: 4300000, guid: d64f5db0764a4414cb6f26663d57b956, type: 2}
+  bodyOnlyMesh: {fileID: 4300000, guid: ab52880bc17eac340b33bdf17d98ff18, type: 2}
   footMounts:
-  - bone: backleg2
-    localPosition: {x: -1.5755902e-10, y: 0.00027709472, z: 0.00044934292}
-    localRotation: {x: 0.87318057, y: 0.000000099992484, z: 0.00000006968226, w: -0.4873969}
-    localScale: {x: 0.0013635752, y: 0.0013635756, z: 0.0013635756}
-  - bone: R_backleg2
-    localPosition: {x: 2.768682e-10, y: 0.00027508097, z: 0.00044607747}
-    localRotation: {x: 0.87318057, y: -0.00000032028862, z: 0.00000007483814, w: -0.487397}
-    localScale: {x: 0.0013573968, y: 0.0013573973, z: 0.0013573973}
   - bone: frontleg2
     localPosition: {x: -1.6755822e-10, y: 0.00027192122, z: 0.00044095333}
     localRotation: {x: 0.8731806, y: -0.000000016972805, z: 0.00000035883048, w: -0.48739678}
@@ -32,6 +24,12 @@ MonoBehaviour:
     localPosition: {x: -1.7307973e-10, y: 0.00027125256, z: 0.00043986877}
     localRotation: {x: 0.8731807, y: -0.000000042808264, z: 0.0000004110791, w: -0.4873966}
     localScale: {x: 0.0016763145, y: 0.0016763139, z: 0.0016763137}
+  - bone: TailFoot
+    localPosition: {x: -1.5755902e-10, y: 0.00027709472, z: 0.00044934292}
+    localRotation: {x: 0.87318057, y: 0.000000099992484, z: 0.00000006968226, w: -0.4873969}
+    localScale: {x: 0.0013635752, y: 0.0013635756, z: 0.0013635756}
+  usesTailFoot: 1
+  tailFootOffset: {x: 0.0005949918, y: 0, z: -0.0017163224}
   previewModel: {fileID: 919132149155446097, guid: 45767e28200fd99489514a5c09f6df15, type: 3}
   previewScale: 450.00018
   hatLocalPosition: {x: 0.0000002635576, y: 0.000117242394, z: 0.00043817394}
@@ -117,8 +115,8 @@ MonoBehaviour:
     accessoryOffset: {x: 0, y: 0, z: 0}
     accessoryWorldScale: 1
     replacesBaseShoes: 1
-    fittedShoeMesh: {fileID: 4300000, guid: 495420a55f0c6ea498ec8cd403667e8e, type: 2}
-    fittedBodyMesh: {fileID: 4300000, guid: f09a5d110efc8ec47adb1204455d5787, type: 2}
+    fittedShoeMesh: {fileID: 4300000, guid: 422e543c601ecc1478b624ad8cdbdddc, type: 2}
+    fittedBodyMesh: {fileID: 4300000, guid: 34ebfa5c3aa0f864dacc08aa0dcb133c, type: 2}
     hatOffset: {x: 0, y: 0, z: 0}
     hatEuler: {x: 0, y: 0, z: 0}
     hatScale: 1
@@ -131,8 +129,8 @@ MonoBehaviour:
     accessoryOffset: {x: 0, y: 0, z: 0}
     accessoryWorldScale: 1
     replacesBaseShoes: 1
-    fittedShoeMesh: {fileID: 4300000, guid: 3fc6619799b89b145aa3bbd10beb394b, type: 2}
-    fittedBodyMesh: {fileID: 4300000, guid: ec5c73ee509b0ff4ba0c2a049723461f, type: 2}
+    fittedShoeMesh: {fileID: 4300000, guid: 7d1690b1dc544c1438140b17feb6b3ed, type: 2}
+    fittedBodyMesh: {fileID: 4300000, guid: a8013803193fe774ba1627005a5055ad, type: 2}
     hatOffset: {x: 0, y: 0, z: 0}
     hatEuler: {x: 0, y: 0, z: 0}
     hatScale: 1
@@ -145,8 +143,8 @@ MonoBehaviour:
     accessoryOffset: {x: 0, y: 0, z: 0}
     accessoryWorldScale: 1
     replacesBaseShoes: 1
-    fittedShoeMesh: {fileID: 4300000, guid: eccbdbeb5c753574caca56c1504fa4d5, type: 2}
-    fittedBodyMesh: {fileID: 4300000, guid: 8058384c994edd841ad1afa12c942379, type: 2}
+    fittedShoeMesh: {fileID: 4300000, guid: 6c7ef2990e1d8e8478831e94facc9ee3, type: 2}
+    fittedBodyMesh: {fileID: 4300000, guid: 5431fc9566826ee42b666d5cf228817e, type: 2}
     hatOffset: {x: 0, y: 0, z: 0}
     hatEuler: {x: 0, y: 0, z: 0}
     hatScale: 1
@@ -271,8 +269,8 @@ MonoBehaviour:
     accessoryOffset: {x: 0, y: 0, z: 0}
     accessoryWorldScale: 1
     replacesBaseShoes: 1
-    fittedShoeMesh: {fileID: 4300000, guid: 7ef8b95502045e540924f0cd3040d700, type: 2}
-    fittedBodyMesh: {fileID: 4300000, guid: 66b53c2ff7c5bf44c9600ca898777038, type: 2}
+    fittedShoeMesh: {fileID: 4300000, guid: 28b6f70f5ad23744589bbec0ea59fa75, type: 2}
+    fittedBodyMesh: {fileID: 4300000, guid: 6ebf7c7841f058a449db6ba88c295cbd, type: 2}
     hatOffset: {x: 0, y: 0, z: 0}
     hatEuler: {x: 0, y: 0, z: 0}
     hatScale: 1
@@ -285,8 +283,8 @@ MonoBehaviour:
     accessoryOffset: {x: 0, y: 0, z: 0}
     accessoryWorldScale: 1
     replacesBaseShoes: 1
-    fittedShoeMesh: {fileID: 4300000, guid: 54feb14266b697b41b9671720e42623b, type: 2}
-    fittedBodyMesh: {fileID: 4300000, guid: b13ee192c83194a4685b681aefd66e94, type: 2}
+    fittedShoeMesh: {fileID: 4300000, guid: 9d7282de9ce13a24ea70cd49a312a071, type: 2}
+    fittedBodyMesh: {fileID: 4300000, guid: e8d56baaed3e75a4291e3046a1032087, type: 2}
     hatOffset: {x: 0, y: 0, z: 0}
     hatEuler: {x: 0, y: 0, z: 0}
     hatScale: 1
@@ -299,8 +297,8 @@ MonoBehaviour:
     accessoryOffset: {x: 0, y: 0, z: 0}
     accessoryWorldScale: 1
     replacesBaseShoes: 1
-    fittedShoeMesh: {fileID: 4300000, guid: 271855d016f639549bd26ca3ff5a8d4e, type: 2}
-    fittedBodyMesh: {fileID: 4300000, guid: aef16aac5716cf04880c34418bccddd7, type: 2}
+    fittedShoeMesh: {fileID: 4300000, guid: 019178f771a5cf74b81fc1a3d685a4bf, type: 2}
+    fittedBodyMesh: {fileID: 4300000, guid: ac2a196927a4bc14097ad1811adbe181, type: 2}
     hatOffset: {x: 0, y: 0, z: 0}
     hatEuler: {x: 0, y: 0, z: 0}
     hatScale: 1
@@ -313,8 +311,8 @@ MonoBehaviour:
     accessoryOffset: {x: 0, y: 0, z: 0}
     accessoryWorldScale: 1
     replacesBaseShoes: 1
-    fittedShoeMesh: {fileID: 4300000, guid: 3918ad5823fa3e047b25279ae87eec2f, type: 2}
-    fittedBodyMesh: {fileID: 4300000, guid: 9612a177e01c2b74ebf6ecfa2f569097, type: 2}
+    fittedShoeMesh: {fileID: 4300000, guid: a745925b824f125418b3efe2b33eeb1a, type: 2}
+    fittedBodyMesh: {fileID: 4300000, guid: a5d30c898be54ea4a82de63055d9a6b2, type: 2}
     hatOffset: {x: 0, y: 0, z: 0}
     hatEuler: {x: 0, y: 0, z: 0}
     hatScale: 1

@@ -9,6 +9,7 @@ public sealed class ChapterUpgradeDefinition
     public const int MaxLevel = 5;
     public int chapter;
     public string title;
+    public Sprite artwork;
     public int coinCost;
     public float attackPercent;
     public float healthPercent;

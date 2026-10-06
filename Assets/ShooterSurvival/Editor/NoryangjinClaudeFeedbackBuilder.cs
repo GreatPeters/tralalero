@@ -252,7 +252,11 @@ public static class NoryangjinClaudeFeedbackBuilder
                 var source = output[i]; if (source == null || source.shader == reference.shader) continue;
                 var texture = source.HasProperty("_BaseMap") ? source.GetTexture("_BaseMap") : source.mainTexture;
                 if (texture == null) continue;
-                string path = $"{Dir}/Outline_{texture.name}.mat";
+                // Key by the atlas asset, not its name: every Meshy/TRELLIS atlas is called "texture_0",
+                // and a name key made unrelated characters share one atlas (essential proposal 14).
+                string atlasPath = AssetDatabase.GetAssetPath(texture);
+                string atlasKey = Path.GetFileName(Path.GetDirectoryName(atlasPath)) + "_" + AssetDatabase.AssetPathToGUID(atlasPath).Substring(0, 8);
+                string path = $"{Dir}/Outline_{texture.name}_{atlasKey}.mat";
                 if (!mats.TryGetValue(path, out var m))
                 {
                     m = AssetDatabase.LoadAssetAtPath<Material>(path);

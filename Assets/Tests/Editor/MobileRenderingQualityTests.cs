@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 public sealed class MobileRenderingQualityTests
 {
     [Test]
-    public void MobileAndFallbackPipelines_UseAtLeastFourSampleMsaa()
+    public void MobilePipelineUsesBoundedBuffersAndRetainsTwoSampleMsaa()
     {
         UnityEngine.Object[] qualityAssets =
             AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/QualitySettings.asset");
@@ -29,7 +29,11 @@ public sealed class MobileRenderingQualityTests
         }
 
         Assert.That(mobilePipeline, Is.Not.Null);
-        Assert.That(mobilePipeline.msaaSampleCount, Is.GreaterThanOrEqualTo(4));
+        Assert.That(mobilePipeline.msaaSampleCount, Is.EqualTo(2));
+        Assert.That(mobilePipeline.supportsHDR,Is.False);
+        Assert.That(mobilePipeline.upscalingFilter,Is.EqualTo(UpscalingFilterSelection.Linear));
+        Assert.That(mobilePipeline.mainLightShadowmapResolution,Is.LessThanOrEqualTo(1024));
+        Assert.That(mobilePipeline.supportsSoftShadows,Is.False);
 
         UnityEngine.Object[] graphicsAssets =
             AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/GraphicsSettings.asset");
@@ -38,7 +42,18 @@ public sealed class MobileRenderingQualityTests
         var fallbackPipeline = graphics.FindProperty("m_CustomRenderPipeline")
             .objectReferenceValue as UniversalRenderPipelineAsset;
         Assert.That(fallbackPipeline, Is.Not.Null);
-        Assert.That(fallbackPipeline.msaaSampleCount, Is.GreaterThanOrEqualTo(4));
+        Assert.That(fallbackPipeline.msaaSampleCount, Is.GreaterThanOrEqualTo(2));
+    }
+    [Test] public void MobileRendererKeepsCharacterOutlineWithoutSsao()
+    {
+        var data=AssetDatabase.LoadAssetAtPath<UniversalRendererData>("Assets/Settings/Mobile RP.asset");
+        bool foundOutline=false;
+        foreach(var feature in data.rendererFeatures)
+        {
+            if(feature.name.Contains("AmbientOcclusion"))Assert.That(feature.isActive,Is.False);
+            if(feature.name.Contains("Outline"))foundOutline|=feature.isActive;
+        }
+        Assert.That(foundOutline,Is.True);
     }
 }
 #endif

@@ -25,7 +25,7 @@ public sealed class NoryangjinCatEvent : NoryangjinRevampEvent
             if (protectedStall == null || protectedStall.Health < protectedStall.MaxHealth)
             { resolved = true; return; }
             following = true;
-            Director.Hud?.Publish("가게를 지켜줬다냥!", 2);
+            Director.Hud?.Publish("가게를 지켜준 보답입니다", 2);
         }
         if (!following) return;
         Vector3 goal = Player.transform.position - Player.transform.forward * 1.2f;

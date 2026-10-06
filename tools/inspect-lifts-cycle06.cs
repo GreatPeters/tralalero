@@ -1,0 +1,2 @@
+using System.Linq;using UnityEngine;using IndianOceanAssets.ShooterSurvival;
+public static class InspectLiftsCycle06 {public static object Main(){var d=Object.FindFirstObjectByType<Chapter45Director>();return new{scene=d.gameObject.scene.name,lifts=d.lifts.Select(l=>new{l.name,l.afterSegment,l.choiceIndex,l.requiredChoice}).ToArray(),segments=d.route.segments.Select((s,i)=>new{i,s.floor,start=d.route.SegmentStart(i),end=d.route.SegmentEnd(i)}).ToArray()};}}

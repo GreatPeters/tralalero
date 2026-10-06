@@ -1,0 +1,2 @@
+using System;using UnityEditor;using UnityEngine.SceneManagement;
+public static class GuardIdlePresentation { public static object Main(){if(EditorApplication.isPlayingOrWillChangePlaymode||EditorApplication.isCompiling)throw new Exception("Idle edit mode required");for(int i=0;i<SceneManager.sceneCount;i++)if(SceneManager.GetSceneAt(i).isDirty)throw new Exception("Dirty scene must be preserved");return new{isPlaying=false,clean=true};}}

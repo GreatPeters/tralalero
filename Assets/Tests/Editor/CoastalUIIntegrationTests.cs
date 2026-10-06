@@ -51,7 +51,9 @@ public sealed class CoastalUIIntegrationTests
     [Test] public void AllChapterRanksGrantFivePercentAndKeepFiveRankCap()
     {
         var catalog=Resources.Load<ChapterUpgradeCatalog>(ChapterUpgradeCatalog.ResourcePath);
-        Assert.That(catalog.entries.Length,Is.EqualTo(3));
+        Assert.That(catalog,Is.Not.Null);
+        Assert.That(catalog.entries.Select(row=>row.chapter),Is.EquivalentTo(Enumerable.Range(1,5)),
+            "The production catalog contains exactly chapters 1 through 5.");
         Assert.That(catalog.entries.All(r=>r.attackPercent==5&&r.healthPercent==5),Is.True);
         Assert.That(ChapterUpgradeDefinition.MaxLevel,Is.EqualTo(5));
     }

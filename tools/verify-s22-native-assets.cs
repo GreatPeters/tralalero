@@ -1,0 +1,16 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using Object=UnityEngine.Object;
+public static class S22NativeAssets
+{
+ const string Out="tmp/image-previews/s22-polish-2026-10-01/assets-reviewed";
+ public static object Main(){if(EditorApplication.isPlaying)throw new Exception("Edit Mode required");Directory.CreateDirectory(Out);var setup=EditorSceneManager.GetSceneManagerSetup();var rows=new List<string>();try{foreach(var sceneName in new[]{"Noryangjin_MapTool_Mode_SR18_Revamp","RestStop"}){var scene=EditorSceneManager.OpenScene("Assets/ShooterSurvival/Scenes/Tools/"+sceneName+".unity");var filters=scene.GetRootGameObjects().SelectMany(g=>g.GetComponentsInChildren<MeshFilter>(true)).Where(f=>f.sharedMesh!=null).ToArray();foreach(var key in sceneName=="RestStop"?new[]{"MobileGuardrail","MobileVending","LiveFishTubBlankLabel"}:new[]{"LiveFishTubBlankLabel","MobileHole","014_STAGE01","016_STAGE01","015_STAGE01","040_STAGE01"}){var source=filters.FirstOrDefault(f=>f.sharedMesh.name.Contains(key)||AssetDatabase.GetAssetPath(f.sharedMesh).Contains(key));if(source==null){rows.Add(key+": absent in "+sceneName);continue;}var group=source.GetComponent<LODGroup>();var clone=Object.Instantiate(source.gameObject);clone.name="Temporary static asset review";clone.transform.SetPositionAndRotation(new Vector3(10000,10000,10000),source.transform.rotation);clone.transform.localScale=source.transform.lossyScale;clone.SetActive(true);foreach(var t in clone.GetComponentsInChildren<Transform>(true))t.gameObject.layer=31;foreach(var b in clone.GetComponentsInChildren<MonoBehaviour>(true))b.enabled=false;foreach(var r in clone.GetComponentsInChildren<Renderer>(true)){r.enabled=true;r.forceRenderingOff=false;}var lod=clone.GetComponent<LODGroup>();var rend=clone.GetComponent<Renderer>();var bounds=rend.bounds;var camGo=new GameObject("Static asset review camera");var camera=camGo.AddComponent<Camera>();camera.enabled=false;camera.cullingMask=1<<31;camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=new Color(.15f,.19f,.24f);camera.aspect=1;camera.fieldOfView=35;camera.nearClipPlane=.01f;camera.farClipPlane=2000;camera.transform.position=bounds.center+new Vector3(.7f,.45f,key=="MobileVending"?-1:1).normalized*bounds.size.magnitude*1.8f;camera.transform.LookAt(bounds.center);var rt=new RenderTexture(700,700,24);rt.Create();camera.targetTexture=rt;var texture=new Texture2D(700,700);var old=RenderTexture.active;
+  try{for(int level=0;level<(lod!=null?lod.lodCount:1);level++){if(lod!=null)lod.ForceLOD(level);camera.Render();RenderTexture.active=rt;texture.ReadPixels(new Rect(0,0,700,700),0,0);texture.Apply();File.WriteAllBytes(Out+"/"+key+"-lod"+level+".png",texture.EncodeToPNG());}rows.Add(key+": source="+AssetDatabase.GetAssetPath(source.sharedMesh)+"; bounds="+bounds.size+"; levels="+(lod!=null?lod.lodCount:1));}
+  finally{RenderTexture.active=old;Object.DestroyImmediate(camGo);rt.Release();Object.DestroyImmediate(rt);Object.DestroyImmediate(texture);Object.DestroyImmediate(clone);}
+ }}}finally{EditorSceneManager.RestoreSceneManagerSetup(setup);}File.WriteAllLines("outputs/s22-polish-2026-10-01/native-assets-review.txt",rows);return new{rows};}
+}

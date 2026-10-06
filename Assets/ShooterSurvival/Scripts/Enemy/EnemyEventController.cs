@@ -185,9 +185,16 @@ namespace IndianOceanAssets.ShooterSurvival
             ResolveRuntimeReferences();
         }
 
+        private ActorVariation variation;
+
         private void OnEnable()
         {
             ResolveRuntimeReferences();
+            if (Application.isPlaying)
+            {
+                variation ??= ActorVariation.Ensure(gameObject);
+                variation?.Apply();
+            }
             if (initialized && !IsQueuedPoolObject())
                 ResetForNewRun();
             else
@@ -227,6 +234,8 @@ namespace IndianOceanAssets.ShooterSurvival
             bool animate = isGameRunning && VisualIsRelevant && !(cratePose != null && cratePose.ControlsAlivePose && RuntimeState != EnemyEventRuntimeState.Dead);
             if (enemyAnimator != null && enemyAnimator.enabled != animate)
                 enemyAnimator.enabled = animate;
+            if (animate && variation != null && RuntimeState != EnemyEventRuntimeState.Dead)
+                variation.UpdateAnimatorSpeed(enemyAnimator);
             if (enemyAnimator != null && carryLayer >= 0)
             {
                 bool moving = RuntimeState == EnemyEventRuntimeState.MovingToTarget || RuntimeState == EnemyEventRuntimeState.MovingToStart;
@@ -653,10 +662,11 @@ namespace IndianOceanAssets.ShooterSurvival
                 EnemyMoveAnimation.Run => RunStateHash,
                 _ => WalkStateHash
             };
-            PlayAnimationState(stateHash);
+            // Stable per-actor stride phase so neighbours do not step in lockstep (proposal 15).
+            PlayAnimationState(stateHash, variation != null ? ActorVariation.PhaseSeconds(variation.Seed) : 0f);
         }
 
-        private void PlayAnimationState(int stateHash)
+        private void PlayAnimationState(int stateHash, float fixedTimeOffset = 0f)
         {
             if (enemyAnimator == null || enemyAnimator.runtimeAnimatorController == null)
                 return;
@@ -673,7 +683,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 stateHash,
                 AnimationTransitionSeconds,
                 0,
-                0f);
+                fixedTimeOffset);
         }
 
         private void ResetForNewRun()

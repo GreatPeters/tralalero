@@ -49,7 +49,7 @@ public sealed class CombatPresentationPoolTests
         pool.Show(Vector3.one, 42, true);
         var text = pool.GetComponentsInChildren<TextMeshProUGUI>().Single();
         Assert.That(text.text, Is.EqualTo("+42"));
-        Assert.That(text.canvas.transform.localScale.x, Is.EqualTo(.007f).Within(.0001f));
+        Assert.That(text.canvas.transform.localScale.x, Is.EqualTo(.0065f).Within(.0001f));
         var origin = text.canvas.transform.position;
         Tick(pool, 0f);
         Assert.That(text.canvas.transform.position, Is.EqualTo(origin));
@@ -60,9 +60,17 @@ public sealed class CombatPresentationPoolTests
         for (int i = 0; i < 64; i++) pool.Show(Vector3.zero, 7, false);
         Assert.That(text.text, Is.EqualTo("7"));
         Assert.That(text.color, Is.EqualTo(new Color(1f, .25f, .25f, 1f)));
-        Assert.That(text.canvas.transform.localScale.x, Is.EqualTo(.01f).Within(.0001f));
+        Assert.That(text.canvas.transform.localScale.x, Is.EqualTo(.008f).Within(.0001f));
     }
 
+    [Test] public void NearbyCoinBurstCombinesWithoutCombiningDamageOrDistantRewards()
+    {
+        var pool=Make("Coin aggregation").AddComponent<DamagePopupPool>();pool.Initialize(null);
+        pool.Show(Vector3.zero,3,true);pool.Show(Vector3.right*.1f,7,true);
+        Assert.That(pool.GetComponentsInChildren<TextMeshProUGUI>().Single().text,Is.EqualTo("+10"));
+        pool.Show(Vector3.right*10,5,true);pool.Show(Vector3.zero,9,false);pool.ShowPlayerDamage(Vector3.zero,4);
+        CollectionAssert.AreEquivalent(new[]{"+10","+5","9","-4"},pool.GetComponentsInChildren<TextMeshProUGUI>().Select(t=>t.text));
+    }
     [Test]
     public void PlayerLossSurvivesEnemyPopupSaturationAndCombinesExactAmounts()
     {

@@ -1,0 +1,11 @@
+using System;using System.Linq;using UnityEngine;using UnityEditor;using UnityEditor.SceneManagement;using IndianOceanAssets.ShooterSurvival;using Object=UnityEngine.Object;
+public static class InspectGaps16 {
+ static float[] V(Vector3 v)=>new[]{v.x,v.y,v.z};
+ static string P(Transform t)=>t.parent==null?t.name:P(t.parent)+"/"+t.name;
+ public static object Main(){if(EditorApplication.isPlayingOrWillChangePlaymode)throw new Exception("Edit only");var setup=EditorSceneManager.GetSceneManagerSetup();try{
+ EditorSceneManager.OpenScene("Assets/ShooterSurvival/Scenes/Tools/Jamsil.unity");var d=Object.FindFirstObjectByType<Chapter45Director>();var hero=d.transform.Find("Scenery/EnvironmentArt_20261003/Hero storefront architecture v2");
+ var shops=d.GetComponentsInChildren<Transform>(true).Where(t=>t.name.StartsWith("Shop bay ")).ToArray();
+ var city=new{heroes=hero.Cast<Transform>().Select(t=>new{t.name,position=V(t.position),rotation=V(t.eulerAngles),size=t.GetComponent<MeshFilter>()==null?null:t.GetComponent<MeshFilter>().sharedMesh.bounds.size.ToString("R"),mesh=t.GetComponent<MeshFilter>()==null?null:AssetDatabase.GetAssetPath(t.GetComponent<MeshFilter>().sharedMesh)}).ToArray(),shops=shops.Take(40).Select((t,i)=>new{i,t.name,position=V(t.position),rotation=V(t.eulerAngles),labels=t.GetComponentsInChildren<TMPro.TMP_Text>(true).Select(x=>new{x.name,x.text}).ToArray()}).ToArray(),choices=d.choices.Select(c=>new{c.name,json=EditorJsonUtility.ToJson(c)}).ToArray(),route=EditorJsonUtility.ToJson(d.route)};
+ EditorSceneManager.OpenScene("Assets/ShooterSurvival/Scenes/Tools/ShoeTower.unity");d=Object.FindFirstObjectByType<Chapter45Director>();var mall=d.encounters.Where(e=>e.name.Contains("대기줄")||e.actors.Any(a=>a!=null&&a.GetComponent<Chapter45RoleAction>()?.role==Chapter45RoleAction.Role.PopcornThrower)).Select(e=>new{e.name,e.floor,settings=EditorJsonUtility.ToJson(e),actors=e.actors.Select(a=>new{path=P(a.transform),role=a.GetComponent<Chapter45RoleAction>()==null?null:EditorJsonUtility.ToJson(a.GetComponent<Chapter45RoleAction>()),models=a.GetComponentsInChildren<Animator>(true).Select(x=>new{path=P(x.transform),controller=AssetDatabase.GetAssetPath(x.runtimeAnimatorController)}).ToArray()}).ToArray()}).ToArray();return new{city,mall};
+ }finally{EditorSceneManager.RestoreSceneManagerSetup(setup);}}
+}

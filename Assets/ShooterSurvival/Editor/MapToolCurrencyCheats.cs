@@ -55,6 +55,10 @@ public static class ChapterSceneNavigation
     public static void OpenHighway() => Open(NoryangjinMapToolWindow.HighwayMapToolScenePath);
     [MenuItem("Tools/맵 제작 도구/씬 이동/휴게소", false, 2322)]
     public static void OpenRestStop() => Open(NoryangjinMapToolWindow.RestStopMapToolScenePath);
+    [MenuItem("Tools/맵 제작 도구/씬 이동/잠실", false, 2323)]
+    public static void OpenJamsil() => Open(NoryangjinMapToolWindow.JamsilMapToolScenePath);
+    [MenuItem("Tools/맵 제작 도구/씬 이동/슈타워", false, 2324)]
+    public static void OpenShoeTower() => Open(NoryangjinMapToolWindow.ShoeTowerMapToolScenePath);
 
     public static void Open(string path)
     {

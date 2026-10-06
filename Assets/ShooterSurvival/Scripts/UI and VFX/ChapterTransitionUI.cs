@@ -11,6 +11,11 @@ public sealed class ChapterTransitionUI : MonoBehaviour
     public TMP_Text title, caption, status;
     public Button skipButton;
     private RenderTexture texture;
+    private Camera suspendedWorldCamera;
+    private bool restoreWorldCamera;
+    private int worldCullingMask;
+    private CameraClearFlags worldClearFlags;
+    private Color worldBackground;
     private bool skip, failed;
     public bool IsPresenting { get; private set; }
 
@@ -27,6 +32,9 @@ public sealed class ChapterTransitionUI : MonoBehaviour
         {
             texture = new RenderTexture((int)clip.width, (int)clip.height, 0) { name = "Chapter transition" };
             texture.Create(); display.texture = texture;
+            suspendedWorldCamera=Camera.main;restoreWorldCamera=suspendedWorldCamera!=null&&suspendedWorldCamera.enabled;
+            // Keep URP alive for overlay UI while omitting world geometry.
+            if(restoreWorldCamera){worldCullingMask=suspendedWorldCamera.cullingMask;worldClearFlags=suspendedWorldCamera.clearFlags;worldBackground=suspendedWorldCamera.backgroundColor;suspendedWorldCamera.cullingMask=0;suspendedWorldCamera.clearFlags=CameraClearFlags.SolidColor;suspendedWorldCamera.backgroundColor=Color.black;}
             var fit = display.GetComponent<AspectRatioFitter>();
             if (fit != null) { fit.aspectMode = AspectRatioFitter.AspectMode.FitInParent; fit.aspectRatio = (float)clip.width / clip.height; }
             player.playOnAwake = false; player.isLooping = false; player.waitForFirstFrame = true;
@@ -62,6 +70,8 @@ public sealed class ChapterTransitionUI : MonoBehaviour
     private void Failed(VideoPlayer _, string message) { failed = true; Debug.LogWarning("Chapter movie: " + message, this); }
     private void Release()
     {
+        if(suspendedWorldCamera!=null&&restoreWorldCamera){suspendedWorldCamera.cullingMask=worldCullingMask;suspendedWorldCamera.clearFlags=worldClearFlags;suspendedWorldCamera.backgroundColor=worldBackground;}
+        suspendedWorldCamera=null;restoreWorldCamera=false;
         IsPresenting = false;
         var released = texture; texture = null;
         if (player != null) { player.errorReceived -= Failed; player.Stop(); player.targetTexture = null; }

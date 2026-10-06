@@ -17,6 +17,7 @@ public sealed class HarborUpgradeTabs : MonoBehaviour
     public void ShowChapters() { Show(true); GameAudioService.Play(GameSound.Tab); }
     private void Show(bool chapter)
     {
+        if (chapter && Application.isPlaying) ChapterUpgradeRoster.Ensure(chapters.transform);
         permanent.SetActive(!chapter); chapters.SetActive(chapter);
         Style(permanentTab, !chapter); Style(chapterTab, chapter);
     }

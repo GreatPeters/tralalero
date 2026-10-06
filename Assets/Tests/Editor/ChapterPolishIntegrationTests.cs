@@ -10,7 +10,7 @@ public sealed class ChapterPolishIntegrationTests
 {
     [TestCase("Noryangjin_MapTool_Mode_SR18", 1, "HighWay")]
     [TestCase("HighWay", 2, "RestStop")]
-    [TestCase("RestStop", 3, "")]
+    [TestCase("RestStop", 3, "Jamsil")]
     public void ChapterPresentationHasCompleteReferences(string name, int number, string next)
     {
         string path = "Assets/ShooterSurvival/Scenes/Tools/" + name + ".unity";
@@ -24,7 +24,8 @@ public sealed class ChapterPolishIntegrationTests
             Assert.That(chapter.transitionUI, Is.Not.Null); Assert.That(chapter.transitionUI.player, Is.Not.Null);
             Assert.That(chapter.transitionUI.display, Is.Not.Null); Assert.That(chapter.transitionUI.skipButton, Is.Not.Null);
             Assert.That(chapter.clearRewardText, Is.Not.Null);
-            if (next.Length > 0) Assert.That(chapter.nextChapterMovie.length, Is.InRange(4.9, 5.2));
+            if (number < 3 && next.Length > 0) Assert.That(chapter.nextChapterMovie.length, Is.InRange(4.9, 5.2));
+            if (number == 3) Assert.That(chapter.nextChapterTitle, Does.Contain("잠실"));
             var opening = canvas.GetComponentInChildren<OpeningStoryUI>(true);
             Assert.That(opening.nextText, Is.Not.Null); Assert.That(opening.captionText, Is.Not.Null);
             Assert.That(opening.pageProgress, Is.Not.Null);

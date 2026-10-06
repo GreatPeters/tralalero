@@ -1,0 +1,14 @@
+using System;
+using System.IO;
+using System.Linq;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.Video;
+using Object=UnityEngine.Object;
+public static class S22InstallCinematics
+{
+ const string Dir="Assets/JH/UI/S22Polish";
+ public static object Main(){if(EditorApplication.isPlaying)throw new Exception("Edit Mode required");if(!AssetDatabase.IsValidFolder(Dir))AssetDatabase.CreateFolder("Assets/JH/UI","S22Polish");foreach(string name in new[]{"Opening_Aligned.mp4","Highway_Aligned.mp4","RestStop_Aligned.mp4","Market_Arrival.png","Highway_Aligned.png","RestStop_Aligned.png"}){string dest=Dir+"/"+name;File.Copy("outputs/s22-polish-2026-10-01/cinematics-v2/"+name,dest,true);AssetDatabase.ImportAsset(dest,ImportAssetOptions.ForceSynchronousImport);if(name.EndsWith(".mp4")){var imp=(VideoClipImporter)AssetImporter.GetAtPath(dest);var settings=imp.defaultTargetSettings;settings.enableTranscoding=false;imp.defaultTargetSettings=settings;imp.SaveAndReimport();}else{var imp=(TextureImporter)AssetImporter.GetAtPath(dest);imp.textureType=TextureImporterType.Default;imp.mipmapEnabled=false;imp.maxTextureSize=1024;imp.npotScale=TextureImporterNPOTScale.None;imp.SaveAndReimport();}}
+  var opening=AssetDatabase.LoadAssetAtPath<VideoClip>(Dir+"/Opening_Aligned.mp4");var highway=AssetDatabase.LoadAssetAtPath<VideoClip>(Dir+"/Highway_Aligned.mp4");var rest=AssetDatabase.LoadAssetAtPath<VideoClip>(Dir+"/RestStop_Aligned.mp4");var page=AssetDatabase.LoadAssetAtPath<Texture2D>(Dir+"/Market_Arrival.png");if(opening.frameCount!=936||highway.frameCount!=121||rest.frameCount!=121)throw new Exception("Frame contract changed");var setup=EditorSceneManager.GetSceneManagerSetup();int movies=0;try{foreach(string name in new[]{"Noryangjin_MapTool_Mode_SR18_Revamp","HighWay","RestStop"}){var scene=EditorSceneManager.OpenScene("Assets/ShooterSurvival/Scenes/Tools/"+name+".unity");foreach(var story in Object.FindObjectsByType<OpeningStoryUI>(FindObjectsInactive.Include,FindObjectsSortMode.None)){story.movie=opening;if(story.pages.Length==4)story.pages[3]=page;EditorUtility.SetDirty(story);movies++;}foreach(var chapter in Object.FindObjectsByType<ChapterProgression>(FindObjectsInactive.Include,FindObjectsSortMode.None)){if(chapter.chapter==1)chapter.nextChapterMovie=highway;else if(chapter.chapter==2)chapter.nextChapterMovie=rest;EditorUtility.SetDirty(chapter);}EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);}}finally{EditorSceneManager.RestoreSceneManagerSetup(setup);}AssetDatabase.SaveAssets();File.WriteAllText("outputs/s22-polish-2026-10-01/cinematic-install.txt",$"{movies} story bindings; opening39s/936frames (original first30s retained); native arrivals216/121/121frames; no slide shows. Original clips retained.");return new{movies,openingFrames=opening.frameCount,highwayFrames=highway.frameCount,restFrames=rest.frameCount};}
+}

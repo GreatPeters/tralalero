@@ -11,6 +11,15 @@ public sealed class MapToolChapterControlsTests
     [Test] public void CurrencyGrant_RejectsNegativeAmounts() =>
         Assert.Throws<System.ArgumentOutOfRangeException>(() => MapToolCurrencyCheats.AddClamped(100, -1));
 
+    [TestCase("Jamsil", 4)] [TestCase("ShoeTower", 5)]
+    public void LaterChapters_KeepMapControlsAndStartSelection(string scene, int chapter)
+    {
+        string path = "Assets/ShooterSurvival/Scenes/Tools/" + scene + ".unity";
+        Assert.That(NoryangjinMapToolWindow.IsMapToolScenePath(path), Is.True);
+        Assert.That(NoryangjinMapToolWindow.ResolveMapToolScenePathToOpen(path), Is.EqualTo(path));
+        Assert.That(NoryangjinMapToolTestStartStage.ScenePathForStage(chapter), Is.EqualTo(path));
+    }
+
     [Test] public void Highway_UsesMapToolControlsAndEnemyClassification()
     {
         Assert.That(NoryangjinMapToolWindow.IsMapToolScenePath("Assets/ShooterSurvival/Scenes/Tools/HighWay.unity"), Is.True);

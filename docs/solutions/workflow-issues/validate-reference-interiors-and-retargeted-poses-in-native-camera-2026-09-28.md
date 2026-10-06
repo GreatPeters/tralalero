@@ -1,6 +1,7 @@
 ---
 title: Validate reference interiors and retargeted poses in the native camera
 date: 2026-09-28
+last_updated: 2026-10-02
 category: workflow-issues
 module: Noryangjin interior and Meshy merchant import
 problem_type: workflow_issue
@@ -40,6 +41,16 @@ The user rejected the first market interior as crude and unlike the reference. R
 ## When to apply
 
 Use this sequence whenever generated characters/props are retargeted into a reused scene: reference review, model/animation inspection, native integration capture, focused lifecycle checks, then route regression. Keep failed visual passes as evidence and make the gallery's default view the latest actual scene.
+
+## Chapter 4/5 cloned UI validation (2026-10-02)
+
+A successful ordinary Chapter 4 clear exposed an unrelated-looking Chapter 1 story overlay after loading Chapter 5. The new scene builder had disabled `OpeningStoryUI` but left its Canvas GameObject active. Its static serialized artwork and text therefore remained visible while the disabled component could not run its normal hiding lifecycle. The ordinary harness called `Skip()` before starting, masking the same saved-scene defect on direct entry.
+
+For the two new chapter scenes, keep the story controller enabled for explicit manual replay and make its own story root inactive on load. Validate fresh lobby and real automatic chapter transitions before any test-only dismissal. `chapters45-playtest.cs` now refuses an active inherited opening instead of hiding it. The directed campaign fixture checks inactive new-scene story roots, actual starts, scene loading and reward persistence; it dismisses only RestStop's legitimate first-session story during its bootstrap.
+
+Inspect component ownership before hiding UI: `CoastalTutorialUI` lives on the shared gameplay Canvas, whereas its `panel` is the isolated tutorial. Hiding the component's GameObject disabled `CanvasScript` too; a native dependency precondition caught this before gameplay. The correction keeps the shared Canvas active, disables chapter-inappropriate tutorial automation and hides only its panel. Tests explicitly require an active Canvas plus the inactive tutorial panel.
+
+Source-corroborated before evidence: `outputs/chapters45-2026-10-02/play/20261001-193716-743-Jamsil-1/017-259.0-result-or-transition.png`. After correction, `play/20261001-195114-039-Jamsil-0/campaign-transactions/summary.json` records 57 passing native checks, first/replay Tower rewards of 40/5 and no logged errors; parent `restored.json` confirms zero preference mismatches. Lobby captures still require visual review for inherited labels and layout overlap: functional overlay checks are not visual approval.
 
 ## Related
 

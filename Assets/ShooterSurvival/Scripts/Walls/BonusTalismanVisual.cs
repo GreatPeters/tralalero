@@ -32,6 +32,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void SetContent(Sprite sprite, string text, Color accent)
         {
+            text=text.Replace("공속","공격 속도");
             if(sprite!=null&&enhancementIcons!=null&&enhancementIcons.TryGetSprite(sprite.name,out var original))sprite=original;
             icon.sprite = sprite;
             icon.color = Color.white;

@@ -12,20 +12,33 @@ namespace IndianOceanAssets.ShooterSurvival
         [SerializeField] private Transform roadRoot;
         [SerializeField] private Transform[] additionalOccluderGroups = System.Array.Empty<Transform>();
         [SerializeField] private Transform[] clearViewGroups = System.Array.Empty<Transform>();
+        [SerializeField] private Transform walkingFloorCollider;
+        [SerializeField] private Renderer[] walkingFloorVisuals = System.Array.Empty<Renderer>();
         [SerializeField] private bool inspectCombinedRoads;
         [SerializeField] private bool feedbackTransparency;
         [SerializeField,Range(.05f,.5f)] private float feedbackOpacity=.18f;
         [SerializeField, Min(0f)] private float viewAhead = 18f;
         [SerializeField, Min(0f)] private float clearance = 2f;
-        private readonly List<(Renderer[] renderers, bool explicitScenery, bool fullyHide)> candidateGroups = new();
+        private sealed class OccluderGroup
+        {
+            public Renderer[] renderers;
+            public Transform anchor;
+            public Bounds localBounds;
+            public bool explicitScenery, fullyHide, affected, roof;
+            public Bounds WorldBounds => TransformBounds(anchor.localToWorldMatrix, localBounds);
+        }
+        private readonly List<OccluderGroup> candidateGroups = new();
         private readonly Dictionary<Renderer, bool> hidden = new();
         private readonly List<Renderer> restored = new();
         private readonly HashSet<Transform> traversedRoads = new();
+        private readonly HashSet<Renderer> floorVisuals = new();
         private readonly Dictionary<Renderer, TemporarySceneryFade> faded = new();
         private NoryangjinRoadHeightFollower heightFollower;
         private static readonly float[] FeedbackLookAhead={0,8,18,32,45};
         public int HiddenCount => hidden.Count;
         public int FadedCount => faded.Count;
+        public int CandidateGroupCount => candidateGroups.Count;
+        public int VisitedGroupCount { get; private set; }
         public float SceneryOpacity(Renderer renderer) => faded.TryGetValue(renderer,out var fade)?fade.Opacity:1f;
 
         public void Configure(Transform target, Transform roads)
@@ -44,27 +57,60 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             feedbackTransparency=true;feedbackOpacity=.25f;ConfigureClearViewOccluders(groups,true);
         }
+        public void ConfigureWalkingFloor(Transform support,Renderer[] visuals)
+        {
+            RestoreAll();walkingFloorCollider=support;walkingFloorVisuals=visuals??System.Array.Empty<Renderer>();
+            floorVisuals.Clear();foreach(var renderer in walkingFloorVisuals)if(renderer!=null)floorVisuals.Add(renderer);
+        }
+        private bool IsWalkingSurface(Renderer renderer)=>traversedRoads.Contains(renderer.transform)||
+            walkingFloorCollider!=null&&traversedRoads.Contains(walkingFloorCollider)&&floorVisuals.Contains(renderer);
         private void OnEnable() => CacheRenderers();
         private void OnDisable() => RestoreAll();
         private void OnDestroy() => RestoreAll();
         private void CacheRenderers()
         {
+            floorVisuals.Clear();foreach(var renderer in walkingFloorVisuals)if(renderer!=null)floorVisuals.Add(renderer);
             candidateGroups.Clear();var seen = new HashSet<Renderer>();
             foreach(var group in clearViewGroups)
             {
                 if(group==null)continue;var renderers=new List<Renderer>();
                 foreach(var renderer in group.GetComponentsInChildren<Renderer>(true))if(seen.Add(renderer))renderers.Add(renderer);
-                if(renderers.Count>0)candidateGroups.Add((renderers.ToArray(),true,true));
+                if(renderers.Count>0)AddGroup(group,renderers.ToArray(),true,true);
             }
             if (additionalOccluderGroups != null) foreach (var group in additionalOccluderGroups)
             {
                 if (group == null) continue;
                 var renderers = new List<Renderer>();
                 foreach (var renderer in group.GetComponentsInChildren<Renderer>(true)) if (seen.Add(renderer)) renderers.Add(renderer);
-                if (renderers.Count > 0) candidateGroups.Add((renderers.ToArray(),true,false));
+                if (renderers.Count > 0) AddGroup(group,renderers.ToArray(),true,false);
             }
             if (roadRoot != null) foreach (var renderer in roadRoot.GetComponentsInChildren<Renderer>(true))
-                if (seen.Add(renderer)) candidateGroups.Add((new[]{renderer},false,false));
+                if (seen.Add(renderer)) AddGroup(renderer.transform,new[]{renderer},false,false);
+        }
+        private void AddGroup(Transform anchor,Renderer[] renderers,bool explicitScenery,bool fullyHide)
+        {
+            var bounds=renderers[0].bounds;
+            for(int i=1;i<renderers.Length;i++)bounds.Encapsulate(renderers[i].bounds);
+            // Padding conservatively covers moving shutter slats/letters; moving the
+            // whole authored group is handled by its current transform matrix.
+            bounds.Expand(4f);
+            candidateGroups.Add(new OccluderGroup{anchor=anchor,renderers=renderers,
+                localBounds=TransformBounds(anchor.worldToLocalMatrix,bounds),
+                explicitScenery=explicitScenery,fullyHide=fullyHide,
+                // Authored roof-bay groups overlap across most of a portrait view;
+                // a lighter veil preserves the roof without washing out the aisle.
+                roof=anchor.name=="V2Roof"||anchor.name=="CeilingJointBacking"});
+        }
+        private static Bounds TransformBounds(Matrix4x4 matrix,Bounds bounds)
+        {
+            var e=bounds.extents;
+            var x=matrix.MultiplyVector(new Vector3(e.x,0,0));
+            var y=matrix.MultiplyVector(new Vector3(0,e.y,0));
+            var z=matrix.MultiplyVector(new Vector3(0,0,e.z));
+            return new Bounds(matrix.MultiplyPoint3x4(bounds.center),2f*new Vector3(
+                Mathf.Abs(x.x)+Mathf.Abs(y.x)+Mathf.Abs(z.x),
+                Mathf.Abs(x.y)+Mathf.Abs(y.y)+Mathf.Abs(z.y),
+                Mathf.Abs(x.z)+Mathf.Abs(y.z)+Mathf.Abs(z.z)));
         }
         private void LateUpdate() { if (Application.isPlaying) RefreshVisibility(); }
 
@@ -75,14 +121,24 @@ namespace IndianOceanAssets.ShooterSurvival
             Vector3 head = player.position + Vector3.up * 1.4f;
             Vector3 forward = Vector3.ProjectOnPlane(player.forward, Vector3.up).normalized;
             Vector3 side = Vector3.Cross(Vector3.up, forward);
+            var query=new Bounds(transform.position,Vector3.zero);
+            query.Encapsulate(head-side*2);query.Encapsulate(head+side*2);
+            query.Encapsulate(head+forward*Mathf.Max(viewAhead,45)+side*2);
+            query.Encapsulate(head+forward*Mathf.Max(viewAhead,45)-side*2);
+            query.Expand(2f);VisitedGroupCount=0;
             CacheTraversedRoads(forward);
             foreach (var candidate in candidateGroups)
             {
+                if(candidate.anchor==null)continue;
+                bool nearby=query.Intersects(candidate.WorldBounds);
+                // Previously affected groups still restore after leaving the query.
+                if(!nearby&&!candidate.affected)continue;
+                VisitedGroupCount++;
                 var group=candidate.renderers;
                 bool blocks = false;
-                foreach (var renderer in group)
+                if(nearby)foreach (var renderer in group)
                 {
-                    if (renderer == null || !renderer.enabled || !renderer.gameObject.activeInHierarchy) continue;
+                    if (renderer == null || !renderer.enabled || !renderer.gameObject.activeInHierarchy || IsWalkingSurface(renderer)) continue;
                     Bounds bounds = renderer.bounds;
                     if(candidate.explicitScenery)
                     {
@@ -115,12 +171,12 @@ namespace IndianOceanAssets.ShooterSurvival
                     }
                     if (blocks) break;
                 }
-                if(candidate.fullyHide)
+                if(nearby&&candidate.fullyHide)
                 {
                     bool any=false;var combined=new Bounds();
                     foreach(var renderer in group)
                     {
-                        if(renderer==null||!renderer.enabled||!renderer.gameObject.activeInHierarchy)continue;
+                        if(renderer==null||!renderer.enabled||!renderer.gameObject.activeInHierarchy||IsWalkingSurface(renderer))continue;
                         if(!any){combined=renderer.bounds;any=true;}else combined.Encapsulate(renderer.bounds);
                     }
                     blocks=any&&(feedbackTransparency?FeedbackBlocksView(combined,head,forward,side):SeverelyBlocks(combined,transform.position,head,forward,side));
@@ -141,29 +197,34 @@ namespace IndianOceanAssets.ShooterSurvival
                 }
                 // Treat an authored sign/arch as one visual: its lettering and beam
                 // must not remain floating when a panel hides.
+                candidate.affected=false;
                 foreach (var renderer in group)
                 {
                     if (renderer == null || !renderer.enabled || !renderer.gameObject.activeInHierarchy) continue;
+                    bool rendererBlocks=blocks&&!IsWalkingSurface(renderer);
                     if(feedbackTransparency||candidate.explicitScenery&&!candidate.fullyHide)
                     {
-                        if(blocks&&!renderer.forceRenderingOff&&!faded.ContainsKey(renderer))faded.Add(renderer,new TemporarySceneryFade(renderer,feedbackTransparency?feedbackOpacity:.4f));
+                        if(rendererBlocks&&!renderer.forceRenderingOff&&!faded.ContainsKey(renderer))faded.Add(renderer,new TemporarySceneryFade(renderer,feedbackTransparency?(candidate.roof?.10f:feedbackOpacity):.4f));
                         if(faded.TryGetValue(renderer,out var fade))
                         {
-                            fade.Advance(blocks,deltaTime);
+                            fade.Advance(rendererBlocks,deltaTime);
                             if(fade.Opacity>=1){fade.Restore();faded.Remove(renderer);}
+                            else candidate.affected=true;
                         }
                         continue;
                     }
-                    if (blocks && !hidden.ContainsKey(renderer))
+                    if (rendererBlocks && !hidden.ContainsKey(renderer))
                     {
                         hidden.Add(renderer, renderer.forceRenderingOff);
                         renderer.forceRenderingOff = true;
+                        candidate.affected=true;
                     }
-                    else if (!blocks && hidden.TryGetValue(renderer, out bool original))
+                    else if (!rendererBlocks && hidden.TryGetValue(renderer, out bool original))
                     {
                         renderer.forceRenderingOff = original;
                         hidden.Remove(renderer);
                     }
+                    else if(rendererBlocks&&hidden.ContainsKey(renderer))candidate.affected=true;
                 }
             }
             restored.Clear();
@@ -205,8 +266,9 @@ namespace IndianOceanAssets.ShooterSurvival
             if (heightFollower == null || heightFollower.transform != player)
                 heightFollower = player.GetComponent<NoryangjinRoadHeightFollower>();
             if (heightFollower == null) return;
-            foreach (float sign in new[] { -1f, 1f })
+            for (int direction=0;direction<2;direction++)
             {
+                float sign=direction==0?-1f:1f;
                 Vector3 sample = player.position;
                 float reach = sign < 0f ? 4f : viewAhead + 3f;
                 for (float distance = 0f; distance <= reach; distance += .5f)

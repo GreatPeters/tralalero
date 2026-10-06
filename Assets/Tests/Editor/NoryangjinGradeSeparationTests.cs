@@ -4,6 +4,20 @@ using UnityEngine;
 // Grade separation over S3, the new wave patterns and the wet-floor spin (2026-09-28 Claude Code fixes).
 public sealed class NoryangjinGradeSeparationTests
 {
+    [Test] public void TextAnchorLiftsBeforeTmpHasGeneratedItsBounds()
+    {
+        var go=new GameObject("Branch");var label=new GameObject("Unbuilt sign text");
+        try
+        {
+            go.transform.position=new Vector3(124.3f,0,45);go.transform.forward=Vector3.back;
+            var branch=go.AddComponent<NoryangjinMarketBranch>();branch.liftHeight=9;
+            label.AddComponent<TMPro.TextMeshPro>();label.transform.position=new Vector3(124.3f,5.5f,-7);
+            var report=new NoryangjinCrossingLiftBuilder.Report();
+            typeof(NoryangjinCrossingLiftBuilder).GetMethod("Visit",System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.NonPublic).Invoke(null,new object[]{label.transform,branch,new System.Collections.Generic.List<Mesh>(),report});
+            Assert.That(label.transform.position.y,Is.EqualTo(14.5f).Within(.01f));Assert.That(report.moved,Is.EqualTo(1));
+        }
+        finally{Object.DestroyImmediate(label);Object.DestroyImmediate(go);}
+    }
     [TestCase(0f, 0f)]
     [TestCase(2f, 0f)]
     [TestCase(40f, 9f)]

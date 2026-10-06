@@ -19,7 +19,9 @@ namespace IndianOceanAssets.ShooterSurvival
             if(GetComponent<HighwayVehicleEnemy>()!=null){if(text!=null)text.gameObject.SetActive(false);return;}
             if(Time.unscaledTime<nextCheck)return;nextCheck=Time.unscaledTime+.1f;
             if(player==null)player=FindFirstObjectByType<PlayerScript>();if(viewCamera==null)viewCamera=Camera.main;
-            bool show=TimeManager.isGameRunning&&enemy!=null&&player!=null&&IsDangerous(enemy.CurrentHealth,player.currentHealth,player.MaxHealth);
+            var role=GetComponent<Chapter45RoleAction>();var audience=GetComponent<Chapter45AudienceContact>();
+            float contactDamage=role!=null?role.actionDamage:audience!=null?audience.damage:enemy!=null?enemy.CurrentHealth:0;
+            bool show=TimeManager.isGameRunning&&enemy!=null&&!enemy.IsDead&&player!=null&&IsDangerous(contactDamage,player.currentHealth,player.MaxHealth);
             if(show)
             {
                 Vector3 delta=transform.position-player.transform.position;
@@ -33,8 +35,8 @@ namespace IndianOceanAssets.ShooterSurvival
                 text=Instantiate(prefab,transform);var scale=transform.lossyScale;
                 text.transform.localScale=new Vector3(1/Mathf.Max(.001f,Mathf.Abs(scale.x)),1/Mathf.Max(.001f,Mathf.Abs(scale.y)),1/Mathf.Max(.001f,Mathf.Abs(scale.z)));
             }
-            text.gameObject.SetActive(true);text.text=Label(enemy.CurrentHealth,player.currentHealth);
-            text.color=enemy.CurrentHealth>=player.currentHealth?new Color(1,.25f,.2f):new Color(1,.78f,.25f);
+            text.gameObject.SetActive(true);text.text=Label(contactDamage,player.currentHealth);
+            text.color=contactDamage>=player.currentHealth?new Color(1,.25f,.2f):new Color(1,.78f,.25f);
             var skin=enemy.GetComponentInChildren<SkinnedMeshRenderer>();float top=skin!=null?skin.bounds.max.y:body!=null?body.bounds.max.y:transform.position.y+3;
             text.transform.position=new Vector3(transform.position.x,top+.42f,transform.position.z);
             if(viewCamera!=null)text.transform.rotation=viewCamera.transform.rotation;

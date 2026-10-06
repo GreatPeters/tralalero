@@ -18,6 +18,7 @@ namespace IndianOceanAssets.ShooterSurvival
             public float age;
             public bool active;
             public bool playerDamage;
+            public bool coin;
             public float amount;
             public int receivedFrame;
         }
@@ -82,23 +83,29 @@ namespace IndianOceanAssets.ShooterSurvival
             if (popups == null) Initialize(null);
             // Reserve the last prewarmed slot so enemy/coin bursts cannot erase
             // the player's own loss. Consecutive hits share one readable number.
-            Popup popup = popups[playerDamage ? popups.Length - 1 : next];
-            if (!playerDamage) next = (next + 1) % (popups.Length - 1);
-            popup.amount = playerDamage && popup.active && popup.age < .35f ? popup.amount + amount : amount;
+            Popup popup = null;
+            if(coin)for(int i=0;i<popups.Length-1;i++)
+                if(popups[i].active&&popups[i].coin&&popups[i].age<.22f&&(popups[i].origin-position).sqrMagnitude<3f){popup=popups[i];break;}
+            bool mergeCoin=popup!=null;
+            if(popup==null){popup=popups[playerDamage?popups.Length-1:next];if(!playerDamage)next=(next+1)%(popups.Length-1);}
+            popup.amount = mergeCoin||playerDamage&&popup.active&&popup.age<.35f ? popup.amount+amount : amount;
             popup.playerDamage = playerDamage;
+            popup.coin=coin;
             popup.receivedFrame = Time.frameCount;
             popup.age = 0f;
             popup.active = true;
-            popup.origin = position + new Vector3(Random.Range(-.15f, .15f), .35f, 0f);
+            if(cachedCamera==null||!cachedCamera.isActiveAndEnabled)cachedCamera=Camera.main;
+            var right=cachedCamera!=null?cachedCamera.transform.right:Vector3.right;
+            popup.origin = position + right*(playerDamage?0:coin?-.55f:.65f)+Vector3.up*(coin?.65f:.35f);
             popup.color = coin ? new Color(1f, .88f, .22f, 1f) : new Color(1f, .25f, .25f, 1f);
             var root = popup.canvas.transform;
             root.position = popup.origin;
-            root.localScale = Vector3.one * (playerDamage ? .012f : coin ? .007f : .01f);
+            root.localScale = Vector3.one * (playerDamage ? .012f : coin ? .0065f : .008f);
             if (cachedCamera == null || !cachedCamera.isActiveAndEnabled) cachedCamera = Camera.main;
             popup.canvas.worldCamera = cachedCamera;
             if (cachedCamera != null) root.forward = cachedCamera.transform.forward;
             popup.text.color = popup.color;
-            popup.text.SetText(playerDamage ? "-{0}" : coin ? "+{0}" : "{0}", playerDamage ? Mathf.Max(1, Mathf.RoundToInt(popup.amount)) : amount);
+            popup.text.SetText(playerDamage ? "-{0}" : coin ? "+{0}" : "{0}", playerDamage ? Mathf.Max(1, Mathf.RoundToInt(popup.amount)) : popup.amount);
             root.gameObject.SetActive(true);
         }
 

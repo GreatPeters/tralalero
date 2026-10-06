@@ -34,6 +34,7 @@ public sealed class HighwayChapter2Controller : MonoBehaviour
     public HighwayRoute Route { get; private set; }
     public PlayerScript Player { get; private set; }
     public IReadOnlyList<HighwayVehicleEnemy> Vehicles => vehicles;
+    public IReadOnlyList<HighwayVehicleEnemy> ActiveVehicles => moving;
     public int RoadChoice { get; private set; } = -1;
     public int ExitChoice { get; private set; } = -1;
     public HighwayUniqueBonus LeftBonus { get; private set; }
@@ -42,7 +43,11 @@ public sealed class HighwayChapter2Controller : MonoBehaviour
     public bool PopupPending => ui != null && ui.Pending;
     public bool Running { get; private set; }
     public bool RushActive => Route != null && HighwayChapter2Rules.IsRushSegment(Running,RoadChoice,Route.Distance,S("forkAt"),S("mergeAt"));
-    public float SpeedMultiplier => RushActive ? S("openPlayerMultiplier") : 1;
+    // User 2026-10-05/07: the open-road ("뻥 뚫린 길") section runs the whole game at 1.4x and returns to 1x after
+    // it; with X2 it is 2.8x. The time scale now carries that speed-up, so the old forward-only boost
+    // (openPlayerMultiplier, 1.5 in Data.xlsx) is not stacked on top of it.
+    public const float RushTimeScale = 1.4f;
+    public float SpeedMultiplier => 1f;
     public bool LogActive { get; private set; }
     public HighwayPrimaryHazard PrimaryHazard { get; private set; }
     public int TankerChains { get; private set; }
@@ -57,11 +62,14 @@ public sealed class HighwayChapter2Controller : MonoBehaviour
     private readonly HashSet<HighwayVehicleEnemy> nearMissed = new();
     private readonly List<HighwayVehicleEnemy> moving = new();
     private readonly List<HighwayVehicleEnemy[]> trafficGroups = new();
-    private float elapsed, quietUntil, priorTimeScale = 1;
+    private readonly List<HighwayVehicleEnemy[]> activeTrafficGroups = new();
+    private float elapsed, quietUntil;
     private bool clockOwned, shieldReady, logDone, logReleased, logHit;
     private float logBegan, logStation, logLane, lastBounce, nextCone;
     private float logTruckDistance;
     private BoxCollider logCollider;
+    private Vector3 logCentreOffset;
+    private float logRadius = 1f, logHalfLength = 2.5f;
     private Collider playerCollider;
     private float[] oppositeDistances = Array.Empty<float>();
     private bool[] oppositeHeld = Array.Empty<bool>();
@@ -112,6 +120,14 @@ public sealed class HighwayChapter2Controller : MonoBehaviour
         foreach (var gate in mysteryGates) { gate.claimed = false; gate.root.gameObject.SetActive(true); }
         logDone = logReleased = logHit = LogActive = false;
         logCollider=singleLog!=null?singleLog.GetComponent<BoxCollider>():null;playerCollider=Player.GetComponent<Collider>();
+        if (logCollider != null)
+        {
+            // The log model's pivot is on its bottom edge; roll it about the cylinder axis instead.
+            var scale = singleLog.lossyScale;
+            logCentreOffset = Vector3.Scale(logCollider.center, scale);
+            logRadius = Mathf.Min(logCollider.size.x * scale.x, logCollider.size.y * scale.y) * .5f;
+            logHalfLength = logCollider.size.z * scale.z * .5f;
+        }
         oppositeDistances = new float[oppositeCars.Length];
         oppositeHeld = new bool[oppositeCars.Length];
         oppositeOrder = Enumerable.Range(0, oppositeCars.Length).ToArray();
@@ -144,7 +160,11 @@ public sealed class HighwayChapter2Controller : MonoBehaviour
     private void Update()
     {
         if (!Running || Player == null || Route == null) return;
-        if (!TimeManager.isGameRunning || Player.currentHealth <= 0) { Running = false; ui?.SetRush(false); RestoreClock(); return; }
+        // Only death/clear ends the chapter run. A pause (settings, app switch) used to set Running=false here,
+        // and nothing restarted it, so forks, traffic and the open-road section stayed off after resuming.
+        if (Player.currentHealth <= 0 || CanvasScript.isGameOver) { Running = false; ui?.SetRush(false); GameSpeed.SetSectionScale(1f); RestoreClock(); return; }
+        if (!TimeManager.isGameRunning) return;
+        GameSpeed.SetSectionScale(RushActive ? RushTimeScale : 1f);
         float dt = Time.deltaTime * Mathf.Max(0, TimeManager.timeFactor);
         if (dt <= 0) return;
         elapsed += dt;
@@ -167,8 +187,8 @@ public sealed class HighwayChapter2Controller : MonoBehaviour
 
     private void OpenChoice(bool toll)
     {
-        priorTimeScale = Time.timeScale; clockOwned = true;
-        Time.timeScale = priorTimeScale * S("popupSlow");
+        clockOwned = true;
+        GameSpeed.SetEventScale(S("popupSlow"));
         ui.Open(toll, LeftBonus, RightBonus);
         Timeline.Add((toll ? "exit popup " : "branch popup ") + Route.Distance.ToString("F1"));
     }
@@ -180,13 +200,13 @@ public sealed class HighwayChapter2Controller : MonoBehaviour
         {
             if (ExitChoice >= 0) return;
             ExitChoice = index; Route.SelectFork(1, index == 1);
-            ui.Publish(index == 0 ? "상어, 하이패스 출구로 향하다" : "상어, 현금 출구로 향하다");
+            ui.Publish(index == 0 ? "하이패스 방향입니다. 통과 차로를 확인하세요." : "일반 요금소 방향입니다. 앞차를 조심하세요.");
         }
         else
         {
             if (RoadChoice >= 0) return;
             RoadChoice = index; Route.SelectFork(0, index == 1);
-            ui.Publish(index == 0 ? "상어, 정체 구간에 진입" : "상어, 뻥 뚫린 길을 선택");
+            ui.Publish(index == 0 ? "전방 정체! 앞차를 부수고 길을 여세요." : "도로가 한산합니다. 빠르게 달려볼까요?");
         }
         Timeline.Add((toll ? "exit " : "road ") + index + " at " + Route.Distance.ToString("F1"));
         RestoreClock();
@@ -194,7 +214,7 @@ public sealed class HighwayChapter2Controller : MonoBehaviour
     private void RestoreClock()
     {
         if (!clockOwned) return;
-        Time.timeScale = priorTimeScale; clockOwned = false;
+        GameSpeed.ClearEventScale(); clockOwned = false;
     }
 
     public float ConstrainLane(float lane, float distance, float step)
@@ -242,8 +262,11 @@ public sealed class HighwayChapter2Controller : MonoBehaviour
             // Admit the whole front row atomically. A destroyed member opens its lane.
             foreach(var car in group){car.Activate(car.routeChoice==HighwayVehicleRoute.Open,coins);car.Place(Route,UsesBranch(car));moving.Add(car);}
         }
-        trafficGroups.Sort((a,b)=>FrontDistance(a).CompareTo(FrontDistance(b)));
+        activeTrafficGroups.Clear();
         foreach(var group in trafficGroups)
+            foreach(var car in group)if(car.Active&&!car.Dead){activeTrafficGroups.Add(group);break;}
+        activeTrafficGroups.Sort((a,b)=>FrontDistance(a).CompareTo(FrontDistance(b)));
+        foreach(var group in activeTrafficGroups)
         {
             float travel=float.PositiveInfinity;
             foreach(var car in group)
@@ -286,8 +309,12 @@ public sealed class HighwayChapter2Controller : MonoBehaviour
         {
             if(!spawning&&(!car.Active||car.Dead))continue;
             car.SamplePose(Route,car.Distance-travel,UsesBranch(car),out var position,out var rotation);
-            foreach(var other in vehicles)
+            // Inactive authored vehicles cannot collide. Include the new row itself
+            // during admission so its members retain the same mutual-clearance rule.
+            int count=moving.Count+(spawning?group.Length:0);
+            for(int index=0;index<count;index++)
             {
+                var other=index<moving.Count?moving[index]:group[index-moving.Count];
                 if(other==car||other.Dead)continue;
                 bool together=other.group==car.group;
                 if(!other.Active&&!(spawning&&together))continue;
@@ -323,7 +350,7 @@ public sealed class HighwayChapter2Controller : MonoBehaviour
         {
             quietUntil = Route.Distance + S("accidentQuietSeconds") * S("runSpeed");
             Timeline.Add("accident " + vehicle.group + " opened at " + Route.Distance.ToString("F1"));
-            ui?.Publish("상어, 사고 정체를 뚫었다!");
+            ui?.Publish("통과할 길이 열렸습니다!");
         }
         if (vehicle.kind != HighwayVehicleKind.Tanker) return;
         TankerChains++;
@@ -335,7 +362,7 @@ public sealed class HighwayChapter2Controller : MonoBehaviour
             if (Vector3.Distance(adjacent.transform.position, vehicle.transform.position) > radius) continue;
             adjacent.Combat.ReceiveVehicleDamage(adjacent.Combat.CurrentHealth); count++;
         }
-        if (count > 0) ui?.Publish("상어, 탱크로리 연쇄 폭파로 " + count + "대 파괴");
+        if (count > 0) ui?.Publish("연쇄 폭발! 차량 " + count + "대를 정리했습니다.");
     }
 
     private void OnProjectileHit(HighwayVehicleEnemy vehicle, BulletScript projectile)
@@ -481,20 +508,22 @@ public sealed class HighwayChapter2Controller : MonoBehaviour
         float fromLane = -S("laneWidth") * 2 - S("medianShoulder") * 2 - S("medianWidth");
         float laneNow = Mathf.Lerp(fromLane, logLane, Mathf.SmoothStep(0, 1, u));
         if (u >= 1) laneNow += Mathf.Sin(t * 3.7f) * .55f + Mathf.Sin(t * 6.1f) * .2f;
-        float height = u < 1 ? .8f + Mathf.Sin(u * Mathf.PI) * S("logBounceHeight")
-            : .55f + Mathf.Abs(Mathf.Sin(t * 4.3f)) * Mathf.Lerp(1.4f, .15f, Mathf.Clamp01(t / duration));
+        // Height of the log's underside above the road: an arc off the truck, then shrinking bounces.
+        float bounce = u < 1 ? .25f + Mathf.Sin(u * Mathf.PI) * S("logBounceHeight")
+            : Mathf.Abs(Mathf.Sin(t * 4.3f)) * Mathf.Lerp(1.4f, .15f, Mathf.Clamp01(t / duration));
         float d = logStation - S("logSpeed") * t;
         Route.Sample(d, false, out var p, out var forward);
-        singleLog.SetPositionAndRotation(p + Vector3.Cross(Vector3.up, forward) * laneNow + Vector3.up * height,
-            Quaternion.LookRotation(Vector3.Cross(Vector3.up, forward)) * Quaternion.Euler(Mathf.Sin(t * 2.7f) * 18, Mathf.Sin(t * 1.3f) * 12, t * 440));
-        if (height < .8f && t - lastBounce > .35f) { lastBounce = t; feedback?.Dust(singleLog.position); feedback?.WoodChips(singleLog.position); }
+        HighwayChapter2Rules.RollingLogPose(p, forward, laneNow, t, bounce, S("logSpeed"), logRadius, logHalfLength, logCentreOffset,
+            out var pivot, out var rotation, out var centre);
+        singleLog.SetPositionAndRotation(pivot, rotation);
+        if (bounce < .25f && t - lastBounce > .35f) { lastBounce = t; var contact = centre - Vector3.up * (logRadius - .05f); feedback?.Dust(contact); feedback?.WoodChips(contact); }
         if (!logHit && logCollider!=null && playerCollider!=null
             &&Physics.ComputePenetration(logCollider,logCollider.transform.position,logCollider.transform.rotation,playerCollider,playerCollider.transform.position,playerCollider.transform.rotation,out _,out _))
         { logHit = true; Player.ApplyDamage(Player.MaxHealth * S("logDamage"), PlayerDamageCause.Other); }
         if (t >= duration)
         {
             LogActive = false; logDone = true; singleLog.gameObject.SetActive(false);
-            ui?.Publish("상어, 통나무 구간을 통과했다");
+            ui?.Publish("통나무 구간을 통과했습니다. 다시 출발!");
         }
     }
 
@@ -538,7 +567,7 @@ public sealed class HighwayChapter2Controller : MonoBehaviour
 
     private void OnDisable()
     {
-        RestoreClock(); Running = false;ui?.SetRush(false);
+        RestoreClock(); Running = false;ui?.SetRush(false); GameSpeed.SetSectionScale(1f);
         if (Active == this) Active = null;
     }
 }

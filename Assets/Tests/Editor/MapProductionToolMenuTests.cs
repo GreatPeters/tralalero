@@ -15,16 +15,27 @@ public sealed class MapProductionToolMenuTests
     [Test]
     public void MapProductionToolMenus_AreGroupedByUserWorkflow()
     {
+        // U29 renamed the map-tool opener and requested a scene-navigation
+        // workflow. Keep every accepted registration explicit so missing,
+        // duplicate or accidentally exposed production commands still fail.
+        // The two pattern actions predate Chapters4/5; this change preserves
+        // their existing registration rather than introducing new builders.
         string[] expected =
         {
             "Tools/맵 제작 도구/문서/개발 문서 열기",
             "Tools/맵 제작 도구/문서/기획서 열기",
             "Tools/맵 제작 도구/문서/맵 기획서 열기",
             "Tools/맵 제작 도구/문서/밸런스 문서 열기",
-            "Tools/맵 제작 도구/노량진 맵 제작/맵툴 열기",
-            "Tools/맵 제작 도구/자료/자료 위치 안내"
+            "Tools/맵 제작 도구/자료/자료 위치 안내",
+            "Tools/맵 제작 도구/맵 툴 열기",
+            "Tools/맵 제작 도구/씬 이동/노량진",
+            "Tools/맵 제작 도구/씬 이동/고속도로",
+            "Tools/맵 제작 도구/씬 이동/휴게소",
+            "Tools/맵 제작 도구/씬 이동/잠실",
+            "Tools/맵 제작 도구/씬 이동/슈타워",
+            "Tools/맵 제작 도구/패턴 개선/고속도로 곡선과 분기 적용",
+            "Tools/맵 제작 도구/패턴 개선/휴게소 식당 방어전 적용"
         };
-
         CollectionAssert.AreEquivalent(expected, FindMapProductionToolMenuPaths());
     }
 

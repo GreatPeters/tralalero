@@ -53,6 +53,35 @@ public sealed class CosmeticPreview : MonoBehaviour
         foreach(var view in poseObjects){if(view!=null)view.SetActive(false);Remove(view);}poseObjects.Clear();
         foreach(var mesh in poseMeshes)Remove(mesh);poseMeshes.Clear();
     }
+    // Essential proposal 8: Mobile RP renders at renderScale 0.75. URP applied it to this
+    // RenderTexture camera too (768x576 intermediate vs the 1024x768 target), and with Vulkan
+    // native render passes the mismatch logged "dimensions or sample count ... do not match"
+    // and produced the dotted noise on phones. URP reads renderScale after beginCameraRendering,
+    // so the preview camera alone renders at 1 and the value is restored right after.
+    private UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset scaledAsset;
+    private float restoreRenderScale;
+    private void OnEnable()
+    {
+        UnityEngine.Rendering.RenderPipelineManager.beginCameraRendering += BeginPreviewCamera;
+        UnityEngine.Rendering.RenderPipelineManager.endCameraRendering += EndPreviewCamera;
+    }
+    private void BeginPreviewCamera(UnityEngine.Rendering.ScriptableRenderContext _, Camera camera)
+    {
+        if (camera == null || camera != previewCamera) return;
+        var asset = UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline as UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset;
+        if (asset == null || Mathf.Approximately(asset.renderScale, 1f)) return;
+        scaledAsset = asset; restoreRenderScale = asset.renderScale; asset.renderScale = 1f;
+    }
+    private void EndPreviewCamera(UnityEngine.Rendering.ScriptableRenderContext _, Camera camera)
+    {
+        if (camera == null || camera != previewCamera) return;
+        RestoreRenderScale();
+    }
+    private void RestoreRenderScale()
+    {
+        if (scaledAsset != null) scaledAsset.renderScale = restoreRenderScale;
+        scaledAsset = null;
+    }
     private void LateUpdate()
     {
         if(renderAfterFrame<0 || Time.frameCount<=renderAfterFrame || previewCamera==null)return;
@@ -151,7 +180,13 @@ public sealed class CosmeticPreview : MonoBehaviour
             var parent=bone.parent.lossyScale;var size=pose.lossyScale;bone.localScale=new Vector3(size.x/parent.x,size.y/parent.y,size.z/parent.z);
         }
     }
-    private void OnDisable() => Dispose();
+    private void OnDisable()
+    {
+        UnityEngine.Rendering.RenderPipelineManager.beginCameraRendering -= BeginPreviewCamera;
+        UnityEngine.Rendering.RenderPipelineManager.endCameraRendering -= EndPreviewCamera;
+        RestoreRenderScale();
+        Dispose();
+    }
     private void OnDestroy() => Dispose();
     public void Dispose()
     {

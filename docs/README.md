@@ -1,4 +1,67 @@
+- [Ch1–5 구도 변경 요청 — 새 참조 Library/Windows 접근 차단, 현재 카메라 읽기 조사 완료, 제품 변경0](exec-plans/active/chapters1-5-composition-2026-10-05.md).
+- [Highway 통과 폭 후속 검증 — 5표시/실제 접촉3건, HP 조정 미적용, 보존 완료](reviews/highway-clearance-2026-10-05.md). [9시점 화면·형상 갤러리](http://127.0.0.1:1626/highway-clearance-20261005/).
+- [Ch1–5 bounded toon quality pass — three fixes, current native routes and exact preservation](reviews/toon-quality-2026-10-05.md). [Verified PNG gallery](http://127.0.0.1:1626/toon-quality-20261005/).
+- [Ch1–4 toon — applied, native route checks and preservation evidence](reviews/chapters1-4-toon-implementation-2026-10-04.md).
+- [Ch5 toon reference implementation complete (2026-10-04)](reviews/ch5-toon-implementation-2026-10-04.md) — both routes clear, transfer/retry/independent visual checks pass; original assets and preferences preserved. [48-image Unity gallery](http://127.0.0.1:1626/ch5-toon-20261004/).
+- [Historical Ch5 reference-access blocker (resolved)](reviews/ch5-toon-reference-block-2026-10-04.md) — user-supplied Desktop PNG resolved access; final application and validation are linked above.
+
+- **Ch4/Ch5 cycle18 탄환 검증·복원 완료**: [112 native 조건·재현 결함2건·관련2경로·보존](reviews/chapter45-bullet-regression-cycle18-final-2026-10-04.md). 미술 변경/새 생성/추가 비용0.
+
+- **Ch4/Ch5 cycle18 승인 전 준비·차단 이력**: [현재 단계·차단 이유·기존 완료 범위·보존](reviews/chapter45-bullet-regression-cycle18-2026-10-04.md). 새 Play0; 최근 입력 신호로 실행 전 중단, 새 제품 변경/생성/비용0.
+
+- **최신 Ch4·Ch5 반복 안정성5차 완료 (2026-10-03)**: [8경로·193검증·Editor 중복 구독 보완·보존 증거](reviews/chapter45-stability-cycle05-2026-10-03.md). 게임/아트/밸런스 유지, 폰/APK 미실행. 아래 주기는 이력이다.
+
+- **Ch4/Ch5 cycle17 영향 회귀**: [네 경로·패널 결함 수정·23종 검증](reviews/chapter45-validation-cycle17-2026-10-04.md). [Unity 화면](http://127.0.0.1:1626/validation-cycle17-20261004/). 새 생성/유료 호출/폰 검사0.
+
+- **Ch4/Ch5 후속 콘텐츠 적용 · 2026-10-04 cycle16**: [실제 생성1종·재사용·동일 프레임 비교·보존 감사](reviews/chapter45-content-cycle16-2026-10-04.md), [검증된 화면 갤러리](http://127.0.0.1:1626/validation-cycle16-20261004/). 왼쪽 상가21개/B1 중년 손님/팝콘 적용, 유료 호출0. 기존 전체 회귀와 이번 구간 검증의 범위를 분리했다.
+
+- **최신 Ch4 촬영 군중 개선4차 완료 (2026-10-03)**: [실제 적용·블라인드 검토·거리2경로·6F 사망/Replay](reviews/chapter45-phone-readability-cycle04-2026-10-03.md). 근거리 촬영 의미 개선, 원거리 모호성 유지. 최종97개 검사/사례 통과·기존 씬/공유자산 보존. 새생성/유료요청/실기기/APK 없음. 아래 단계는 이력이다.
+
+- **최신 Ch4·Ch5 플레이 검증3차 완료 (2026-10-03)**: [수정·4경로·가독성·보상·636크레딧 내역](reviews/chapter45-playability-cycle03-2026-10-03.md). 기본 능력치·350ms 반응 입력 검증. 새생성/폰/APK 없음. 아래 단계는 이력이다.
+
+- **최신 Ch4·Ch5 행동 검증2차 완료 (2026-10-03)**: [최종검토](reviews/chapter45-behavior-cycle02-2026-10-03.md) — 실제결함3개 수정·새4경로완주·60행 근거·636크레딧/배치 명세. 휴대폰/APK 미실행.
 # Docs Index
+
+- **Ch4/Ch5 행동 검증 2주기 — 2026-10-03 진행 중**: [세 결함 수정·38개 역할/거래·새 QA·생성/비용 원장](exec-plans/active/chapter45-behavior-cycle02-2026-10-03.md). 최종 네 일반 경로를 재실행 중. 아래의 유료 생성 승인 대기·기획 전환 대기 문구는 이전 이력이며 학생9credit 요청도 이미 성공했다.
+
+
+- **최신 Ch4/Ch5 상세 기획 전환 — 2026-10-03**: [전 요구 추적·1~7F/B1 시간·구현 순서](exec-plans/active/chapter45-detailed-design-2026-10-03.md). 이전 높은층/옥상 구조보다 우선한다. 캐릭터 유료 생성만 승인 대기, 비용 없는 구조/배경 작업 진행. 아래 검증은 이전 저장본 기준이며 새 기획의 완성을 뜻하지 않는다.
+
+- **Ch4/Ch5 지속 개선 1주기 — 2026-10-03 현재**: [실제 변경·네 경로·복원·독립 아트 검토](reviews/chapter45-continuous-cycle01-2026-10-03.md), [지속 작업 계획](exec-plans/active/chapter45-continuous-quality-2026-10-03.md), [전후·플레이 갤러리](http://127.0.0.1:1626/continuous-cycle01-20261003/). 이번 주기는 검증했으며 전체 지속 요청은 진행 중이다. 휴대폰 검증·APK·추가 유료 생성 없음. 아래 기록의 당시 대기·수건 제외·현재 표현은 과거 이력이다.
+
+- **Ch4/Ch5 environment art and Meshy towel - 2026-10-03**: [환경 개선·상가 8동 후속 수정·현재 QA](reviews/chapter45-environment-art-2026-10-03.md), [전후 비교와 실제 플레이](http://127.0.0.1:1626/environment-20261003/). 건물 형태와 출입구를 추가 보강했고 수건 생성은 1회/30크레딧이다. 거리 전체의 반복감은 남는다. 아래 이전 기록은 당시 상태의 이력이다.
+
+- **Ch4·Ch5 현재 적용·검증 — 2026-10-03**: [실제 생성/재사용/네이티브 구분과 최종 QA](reviews/chapter45-model-production-2026-10-03.md), [동일 카메라 전후·실제 플레이 갤러리](http://127.0.0.1:1626/final-20261003/). 새 AI4종 적용, 수건은 품질 미달로 제외. 아래 시간순 기록의 대기·생성0·v5 상태는 당시 이력이다.
+
+
+- **Ch4·Ch5 전체 모델 순차 제작 — 23:14 UTC 최신 지시**: [12항목 목록·순서·생성/재사용·완료 기준](exec-plans/active/chapter45-model-production-2026-10-02.md). 로컬 TRELLIS 복구·새 식물1종 실제 적용 완료, 전체 모델 제작은 진행 중. 새 카운터 후보는 품질 불합격으로 미적용. 아래 신규생성0/접근차단 기록은 이전 시점이다.
+
+- **백화점 후속 v5 · 2026-10-02 최신**: [매장 깊이/국소 조명·현재 버전 검증](reviews/department-store-backend-followup-2026-10-02.md), [생성 경로 차단 진단](reviews/department-generation-diagnosis-2026-10-02.md), [후속 갤러리](http://127.0.0.1:1625/). 신규 AI 생성 0개. 아래 v3 결과는 이전 단계의 기록이다.
+
+- **백화점 연결 적용·Unity 검증 — 2026-10-02 최신**: [실제 적용/생성 출처/검증/남은 한계](reviews/department-store-2026-10-02.md), [최종 전후 갤러리](http://127.0.0.1:1624/). 신규 AI 생성 0개, 네 경로 완주와 최종 장식 후 두 경로 추가 완주, 37/37. 생성 도구 접근·아트 밀도·실기기 검증은 미완료.
+- **챕터 4 거리 레퍼런스 적용 — 2026-10-02**: [범위와 사진 대응](exec-plans/active/chapter4-reference-visuals-2026-10-02.md), [결과·검증](reviews/chapter4-reference-2026-10-02.md). 연속 상점·시민 보행·포장과 원경 연결. 백화점 입구·Ch5 상업층은 최신 승인으로 적용됨.
+- [Unity 참조 속성의 임시 내부 번호를 제외한 비교](solutions/workflow-issues/compare-unity-reference-properties-without-native-storage-children-2026-10-02.md): 저장·재개방 보존 검사의 오탐 원인과 읽기 전용 재현.
+
+## Chapters 4–5 implementation record
+
+- [진행·검토·테스트 기록](exec-plans/active/chapters45-progress-2026-10-02.md)
+- [Approved chapter design](exec-plans/active/chapters45-design-2026-10-02.md)
+- Native evidence and asset provenance: `outputs/chapters45-2026-10-02/`
+
+The progress record distinguishes implemented behavior, native editor verification, visual review and device/human-playtest limits. Its latest dated entry is authoritative for completion status.
+
+- **업그레이드 이름 정리 — 2026-10-02**: [변경 이름과 검증](exec-plans/completed/upgrade-names-2026-10-02.md). 효과 중심의 짧은 이름 10종, 세 맵의 카드 60개와 생성기 반영. 수치·가격 유지.
+
+- **시작 시 셰이더 오류·영상 경고 수정 — 2026-10-02**: [원인과 검증](solutions/runtime-errors/own-flatkit-passes-to-avoid-keyword-space-assertions-2026-10-02.md). FlatKit 패스 소유권 수정, 원래 오프닝의 인코딩 정규화, 반복 시작과 앞뒤 장면 이동 검증. 모델·외곽선 성능 개선·선택 영상 내용 유지.
+
+- **트랄랄레오 레퍼런스 맞춤·외곽선 묶음·통나무 — 2026-10-01 (Claude Code)**: [보고서](reviews/tralalero-reference-fit-2026-10-01.md), [실행 기록](exec-plans/completed/tralalero-reference-fit-2026-10-01.md). 꼬리지느러미 복원+꼬리 다리, 앞다리 모음, 웃는 입, 고속도로 SetPass 663→100, 통나무 박힘 수정, 도착 영상 재촬영, 실기기 설치.
+- [구형 FlatKit 외곽선을 RenderObjects로 묶기](solutions/performance-issues/batch-legacy-flatkit-outline-with-render-objects-2026-10-01.md): SRP Batcher 비호환 사유와 패스 교차 SetPass.
+
+- **S22 개선 적용 — 2026-10-01**: [적용 보고서](reviews/s22-improvements-applied-2026-10-01.md), [전후 PNG·PDF](http://127.0.0.1:8798/). CPU·렌더링·자산·주인공·표시·영상 수정과 설치 빌드 검증.
+- [가림 캐시와 실제 화면 검증 교훈](solutions/performance-issues/cache-occluder-group-bounds-and-verify-native-output-2026-10-01.md): 원복 조건, LOD 탈락, 메시 버퍼·캡처 주의점.
+
+- **Galaxy S22 렉·시각 품질 심층 진단 — 2026-10-01**: [보고서](reviews/s22-performance-visual-audit-2026-10-01.md), [실행 기록](exec-plans/completed/s22-performance-visual-audit-2026-10-01.md), [PDF·PNG 갤러리](http://127.0.0.1:8797/). 카메라 가림 검사 CPU 비용의 반복 A/B, 최신 APK 자원 분석, 세 맵/영상/UI/모델 검토. 실기기 미연결; 수정·재배포 없음.
+- [모바일 검토에서 실제 빌드와 캡처 증거를 구분](solutions/workflow-issues/qualify-build-and-capture-evidence-in-mobile-audits-2026-10-01.md): 빌드 목록 예외, 패킹/메모리 구분, 잘못된 스키닝 미리보기 배제, 배속과 1배속 비교.
 
 - [C→D 프로젝트 이전 및 C 원본 삭제 완료](solutions/workflow-issues/finish-unity-drive-migration-before-source-deletion-2026-09-28.md): 도구18개·미리보기4개 경로 전환, Codex 체크포인트 보존 및 삭제 검증.
 
@@ -350,3 +413,30 @@ Rules:
 - Update docs when behavior, workflow, or expectations change.
 - Prefer short, stable documents over one large manual.
 - Link from the nearest durable index instead of repeating the same rules everywhere.
+
+- [Ch4·5 cycle08 current regression](reviews/chapter45-regression-cycle08-2026-10-04.md): final-code route/English HUD verification and preservation limits.
+- [Ch4·5 cycle09 blind decision-distance review](reviews/chapter45-blind-cycle09-2026-10-04.md):18 scene sequences,7 dense followups, minimal charge-path warning correction,55 affected assertions and remaining human/art limits.
+
+- [Ch4·5 cycle10 cleaner/vehicle review](reviews/chapter45-readability-cycle10-2026-10-04.md): native marker/contact mismatch correction, continuous before/after evidence, vehicle return verification and human-judgment limits.
+
+
+- [Ch4·5 cycle11 telegraph/contact review](reviews/chapter45-telegraph-cycle11-2026-10-04.md): reproduced moving-grab/vehicle warning corrections, ground visibility, 63 directed native windows and bounded remaining contact gaps.
+
+
+- [Ch4·5 cycle12 TV and final route review](reviews/chapter45-validation-cycle12-2026-10-04.md): TV contact boundary/caption correction, final four routes, death/Replay/pause/rewards and exact allowed-setting restoration.
+
+
+- [Ch4·5 cycle13 menu and entry/exit connectors](reviews/chapter45-validation-cycle13-2026-10-04.md): existing start/Continue/Retry, Ch3→4→5, physical offering result/return, 73 checks and QA preparation-refusal restoration.
+
+
+- [Ch4–5 cycle14 actual OS input and portrait bounds](reviews/chapter45-validation-cycle14-2026-10-04.md): four reproduced input fixes,103 flow/7 slow/45 native burst checks, exact display/save restoration.
+
+
+- [Ch4–5 cycle15 자연 주행 입력](reviews/chapter45-validation-cycle15-2026-10-04.md): fresh 로비→첫 분기/첫 층 연결,27·37검사, 제품 변경0, 정확 복원 및 빠른 사람 손 떼기 한계.
+## 2026-10-06 essential proposal and Google Play account work
+
+- [Current implementation, scope and verification](exec-plans/active/essential-proposals-and-play-account-2026-10-06.md)
+- [Google Play account activation, cloud scale and deletion behavior](google-play-account-setup.md)
+- [Verified native UI and chapter gallery](http://127.0.0.1:18886/)
+- [Round-trip checks before preference-sensitive Play fixtures](solutions/workflow-issues/round-trip-check-preference-snapshots-before-unity-play-2026-10-06.md)
+

@@ -29,6 +29,7 @@ public static class CosmeticAppearance
              r.sharedMesh == catalog.sourceSharkMesh || r.sharedMesh.vertexCount == sourceCount ||
              catalog.entries.Any(e=>e.fittedBodyMesh!=null&&e.fittedBodyMesh==r.sharedMesh)));
         if (renderer == null) return;
+        SharkTailFootRig.Ensure(renderer,catalog);
         var skinItem = catalog.Find(skin); var shoeItem = catalog.Find(shoes);
         if (skinItem == null || shoeItem == null) return;
         bool replacement = shoeItem.replacesBaseShoes && shoeItem.fittedShoeMesh != null && catalog.bodyOnlyMesh != null &&
@@ -37,9 +38,9 @@ public static class CosmeticAppearance
         renderer.sharedMesh = replacement ? shoeItem.fittedBodyMesh!=null?shoeItem.fittedBodyMesh:catalog.bodyOnlyMesh : catalog.splitSharkMesh;
         renderer.quality=SkinQuality.Bone4;
         renderer.sharedMaterials = replacement ? new[] { skinItem.material } : new[] { skinItem.material, shoeItem.material };
-        ApplyEquipmentAttachment(model, renderer, skinItem, "__CosmeticSkin");
+        ApplyEquipmentAttachment(model, renderer, skinItem, "__CosmeticSkin",catalog);
         if (replacement) ApplyReplacementShoes(model, renderer, catalog, shoeItem);
-        else ApplyEquipmentAttachment(model, renderer, shoeItem, "__CosmeticShoes");
+        else ApplyEquipmentAttachment(model, renderer, shoeItem, "__CosmeticShoes",catalog);
         // Destroy is deferred in Play: a second equip in this frame must also hide the latest mount.
         foreach (var old in model.GetComponentsInChildren<Transform>(true).Where(t => t != null && t.name == "__CosmeticHat").ToArray())
         {
@@ -61,7 +62,7 @@ public static class CosmeticAppearance
         foreach (var t in accessory.GetComponentsInChildren<Transform>(true)) t.gameObject.layer = model.gameObject.layer;
     }
 
-    private static void ApplyEquipmentAttachment(Transform model, SkinnedMeshRenderer renderer, CosmeticVisualCatalog.Entry item, string mountName)
+    private static void ApplyEquipmentAttachment(Transform model, SkinnedMeshRenderer renderer, CosmeticVisualCatalog.Entry item, string mountName,CosmeticVisualCatalog catalog)
     {
         foreach (var old in model.GetComponentsInChildren<Transform>(true).Where(t => t != null && t.name == mountName).ToArray())
         {
@@ -70,7 +71,7 @@ public static class CosmeticAppearance
         }
         if (item?.accessory == null) return;
         var anchors = item.accessoryAnchor == "feet"
-            ? renderer.bones.Where(b => b.name.EndsWith("leg2")).ToArray()
+            ? renderer.bones.Where(b => b!=null&&catalog.footMounts!=null&&catalog.footMounts.Any(m=>m.bone==b.name)).ToArray()
             : renderer.bones.Where(b => b.name == item.accessoryAnchor).ToArray();
         foreach (var bone in anchors)
         {

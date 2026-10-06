@@ -1,5 +1,87 @@
 # Quality Score
 
+## Latest bounded Highway clearance investigation — 2026-10-05
+
+The five late passage-width flags span three actual contacts; two sampled instants still have continuous free space. Two normal-growth jam/cash inputs clear with identical damage. Current-pose geometry agrees with 1,593 native collision queries across nine snapshots; raw lagging Collider.bounds estimates are superseded. The proposed six-car HP cap was not applied: current compulsory-combat design does not establish a no-hit contract, and all-strategies unavoidability is unproven. Human fairness/firing margin remains an explicit design tradeoff. All 13,645 dependency and 622 source/settings hashes match; exact preferences/editor state restored. No product changes or broad-suite claim. [Evidence](reviews/highway-clearance-2026-10-05.md).
+
+## Latest bounded toon quality pass — 2026-10-05
+
+The 6F cabin rear glass no longer covers the sampled hero view; selected Ch2 facade grouping and eight Ch4 display niches are saved and independently accepted. One current Highway growth route and the connected basic-stat Jamsil→ShoeTower cinema route clear. Exact original protected components, colliders, code/settings and game preferences are preserved. The remaining visual/device/traffic limits are explicit; no broad-suite or mobile certification is claimed. [Report](reviews/toon-quality-2026-10-05.md).
+
+
+## Latest Ch1-4 toon extension - 2026-10-04
+
+The existing four scenes now extend the completed Ch5 toon style while retaining their harbor, highway, rest-stop and Korean shopping-street identities. Final ordinary-input checks clear both Ch1 branches and the Ch3 30-second holdout/full route using the documented growth fixtures; all four Ch2 choice combinations clear, with a separate automatic Ch3 handoff. Both Ch4 routes clear from basic ATT8/HP60 and automatically enter Ch5; 20 scoped checks pass. Failed input attempts and the Ch1 unupgraded failure remain recorded, so this is not a first-entry balance or human-fun certification.
+
+Independent native image review accepted the corrected market roof/floor, highway previews, rest-stop entrance/HUD and street queues/tower views. There are 31 verified before/after pose pairs. This extension uses newly authored native geometry/material copies and existing models/animations; new TRELLIS/Meshy generation and paid calls are zero. Window repetition, shallow shop display depth and thin residual market trim remain visual limits. Ch2 retains 3-5 conservative narrow-row diagnostic frames near its endpoint. PC Editor counters do not certify phone performance; APK/device work and the historical 52 broad failures are outside this validation.
+
+Final preservation checks find no unexpected changes to 13,177 protected component rows or 10,920 ancestor transforms, accounting for two approved Highway preview references and the RestStop HUD offset. Of 12,666 original dependency files, only the four approved scenes changed; 622 original code/settings files match. Observed game preferences and the original Editor state are restored, exact local recovery copies are verified, Ch5 is preserved, and no new tracked deletions/commits/pushes occurred. [Implementation, evidence and exclusions](reviews/chapters1-4-toon-implementation-2026-10-04.md).
+
+## Latest focused regression — cycle17
+
+Final cycle16 scenes/models pass four ordinary-stat QA-driven routes and separate queue/projectile lifecycle checks. A reproduced bullet spawned inside a thin panel now uses the existing target-hit/pool path before movement.30 Water/Bomb guard cases pass.23 accepted model types verified; new generation/paid calls0. Broad surfaces/repetition, human fun and phone performance remain limits. [Evidence and exclusions](reviews/chapter45-validation-cycle17-2026-10-04.md).
+
+## Latest targeted content checkpoint · 2026-10-04 cycle16
+
+First left-fork storefront continuity, one B1 middle-aged queue body and a newly generated local TRELLIS popcorn carton are saved and independently accepted. Actual directed windows9/16/13seconds recorded zero errors; same-frame native comparisons and two three-shot volleys are preserved. Oversized caption text and detached panel fit were found and fixed before final acceptance. Paid calls0. Broad flat street/retail surfaces, repetition, close-up finishing and device performance remain limits; this is not whole-design visual completion.304baseline files/shared208/observed preferences78 remain unchanged. [Scope and evidence](reviews/chapter45-content-cycle16-2026-10-04.md). Earlier entries below retain their dated scope.
+
+## Detailed Ch4/Ch5 quality checkpoint — 2026-10-03 11:51 UTC
+
+Current city routes clear at299.16s/292.93s with ordinary stats, real input/collision, zero errors and restored preferences. Actual hazard contact/avoidance4/4, role contracts13, lifecycle37and campaign transactions57pass. Focused37passes atT1117precede the latest cinema framing change; new final checks remain required. These numbers do not certify finished art or human fun.
+
+New detailed-environment types are local TRELLIS washer and cinema seat;40additional chair instances reuse the same generated mesh. Native architecture, reused retail/character models, simple action props and new generated assets are tracked separately. White goal shoe currently reuses geometry with an owned white material. Independent review accepts street text/paving improvements but still flags large flat merges and shallow shop/entry depth. Latest cinema/gallery visuals await native replay review. Paid Meshy role bodies/actions are awaiting the separate374-credit/upload approval; no new submissions occurred. Missing living/fashion goods, role silhouettes/hand poses, vehicle art and actual mobile performance prevent final visual completion.
+
+See [current plan and60requirement records](exec-plans/active/chapter45-detailed-design-2026-10-03.md). Older architectural/QA claims below are dated history.
+
+
+## Ch4/Ch5 environment art and Meshy towel - 2026-10-03
+
+Independent review initially found city form insufficient despite earlier improvements. Eight focused storefront replacements were then accepted as meaningful architectural improvement, not whole-street completion. Four ordinary route clears; focused 37/37, lifecycle 37/37, campaign 57/57; known-state restore zero mismatches. Meshy towel accepted in four views and both scenes. Remaining: surrounding repeated panels, dark terrace glazing, sparse interiors, broad floors, weak contact shadows, partial reference-photo fidelity. PC counters are not phone FPS. [Evidence](reviews/chapter45-environment-art-2026-10-03.md).
+
+## Ch4·Ch5 current production — 2026-10-03
+
+Both chapters saved; four ordinary choice routes clear with zero runtime/animation errors and exact known-state restoration. Focused tests37/37; lifecycle37/37; campaign57/57. Independent art accepts the applied merchandise, fixtures and panel; textile candidates are excluded for quality. Four new AI model types are applied. Upper-floor whitespace, retail repetition, historical52 broad failures and phone performance remain limits. [Current evidence](reviews/chapter45-model-production-2026-10-03.md). The older zero-new-model states below are superseded.
+
+
+## Department-store follow-up v5 — 2026-10-02
+
+Both current ShoeTower ordinary-input choices clear with two lifts and boss defeat; final focused tests 37/37, lifecycle 37/37 and campaign transaction checks 57/57. Shared recovery hashes and known preferences restored. Display depth and upper-side visibility improved; six lights have a measured localized effect. Three old TRELLIS F10 plants reused; new AI models remain 0. Added retail geometry/plants increase render counters, and mobile hardware performance is unverified. Repetitive merchandise, empty floor and limited gameplay skylight remain art gaps. [Current evidence](reviews/department-store-backend-followup-2026-10-02.md). The v3 section below is historical.
+
+## Department-store continuation — 2026-10-02, latest
+
+Ch4 retail entry and Ch5 commercial atria are saved with existing gameplay protected. Four v2 ordinary-input routes and two final-v3 decoration rechecks clear; final focused tests37/37. Resume/lifecycle and campaign/reward fixtures pass with exact known-state restoration. Independent review corrections cover shop facing, disconnected landings, obscured fascia and exposed escalator treads/underside. New TRELLIS/Meshy generation is0 and blocked by current service/tool access; the native architecture is not fulfillment of that generation method. Sparse retail depth, repetition, subtle warm lighting and limited gameplay skylight remain art gaps. Mobile performance remains unverified; old52 broad failures are unresolved. [Evidence and limits](reviews/department-store-2026-10-02.md).
+
+## Chapter 4 reference street — 2026-10-02
+
+Jamsil's reference-guided retail/crowd presentation is saved and both routes have ordinary-input clear evidence (241.5003s before the last scenery-only refinement; 257.1007s on final scenery), with zero runtime/animation errors and exact known preference/editor restoration. Chapter tests37/37. That dated street-only report is superseded by the authorized department-store continuation above. The latest known full-suite baseline is1083/1135 with52failures, not the older53-failure snapshot below. No new device-performance or APK claim. [Applied scope and limits](reviews/chapter4-reference-2026-10-02.md).
+
+## Chapters 4 and 5 - 2026-10-02 (corrected final state)
+
+Jamsil and ShoeTower are implemented, connected to the campaign/upgrades/menu/build, and independently approved against the actual fourth intro and native captures. All four final ordinary-input routes clear with no errors or animation warnings; chapter-specific native tests26/26 and actor animation checks21/21 pass. Final directed lifecycle/physics/disposal checks all pass and user preferences restore exactly.
+
+The final full suite is1073/1126, with53 unchanged failure signatures; the previously unclassified20 are diagnosed with explicit limits. A real newly introduced C08 combat-animation issue was fixed before the four accepted routes. This does not establish that all broad failures predate the task or certify human enjoyment.
+
+Corrected ARM64 review APK: 781.7MB,0 errors,58 warnings; five scenes, CRC and v2 debug signature verified. All 51,746 preexisting product hashes are unchanged across the build, with two approved generated linker-file additions. Shared test serialization side effects and the missing exact immediate pre-suite prefab snapshot are documented. S22/device and human playtesting remain unavailable.
+
+[Final evidence report](../outputs/chapters45-2026-10-02/FINAL-VERIFICATION.md) | [Independent final approval](../outputs/chapters45-2026-10-02/qa/independent-final-review.md) | [Live decisions](exec-plans/active/chapters45-progress-2026-10-02.md)
+
+## Startup correction — 2026-10-02
+
+Legacy FlatKit material construction no longer emits native 71/75-keyword-space assertions. The same fresh-material regression fails before the fix and passes afterward; SRP Batcher compatibility remains0. The original selected opening now has Baseline H.264/CFR timestamps with its936frames/39s and GUID intact. Three actual starts (Revamp2, HighWay1) have zero warnings/errors/asserts, and19focused cases pass. Normal Firebase Editor information logs remain. Fresh66-key preferences and session state restored. [Cause and evidence](solutions/runtime-errors/own-flatkit-passes-to-avoid-keyword-space-assertions-2026-10-02.md). No new APK/device claim.
+
+## S22 improvements — 2026-10-01 (applied)
+
+CPU occluder cache, scoped renderer/texture reductions, original-plus-reviewed-LOD1 groups, three manufactured props, two-front-feet/tail-shoe anatomy, sign/floor/camera/readout/voice changes and native arrival movies are installed. Targeted Editor suites: 122/122. Android ARM64 release APK: 752.1 MB, 0 build errors. Runtime/editor builds and harness pass. Preferences and the original clean scene/session are restored.
+
+Final outside route clears297.2s at1x; final inside reaches263.6s before EnemyContact after completing the branch (an earlier intermediate inside cleared312.73s). RestStop's staged endurance coverage completes the authored30s holdout. These are test-override/coverage results, not natural balance. The phone remains disconnected; no device FPS/thermal guarantee. Residual translucent-structure contrast and the retained prologue's style difference remain explicit. [Report](reviews/s22-improvements-applied-2026-10-01.md). Earlier audit section below is the pre-fix state.
+
+
+## S22 performance and visual audit - 2026-10-01 (diagnosis, unresolved)
+
+[Full report](reviews/s22-performance-visual-audit-2026-10-01.md). Repeated stationary Editor experiments show camera occlusion ON median19.42/19.35ms versus OFF9.23/8.69ms with identical242batches/1,335,308triangles. Candidate traversal covers1,310groups. This is a confirmed PC cost; S22 was not connected. Other risks:470,390-triangle holes,379guardrail instances, large RestStop texture dependencies, and high Highway batch/SetPass counts.
+
+Visual gaps remain in protagonist anatomy/identity across videos and gameplay, market ramp framing/back-facing signs, feedback overlap and RestStop sign occlusion/low contrast. Stronger floor transparency was observed at2x and not equivalently reproduced at1x. Three Noryangjin observations ended in death; RestStop holdout was not covered. Seven UI screens retain consistent styling. No game fixes, full-campaign clear, new test-suite pass or device performance guarantee are claimed. Saves and the original clean scene/session were restored.
+
 ## Noryangjin screenshot feedback v3 — 2026-09-28 (current)
 
 Applied four new Meshy props and three bidding/calling actions (129 credits), an industrial cold auction hall, actual coin death drops, persistent wet floors with lateral displacement, roller shutter/near-door boxes, connected decks and transparent occlusion. Retired numbered pickups, unmanned crossing carts, side box toss and the reversing truck that clipped the new hall.
@@ -197,3 +279,49 @@ Late-ramp follow-up: E23 moved to give 21.75 flat units before contact; its new 
 - Add more edit-mode tests around wave progression and state transitions.
 - Reduce duplicated run-state ownership across `GameManager`, `CanvasScript`, and `TimeManager`.
 - Keep top-level docs current when the Unity CLI or Pipeline workflow changes.
+
+## 2026-10-04 Ch4·5 decision-distance review
+
+Cycle09 independent AI reading covered18 actual-play sequences and7 denser native windows. One reproduced charge-path ambiguity was corrected;55 scoped assertions pass and two followup reviewers can choose a side escape. Near cleaner/weapon occlusion, weak kickboard body and abrupt vehicle disappearance still limit precise end/counter timing. Human fun/reaction judgment and device performance remain open; no whole-scene visual-perfect claim. See [cycle09 review](reviews/chapter45-blind-cycle09-2026-10-04.md).
+
+## 2026-10-04 Ch4·5 cleaner/vehicle followup
+
+Cycle10 reproduced cleaner contact outside its old1.25m target marker: actual strike radius1.88m at a different center. The existing disk now covers the actual area;4 final native cases,287 warning/action samples,32 preservation/lifecycle checks and16 Basketball regressions pass. Two vehicle returns have0 traffic contacts. Near-tool occlusion, precise end-pose/vehicle-exit naturalness and human reaction/fun remain limits.350ms automation is a boundary case;50ms is diagnostic, not a human benchmark. See [cycle10 review](reviews/chapter45-readability-cycle10-2026-10-04.md).
+
+
+## 2026-10-04 Ch4·5 telegraph/contact review — cycle11
+
+Reproduced moving-grab and vehicle contact outside old warnings, plus ground-buried markers, are corrected in two code files and Jamsil. 63 directed native windows include 15 final cases/1,245 active geometry-or-state observations and 11 lifecycle checks. Two independent AI visual reviewers and one code reviewer checked the result. Golfer/cart geometric candidates lack reproduced outside-marker damage; TV dangerous-edge contact remains unverified. No full-route, human reaction/fun or device-performance claim. See [cycle11 review](reviews/chapter45-telegraph-cycle11-2026-10-04.md).
+
+
+## 2026-10-04 TV contact boundary and final routes — cycle12
+
+Reproduced TV contact outside the old ellipse is covered by the existing capsule-aware sweep display. Dedicated falling-object text replaces the vehicle caption for TV only. Final four native routes pass42checks; TV death/Replay passes12 and cinema death/Replay15. Directed TV windows total27. Golf/cart outside-marker damage remains unreproduced and unchanged. No all-angle, human reaction, phone or full-suite claim. See [cycle12 review](reviews/chapter45-validation-cycle12-2026-10-04.md).
+
+
+## 2026-10-04 Menu/entry/exit connectors — cycle13
+
+73 directed native checks pass for lobby start callbacks, real menu pointer/raycast interactions, supported in-session Continue/Retry, Ch3→4→5 loading and physical offering→result→lobby→fresh run. Product changes0. No authored transition movies are assigned; movie/Skip coverage is absent. Hardware start gestures, human readability under play pressure, fun and device performance remain separate. See [cycle13 review](reviews/chapter45-validation-cycle13-2026-10-04.md).
+
+
+## 2026-10-04 Actual OS input and portrait bounds — cycle14
+
+The existing1080×2340/1080×1920 Editor views pass103 directed input checks, plus7 slow-start checks and45 native60ms burst checks. Four reproduced input boundaries were fixed in PlayerScript/CanvasScript. Visual/button-center evidence and spatial branch input are distinguished from fixtures and full-route/device coverage. See [cycle14 review](reviews/chapter45-validation-cycle14-2026-10-04.md).
+
+
+## 2026-10-04 Natural OS route input — cycle15
+
+Fresh-lobby Ch4 first-fork27/27 and Ch5 first-floor-transfer37/37 checks passed using actual OS input without position/health/enemy fixtures. No product files changed. Internal metadata assists fork navigation; human rapid release/recenter and visual choice understanding remain explicit limits. [Cycle15 evidence](reviews/chapter45-validation-cycle15-2026-10-04.md).
+
+
+## Ch4/Ch5 projectile closure — cycle18
+
+The bounded projectile regression is complete:112 native launch conditions, six high-health damage-sum conditions,30 directed synchronous guards and two current-source ordinary routes passed. This does not imply new art approval: the user remains dissatisfied with Ch2–5 toon styling and requested explanation before changes. [Final scope and limits](reviews/chapter45-bullet-regression-cycle18-final-2026-10-04.md).
+## Google Play account checkpoint — 2026-10-06
+
+All five existing chapter Options panels include account login/sync and confirmed game-account deletion. Native camera renders verify the new UI at 1080×2340 and 1080×1440; missing separator glyphs were corrected. Five-scene protected-state hashes match after art material changes and UI installation. Core account snapshot/service tests and C# builds are recorded in the execution plan. These are local/mock checks: actual Android authentication, JNI callbacks, cloud deletion, 500,000 DAU quotas, production disclosures and device performance remain unverified. The first preference snapshot failed; only the later corrected 89-key restoration is certified.
+
+
+## 2026-10-06 Essential proposals 1–15
+
+All fifteen items are implemented with PC/editor verification (23 new EditMode tests, five-scene layout/atlas checks, play-mode captures). Gaps: no phone was connected, so app switching, X2 feel, shutter 20 s difficulty (wall HP ×1.5 is a placeholder), Vulkan preview noise and enemy-row bypass are not device-verified; OS process-kill recovery is not implemented; replacement SE files are pending from the user. [Execution record](exec-plans/active/essential-15-proposals-2026-10-06.md).

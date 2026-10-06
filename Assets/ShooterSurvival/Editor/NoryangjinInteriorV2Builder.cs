@@ -112,14 +112,20 @@ public static class NoryangjinInteriorV2Builder
                 var top=Place("N12_foam_box",bay,new Vector3(-side*1.3f,.50f,1.7f),Quaternion.Euler(0,-8,0),.7f);Surface(top,"Foam",.22f,0);
                 Bucket(bay,new Vector3(-side*1.0f,.1f,-1.8f),i%2==0?new Color(.8f,.13f,.08f):new Color(.06f,.3f,.64f));
             }
-            if(i%2==0)
+            if(i%4==0)
             {
                 var sign=Node(quality,"NumberedStoreSign",new Vector3(side*3.25f,5.5f,d));bays.Add(sign);
                 Box(sign,"Frame",Vector3.zero,new Vector3(2.35f,1.25f,.12f),Mat("SignRim",new Color(.08f,.15f,.23f),.65f));
                 Box(sign,"BlueFace",new Vector3(0,0,-.07f),new Vector3(2.20f,1.1f,.03f),Mat("SignFace",new Color(.035f,.17f,.64f),unlit:true));
                 Box(sign,"Separator",new Vector3(0,.20f,-.095f),new Vector3(2.05f,.025f,.008f),white);
-                Label(sign,"Category","활어 - "+(135+i),new Vector3(0,.40f,-.10f),new Vector2(2.08f,.34f),1.9f,Color.white);
+                Label(sign,"Category","활어 · 선어",new Vector3(0,.40f,-.10f),new Vector2(2.08f,.34f),1.9f,Color.white);
                 Label(sign,"Shop",shops[(i+(side>0?2:0))%shops.Length],new Vector3(0,-.20f,-.10f),new Vector2(2.08f,.6f),2.7f,new Color(1,.89f,.4f));
+                foreach(var label in sign.GetComponentsInChildren<TMP_Text>().ToArray())
+                {
+                    var back=Object.Instantiate(label.gameObject,sign).transform;back.name=label.name+"_Back";
+                    back.localPosition=new Vector3(label.transform.localPosition.x,label.transform.localPosition.y,.135f);
+                    back.localRotation=Quaternion.Euler(0,180,0);
+                }
                 Box(sign,"Hanger",new Vector3(0,1.14f,0),new Vector3(.035f,1.15f,.035f),pipe);
                 occluders.Add(sign);
             }

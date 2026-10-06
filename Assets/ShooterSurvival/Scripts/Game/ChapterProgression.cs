@@ -23,6 +23,8 @@ public sealed class ChapterProgression : MonoBehaviour
     public void BeginRun()
     {
         Elapsed = 0; Completed = false; advancing = false; ClearJewels = 0;
+        foreach (var later in FindObjectsByType<Chapter45Director>(FindObjectsSortMode.None))
+            if (later.gameObject.scene == gameObject.scene) later.BeginRun();
         foreach (var row in FindObjectsByType<HighwayEncounterRow>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             if (row.gameObject.scene == gameObject.scene) row.ResetForRun();
         foreach (var hazard in FindObjectsByType<HighwayHazard>(FindObjectsInactive.Include, FindObjectsSortMode.None))
@@ -75,13 +77,10 @@ public sealed class ChapterProgression : MonoBehaviour
         TimeManager.isGameRunning = false; TimeManager.timeFactor = 0;
         yield return new WaitForSecondsRealtime(.7f);
         if (transitionUI != null)
-        {
             yield return transitionUI.Present(nextChapterMovie, nextChapterTitle, nextChapterCaption, ClearJewels);
-            transitionUI.ShowLoading();
-        }
         // Release movie resources before loading the next scene to bound peak memory.
         TimeManager.timeFactor = 1;
-        yield return SceneManager.LoadSceneAsync(nextScene, LoadSceneMode.Single);
+        yield return LoadingOverlay.LoadSceneRoutine(nextScene);
     }
     public void Replay()
     {
@@ -92,6 +91,6 @@ public sealed class ChapterProgression : MonoBehaviour
     private static void Load(string name)
     {
         TimeManager.isGameRunning = false; TimeManager.timeFactor = 1;
-        SceneManager.LoadScene(name);
+        LoadingOverlay.LoadScene(name);
     }
 }

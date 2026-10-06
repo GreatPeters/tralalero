@@ -1,0 +1,14 @@
+using System;using System.IO;using System.Linq;using System.Reflection;using UnityEngine;using UnityEditor;using UnityEditor.SceneManagement;using UnityEngine.SceneManagement;using UnityEngine.Localization.Settings;
+public static class ValidationFinal19 {
+ public sealed class Row{public string key,kind,value;public bool existed;}
+ public sealed class State{public Row[] session;}
+ static Type J=>AppDomain.CurrentDomain.GetAssemblies().First(a=>a.GetName().Name=="Newtonsoft.Json").GetType("Newtonsoft.Json.JsonConvert");
+ public static object Main(){
+  var old=(State)J.GetMethod("DeserializeObject",new[]{typeof(string),typeof(Type)}).Invoke(null,new object[]{File.ReadAllText("outputs/ch5-toon-2026-10-04/validation/original-editor-state.json"),typeof(State)});
+  var rows=old.session.Select(r=>{bool e;string v;if(r.kind=="bool"){bool a=SessionState.GetBool(r.key,false),b=SessionState.GetBool(r.key,true);e=a==b;v=a.ToString();}else if(r.kind=="int"){int a=SessionState.GetInt(r.key,int.MinValue),b=SessionState.GetInt(r.key,int.MaxValue);e=a==b;v=a.ToString();}else if(r.kind=="float"){float a=SessionState.GetFloat(r.key,float.MinValue),b=SessionState.GetFloat(r.key,float.MaxValue);e=a==b;v=a.ToString("R",System.Globalization.CultureInfo.InvariantCulture);}else{string a=SessionState.GetString(r.key,"missing:a"),b=SessionState.GetString(r.key,"missing:b");e=a==b;v=a;}return new Row{key=r.key,kind=r.kind,value=v,existed=e};}).ToArray();
+  var callbacks=typeof(EditorApplication).GetField("update",BindingFlags.Static|BindingFlags.Public|BindingFlags.NonPublic)?.GetValue(null) as Delegate;
+  var owned=callbacks?.GetInvocationList().Select(d=>d.Method.DeclaringType?.FullName+"."+d.Method.Name).Where(n=>n!=null&&((n.StartsWith("Telegraph")||n.StartsWith("Validation")||n.StartsWith("Chapters45Validation"))||n.Contains("Chapters45RegressionCycle08"))).ToArray()??Array.Empty<string>();
+  if(EditorApplication.isPlayingOrWillChangePlaymode||EditorApplication.isCompiling||EditorApplication.isUpdating||owned.Length!=0)throw new Exception("QA has not returned to clean Edit");
+  return new{pid=System.Diagnostics.Process.GetCurrentProcess().Id,scene=SceneManager.GetActiveScene().path,startScene=AssetDatabase.GetAssetPath(EditorSceneManager.playModeStartScene),locale=LocalizationSettings.SelectedLocale.Identifier.Code,ownedEditorCallbacks=owned,session=rows,timeScale=Time.timeScale,captureDeltaTime=Time.captureDeltaTime,cleanupExists=EditorPrefs.HasKey("PT_ResourcesCleanup"),cleanup=EditorPrefs.GetBool("PT_ResourcesCleanup",false),playerCleanupExists=PlayerPrefs.HasKey("PT_ResourcesCleanup"),paused=EditorApplication.isPaused,runtimeWarningMeshes=Resources.FindObjectsOfTypeAll<Mesh>().Count(m=>m.name=="Runtime hazard sweep warning"||m.name=="Runtime charge warning corridor"),readOnly=true};
+ }
+}

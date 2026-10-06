@@ -28,6 +28,8 @@ public sealed class NoryangjinMapToolTestStartStageTests
     [TestCase(1, "Noryangjin_MapTool_Mode_SR18_Revamp")]
     [TestCase(2, "HighWay")]
     [TestCase(3, "RestStop")]
+    [TestCase(4, "Jamsil")]
+    [TestCase(5, "ShoeTower")]
     public void SelectionChangesPlayStartWithoutOpeningOrDirtyingTheAuthoringScene(int stage, string expected)
     {
         var active = SceneManager.GetActiveScene(); bool dirty = active.isDirty;
@@ -59,7 +61,7 @@ public sealed class NoryangjinMapToolTestStartStageTests
         Assert.That(EditorSceneManager.playModeStartScene, Is.Null);
     }
 
-    [TestCase(-1)] [TestCase(4)]
+    [TestCase(-1)] [TestCase(6)]
     public void InvalidSelectionDoesNotChangeTheStartScene(int stage)
     {
         Assert.Throws<ArgumentOutOfRangeException>(() => NoryangjinMapToolTestStartStage.SelectStage(stage));

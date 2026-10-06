@@ -1,0 +1,19 @@
+using System;using System.IO;using System.Linq;using System.Collections.Generic;using System.Reflection;using UnityEngine;using UnityEditor;using IndianOceanAssets.ShooterSurvival;
+public static class TelegraphLifecycle11 {
+ static Chapter45Director d;static Chapter45Hazard h;static Mesh mesh;static Material material;static Vector3 scale,position,pausedBody;static string colliders,folder,pausedMesh;static bool active,paused,donePause;static float pausedElapsed;static double pauseAt;static int activeFrames;static readonly List<string> pass=new(),fail=new();
+ static string Json(object x)=>(string)AppDomain.CurrentDomain.GetAssemblies().First(a=>a.GetName().Name=="Newtonsoft.Json").GetType("Newtonsoft.Json.JsonConvert").GetMethod("SerializeObject",new[]{typeof(object)}).Invoke(null,new[]{x});
+ static void Check(bool ok,string name){(ok?pass:fail).Add(name);}
+ static string Cols()=>Json(h.body.GetComponentsInChildren<Collider>(true).Select(c=>EditorJsonUtility.ToJson(c)).ToArray());
+ static string Vertices()=>Json(h.footprint.GetComponent<MeshFilter>().sharedMesh.vertices.Select(v=>new[]{v.x,v.y,v.z}).ToArray());
+ public static object Begin(string output){d=UnityEngine.Object.FindFirstObjectByType<Chapter45Director>();h=d.hazards.Single(x=>x.name=="Wrong way kickboard");if(h.Triggered)throw new Exception("Attach before warning");folder=output;mesh=h.footprint.GetComponent<MeshFilter>().sharedMesh;material=h.footprint.GetComponent<Renderer>().sharedMaterial;scale=h.footprint.transform.localScale;position=h.footprint.transform.position;colliders=Cols();active=true;paused=donePause=false;activeFrames=0;pass.Clear();fail.Clear();EditorApplication.update+=Tick;return new{attached=true};}
+ static void Tick(){if(!active||!EditorApplication.isPlaying)return;
+  if(h.Triggered&&!h.Active&&!donePause&&!paused){paused=true;pauseAt=EditorApplication.timeSinceStartup;pausedElapsed=d.Elapsed;pausedBody=h.body.position;pausedMesh=Vertices();TimeManager.isGameRunning=false;}
+  if(paused){if(EditorApplication.timeSinceStartup-pauseAt<.4)return;Check(d.Elapsed==pausedElapsed&&h.body.position==pausedBody&&Vertices()==pausedMesh,"pause freezes warning, body and active clock");TimeManager.isGameRunning=true;paused=false;donePause=true;}
+  if(h.Active){activeFrames++;if(h.footprint.GetComponent<MeshFilter>().sharedMesh.vertexCount!=4&&!fail.Contains("four-vertex runtime path"))fail.Add("four-vertex runtime path");}
+  if(!h.Finished||activeFrames==0)return;
+  Check(donePause,"native warning observed before body activation");Check(activeFrames>10,"native active sweep observed");Check(h.Contacts==0&&d.Player.currentHealth==60,"right safe lane remains undamaged");Check(!h.footprint.activeSelf&&!h.body.gameObject.activeSelf&&!h.Active,"native finish hides body and warning together");Check(h.footprint.GetComponent<MeshFilter>().sharedMesh==mesh,"cancel restores authored mesh");Check(h.footprint.GetComponent<Renderer>().sharedMaterial==material,"same existing material");Check(h.footprint.transform.localScale==scale&&h.footprint.transform.position==position,"footprint transform preserved");Check(Cols()==colliders,"authored collider properties preserved");
+  h.enabled=false;Check(h.footprint.GetComponent<MeshFilter>().sharedMesh==mesh,"disable preserves restored mesh");h.enabled=true;h.ResetForRun(d);Check(!h.Triggered&&!h.Active&&!h.Finished&&h.Contacts==0&&!h.footprint.activeSelf&&!h.body.gameObject.activeSelf,"reset returns clean hazard state");
+  active=false;EditorApplication.update-=Tick;File.WriteAllText(Path.Combine(folder,"lifecycle.json"),Json(new{passed=pass.Count,failed=fail.Count,pass,fail,activeFrames,nativePauseAndSweep=true,syntheticAfterFinish="disable/enable and ResetForRun visual lifecycle only",manualHitOrTick=false}));
+ }
+ public static object Stop(){if(paused)TimeManager.isGameRunning=true;paused=active=false;EditorApplication.update-=Tick;return new{stopped=true};}
+}

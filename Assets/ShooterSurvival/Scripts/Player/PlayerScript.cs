@@ -118,6 +118,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private Canvas playerChildCanvas;
         private bool startGestureTriggered;
         private bool startGestureArmed;
+        private Vector2 startGestureOrigin;
         private const float StartDragThreshold = 8f;        
         private const string SkinBonusSourceKey = "player_skin_bonus";
         private const string PlayerSpeedVariableKey = "playerSpeed";
@@ -276,7 +277,7 @@ namespace IndianOceanAssets.ShooterSurvival
             canvasScript = FindFirstObjectByType<CanvasScript>();
             SubscribeToStatChanges();
 
-            moveSensitivity = PlayerPrefs.GetFloat("moveSensitivity", 1f);  // Get move sensitivity from PlayerPrefs
+            moveSensitivity = SettingsManager.DefaultMoveSensitivity;  // No longer user-adjustable
 
             previousPosition = transform.position;
             playerMesh = transform.GetChild(0);
@@ -290,6 +291,18 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void Update()
         {
+            // Capture press anchors once per render frame, even when no physics tick runs.
+            if (Application.isMobilePlatform)
+            {
+                if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+                    startPos = Input.GetTouch(0).position;
+            }
+            else if (Input.GetMouseButtonDown(0))
+                startPos = Input.mousePosition;
+
+            if (!TimeManager.isGameRunning || TimeManager.timeFactor <= 0f)
+                TryStartGameFromHorizontalInput();
+
             if (!subscribedToStats)
                 SubscribeToStatChanges();
 
@@ -315,7 +328,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
             HandleAnimation();
             if (!isDead && !winDancePlayed)
-                SetSharkLocomotion(TimeManager.isGameRunning && !IsStationaryCombat);
+                SetSharkLocomotion(TimeManager.isGameRunning && !IsStationaryCombat && !Chapter45Director.LateralLocked(this));
             ApplyHealthRegen();
         }
 
@@ -421,10 +434,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private void FixedUpdate()
         {
             if (!TimeManager.isGameRunning || TimeManager.timeFactor <= 0f)
-            {
-                TryStartGameFromHorizontalInput();
                 return;
-            }
 
 
             bool isForwardMarchScene = TimeManager.Instance != null && TimeManager.Instance.isForwardMarchScene;
@@ -465,7 +475,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 if (isDead)
                     currentForwardMoveSpeed = 0f;
                 if (playerAnimator != null)
-                    playerAnimator.SetBool("WalkFwd", true);
+                    playerAnimator.SetBool("WalkFwd", !Chapter45Director.LateralLocked(this));
             }
 
             PlayerInput();
@@ -522,6 +532,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (HighwayChapter2Controller.For(this)?.PopupPending == true) return;
             if (NoryangjinRevampDirector.LateralLocked(this)) return;
+            if (Chapter45Director.LateralLocked(this)) return;
             if (!movement || isWorldYawTurnActive || IsStationaryCombat)
                 return;
 
@@ -535,6 +546,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 xRange.x,
                 xRange.y);
             if(highwayRoute!=null)targetOffset=highwayRoute.ConstrainEncounterLane(targetOffset);
+            targetOffset = Chapter45Director.ConstrainLane(this, targetOffset);
             Vector3 targetPosition = transform.position + routeRight * (targetOffset - currentOffset);
             Vector3 nextPosition = Vector3.Lerp(
                 transform.position,
@@ -545,6 +557,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         private void ApplyForwardMovement()
         {
+            if (Chapter45Director.TryAdvance(this, Time.fixedDeltaTime * TimeManager.timeFactor)) return;
             if (NoryangjinRevampDirector.AdvanceBranch(this, Time.fixedDeltaTime * TimeManager.timeFactor))
                 return;
             if (highwayRoute != null && highwayRoute.isActiveAndEnabled)
@@ -855,12 +868,21 @@ namespace IndianOceanAssets.ShooterSurvival
             if (Application.isMobilePlatform)
             {
                 if (Input.touchCount <= 0)
+                {
+                    startGestureArmed = false;
                     return;
+                }
 
                 Touch touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
+                {
+                    startGestureArmed = false;
+                    return;
+                }
                 if (touch.phase == TouchPhase.Began)
                 {
                     startPos = touch.position;
+                    startGestureOrigin = touch.position;
                     startGestureArmed = canvasScript != null && canvasScript.IsPointerOverStartArea(touch.position);
                     return;
                 }
@@ -868,14 +890,20 @@ namespace IndianOceanAssets.ShooterSurvival
                 if (!startGestureArmed || touch.phase != TouchPhase.Moved)
                     return;
 
-                horizontalDelta = touch.position.x - startPos.x;
+                horizontalDelta = touch.position.x - startGestureOrigin.x;
                 startPos = touch.position;
             }
             else
             {
+                if (!Input.GetMouseButton(0))
+                {
+                    startGestureArmed = false;
+                    return;
+                }
                 if (Input.GetMouseButtonDown(0))
                 {
                     startPos = Input.mousePosition;
+                    startGestureOrigin = Input.mousePosition;
                     startGestureArmed = canvasScript != null && canvasScript.IsPointerOverStartArea(Input.mousePosition);
                     return;
                 }
@@ -883,7 +911,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 if (!startGestureArmed || !Input.GetMouseButton(0))
                     return;
 
-                horizontalDelta = Input.mousePosition.x - startPos.x;
+                horizontalDelta = Input.mousePosition.x - startGestureOrigin.x;
                 startPos = Input.mousePosition;
             }
 
@@ -1061,6 +1089,14 @@ namespace IndianOceanAssets.ShooterSurvival
             if(currentHealth<=0||amount<=0||float.IsNaN(amount)||float.IsInfinity(amount))return 0;
             if (HighwayChapter2Controller.For(this)?.ConsumeShield(amount, cause) == true) return 0;
             if (NoryangjinRevampDirector.ConsumeShield(this, amount, cause)) return 0;
+            if (Chapter45Director.PreventDamage(this, amount)) return 0;
+            return ApplyUnprotectedDamage(amount, cause);
+        }
+
+        // Protection is resolved by ApplyDamage; explicit fatal environment
+        // contacts use this same reporting/death path without consuming a shield.
+        private float ApplyUnprotectedDamage(float amount, PlayerDamageCause cause)
+        {
             float applied=Mathf.Min(currentHealth,amount);
             currentHealth -= applied;
             ReportDamage(applied, cause);
@@ -1100,6 +1136,20 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             if (currentHealth <= 0f) return;
             ApplyDamage(currentHealth,fallIntoHole?PlayerDamageCause.Hole:cause);
+            FinishHazardDeath(fallIntoHole);
+        }
+
+        public void DieFromFatalHazard(bool fallIntoHole, PlayerDamageCause cause = PlayerDamageCause.Other)
+        {
+            if (currentHealth <= 0f) return;
+            ApplyUnprotectedDamage(currentHealth, fallIntoHole ? PlayerDamageCause.Hole : cause);
+            FinishHazardDeath(fallIntoHole);
+        }
+
+        private void FinishHazardDeath(bool fallIntoHole)
+        {
+            // A shield can absorb a normal hazard. Do not freeze a living player.
+            if (currentHealth > 0f) return;
             movement = false;
             canShoot = false;
             if (playerRigidbody != null && !hazardBodyFrozen)
@@ -1178,7 +1228,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 sharkAnim.ResetTrigger("Die");
                 sharkAnim.ResetTrigger("Walk");
                 sharkAnim.Rebind();
-                SetSharkLocomotion(TimeManager.isGameRunning && !IsStationaryCombat);
+                SetSharkLocomotion(TimeManager.isGameRunning && !IsStationaryCombat && !Chapter45Director.LateralLocked(this));
             }
             if (playerAnimator != null)
             {

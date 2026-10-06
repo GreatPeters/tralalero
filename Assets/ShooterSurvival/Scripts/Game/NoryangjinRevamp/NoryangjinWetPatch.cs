@@ -46,7 +46,7 @@ public sealed class NoryangjinWetPatch : MonoBehaviour
         nextSlip=Time.time+.25f;
         if(d.Spinning)return;
         // A fresh step spins the shark and drains HP; during the post-spin grace it only slides.
-        if(d.StartSpin(spinSeconds,spinDrainShare,PlayerDamageCause.WetFloor,"젖은 바닥! 빙글빙글~"))return;
+        if(d.StartSpin(spinSeconds,spinDrainShare,PlayerDamageCause.WetFloor,"미끄러운 바닥! 균형을 잃었습니다"))return;
         var slip=p.GetComponent<NoryangjinWetSteering>()??p.gameObject.AddComponent<NoryangjinWetSteering>();
         bool began=slip.Remaining<=0;slip.Apply(p,1.7f,sidewaysSpeed);
         if(began)d.Timeline.Add($"wet floor slip at {d.Elapsed:F1}");

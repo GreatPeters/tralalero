@@ -10,8 +10,8 @@ internal static class NoryangjinMapToolTestStartStage
     private const string DefaultPathKey = SelectionKey + ".DefaultPath";
     private const string AppliedPathKey = SelectionKey + ".AppliedPath";
     private const string ActiveKey = SelectionKey + ".Active";
-    internal static readonly string[] Labels = { "데이터", "1", "2", "3" };
-    internal static readonly string[] Names = { "기존 시작 설정", "노량진", "고속도로", "휴게소" };
+    internal static readonly string[] Labels = { "데이터", "1", "2", "3", "4", "5" };
+    internal static readonly string[] Names = { "기존 시작 설정", "노량진", "고속도로", "휴게소", "잠실", "슈타워" };
 
     static NoryangjinMapToolTestStartStage()
     {
@@ -20,7 +20,7 @@ internal static class NoryangjinMapToolTestStartStage
         EditorApplication.delayCall += ApplySelection;
     }
 
-    internal static int SelectedStage => Math.Max(0, Math.Min(3, SessionState.GetInt(SelectionKey, 0)));
+    internal static int SelectedStage => Math.Max(0, Math.Min(5, SessionState.GetInt(SelectionKey, 0)));
 
     internal static string ScenePathForStage(int stage)
     {
@@ -31,7 +31,9 @@ internal static class NoryangjinMapToolTestStartStage
             case 1: return NoryangjinMapToolWindow.Sr18RevampMapToolScenePath;
             case 2: return NoryangjinMapToolWindow.HighwayMapToolScenePath;
             case 3: return NoryangjinMapToolWindow.RestStopMapToolScenePath;
-            default: throw new ArgumentOutOfRangeException(nameof(stage), "Choose Data or stage 1–3.");
+            case 4: return NoryangjinMapToolWindow.JamsilMapToolScenePath;
+            case 5: return NoryangjinMapToolWindow.ShoeTowerMapToolScenePath;
+            default: throw new ArgumentOutOfRangeException(nameof(stage), "Choose Data or stage 1–5.");
         }
     }
 

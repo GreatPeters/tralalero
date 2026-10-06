@@ -21,8 +21,37 @@ public sealed class HarborSettingsPanel : MonoBehaviour
         soundButton.onClick.AddListener(ToggleSound);
         vibrationButton.onClick.AddListener(ToggleVibration);
         volume.onValueChanged.AddListener(SetVolume);
-        sensitivity.onValueChanged.AddListener(SetSensitivity);
+        HideRemovedSensitivityRow();
     }
+
+    // The sensitivity option was removed; scenes are re-laid out by the editor installer,
+    // and this keeps any older scene copy from exposing the dead control.
+    private void HideRemovedSensitivityRow()
+    {
+        var panel = transform.Find("Panel");
+        if (panel == null) return;
+        foreach (string name in new[] { "Sensitivity", "SensitivityLabel", "SensitivityIcon" })
+        {
+            var row = panel.Find(name);
+            if (row != null) row.gameObject.SetActive(false);
+        }
+        // Essential proposal 13: the best record lives in Settings, in the freed slider space.
+        if (panel.Find("BestRecord") == null && soundState != null)
+        {
+            bestRecord = Instantiate(soundState, panel);
+            bestRecord.name = "BestRecord";
+            var rect = bestRecord.rectTransform;
+            rect.anchorMin = new Vector2(BestRecordRect.x, BestRecordRect.y); rect.anchorMax = new Vector2(BestRecordRect.z, BestRecordRect.w);
+            rect.offsetMin = rect.offsetMax = Vector2.zero; rect.localScale = Vector3.one; rect.localRotation = Quaternion.identity;
+            bestRecord.alignment = TextAlignmentOptions.Center; bestRecord.enableAutoSizing = true;
+            bestRecord.fontSizeMin = 24; bestRecord.fontSizeMax = 40; bestRecord.raycastTarget = false;
+            bestRecord.color = new Color(.05f, .12f, .32f);
+        }
+        else if (bestRecord == null) bestRecord = panel.Find("BestRecord")?.GetComponent<TMP_Text>();
+    }
+
+    public static readonly Vector4 BestRecordRect = new Vector4(.065f, .525f, .935f, .560f);
+    private TMP_Text bestRecord;
 
     public void Open(bool duringRun)
     {
@@ -43,6 +72,8 @@ public sealed class HarborSettingsPanel : MonoBehaviour
     public void Close()
     {
         if (IndianOceanAssets.ShooterSurvival.Ads.RewardedAdsService.Instance?.BlockingConsentForm == true) return;
+        var account = IndianOceanAssets.ShooterSurvival.Account.PlayAccountService.Instance;
+        if (account != null && account.State is IndianOceanAssets.ShooterSurvival.Account.PlayAccountState.Conflict or IndianOceanAssets.ShooterSurvival.Account.PlayAccountState.Deleting) return;
         gameObject.SetActive(false);
         FindFirstObjectByType<PlayerScript>()?.ResetStartGesture();
         if (resumeOnClose) owner.ResumeGame();
@@ -55,7 +86,7 @@ public sealed class HarborSettingsPanel : MonoBehaviour
         var settings = SettingsManager.Instance;
         if (settings == null) return;
         volume.SetValueWithoutNotify(settings.soundVolume);
-        sensitivity.SetValueWithoutNotify(settings.moveSensitivity);
+        if (bestRecord != null) bestRecord.text = ChapterRunProgress.BestRecordText();
         Switch(soundState, soundTrack, soundKnob, settings.soundEnabled);
         Switch(vibrationState, vibrationTrack, vibrationKnob, settings.vibrationEnabled);
         if(privacyButton!=null)privacyButton.interactable=HasWebUrl(privacyUrl);
@@ -73,11 +104,6 @@ public sealed class HarborSettingsPanel : MonoBehaviour
     private void ToggleSound() { SettingsManager.Instance.SetSoundEnabled(!SettingsManager.Instance.soundEnabled); Refresh(); }
     private void ToggleVibration() { SettingsManager.Instance.SetVibrationEnabled(!SettingsManager.Instance.vibrationEnabled); Refresh(); }
     private void SetVolume(float value) { SettingsManager.Instance.soundVolume=value; SettingsManager.Instance.ApplyAudioSettings(); SettingsManager.Instance.SaveSettings(); }
-    private void SetSensitivity(float value)
-    {
-        SettingsManager.Instance.moveSensitivity=value; SettingsManager.Instance.SaveSettings();
-        var player=FindFirstObjectByType<PlayerScript>();if(player!=null)player.moveSensitivity=value;
-    }
     private static bool HasWebUrl(string url) => System.Uri.TryCreate(url,System.UriKind.Absolute,out var uri)&&(uri.Scheme==System.Uri.UriSchemeHttps||uri.Scheme==System.Uri.UriSchemeHttp);
     public void OpenPrivacy() { if(HasWebUrl(privacyUrl)) Application.OpenURL(privacyUrl); }
     public void OpenTerms() { if(HasWebUrl(termsUrl)) Application.OpenURL(termsUrl); }

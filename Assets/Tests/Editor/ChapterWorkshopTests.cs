@@ -32,6 +32,35 @@ public sealed class ChapterWorkshopTests
         new ChapterUpgradeDefinition{chapter=3,coinCost=5000,attackPercent=300,healthPercent=600}
     };
 
+    [Test] public void ProductionLaterChapters_UnlockInOrderAndRetainFiveAffordablePriceRanks()
+    {
+        var catalog = UnityEngine.Resources.Load<ChapterUpgradeCatalog>(ChapterUpgradeCatalog.ResourcePath);
+        Assert.That(catalog, Is.Not.Null);
+        ChapterUpgradeCatalog.Validate(catalog.entries);
+        var store = new Store { UnlockedChapter = 3 };
+        var wallet = new Wallet { Coins = 3000000 };
+        var purchases = new ChapterUpgradePurchases(catalog.entries, store, wallet);
+        Assert.That(purchases.Buy(4), Is.EqualTo(ChapterUpgradePurchaseResult.Locked));
+        Assert.That(purchases.Buy(5), Is.EqualTo(ChapterUpgradePurchaseResult.Locked));
+        store.UnlockedChapter = 4;
+        for (int rank = 0; rank < 5; rank++)
+        {
+            int before = wallet.Coins;
+            Assert.That(purchases.Buy(4), Is.EqualTo(ChapterUpgradePurchaseResult.Purchased));
+            Assert.That(before - wallet.Coins, Is.EqualTo(25000 * (1 << rank)));
+        }
+        Assert.That(purchases.Buy(4), Is.EqualTo(ChapterUpgradePurchaseResult.Owned));
+        Assert.That(purchases.Buy(5), Is.EqualTo(ChapterUpgradePurchaseResult.Locked));
+        store.UnlockedChapter = 5;
+        Assert.That(purchases.Buy(5), Is.EqualTo(ChapterUpgradePurchaseResult.Purchased));
+        var reloaded = new ChapterUpgradePurchases(catalog.entries, store, wallet);
+        reloaded.GetMultipliers(out float attack, out float health);
+        Assert.That(attack, Is.EqualTo(1.3f).Within(.0001f));
+        Assert.That(health, Is.EqualTo(1.3f).Within(.0001f));
+        Assert.That(store.GetLevel(4), Is.EqualTo(5)); Assert.That(store.GetLevel(5), Is.EqualTo(1));
+        Assert.That(wallet.Coins, Is.EqualTo(3000000 - 25000 * 31 - 45000));
+    }
+
     [Test] public void LockedChapter_RejectsPurchaseEvenWithEnoughCoins()
     {
         var store=new Store();var wallet=new Wallet();var purchases=new ChapterUpgradePurchases(Rows(),store,wallet);

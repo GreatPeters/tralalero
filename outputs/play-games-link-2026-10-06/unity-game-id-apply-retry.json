@@ -1,0 +1,32 @@
+{
+  "success": true,
+  "command": "command run_script",
+  "data": {
+    "command": "run_script",
+    "parameters": {
+      "file": "tools/configure-play-account.cs",
+      "entry": "ConfigurePlayAccount.Main",
+      "args": "[\"1024030137281\"]",
+      "timeout_ms": "110000"
+    },
+    "result": {
+      "diagnostics": [],
+      "compileMs": 1703,
+      "executeMs": 483,
+      "assemblyName": "PipelineRunScript_configure-play-account_729a9c6f005d4bc28f0ef2ab66473848",
+      "success": true,
+      "result": {
+        "configured": true,
+        "package": "com.mzkoreagames.tralaleroshooter",
+        "savedGamesMustBeEnabledInPlayConsole": true
+      }
+    },
+    "target": {
+      "host": "127.0.0.1",
+      "port": 7801,
+      "projectPath": "D:\\Tralalero Shooter\\Tralalero Shooter D"
+    }
+  },
+  "errors": [],
+  "warnings": []
+}

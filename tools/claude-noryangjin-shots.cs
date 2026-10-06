@@ -17,14 +17,14 @@ public static class ClaudeNoryangjinShots
 {
     const BindingFlags Hidden = BindingFlags.Instance | BindingFlags.NonPublic;
 
-    public static object Capture()
+    public static object Capture(string input="tmp/claude-probe/shots.txt",string outputRoot="tmp/image-previews/noryangjin-claude-fix-2026-09-28")
     {
         if (!EditorApplication.isPlaying) throw new Exception("Play required");
         EditorApplication.isPaused = false;
-        var all = File.ReadAllLines("tmp/claude-probe/shots.txt");
+        var all = File.ReadAllLines(input);
         bool keepEnemies = all.Any(l => l.Trim() == "#keep-enemies"); // e.g. to frame the final boss
         var lines = all.Where(l => l.Trim().Length > 0 && !l.StartsWith("#")).ToArray();
-        string folder = "tmp/image-previews/noryangjin-claude-fix-2026-09-28/shots-" + DateTime.Now.ToString("HHmmss");
+        string folder = outputRoot+"/shots-" + DateTime.Now.ToString("HHmmss");
         Directory.CreateDirectory(folder);
         var p = Object.FindFirstObjectByType<PlayerScript>();
         var d = Object.FindFirstObjectByType<NoryangjinRevampDirector>();

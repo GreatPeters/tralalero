@@ -735,6 +735,15 @@ public sealed class GameplayAnalyticsTests
         Assert.That(gameMode, Is.EqualTo("forward_march"));
     }
 
+    [TestCase("Jamsil", 4)] [TestCase("ShoeTower", 5)]
+    public void LaterChapterSceneContext_HasDistinctProductionIdentity(string scene, int expected)
+    {
+        Assert.That(GameplayAnalyticsSceneContext.TryGetDefaultsForSceneName(scene, out int chapter,
+            out int stage, out int maximum, out string mode), Is.True);
+        Assert.That(chapter, Is.EqualTo(expected)); Assert.That(stage, Is.EqualTo(1));
+        Assert.That(maximum, Is.GreaterThan(1)); Assert.That(mode, Is.EqualTo("forward_march"));
+    }
+
     [Test]
     public void HighwaySceneContext_UsesChapterTwoFallback()
     {

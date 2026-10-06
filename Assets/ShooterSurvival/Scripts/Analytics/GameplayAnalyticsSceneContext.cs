@@ -74,7 +74,7 @@ namespace IndianOceanAssets.ShooterSurvival.Analytics
                     resolvedMaxStage = context.maxStage;
                     resolvedGameMode = context.gameMode ?? string.Empty;
                     resolvedChapterProgressPercent = double.NaN;
-                    if (context.useTurnSpotsForProgress)
+                    if (context.useTurnSpotsForProgress || scene.name == "Jamsil" || scene.name == "ShoeTower")
                     {
                         ApplyNoryangjinRouteProgress(
                             scene,
@@ -128,6 +128,12 @@ namespace IndianOceanAssets.ShooterSurvival.Analytics
             {
                 resolvedChapter=2;resolvedStage=1;resolvedMaxStage=6;resolvedGameMode="forward_march";return true;
             }
+            if (sceneName == "Jamsil" || sceneName == "ShoeTower")
+            {
+                resolvedChapter = sceneName == "Jamsil" ? 4 : 5;
+                resolvedStage = 1; resolvedMaxStage = 6; resolvedGameMode = "forward_march";
+                return true;
+            }
             resolvedChapter = 0;
             resolvedStage = 0;
             resolvedMaxStage = 0;
@@ -143,6 +149,14 @@ namespace IndianOceanAssets.ShooterSurvival.Analytics
         {
             if (scene.IsValid() && scene.isLoaded) foreach (var root in scene.GetRootGameObjects())
             {
+                var ascent = root.GetComponentInChildren<Chapter45Director>(true);
+                if (ascent != null && ascent.route != null)
+                {
+                    float ascentFraction = Mathf.Clamp01(ascent.Distance / Mathf.Max(1, ascent.route.Length));
+                    resolvedChapterProgressPercent = ascentFraction * 100d;
+                    resolvedStage = Mathf.Min(resolvedMaxStage, Mathf.FloorToInt(ascentFraction * resolvedMaxStage) + 1);
+                    return;
+                }
                 var highway = root.GetComponent<HighwayRoute>();
                 if (highway == null) continue;
                 float fraction = Mathf.Clamp01(highway.Distance / Mathf.Max(1, highway.length));

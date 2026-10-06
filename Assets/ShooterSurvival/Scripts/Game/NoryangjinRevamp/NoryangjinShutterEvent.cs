@@ -15,6 +15,12 @@ public sealed class NoryangjinShutterEvent : NoryangjinRevampEvent
     public float slackSeconds = 4f;
     public float closedHitsMultiplier = 5f;
     public string timerCaption = "셔터까지";
+    [Tooltip("Essential proposal 11: fixed countdown (was a derived ~50 s). Game time, so X2 halves real time.")]
+    public float countdownSeconds = 20f;
+    // User 2026-10-07: "다 부수려면 공격력 업그레이드를 해야 해. 어느 정도 업그레이드를 해야 돌파 가능".
+    // So box HP is FIXED, not scaled by the shark's attack (the old Arm() scaling made upgrades useless here).
+    [Tooltip("Fixed HP per box wall. All seven walls stand in line, so every one must break inside the countdown.")]
+    public float wallHealth = 95f;
     private float total, remaining;
     private bool passed, closed;
     private Vector3 panelRest;
@@ -28,7 +34,7 @@ public sealed class NoryangjinShutterEvent : NoryangjinRevampEvent
     public override void ResetForRun()
     {
         base.ResetForRun();
-        passed = closed = false; remaining = total = 0;
+        passed = closed = counting = false; remaining = total = 0;
         if (shutterPanel != null)
         {
             if (!panelCaptured) { panelRest = shutterPanel.localPosition; panelCaptured = true; }
@@ -41,13 +47,24 @@ public sealed class NoryangjinShutterEvent : NoryangjinRevampEvent
 
     protected override void OnTriggered()
     {
+        GameAudioService.Play(GameSound.Warning);
         if (announceVoice != null) Director.Speak(announceVoice, true);
-        float perWall = 0;
-        foreach (var w in walls) if (w != null) { w.Arm(); perWall += w.hitsToBreak; }
-        float fire = Director.PlayerFireRate();
-        float speed=Director.Branch!=null&&Director.Branch.Driving?Director.Branch.travelSpeed:Player.ForwardMoveSpeed;
-        float run = Mathf.Max(0, Ahead(Player.transform.position)) / Mathf.Max(1,speed);
-        total = remaining = perWall / Mathf.Max(.5f, fire) + run + slackSeconds;
+        foreach (var w in walls) if (w != null) w.ArmFixed(wallHealth);
+        total = remaining = CountdownFor(countdownSeconds);
+        Director.Timeline.Add($"shutter countdown {total:F0}s walls {wallHealth:F0}HP attack {Player.ResolvedAttackDamage:F0}");
+    }
+
+    public static float CountdownFor(float configured) => configured > 0 ? configured : 20f;
+
+    [Tooltip("The countdown starts this far before the first (farthest) box wall.")]
+    public float countdownLeadBeforeWalls = 4f;
+    private bool counting;
+    public float CountdownStartAhead()
+    {
+        // Ahead(p) = how far the shutter lies ahead of p, so for a wall it is that wall's distance before the shutter.
+        float farthest = 0f;
+        foreach (var w in walls) if (w != null) farthest = Mathf.Max(farthest, Ahead(w.transform.position));
+        return farthest > 0f ? Mathf.Min(triggerAhead, farthest + countdownLeadBeforeWalls) : triggerAhead;
     }
 
     protected override void OnTick(float dt)
@@ -66,6 +83,15 @@ public sealed class NoryangjinShutterEvent : NoryangjinRevampEvent
             if(shutter!=null&&!shutter.Armed&&CurrentOpening<.01f)
             {shutter.Arm(closedHitsMultiplier);Director.Timeline.Add($"shutter closed at {Director.Elapsed:F1}");}
             return;
+        }
+        // The 20 s run from the box-wall section, not from the 98 m warning: at market speed (~5.6 m/s
+        // measured) the warning point alone is ~18 s from the shutter, which made 20 s unwinnable at any attack.
+        if (!counting)
+        {
+            counting = Ahead(Player.transform.position) <= CountdownStartAhead();
+            Director.Hud?.ShowTimer(timerCaption, remaining, total);
+            if (!counting) return;
+            Director.Timeline.Add($"shutter countdown started at {Director.Elapsed:F1}");
         }
         remaining -= dt;
         Director.Hud?.ShowTimer(timerCaption, remaining, total);

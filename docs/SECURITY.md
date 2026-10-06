@@ -1,5 +1,11 @@
 # Security
 
+## Google Play account progress — 2026-10-06
+
+PGS authenticates the player and isolates the save slot. The client validates player ID, schema, payload size, approved key/type set, finite nonnegative numbers and authored chapter bounds before changing preferences. Save choices replace one whole snapshot; a repeated fingerprint check protects against overwriting an unseen newer revision. Local PlayerPrefs and cloud snapshots remain client-controlled progression, not server-authoritative anti-cheat or purchase verification. No OAuth secret, Firebase Auth backend or general database credential was added.
+
+Account deletion removes the game save and local progression/cache after the native delete Task plus fresh-slot check succeed. A persisted deletion journal disables uploads during failed/interrupted deletion. It does not delete the Google account, general PGS profile or existing Google Analytics/AdMob retention. Stale saves on another device cannot be universally revoked by this client-only store; other devices must stop the game during deletion. Actual Android auth/JNI/deletion and production disclosures remain unverified pending console configuration. See [setup and trust limits](google-play-account-setup.md).
+
 ## Meshy API key — 2026-09-25
 
 - The Meshy API key is read from `MESHY_API_KEY` or `%USERPROFILE%/.meshy/api_key` (ACL limited to the user). It is never written to the repository, ledgers or task logs. The key was pasted into a chat on 2026-09-25; rotating it in the Meshy dashboard is recommended. Meshy task JSON under `outputs/` contains signed, expiring asset URLs only.
@@ -9,6 +15,7 @@
 - Repeated chapter tests use a separate real-file Unity project with distinct company/product preferences and analytics disabled. Do not merge its QA bootstrap, product settings or player preferences into the original project.
 - The Google Sheets refresh connector runs under the spreadsheet owner's Google account, uses a bounded query window/bytes-billed cap, and writes literal typed values in one atomic batch. BigQuery credentials never enter Unity Assets. A prepared local workbook is not proof that Firebase export or a native Sheet is connected.
 - `MapToolCurrencyCheats` is compiled only in the Editor assembly. Its grants intentionally alter local PlayerPrefs and live wallet balances, reject negative additions and clamp integer overflow. No grant control or callable cheat component is added to player builds; grants bypass earned-coin telemetry.
+- `MapToolAccountReset` (map tool 편의 tab, "초기화하기") is Editor-only. After a confirm dialog it runs `PlayerPrefs.DeleteAll()` for this project and deletes `persistentDataPath/PlayAccount` local backups; it is disabled during Play and never touches Google Play cloud saves. Map tool settings use EditorPrefs/SessionState and survive the reset.
 - Unity editor state is mutable and should be treated as an external runtime boundary.
 - The official Unity CLI/Pipeline command surface can execute scene, asset, and editor operations. Treat it as privileged.
 - Local scripts and docs are authoritative only when committed and versioned.

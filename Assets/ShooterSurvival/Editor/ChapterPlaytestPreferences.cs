@@ -21,7 +21,12 @@ public static class ChapterPlaytestPreferences
         {string value=kind=="string"?Convert.ToBase64String(Encoding.UTF8.GetBytes(PlayerPrefs.GetString(key))):kind=="int"?PlayerPrefs.GetInt(key).ToString(CultureInfo.InvariantCulture):PlayerPrefs.GetFloat(key).ToString("R",CultureInfo.InvariantCulture);lines.Add(string.Join("\t",key,kind,PlayerPrefs.HasKey(key),value));}
         Add("coin","int");Add("jewel","int");Add("chapter_unlocked","int");
         Add("ads_last_reward_round","string");
-        for(int chapter=1;chapter<=5;chapter++)Add("chapter_rewarded_"+chapter,"int");
+        for(int chapter=1;chapter<=5;chapter++)
+        {
+            Add("chapter_rewarded_"+chapter,"int");
+            Add(ChapterUpgradeService.LevelKey(chapter),"int");
+            Add(ChapterUpgradeService.OwnedKey(chapter),"int");
+        }
         for(int i=1;i<=Enum.GetValues(typeof(UpgradeStatManager.UpgradeType)).Length;i++)Add("upgrade_lv_"+i,"int");
         foreach(var type in Enum.GetNames(typeof(UpgradeStatManager.UpgradeType))){Add("upgrade_stat_"+type,"float");Add("upgrade_stat_type_"+type,"int");}
         foreach(var row in CosmeticTables.Rows)Add(CosmeticService.OwnedKey(row.id),"int");

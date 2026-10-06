@@ -171,6 +171,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 return;
             }
 
+            if (Chapter45Director.For(playerScript)?.IsTransferring == true) return;
             if (helpType == HelpType.Boombardino)
             {
                 FollowPlayer();
@@ -306,6 +307,15 @@ namespace IndianOceanAssets.ShooterSurvival
                 : followSpeed;
 
             float step = Mathf.Max(0f, baseSpeed) * Time.deltaTime * tf;
+            var laterChapter = Chapter45Director.For(playerScript);
+            if (laterChapter != null && laterChapter.Running)
+            {
+                var follower = GetComponent<Chapter45HelperFollower>();
+                if (follower == null) follower = gameObject.AddComponent<Chapter45HelperFollower>();
+                follower.Advance(laterChapter, step);
+                ResolveContactsAlongMove(before, transform.position);
+                return;
+            }
             if (routeFollower != null)
             {
                 routeFollower.Advance(step);

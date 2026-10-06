@@ -32,6 +32,8 @@ public sealed class CosmeticVisualCatalog : ScriptableObject
     public Mesh splitSharkMesh;
     public Mesh bodyOnlyMesh;
     public FootMount[] footMounts;
+    public bool usesTailFoot;
+    public Vector3 tailFootOffset;
     public GameObject previewModel;
     public float previewScale = 450;
     public Vector3 hatLocalPosition;

@@ -1,6 +1,6 @@
 namespace IndianOceanAssets.ShooterSurvival
 {
-    public enum PlayerDamageCause { None, EnemyContact, GuardShot, Crate, Cannon, Seagull, Hole, Pole, Traffic, Roadblock, Barrel, NegativeBonus, Other, EnemyProjectile, TollGate, Paddle, Wildlife, WaterJet, Wave, WetFloor }
+    public enum PlayerDamageCause { None, EnemyContact, GuardShot, Crate, Cannon, Seagull, Hole, Pole, Traffic, Roadblock, Barrel, NegativeBonus, Other, EnemyProjectile, TollGate, Paddle, Wildlife, WaterJet, Wave, WetFloor, FallingObject }
     public static class PlayerDamageCauseText
     {
         public static string Label(PlayerDamageCause cause) => cause switch
@@ -16,6 +16,7 @@ namespace IndianOceanAssets.ShooterSurvival
             PlayerDamageCause.WaterJet=>"물청소 물줄",
             PlayerDamageCause.Wave=>"파도에 휩쓸림",
             PlayerDamageCause.WetFloor=>"젖은 바닥에서 미끄러짐",
+            PlayerDamageCause.FallingObject=>"낙하물에 맞음",
             _=>"체력 감소"
         };
         public static string Advice(PlayerDamageCause cause) => cause switch
@@ -29,6 +30,7 @@ namespace IndianOceanAssets.ShooterSurvival
             PlayerDamageCause.WaterJet=>"물줄이 꺼진 틈이나 마른 쪽으로 지나가세요.",
             PlayerDamageCause.Wave=>"빨간 테두리가 뜬 쪽을 피해 마른 부두로 이동하세요.",
             PlayerDamageCause.WetFloor=>"검게 젖은 바닥을 밟지 말고 마른 타일로 지나가세요.",
+            PlayerDamageCause.FallingObject=>"주황색 낙하 표시 밖으로 피하고 물체와 표시가 사라진 뒤 이동하세요.",
             PlayerDamageCause.Seagull=>"검은 착지 표시가 없는 쪽으로 피하세요.",
             PlayerDamageCause.Hole or PlayerDamageCause.Pole=>"앞길의 빈 공간을 먼저 확보하세요.",
             _=>"이번 판의 체력과 공격력을 보고 다음 강화를 골라보세요."

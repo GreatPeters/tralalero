@@ -369,6 +369,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
     internal const string KoreanWindowTitle = "맵 툴";
     internal const string HighwayMapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/HighWay.unity";
     internal const string RestStopMapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/RestStop.unity";
+    internal const string JamsilMapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/Jamsil.unity";
+    internal const string ShoeTowerMapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/ShoeTower.unity";
     internal const string MapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode.unity";
     internal const string MapToolScene2Path = "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_2.unity";
     internal const string Sr18MapToolScenePath = "Assets/ShooterSurvival/Scenes/Tools/Noryangjin_MapTool_Mode_SR18.unity";
@@ -895,6 +897,8 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
         DrawOpeningVideoControls();
         DrawTestTimeScaleControls();
         MapToolCurrencyCheats.Draw();
+        EditorGUILayout.Space(6f);
+        MapToolAccountReset.Draw();
         using (new EditorGUILayout.VerticalScope(EditorStyles.helpBox))
         {
             EditorGUILayout.LabelField("플레이 검증", EditorStyles.boldLabel);
@@ -7005,7 +7009,9 @@ public sealed class NoryangjinMapToolWindow : EditorWindow
                string.Equals(scenePath, Sr18MapToolScenePath, StringComparison.OrdinalIgnoreCase) ||
                string.Equals(scenePath, Sr18RevampMapToolScenePath, StringComparison.OrdinalIgnoreCase) ||
                string.Equals(scenePath, HighwayMapToolScenePath, StringComparison.OrdinalIgnoreCase) ||
-               string.Equals(scenePath, RestStopMapToolScenePath, StringComparison.OrdinalIgnoreCase);
+               string.Equals(scenePath, RestStopMapToolScenePath, StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(scenePath, JamsilMapToolScenePath, StringComparison.OrdinalIgnoreCase) ||
+               string.Equals(scenePath, ShoeTowerMapToolScenePath, StringComparison.OrdinalIgnoreCase);
     }
 
     internal static string ResolveMapToolScenePathToOpen(string activeScenePath)

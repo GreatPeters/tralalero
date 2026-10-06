@@ -100,8 +100,7 @@ namespace IndianOceanAssets.ShooterSurvival
         {
             BoxCollider trigger = GetComponent<BoxCollider>();
             if (trigger != null)
-                trigger.enabled = true;
-        }
+                trigger.enabled = true;        }
 
         private void EnsureTriggerCollider()
         {

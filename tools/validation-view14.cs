@@ -1,0 +1,17 @@
+using System;using System.Linq;using System.Reflection;using System.Runtime.InteropServices;using UnityEditor;using UnityEngine;
+public static class ValidationView14 {
+ const BindingFlags F=BindingFlags.Public|BindingFlags.NonPublic|BindingFlags.Instance|BindingFlags.Static|BindingFlags.FlattenHierarchy;
+ [StructLayout(LayoutKind.Sequential)]struct Pt{public int x,y;}
+ [DllImport("user32.dll")]static extern IntPtr GetForegroundWindow();
+ [DllImport("user32.dll")]static extern uint GetWindowThreadProcessId(IntPtr h,out uint pid);
+ [DllImport("user32.dll")]static extern bool GetCursorPos(out Pt p);
+ static object Simple(object x)=>x is Rect r?new[]{r.x,r.y,r.width,r.height}:x is Vector2 v?new[]{v.x,v.y}:x is Vector3 a?new[]{a.x,a.y,a.z}:x is Enum?x.ToString():x;
+ public static object ZoomMembers(){var t=typeof(EditorWindow).Assembly.GetType("UnityEditor.GameView");var w=Resources.FindObjectsOfTypeAll(t).Cast<EditorWindow>().Single();var z=t.GetField("m_ZoomArea",F).GetValue(w);return new{members=z.GetType().GetMembers(F).Select(x=>x.ToString()).ToArray(),cursorLock=Cursor.lockState.ToString(),cursorVisible=Cursor.visible};}
+ public static object Main(){
+  var t=typeof(EditorWindow).Assembly.GetType("UnityEditor.GameView");var w=Resources.FindObjectsOfTypeAll(t).Cast<EditorWindow>().Single();
+  var names=new[]{"selectedSizeIndex","targetSize","targetInViewRect","viewInWindow","gameViewRenderRect","showToolbar","lowResolutionForAspectRatios","zoomAreaScale","m_ZoomArea"};var values=names.Select(n=>{try{var p=t.GetProperty(n,F);var f=t.GetField(n,F);var x=p!=null?p.GetValue(w):f!=null?f.GetValue(w):null;if(x!=null&&x.GetType().Name.Contains("Zoom"))return new{name=n,value=(object)x.GetType().GetProperties(F).Where(y=>y.GetIndexParameters().Length==0&&new[]{"scale","translation","shownArea","drawRect"}.Contains(y.Name)).Select(y=>new{name=y.Name,value=Simple(y.GetValue(x))}).ToArray()};return new{name=n,value=Simple(x)};}catch(Exception e){return new{name=n,value=(object)e.GetType().Name};}}).ToArray();
+  var sizesType=typeof(EditorWindow).Assembly.GetType("UnityEditor.GameViewSizes");var instance=sizesType.GetProperty("instance",F).GetValue(null);var groupType=typeof(EditorWindow).Assembly.GetType("UnityEditor.GameViewSizeGroupType");var group=sizesType.GetMethod("GetGroup",F).Invoke(instance,new[]{Enum.Parse(groupType,"Android")});var gt=group.GetType();int count=(int)gt.GetMethod("GetTotalCount",F).Invoke(group,null);var sizes=Enumerable.Range(0,count).Select(i=>{var s=gt.GetMethod("GetGameViewSize",F).Invoke(group,new object[]{i});return new{index=i,properties=s.GetType().GetProperties(F).Where(p=>new[]{"width","height","baseText","displayText","sizeType"}.Contains(p.Name)).Select(p=>new{name=p.Name,value=Simple(p.GetValue(s))}).ToArray()};}).ToArray();
+  var fg=GetForegroundWindow();GetWindowThreadProcessId(fg,out uint pid);GetCursorPos(out var cursor);
+  return new{readOnly=true,pid=System.Diagnostics.Process.GetCurrentProcess().Id,windowId=w.GetInstanceID(),position=Simple(w.position),w.maximized,focused=EditorWindow.focusedWindow!=null?EditorWindow.focusedWindow.GetType().FullName:null,focusedId=EditorWindow.focusedWindow!=null?EditorWindow.focusedWindow.GetInstanceID():0,pixelsPerPoint=EditorGUIUtility.pixelsPerPoint,foreground=fg.ToInt64(),foregroundPid=pid,cursor=new[]{cursor.x,cursor.y},values,sizes,members=t.GetMembers(F).Where(m=>m.Name.Contains("Rect")||m.Name.Contains("Zoom")||m.Name.Contains("Scale")||m.Name.Contains("SizeGroup")).Select(m=>m.ToString()).ToArray()};
+ }
+}

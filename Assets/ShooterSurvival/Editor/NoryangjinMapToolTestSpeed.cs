@@ -41,7 +41,7 @@ internal static class NoryangjinMapToolTestSpeed
     {
         if (!CanApply(EditorApplication.isPlaying, SceneManager.GetActiveScene().path))
             return;
-        Time.timeScale = SelectedTimeScale;
+        GameSpeed.TestBaseScale = SelectedTimeScale; // multiplies the in-game X1/X2 choice
         SessionState.SetBool(AppliedKey, true);
     }
 
@@ -52,6 +52,7 @@ internal static class NoryangjinMapToolTestSpeed
         else if ((state == PlayModeStateChange.ExitingPlayMode || state == PlayModeStateChange.EnteredEditMode) &&
                  SessionState.GetBool(AppliedKey, false))
         {
+            GameSpeed.TestBaseScale = 1f;
             Time.timeScale = 1f;
             SessionState.SetBool(AppliedKey, false);
         }

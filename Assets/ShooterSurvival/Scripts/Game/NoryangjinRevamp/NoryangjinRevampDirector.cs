@@ -76,9 +76,12 @@ public sealed class NoryangjinRevampDirector : MonoBehaviour
         return d != null && d.Branch != null && d.Branch.Advance(player, seconds, ForwardMultiplier(player));
     }
     public void QuietFor(float seconds) => QuietUntil = Mathf.Max(QuietUntil, Elapsed + seconds);
+    // User request 2026-10-06: remove every AI-sounding market voice. Callers keep their
+    // banner/HUD text; the user will supply SE files later. Do not route clips back here.
+    public static bool VoicesEnabled => false;
     public void Speak(AudioClip clip, bool priority = true, float pitch = 1)
     {
-        if (clip == null) return;
+        if (!VoicesEnabled || clip == null) return;
         if (marketVoice == null) { marketVoice = gameObject.AddComponent<AudioSource>(); marketVoice.playOnAwake = false; marketVoice.spatialBlend = 0; marketVoice.volume = .28f; }
         if (!priority && marketVoice.isPlaying) return;
         marketVoice.pitch = pitch; marketVoice.clip = clip; marketVoice.Play();
@@ -197,7 +200,7 @@ public sealed class NoryangjinRevampDirector : MonoBehaviour
         if (Spinning || Elapsed < spinImmuneUntil || Player == null) return false;
         spinLeft = seconds; spinDrain = drainShare; spinCause = cause; spinAngle = 0;
         for (int i = 0; i < spinVisuals.Length; i++) if (spinVisuals[i] != null) spinRest[i] = spinVisuals[i].localRotation;
-        Hud?.Publish(message ?? "물줄에 걸렸다! 빙글빙글~", Mathf.Max(1.5f, seconds));
+        Hud?.Publish(message ?? "물줄기에 휘말렸습니다!", Mathf.Max(1.5f, seconds));
         Timeline.Add($"spin {cause} at {Elapsed:F1}");
         return true;
     }

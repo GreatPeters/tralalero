@@ -43,14 +43,21 @@ public sealed class OpeningStoryUI : MonoBehaviour
     private int page;
     private float elapsed;
     private RenderTexture videoTexture;
+    private Camera suspendedWorldCamera;
+    private bool restoreWorldCamera;
+    private int worldCullingMask;
+    private CameraClearFlags worldClearFlags;
+    private Color worldBackground;
     private bool seeking;
     private double seekTarget;
     public bool IsMoviePlaying => video != null && video.isPlaying;
     public bool IsSeeking => seeking;
     public int CurrentPage => page;
     public static int MovieSceneCount => moviePageStarts.Length;
-    // Best4 v5: 8s, 12s, 10s, 9s at 24fps (936 frames total).
-    private static readonly double[] moviePageStarts = { 0d, 8d, 20d, 30d };
+    // Essential proposal 12 (2026-10-06), aligned to Curse_Opening_Animated.mp4 (39 s, 24 fps):
+    // 0-11 s theft and escape, 11-20.5 s the god finds the empty altar and raises the club,
+    // 20.5-27 s the dark curse fixes the shoes, 27 s+ sent to the human world (fish market).
+    private static readonly double[] moviePageStarts = { 0d, 11d, 20.5d, 27d };
     public static double GetMoviePageStart(int index) => moviePageStarts[Mathf.Clamp(index, 0, 3)];
     public static int GetMoviePageAtTime(double seconds)
     {
@@ -58,12 +65,14 @@ public sealed class OpeningStoryUI : MonoBehaviour
             if (seconds >= moviePageStarts[index]) return index;
         return 0;
     }
-    private readonly string[] titles = { "훔친 신발", "벗을 수 없는 저주", "신이 내건 조건", "노량진으로" };
-    private readonly string[] captions = {
-        "신단의 신발을 물고,\n상어는 항구를 빠져나갔다.",
-        "두 발과 꼬리 끝에 신발이 붙었다.\n아무리 벗으려 해도 떨어지지 않았다.",
-        "저주를 풀려면 인간 세상에서\n더 좋은 신발을 찾아 바쳐야 한다.",
-        "신발을 고쳐 신고 다시 출발한다.\n첫 목적지는 노량진 수산시장." };
+    public static readonly string[] Titles = { "신성한 신발을 훔쳤다", "신이 분노했다", "저주를 받았다", "더 좋은 신발을 얻어야 한다" };
+    public static readonly string[] Captions = {
+        "상어가 신단에 모셔진\n신성한 신발을 물고 달아났다.",
+        "빈 신단을 본 신은\n크게 분노했다.",
+        "신의 저주로 신발이 몸에 붙어\n아무리 벗으려 해도 떨어지지 않는다.",
+        "저주를 풀려면 인간 세상에서\n더 좋은 신발을 얻어 바쳐야 한다." };
+    private readonly string[] titles = Titles;
+    private readonly string[] captions = Captions;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetStatics() { Instance = null; shownThisSession = false; }
@@ -161,6 +170,10 @@ public sealed class OpeningStoryUI : MonoBehaviour
         }
         videoTexture = new RenderTexture((int)movie.width, (int)movie.height, 0) { name = "Opening animation" };
         videoTexture.Create();
+        suspendedWorldCamera=Camera.main;restoreWorldCamera=suspendedWorldCamera!=null&&suspendedWorldCamera.enabled;
+        // URP still needs an active camera to composite the overlay movie/UI.
+        // Suppress world drawing without stopping the render pipeline itself.
+        if(restoreWorldCamera){worldCullingMask=suspendedWorldCamera.cullingMask;worldClearFlags=suspendedWorldCamera.clearFlags;worldBackground=suspendedWorldCamera.backgroundColor;suspendedWorldCamera.cullingMask=0;suspendedWorldCamera.clearFlags=CameraClearFlags.SolidColor;suspendedWorldCamera.backgroundColor=Color.black;}
         var previousTarget=RenderTexture.active;RenderTexture.active=videoTexture;GL.Clear(true,true,Color.black);RenderTexture.active=previousTarget;
         video.clip = movie; video.targetTexture = videoTexture; video.isLooping = false;
         video.sendFrameReadyEvents = true;
@@ -218,6 +231,8 @@ public sealed class OpeningStoryUI : MonoBehaviour
     }
     private void StopMovie()
     {
+        if(suspendedWorldCamera!=null&&restoreWorldCamera){suspendedWorldCamera.cullingMask=worldCullingMask;suspendedWorldCamera.clearFlags=worldClearFlags;suspendedWorldCamera.backgroundColor=worldBackground;}
+        suspendedWorldCamera=null;restoreWorldCamera=false;
         seeking = false;
         var releasedTexture = videoTexture;
         videoTexture = null; // Invalidate callbacks before Stop can change playback state.

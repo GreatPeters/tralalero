@@ -18,15 +18,15 @@ public sealed class NoryangjinMarketAtmosphere : MonoBehaviour
     private Material oldSky, sky;
     private Skybox cameraSkybox;
     private Material oldCameraSky;
-    private float auctionTime = -1, nextBroadcast = 24;
+    private float nextBroadcast = 24;
+    private int lastClockMinute=-1;
     private int broadcast;
-    private TMP_Text clockHud;
     private string lastNews;
     // The former fourth line ("활어 경매가 시작됩니다") played at random, e.g. at the shutter; the shutter
     // now announces "문이 곧 닫힙니다. 주의해주세요!" itself (user 2026-09-29).
     private static readonly string[] announcements = {
-        "상어 지나갑니다! 길을 비워 주세요", "오늘 참치 시세 폭락, 상어 때문!",
-        "경매장 통로를 비워 주세요!" };
+        "상어가 들어왔습니다. 통로를 비워 주세요", "운반 차량이 지나갑니다. 안전선 밖으로 비켜 주세요",
+        "경매장 통로에 물건을 놓지 마세요" };
 
     private void Start()
     {
@@ -39,31 +39,21 @@ public sealed class NoryangjinMarketAtmosphere : MonoBehaviour
             cameraSkybox = gameplayCamera != null ? gameplayCamera.GetComponent<Skybox>() : null;
             if (cameraSkybox != null) { oldCameraSky = cameraSkybox.material; cameraSkybox.material = sky; }
         }
-        var canvas = FindFirstObjectByType<CanvasScript>();
-        if (canvas != null)
-        {
-            var go = new GameObject("Market clock", typeof(RectTransform), typeof(TextMeshProUGUI));
-            go.transform.SetParent(canvas.transform, false);
-            clockHud = go.GetComponent<TextMeshProUGUI>(); clockHud.font = Resources.Load<TMP_FontAsset>("UI/GmarketHarbor SDF");
-            clockHud.fontSize = 31; clockHud.color = new Color(1, .93f, .76f); clockHud.outlineWidth = .24f;
-            clockHud.outlineColor = new Color(.03f, .08f, .18f); clockHud.alignment = TextAlignmentOptions.Right; clockHud.raycastTarget = false;
-            var rect = clockHud.rectTransform; rect.anchorMin = rect.anchorMax = rect.pivot = new Vector2(1, 1);
-            rect.anchoredPosition = new Vector2(-38, -280); rect.sizeDelta = new Vector2(360, 45);
-        }
+        // The "새벽 시장 · 4:00" screen clock was replaced by ChapterProgressHud (essential proposal 13).
+        // In-world market clocks below still tick for atmosphere.
     }
     private void Update()
     {
         if (director == null || director.Player == null) return;
         float elapsed = director.Elapsed;
         if (!director.Running) return;
-        if (elapsed < 1) { auctionTime = -1; nextBroadcast = 24; broadcast = 0; }
-        if (auctionTime < 0 && auction != null && auction.Triggered) auctionTime = elapsed;
-        float progress = auctionTime < 0 ? Mathf.Min(.999f, elapsed / 240f)
-            : Mathf.Clamp01((elapsed - auctionTime) / Mathf.Max(20, director.expectedRunSeconds - auctionTime));
-        float minutes = auctionTime < 0 ? Mathf.Lerp(240, 270, progress) : Mathf.Lerp(270, 1110, progress);
-        string clock = $"{Mathf.FloorToInt(minutes / 60):D2}:{Mathf.FloorToInt(minutes % 60):D2}";
-        foreach (var display in clocks) if (display != null) display.text = clock;
-        if (clockHud != null) clockHud.text = clock;
+        if (elapsed < 1) { nextBroadcast = 24; broadcast = 0; }
+        int minutes=240+Mathf.FloorToInt(30*Mathf.Clamp01(elapsed/Mathf.Max(1,director.expectedRunSeconds)));
+        if(minutes!=lastClockMinute)
+        {
+            lastClockMinute=minutes;string clock=$"{minutes/60:D2}:{minutes%60:D2}";
+            foreach(var display in clocks)if(display!=null)display.text=clock;
+        }
         string latest = director.Hud != null ? director.Hud.CurrentMessage : "";
         if (!string.IsNullOrEmpty(latest) && latest != lastNews)
         {
@@ -100,13 +90,17 @@ public sealed class NoryangjinMarketAtmosphere : MonoBehaviour
         // Optional: drop under decks that cross overhead. Off by default (user: keep the normal early-run view).
         bool under = lowerUnderDecks && !inside && !cold && Underpass(p);
         bool low = inside || cold || under;
-        var lowOffset = new Vector3(.12f, 5.8f, -17f); float lowPitch = 8;
+        // Preserve room around the shark while aiming below the ceiling. A ten-
+        // metre boom made the shark fill the aisle; the old eight-degree pitch
+        // looked mostly at sign backs and roof geometry.
+        var lowOffset = new Vector3(.12f, 6.8f, -17f); float lowPitch = 18;
         if (inside && branch != null && branch.liftHeight > 0)
         {
             // On the market ramp keep the camera under the roof above its own floor, then aim back at the shark.
             var flat = Vector3.ProjectOnPlane(p.forward, Vector3.up).normalized;
             float rel = branch.HeightAt(p.position + flat * lowOffset.z) - branch.HeightAt(p.position);
-            lowOffset.y += rel; lowPitch += Mathf.Atan2(rel, -lowOffset.z) * Mathf.Rad2Deg;
+            // Do not pitch upward when the camera trails on a lower ramp section.
+            lowOffset.y = Mathf.Clamp(lowOffset.y+rel,5.8f,8.2f);
         }
         float t = Mathf.Clamp01(Time.deltaTime * 4);
         gameplayCamera.yawRelativeOffset = Vector3.Lerp(gameplayCamera.yawRelativeOffset, low ? lowOffset : cameraOffset, t);
@@ -161,6 +155,5 @@ public sealed class NoryangjinMarketAtmosphere : MonoBehaviour
     {
         if (gameplayCamera != null) { gameplayCamera.yawRelativeOffset = cameraOffset; gameplayCamera.yawRelativeRotation = cameraRotation; }
         if (sky != null) { RenderSettings.skybox = oldSky; if (cameraSkybox != null) cameraSkybox.material = oldCameraSky; Destroy(sky); }
-        if (clockHud != null) Destroy(clockHud.gameObject);
     }
 }

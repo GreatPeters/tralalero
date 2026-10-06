@@ -46,6 +46,28 @@ namespace IndianOceanAssets.ShooterSurvival
         private string rewardRoundId;
         private bool progressRewardGranted;
         private int progressRewardCoins;
+        private static bool reloadInputSuppressed;
+
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        private static void ResetReloadInput() => reloadInputSuppressed = false;
+
+        private IEnumerator ReleaseReloadInput()
+        {
+            var group = GetComponent<CanvasGroup>();
+            bool added = group == null;
+            if (added) group = gameObject.AddComponent<CanvasGroup>();
+            bool wasInteractable = group.interactable;
+            group.interactable = false;
+            // A fast second click must not activate a different button in the new lobby.
+            yield return new WaitForSecondsRealtime(.3f);
+            while (Input.GetMouseButton(0) || Input.touchCount > 0)
+                yield return null;
+            group.interactable = wasInteractable;
+            if (added) Destroy(group);
+            playerScript?.ResetStartGesture();
+            reloadInputSuppressed = false;
+        }
+
 
 
         private void Start()
@@ -81,10 +103,27 @@ namespace IndianOceanAssets.ShooterSurvival
             LoadAndApplySettings();
 
             if (TimeManager.Instance.isForwardMarchScene == false) ftue_Script = FindFirstObjectByType<FTUE_script>();
+            if (reloadInputSuppressed) StartCoroutine(ReleaseReloadInput());
+            speedToggle = GameSpeedToggle.Create(this);
+            ChapterProgressHud.Create(this);
+            rowGate = EnemyRowGate.Ensure(this);
         }
+
+        private GameSpeedToggle speedToggle;
+        private EnemyRowGate rowGate;
 
         private void Update()
         {
+            // X1/X2 only applies to live gameplay; lobby, menus and transitions run at normal speed.
+            GameSpeed.SetRunning(TimeManager.isGameRunning && !isGameOver);
+            // While the overlay replaces this scene asynchronously, the old scene must not
+            // re-detect the dead player and run the defeat sequence (sound/analytics) again.
+            if (LoadingOverlay.IsLoading) return;
+            if (speedToggle != null)
+            {
+                bool show = TimeManager.isGameRunning && !isGameOver && pauseButton != null && pauseButton.activeSelf;
+                if (speedToggle.gameObject.activeSelf != show) speedToggle.gameObject.SetActive(show);
+            }
             if (TimeManager.isGameRunning) activeRunSeconds += Time.deltaTime * Mathf.Max(0f, TimeManager.timeFactor);
             if (playerScript.currentHealth == 0 && !isGameOver)
                 StartCoroutine(GameOverSequence(3f));
@@ -94,9 +133,12 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void PlayerPressedStartButton()
         {
+            if (reloadInputSuppressed) return;
+            if (Account.PlayAccountService.Instance?.BlocksGameplay == true) return;
             if (settingsMenuUI != null && settingsMenuUI.activeInHierarchy || pauseMenuUI != null && pauseMenuUI.activeInHierarchy) return;
             if (OpeningStoryUI.IsBlockingGameplay || Ads.RewardedAdsService.Instance?.BlockingConsentForm == true || FindFirstObjectByType<CosmeticShopUI>() != null || TimeManager.isGameRunning || isGameOver) return;
             activeRunSeconds = 0f;
+            rowGate?.ResetGate();
             rewardRoundId = System.Guid.NewGuid().ToString("N");
             progressRewardGranted = false; progressRewardCoins = 0;
             gameOverUI?.GetComponent<DefeatPresentation>()?.InvalidateOffer();
@@ -139,6 +181,53 @@ namespace IndianOceanAssets.ShooterSurvival
 
             GameplayAnalytics.BeginRun(playerScript);
             FindFirstObjectByType<ChapterProgression>()?.BeginRun();
+            var activeChapter = FindFirstObjectByType<ChapterProgression>();
+            if (activeChapter != null) { PlayerPrefs.SetInt("chapter_last_played", Mathf.Clamp(activeChapter.chapter, 1, 5)); PlayerPrefs.Save(); }
+        }
+
+        // Essential proposal 5: leaving the app mid-run opens the settings/pause panel instead of
+        // letting the run continue or restart. On return the panel stays open (the player closes it
+        // to resume) and touches that were held while switching back are ignored.
+        private bool interruptedWhileAway;
+        private void OnApplicationPause(bool paused) => HandleInterruption(paused);
+        private void OnApplicationFocus(bool focused) => HandleInterruption(!focused);
+
+        private void HandleInterruption(bool away)
+        {
+            if (Application.isEditor) return; // editor focus changes are not app switches
+            if (away)
+            {
+                if (interruptedWhileAway) return;
+                interruptedWhileAway = true;
+                if (ShouldPauseForInterruption(TimeManager.isGameRunning, isGameOver,
+                        settingsMenuUI != null && settingsMenuUI.activeInHierarchy,
+                        pauseMenuUI != null && pauseMenuUI.activeInHierarchy))
+                    PauseGame();
+                return;
+            }
+            if (!interruptedWhileAway) return;
+            interruptedWhileAway = false;
+            if (isActiveAndEnabled) StartCoroutine(ReleaseInputAfterReturn());
+        }
+
+        public static bool ShouldPauseForInterruption(bool running, bool gameOver, bool settingsOpen, bool pauseOpen)
+            => running && !gameOver && !settingsOpen && !pauseOpen;
+
+        private IEnumerator ReleaseInputAfterReturn()
+        {
+            var group = GetComponent<CanvasGroup>();
+            bool added = group == null;
+            if (added) group = gameObject.AddComponent<CanvasGroup>();
+            bool wasInteractable = group.interactable;
+            group.interactable = false;
+            yield return new WaitForSecondsRealtime(.25f);
+            while (Input.GetMouseButton(0) || Input.touchCount > 0) yield return null;
+            if (group != null)
+            {
+                group.interactable = wasInteractable;
+                if (added) Destroy(group);
+            }
+            playerScript?.ResetStartGesture();
         }
 
         public bool IsStartAreaActive()
@@ -184,12 +273,10 @@ namespace IndianOceanAssets.ShooterSurvival
             LoadAndApplySettings();
         }
 
+        // Kept for old serialized UI events; sensitivity is no longer user-adjustable.
         public void ChangeSensitivity()
         {
-            SettingsManager.Instance.moveSensitivity = sensitivitySlider.value;
-            SettingsManager.Instance.SaveSettings();
-
-            playerScript.moveSensitivity = SettingsManager.Instance.moveSensitivity;
+            if (playerScript != null) playerScript.moveSensitivity = SettingsManager.DefaultMoveSensitivity;
         }
 
         public void ChangeVolume()
@@ -202,10 +289,9 @@ namespace IndianOceanAssets.ShooterSurvival
         private void LoadAndApplySettings()
         {
             // Update sliders and apply values to game
-            sensitivitySlider.value = SettingsManager.Instance.moveSensitivity;
-            volumeSlider.value = SettingsManager.Instance.soundVolume;
+            if (volumeSlider != null) volumeSlider.SetValueWithoutNotify(SettingsManager.Instance.soundVolume);
 
-            playerScript.moveSensitivity = SettingsManager.Instance.moveSensitivity;
+            playerScript.moveSensitivity = SettingsManager.DefaultMoveSensitivity;
             SettingsManager.Instance.ApplyAudioSettings();
         }
 
@@ -226,7 +312,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (GameManager.S != null)
                 GameManager.S.ResetAfterGameOver();
             else
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                LoadingOverlay.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         private void GameOver()
@@ -417,6 +503,8 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void LoadGame()
         {
+            if (reloadInputSuppressed) return;
+            reloadInputSuppressed = true;
             GameplayAnalytics.EndRun(
                 GameplayAnalytics.OutcomeAbandoned,
                 playerScript);
@@ -425,7 +513,7 @@ namespace IndianOceanAssets.ShooterSurvival
             TimeManager.timeFactor = 0;
             TimeManager.isGameRunning = false;
             isGameOver = false;
-            SceneManager.LoadScene(activeScene.name);
+            LoadingOverlay.LoadScene(activeScene.name);
         }
 
         public void QuitGame()

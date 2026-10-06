@@ -12,6 +12,12 @@ public sealed class RestStopHoldout : MonoBehaviour
     public Renderer[] overheadOccluders = System.Array.Empty<Renderer>();
     public EnemyEventController[] police;
     public ChapterPatternHUD hud;
+    public Chapter45Director chapter45Owner;
+    public int requiredFloor = 6, choiceIndex = -1, requiredChoice;
+    public bool OnChapterFloor => chapter45Owner == null || chapter45Owner.Running
+        && chapter45Owner.CurrentFloor == requiredFloor && !chapter45Owner.IsTransferring
+        && chapter45Owner.ChoiceMatches(choiceIndex, requiredChoice);
+    private bool Cinema => chapter45Owner != null;
     public float Duration { get; private set; } = 30;
     public const float TurnDegreesPerSecond = 90f;
     public float AimYaw { get; private set; }
@@ -57,12 +63,12 @@ public sealed class RestStopHoldout : MonoBehaviour
         player = FindFirstObjectByType<PlayerScript>();
         battleCamera = Camera.main;
         // Latest user request (2026-09-25): survive 30 seconds; the workbook row can still tune it.
-        Duration = HighwayRoute.Setting("reststopHoldoutSeconds", 30, 15, 60);
-        policeHealth = HighwayRoute.Setting("reststopPoliceHealth", 700, 50, 3000);
+        Duration = Cinema ? 30 : HighwayRoute.Setting("reststopHoldoutSeconds", 30, 15, 60);
+        policeHealth = Cinema ? Chapter45Director.Setting("c5_audienceHealth", 12, 1, 500) : HighwayRoute.Setting("reststopPoliceHealth", 700, 50, 3000);
         // Separate from health so a hit costs ~3% of a mid-progress shark instead of ~6%.
-        policeDamage = HighwayRoute.Setting("reststopPoliceDamage", 350, 20, 3000);
-        policeSpeed = HighwayRoute.Setting("reststopPoliceSpeed", 3.8f, 2, 7);
-        spawnInterval = HighwayRoute.Setting("reststopPoliceInterval", 1.05f, .6f, 2);
+        policeDamage = Cinema ? Chapter45Director.Setting("c5_audienceDamage", 2, 0, 30) : HighwayRoute.Setting("reststopPoliceDamage", 350, 20, 3000);
+        policeSpeed = Cinema ? Chapter45Director.Setting("c5_audienceSpeed", 3.4f, 2, 7) : HighwayRoute.Setting("reststopPoliceSpeed", 3.8f, 2, 7);
+        spawnInterval = Cinema ? Chapter45Director.Setting("c5_audienceInterval", 1.3f, .6f, 2) : HighwayRoute.Setting("reststopPoliceInterval", 1.05f, .6f, 2);
         Elapsed = 0; Completed = false; Spawned = Killed = 0; dragging = false;
         SpawnedByDoor = new int[4]; MaximumSpawnPositionError = 0;
         alive = new bool[police.Length];
@@ -72,13 +78,14 @@ public sealed class RestStopHoldout : MonoBehaviour
     }
     private void Update()
     {
-        if (player == null || Completed) return;
+        if (player == null || Completed || center == null) return;
+        if (!OnChapterFloor) { if (Active) End(false); return; }
         if (Active && (player.currentHealth <= 0 || CanvasScript.isGameOver)) { End(false); return; }
         if (!TimeManager.isGameRunning || TimeManager.timeFactor <= 0) return;
         if (!Active)
         {
             var offset = player.transform.position - center.position;
-            if (Mathf.Abs(Vector3.Dot(offset, center.forward)) <= .8f && Mathf.Abs(Vector3.Dot(offset, center.right)) < 6) BeginEncounter();
+            if (Mathf.Abs(offset.y) <= 3 && Mathf.Abs(Vector3.Dot(offset, center.forward)) <= .8f && Mathf.Abs(Vector3.Dot(offset, center.right)) < 6) BeginEncounter();
             return;
         }
         float delta = Time.deltaTime * TimeManager.timeFactor;
@@ -105,14 +112,16 @@ public sealed class RestStopHoldout : MonoBehaviour
             nextSpawn = Elapsed + spawnInterval * (phase == 2 ? 2.9f : phase == 1 ? 2.4f : 2.7f);
         }
         // The countdown lives in RestStopHoldoutBanner; this panel keeps only controls and score.
-        hud?.Show(this, $"처치 {Killed}", "좌우로 드래그해 회전 · 손을 떼면 정지", 3);
+        hud?.Show(this, Cinema ? Chapter45PresentationText.CinemaStatus(Mathf.CeilToInt(Duration - Elapsed), Killed) : $"처치 {Killed}",
+            Cinema ? Chapter45PresentationText.Localize("좌우로 드래그해 회전 · 손을 떼면 정지") : "좌우로 드래그해 회전 · 손을 떼면 정지", 3);
         if (Elapsed >= Duration) End(true);
     }
     private void BeginEncounter()
     {
         GameAudioService.Play(GameSound.Holdout);
         Active = true; LockedPosition = player.transform.position; nextSpawn = .9f;
-        AimYaw = player.transform.eulerAngles.y; cameraHeading = AimYaw + 30f; dragging = false;
+        if (Cinema) chapter45Owner.Record("cinema survival begin");
+        AimYaw = player.transform.eulerAngles.y; cameraHeading = AimYaw + (Cinema ? 0f : 30f); dragging = false;
         player.SetStationaryCombat(this, true);
         visual = player.transform.Find("Original");
         if (visual != null) visualRotation = visual.localRotation;
@@ -145,11 +154,12 @@ public sealed class RestStopHoldout : MonoBehaviour
             visual.localRotation = Quaternion.Inverse(player.transform.rotation) * Quaternion.LookRotation(AimDirection) * visualRotation;
         if (battleCamera != null)
         {
-            Quaternion rotation = Quaternion.Euler(55, cameraHeading, 0);
+            Quaternion rotation = Quaternion.Euler(Cinema ? 48 : 55, cameraHeading, 0);
             float radius = 12f;
             if (entrances != null) foreach (var entry in entrances)
                 if (entry != null) radius = Mathf.Max(radius, Vector3.ProjectOnPlane(entry.position - LockedPosition, Vector3.up).magnitude + 1.5f);
             float distance = radius / (Mathf.Tan(22.5f * Mathf.Deg2Rad) * Mathf.Min(1f, Mathf.Max(.3f, battleCamera.aspect))) + radius * .45f;
+            if (Cinema) distance = CinemaCameraDistance(rotation);
             Vector3 focus = LockedPosition + Vector3.up * 1.1f;
             Vector3 position = focus - rotation * Vector3.forward * distance;
             float blend = Mathf.SmoothStep(0, 1, Mathf.Clamp01(Elapsed / .8f));
@@ -166,6 +176,33 @@ public sealed class RestStopHoldout : MonoBehaviour
                     if (label != null) label.transform.rotation = battleCamera.transform.rotation;
                 }
     }
+    // Fit the four authored approaches in the usable portrait viewport. The
+    // earlier enclosing circle wasted width at a diagonal angle, making people
+    // and seats tiny. Approach positions, speed, health and timing stay authored.
+    private float CinemaCameraDistance(Quaternion rotation)
+    {
+        float tangent = Mathf.Tan(22.5f * Mathf.Deg2Rad);
+        float horizontal = tangent * Mathf.Max(.3f, battleCamera.aspect) * .88f;
+        Quaternion inverse = Quaternion.Inverse(rotation);
+        Vector3 focus = LockedPosition + Vector3.up * 1.1f;
+        float distance = 30;
+        if (entrances == null) return distance;
+        foreach (var entry in entrances)
+        {
+            if (entry == null) continue;
+            for (int x = -1; x <= 1; x += 2)
+                for (int z = -1; z <= 1; z += 2)
+                    for (int y = 0; y <= 1; y++)
+                    {
+                        Vector3 point = inverse * (entry.position + new Vector3(x * 1.8f, y * 2.5f, z * 1.8f) - focus);
+                        distance = Mathf.Max(distance, Mathf.Abs(point.x) / horizontal - point.z);
+                        // Leave room for the persistent health and controls HUD.
+                        float vertical = tangent * (point.y > 0 ? .60f : .84f);
+                        distance = Mathf.Max(distance, Mathf.Abs(point.y) / vertical - point.z);
+                    }
+        }
+        return distance;
+    }
     private bool Spawn(int door)
     {
         for (int i = 0; i < police.Length; i++)
@@ -175,6 +212,15 @@ public sealed class RestStopHoldout : MonoBehaviour
             var start = entrances[door];
             var spawn = start.position + start.right * (((Spawned / 4) % 3 - 1) * 1.4f);
             actor.PrepareSpawnAt(spawn, Quaternion.LookRotation(LockedPosition - start.position));
+            if (Cinema)
+            {
+                var deck = actor.GetComponent<Chapter45Deck>();
+                if (deck == null) deck = actor.gameObject.AddComponent<Chapter45Deck>();
+                deck.floor = requiredFloor;
+                var audienceContact = actor.GetComponent<Chapter45AudienceContact>();
+                if (audienceContact == null) audienceContact = actor.gameObject.AddComponent<Chapter45AudienceContact>();
+                audienceContact.holdout = this; audienceContact.damage = policeDamage;
+            }
             actor.TargetPoint.position = LockedPosition;
             actor.EventMode = EnemyEventMode.MoveToTargetThenAttack;
             actor.MoveAnimation = EnemyMoveAnimation.Run;
@@ -194,7 +240,7 @@ public sealed class RestStopHoldout : MonoBehaviour
     {
         for (int i = 0; i < police.Length; i++)
             if (alive[i] && (!police[i].gameObject.activeSelf || police[i].RuntimeState == EnemyEventRuntimeState.Dead))
-            { alive[i] = false; Killed++; }
+            { alive[i] = false; var contact = police[i].GetComponent<Chapter45AudienceContact>(); if (contact == null || !contact.RetiredOnContact) Killed++; }
     }
     public bool TryAim(Vector3 muzzle, out Vector3 direction)
     {
@@ -280,7 +326,8 @@ public sealed class RestStopHoldout : MonoBehaviour
         if (Active && success && player != null)
         {
             Completed = true;
-            float fraction = HighwayRoute.Setting("reststopHoldoutHeal", .12f, 0, .3f);
+            float fraction = Cinema ? Chapter45Director.Setting("c5_audienceHeal", .12f, 0, .3f) : HighwayRoute.Setting("reststopHoldoutHeal", .12f, 0, .3f);
+            if (Cinema) chapter45Owner.Record("cinema survival complete seconds=" + Elapsed.ToString("F2"));
             player.Heal(player.MaxHealth * fraction);
         }
         Active = false;

@@ -62,6 +62,9 @@ public static class NoryangjinCrossingLiftBuilder
         if (hall != null) report.columns = Columns(hall, branch, concrete);
         var visibility = root.GetComponentInChildren<NoryangjinInteriorDetailVisibility>(true);
         if (visibility != null) visibility.liftedDetails = report.details.ToArray();
+        var occlusion=Object.FindFirstObjectByType<NoryangjinCameraOcclusion>();
+        if(occlusion!=null&&hall!=null)occlusion.ConfigureWalkingFloor(surfaces.Find("IndoorTileSurface"),
+            hall.GetComponentsInChildren<Renderer>(true).Where(r=>r.name=="WetFloor"||r.name=="CrossingUndersideSlab").ToArray());
 
         if (meshes.Count > 0)
         {
@@ -114,6 +117,14 @@ public static class NoryangjinCrossingLiftBuilder
 
     static void Visit(Transform t, NoryangjinMarketBranch branch, List<Mesh> meshes, Report report)
     {
+        // TMP may not have generated its mesh in Edit Mode. Its renderer bounds can
+        // then sit at the origin, outside this hall, while the sign panel is lifted.
+        // Author text by its actual anchor instead of that unbuilt render buffer.
+        if(t.GetComponent<TMP_Text>()!=null)
+        {
+            if(InHall(branch,t.position)){float h=branch.HeightAt(t.position);if(h>.001f){t.position+=Vector3.up*h;report.moved++;}}
+            return;
+        }
         var probe = t.GetComponent<ReflectionProbe>();
         if (probe != null)
         {

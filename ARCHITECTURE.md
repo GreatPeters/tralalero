@@ -1,5 +1,79 @@
 # ARCHITECTURE.md
 
+## Google Play account and essential surface rules — 2026-10-06
+
+`Scripts/Account/GameProgressSnapshot` maps the existing wallet, chapter progression/reward/last-played keys, permanent/chapter upgrades and cosmetic ownership/equipment into a bounded validated snapshot. `PlayAccountService` owns lobby-only cloud reconciliation, explicit whole-save conflict choices, account-isolated local backup files, operation tokens and a persisted deletion journal. `PlayGamesProgressBackend` uses official Play Games Unity 2.2.1 Saved Games and a native SnapshotsClient Task adapter for acknowledged/verified deletion; it rejects stale delete metadata. Device/consent/Editor preferences remain outside the account payload. A pending deletion cannot auto-upload old progress after a crash.
+
+All five current scenes include `HarborAccountPanel` under existing Options, with login/sync, game-account deletion and confirmation/conflict UI. `CanvasScript` gates new runs during account transitions and records the actual last-played chapter. The account font and atlas are private assets. [Console activation and platform limits](docs/google-play-account-setup.md): Games application ID `1024030137281` is configured and Saved Games is enabled; OAuth consent/Android credentials and real Google auth/server verification remain pending. Options also exposes explicit device save with separate cloud status, and chapter best progress is included in the snapshot whitelist.
+
+Existing 2026-10-04/05 toon architecture is retained. `tools/essential-proposals-apply.cs` closes the remaining active opaque URP/Lit surface gaps using ten isolated FlatKit material copies across Ch1, Ch3 and Ch4 (68 material slots). Ch2/Ch5 already match this rule. Transparent warning footprints, water, glass, emission, shared originals, meshes, rigs, colliders, camera/light settings and progression stay intact. [Exact applied/verification record](docs/exec-plans/active/essential-proposals-and-play-account-2026-10-06.md).
+
+## Detailed Ch4/Ch5 runtime — 2026-10-03 11:51 UTC, current
+
+This section supersedes the historical two-lift/roof-captain layout below, following the latest user design. Jamsil retains its1852.78m route and canonical blue tower/white crown. `DetailedStreet_20261003` owns the30opt-in role actors, actual left-crowd/right-vehicle choice and new hazards. `authoredForwardScale=0.82` yields approximately300s city arrival; it defaults to1elsewhere. Existing decorative walkers remain collision-free.
+
+ShoeTower owns `DetailedMall_20261003`: actual1→2→3→4 then B1→7 or5→6→7. B1 uses deck8because negative deck IDs mean shared. Three5s escalators and five6s elevators use explicit destination segments, choice eligibility, floor-clear/elapsed/holdout gates. The previous58F/118F/roof layout remains inactive under `Preserved_PreDetailed_58F_118F_20261003`. Do not rerun initial installers. Empty explicitly-owned registries remain empty instead of rediscovering archived actors.
+
+`Chapter45RoleAction` owns the new roles' warned movement, strikes, grabs and projectiles. `EnemyScript_space` dispatches those contacts before the legacy health-exchange rule. Same-floor/running/pause eligibility applies to motion, Animator and damage. Shield consumption latches each action. Normal weapons adjust only vertical pitch toward live eligible role colliders already in the firing lane. Old actors keep their original behavior.
+
+The scene-owned `RestStopHoldout` has an opt-in cinema owner:30active seconds, audience damage separate from health, HUD kill accounting excludes contact retirements. `Chapter45AudienceContact` retires contact actors without score/coins. Cinema camera fits all four authored approaches below the persistent HUD; Ch3 retains its own camera and settings.7F requires all eligible managers and native physical shoe contact, not elapsed time. Save/replay/rewards remain `ChapterProgression` responsibilities.
+
+Private static fonts isolate newly required street, mall and HUD text from shared font mutation. New local TRELLIS washer/seat wrappers preserve FBX axis and unit transforms, use shared instanced materials and Android1K ASTC overrides. Wrapper height/pivot, art approval and actual device performance are separate checks. [Current execution and evidence](docs/exec-plans/active/chapter45-detailed-design-2026-10-03.md).
+
+
+## Ch4/Ch5 environment art and Meshy towel - 2026-10-03
+
+Both saved scenes own `Scenery/EnvironmentArt_20261003` and `RetailTowelMeshy_20261003`, each exactly once. Jamsil also owns one nested `Hero storefront architecture v2`: eight selected facades use chamfered glass corners, punched stone windows and stepped terraces with recessed doors. Remaining street repetition is explicit. Protected gameplay/camera/collider/existing-light state is unchanged after reopen. One approved Meshy towel cost 30 credits; previous newly generated TRELLIS types remain four. Current four normal routes, focused 37 and directed 37+57 checks pass. [Latest scope and limits](docs/reviews/chapter45-environment-art-2026-10-03.md). Do not rerun the initial installers.
+
+## Ch4·Ch5 model production — 2026-10-03, current
+
+Both saved scenes now include `Scenery/RetailCore_20261003`, `ChapterFinish_20261003` and `RetailGoods_20261003`, each installed once through Unity Pipeline with reopened protected-state checks. New local TRELLIS plant, wood case base, tote and vase coexist with reused fixtures/characters and native architecture. Rejected textile candidates are unreferenced. The existing route, campaign, two real lifts and rooftop destination remain authoritative. Do not rerun initial builders or installers over these roots. [Applied scope, provenance and current QA](docs/reviews/chapter45-model-production-2026-10-03.md). Older zero-new-model and v5-only states below are historical.
+
+
+## Department-store follow-up v5 — 2026-10-02
+
+Latest ShoeTower scenery revision is `20261002T170206609`; Jamsil remains byte-identical to the verified v3 scene (`20261002T162312204`). Tower-only installation deepens retail alcoves, changes upper returns to clear glass, adds six shadowless localized spotlights and reuses three existing TRELLIS F10 plants with original materials. Original lights are now part of the protected-state comparison. No gameplay transport or story change; two existing six-second lifts remain authoritative. New AI models: 0. [Current evidence and exact generation blockers](docs/reviews/department-store-backend-followup-2026-10-02.md).
+
+The continuation section below describes the earlier v3 implementation.
+
+## Department-store continuation — 2026-10-02, latest
+
+`tools/apply-department-store.cs` owns only `Scenery/DepartmentStore_20261002` in Jamsil and ShoeTower. It keeps the saved route, all existing gameplay/collider/camera state and the upper tower/crown. Ch4 receives the retail entry; Ch5 floor0 receives three curved atria, scenic mezzanines and six decorative escalators. Actual player ascent still uses the two existing six-second lifts; there is no new escalator gameplay or chapter story.
+
+Final asset revision: `DepartmentStore/20261002T162312204`. Native geometry/materials are authored through Unity Pipeline, not new TRELLIS/Meshy generation. Existing street model provenance remains separate. Each scene save has a receipt and reopened-state validation; intermediate assets are retained. [Implementation, verification and remaining art/generation/device limits](docs/reviews/department-store-2026-10-02.md).
+
+## Chapter 4 reference street — 2026-10-02
+
+`tools/apply-chapter4-reference-street.cs` installs the photo-guided Jamsil retail presentation under `Scenery/Jamsil_ReferenceStreet_20261002`. It replaces only the old retail-bay rendering, retains the canonical tower and intro-matched sneaker, and checks existing gameplay/camera/collider properties and stable object references before save and after reopen. Detailed blocks use `Chapter45SceneryGroup`; simple pavement and recessed distant shells remain continuous beyond those groups.
+
+`Chapter4StreetLife` drives collider-free Meshy civilian instances on the sidewalks. It limits active walking actors by route distance, freezes their clocks/animation during pause and resets the visual clock on a new run. It owns no combat, reward or persistence state. Current art is in `Models/Chapters/Chapters45/ReferenceStreet`; old initial city builders must not be rerun over this refinement. The later department-store continuation below is authorized and applied; the earlier placement question is resolved.
+
+## Chapters 4 and 5 — 2026-10-02
+
+The current enabled campaign is Revamp → HighWay → RestStop → Jamsil → ShoeTower. The two added scenes live under `Assets/ShooterSurvival/Scenes/Tools`. Older dated three-scene sections below describe earlier snapshots. `tools/build-chapters45-android.cs` uses an explicit five-scene list and restores temporary build settings.
+
+`Scripts/Game/Chapters45/Chapter45Director` owns scene-gated metric progress, floor identity, physical route choices, forward combat stops, scenery visibility and two six-second lift transfers. Player movement delegates to it only in Jamsil/ShoeTower. Combat remains on horizontal decks; lifted helpers preserve their existing pose and health, and player/helper shots stop during transfer. Projectile launch-deck identity prevents cross-floor hits. The director restores its movement/shooting/rigidbody ownership on stop, death, retry and unload.
+
+`Chapter45Encounter` activates real enemies and reads chapter workbook settings. Existing enemy contact still exchanges remaining enemy health; its damage field does not redefine that rule. `Chapter45Target` accepts real projectiles, animates partitions and retains captain health across three threshold phases. `Chapter45Hazard` uses warning footprints and physical trigger bodies; `Chapter45EncounterPressure` alternates those bodies during mandatory holds. `Chapter45Goal` claims the physical exit/offering once and calls normal chapter completion; no timer-driven win is added.
+
+The actual selected intro video’s 30–39s segment is the visual authority for the tapered glass tower, splayed supports and horizontal white sneaker. The crown includes three reviewed LODs and an interior camera cutaway. Scenery culling changes renderer visibility while retaining walkable colliders. Authoring tools and evidence are listed in `docs/exec-plans/active/chapters45-progress-2026-10-02.md`; do not rerun the initial builder over the later refined scenes.
+
+Workbook settings use explicit Jamsil/ShoeTower keys. The chapter workshop contains ranks for 1–5, runtime roster generation preserves styled bindings, analytics resolve chapter 4/5, and editor selectors expose both scenes. `tools/chapters45-playtest.cs` snapshots/restores user preferences and drives ordinary input with real collisions/shots; this automation is not a human fun verdict or a device-performance result.
+
+## Startup shader/video correction — 2026-10-02
+
+`StylizedSurfaceOutline.shader` declares its six FlatKit surface/depth/shadow/meta passes locally instead of cross-shader `UsePass`. `tools/sync-legacy-outline-passes.py --check` verifies their bodies against `StylizedSurface.shader`; shared `StylizedInput.hlsl` and the custom `OutlineLegacy` RenderObjects path remain unchanged. This avoids the native keyword-space assertion without reverting SRP batching. The original selected `Curse_Opening_Animated.mp4` now uses Baseline H.264 with constant, non-reordered timestamps; its GUID, all 936 frames and 0/8/20/30 caption boundaries remain intact.
+
+## S22 performance and presentation — 2026-10-01 (current)
+
+The installed Android list is Revamp, HighWay and RestStop; earlier sections retain their dated history. `tools/build-s22-android.cs` uses that explicit list. Mobile URP now has HDR/SSAO off, 2x MSAA, 0.75 render scale and 1024 hard shadows. Opaque background materials omit the outline pass; character outlines remain. `FlatKit/Stylized Surface With Outline` shares FlatKit's `UnityPerMaterial` layout in every pass (SRP Batcher compatible); its hull outline is LightMode `OutlineLegacy`, drawn after opaques by the "Legacy Outline" RenderObjects feature on the Mobile/PC renderers (`tools/install-legacy-outline-feature.cs`). Android texture overrides, manufactured props and original-plus-LOD1 groups are recorded in `outputs/s22-polish-2026-10-01/` with repeatable tools and original backups.
+
+`NoryangjinCameraOcclusion` caches conservative local group bounds, queries nearby groups, and restores affected groups after they leave the query. `ConfigureWalkingFloor` relates decorative floor/slab renderers to their support collider: they stay opaque while traversing that collider and can fade when overhead. Named roof bays use a lighter veil. `NoryangjinCrossingLiftBuilder` registers this relation and positions unbuilt TMP using its transform anchor. Shop signs have readable reverse faces.
+
+`CosmeticVisualCatalog.usesTailFoot` selects the original rig plus four tail-foot proxy bones. `SharkTailFootRig` transfers pose deltas in the model frame and plants the tail foot in Idle. The body and fitted shoes share those extended bones. The default and seven replacement shoe styles now use two front feet and a tail shoe. Original source meshes remain intact.
+
+Movie UI keeps its camera enabled but temporarily removes its world culling mask, restoring mask/clear flags/background on exit. `Assets/JH/UI/S22Polish` preserves the opening's 39-second/0,8,20,30 timing: the supplied first 30 seconds remain; the final nine seconds and both arrivals are native animation of the installed hero. `MobileFrameTelemetry` creates CSV/overlay diagnostics only in development players. [Applied report](docs/reviews/s22-improvements-applied-2026-10-01.md).
+
 ## Noryangjin 2026-09-29 feedback (current)
 
 `Editor/NoryangjinClaudeFeedbackBuilder` runs in `InstallNoryangjinRevamp.Main` after the V2/V3 builders and before `NoryangjinCrossingLiftBuilder`. It replaces the container incident with clones of the SR18 seagull gimmick (`ObstacleStats`, pattern Seagull). It caps the two connector corners and rebuilds the cold-store `LiveAuction`: Meshy N19 basins, an aisle crowd driven by the runtime `NoryangjinAuctionScatter` (bidders flee sideways as the shark comes down the aisle, and `NoryangjinAuctionActivity` skips fled members). It restores the FlatKit outline material on skinned characters, adds the `K_MerchantUnionCharge` rush and swaps the final boss body for the Meshy N20 prefab at a uniform `BossHeight`. The underpass camera (`NoryangjinMarketAtmosphere.lowerUnderDecks`) now defaults off. `NoryangjinShutterEvent.announceVoice` and `NoryangjinBannerEvent.voice` add optional PA lines.
@@ -451,3 +525,14 @@ The repo is being shaped so agents can work from stable, versioned context inste
 - Reduce duplicated state transitions around play mode, game over, and stage reset.
 - Extract more combat calculations into pure utilities so tests can expand beyond wave counting.
 - Add a narrow, reliable command surface for common verification tasks.
+
+## Player reference fit (2026-10-01)
+
+The player body/shoe meshes under `Models/Generated/S22Polish/Player` come from `tools/build-tralalero-reference-player.py`: upright caudal fin kept, the lower lobe becomes the tail leg that `SharkTailFootRig` drives into the third shoe, front legs pulled under the chest. Skin albedos carry a 3D-projected grin (`tools/repaint-tralalero-grin.py`). `HighwayChapter2Rules.RollingLogPose` places the highway log by its cylinder centre (the model pivot is on its bottom edge). Record: `docs/exec-plans/completed/tralalero-reference-fit-2026-10-01.md`.
+
+## 2026-10-06 Cross-chapter runtime services (essential proposals)
+
+- `GameSpeed` (Scripts/Game) is the only writer of `Time.timeScale` in player code: editor test base × player X1/X2 × event slow-down. Pause stays on `TimeManager.timeFactor`.
+- `LoadingOverlay` (Scripts/UI) owns player-facing scene loads (retry, next chapter, account restore): spinner, verified tips, input blocked until the new scene draws.
+- `CanvasScript.Start` builds `GameSpeedToggle` and `ChapterProgressHud` at runtime, so all five chapter scenes share them without scene edits. `ChapterRunProgress` measures progress from each chapter's route structure.
+- `EnemyRowGate` (added to activation spots at runtime) and `ActorVariation` (added to EnemyEventController actors) extend Ch1–3 enemies without prefab changes.

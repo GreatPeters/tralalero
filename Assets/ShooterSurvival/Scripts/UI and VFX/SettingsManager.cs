@@ -30,9 +30,15 @@ namespace IndianOceanAssets.ShooterSurvival
                 Instance = null;
         }
 
+        // The lateral sensitivity option was removed (user request 2026-10-06).
+        // Old saves may still hold the key; it is ignored and deleted so every player uses 1.
+        public const string LegacySensitivityKey = "moveSensitivity";
+        public const float DefaultMoveSensitivity = 1f;
+
         public void LoadSettings()
         {
-            moveSensitivity = PlayerPrefs.GetFloat("moveSensitivity", 1f);
+            moveSensitivity = DefaultMoveSensitivity;
+            if (PlayerPrefs.HasKey(LegacySensitivityKey)) PlayerPrefs.DeleteKey(LegacySensitivityKey);
             soundVolume = PlayerPrefs.GetFloat("soundVolume", 1f);
             soundEnabled = PlayerPrefs.GetInt("soundEnabled", 1) == 1;
             vibrationEnabled = PlayerPrefs.GetInt("vibrationEnabled", 1) == 1;
@@ -42,7 +48,6 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void SaveSettings()
         {
-            PlayerPrefs.SetFloat("moveSensitivity", moveSensitivity);
             PlayerPrefs.SetFloat("soundVolume", soundVolume);
             PlayerPrefs.SetInt("soundEnabled", soundEnabled ? 1 : 0);
             PlayerPrefs.SetInt("vibrationEnabled", vibrationEnabled ? 1 : 0);
@@ -52,7 +57,7 @@ namespace IndianOceanAssets.ShooterSurvival
 
         public void ResetSettings()
         {
-            moveSensitivity = 1f;
+            moveSensitivity = DefaultMoveSensitivity;
             soundVolume = 1f;
             soundEnabled = true;
             vibrationEnabled = true;

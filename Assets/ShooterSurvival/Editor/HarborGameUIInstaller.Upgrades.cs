@@ -63,7 +63,7 @@ public static partial class HarborGameUIInstaller
 
     private static void BuildPermanentCard(UpgradeUI card,int id)
     {
-        string[] names={"강철 앞코","충격 흡수 깔창","스프링 코일","미사일 장식","보스 파쇄기","코인 주머니","회복 패드","퉁퉁퉁 사후르","붐바르 지원","측면 부스터"};
+        string[] names={"공격력","체력","공격 속도","미사일 지속","보스 피해","코인 획득","체력 회복","동료 체력","동료 공격력","좌우 속도"};
         string[] stats={"공격력","체력","공격 속도","미사일 지속 시간","보스 피해","코인 획득","초당 체력 회복","지원 체력","지원 공격력","좌우 이동 속도"};
         string[] icons={"SteelToe","CushionInsole","SpringCoil","RocketCharm","BossBreaker","CoinPouch","HealingInsert","SahurShield","BomberCharm","LateralSneaker"};
         ClearChildren(card.transform);

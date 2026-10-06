@@ -172,9 +172,28 @@ namespace IndianOceanAssets.ShooterSurvival
                 EnemyDeath();
         }
 
+        public void RetireAfterUnrewardedContact()
+        {
+            rewardPlayerScore = false;
+            ConfigureRewards(false, 0);
+            EnemyDeath();
+        }
+
+        // Essential proposal 2: a row of enemies cannot be slipped through. EnemyRowGate calls this when
+        // the shark crosses an untouched row, using the same contact exchange as a physical collision.
+        public bool ForceRowContact(PlayerScript player)
+        {
+            if (isDead || player == null || playerScript != player || player.currentHealth <= 0) return false;
+            ResolvePlayerContact();
+            return true;
+        }
+
         private void ResolvePlayerContact()
         {
             if(playerScript==null||playerScript.currentHealth<=0)return;
+            if (!Chapter45Director.CanActorContact(playerScript, transform)) return;
+            if (TryGetComponent<Chapter45AudienceContact>(out var audience) && audience.Contact(playerScript)) return;
+            if (TryGetComponent<Chapter45RoleAction>(out var mallRole) && mallRole.ContactPlayer(playerScript)) return;
             bool isVehicle = TryGetComponent<HighwayVehicleEnemy>(out var vehicle);
             if (isVehicle && vehicle.FastContact) rewardPlayerScore = false;
             if (isVehicle && vehicle.ResolveFastContact(playerScript)) return;
@@ -212,6 +231,7 @@ namespace IndianOceanAssets.ShooterSurvival
             if (isDead || _health <= 0f || extraHelp == null ||
                 extraHelp.helpType != HelpType.Tungtungtung || extraHelp.currentHealth <= 0f)
                 return false;
+            if (!Chapter45Director.CanHelperContact(extraHelp, transform)) return false;
             rewardPlayerScore = false;
             ExchangeContactHealth(ref _health, ref extraHelp.currentHealth);
             RefreshHealthText();
@@ -227,8 +247,11 @@ namespace IndianOceanAssets.ShooterSurvival
             helperHealth = Mathf.Max(0f, helperBefore - enemyBefore);
         }
 
-        private void ReceiveBulletDamage(BulletScript projectile)
+        // Shared with the initial/resumed Chapter45 overlap check; ordinary
+        // trigger hits keep the same damage, reactions and reward transaction.
+        internal void ReceiveBulletDamage(BulletScript projectile)
         {
+            if (projectile != null && !projectile.CanHitTarget(transform)) return;
             GameAudioService.PlayAt(GameSound.EnemyHit, transform.position);
             EnemyHitEffectPool.Play(enemyData.enemyHitVFX, hitPosition);
 
@@ -534,7 +557,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 Physics.IgnoreCollision(projectileCollider, enemyCollider, true);
 
             var flight = projectile.GetComponent<SimpleProjectile>() ?? projectile.AddComponent<SimpleProjectile>();
-            flight.Launch(throwDirection, throwSpeed, _damage, 8f);
+            flight.Launch(throwDirection, throwSpeed, _damage, 8f, transform);
             flight.damageCause=UsesCrateMotion?PlayerDamageCause.Crate:GetComponent<EnemyGunAim>()!=null?PlayerDamageCause.GuardShot:PlayerDamageCause.EnemyProjectile;
             if (GameManager.S != null) GameManager.S.RegisterDestroyTarget(projectile);
             return true;

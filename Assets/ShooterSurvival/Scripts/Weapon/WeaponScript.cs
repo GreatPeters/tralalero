@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace IndianOceanAssets.ShooterSurvival
 {
@@ -151,6 +151,8 @@ namespace IndianOceanAssets.ShooterSurvival
                 if (extraHelpBuffScript != null && extraHelpBuffScript.helpType == HelpType.Boombardino)
                     damage = extraHelpBuffScript.ResolveProjectileDamage();
                 if (playerScript != null && !playerScript.canShoot) return;
+                var liftOwner = playerScript != null ? playerScript : extraHelpBuffScript != null ? extraHelpBuffScript.Owner : null;
+                if (Chapter45Director.For(liftOwner)?.IsTransferring == true) return;
 
                 int count = Mathf.Min(bulletCount, bulletPositions.Length);
                 for (int i = 0; i < count; i++)
@@ -163,6 +165,8 @@ namespace IndianOceanAssets.ShooterSurvival
                     {
                         if (!aimOwner.HoldoutAim.TryAim(spawnPosition, out direction)) continue;
                     }
+                    else if (Chapter45Director.For(aimOwner) is Chapter45Director chapterAim)
+                        direction = chapterAim.AimAtRoleHeight(spawnPosition, direction);
                     parentAnimator.SetTrigger("WeaponShoot");
 
                     // 종류 지정 꺼내기 (새 API)

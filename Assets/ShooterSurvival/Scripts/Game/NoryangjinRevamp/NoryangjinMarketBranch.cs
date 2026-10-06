@@ -33,7 +33,7 @@ public sealed class NoryangjinMarketBranch : NoryangjinRevampEvent
         {
             opened = true;
             if (choiceUI != null) choiceUI.OpenCustom("어디로 갈까?", "시장 안쪽", "바깥 부두",
-                "상인을 뚫고 돌파", "파도를 보고 회피", indoorPicture, outdoorPicture, choiceSeconds);
+                "상인들을 피해 안쪽으로", "파도를 피해 바깥으로", indoorPicture, outdoorPicture, choiceSeconds);
             else Choose(0);
             Director.Timeline.Add($"fork popup at {Director.Elapsed:F1}");
         }
@@ -116,7 +116,7 @@ public sealed class NoryangjinMarketBranch : NoryangjinRevampEvent
         {
             Driving = false; Complete = true;
             Director.QuietFor(4);
-            Director.Hud?.Publish("냉동 창고 앞 합류!", 2.5f);
+            Director.Hud?.Publish("앞쪽 활어 경매장으로 이동하세요", 2.5f);
             Director.Timeline.Add($"fork merged at {Director.Elapsed:F1}");
         }
         return true;

@@ -26,6 +26,24 @@ public static class HighwayChapter2Data
 
 public static class HighwayChapter2Rules
 {
+    public const float RollingLogPitchWobble = 4f;
+    // Pose of the single rolling log. The model pivot sits on the log's bottom edge, so the
+    // log is placed by its cylinder centre and rolled about that axis toward the player
+    // (travelling -forward) at the rolling-without-slipping rate. Only a small pitch is
+    // allowed and the rest height includes the end drop it causes, so no part of the log
+    // goes below the asphalt (roadCentre is the route centre, .12 under the surface).
+    public static void RollingLogPose(Vector3 roadCentre, Vector3 forward, float lane, float t, float bounce, float speed,
+        float radius, float halfLength, Vector3 pivotToCentre, out Vector3 pivot, out Quaternion rotation, out Vector3 centre)
+    {
+        var axis = Vector3.Cross(Vector3.up, forward);
+        float pitch = Mathf.Sin(t * 2.7f) * RollingLogPitchWobble;
+        float roll = -speed / Mathf.Max(.1f, radius) * Mathf.Rad2Deg * t;
+        rotation = Quaternion.LookRotation(axis) * Quaternion.Euler(pitch, Mathf.Sin(t * 1.3f) * 12, roll);
+        float rest = .12f + radius + halfLength * Mathf.Sin(Mathf.Abs(pitch) * Mathf.Deg2Rad) + .03f;
+        centre = roadCentre + axis * lane + Vector3.up * (rest + Mathf.Max(0, bounce));
+        pivot = centre - rotation * pivotToCentre;
+    }
+
     public static bool IsRushSegment(bool running,int roadChoice,float distance,float start,float end)
         =>running&&roadChoice==1&&distance>=start&&distance<end;
     public static bool ShowForkPaint(bool branch, float lateralOnMain, float branchOffset, float roadEdge, bool outerEdge)

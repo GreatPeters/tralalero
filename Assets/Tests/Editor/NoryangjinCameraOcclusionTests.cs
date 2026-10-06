@@ -104,6 +104,32 @@ public sealed class NoryangjinCameraOcclusionTests
         Assert.That(shop.GetComponent<Renderer>().forceRenderingOff,Is.True);Assert.That(shop.GetComponent<Collider>().enabled,Is.True);
         view.ConfigureClearViewOccluders(null,false);Assert.That(shop.GetComponent<Renderer>().forceRenderingOff,Is.False);
     }
+    [Test] public void DistantGroupsSkipDetailedWork_AndMovingGroupEntersView()
+    {
+        var p=Make("Player");var roads=Make("Roads");var groups=new List<Transform>();
+        for(int i=0;i<80;i++){var g=GameObject.CreatePrimitive(PrimitiveType.Cube);objects.Add(g);g.transform.position=new Vector3(200+i*10,5,-5);g.transform.localScale=new Vector3(10,10,1);groups.Add(g.transform);}
+        var camera=Make("Camera");camera.transform.position=new Vector3(0,10,-10);
+        var view=camera.AddComponent<NoryangjinCameraOcclusion>();view.Configure(p.transform,roads.transform);view.ConfigureFeedbackTransparency(groups.ToArray());view.RefreshVisibility();
+        Assert.That(view.CandidateGroupCount,Is.EqualTo(80));Assert.That(view.VisitedGroupCount,Is.Zero);
+        groups[0].position=new Vector3(0,5,-5);view.RefreshVisibility();
+        Assert.That(view.VisitedGroupCount,Is.EqualTo(1));Assert.That(view.FadedCount,Is.EqualTo(1));
+        groups[0].position=new Vector3(300,5,-5);view.RefreshVisibility();
+        Assert.That(view.FadedCount,Is.Zero,"A distant previously faded group must restore.");
+        view.RefreshVisibility();Assert.That(view.VisitedGroupCount,Is.Zero);
+    }
+    [Test] public void DecorativeFloorStaysOpaqueWhileWalkingOnItsSeparateCollider()
+    {
+        var roads=Make("Roads");var player=Make("Player");player.transform.position=new Vector3(0,8.12f,0);
+        var support=GameObject.CreatePrimitive(PrimitiveType.Cube);objects.Add(support);support.transform.SetParent(roads.transform);support.transform.position=new Vector3(0,7.75f,0);support.transform.localScale=new Vector3(10,.5f,60);
+        Object.DestroyImmediate(support.GetComponent<BoxCollider>());support.AddComponent<MeshCollider>().sharedMesh=support.GetComponent<MeshFilter>().sharedMesh;
+        var decoration=GameObject.CreatePrimitive(PrimitiveType.Cube);objects.Add(decoration);decoration.transform.position=new Vector3(0,8.02f,0);decoration.transform.localScale=new Vector3(10,.03f,60);Object.DestroyImmediate(decoration.GetComponent<Collider>());
+        player.AddComponent<NoryangjinRoadHeightFollower>().Configure(roads.transform,.12f);
+        var camera=Make("Camera");camera.transform.position=new Vector3(0,4,-10);var view=camera.AddComponent<NoryangjinCameraOcclusion>();view.Configure(player.transform,roads.transform);view.ConfigureFeedbackTransparency(new[]{decoration.transform});
+        Physics.SyncTransforms();view.RefreshVisibility();Assert.That(view.SceneryOpacity(decoration.GetComponent<Renderer>()),Is.LessThan(1));
+        view.ConfigureWalkingFloor(support.transform,new[]{decoration.GetComponent<Renderer>()});view.RefreshVisibility();
+        Assert.That(view.SceneryOpacity(decoration.GetComponent<Renderer>()),Is.EqualTo(1));Assert.That(support.GetComponent<Collider>().enabled,Is.True);
+        player.transform.position=new Vector3(0,.12f,0);camera.transform.position=new Vector3(0,12,-10);view.RefreshVisibility();Assert.That(view.SceneryOpacity(decoration.GetComponent<Renderer>()),Is.LessThan(1),"The same floor can still fade while passing underneath it.");
+    }
     [Test] public void CurtainStripsAreConsideredTogetherForClearView()
     {
         var p=Make("Player");var roads=Make("Roads");var curtain=Make("Curtain");var strips=new List<Renderer>();

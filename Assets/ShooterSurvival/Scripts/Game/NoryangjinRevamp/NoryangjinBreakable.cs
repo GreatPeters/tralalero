@@ -61,6 +61,7 @@ public sealed class NoryangjinBreakable : MonoBehaviour
         if (healthBarFill != null) fullBarScale = healthBarFill.localScale;
         shedRest.Clear();
         foreach (var piece in shedPieces) if (piece != null) shedRest.Add((piece, piece.localPosition, piece.localRotation, piece.gameObject.activeSelf));
+        shedOrder = TopFirstOrder(shedPieces, transform);
         if (showHealth && label == null)
         {
             label = new GameObject("HealthLabel").AddComponent<TextMeshPro>();
@@ -92,6 +93,13 @@ public sealed class NoryangjinBreakable : MonoBehaviour
     {
         float attack = director != null && director.Player != null ? director.Player.ResolvedAttackDamage : 50;
         MaxHealth = Health = Mathf.Max(minimumHealth, attack * hitsToBreak) * multiplier;
+        Armed = true; SetShown(true); RefreshLabel();
+    }
+
+    // Absolute HP that does not follow the shark's attack, so attack upgrades shorten the break.
+    public void ArmFixed(float health)
+    {
+        MaxHealth = Health = Mathf.Max(1f, health);
         Armed = true; SetShown(true); RefreshLabel();
     }
 
@@ -134,9 +142,12 @@ public sealed class NoryangjinBreakable : MonoBehaviour
     {
         if (shedPieces.Length == 0 || MaxHealth <= 0) return;
         int had = Mathf.CeilToInt(before / MaxHealth * shedPieces.Length), has = Mathf.CeilToInt(after / MaxHealth * shedPieces.Length);
+        if (shedOrder == null || shedOrder.Length != shedPieces.Length) shedOrder = TopFirstOrder(shedPieces, transform);
         for (int i = has; i < had && i < shedPieces.Length; i++)
         {
-            var piece = shedPieces[shedPieces.Length - 1 - i];
+            // Essential proposal 11: the highest box always goes first, so no box is left floating.
+            // i counts down from Length-1 as health drops, so shedOrder[i] walks from the top piece down.
+            var piece = shedPieces[shedOrder[i]];
             if (piece == null || !piece.gameObject.activeSelf) continue;
             if (!piece.TryGetComponent<Rigidbody>(out var rb)) rb = piece.gameObject.AddComponent<Rigidbody>();
             rb.isKinematic = false; rb.useGravity = true;
@@ -150,6 +161,24 @@ public sealed class NoryangjinBreakable : MonoBehaviour
             }
             StartCoroutine(HideLater(piece.gameObject, 1.6f));
         }
+    }
+
+    private int[] shedOrder;
+
+    // Ascending by height. ShedPieces visits i = Length-1, Length-2, ... 0 over a wall's life,
+    // so the highest piece is shed first. Equal heights fall back to array order.
+    public static int[] TopFirstOrder(Transform[] pieces, Transform space)
+    {
+        var order = new int[pieces.Length];
+        for (int i = 0; i < order.Length; i++) order[i] = i;
+        float Height(int i) => pieces[i] == null ? float.MinValue
+            : space != null ? space.InverseTransformPoint(pieces[i].position).y : pieces[i].position.y;
+        Array.Sort(order, (a, b) =>
+        {
+            int byHeight = Height(a).CompareTo(Height(b));
+            return byHeight != 0 ? byHeight : a.CompareTo(b);
+        });
+        return order;
     }
 
     private System.Collections.IEnumerator HideLater(GameObject go, float seconds)

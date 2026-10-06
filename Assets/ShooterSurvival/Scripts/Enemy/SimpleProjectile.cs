@@ -14,8 +14,29 @@ namespace IndianOceanAssets.ShooterSurvival
         private Vector3 launchVelocity;
         private float remainingLifetime;
         private bool managedFlight;
+        private Chapter45Director chapterOwner;
+        private int launchFloor = -1;
+        private float launchHeight;
 
-        public void Launch(Vector3 direction, float speed, float hitDamage, float lifetime)
+        private void CaptureChapter(Transform source)
+        {
+            var owner = Chapter45Director.Active;
+            chapterOwner = owner != null && owner.gameObject.scene == gameObject.scene ? owner : null;
+            var deck = source != null ? source.GetComponentInParent<Chapter45Deck>() : null;
+            launchFloor = chapterOwner != null ? (deck != null ? deck.floor : chapterOwner.CurrentFloor) : -1;
+            launchHeight = transform.position.y;
+        }
+
+        public bool CanDamage(PlayerScript player)
+        {
+            if (player == null || !TimeManager.isGameRunning || TimeManager.timeFactor <= 0) return false;
+            var owner = Chapter45Director.For(player);
+            if (owner == null) return chapterOwner == null;
+            return owner == chapterOwner && owner.Running && !owner.IsTransferring
+                && Chapter45Rules.SameDeck(launchFloor, launchHeight, owner.CurrentFloor, player.transform.position.y);
+        }
+
+        public void Launch(Vector3 direction, float speed, float hitDamage, float lifetime, Transform source = null)
         {
             damage = hitDamage;
             launchVelocity = direction.normalized * Mathf.Max(0f, speed);
@@ -30,11 +51,14 @@ namespace IndianOceanAssets.ShooterSurvival
             flightBody.angularVelocity = Vector3.zero;
             flightBody.linearVelocity = TimeManager.isGameRunning ? launchVelocity * TimeManager.timeFactor : Vector3.zero;
             SetFlightActive(true);
+            CaptureChapter(source);
         }
 
         private void FixedUpdate()
         {
             if (!managedFlight || !inFlight || flightBody == null) return;
+            if (chapterOwner != null && (!chapterOwner.Running || chapterOwner.IsTransferring || chapterOwner.CurrentFloor != launchFloor))
+            { Destroy(gameObject); return; }
             float factor = TimeManager.isGameRunning ? Mathf.Max(0f, TimeManager.timeFactor) : 0f;
             flightBody.linearVelocity = launchVelocity * factor;
             remainingLifetime -= Time.fixedDeltaTime * factor;
@@ -44,6 +68,7 @@ namespace IndianOceanAssets.ShooterSurvival
         private void OnEnable()
         {
             isAttacked = false;
+            CaptureChapter(transform);
             // Legacy standalone hazards already own their launch lifecycle.
             if (GetComponentInParent<EnemyScript_space>() != null) SetFlightActive(false);
             else inFlight = true;
@@ -52,7 +77,7 @@ namespace IndianOceanAssets.ShooterSurvival
         public void SetFlightActive(bool active)
         {
             inFlight = active;
-            if (active) isAttacked = false;
+            if (active) { isAttacked = false; CaptureChapter(transform); }
             foreach (var trail in GetComponentsInChildren<TrailRenderer>(true))
             {
                 trail.emitting = false;
@@ -69,7 +94,7 @@ namespace IndianOceanAssets.ShooterSurvival
                 return;
 
             PlayerScript player = other.GetComponent<PlayerScript>();
-            if (player == null) return;
+            if (!CanDamage(player)) return;
             isAttacked = true;
             player.ApplyDamage(damage,damageCause);
 
